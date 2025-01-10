@@ -16,8 +16,6 @@ int Atlas::ScriptingAPI::initializeScripting(ScriptingLibraryRegistry const& lib
 	return 0;
 }
 
-
-
 void Atlas::ScriptingAPI::registerConfigFunctions() {
 	this->mLua.set_function("LookupConfigOption", &GetConfigString);
 }

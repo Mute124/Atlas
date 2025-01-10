@@ -22,6 +22,21 @@ Camera ConvertCamera(Atlas::CameraData* data) {
 }
 */
 
+
+/// <summary>
+/// Initializes a new instance of the <see cref="Renderer"/> class.
+/// </summary>
+
+inline Atlas::Renderer::Renderer() {
+	//initialize();
+	mCamera = GameCamera();
+	mCamera.setPosition(Vector3{0.0f, 10.0f, 4.0f});
+	mCamera.setTarget(Vector3{0.0f, 2.0f, 0.0f});
+	mCamera.setUp(Vector3{0.0f, 1.0f, 0.0f});
+	mCamera.setFovy(60.0f);
+	mCamera.setProjection(CAMERA_PERSPECTIVE);
+}
+
 void Atlas::Renderer::initialize()
 {
 	std::cout << "Initializing renderer" << std::endl;

@@ -85,11 +85,11 @@ namespace Atlas {
 		/// <returns>an integer value that represents the result of the operation.</returns>
 		int initializeScripting(ScriptingLibraryRegistry const& libraries, ScriptingFunctionRegistry const& functions);
 
-		template<typename T, typename ...Args>
+/*		template<typename T, typename ...Args>
 		int registerFunction(const std::string& name, T function, Args... args) {
 		
 			mLua.new_usertype<T>(args);
-		}
+		}*/
 		
 
 
@@ -115,8 +115,6 @@ namespace Atlas {
 		int registerAngelScript();
 				
 #endif
-
-
 
 	private:
 

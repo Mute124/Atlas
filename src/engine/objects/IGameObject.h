@@ -1,9 +1,7 @@
 #pragma once
-#include "../math/Vector.h"
 #include <raylib.h>
 #include <raymath.h>
-#include "../utils/DoublyLinkedList.h"
-#include "../physics/Physics.h"
+
 namespace Atlas {
 	
 	/// <summary>
@@ -28,19 +26,23 @@ namespace Atlas {
 		// Defines what layer the object is on to prevent z-fighting
 		/// \todo add support for multiple layers.
 		int depth = 0;
-
 		Model model;
 
 		// positional variables that are used to draw the object
 		Vector3 position = Vector3Zero();
 		Vector3 rotationAxis;
 		Vector3 scale;
-
 		float rotationAngle;
 		Color tint = WHITE;
-
-		// constructors/destructors
+				
+		/// <summary>
+		/// Default constructor that initializes a new instance of the <see cref="IGameObject"/> class.
+		/// </summary>
 		IGameObject() = default;
+		
+		/// <summary>
+		/// Default destructor that finalizes an instance of the <see cref="IGameObject"/> class.
+		/// </summary>
 		virtual ~IGameObject() = default;
 
 		/// <summary>
@@ -56,8 +58,6 @@ namespace Atlas {
 			// See the function's comments for the reason why this is empty
 		}
 
-
-
 		/// <summary>
 		/// Destroys this instance, and is called right before the object is removed from memory. 
 		/// \note This must be implemented by the user.
@@ -71,11 +71,5 @@ namespace Atlas {
 		/// </summary>
 		/// <inheritdoc />
 		virtual void cleanup() = 0;
-
-	private:
 	};
-
-
-
-
 }

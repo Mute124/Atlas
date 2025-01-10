@@ -1,5 +1,9 @@
 #pragma once
-#include "GameObject.h"
+#include "IGameObject.h"
+#include "../physics/Physics.h"
+#include <Jolt/Physics/Body/BodyID.h>
+#include <Jolt/Physics/Body/BodyInterface.h>
+#include <Jolt/Physics/EActivation.h>
 namespace Atlas {
 	class IPhysicsGameObject abstract : public IGameObject {
 	public:

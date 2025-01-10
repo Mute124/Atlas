@@ -23,11 +23,11 @@ set(TS_ENGINE_RENDERER_SOURCES
 
     "renderer/IRenderable.h"
 
-    "renderer/IGameObject.h" 
-    "renderer/GameObject.h"
-    "renderer/GameObject.cpp"
-    "renderer/PhysicsObject.h"
-	"renderer/PhysicsObject.cpp"
+    "objects/IGameObject.h" 
+    "objects/GameObject.h"
+    "objects/GameObject.cpp"
+    "objects/PhysicsObject.h"
+	"objects/PhysicsObject.cpp"
 
     "renderer/IEntity.h"
     "renderer/Entity.h"
@@ -38,12 +38,12 @@ set(TS_ENGINE_RENDERER_SOURCES
 
     "renderer/RenderLayer.h" 
 
-    "renderer/GameObjectRegistry.h"
-    "renderer/GameObjectRegistry.cpp" 
+    "objects/GameObjectRegistry.h"
+    "objects/GameObjectRegistry.cpp" 
 
     "renderer/objects/PlaneObject.h"
 
-    "renderer/IGameObjectGate.h"
+    "objects/IGameObjectGate.h"
 
     "renderer/WindowDecorations.h"
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "IGameObject.h"
+#include <raylib.h>
 
 namespace Atlas {
 	/// <summary>
