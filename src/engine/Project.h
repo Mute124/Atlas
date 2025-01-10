@@ -16,6 +16,7 @@
 #include <stdint.h>
 #include "dbg/Debugger.h"
 #include <bitset>
+
 namespace Atlas {
 	/// <summary>
 	/// This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to

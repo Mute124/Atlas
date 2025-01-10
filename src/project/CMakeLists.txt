@@ -42,7 +42,7 @@ target_include_directories(project_lib PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(project_lib PRIVATE ${PROJECT_SOURCE_DIR}/src/engine)
 
 # Link to the engine shared library
-target_link_libraries(project_lib PUBLIC Techstorm )
+target_link_libraries(project_lib PUBLIC Atlas )
 
 # Set output name for Windows/Linux
 if(WIN32)

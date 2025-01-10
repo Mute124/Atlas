@@ -182,7 +182,7 @@ if(${TS_ENABLE_MODDING})
 endif()
 
 
-add_library(Techstorm SHARED 
+add_library(Atlas SHARED 
     ${ENGINE_SOURCES}
 )
 
@@ -193,15 +193,15 @@ foreach(source IN LISTS ENGINE_SOURCES)
     source_group("${source_path_msvc}" FILES "${source}")
 endforeach()
 
-target_include_directories(Techstorm PRIVATE ${PROJECT_SOURCE_DIR}/include )
+target_include_directories(Atlas PRIVATE ${PROJECT_SOURCE_DIR}/include )
 
-target_link_libraries(Techstorm PUBLIC
+target_link_libraries(Atlas PUBLIC
     ${TS_ENGINE_DEPENDENCIES}
 )
 
 # Set output name for Windows/Linux
 if(WIN32)
-    set_target_properties(Techstorm PROPERTIES OUTPUT_NAME "Techstorm.dll" )
+    set_target_properties(Atlas PROPERTIES OUTPUT_NAME "Techstorm.dll" )
 elseif(UNIX)
-    set_target_properties(Techstorm PROPERTIES OUTPUT_NAME "Techstorm.so") 
+    set_target_properties(Atlas PROPERTIES OUTPUT_NAME "Techstorm.so") 
 endif()

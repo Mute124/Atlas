@@ -70,7 +70,7 @@ endif()
 set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 
 # Set project name
-project(TechStorm LANGUAGES CXX C)
+project(Atlas LANGUAGES CXX C)
 
 include("cmake/cpm.cmake")
 include("cmake/techstorm.cmake")
