@@ -54,7 +54,7 @@ def InstallPackagesStep():
         print(os.curdir.capitalize())
         
         RemoveBuildFolder()
-        print("Done removing build folder.\n")
+        print("Removed build folder.\n")
 
     profileExists = False
     try:
@@ -114,7 +114,7 @@ def InstallPackagesStep():
     print("Done installing packages.\n")
     return packageConfigsInstalled
 
-print("Configuring Techstorm...")
+print("Configuring Atlas...")
 
 lockConfigFileExists = os.path.exists("cache/lock-configure.lock")
 
@@ -122,4 +122,4 @@ if lockConfigFileExists == False:
     CheckConanStep()
     InstallPackagesStep()
 else:
-    print("Techstorm is already configured. To force reconfiguration, delete the file cache/lock-configure.lock \n")
+    print("Atlas is already configured. To force reconfiguration, delete the file cache/lock-configure.lock \n")

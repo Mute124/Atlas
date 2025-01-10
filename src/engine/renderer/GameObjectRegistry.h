@@ -5,7 +5,7 @@
 #include "../Common.h"
 #include "IGameObjectGate.h"
 #include <functional>
-namespace Techstorm {
+namespace Atlas {
 	/// <summary>
 	/// Game object registry, it stores all game objects in the world and manages their updating, rendering, destruction, creation, etc.
 	/// </summary>

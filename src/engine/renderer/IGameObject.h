@@ -4,14 +4,14 @@
 #include <raymath.h>
 #include "../utils/DoublyLinkedList.h"
 #include "../physics/Physics.h"
-namespace Techstorm {
+namespace Atlas {
 	
 	/// <summary>
 	/// Represents an object that can be rendered in the screen. This is an abstract class that contains all the common properties of a game object.
 	/// </summary>
 	/// <remarks>
 	/// <para>
-	/// You may implement this yourself to create your own game objects and drawing code, or you can inherit from <see cref="Techstorm::GameObject" /> to use the default
+	/// You may implement this yourself to create your own game objects and drawing code, or you can inherit from <see cref="Atlas::GameObject" /> to use the default
 	/// implementation. However, if you inherit from this class, be sure you have a basic understanding of Raylib's and OpenGL's rendering system. If not,
 	/// see <see cref="https://learnopengl.com/"/> and <see cref="https://www.raylib.com/"/> for a good place to start. In addition, it is not advised for you to inherit this
 	/// yourself because it will require you to implement rendering code. However, it is recommended if your game requires a rendering system that is not provided by default.

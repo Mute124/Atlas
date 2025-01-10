@@ -13,15 +13,21 @@
 #endif
 #endif
 
+void Atlas::SetGlobalValue(const std::string& name, std::any& value)
+{
+    Globals::Instance().set(name, value);
+}
 
 #ifdef TS_ENABLE_HAPTICS
 
-void Techstorm::InitHaptics()
+
+
+void Atlas::InitHaptics()
 {
 
 }
 
-void Techstorm::SetControllerRumble(int controllerIndex, int leftMotorSpeed, int rightMotorSpeed)
+void Atlas::SetControllerRumble(int controllerIndex, int leftMotorSpeed, int rightMotorSpeed)
 {
 #ifdef WIN32
     XINPUT_VIBRATION vibration = {};
@@ -31,12 +37,12 @@ void Techstorm::SetControllerRumble(int controllerIndex, int leftMotorSpeed, int
 #endif
 }
 
-void Techstorm::StartRumblingController(int controllerIndex, int leftMotorSpeed, int rightMotorSpeed)
+void Atlas::StartRumblingController(int controllerIndex, int leftMotorSpeed, int rightMotorSpeed)
 {
     SetControllerRumble(controllerIndex, leftMotorSpeed, rightMotorSpeed);
 }
 
-void Techstorm::StopRumblingController(int controllerIndex)
+void Atlas::StopRumblingController(int controllerIndex)
 {
     SetControllerRumble(controllerIndex, 0, 0);
 }

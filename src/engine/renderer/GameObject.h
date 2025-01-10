@@ -1,7 +1,7 @@
 #pragma once
 #include "IGameObject.h"
 
-namespace Techstorm {
+namespace Atlas {
 	/// <summary>
 	/// A game object that can be rendered to the screen. Inherits from <see cref="IGameObject" />, and already provides the basic rendering functionality.
 	/// </summary>

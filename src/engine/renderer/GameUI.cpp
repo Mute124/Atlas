@@ -12,7 +12,7 @@
 #include <RmlUi/Core/Types.h>
 #include <RmlUi/Core/Vertex.h>
 
-void Techstorm::GameUIRenderer::RenderGeometry(Rml::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rml::TextureHandle texture, const Rml::Vector2f& translation)
+void Atlas::GameUIRenderer::RenderGeometry(Rml::Vertex* vertices, int num_vertices, int* indices, int num_indices, Rml::TextureHandle texture, const Rml::Vector2f& translation)
 {
 	rlBegin(RL_TRIANGLES);
 		
@@ -26,35 +26,35 @@ void Techstorm::GameUIRenderer::RenderGeometry(Rml::Vertex* vertices, int num_ve
 	rlEnd();
 }
 
-void Techstorm::GameUIRenderer::EnableScissorRegion(bool enable)
+void Atlas::GameUIRenderer::EnableScissorRegion(bool enable)
 {
 }
 
-void Techstorm::GameUIRenderer::SetScissorRegion(int x, int y, int width, int height)
+void Atlas::GameUIRenderer::SetScissorRegion(int x, int y, int width, int height)
 {
 }
 
-Techstorm::GameUIFileInterface* Techstorm::GameUI::getFileInterface()
+Atlas::GameUIFileInterface* Atlas::GameUI::getFileInterface()
 {
 	return mFileInterface;
 }
 
-void Techstorm::GameUI::init()
+void Atlas::GameUI::init()
 {
 	mSystemInterface = new UISystemInterface();
 }
 
 #pragma region FileInterfaceFunctions
 
-Techstorm::GameUIFileInterface::GameUIFileInterface(const std::string& root) : mRootPath(root)
+Atlas::GameUIFileInterface::GameUIFileInterface(const std::string& root) : mRootPath(root)
 {
 }
 
-Techstorm::GameUIFileInterface::~GameUIFileInterface()
+Atlas::GameUIFileInterface::~GameUIFileInterface()
 {
 }
 
-Rml::FileHandle Techstorm::GameUIFileInterface::Open(const std::string& path)
+Rml::FileHandle Atlas::GameUIFileInterface::Open(const std::string& path)
 {
 	// Attempt to open the file relative to the application's root.
 	FILE* fp = fopen((mRootPath + path).c_str(), "rb");
@@ -66,22 +66,22 @@ Rml::FileHandle Techstorm::GameUIFileInterface::Open(const std::string& path)
 	return (Rml::FileHandle)fp;
 }
 
-void Techstorm::GameUIFileInterface::Close(Rml::FileHandle file)
+void Atlas::GameUIFileInterface::Close(Rml::FileHandle file)
 {
 	fclose((FILE*)file);
 }
 
-size_t Techstorm::GameUIFileInterface::Read(void* buffer, size_t size, Rml::FileHandle file)
+size_t Atlas::GameUIFileInterface::Read(void* buffer, size_t size, Rml::FileHandle file)
 {
 	return fread(buffer, 1, size, (FILE*)file);
 }
 
-bool Techstorm::GameUIFileInterface::Seek(Rml::FileHandle file, long offset, int origin)
+bool Atlas::GameUIFileInterface::Seek(Rml::FileHandle file, long offset, int origin)
 {
 	return fseek((FILE*)file, offset, origin) == 0;
 }
 
-size_t Techstorm::GameUIFileInterface::Tell(Rml::FileHandle file)
+size_t Atlas::GameUIFileInterface::Tell(Rml::FileHandle file)
 {
 	return ftell((FILE*)file);
 }

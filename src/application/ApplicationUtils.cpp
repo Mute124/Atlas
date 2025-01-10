@@ -10,7 +10,7 @@ static inline std::unordered_map<int, std::string> CreateThreadPriorityMap() {
 	return map;
 }
 
-Techstorm::Application::GameThreadInfo Techstorm::Application::CalculateGameThreadInfo(GameSettings& gameSettings)
+Atlas::Application::GameThreadInfo Atlas::Application::CalculateGameThreadInfo(GameSettings& gameSettings)
 {
 	GameThreadInfo threadInfo;
 
@@ -23,11 +23,11 @@ Techstorm::Application::GameThreadInfo Techstorm::Application::CalculateGameThre
 	return GameThreadInfo();
 }
 
-void Techstorm::Application::DecorateWindow(WindowDecorations& decorations)
+void Atlas::Application::DecorateWindow(WindowDecorations& decorations)
 {
 }
 /*
-void Techstorm::Application::GameMainThread::run(std::shared_ptr<Project> userProject)
+void Atlas::Application::GameMainThread::run(std::shared_ptr<Project> userProject)
 {
 	/*userProject->preInit();
 	InitializeConfigRegistry();
@@ -56,7 +56,7 @@ void Techstorm::Application::GameMainThread::run(std::shared_ptr<Project> userPr
 	}
 }
 
-void Techstorm::Application::GameWorkThread::run(std::shared_ptr<Project> userProject)
+void Atlas::Application::GameWorkThread::run(std::shared_ptr<Project> userProject)
 {
 	this->idleUntilOthersAreReady();
 	while(!this->ShouldExit()) {
@@ -65,7 +65,7 @@ void Techstorm::Application::GameWorkThread::run(std::shared_ptr<Project> userPr
 	}
 }
 
-void Techstorm::Application::GameUpdateThread::run(std::shared_ptr<Project> userProject)
+void Atlas::Application::GameUpdateThread::run(std::shared_ptr<Project> userProject)
 {
 	this->idleUntilOthersAreReady();
 	while(!this->ShouldExit()) {

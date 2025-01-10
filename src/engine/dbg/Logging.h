@@ -19,10 +19,10 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 
-#define TS_DEFAULT_LOG_LEVEL Techstorm::ELogLevel::TRACE
+#define TS_DEFAULT_LOG_LEVEL Atlas::ELogLevel::TRACE
 
 
-namespace Techstorm {	
+namespace Atlas {	
 
 	/// <summary>
 	/// This is NOT what will print to the terminal, rather this is an interface where the logger will pass logging messages to. Use this for in-game consoles or something like that.
@@ -54,7 +54,7 @@ namespace Techstorm {
 		void setFormat(std::string const& format) { mFormat = format; }
 
 	private:
-		std::string mFormat = "[Techstorm] [%^%l%$] %v";
+		std::string mFormat = "[Atlas] [%^%l%$] %v";
 	};
 	
 	std::string CreateLogFileName();
@@ -65,7 +65,7 @@ namespace Techstorm {
 		ELogLevel fileLogLevel = ELogLevel::TRACE;
 		ELogLevel loggerLevel = ELogLevel::DEBUG;
 		
-		std::string format = "[Techstorm] [%^%l%$] %v";
+		std::string format = "[Atlas] [%^%l%$] %v";
 		std::string logFile =  CreateLogFileName();
 	};
 
@@ -97,25 +97,25 @@ namespace Techstorm {
 /*
 				switch (level)
 				{
-				case Techstorm::ELogLevel::TRACE:
+				case Atlas::ELogLevel::TRACE:
 					mLogger->trace(finalMessage);
 					break;
-				case Techstorm::ELogLevel::DEBUG:
+				case Atlas::ELogLevel::DEBUG:
 					mLogger->debug(finalMessage);
 					break;
-				case Techstorm::ELogLevel::INFO:
+				case Atlas::ELogLevel::INFO:
 					mLogger->info(finalMessage);
 					break;
-				case Techstorm::ELogLevel::WARNING:
+				case Atlas::ELogLevel::WARNING:
 					mLogger->warn(finalMessage);
 					break;
-				case Techstorm::ELogLevel::ERROR:
+				case Atlas::ELogLevel::ERROR:
 					mLogger->error(finalMessage);
 					break;
-				case Techstorm::ELogLevel::FATAL:
+				case Atlas::ELogLevel::FATAL:
 					mLogger->critical(finalMessage);
 					break;
-				case Techstorm::ELogLevel::NONE:
+				case Atlas::ELogLevel::NONE:
 					break;
 				default:
 #ifdef RELEASE
@@ -179,10 +179,10 @@ namespace Techstorm {
 			
 			std::string loggerName = typeid(*this).name();
 
-			// shorten down the name to just the typename. In this case, "Techstorm::Logger"
+			// shorten down the name to just the typename. In this case, "Atlas::Logger"
 			loggerName = loggerName.substr(loggerName.find_last_of("::") + 1);
 
-			// remove anything to the right of the typename, so it looks like "Techstorm::Logger"
+			// remove anything to the right of the typename, so it looks like "Atlas::Logger"
 			loggerName = loggerName.substr(0, loggerName.find_last_of("::"));
 	
 

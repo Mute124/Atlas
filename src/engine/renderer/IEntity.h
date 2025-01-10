@@ -1,7 +1,7 @@
 #pragma once
 #include "IGameObject.h"
 
-namespace Techstorm {
+namespace Atlas {
 
 	class IEntity abstract : public IGameObject {
 	public:

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Techstorm {
+namespace Atlas {
 	/// <summary>
 	/// A class that acts as, well, a gate! It is essentially as a piece of machinery on an assembly line. Please do note, that this is a template class and is not meant to be
 	/// used directly. Please see <see cref="GameObjectRegistry" /> for more information and an example.

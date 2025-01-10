@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-namespace Techstorm {
+namespace Atlas {
 	enum class ELoggingMode : uint8_t {
 		UNKNOWN = 0,
 		TERMINAL_ONLY,

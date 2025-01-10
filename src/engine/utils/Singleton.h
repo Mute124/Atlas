@@ -6,7 +6,7 @@
 #pragma once
 #define TS_SINGLETON(T) public Singleton<T>
 
-namespace Techstorm {
+namespace Atlas {
 	/// <summary>
 	/// A singleton class, it does what singletons do. 
 	/// \warning The template (T) must be the type that is inheriting from this class, otherwise there will be issues.

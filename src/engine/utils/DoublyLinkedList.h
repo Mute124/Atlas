@@ -6,7 +6,7 @@
 	void forwardTraverseFunction(Node<T>* current) override; \
     void backwardTraverseFunction(Node<T>* current) override;
 
-namespace Techstorm {
+namespace Atlas {
 /*    template<typename T>
     class DoublyLinkedList {
     public:

@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "../utils/DoublyLinkedList.h"
 
-namespace Techstorm {
+namespace Atlas {
 
 	using Depth = int;
 

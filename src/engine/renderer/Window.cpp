@@ -2,7 +2,7 @@
 #include <rlgl.h>
 #include <iostream>
 #include <thread>
-int Techstorm::Window::initialize(int width, int height, const char* title, unsigned int windowConfig)
+int Atlas::Window::initialize(int width, int height, const char* title, unsigned int windowConfig)
 {
 	this->mWidth = width;
 	this->mHeight = height;
@@ -23,7 +23,7 @@ int Techstorm::Window::initialize(int width, int height, const char* title, unsi
 	return result;
 }
 
-bool Techstorm::Window::shouldClose()
+bool Atlas::Window::shouldClose()
 {
 	std::cout << "Thread ID for Window shouldClose: " << std::this_thread::get_id() << "" << std::endl;
 	bool result = false;
@@ -35,7 +35,7 @@ bool Techstorm::Window::shouldClose()
 	return result;
 }
 
-bool Techstorm::Window::isReady()
+bool Atlas::Window::isReady()
 {
 	bool result = false;
 #ifdef TS_RENDERER_RAYLIB
@@ -45,7 +45,7 @@ bool Techstorm::Window::isReady()
 	return result;
 }
 
-Techstorm::Window::~Window()
+Atlas::Window::~Window()
 {
 #ifdef TS_RENDERER_RAYLIB
 	//CloseWindow();

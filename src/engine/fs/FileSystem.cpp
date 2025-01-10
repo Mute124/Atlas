@@ -13,42 +13,42 @@
 
 
 
-bool Techstorm::FileSystemIsProperlyFormatted(const char* rootPath, const char* directoryMapPath)
+bool Atlas::FileSystemIsProperlyFormatted(const char* rootPath, const char* directoryMapPath)
 {
 	return false;
 }
 
-Techstorm::FileSystemRegistry& Techstorm::GetFileSystemRegistry()
+Atlas::FileSystemRegistry& Atlas::GetFileSystemRegistry()
 {
 	return FileSystemRegistry::Instance();
 }
 
-void Techstorm::InitializeFileRegistry(const char* rootPath)
+void Atlas::InitializeFileRegistry(const char* rootPath)
 {
 	GetFileSystemRegistry().init(rootPath);
 }
 
-void Techstorm::AddFileRegistryLoadFunction(std::string  extension, std::function<std::any(std::shared_ptr<FileMeta>)> loadFunc)
+void Atlas::AddFileRegistryLoadFunction(std::string  extension, std::function<std::any(std::shared_ptr<FileMeta>)> loadFunc)
 {
 	GetFileSystemRegistry().addLoadFunction(extension, loadFunc);
 }
 
-void Techstorm::AddFileRegistryLoadOnRegisterExtension(std::string const& extension)
+void Atlas::AddFileRegistryLoadOnRegisterExtension(std::string const& extension)
 {
 	GetFileSystemRegistry().addLoadOnRegisterExtension(extension);
 }
 
-std::shared_ptr<Techstorm::FileMeta> Techstorm::GetFileMeta(std::string  key)
+std::shared_ptr<Atlas::FileMeta> Atlas::GetFileMeta(std::string  key)
 {
 	return GetFileSystemRegistry().GetFileMeta(key);
 }
 
-std::shared_ptr<Techstorm::RegisteredFile> Techstorm::GetFile(std::string key, bool loadIfNotLoaded)
+std::shared_ptr<Atlas::RegisteredFile> Atlas::GetFile(std::string key, bool loadIfNotLoaded)
 {
 	return GetFileSystemRegistry().getFile(key, loadIfNotLoaded);
 }
 
-void Techstorm::FileSystemRegistry::init(const char* rootPath)
+void Atlas::FileSystemRegistry::init(const char* rootPath)
 {
 	Logger::Instance().log("Initializing File Registry...");
 
@@ -92,7 +92,7 @@ void Techstorm::FileSystemRegistry::init(const char* rootPath)
 	}
 }
 
-std::shared_ptr<Techstorm::FileMeta> Techstorm::FileSystemRegistry::GetFileMeta(std::string const& key)
+std::shared_ptr<Atlas::FileMeta> Atlas::FileSystemRegistry::GetFileMeta(std::string const& key)
 {
 	uint16_t index = this->mLookupTable[key];
 

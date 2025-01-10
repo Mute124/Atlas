@@ -1,6 +1,6 @@
 #include "ApplicationUtils.h"
 
-using namespace Techstorm;
+using namespace Atlas;
 
 void InitWindow(WindowDecorations& decorations) {
 
@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
 
 	Log("Launching threads.");
 
-	Techstorm::Application::FrameManager& manager = Techstorm::Application::FrameManager::Instance();
+	Atlas::Application::FrameManager& manager = Atlas::Application::FrameManager::Instance();
 
 	SetTargetFPS(decorations.targetFPS);
 

@@ -24,7 +24,7 @@
 
 #include <utils/MiscUtils.h>
 #include <dbg/Logging.h>
-namespace Techstorm::Application {
+namespace Atlas::Application {
 	
 /*	class GameThread : public Singleton<GameThread> {
 	public:

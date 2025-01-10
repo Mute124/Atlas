@@ -1,5 +1,5 @@
 #include "ModManager.h"
 
-inline Techstorm::ModLoader::ModLoader() {}
+inline Atlas::ModLoader::ModLoader() {}
 
-inline Techstorm::ModLoader::~ModLoader() {}
+inline Atlas::ModLoader::~ModLoader() {}

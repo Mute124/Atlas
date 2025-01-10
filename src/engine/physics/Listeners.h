@@ -6,7 +6,7 @@
 
 #include "../utils/Gate.h"
 
-namespace Techstorm {
+namespace Atlas {
 	struct ContactListenerGateParams {
 		const JPH::Body* cBody1 = nullptr;
 		const JPH::Body* cBody2 = nullptr;

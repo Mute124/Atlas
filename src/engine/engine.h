@@ -5,7 +5,7 @@
 #include "renderer/Renderer.h"
 #include "renderer/Window.h"
 
-namespace Techstorm {
+namespace Atlas {
 	struct EngineConfig {
 	};
 

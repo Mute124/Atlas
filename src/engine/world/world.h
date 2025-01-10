@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Techstorm {
+namespace Atlas {
 
 	/* 
 	* Represents the open world.

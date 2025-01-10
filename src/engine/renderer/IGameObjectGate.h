@@ -1,7 +1,7 @@
 #pragma once
 #include "../utils/Gate.h"
 #include "IGameObject.h"
-namespace Techstorm {
+namespace Atlas {
 	/// <summary>
 	/// Same thing as a gate, but for game objects.
 	/// </summary>

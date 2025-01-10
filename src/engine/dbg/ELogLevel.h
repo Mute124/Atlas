@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace Techstorm {	
+namespace Atlas {	
 	/// <summary>
 	/// What level of logging to use. This will affect the output color, severity, etc. 
 	/// \note This is not the same as spdlog's log level. Also, this inherits from int to make it easier to compare.

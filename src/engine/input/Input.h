@@ -1,8 +1,8 @@
 /// \file Input.h
 /// 
-/// \brief The input system for Techstorm.
+/// \brief The input system for Atlas.
 /// 
-/// \details The input system for Techstorm works by a Laissez-faire system where the user can register InputActions (<see cref="InputAction"/>) by using functions as callbacks. The reason for this
+/// \details The input system for Atlas works by a Laissez-faire system where the user can register InputActions (<see cref="InputAction"/>) by using functions as callbacks. The reason for this
 /// is because it is much easier to do it this way (and it is also more efficient & flexible). Plus, it also allows you to register multiple callbacks for the same InputAction, which may be useful.
 #pragma once
 #include <functional>
@@ -13,7 +13,7 @@
 
 
 #define TS_ENABLE_CONTROLLER_SUPPORT
-namespace Techstorm {
+namespace Atlas {
 	
 	/// <summary>
 	/// The enumeration for the different input device categories. This is here because the input system is going to be expanded in the future and it will be useful to maintaining developer sanity.

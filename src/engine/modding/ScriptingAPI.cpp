@@ -9,43 +9,55 @@
 /// Initializes the scripting API.
 /// </summary>
 /// <returns>an integer value that represents the result of the operation.</returns>
-int Techstorm::ScriptingAPI::initializeScripting(ScriptingLibraryRegistry const& libraries, ScriptingFunctionRegistry const& functions)
+int Atlas::ScriptingAPI::initializeScripting(ScriptingLibraryRegistry const& libraries, ScriptingFunctionRegistry const& functions)
 {
 	Log("Opening scripting API libraries...");
 	this->mLibraries = libraries;
 	return 0;
 }
 
-void Techstorm::ScriptingAPI::registerConfigFunctions() {
+
+
+void Atlas::ScriptingAPI::registerConfigFunctions() {
 	this->mLua.set_function("LookupConfigOption", &GetConfigString);
 }
 
-void Techstorm::ScriptingAPI::registerFileSystemFunctions()
+void Atlas::ScriptingAPI::registerFileSystemFunctions()
 {
+}
+
+#ifdef TS_ENABLE_LUA
+
+void Atlas::ScriptingAPI::openLuaLibraries()
+{
+	for (auto it = std::begin(Atlas::ScriptingAPI::mLibraries); it != std::end(Atlas::ScriptingAPI::mLibraries); it++) {
+
+		this->mLua.open_libraries(*it);
+	}
 }
 
 /// <summary>
 /// Registers the scripting API for Lua.
 /// </summary>
 /// <returns>an integer value that represents the result of the operation.</returns>
-int Techstorm::ScriptingAPI::registerLua()
+int Atlas::ScriptingAPI::registerLua()
 {
-	for (auto it = std::begin(Techstorm::ScriptingAPI::mLibraries); it != std::end(Techstorm::ScriptingAPI::mLibraries); it++) {
-		
-		this->mLua.open_libraries(*it);
-	}
+	int result = 0; // TODO: Implement this
 
+	this->openLuaLibraries();
 	this->registerConfigFunctions();
 
-
-	return 0;
+	return result;
 }
+
+#endif
+
 #ifdef TS_ENABLE_ANGELSCRIPT
 /// <summary>
 /// Registers the scripting API for AngelScript. This is just for organization sake and it could be merged with the lua version, but it wont be.
 /// </summary>
 /// <returns>an integer value that represents the result of the operation.</returns>
-int Techstorm::ScriptingAPI::registerAngelScript()
+int Atlas::ScriptingAPI::registerAngelScript()
 {
 	return 0;
 }

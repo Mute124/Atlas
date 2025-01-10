@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-namespace Techstorm {
+namespace Atlas {
 	class IPhysicsGameObject abstract : public IGameObject {
 	public:
 		JPH::BodyID id;

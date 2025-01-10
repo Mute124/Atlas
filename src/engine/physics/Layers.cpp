@@ -1,6 +1,6 @@
 #include "Layers.h"
 
-  bool Techstorm::ObjectLayerPairFilterImpl::ShouldCollide(JPH::ObjectLayer inObject1, JPH::ObjectLayer inObject2) const
+  bool Atlas::ObjectLayerPairFilterImpl::ShouldCollide(JPH::ObjectLayer inObject1, JPH::ObjectLayer inObject2) const
 {
 	using namespace JPH;
 	switch (inObject1)
@@ -15,38 +15,38 @@
 	}
 }
 
-  Techstorm::BPLayerInterfaceImpl::BPLayerInterfaceImpl()
+  Atlas::BPLayerInterfaceImpl::BPLayerInterfaceImpl()
 {
 	// Create a mapping table from object to broad phase layer
 	mObjectToBroadPhase[Layers::NON_MOVING] = BroadPhaseLayers::NON_MOVING;
 	mObjectToBroadPhase[Layers::MOVING] = BroadPhaseLayers::MOVING;
 }
 
-  JPH::uint Techstorm::BPLayerInterfaceImpl::GetNumBroadPhaseLayers() const
+  JPH::uint Atlas::BPLayerInterfaceImpl::GetNumBroadPhaseLayers() const
 {
 	return BroadPhaseLayers::NUM_LAYERS;
 }
 
-  JPH::BroadPhaseLayer Techstorm::BPLayerInterfaceImpl::GetBroadPhaseLayer(JPH::ObjectLayer inLayer) const
+  JPH::BroadPhaseLayer Atlas::BPLayerInterfaceImpl::GetBroadPhaseLayer(JPH::ObjectLayer inLayer) const
 {
 	using namespace JPH;
 	JPH_ASSERT(inLayer < Layers::NUM_LAYERS);
 	return mObjectToBroadPhase[inLayer];
 }
 #if defined(JPH_EXTERNAL_PROFILE) || defined(JPH_PROFILE_ENABLED)
-	  const char* Techstorm::BPLayerInterfaceImpl::GetBroadPhaseLayerName(JPH::BroadPhaseLayer inLayer)
+	  const char* Atlas::BPLayerInterfaceImpl::GetBroadPhaseLayerName(JPH::BroadPhaseLayer inLayer)
 	{
 		using namespace JPH;
 		switch ((JPH::BroadPhaseLayer::Type)inLayer)
 		{
-		case (JPH::BroadPhaseLayer::Type)Techstorm::BroadPhaseLayers::NON_MOVING:	return "NON_MOVING";
-		case (JPH::BroadPhaseLayer::Type)Techstorm::BroadPhaseLayers::MOVING:		return "MOVING";
+		case (JPH::BroadPhaseLayer::Type)Atlas::BroadPhaseLayers::NON_MOVING:	return "NON_MOVING";
+		case (JPH::BroadPhaseLayer::Type)Atlas::BroadPhaseLayers::MOVING:		return "MOVING";
 		default:													JPH_ASSERT(false); return "INVALID";
 		}
 	}
 #endif
 
-  bool Techstorm::ObjectVsBroadPhaseLayerFilterImpl::ShouldCollide(JPH::ObjectLayer inLayer1, JPH::BroadPhaseLayer inLayer2) const
+  bool Atlas::ObjectVsBroadPhaseLayerFilterImpl::ShouldCollide(JPH::ObjectLayer inLayer1, JPH::BroadPhaseLayer inLayer2) const
 {
 	using namespace JPH;
 	switch (inLayer1)

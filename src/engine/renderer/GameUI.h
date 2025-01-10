@@ -18,7 +18,7 @@
 
 #include <raygui.h>
 
-namespace Techstorm {
+namespace Atlas {
 #ifdef TS_ENABLE_HTML_UI
 	using UIVertex = Rml::Vertex;
 	using FileHandle = Rml::FileHandle;

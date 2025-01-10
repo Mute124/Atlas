@@ -3,7 +3,7 @@
 #include <raylib.h>
 #include <cstdint>
 #include <unordered_map>
-namespace Techstorm {
+namespace Atlas {
 	/// <summary>
 	/// Represents a camera wherein the world is rendered and viewed from.
 	/// </summary>

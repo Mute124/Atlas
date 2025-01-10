@@ -1,20 +1,20 @@
 #include "Console.h"
 std::string dummyPrompt = "> ";
-void Techstorm::Console::parseInput(const std::string& input)
+void Atlas::Console::parseInput(const std::string& input)
 {
 }
 
-std::string& Techstorm::Console::getPrompt()
+std::string& Atlas::Console::getPrompt()
 {
     // TODO: insert return statement here
     return dummyPrompt;
 }
 
-void Techstorm::Console::draw()
+void Atlas::Console::draw()
 {
 }
 
-void Techstorm::ConsoleSink::parseLog(const std::string& message, ELogLevel level, const std::source_location& location)
+void Atlas::ConsoleSink::parseLog(const std::string& message, ELogLevel level, const std::source_location& location)
 {
     // if the buffer has reached the limit, remove the oldest message
     if (mBuffer.size() >= mLimit) {
@@ -30,11 +30,11 @@ void Techstorm::ConsoleSink::parseLog(const std::string& message, ELogLevel leve
     
 }
 
-void Techstorm::ConsoleSink::parsePrompt(const std::string& message)
+void Atlas::ConsoleSink::parsePrompt(const std::string& message)
 {
 }
 
-std::vector<std::string>& Techstorm::ConsoleSink::getBuffer()
+std::vector<std::string>& Atlas::ConsoleSink::getBuffer()
 {
     return mBuffer;
 }

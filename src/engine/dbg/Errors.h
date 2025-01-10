@@ -17,7 +17,7 @@
 	TS_DEFAULT_EXCEPTION_CONSTRUCTOR(exceptionType) \
 	const char* what() const noexcept override { return this->mMessage.c_str(); }
 
-namespace Techstorm {
+namespace Atlas {
 
 	class IException : public std::exception {
 	public:

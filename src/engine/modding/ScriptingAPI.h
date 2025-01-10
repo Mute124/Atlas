@@ -1,7 +1,7 @@
 /**
 * \file ScriptingAPI.h
 * 
-* \brief This is what will handle all of Techstorm's scripting. Currently only Lua is supported, but AngelScript is planned for a future date. Along with this, the scripting API is responsible for
+* \brief This is what will handle all of Atlas's scripting. Currently only Lua is supported, but AngelScript is planned for a future date. Along with this, the scripting API is responsible for
 * the console, loading/unloading lua libraries, etc.
 * \includegraph
 * 
@@ -35,7 +35,7 @@
 
 #include "../utils/Singleton.h"
 
-namespace Techstorm {
+namespace Atlas {
 	
 
 #ifdef TS_ENABLE_MODDING
@@ -91,22 +91,21 @@ namespace Techstorm {
 			mLua.new_usertype<T>(args);
 		}
 		
-		/// <summary>
-		/// Exposes all functions that fall under the perview of config. As of version 0.0.3, this is only the lookup function and more will be added in the future. 
-		/// </summary>
-		void registerConfigFunctions();
-		
-		/// <summary>
-		/// Exposes all functions that fall under the perview of file system. This includes file loading, reading, writing, etc. 
-		/// </summary>
-		void registerFileSystemFunctions();
 
 
+#ifdef TS_ENABLE_LUA
 		/// <summary>
 		/// Registers the scripting API for Lua.
 		/// </summary>
 		/// <returns>an integer value that represents the result of the operation.</returns>
 		int registerLua();
+
+		/// <summary>
+		/// Returns mLua as a state_view.
+		/// </summary>
+		/// <returns>a state_view that represents the lua state (mLua).</returns>
+		sol::state_view getState() { return mLua.operator lua_State * (); }
+#endif
 
 #ifdef TS_ENABLE_ANGELSCRIPT
 		/// <summary>
@@ -116,17 +115,32 @@ namespace Techstorm {
 		int registerAngelScript();
 				
 #endif
-		/// <summary>
-		/// Returns mLua as a state_view.
-		/// </summary>
-		/// <returns>a state_view that represents the lua state (mLua).</returns>
-		sol::state_view getState() { return mLua.operator lua_State * (); }
+
 
 
 	private:
+
+
+#ifdef TS_ENABLE_LUA
 		sol::state mLua;
 		ScriptingLibraryRegistry mLibraries;
 		ScriptingFunctionRegistry mFunctions;
+		
+		/// <summary>
+		/// Exposes the lua libraries in mLibraries to mLua. See \ref ScriptingLibraryRegistry for more information.
+		/// </summary>
+		void openLuaLibraries();
+#endif
+
+		/// <summary>
+		/// Exposes all functions that fall under the perview of config. As of version 0.0.3, this is only the lookup function and more will be added in the future. 
+		/// </summary>
+		void registerConfigFunctions();
+
+		/// <summary>
+		/// Exposes all functions that fall under the perview of file system. This includes file loading, reading, writing, etc. 
+		/// </summary>
+		void registerFileSystemFunctions();
 	};
 
 #endif

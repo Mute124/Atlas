@@ -13,7 +13,7 @@
 #include "libconfig.h++"
 #include "../dbg/Logging.h"
 
-namespace Techstorm {
+namespace Atlas {
 	using DirectoryFiles = std::vector<std::string>;
 
 	class FileMeta {

@@ -1,9 +1,9 @@
 #pragma once
 
-namespace Techstorm {
+namespace Atlas {
 
 	/// <summary>
-	/// Serves as the settings for the game. Please note that cMaxThreads must be at least 2. If you want Techstorm to decide,
+	/// Serves as the settings for the game. Please note that cMaxThreads must be at least 2. If you want Atlas to decide,
 	/// set cMaxThreads to -1.
 	/// </summary>
 	using GameSettings = struct GameSettings {

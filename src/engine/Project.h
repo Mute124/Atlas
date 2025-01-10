@@ -1,7 +1,7 @@
 /**
 * \file Project.h
 * 
-* \brief This file contains the IProject interface that is required for Techstorm to run the user's project. The reason for the boilerplate is because it allows the engine to take a Laissez-faire approach and allow the user to do whatever they want.
+* \brief This file contains the IProject interface that is required for Atlas to run the user's project. The reason for the boilerplate is because it allows the engine to take a Laissez-faire approach and allow the user to do whatever they want.
 * with all their code being able to be called from the engine.
 */
 #pragma once
@@ -16,11 +16,11 @@
 #include <stdint.h>
 #include "dbg/Debugger.h"
 #include <bitset>
-namespace Techstorm {
+namespace Atlas {
 	/// <summary>
 	/// This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
-	/// their project. In terms of functionality, this interface just holds the functions and variables that Techstorm will call (besides some initialization). 
-	/// \note If this boilerplate code is not done, Techstorm will not know what to run.
+	/// their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
+	/// \note If this boilerplate code is not done, Atlas will not know what to run.
 	/// \warning <b>Do not directly call window code in here or your project will crash!</b>
 	/// </summary>
 	class IProject abstract {
@@ -31,8 +31,8 @@ namespace Techstorm {
 		ScriptingFunctionRegistry mLuaFunctions;
 		
 		/// <summary>
-		/// Represents a polymorphic singleton reference to the user's project instance through a pointer of Techstorm::IProject. This is
-		/// mandatory for Techstorm to run the user's engine.
+		/// Represents a polymorphic singleton reference to the user's project instance through a pointer of Atlas::IProject. This is
+		/// mandatory for Atlas to run the user's engine.
 		/// </summary>
 		class ProjectReference : public Singleton<ProjectReference> {
 		public:
@@ -69,7 +69,7 @@ namespace Techstorm {
 		/// <summary>
 		/// Sets the window decorations.
 		/// </summary>
-		/// <seealso cref="Techstorm::WindowDecorations" />
+		/// <seealso cref="Atlas::WindowDecorations" />
 		/// <param name="windowDecorations">The window decorations.</param>
 		void setWindowDecorations(WindowDecorations& windowDecorations);
 

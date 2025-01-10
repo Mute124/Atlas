@@ -12,10 +12,10 @@
 /// <summary>
 /// Write your project code here or do what you want with it. However,
 /// you MUST implement the IProject interface somehow and set the project reference!
-/// See <see cref="Techstorm::IProject" /> for more information on this.
+/// See <see cref="Atlas::IProject" /> for more information on this.
 /// </summary>
 /// <inheritdoc />
-class Project final : public Techstorm::IProject {
+class Project final : public Atlas::IProject {
 private:
 
 public:

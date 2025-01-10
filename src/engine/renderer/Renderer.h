@@ -9,7 +9,7 @@
 
 #include <raylib.h>
 
-namespace Techstorm {
+namespace Atlas {
 	class GameObject;
 
 	/// <summary>

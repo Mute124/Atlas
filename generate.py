@@ -63,7 +63,7 @@ if lockConfigFileExists == False:
 
     print("Done building project.\n")
 
-    print("Techstorm is now configured and built. Go to the build folder, and click on the Techstorm.sln solution to begin working. Happy coding, you magnificent developer! :)")
+    print("Atlas is now configured and built. Go to the build folder, and click on the Techstorm.sln solution to begin working. Happy coding, you magnificent developer! :)")
 
 else:
-    print("Techstorm is already configured. To force reconfiguration, delete the file cache/lock-configure.lock \n")
+    print("Atlas is already configured. To force reconfiguration, delete the file cache/lock-configure.lock \n")

@@ -1,7 +1,7 @@
 #pragma once
 #include "Logging.h"
 
-namespace Techstorm {
+namespace Atlas {
 
 	template<typename ConsoleSink>
 	class IConsole abstract {

@@ -1,6 +1,6 @@
 #pragma once
 #include "IEntity.h"
 
-namespace Techstorm {
+namespace Atlas {
 	class Entity {};
 }

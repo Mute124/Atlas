@@ -1,3 +1,3 @@
 #include "project.h"
 
-using namespace Techstorm;
+using namespace Atlas;

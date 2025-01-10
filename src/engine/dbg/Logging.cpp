@@ -2,19 +2,19 @@
 #include "../Common.h"
 
 
-void Techstorm::TerminalSink::init()
+void Atlas::TerminalSink::init()
 {
     mColorSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
     mColorSink->set_level(spdlog::level::warn);
     mColorSink->set_pattern(mFormat);
 }
 
-std::string Techstorm::TerminalSink::getFormat()
+std::string Atlas::TerminalSink::getFormat()
 {
     return this->mFormat;
 }
 
-std::string Techstorm::CreateLogFileName() {
+std::string Atlas::CreateLogFileName() {
     // Filename should follow this format: YYYY-MM-DD_HH-MM-SS.log
     time_t now = time(0);
     struct tm tstruct;
@@ -30,7 +30,7 @@ std::string Techstorm::CreateLogFileName() {
     return name;
 }
 
-spdlog::level::level_enum Techstorm::GetSpdlogLevel(ELogLevel level) {
+spdlog::level::level_enum Atlas::GetSpdlogLevel(ELogLevel level) {
     return static_cast<spdlog::level::level_enum>(level);
 }
 

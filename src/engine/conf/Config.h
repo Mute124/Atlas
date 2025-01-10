@@ -5,7 +5,7 @@
 #include <libconfig.h++>
 #include "../utils/Singleton.h"
 
-namespace Techstorm {
+namespace Atlas {
 	class ConfigFileRegistry : public Singleton<ConfigFileRegistry> {
 	public:
 		ConfigFileRegistry();
