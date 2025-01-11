@@ -6,7 +6,7 @@
 #include <string>
 #include "../dbg/Logging.h"
 #include "JSONFile.h"
-
+#include "XMLFile.h"
 
 
 Atlas::ConfigFileRegistry::ConfigFileRegistry()
@@ -27,6 +27,10 @@ void Atlas::ConfigFileRegistry::init() {
 
 #ifndef ATLAS_EXCLUDE_JSON
 	AddFileRegistryLoadFunction("json", LoadJSONFile);
+#endif
+
+#ifndef ATLAS_EXCLUDE_XML
+	AddFileRegistryLoadFunction("xml", LoadXMLFile);
 #endif
 }
 
@@ -49,6 +53,7 @@ void Atlas::ConfigFileRegistry::registerConfigFiles(const std::string& searchPat
 
 void Atlas::ConfigFileRegistry::registerConfigFile(const std::string& name, const std::string& path)
 {
+	
 }
 
 void Atlas::ConfigFileRegistry::unregisterConfigFiles()
@@ -83,6 +88,14 @@ std::any Atlas::ConfigFileRegistry::LoadJSONFile(std::shared_ptr<Atlas::FileMeta
 
 	JSONFile* conf = new JSONFile(fileMeta->path);
 	return std::make_any<JSONFile*>(conf);
+}
+
+std::any Atlas::ConfigFileRegistry::LoadXMLFile(std::shared_ptr<Atlas::FileMeta> fileMeta)
+{
+	Log("Loading config file: " + fileMeta->path, ELogLevel::TRACE);
+
+	XMLFile* conf = new XMLFile(fileMeta->path);
+	return std::make_any<XMLFile*>(conf);
 }
 
 /*

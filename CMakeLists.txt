@@ -160,7 +160,7 @@ find_package(fmt REQUIRED)
 find_package(nuklear REQUIRED)
 
 find_package(simdjson REQUIRED)
-find_package(rapidxml REQUIRED)
+find_package(tinyxml2 REQUIRED)
 
 set(DOUBLE_PRECISION OFF)
 set(GENERATE_DEBUG_SYMBOLS OFF)

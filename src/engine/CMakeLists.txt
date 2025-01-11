@@ -10,7 +10,7 @@ set(ATLAS_ENGINE_CORE_SOURCES
     "Project.cpp" 
 )
 
-set(ATLAS_ENGINE_RENDERER_SOURCES
+set(ATLAS_RENDERER_SOURCES
     "renderer/Window.h" 
     "renderer/Window.cpp" 
 
@@ -47,6 +47,9 @@ set(ATLAS_ENGINE_RENDERER_SOURCES
 
     "renderer/GameUI.h"
     "renderer/GameUI.cpp"
+
+    "renderer/GameModel.h"
+    "renderer/GameModel.cpp"
 )
 
 set(ATLAS_STATE_SOURCES
@@ -84,6 +87,9 @@ set(ATLAS_CONFIG_SOURCES
 
     "conf/JSONFile.h"
     "conf/JSONFile.cpp"
+
+    "conf/XMLFile.h"
+	"conf/XMLFile.cpp"
 )
 
 set(ATLAS_FILESYSTEM_SOURCES
@@ -143,10 +149,16 @@ set(ATLAS_WORLD_SOURCES
     "world/tools/Terrain.h" 
 )
 
+set(ATLAS_LANGUAGE_SOURCES
+    "language/Language.h"
+    "language/LocalizationRegistry.h"
+	"language/LocalizationRegistry.cpp"
+)
+
 set(ATLAS_ENGINE_SOURCES 
 	# Engine Core
     ${ATLAS_ENGINE_CORE_SOURCES}
-    ${ATLAS_ENGINE_RENDERER_SOURCES}
+    ${ATLAS_RENDERER_SOURCES}
     ${ATLAS_STATE_SOURCES}
     ${ATLAS_UTIL_SOURCES}
 	${ATLAS_MATH_SOURCES}
@@ -157,7 +169,10 @@ set(ATLAS_ENGINE_SOURCES
 	${ATLAS_MODDING_SOURCES}
 	${ATLAS_DEBUGGING_SOURCES}
     ${ATLAS_WORLD_SOURCES}
+    ${ATLAS_LANGUAGE_SOURCES}
 )
+
+
 
 # Please note that this is NOT the final list of dependencies, some are toggled based on options
 set(ATLAS_ENGINE_DEPENDENCIES
@@ -176,10 +191,8 @@ set(ATLAS_ENGINE_DEPENDENCIES
 
     spdlog::spdlog
     
-    rapidxml::rapidxml
-
     simdjson::simdjson
-    
+    tinyxml2::tinyxml2
 )
 
 include("${CMAKE_SOURCE_DIR}/CMakeOptions.txt")

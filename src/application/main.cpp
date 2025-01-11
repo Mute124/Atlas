@@ -88,12 +88,12 @@ int main(int argc, char* argv[]) {
 	SetTargetFPS(decorations.targetFPS);
 
 	manager.launchThreads(project);
-
+	
 	Log("Initialization is now finished, starting main loop.");
 	while (!WindowShouldClose()) {
 		HandleFrame(project);
 	}
-
+	
 	Log("Shutting down...");
 
 	Log("Cleaning up...");
