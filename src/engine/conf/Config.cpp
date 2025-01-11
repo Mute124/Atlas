@@ -5,17 +5,12 @@
 #include <memory>
 #include <string>
 #include "../dbg/Logging.h"
+#include "JSONFile.h"
 
-std::any LoadConfigFile(std::shared_ptr<Atlas::FileMeta> fileMeta) {
-	using namespace Atlas;
 
-	return std::make_any<uint16_t>(3);
-}
 
 Atlas::ConfigFileRegistry::ConfigFileRegistry()
 {
-
-
 }
 
 Atlas::ConfigFileRegistry::~ConfigFileRegistry()
@@ -27,12 +22,12 @@ void Atlas::ConfigFileRegistry::init() {
 
 	// only show this in the log file
 	Log("Setting config file load functions.", ELogLevel::TRACE);
-	AddFileRegistryLoadFunction("cfg", [](std::shared_ptr<FileMeta> fileMeta) {
-		Log("Loading config file: " + fileMeta->path, ELogLevel::TRACE);
-		libconfig::Config* conf = new libconfig::Config();
-		conf->readFile(fileMeta->path);
-		return std::make_any<libconfig::Config*>(conf);
-	});
+	
+	AddFileRegistryLoadFunction("cfg", LoadConfigFile);
+
+#ifndef ATLAS_EXCLUDE_JSON
+	AddFileRegistryLoadFunction("json", LoadJSONFile);
+#endif
 }
 
 void Atlas::ConfigFileRegistry::readConfigFiles()
@@ -64,7 +59,7 @@ void Atlas::ConfigFileRegistry::unregisterConfigFile(const std::string& name)
 {
 }
 
-libconfig::Setting& Atlas::ConfigFileRegistry::lookup(const std::string& fileName, const std::string& lookupTarget)
+libconfig::Setting& Atlas::ConfigFileRegistry::configLookup(const std::string& fileName, const std::string& lookupTarget)
 {
 	libconfig::Config const* conf = GetFile(fileName).get()->get<libconfig::Config*>();
 	libconfig::Setting& setting = conf->lookup(lookupTarget);
@@ -73,6 +68,21 @@ libconfig::Setting& Atlas::ConfigFileRegistry::lookup(const std::string& fileNam
 	
 	return setting;
 	
+}
+
+std::any Atlas::ConfigFileRegistry::LoadConfigFile(std::shared_ptr<Atlas::FileMeta> fileMeta) {
+	Log("Loading config file: " + fileMeta->path, ELogLevel::TRACE);
+
+	libconfig::Config* conf = new libconfig::Config();
+	conf->readFile(fileMeta->path);
+	return std::make_any<libconfig::Config*>(conf);
+}
+
+std::any Atlas::ConfigFileRegistry::LoadJSONFile(std::shared_ptr<Atlas::FileMeta> fileMeta) {
+	Log("Loading config file: " + fileMeta->path, ELogLevel::TRACE);
+
+	JSONFile* conf = new JSONFile(fileMeta->path);
+	return std::make_any<JSONFile*>(conf);
 }
 
 /*
@@ -86,6 +96,6 @@ Atlas::ConfigFileRegistry& Atlas::GetConfigFileRegistry() { return ConfigFileReg
 
 void Atlas::InitializeConfigRegistry() { ConfigFileRegistry::Instance().init(); }
 
-libconfig::Setting& Atlas::LookupConfig(const std::string& fileName, const std::string& lookupTarget) { return ConfigFileRegistry::Instance().lookup(fileName, lookupTarget); }
+libconfig::Setting& Atlas::LookupConfig(const std::string& fileName, const std::string& lookupTarget) { return ConfigFileRegistry::Instance().configLookup(fileName, lookupTarget); }
 
 const char* Atlas::GetConfigString(std::string fileName, std::string lookupTarget) { return LookupConfig(fileName, lookupTarget).c_str(); }

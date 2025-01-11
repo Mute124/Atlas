@@ -79,41 +79,41 @@ include("CMakeOptions.txt")
 
 # Set compilation definitions
 if(CMAKE_BUILD_TYPE STREQUAL "Distribution")
-    add_compile_definitions(TS_ROOT_DIR="../") # Sets the TS_ROOT_DIR macro in a way that prevents the path on a development machine from being used in distribution.
-    add_compile_definitions(TS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
+    add_compile_definitions(ATLAS_ROOT_DIR="../") # Sets the TS_ROOT_DIR macro in a way that prevents the path on a development machine from being used in distribution.
+    add_compile_definitions(ATLAS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
     # Your code for the Distribution configuration
 
 else()
-   add_compile_definitions(TS_ROOT_DIR="${CMAKE_BINARY_DIR}")
-   add_compile_definitions(TS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
+   add_compile_definitions(ATLAS_ROOT_DIR="${CMAKE_BINARY_DIR}")
+   add_compile_definitions(ATLAS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
 
     # Your code for other configurations
 
 endif()
 
-if(${TS_ENABLE_HAPTICS}) 
-    add_compile_definitions(TS_ENABLE_HAPTICS)
+if(${ATLAS_ENABLE_HAPTICS}) 
+    add_compile_definitions(ATLAS_ENABLE_HAPTICS)
 endif()
 
-if(${TS_ENABLE_EXTENSIONS}) 
-    add_compile_definitions(TS_ENABLE_EXTENSIONS)
-    if(${TS_ENABLE_DISCORD_RPC})
-        add_compile_definitions(TS_ENABLE_DISCORD_RPC)
+if(${ATLAS_ENABLE_EXTENSIONS}) 
+    add_compile_definitions(ATLAS_ENABLE_EXTENSIONS)
+    if(${ATLAS_ENABLE_DISCORD_RPC})
+        add_compile_definitions(ATLAS_ENABLE_DISCORD_RPC)
     endif()
 endif()
 
-if(${TS_ENABLE_MODDING})
-    add_compile_definitions(TS_ENABLE_MODDING)
-    if(${TS_ENABLE_ANGELSCRIPT})
-        add_compile_definitions(TS_ENABLE_ANGELSCRIPT)
+if(${ATLAS_ENABLE_MODDING})
+    add_compile_definitions(ATLAS_ENABLE_MODDING)
+    if(${ATLAS_ENABLE_ANGELSCRIPT})
+        add_compile_definitions(ATLAS_ENABLE_ANGELSCRIPT)
     endif()
     
-    if(${TS_ENABLE_LUA})
-        add_compile_definitions(TS_ENABLE_LUA)
+    if(${ATLAS_ENABLE_LUA})
+        add_compile_definitions(ATLAS_ENABLE_LUA)
     endif()
 endif()	
 
-add_compile_definitions(TS_ENABLE_TESTING=${TS_ENABLE_TESTING})
+add_compile_definitions(ATLAS_ENABLE_TESTING=${ATLAS_ENABLE_TESTING})
 
 
 
@@ -143,12 +143,12 @@ CPMAddPackage(
 find_package(joltphysics REQUIRED)
 find_package(libconfig REQUIRED)
 
-if(${TS_ENABLE_MODDING})
-    if(${TS_ENABLE_ANGELSCRIPT})
+if(${ATLAS_ENABLE_MODDING})
+    if(${ATLAS_ENABLE_ANGELSCRIPT})
         find_package(Angelscript REQUIRED)
     endif()
     
-    if(${TS_ENABLE_LUA})
+    if(${ATLAS_ENABLE_LUA})
         find_package(sol2 REQUIRED)
     endif()
 endif()
@@ -159,6 +159,8 @@ find_package(rmlui REQUIRED)
 find_package(fmt REQUIRED)
 find_package(nuklear REQUIRED)
 
+find_package(simdjson REQUIRED)
+find_package(rapidxml REQUIRED)
 
 set(DOUBLE_PRECISION OFF)
 set(GENERATE_DEBUG_SYMBOLS OFF)
@@ -179,12 +181,12 @@ add_subdirectory("src/engine")
 add_subdirectory("src/project")
 
 # Currently, Techstorm only supports the default implementation, however, it is on the list of things to do.
-if(${TS_CUSTOM_APPLICATION_HANDLING})
+if(${ATLAS_CUSTOM_APPLICATION_HANDLING})
 	message(STATUS "Building application")
     add_subdirectory("src/application")
 endif()
 
-if(${TS_BUILD_TOOLS})
+if(${ATLAS_BUILD_TOOLS})
     message(STATUS "Building tools")
     add_subdirectory("src/tools")
 endif()

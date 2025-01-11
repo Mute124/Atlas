@@ -12,7 +12,7 @@ void InitWindow(WindowDecorations& decorations) {
 	InitWindow(decorations.width, decorations.height, decorations.title);
 
 	Log("Loading and setting window icon...");
-	const char* iconPath = TextFormat("%s%s", TS_ASSET_DIR.c_str(), decorations.icon);
+	const char* iconPath = TextFormat("%s%s", ATLAS_ASSET_DIR.c_str(), decorations.icon);
 
 	Image icon = LoadImage(iconPath);
 	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);

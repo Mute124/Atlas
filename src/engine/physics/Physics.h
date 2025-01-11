@@ -74,7 +74,10 @@ namespace Atlas {
 	};
 
 #endif // JPH_ENABLE_ASSERTS
-
+	
+	/// <summary>
+	/// This struct contains the allocated resources for the physics engine and is used to initialize the physics engine.
+	/// </summary>
 	struct AllocatedPhysicsResources {
 		JPH::uint cMaxBodies = 65536;
 		JPH::uint cNumBodyMutexes = 0;
@@ -82,13 +85,32 @@ namespace Atlas {
 		JPH::uint cMaxContactConstraints = 1024;
 
 		int preAllocatedMemory = 20 * 1024 * 1024;
-
+				
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AllocatedPhysicsResources"/> struct.
+		/// </summary>
 		AllocatedPhysicsResources();
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AllocatedPhysicsResources"/> struct.
+		/// </summary>
+		/// <param name="resources">A constant reference to an instance of the <see cref="AllocatedPhysicsResources"/> struct.</param>
 		AllocatedPhysicsResources(AllocatedPhysicsResources const& resources);
-
+				
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AllocatedPhysicsResources"/> struct.
+		/// </summary>
+		/// <param name="cMaxBodies">A constant that specifies the maximum bodies.</param>
+		/// <param name="cNumBodyMutexes">A constant that specifies the number body mutexes.</param>
+		/// <param name="cMaxBodyPairs">A constant that specifies the maximum body pairs.</param>
+		/// <param name="cMaxContactConstraints">A constant that specifies the maximum contact constraints.</param>
 		AllocatedPhysicsResources(const JPH::uint& cMaxBodies, const JPH::uint& cNumBodyMutexes, const JPH::uint& cMaxBodyPairs, const JPH::uint& cMaxContactConstraints);
 	};
-
+	
+	/// <summary>
+	/// Handles everything related to Atlas' physics engine.
+	/// </summary>
+	/// <seealso cref="Atlas::Singleton&lt;PhysicsEngine&gt;" />
 	class PhysicsEngine : public Atlas::Singleton<PhysicsEngine> {
 	public:
 		PhysicsEngine() = default;

@@ -1,9 +1,9 @@
 ﻿# Application: Main executable
 
 if(WIN32)
-	set(TS_MAIN_APPLICATION_RC "Application.rc")
+	set(ATLAS_MAIN_APPLICATION_RC "Application.rc")
 else()
-	set(TS_MAIN_APPLICATION_RC "")
+	set(ATLAS_MAIN_APPLICATION_RC "")
 endif()
 
 add_executable(main_app 
@@ -11,7 +11,7 @@ add_executable(main_app
 	"ApplicationUtils.h"
 	"ApplicationUtils.cpp"
 
-	${TS_MAIN_APPLICATION_RC}
+	${ATLAS_MAIN_APPLICATION_RC}
 	
     #"Shell.h"
     #"Shell.cpp"

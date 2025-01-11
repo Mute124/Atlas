@@ -5,7 +5,7 @@
 /// 
 /// \todo Add more haptic features
 /// 
-/// \remarks This file has a few configurations that are based on defines. TS_ENABLE_HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas TS_ENABLE_EXTENSIONS is used
+/// \remarks This file has a few configurations that are based on defines. ATLAS_ENABLE_HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas ATLAS_ENABLE_EXTENSIONS is used
 /// to enable/disable extensions.
 #pragma once
 
@@ -25,10 +25,10 @@
 /// Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these
 /// will be in the build directory rather than the final distribution directory.
 /// </summary>
-const std::string TS_ASSET_DIR = std::string(TS_TOP_LAYER) + "/game/assets/";
-const std::string TS_DATA_DIR = std::string(TS_TOP_LAYER) + "/game/data/";
-const std::string TS_GAME_DIR = std::string(TS_TOP_LAYER) + "/game/";
-const std::string TS_TEMP_DIR = std::string(TS_TOP_LAYER) + "/temp/";
+const std::string ATLAS_ASSET_DIR = std::string(ATLAS_TOP_LAYER) + "/game/assets/";
+const std::string ATLAS_DATA_DIR = std::string(ATLAS_TOP_LAYER) + "/game/data/";
+const std::string ATLAS_GAME_DIR = std::string(ATLAS_TOP_LAYER) + "/game/";
+const std::string ATLAS_TEMP_DIR = std::string(ATLAS_TOP_LAYER) + "/temp/";
 
 namespace Atlas {
 
@@ -568,20 +568,20 @@ namespace Atlas {
 
 	/// This is a module for haptic experiences (ie. controller rumble) and helps make more immersive experiences. 
 	/// \todo Add more haptic features, like monitor flashing and such.
-#ifdef TS_ENABLE_HAPTICS
+#ifdef ATLAS_ENABLE_HAPTICS
 
 	/// <summary>
-	/// Initializes the haptics module. Keep in mind this only works if TS_ENABLE_HAPTICS is defined.
+	/// Initializes the haptics module. Keep in mind this only works if ATLAS_ENABLE_HAPTICS is defined.
 	/// </summary>
 	void InitHaptics();
 	
 	/// <summary>
-	/// Sets the controller rumble. Keep in mind this only works if TS_ENABLE_HAPTICS is defined.
+	/// Sets the controller rumble. Keep in mind this only works if ATLAS_ENABLE_HAPTICS is defined.
 	/// </summary>
 	void SetControllerRumble(int controllerIndex, int leftMotorSpeed, int rightMotorSpeed);
 	
 	/// <summary>
-	/// Starts the controller rumble. Keep in mind this only works if TS_ENABLE_HAPTICS is defined.
+	/// Starts the controller rumble. Keep in mind this only works if ATLAS_ENABLE_HAPTICS is defined.
 	/// </summary>
 	void StartRumblingController(int controllerIndex, int leftMotorSpeed, int rightMotorSpeed);
 	
@@ -590,13 +590,13 @@ namespace Atlas {
 
 	/// \brief This #ifdef is to enable/disable extensions. Currently this is not implemented, but is planned for the future.
 	/// \todo Implement extensions
-#ifdef TS_ENABLE_EXTENSIONS
+#ifdef ATLAS_ENABLE_EXTENSIONS
 
 	// Not yet implemented
-#ifdef TS_ENABLE_DISCORD_INTEGRATION
+#ifdef ATLAS_ENABLE_DISCORD_INTEGRATION
 
-#ifndef TS_SILENCE_DISCORD_INTEGRATION_WARNING
-#error "Discord integration is not yet implemented. To silence this warning, define TS_SILENCE_DISCORD_INTEGRATION_WARNING."
+#ifndef ATLAS_SILENCE_DISCORD_INTEGRATION_WARNING
+#error "Discord integration is not yet implemented. To silence this warning, define ATLAS_SILENCE_DISCORD_INTEGRATION_WARNING."
 #endif
 
 #endif

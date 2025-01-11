@@ -4,7 +4,7 @@
 * \brief Contains the Singleton class template that is used to create "static classes". If you need to create a class that has a single static instance, use this class.
 */
 #pragma once
-#define TS_SINGLETON(T) public Singleton<T>
+#define ATLAS_SINGLETON(T) public Singleton<T>
 
 namespace Atlas {
 	/// <summary>

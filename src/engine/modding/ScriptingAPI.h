@@ -17,8 +17,8 @@
 #include <string>
 #include "../dbg/Logging.h"
 
-#ifdef TS_ENABLE_MODDING
-	#ifdef TS_ENABLE_LUA
+#ifdef ATLAS_ENABLE_MODDING
+	#ifdef ATLAS_ENABLE_LUA
 		/// \brief Protects against safety issues when using lua because it makes the API more stable.
 		#define SOL_ALL_SAFETIES_ON 1
 
@@ -28,7 +28,7 @@
 		#include <sol/forward.hpp>
 	#endif
 
-	#ifdef TS_ENABLE_ANGELSCRIPT
+	#ifdef ATLAS_ENABLE_ANGELSCRIPT
 
 	#endif
 #endif
@@ -38,23 +38,23 @@
 namespace Atlas {
 	
 
-#ifdef TS_ENABLE_MODDING
+#ifdef ATLAS_ENABLE_MODDING
 	// Logic to determine what using statements to use. This is mainly to avoid code duplication.
-	#if defined(TS_ENABLE_LUA) && defined(TS_ENABLE_ANGELSCRIPT)
+	#if defined(ATLAS_ENABLE_LUA) && defined(ATLAS_ENABLE_ANGELSCRIPT)
 	
-	#elif defined(TS_ENABLE_LUA) || defined(TS_ENABLE_ANGELSCRIPT) // only one is defined since it would have triggered the previous if otherwise.
-		#ifdef TS_ENABLE_LUA
+	#elif defined(ATLAS_ENABLE_LUA) || defined(ATLAS_ENABLE_ANGELSCRIPT) // only one is defined since it would have triggered the previous if otherwise.
+		#ifdef ATLAS_ENABLE_LUA
 
-		#endif // TS_ENABLE_LUA
+		#endif // ATLAS_ENABLE_LUA
 
-		#ifdef TS_ENABLE_ANGELSCRIPT
+		#ifdef ATLAS_ENABLE_ANGELSCRIPT
 
-		#endif // TS_ENABLE_ANGELSCRIPT
-	#else // Preprocessor else of defined(TS_ENABLE_LUA) && defined(TS_ENABLE_ANGELSCRIPT)
+		#endif // ATLAS_ENABLE_ANGELSCRIPT
+	#else // Preprocessor else of defined(ATLAS_ENABLE_LUA) && defined(ATLAS_ENABLE_ANGELSCRIPT)
 
 
 
-	#endif // defined(TS_ENABLE_LUA) && defined(TS_ENABLE_ANGELSCRIPT)
+	#endif // defined(ATLAS_ENABLE_LUA) && defined(ATLAS_ENABLE_ANGELSCRIPT)
 
 
 
@@ -63,7 +63,7 @@ namespace Atlas {
 	/// </summary>
 	struct ExportedFunction {
 		const std::string cName; // What the function is called (i.e "Print")
-#ifdef TS_ENABLE_LUA
+#ifdef ATLAS_ENABLE_LUA
 		sol::function cFunction;
 #endif
 	};
@@ -93,7 +93,7 @@ namespace Atlas {
 		
 
 
-#ifdef TS_ENABLE_LUA
+#ifdef ATLAS_ENABLE_LUA
 		/// <summary>
 		/// Registers the scripting API for Lua.
 		/// </summary>
@@ -107,7 +107,7 @@ namespace Atlas {
 		sol::state_view getState() { return mLua.operator lua_State * (); }
 #endif
 
-#ifdef TS_ENABLE_ANGELSCRIPT
+#ifdef ATLAS_ENABLE_ANGELSCRIPT
 		/// <summary>
 		/// Registers the scripting API for AngelScript. This is just for organization sake and it could be merged with the lua version, but it wont be.
 		/// </summary>
@@ -119,7 +119,7 @@ namespace Atlas {
 	private:
 
 
-#ifdef TS_ENABLE_LUA
+#ifdef ATLAS_ENABLE_LUA
 		sol::state mLua;
 		ScriptingLibraryRegistry mLibraries;
 		ScriptingFunctionRegistry mFunctions;
@@ -131,7 +131,7 @@ namespace Atlas {
 #endif
 
 		/// <summary>
-		/// Exposes all functions that fall under the perview of config. As of version 0.0.3, this is only the lookup function and more will be added in the future. 
+		/// Exposes all functions that fall under the perview of config. As of version 0.0.3, this is only the configLookup function and more will be added in the future. 
 		/// </summary>
 		void registerConfigFunctions();
 

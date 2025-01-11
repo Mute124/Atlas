@@ -51,7 +51,7 @@ namespace Atlas {
 			WRITE = 1 // Read and write
 		};
 
-#ifdef TS_CUSTOM_GLOBAL_VARIABLES_ENUMS
+#ifdef ATLAS_CUSTOM_GLOBAL_VARIABLES_ENUMS
 		template<typename T, enum VT, enum VL, enum VS, enum VR>
 #else
 		template<typename T>
@@ -59,7 +59,7 @@ namespace Atlas {
 		class GlobalVariable {
 		public:
 
-#ifdef TS_CUSTOM_GLOBAL_VARIABLES_ENUMS
+#ifdef ATLAS_CUSTOM_GLOBAL_VARIABLES_ENUMS
 			VT typeEnum;
 			VL lockStateEnum;
 			VS scopeEnum;

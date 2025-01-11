@@ -2,9 +2,11 @@
 #include "project.h"
 #include "EReturnCode.h"
 #include "modding/ScriptingAPI.h"
+
 #ifdef _DEBUG
 #include <crtdbg.h>
 #endif
+
 #include <iostream>
 #include <unordered_map>
 #include <thread>
@@ -24,6 +26,7 @@
 
 #include <utils/MiscUtils.h>
 #include <dbg/Logging.h>
+
 namespace Atlas::Application {
 	
 /*	class GameThread : public Singleton<GameThread> {

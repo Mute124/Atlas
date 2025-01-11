@@ -17,7 +17,7 @@ namespace Atlas {
 	/// </summary>
 	class Renderer {
 	public:
-#ifndef TS_CUSTOM_RENDERER_CONSTRUCTOR
+#ifndef ATLAS_CUSTOM_RENDERER_CONSTRUCTOR
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Renderer"/> class.
 		/// </summary>
@@ -88,8 +88,7 @@ namespace Atlas {
 		Color mBackgroundColor = BLACK;
 		Color mFBOTint = WHITE;
 		
-		
-#ifdef TS_RENDERER_2D
+#ifdef ATLAS_RENDERER_2D
 		/// <summary>
 		/// Renders the 2d scene.
 		/// </summary>

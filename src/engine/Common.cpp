@@ -1,6 +1,6 @@
 #include "Common.h"
 #include <iostream>
-#ifdef TS_ENABLE_HAPTICS
+#ifdef ATLAS_ENABLE_HAPTICS
 #ifdef WIN32
 
 #include <windows.h>
@@ -18,7 +18,7 @@ void Atlas::SetGlobalValue(const std::string& name, std::any& value)
     Globals::Instance().set(name, value);
 }
 
-#ifdef TS_ENABLE_HAPTICS
+#ifdef ATLAS_ENABLE_HAPTICS
 
 
 

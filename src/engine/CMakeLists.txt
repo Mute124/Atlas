@@ -1,7 +1,5 @@
-﻿
-
-# The sources are seperated into different variables for organization reasons
-set(TS_ENGINE_CORE_SOURCES
+﻿# The sources are seperated into different variables for organization reasons
+set(ATLAS_ENGINE_CORE_SOURCES
     "Common.h" 
     "Common.cpp"
     "engine.h" 
@@ -12,7 +10,7 @@ set(TS_ENGINE_CORE_SOURCES
     "Project.cpp" 
 )
 
-set(TS_ENGINE_RENDERER_SOURCES
+set(ATLAS_ENGINE_RENDERER_SOURCES
     "renderer/Window.h" 
     "renderer/Window.cpp" 
 
@@ -49,11 +47,20 @@ set(TS_ENGINE_RENDERER_SOURCES
 
     "renderer/GameUI.h"
     "renderer/GameUI.cpp"
-
-
 )
 
-set(TS_UTIL_SOURCES
+set(ATLAS_STATE_SOURCES
+    "states/IState.h"
+    "states/IState.cpp"
+
+	"states/State.h"
+	"states/State.cpp"
+
+    "states/IStateMachine.h"
+	"states/IStateMachine.cpp"
+)
+
+set(ATLAS_UTIL_SOURCES
     "Utils/Singleton.h" 
     "utils/DoublyLinkedList.h" 
     "utils/Gate.h" 
@@ -61,27 +68,39 @@ set(TS_UTIL_SOURCES
     "utils/MiscUtils.h"
 )
 
-set(TS_MATH_SOURCES
+set(ATLAS_MATH_SOURCES
     "math/Vector.h" 
     "math/Vector.cpp" 
 )
 
-set(TS_INPUT_SOURCES
+set(ATLAS_INPUT_SOURCES
     "input/Input.h" 
     "input/Input.cpp"
 )
 
-set(TS_CONFIG_SOURCES
+set(ATLAS_CONFIG_SOURCES
     "conf/Config.h"
     "conf/Config.cpp"
+
+    "conf/JSONFile.h"
+    "conf/JSONFile.cpp"
 )
 
-set(TS_FILESYSTEM_SOURCES
+set(ATLAS_FILESYSTEM_SOURCES
     "fs/FileSystem.h"
     "fs/FileSystem.cpp"
+
+    "fs/RegisteredFile.h"
+	"fs/RegisteredFile.cpp"
+
+    "fs/FileMeta.h"
+	"fs/FileMeta.cpp"
+
+    "fs/FileSystemRegistry.h"
+	"fs/FileSystemRegistry.cpp"
 )
 
-set(TS_PHYSICS_SOURCES
+set(ATLAS_PHYSICS_SOURCES
     "physics/Physics.h" 
     "physics/Physics.cpp"
     "physics/Listeners.h"
@@ -90,7 +109,7 @@ set(TS_PHYSICS_SOURCES
     "physics/Layers.cpp"
 )
 
-set(TS_MODDING_SOURCES
+set(ATLAS_MODDING_SOURCES
     "modding/ScriptingAPI.h"
     "modding/ScriptingAPI.cpp"
     "modding/ModManager.h"
@@ -99,7 +118,7 @@ set(TS_MODDING_SOURCES
     "modding/Mod.cpp"    
 )
 
-set(TS_DEBUGGING_SOURCES 
+set(ATLAS_DEBUGGING_SOURCES 
     "EReturnCode.h"
 
     "dbg/Logging.h" 
@@ -119,28 +138,29 @@ set(TS_DEBUGGING_SOURCES
 	"dbg/Console.cpp"
 )
 
-set(TS_WORLD_SOURCES
+set(ATLAS_WORLD_SOURCES
     "world/world.h" 
     "world/tools/Terrain.h" 
 )
 
-set(ENGINE_SOURCES 
+set(ATLAS_ENGINE_SOURCES 
 	# Engine Core
-    ${TS_ENGINE_CORE_SOURCES}
-    ${TS_ENGINE_RENDERER_SOURCES}
-    ${TS_UTIL_SOURCES}
-	${TS_MATH_SOURCES}
-    ${TS_INPUT_SOURCES}
-    ${TS_CONFIG_SOURCES}
-    ${TS_FILESYSTEM_SOURCES}
-	${TS_PHYSICS_SOURCES}
-	${TS_MODDING_SOURCES}
-	${TS_DEBUGGING_SOURCES}
-    ${TS_WORLD_SOURCES}
+    ${ATLAS_ENGINE_CORE_SOURCES}
+    ${ATLAS_ENGINE_RENDERER_SOURCES}
+    ${ATLAS_STATE_SOURCES}
+    ${ATLAS_UTIL_SOURCES}
+	${ATLAS_MATH_SOURCES}
+    ${ATLAS_INPUT_SOURCES}
+    ${ATLAS_CONFIG_SOURCES}
+    ${ATLAS_FILESYSTEM_SOURCES}
+	${ATLAS_PHYSICS_SOURCES}
+	${ATLAS_MODDING_SOURCES}
+	${ATLAS_DEBUGGING_SOURCES}
+    ${ATLAS_WORLD_SOURCES}
 )
 
 # Please note that this is NOT the final list of dependencies, some are toggled based on options
-set(TS_ENGINE_DEPENDENCIES
+set(ATLAS_ENGINE_DEPENDENCIES
     raylib 
 
     joltphysics::joltphysics 
@@ -156,38 +176,39 @@ set(TS_ENGINE_DEPENDENCIES
 
     spdlog::spdlog
     
+    rapidxml::rapidxml
 
-    # fmt::fmt
+    simdjson::simdjson
     
 )
 
 include("${CMAKE_SOURCE_DIR}/CMakeOptions.txt")
 
 # Set modding related targets based on options
-if(${TS_ENABLE_MODDING})
-    if(${TS_ENABLE_ANGELSCRIPT})
-        set(TS_ENGINE_DEPENDENCIES
-            ${TS_ENGINE_DEPENDENCIES}
+if(${ATLAS_ENABLE_MODDING})
+    if(${ATLAS_ENABLE_ANGELSCRIPT})
+        set(ATLAS_ENGINE_DEPENDENCIES
+            ${ATLAS_ENGINE_DEPENDENCIES}
 		    Angelscript::angelscript
         )
         
     endif()
 
-    if(${TS_ENABLE_LUA})
-        set(TS_ENGINE_DEPENDENCIES
-            ${TS_ENGINE_DEPENDENCIES}
+    if(${ATLAS_ENABLE_LUA})
+        set(ATLAS_ENGINE_DEPENDENCIES
+            ${ATLAS_ENGINE_DEPENDENCIES}
 			sol2::sol2
         )
     endif()
 endif()
 
-
 add_library(Atlas SHARED 
-    ${ENGINE_SOURCES}
+    ${ATLAS_ENGINE_SOURCES}
+    
 )
 
 # Organize files in Visual Studio
-foreach(source IN LISTS ENGINE_SOURCES)
+foreach(source IN LISTS ATLAS_ENGINE_SOURCES)
     get_filename_component(source_path "${source}" PATH)
     string(REPLACE "/" "\\" source_path_msvc "${source_path}")
     source_group("${source_path_msvc}" FILES "${source}")
@@ -196,7 +217,7 @@ endforeach()
 target_include_directories(Atlas PRIVATE ${PROJECT_SOURCE_DIR}/include )
 
 target_link_libraries(Atlas PUBLIC
-    ${TS_ENGINE_DEPENDENCIES}
+    ${ATLAS_ENGINE_DEPENDENCIES}
 )
 
 # Set output name for Windows/Linux

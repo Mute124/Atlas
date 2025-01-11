@@ -2,7 +2,7 @@
 #include <iostream>
 #include <functional>
 
-#define TS_DBL_LNK_LST_FUNC_OVERRIDE_DECL(T) \
+#define ATLAS_DBL_LNK_LST_FUNC_OVERRIDE_DECL(T) \
 	void forwardTraverseFunction(Node<T>* current) override; \
     void backwardTraverseFunction(Node<T>* current) override;
 

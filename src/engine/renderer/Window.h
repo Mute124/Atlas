@@ -1,6 +1,6 @@
 #pragma once
-#define TS_RENDERER_RAYLIB
-#ifdef TS_RENDERER_RAYLIB
+#define ATLAS_RENDERER_RAYLIB
+#ifdef ATLAS_RENDERER_RAYLIB
 
 #endif
 

@@ -1,4 +1,6 @@
 #include "Project.h"
+#include "physics/Physics.h"
+
 using namespace Atlas;
 
 WindowDecorations& Atlas::IProject::getWindowDecorations() { return mWindowDecorations; }

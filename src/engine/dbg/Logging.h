@@ -19,7 +19,7 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 
-#define TS_DEFAULT_LOG_LEVEL Atlas::ELogLevel::TRACE
+#define ATLAS_DEFAULT_LOG_LEVEL Atlas::ELogLevel::TRACE
 
 
 namespace Atlas {	

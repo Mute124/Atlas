@@ -3,7 +3,14 @@
 #include <unordered_set>
 #include <string>
 #include <libconfig.h++>
+#include <simdjson.h>
+
 #include "../utils/Singleton.h"
+#include "../dbg/ELogLevel.h"
+#include "../dbg/Logging.h"
+#include "../fs/FileSystem.h"
+#include <any>
+#include <memory>
 
 namespace Atlas {
 	class ConfigFileRegistry : public Singleton<ConfigFileRegistry> {
@@ -22,11 +29,13 @@ namespace Atlas {
 		void unregisterConfigFiles();
 		void unregisterConfigFile(const std::string& name);
 
-		libconfig::Setting& lookup(const std::string& fileName, const std::string& lookupTarget);
+		libconfig::Setting& configLookup(const std::string& fileName, const std::string& lookupTarget);
 
 
 	private:
-		
+		static inline std::any LoadConfigFile(std::shared_ptr<Atlas::FileMeta> fileMeta);
+
+		static inline std::any LoadJSONFile(std::shared_ptr<Atlas::FileMeta> fileMeta);
 	};
 
 	ConfigFileRegistry& GetConfigFileRegistry();

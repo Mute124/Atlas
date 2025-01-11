@@ -22,7 +22,7 @@ std::string Atlas::CreateLogFileName() {
     char buf[80];
     strftime(buf, sizeof(buf), "%Y-%m-%d_%H-%M-%S", &tstruct);
 
-    std::string name = std::string(TS_TEMP_DIR);
+    std::string name = std::string(ATLAS_TEMP_DIR);
 	name += "logs/";
 	name += std::string(buf);
 	name += ".log";

@@ -88,11 +88,6 @@ namespace Atlas {
 		template<typename T>
 		void setProject(T* project);
 
-		// This should contain what files need to be loaded when registered and the functions to load certain extensions.
-		virtual void setupFileRegistryTargets() {
-			
-		}
-
 		/// <summary>
 		/// This is the first function that will be called on startup. 
 		/// </summary>
@@ -113,7 +108,7 @@ namespace Atlas {
 				return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
 			});
 
-			std::string gameDir = TS_GAME_DIR;
+			std::string gameDir = ATLAS_GAME_DIR;
 			InitializeFileRegistry(gameDir.c_str());
 
 			this->mLuaLibraries.push_back(sol::lib::base);

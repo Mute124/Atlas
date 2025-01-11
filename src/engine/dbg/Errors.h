@@ -7,14 +7,14 @@
 #include <source_location>
 #include "Logging.h"
 
-#define TS_DEFAULT_EXCEPTION_CONSTRUCTOR(exceptionType) \
+#define ATLAS_DEFAULT_EXCEPTION_CONSTRUCTOR(exceptionType) \
 	exceptionType(std::string const& message, std::source_location location = std::source_location::current()) : IException(message, location) {}
 
-#define TS_CHILD_EXCEPTION_CONSTRUCTOR(exceptionType, baseType) \
+#define ATLAS_CHILD_EXCEPTION_CONSTRUCTOR(exceptionType, baseType) \
 	exceptionType(std::string const& message, std::source_location location = std::source_location::current()) : baseType(message, location) {}
 
-#define TS_DEFAULT_EXCEPTION_BODY(exceptionType) \
-	TS_DEFAULT_EXCEPTION_CONSTRUCTOR(exceptionType) \
+#define ATLAS_DEFAULT_EXCEPTION_BODY(exceptionType) \
+	ATLAS_DEFAULT_EXCEPTION_CONSTRUCTOR(exceptionType) \
 	const char* what() const noexcept override { return this->mMessage.c_str(); }
 
 namespace Atlas {
@@ -35,12 +35,12 @@ namespace Atlas {
 
 	class InvalidValue : public IException {
 	public:
-		TS_DEFAULT_EXCEPTION_BODY(InvalidValue);
+		ATLAS_DEFAULT_EXCEPTION_BODY(InvalidValue);
 	};
 
 	class InvalidArgument : public InvalidValue {
 	public:
-		TS_CHILD_EXCEPTION_CONSTRUCTOR(InvalidArgument, InvalidValue);
+		ATLAS_CHILD_EXCEPTION_CONSTRUCTOR(InvalidArgument, InvalidValue);
 	};
 	
 	/// <summary>

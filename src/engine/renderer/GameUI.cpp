@@ -3,7 +3,7 @@
 #include <rlgl.h>
 #include <string>
 
-#ifdef TS_ENABLE_HTML_UI
+#ifdef ATLAS_ENABLE_HTML_UI
 
 #include <RmlUi/Config/Config.h>
 #include <RmlUi/Core/Core.h>
@@ -88,4 +88,4 @@ size_t Atlas::GameUIFileInterface::Tell(Rml::FileHandle file)
 
 #pragma endregion 
 
-#endif // TS_ENABLE_HTML_UI
+#endif // ATLAS_ENABLE_HTML_UI

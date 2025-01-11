@@ -30,7 +30,7 @@ void Atlas::InputRegistry::checkAll() {
 	
 	}
 }
-#ifdef TS_ENABLE_CONTROLLER_SUPPORT
+#ifdef ATLAS_ENABLE_CONTROLLER_SUPPORT
 
 
 

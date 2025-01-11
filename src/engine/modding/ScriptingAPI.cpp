@@ -1,9 +1,7 @@
 #include "ScriptingAPI.h"
 #include "../conf/Config.h"
 
-#ifdef TS_ENABLE_MODDING
-
-
+#ifdef ATLAS_ENABLE_MODDING
 
 /// <summary>
 /// Initializes the scripting API.
@@ -11,7 +9,7 @@
 /// <returns>an integer value that represents the result of the operation.</returns>
 int Atlas::ScriptingAPI::initializeScripting(ScriptingLibraryRegistry const& libraries, ScriptingFunctionRegistry const& functions)
 {
-	Log("Opening scripting API libraries...");
+	//Log("Opening scripting API libraries...");
 	this->mLibraries = libraries;
 	return 0;
 }
@@ -24,7 +22,7 @@ void Atlas::ScriptingAPI::registerFileSystemFunctions()
 {
 }
 
-#ifdef TS_ENABLE_LUA
+#ifdef ATLAS_ENABLE_LUA
 
 void Atlas::ScriptingAPI::openLuaLibraries()
 {
@@ -50,7 +48,7 @@ int Atlas::ScriptingAPI::registerLua()
 
 #endif
 
-#ifdef TS_ENABLE_ANGELSCRIPT
+#ifdef ATLAS_ENABLE_ANGELSCRIPT
 /// <summary>
 /// Registers the scripting API for AngelScript. This is just for organization sake and it could be merged with the lua version, but it wont be.
 /// </summary>

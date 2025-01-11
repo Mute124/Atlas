@@ -12,7 +12,7 @@
 #include "../utils/Singleton.h"
 
 
-#define TS_ENABLE_CONTROLLER_SUPPORT
+#define ATLAS_ENABLE_CONTROLLER_SUPPORT
 namespace Atlas {
 	
 	/// <summary>
@@ -93,12 +93,12 @@ namespace Atlas {
 		void checkAll();
 
 	private:
-#ifdef TS_ENABLE_CONTROLLER_SUPPORT
+#ifdef ATLAS_ENABLE_CONTROLLER_SUPPORT
 
 #endif
 		
 	private:
-#ifdef TS_ENABLE_CONTROLLER_SUPPORT
+#ifdef ATLAS_ENABLE_CONTROLLER_SUPPORT
 		const float cLeftStickDeadzoneX = 0.1f;
 		const float cLeftStickDeadzoneY = 0.1f;
 		const float cRightStickDeadzoneX = 0.1f;

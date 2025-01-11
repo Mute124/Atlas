@@ -40,7 +40,7 @@ void Atlas::Application::GameMainThread::run(std::shared_ptr<Project> userProjec
 	SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_INTERLACED_HINT);
 	InitWindow(decorations.width, decorations.height, decorations.title);
 
-	const char* iconPath = TextFormat("%s%s", TS_ASSET_DIR.c_str(), decorations.icon);
+	const char* iconPath = TextFormat("%s%s", ATLAS_ASSET_DIR.c_str(), decorations.icon);
 
 	Image icon = LoadImage(iconPath);
 	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);

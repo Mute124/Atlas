@@ -26,8 +26,7 @@ Camera ConvertCamera(Atlas::CameraData* data) {
 /// <summary>
 /// Initializes a new instance of the <see cref="Renderer"/> class.
 /// </summary>
-
-inline Atlas::Renderer::Renderer() {
+Atlas::Renderer::Renderer() {
 	//initialize();
 	mCamera = GameCamera();
 	mCamera.setPosition(Vector3{0.0f, 10.0f, 4.0f});
@@ -47,7 +46,7 @@ void Atlas::Renderer::initialize()
 
 void Atlas::Renderer::render(GameCamera& cam)
 {
-#ifdef TS_RENDERER_2D
+#ifdef ATLAS_RENDERER_2D
 	render2D(cam);
 #else
 	render3D(cam);
@@ -58,14 +57,14 @@ void Atlas::Renderer::texture(GameCamera& cam)
 {
 	BeginTextureMode(this->mScreenBuffer);
 	ClearBackground(this->mBackgroundColor);
-#ifdef TS_RENDERER_2D
+#ifdef ATLAS_RENDERER_2D
 #else
 	BeginMode3D(cam.getCameraData());
 #endif
 
 	mGameObjects.texture();
 	DrawCube(Vector3{ 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f, 1.0f, RED);
-#ifdef TS_RENDERER_2D
+#ifdef ATLAS_RENDERER_2D
 #else
 	EndMode3D();
 #endif
@@ -106,7 +105,7 @@ void Atlas::Renderer::cleanup()
 {
 }
 
-#ifdef TS_RENDERER_2D
+#ifdef ATLAS_RENDERER_2D
 void Atlas::Renderer::render2D(GameCamera& cam)
 {
 }
