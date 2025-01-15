@@ -9,27 +9,12 @@ namespace Atlas {
 	/// </summary>
 	class GameCamera {
 	public:
-		GameCamera() {
-			init();
-
-
-		}
+		GameCamera();
 		
 		/// <summary>
 		/// Finalizes an instance of the <see cref="GameCamera"/> class. Please note that if this is the main camera, it will make the camera with ID 0 the main camera.
 		/// </summary>
-		virtual ~GameCamera() {
-			if (isMainCamera()) {
-				sMainCamera = nullptr;
-
-				if (sCameraCount > 0) {
-					sCameras[0]->setAsMainCamera();
-				}
-			}
-
-			sCameras.erase(mCameraID);
-			sCameraCount--;
-		}
+		virtual ~GameCamera();
 
 		/// <summary>
 		/// Initializes this instance.
@@ -141,11 +126,9 @@ namespace Atlas {
 		static inline uint16_t sCameraCount = 0;
 		static inline std::unordered_map<uint16_t, GameCamera*> sCameras;
 		static inline GameCamera* sMainCamera = nullptr;
+
 		uint16_t mCameraID = 0;
-
-
 		bool mIsMainCamera = false;
-
 
 		static inline void SimpleCameraUpdate(GameCamera const& cam) {}
 		static inline void ComplexCameraUpdate(GameCamera const& cam) {}

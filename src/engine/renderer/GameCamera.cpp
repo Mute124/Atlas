@@ -1,6 +1,26 @@
 #include "GameCamera.h"
 #include <raylib.h>
 
+Atlas::GameCamera::GameCamera() {
+	init();
+}
+
+/// <summary>
+/// Finalizes an instance of the <see cref="GameCamera"/> class. Please note that if this is the main camera, it will make the camera with ID 0 the main camera.
+/// </summary>
+Atlas::GameCamera::~GameCamera() {
+	if(isMainCamera()) {
+		sMainCamera = nullptr;
+
+		if(sCameraCount > 0) {
+			sCameras[0]->setAsMainCamera();
+		}
+	}
+
+	sCameras.erase(mCameraID);
+	sCameraCount--;
+}
+
 void Atlas::GameCamera::init()
 {
 	if(sCameraCount == 0) {
