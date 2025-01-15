@@ -64,6 +64,23 @@ std::shared_ptr<Atlas::FileMeta> Atlas::FileSystemRegistry::GetFileMeta(std::str
 }
 
 /// <summary>
+/// Loads the file.
+/// </summary>
+/// <param name="file">The file.</param>
+
+void Atlas::FileSystemRegistry::loadFile(std::shared_ptr<RegisteredFile> file) {
+	std::scoped_lock lock(file->getLoadMutex());
+	std::shared_ptr<FileMeta> fileMeta = file->getFileMeta();
+
+	Log("Loading file: " + fileMeta->filename + " (" + fileMeta->extension + ")", ELogLevel::TRACE);
+	std::function<std::any(std::shared_ptr<FileMeta>)> loadFunc = mLoadingFunctions.at(fileMeta->extension);
+
+	file->mFileData = loadFunc(fileMeta);
+
+	file->mIsLoaded = true;
+}
+
+/// <summary>
 /// Gets the file.
 /// </summary>
 /// <param name="key">The key.</param>
@@ -73,7 +90,7 @@ std::shared_ptr<Atlas::RegisteredFile> Atlas::FileSystemRegistry::getFile(std::s
 	uint16_t index = this->mLookupTable[key];
 	std::shared_ptr<RegisteredFile> file = this->mRegisteredFiles[index];
 
-	if (loadIfNotLoaded && !file->isLoaded) this->loadFile(file);
+	if (loadIfNotLoaded && !file->mIsLoaded) this->loadFile(file);
 
 	return file;
 }

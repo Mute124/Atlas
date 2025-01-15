@@ -5,7 +5,6 @@
 #include <libconfig.h++>
 #include <simdjson.h>
 
-
 #include "../utils/Singleton.h"
 #include "../dbg/ELogLevel.h"
 #include "../dbg/Logging.h"
@@ -84,6 +83,12 @@ namespace Atlas {
 		/// <returns></returns>
 		libconfig::Setting& configLookup(const std::string& fileName, const std::string& lookupTarget);
 
+
+		JSONFile* getJsonFile(std::string const& fileName)
+		{
+			return GetFile(fileName).get()->get<JSONFile*>();
+		}
+
 	private:		
 		/// <summary>
 		/// Loads the configuration file.
@@ -93,7 +98,7 @@ namespace Atlas {
 		static inline std::any LoadConfigFile(std::shared_ptr<Atlas::FileMeta> fileMeta);
 				
 		/// <summary>
-		/// Loads the json file.
+		/// Loads a json file.
 		/// </summary>
 		/// <param name="fileMeta">The file meta.</param>
 		/// <returns></returns>

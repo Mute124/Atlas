@@ -63,12 +63,18 @@ set(ATLAS_STATE_SOURCES
 	"states/IStateMachine.cpp"
 )
 
+set(ATLAS_SYSTEM_SOURCES
+    "system/OS.h"
+    "system/Memory.h"
+)
+
 set(ATLAS_UTIL_SOURCES
     "Utils/Singleton.h" 
     "utils/DoublyLinkedList.h" 
     "utils/Gate.h" 
     "utils/Globals.h"
     "utils/MiscUtils.h"
+
 )
 
 set(ATLAS_MATH_SOURCES
@@ -160,6 +166,7 @@ set(ATLAS_ENGINE_SOURCES
     ${ATLAS_ENGINE_CORE_SOURCES}
     ${ATLAS_RENDERER_SOURCES}
     ${ATLAS_STATE_SOURCES}
+    ${ATLAS_SYSTEM_SOURCES}
     ${ATLAS_UTIL_SOURCES}
 	${ATLAS_MATH_SOURCES}
     ${ATLAS_INPUT_SOURCES}

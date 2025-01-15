@@ -1,4 +1,12 @@
 #include "ApplicationUtils.h"
+#include <raylib.h>
+#include <Common.h>
+#include <conf/Config.h>
+#include <dbg/Logging.h>
+#include <modding/ScriptingAPI.h>
+#include <renderer/Renderer.h>
+#include <renderer/WindowDecorations.h>
+#include <project.h>
 
 using namespace Atlas;
 
@@ -32,8 +40,9 @@ void HandleFrame(PROJECT_TYPENAME& project) {
 	project.render();
 
 	// This is here because it reduces CPU consumption
-	std::this_thread::yield();
+	ATLAS_THREAD_YIELD;
 }
+
 /*
 class UI : public GameObject {
 public:
@@ -72,7 +81,7 @@ int main(int argc, char* argv[]) {
 
 	Log("Initializing window...");
 	InitWindow(decorations);
-
+	
 	Log("Done initializing window.");
 
 	Log("Finishing project's initialization...");

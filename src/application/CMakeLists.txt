@@ -10,7 +10,7 @@ add_executable(main_app
 	"main.cpp"
 	"ApplicationUtils.h"
 	"ApplicationUtils.cpp"
-
+	"AtlasApp.h"
 	${ATLAS_MAIN_APPLICATION_RC}
 	
     #"Shell.h"

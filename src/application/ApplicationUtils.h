@@ -27,6 +27,8 @@
 #include <utils/MiscUtils.h>
 #include <dbg/Logging.h>
 
+#define ATLAS_THREAD_YIELD std::this_thread::yield()
+
 namespace Atlas::Application {
 	
 /*	class GameThread : public Singleton<GameThread> {
@@ -147,9 +149,6 @@ namespace Atlas::Application {
 		void run(std::shared_ptr<Project> userProject) override;
 	};*/
 
-
-
-
 	class FrameManager : public Singleton<FrameManager> {
 	public:
 
@@ -188,7 +187,7 @@ namespace Atlas::Application {
 				userProject->postPhysicsUpdate();
 
 				// This is here because it reduces CPU consumption
-				std::this_thread::yield();
+				ATLAS_THREAD_YIELD;
 				
 				// make it so this runs at 60 FPS
 				std::this_thread::sleep_for(std::chrono::milliseconds(16));
@@ -206,7 +205,7 @@ namespace Atlas::Application {
 
 			while (!sExit) {
 				// This is here because it reduces CPU consumption
-				std::this_thread::yield();
+				ATLAS_THREAD_YIELD;
 				std::this_thread::sleep_for(std::chrono::milliseconds(16));
 			}
 

@@ -87,6 +87,7 @@ std::any Atlas::ConfigFileRegistry::LoadJSONFile(std::shared_ptr<Atlas::FileMeta
 	Log("Loading config file: " + fileMeta->path, ELogLevel::TRACE);
 
 	JSONFile* conf = new JSONFile(fileMeta->path);
+
 	return std::make_any<JSONFile*>(conf);
 }
 
