@@ -1,0 +1,58 @@
+\doxysection{imgui\+\_\+impl\+\_\+dx12.\+h}
+\hypertarget{imgui__impl__dx12_8h_source}{}\label{imgui__impl__dx12_8h_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_dx12.h@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_dx12.h}}
+\mbox{\hyperlink{imgui__impl__dx12_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Renderer\ Backend\ for\ DirectX12}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00002}00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Platform\ Backend\ (e.g.\ Win32)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00004}00004\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00005}00005\ \textcolor{comment}{//\ \ [X]\ Renderer:\ User\ texture\ binding.\ Use\ 'D3D12\_GPU\_DESCRIPTOR\_HANDLE'\ as\ ImTextureID.\ Read\ the\ FAQ\ about\ ImTextureID!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00006}00006\ \textcolor{comment}{//\ \ [X]\ Renderer:\ Large\ meshes\ support\ (64k+\ vertices)\ with\ 16-\/bit\ indices.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00007}00007\ \textcolor{comment}{//\ \ [X]\ Renderer:\ Expose\ selected\ render\ state\ for\ draw\ callbacks\ to\ use.\ Access\ in\ '(ImGui\_ImplXXXX\_RenderState*)GetPlatformIO().Renderer\_RenderState'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00009}00009\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00010}00010\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00011}00011\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00012}00012\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00013}00013\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00014}00014\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00015}00015\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00017}00017\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}\ \ \ \ \ \ \textcolor{comment}{//\ IMGUI\_IMPL\_API}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00019}00019\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <dxgiformat.h>}\ \textcolor{comment}{//\ DXGI\_FORMAT}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00022}00022\ \textcolor{keyword}{struct\ }ID3D12Device;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00023}00023\ \textcolor{keyword}{struct\ }ID3D12DescriptorHeap;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00024}00024\ \textcolor{keyword}{struct\ }ID3D12GraphicsCommandList;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00025}00025\ \textcolor{keyword}{struct\ }D3D12\_CPU\_DESCRIPTOR\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00026}00026\ \textcolor{keyword}{struct\ }D3D12\_GPU\_DESCRIPTOR\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00028}00028\ \textcolor{comment}{//\ Follow\ "{}Getting\ Started"{}\ link\ and\ check\ examples/\ folder\ to\ learn\ about\ using\ backends!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00030}00030\ \textcolor{comment}{//\ Before\ calling\ the\ render\ function,\ caller\ must\ prepare\ the\ command\ list\ by\ resetting\ it\ and\ setting\ the\ appropriate}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00031}00031\ \textcolor{comment}{//\ render\ target\ and\ descriptor\ heap\ that\ contains\ font\_srv\_cpu\_desc\_handle/font\_srv\_gpu\_desc\_handle.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00032}00032\ \textcolor{comment}{//\ font\_srv\_cpu\_desc\_handle\ and\ font\_srv\_gpu\_desc\_handle\ are\ handles\ to\ a\ single\ SRV\ descriptor\ to\ use\ for\ the\ internal\ font\ texture.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00033}00033\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8h_a831f70faa815ecf20d19ef3ea0d31c9d}{ImGui\_ImplDX12\_Init}}(ID3D12Device*\ device,\ \textcolor{keywordtype}{int}\ num\_frames\_in\_flight,\ DXGI\_FORMAT\ rtv\_format,\ ID3D12DescriptorHeap*\ cbv\_srv\_heap,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ D3D12\_CPU\_DESCRIPTOR\_HANDLE\ font\_srv\_cpu\_desc\_handle,\ D3D12\_GPU\_DESCRIPTOR\_HANDLE\ font\_srv\_gpu\_desc\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00035}00035\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8h_a7aae7738912dbd5dea744193f8d27abc}{ImGui\_ImplDX12\_Shutdown}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00036}00036\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8h_a2a963ef6f8dfd23858e34f034416c618}{ImGui\_ImplDX12\_NewFrame}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00037}00037\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8h_a7e6a26cdbaaeeca9df86e8373c4a8547}{ImGui\_ImplDX12\_RenderDrawData}}(ImDrawData*\ draw\_data,\ ID3D12GraphicsCommandList*\ graphics\_command\_list);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00039}00039\ \textcolor{comment}{//\ Use\ if\ you\ want\ to\ reset\ your\ rendering\ device\ without\ losing\ Dear\ ImGui\ state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00040}00040\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8h_a70a3e717bf7a3903b1f231dfc2516f89}{ImGui\_ImplDX12\_CreateDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00041}00041\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8h_a02f397b136e8350977a2192c8ddbd9bd}{ImGui\_ImplDX12\_InvalidateDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00043}00043\ \textcolor{comment}{//\ [BETA]\ Selected\ render\ state\ data\ shared\ with\ callbacks.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00044}00044\ \textcolor{comment}{//\ This\ is\ temporarily\ stored\ in\ GetPlatformIO().Renderer\_RenderState\ during\ the\ ImGui\_ImplDX12\_RenderDrawData()\ call.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00045}00045\ \textcolor{comment}{//\ (Please\ open\ an\ issue\ if\ you\ feel\ you\ need\ access\ to\ more\ data)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00046}\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_state}{00046}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_state}{ImGui\_ImplDX12\_RenderState}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00047}00047\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00048}\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_state_ad27390092da6a903c2cfee9608610f98}{00048}}\ \ \ \ \ ID3D12Device*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_state_ad27390092da6a903c2cfee9608610f98}{Device}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00049}\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_state_a014293355a89a8b544565164d4bf27ad}{00049}}\ \ \ \ \ ID3D12GraphicsCommandList*\ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_state_a014293355a89a8b544565164d4bf27ad}{CommandList}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00050}00050\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8h_source_l00052}00052\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

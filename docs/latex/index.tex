@@ -1,123 +1,207 @@
-\chapter{Vulkan Memory Allocator}
-\hypertarget{index}{}\label{index}\index{Vulkan Memory Allocator@{Vulkan Memory Allocator}}
-{\bfseries{Version 3.\+0.\+1 (2022-\/05-\/26)}}
+\chapter{What is Techstorm}
+\hypertarget{index}{}\label{index}\index{What is Techstorm@{What is Techstorm}}
+\label{index_what-is-techstorm}%
+\Hypertarget{index_what-is-techstorm}%
+ \DoxyHorRuler{0}
 
-Copyright (c) 2017-\/2022 Advanced Micro Devices, Inc. All rights reserved. ~\newline
-License\+: MIT
 
-{\bfseries{API documentation divided into groups\+:}} \href{modules.html}{\texttt{ Modules}}\hypertarget{index_main_table_of_contents}{}\doxysection{\texorpdfstring{Table of contents}{Table of contents}}\label{index_main_table_of_contents}
+\doxylink{namespace_techstorm}{Techstorm} is the response to the lack of a free game engine that is built for large open worlds. While Unity or Unreal can make open world games, there are alot of hoops that must be jumped through first, which is why there is a need for it. \doxylink{namespace_techstorm}{Techstorm} aims to be flexible and moldable to suit needs without having to make major changes. It also aims to be easy to work with and a limited number of complex components.
+
+If you are looking for a hello world application, please see hello-\/world-\/example\hypertarget{index_architecture}{}\doxysection{\texorpdfstring{Architecture}{Architecture}}\label{index_architecture}
+\DoxyHorRuler{0}
+\hypertarget{index_building}{}\doxysubsection{\texorpdfstring{Building}{Building}}\label{index_building}
+\DoxyHorRuler{0}
+\hypertarget{index_automatic-building}{}\doxysubsubsection{\texorpdfstring{Automatic Building}{Automatic Building}}\label{index_automatic-building}
+The building process of \doxylink{namespace_techstorm}{Techstorm} is simple because of a provided Python script. To run said script, go to the directory where you cloned the repository in a command line application. Once there, simply run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$\ python3\ Build.py}
+
+\end{DoxyCode}
+ This is all you will need to do because it will do the following\+:
+\begin{DoxyItemize}
+\item Install \& setup Conan if not already done
+\item Install \& build packages
+\begin{DoxyItemize}
+\item For both Debug and Release
+\end{DoxyItemize}
+\item Configure, build, and generate the CMake project
+\item Open VS2022 solution
+\end{DoxyItemize}
+
+Keep in mind this {\bfseries{will}} take a while for the first time, so go drink water (We know that you have not done this yet today), go for a quick walk, or go to the bathroom. Once this is done, that is it! Pretty easy, right?\hypertarget{index_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Manual Building}{Manual Building}}\label{index_autotoc_md4}
+\DoxyHorRuler{0}
+
+
+\begin{quote}
+The following instructions are {\bfseries{NOT YET COMPLETE}}. For now, please see \doxysectlink{index_automatic-building}{Automatic Building}{3} \end{quote}
+In the event that you would like to build directly, start at what ever point you would like.\hypertarget{index_installing-and-setting-up-conan}{}\doxyparagraph{\texorpdfstring{Installing And Setting Up Conan}{Installing And Setting Up Conan}}\label{index_installing-and-setting-up-conan}
+\DoxyHorRuler{0}
+
+
+The following instructions are based on Conan 2.\+9\textquotesingle{}s documentation. If you would like to use their documentation to install Conan, please see \href{https://docs.conan.io/2/tutorial/consuming_packages/build_simple_cmake_project.html}{\texttt{ their installation tutorial}}. With that said, first make sure that you have python by using\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$\ python3\ -\/-\/version}
+
+\end{DoxyCode}
+
+
+If you got an error, congrats! You do not have python. If it worked and you have a version greater than or equal to 3.\+6, please run\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$\ pip\ install\ conan}
+
+\end{DoxyCode}
+
+
+\begin{quote}
+According to their documentation, ensure your {\bfseries{pip version}} matches your {\bfseries{python version}}. \end{quote}
+\hypertarget{index_flow-architecture}{}\doxysubsection{\texorpdfstring{Flow}{Flow}}\label{index_flow-architecture}
+Due to the inherent nature of \doxylink{namespace_techstorm}{Techstorm}, the architecture can be complex. In terms of building, there are a few things that are required to understand how \doxylink{namespace_techstorm}{Techstorm} works. There are 4 groups that are used to build the engine, as outlined below\+:
+\begin{DoxyItemize}
+\item Application
+\item Engine
+\item \doxylink{class_project}{Project}
+\item Tools The Application is responsible for loading the engine and handling the project, as seen below.
+\end{DoxyItemize}
+
+\hypertarget{index_file-system-architecture}{}\doxysubsection{\texorpdfstring{File System Architecture}{File System Architecture}}\label{index_file-system-architecture}
+\DoxyHorRuler{0}
+
+
+\texorpdfstring{$>$}{>}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\+The design of the file system will cause errors if it is used improperly. As a result, it is highly encouraged that this is read very carefully. \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}
+
+As of now, the file system works by recursively searching the "{}game"{} folder in the root directory (Techstorm-\/v5). The folder will contain the "{}assets"{} and "{}data"{} sub-\/directories, wherein you will put assets and data files. Any file that is within the search area will be registered. For a detailed analysis of how it works, please see detailed-\/file-\/registry.
+
+When it comes to file loading, the {\bfseries{extension matters}}. This is because the File\+System\+Registry loads files based on the loading function assigned to the extension. For this reason, when getting the file, you must have the filename along with the extension or just the extension (highly discouraged, see why-\/not-\/extensions). For this example, {\ttfamily Example\+File.\+txt} will be used to represent a file. In order to get a file, please see below\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::shared\_ptr<RegisteredFile>\ file\ =\ GetFileSystemRegistry().getFile("{}ExampleFile.txt"{});}
+
+\end{DoxyCode}
+\hypertarget{index_graphics-architecture}{}\doxysubsection{\texorpdfstring{Graphics Architecture}{Graphics Architecture}}\label{index_graphics-architecture}
+\DoxyHorRuler{0}
+\hypertarget{index_graphics-introduction}{}\doxysubsubsection{\texorpdfstring{Graphics Introduction}{Graphics Introduction}}\label{index_graphics-introduction}
+\DoxyHorRuler{0}
+
+
+Despite the fact \doxylink{namespace_techstorm}{Techstorm} tries to make graphics easier, it can become complex due to the nature of 3D graphics. For this reason, it is imperative that you read this carefully in order to reduce future headache. In addition, if you are not well versed in how Open\+GL and Raylib works, please read the online book/tutorial \href{https://learnopengl.com/}{\texttt{ Learn Open\+GL}} and using-\/raylib respectably. ~\newline
+\hypertarget{index_how-cameras-work}{}\doxysubsubsection{\texorpdfstring{How Cameras Work}{How Cameras Work}}\label{index_how-cameras-work}
+\DoxyHorRuler{0}
+\hypertarget{index_graphics-terminology}{}\doxyparagraph{\texorpdfstring{Graphics Terminology}{Graphics Terminology}}\label{index_graphics-terminology}
+\DoxyHorRuler{0}
+\hypertarget{index_dependencies}{}\doxysection{\texorpdfstring{Dependencies}{Dependencies}}\label{index_dependencies}
+\DoxyHorRuler{0}
+
+
+As it is a game engine, \doxylink{namespace_techstorm}{Techstorm} has alot of dependencies and can be found within the conanfile.\+txt in the same folder as the main CMake\+Lists.\+txt file. In addition to this, the current dependencies are listed as listed below with it\textquotesingle{}s basic purpose.
+
 
 \begin{DoxyItemize}
-\item {\bfseries{User guide}}
+\item Jolt Physics
 \begin{DoxyItemize}
-\item \doxylink{quick_start}{Quick start}
+\item Handle \doxylink{namespace_techstorm}{Techstorm}\textquotesingle{}s physics.
+\item \href{https://jrouwe.github.io/JoltPhysics/index.html}{\texttt{ Online Documentation}}
+\item \href{https://github.com/jrouwe/JoltPhysics/tree/master}{\texttt{ Github}}
+\end{DoxyItemize}
+\item Libconfig
 \begin{DoxyItemize}
-\item \doxysectlink{quick_start_quick_start_project_setup}{Project setup}{1}
-\item \doxysectlink{quick_start_quick_start_initialization}{Initialization}{1}
-\item \doxysectlink{quick_start_quick_start_resource_allocation}{Resource allocation}{1}
+\item Handle configuration file read/write.
+\item \href{http://hyperrealm.github.io/libconfig/libconfig_manual.html}{\texttt{ Online Documentation}}
+\item \href{https://github.com/hyperrealm/libconfig}{\texttt{ Github}}
+\item \href{http://hyperrealm.github.io/libconfig/}{\texttt{ Website}}
 \end{DoxyItemize}
-\item \doxylink{choosing_memory_type}{Choosing memory type}
+\item Rml\+Ui
 \begin{DoxyItemize}
-\item \doxysectlink{choosing_memory_type_choosing_memory_type_usage}{Usage}{1}
-\item \doxysectlink{choosing_memory_type_choosing_memory_type_required_preferred_flags}{Required and preferred flags}{1}
-\item \doxysectlink{choosing_memory_type_choosing_memory_type_explicit_memory_types}{Explicit memory types}{1}
-\item \doxysectlink{choosing_memory_type_choosing_memory_type_custom_memory_pools}{Custom memory pools}{1}
-\item \doxysectlink{choosing_memory_type_choosing_memory_type_dedicated_allocations}{Dedicated allocations}{1}
+\item Handle \doxylink{namespace_techstorm}{Techstorm}\textquotesingle{}s UI with HTML/\+CSS.
+\item \href{https://mikke89.github.io/RmlUiDoc/}{\texttt{ Online Documentation}}
+\item \href{https://github.com/mikke89/RmlUi}{\texttt{ Github}}
 \end{DoxyItemize}
-\item \doxylink{memory_mapping}{Memory mapping}
+\item Asio
 \begin{DoxyItemize}
-\item \doxysectlink{memory_mapping_memory_mapping_mapping_functions}{Mapping functions}{1}
-\item \doxysectlink{memory_mapping_memory_mapping_persistently_mapped_memory}{Persistently mapped memory}{1}
-\item \doxysectlink{memory_mapping_memory_mapping_cache_control}{Cache flush and invalidate}{1}
+\item Provides \doxylink{namespace_techstorm}{Techstorm}\textquotesingle{}s networking functionality
+\item \href{https://think-async.com/Asio/asio-1.30.2/doc/}{\texttt{ Online Documentation}}
+\item \href{https://think-async.com/Asio/}{\texttt{ Website}}
 \end{DoxyItemize}
-\item \doxylink{staying_within_budget}{Staying within budget}
+\item Argh
 \begin{DoxyItemize}
-\item \doxysectlink{staying_within_budget_staying_within_budget_querying_for_budget}{Querying for budget}{1}
-\item \doxysectlink{staying_within_budget_staying_within_budget_controlling_memory_usage}{Controlling memory usage}{1}
+\item Command line parsing library that is mainly used by tools.
+\item \href{https://github.com/adishavit/argh/blob/master/README.md}{\texttt{ Online Documentation}}
+\item \href{https://github.com/adishavit/argh}{\texttt{ Github}}
 \end{DoxyItemize}
-\item \doxylink{resource_aliasing}{Resource aliasing (overlap)}
-\item \doxylink{custom_memory_pools}{Custom memory pools}
+\item Dear Im\+GUI
 \begin{DoxyItemize}
-\item \doxysectlink{custom_memory_pools_custom_memory_pools_MemTypeIndex}{Choosing memory type index}{1}
-\item \doxysectlink{custom_memory_pools_linear_algorithm}{Linear allocation algorithm}{1}
+\item Provides an in-\/game debug UI for developers.
+\item \href{https://github.com/ocornut/imgui/wiki}{\texttt{ Online Documentation}}
+\item \href{https://github.com/ocornut/imgui}{\texttt{ Github}}
+\end{DoxyItemize}
+\item Sol2
 \begin{DoxyItemize}
-\item \doxysectlink{custom_memory_pools_linear_algorithm_free_at_once}{Free-\/at-\/once}{2}
-\item \doxysectlink{custom_memory_pools_linear_algorithm_stack}{Stack}{2}
-\item \doxysectlink{custom_memory_pools_linear_algorithm_double_stack}{Double stack}{2}
-\item \doxysectlink{custom_memory_pools_linear_algorithm_ring_buffer}{Ring buffer}{2}
+\item Provides Lua scripting and modding support.
+\item \href{https://sol2.readthedocs.io/en/latest/}{\texttt{ Online Documentation}}
+\item \href{https://github.com/ThePhD/sol2}{\texttt{ Github}}
 \end{DoxyItemize}
-\end{DoxyItemize}
-\item \doxylink{defragmentation}{Defragmentation}
-\item \doxylink{statistics}{Statistics}
+\item Angel Script
 \begin{DoxyItemize}
-\item \doxysectlink{statistics_statistics_numeric_statistics}{Numeric statistics}{1}
-\item \doxysectlink{statistics_statistics_json_dump}{JSON dump}{1}
+\item Provides a more advanced form of modding and scripting support.
+\item \href{https://www.angelcode.com/angelscript/documentation.html}{\texttt{ Online Documentation}}
+\item \href{https://www.angelcode.com/angelscript/}{\texttt{ Website}}
 \end{DoxyItemize}
-\item \doxylink{allocation_annotation}{Allocation names and user data}
-\begin{DoxyItemize}
-\item \doxysectlink{allocation_annotation_allocation_user_data}{Allocation user data}{1}
-\item \doxysectlink{allocation_annotation_allocation_names}{Allocation names}{1}
 \end{DoxyItemize}
-\item \doxylink{virtual_allocator}{Virtual allocator}
-\item \doxylink{debugging_memory_usage}{Debugging incorrect memory usage}
-\begin{DoxyItemize}
-\item \doxysectlink{debugging_memory_usage_debugging_memory_usage_initialization}{Memory initialization}{1}
-\item \doxysectlink{debugging_memory_usage_debugging_memory_usage_margins}{Margins}{1}
-\item \doxysectlink{debugging_memory_usage_debugging_memory_usage_corruption_detection}{Corruption detection}{1}
-\end{DoxyItemize}
-\item \doxylink{opengl_interop}{Open\+GL Interop}
-\end{DoxyItemize}
-\item \doxylink{usage_patterns}{Recommended usage patterns}
-\begin{DoxyItemize}
-\item \doxysectlink{usage_patterns_usage_patterns_gpu_only}{GPU-\/only resource}{1}
-\item \doxysectlink{usage_patterns_usage_patterns_staging_copy_upload}{Staging copy for upload}{1}
-\item \doxysectlink{usage_patterns_usage_patterns_readback}{Readback}{1}
-\item \doxysectlink{usage_patterns_usage_patterns_advanced_data_uploading}{Advanced data uploading}{1}
-\item \doxysectlink{usage_patterns_usage_patterns_other_use_cases}{Other use cases}{1}
-\end{DoxyItemize}
-\item \doxylink{configuration}{Configuration}
-\begin{DoxyItemize}
-\item \doxysectlink{configuration_config_Vulkan_functions}{Pointers to Vulkan functions}{1}
-\item \doxysectlink{configuration_custom_memory_allocator}{Custom host memory allocator}{1}
-\item \doxysectlink{configuration_allocation_callbacks}{Device memory allocation callbacks}{1}
-\item \doxysectlink{configuration_heap_memory_limit}{Device heap memory limit}{1}
-\end{DoxyItemize}
-\item {\bfseries{Extension support}}
-\begin{DoxyItemize}
-\item \doxylink{vk_khr_dedicated_allocation}{VK\+\_\+\+KHR\+\_\+dedicated\+\_\+allocation}
-\item \doxylink{enabling_buffer_device_address}{Enabling buffer device address}
-\item \doxylink{vk_ext_memory_priority}{VK\+\_\+\+EXT\+\_\+memory\+\_\+priority}
-\item \doxylink{vk_amd_device_coherent_memory}{VK\+\_\+\+AMD\+\_\+device\+\_\+coherent\+\_\+memory}
-\end{DoxyItemize}
-\item \doxylink{general_considerations}{General considerations}
-\begin{DoxyItemize}
-\item \doxysectlink{general_considerations_general_considerations_thread_safety}{Thread safety}{1}
-\item \doxysectlink{general_considerations_general_considerations_versioning_and_compatibility}{Versioning and compatibility}{1}
-\item \doxysectlink{general_considerations_general_considerations_validation_layer_warnings}{Validation layer warnings}{1}
-\item \doxysectlink{general_considerations_general_considerations_allocation_algorithm}{Allocation algorithm}{1}
-\item \doxysectlink{general_considerations_general_considerations_features_not_supported}{Features not supported}{1}
-\end{DoxyItemize}
-\end{DoxyItemize}\hypertarget{index_main_see_also}{}\doxysection{\texorpdfstring{See also}{See also}}\label{index_main_see_also}
 
-\begin{DoxyItemize}
-\item \href{https://gpuopen.com/gaming-product/vulkan-memory-allocator/}{\texttt{ {\bfseries{Product page on GPUOpen}}}}
-\item \href{https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator}{\texttt{ {\bfseries{Source repository on Git\+Hub}}}} 
-\end{DoxyItemize}\input{da/d0d/quick_start}
-\input{d9/d88/choosing_memory_type}
-\input{dd/d92/memory_mapping}
-\input{d4/d65/staying_within_budget}
-\input{d7/d1f/resource_aliasing}
-\input{d6/d89/custom_memory_pools}
-\input{dd/d7d/defragmentation}
-\input{d5/d6f/statistics}
-\input{d2/d47/allocation_annotation}
-\input{da/d75/virtual_allocator}
-\input{de/d64/debugging_memory_usage}
-\input{dd/da0/opengl_interop}
-\input{da/dc0/usage_patterns}
-\input{de/dbe/configuration}
-\input{da/da6/vk_khr_dedicated_allocation}
-\input{d8/d25/enabling_buffer_device_address}
-\input{d0/dfd/vk_ext_memory_priority}
-\input{d6/d3e/vk_amd_device_coherent_memory}
-\input{d7/d19/general_considerations}
+If you want an indepth explanation of these dependencies and their implementation status, see \doxysectlink{detailed-analysis-of-dependencies}{Detailed Analysis Of Dependencies}{0}.\hypertarget{index_code-conventions}{}\doxysection{\texorpdfstring{Code Conventions}{Code Conventions}}\label{index_code-conventions}
+\DoxyHorRuler{0}
+
+
+\doxylink{namespace_techstorm}{Techstorm} tries to be as easy to read as possible by making the code read similarly to English (This is mandatory for engine contributions!). In addition, \doxylink{namespace_techstorm}{Techstorm} tries to be intuitive and understandable at a quick glance, hence it uses Pascal\+Case and Camel\+Case. As such, the code conventions are simple and intuitive. The only exception is with broad cases.
+
+Broad cases should only be used as long as there are no other applicable cases. For example, a private static variable. This variable would look like a static type variable rather than a private variable. That means it should be named with a prefix of "{}s"{} rather than a \textquotesingle{}m\textquotesingle{}. However, please note that this only applies when the "{}\+Notes"{} section contains "{}\+Broad case"{}. Additionally, There are some other important distinctions, definitions, and use cases that must be followed to stay compliant, as seen below.\hypertarget{index_important-convention-use-cases}{}\doxysubsection{\texorpdfstring{Important Convention Use Cases}{Important Convention Use Cases}}\label{index_important-convention-use-cases}
+\DoxyHorRuler{0}
+
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Case   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Distinction    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Case   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Distinction    }\\\cline{1-2}
+\endhead
+Preprocessors Unless there are multiple logical inputs, avoid using {\ttfamily \#if defined()} and use {\ttfamily \#ifdef} instead. .   &\\\cline{1-2}
+\end{longtabu}
+\hypertarget{index_variables}{}\doxysubsection{\texorpdfstring{Variables}{Variables}}\label{index_variables}
+\DoxyHorRuler{0}
+
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Case   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Format   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Example   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Notes    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Case   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Format   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Example   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Notes    }\\\cline{1-4}
+\endhead
+Private Variables   &m\+Private\+Variable   &{\ttfamily int m\+Private\+Variable = 7;}   &\\\cline{1-4}
+Protected Variables   &m\+Protected\+Variable   &{\ttfamily int m\+Protected\+Variable = 4;}   &\\\cline{1-4}
+Static Type Variables   &s\+Static\+Type\+Variable   &{\ttfamily static inline float s\+Static\+Variable = 3.\+14f;}   &\\\cline{1-4}
+Static Variable   &Static\+Variable   &{\ttfamily static inline int Static\+Variable = 72;}   &\\\cline{1-4}
+Constant Variable   &c\+Constant\+Variable   &{\ttfamily const double c\+Constant\+Variable = 3.\+14;}   &\\\cline{1-4}
+Constant Expression   &CONSTANT\+\_\+\+EXPRESSION\+\_\+\+VARIABLE   &{\ttfamily constexpr int CONSTANT\+\_\+\+EXPRESSION\+\_\+\+VARIABLE = 45;}   &\\\cline{1-4}
+Constant Global   &CONSTANT\+\_\+\+GLOBAL\+\_\+\+VARIABLE   &{\ttfamily const int GLOBAL\+\_\+\+VARIABLE;}   &A constant global is a variable that is not declared inside a type.    \\\cline{1-4}
+Macro   &MACRO\+\_\+\+VARIABLE   &{\ttfamily \#define MACRO\+\_\+\+VARIABLE 8}   &\\\cline{1-4}
+Local Variable   &local\+Variable   &{\ttfamily int local\+Variable = 34;}   &\\\cline{1-4}
+Parameter Variable   &parameter\+Variable   &{\ttfamily int parameter\+Variable}   &\\\cline{1-4}
+Public Variable   &public\+Variable   &{\ttfamily int public\+Variable = 3;}   &\\\cline{1-4}
+\end{longtabu}
+\hypertarget{index_functions}{}\doxysubsection{\texorpdfstring{Functions}{Functions}}\label{index_functions}
+\DoxyHorRuler{0}
+
+
+Functions are simple, any that are not bound to a specific object will have the first letter lowercase. If it is a static, namespace, or global function, then it will have the first letter capitalized instead. When it comes to Preprocessor functions, it will follow the same rules as Constant Global variables, as seen below\+: 

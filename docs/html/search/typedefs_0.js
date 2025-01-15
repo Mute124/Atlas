@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['createsurfacecallback_0',['CreateSurfaceCallback',['../d1/d5b/class_render_interface___v_k.html#aafdcde7585cd7a3b544aa373471fe492',1,'RenderInterface_VK']]]
+  ['alpha_0',['alpha',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a090ebe65994a3ee4bb60ae3472abffc5',1,'imgui_impl_opengl3_loader.h']]],
+  ['arrays_1',['arrays',['../df/d5f/imgui__impl__opengl3__loader_8h.html#ab90b6192ffc82d4cdd7c3ca3bfa0754a',1,'imgui_impl_opengl3_loader.h']]]
 ];

@@ -1,0 +1,315 @@
+\doxysection{imgui\+\_\+impl\+\_\+glut.\+cpp}
+\hypertarget{imgui__impl__glut_8cpp_source}{}\label{imgui__impl__glut_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_glut.cpp@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_glut.cpp}}
+\mbox{\hyperlink{imgui__impl__glut_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Platform\ Backend\ for\ GLUT/FreeGLUT}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00002}00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Renderer\ (e.g.\ OpenGL2)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00004}00004\ \textcolor{comment}{//\ !!!\ GLUT/FreeGLUT\ IS\ OBSOLETE\ PREHISTORIC\ SOFTWARE.\ Using\ GLUT\ is\ not\ recommended\ unless\ you\ really\ miss\ the\ 90's.\ !!!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00005}00005\ \textcolor{comment}{//\ !!!\ If\ someone\ or\ something\ is\ teaching\ you\ GLUT\ today,\ you\ are\ being\ abused.\ Please\ show\ some\ resistance.\ !!!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00006}00006\ \textcolor{comment}{//\ !!!\ Nowadays,\ prefer\ using\ GLFW\ or\ SDL\ instead!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00008}00008\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00009}00009\ \textcolor{comment}{//\ \ [X]\ Platform:\ Partial\ keyboard\ support.\ Since\ 1.87\ we\ are\ using\ the\ io.AddKeyEvent()\ function.\ Pass\ ImGuiKey\ values\ to\ all\ key\ functions\ e.g.\ ImGui::IsKeyPressed(ImGuiKey\_Space).\ [Legacy\ GLUT\ values\ are\ obsolete\ since\ 1.87\ and\ not\ supported\ since\ 1.91.5]}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00010}00010\ \textcolor{comment}{//\ Issues:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00011}00011\ \textcolor{comment}{//\ \ [\ ]\ Platform:\ GLUT\ is\ unable\ to\ distinguish\ e.g.\ Backspace\ from\ CTRL+H\ or\ TAB\ from\ CTRL+I}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00012}00012\ \textcolor{comment}{//\ \ [\ ]\ Platform:\ Missing\ horizontal\ mouse\ wheel\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00013}00013\ \textcolor{comment}{//\ \ [\ ]\ Platform:\ Missing\ mouse\ cursor\ shape/visibility\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00014}00014\ \textcolor{comment}{//\ \ [\ ]\ Platform:\ Missing\ clipboard\ support\ (not\ supported\ by\ Glut).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00015}00015\ \textcolor{comment}{//\ \ [\ ]\ Platform:\ Missing\ gamepad\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00017}00017\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00018}00018\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00019}00019\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00020}00020\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00021}00021\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00022}00022\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00023}00023\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00025}00025\ \textcolor{comment}{//\ CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00026}00026\ \textcolor{comment}{//\ (minor\ and\ older\ changes\ stripped\ away,\ please\ see\ git\ history\ for\ details)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00027}00027\ \textcolor{comment}{//\ \ 2023-\/04-\/17:\ BREAKING:\ Removed\ call\ to\ ImGui::NewFrame()\ from\ ImGui\_ImplGLUT\_NewFrame().\ Needs\ to\ be\ called\ from\ the\ main\ application\ loop,\ like\ with\ every\ other\ backends.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00028}00028\ \textcolor{comment}{//\ \ 2022-\/09-\/26:\ Inputs:\ Renamed\ ImGuiKey\_ModXXX\ introduced\ in\ 1.87\ to\ ImGuiMod\_XXX\ (old\ names\ still\ supported).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00029}00029\ \textcolor{comment}{//\ \ 2022-\/01-\/26:\ Inputs:\ replaced\ short-\/lived\ io.AddKeyModsEvent()\ (added\ two\ weeks\ ago)\ with\ io.AddKeyEvent()\ using\ ImGuiKey\_ModXXX\ flags.\ Sorry\ for\ the\ confusion.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00030}00030\ \textcolor{comment}{//\ \ 2022-\/01-\/17:\ Inputs:\ calling\ new\ io.AddMousePosEvent(),\ io.AddMouseButtonEvent(),\ io.AddMouseWheelEvent()\ API\ (1.87+).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00031}00031\ \textcolor{comment}{//\ \ 2022-\/01-\/10:\ Inputs:\ calling\ new\ io.AddKeyEvent(),\ io.AddKeyModsEvent()\ +\ io.SetKeyEventNativeData()\ API\ (1.87+).\ Support\ for\ full\ ImGuiKey\ range.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00032}00032\ \textcolor{comment}{//\ \ 2019-\/04-\/03:\ Misc:\ Renamed\ imgui\_impl\_freeglut.cpp/.h\ to\ imgui\_impl\_glut.cpp/.h.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00033}00033\ \textcolor{comment}{//\ \ 2019-\/03-\/25:\ Misc:\ Made\ io.DeltaTime\ always\ above\ zero.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00034}00034\ \textcolor{comment}{//\ \ 2018-\/11-\/30:\ Misc:\ Setting\ up\ io.BackendPlatformName\ so\ it\ can\ be\ displayed\ in\ the\ About\ Window.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00035}00035\ \textcolor{comment}{//\ \ 2018-\/03-\/22:\ Added\ GLUT\ Platform\ binding.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00037}00037\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00038}00038\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00039}00039\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{imgui__impl__glut_8h}{imgui\_impl\_glut.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00040}\mbox{\hyperlink{imgui__impl__glut_8cpp_a1ce7c516538704e5b04a99450edc572f}{00040}}\ \textcolor{preprocessor}{\#define\ GL\_SILENCE\_DEPRECATION}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00041}00041\ \textcolor{preprocessor}{\#ifdef\ \_\_APPLE\_\_}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00042}00042\ \textcolor{preprocessor}{\#include\ <GLUT/glut.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00043}00043\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00044}00044\ \textcolor{preprocessor}{\#include\ <GL/freeglut.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00045}00045\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00047}00047\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00048}00048\ \textcolor{preprocessor}{\#pragma\ warning\ (disable:\ 4505)\ }\textcolor{comment}{//\ unreferenced\ local\ function\ has\ been\ removed\ (stb\ stuff)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00049}00049\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00051}00051\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ g\_Time\ =\ 0;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Current\ time,\ in\ milliseconds}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00053}00053\ \textcolor{comment}{//\ Glut\ has\ 1\ function\ for\ characters\ and\ one\ for\ "{}special\ keys"{}.\ We\ map\ the\ characters\ in\ the\ 0..255\ range\ and\ the\ keys\ above.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00054}00054\ \textcolor{keyword}{static}\ ImGuiKey\ ImGui\_ImplGLUT\_KeyToImGuiKey(\textcolor{keywordtype}{int}\ key)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00055}00055\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00056}00056\ \ \ \ \ \textcolor{keywordflow}{switch}\ (key)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00057}00057\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'\(\backslash\)t'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Tab;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_LEFT:\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_RIGHT:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_RightArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_UP:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_UpArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_DOWN:\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_DownArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_PAGE\_UP:\ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_PageUp;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_PAGE\_DOWN:\ \ \textcolor{keywordflow}{return}\ ImGuiKey\_PageDown;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_HOME:\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Home;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_END:\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_End;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_INSERT:\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Insert;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 127:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Delete;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 8:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Backspace;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'\ '}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Space;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 13:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Enter;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 27:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Escape;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 39:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Apostrophe;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 44:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Comma;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 45:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Minus;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 46:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Period;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 47:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Slash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 59:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Semicolon;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 61:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Equal;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 91:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftBracket;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 92:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Backslash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 93:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_RightBracket;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 96:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_GraveAccent;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 0:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_CapsLock;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 0:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_ScrollLock;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ 0x006D:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_NumLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 0:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_PrintScreen;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 0:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Pause;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ '0':\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Keypad0;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ '1':\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Keypad1;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ '2':\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Keypad2;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ '3':\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Keypad3;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ '4':\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Keypad4;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ '5':\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Keypad5;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ '6':\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Keypad6;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ '7':\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Keypad7;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ '8':\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Keypad8;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ '9':\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Keypad9;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 46:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_KeypadDecimal;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 47:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_KeypadDivide;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 42:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadMultiply;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 45:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_KeypadSubtract;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 43:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadAdd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 13:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_KeypadEnter;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 0:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_KeypadEqual;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ 0x0072:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftCtrl;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ 0x0070:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftShift;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ 0x0074:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftAlt;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 0:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_LeftSuper;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ 0x0073:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_RightCtrl;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ 0x0071:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_RightShift;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ 0x0075:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_RightAlt;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 0:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_RightSuper;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ 0:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ImGuiKey\_Menu;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'0'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'1'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'2'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'3'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'4'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'5'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'6'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'7'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'8'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'9'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'A'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'a'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_A;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'B'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'b'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_B;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'C'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'c'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_C;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'D'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'d'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_D;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'E'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'e'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_E;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'F'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'f'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'G'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'g'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_G;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'H'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'h'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_H;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'I'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'i'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_I;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'J'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'j'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_J;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'K'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'k'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_K;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'L'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'l'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_L;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'M'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'m'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_M;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00138}00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'N'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'n'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_N;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'O'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'o'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_O;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'P'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'p'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_P;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'Q'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'q'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Q;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'R'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'r'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_R;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'S'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'s'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_S;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'T'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'t'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_T;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'U'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'u'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_U;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'V'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'v'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_V;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'W'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'w'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_W;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'X'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'x'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_X;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'Y'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'y'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'Z'}:\ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'z'}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_Z;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F1:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F2:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F3:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F4:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F5:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F6:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F7:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F8:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F9:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F10:\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F10;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F11:\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F11;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 256\ +\ GLUT\_KEY\_F12:\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_F12;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_None;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00164}00164\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00165}00165\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00167}\mbox{\hyperlink{imgui__impl__glut_8cpp_a5af2be582473d73e89c3faa10a2d52dc}{00167}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_a5af2be582473d73e89c3faa10a2d52dc}{ImGui\_ImplGLUT\_Init}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00168}00168\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00169}00169\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00170}00170\ \ \ \ \ IMGUI\_CHECKVERSION();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00172}00172\ \textcolor{preprocessor}{\#ifdef\ FREEGLUT}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00173}00173\ \ \ \ \ io.BackendPlatformName\ =\ \textcolor{stringliteral}{"{}imgui\_impl\_glut\ (freeglut)"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00174}00174\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00175}00175\ \ \ \ \ io.BackendPlatformName\ =\ \textcolor{stringliteral}{"{}imgui\_impl\_glut"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00176}00176\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00177}00177\ \ \ \ \ g\_Time\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00179}00179\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00180}00180\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00182}\mbox{\hyperlink{imgui__impl__glut_8cpp_a0d66adf366e94cf8ad8cd585bafb1eb6}{00182}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_a0d66adf366e94cf8ad8cd585bafb1eb6}{ImGui\_ImplGLUT\_InstallFuncs}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00183}00183\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00184}00184\ \ \ \ \ glutReshapeFunc(\mbox{\hyperlink{imgui__impl__glut_8cpp_a34896b8d999a720ee8749f65ece0a5bd}{ImGui\_ImplGLUT\_ReshapeFunc}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00185}00185\ \ \ \ \ glutMotionFunc(\mbox{\hyperlink{imgui__impl__glut_8cpp_a6c7586b84d542b02fc04f8d599a16c80}{ImGui\_ImplGLUT\_MotionFunc}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00186}00186\ \ \ \ \ glutPassiveMotionFunc(\mbox{\hyperlink{imgui__impl__glut_8cpp_a6c7586b84d542b02fc04f8d599a16c80}{ImGui\_ImplGLUT\_MotionFunc}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00187}00187\ \ \ \ \ glutMouseFunc(\mbox{\hyperlink{imgui__impl__glut_8cpp_a59658878376dcb4b05802fa6016726c7}{ImGui\_ImplGLUT\_MouseFunc}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00188}00188\ \textcolor{preprocessor}{\#ifdef\ \_\_FREEGLUT\_EXT\_H\_\_}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00189}00189\ \ \ \ \ glutMouseWheelFunc(\mbox{\hyperlink{imgui__impl__glut_8h_a46808f6c768cc32748ce77b07d28b4be}{ImGui\_ImplGLUT\_MouseWheelFunc}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00190}00190\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00191}00191\ \ \ \ \ glutKeyboardFunc(\mbox{\hyperlink{imgui__impl__glut_8cpp_a4662e35b42463fc31a3fc1fb9d6a2f74}{ImGui\_ImplGLUT\_KeyboardFunc}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00192}00192\ \ \ \ \ glutKeyboardUpFunc(\mbox{\hyperlink{imgui__impl__glut_8cpp_a1dd98e4b46f666aa5d13a3e97656089d}{ImGui\_ImplGLUT\_KeyboardUpFunc}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00193}00193\ \ \ \ \ glutSpecialFunc(\mbox{\hyperlink{imgui__impl__glut_8cpp_a1e1a8592c263b06d60b822cf4d755049}{ImGui\_ImplGLUT\_SpecialFunc}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00194}00194\ \ \ \ \ glutSpecialUpFunc(\mbox{\hyperlink{imgui__impl__glut_8cpp_a5374218f11c02c10ed917641a3aeb404}{ImGui\_ImplGLUT\_SpecialUpFunc}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00195}00195\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00197}\mbox{\hyperlink{imgui__impl__glut_8cpp_aa9cd7b266b18c7abbb79d1930d1af6c7}{00197}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_aa9cd7b266b18c7abbb79d1930d1af6c7}{ImGui\_ImplGLUT\_Shutdown}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00198}00198\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00199}00199\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00200}00200\ \ \ \ \ io.BackendPlatformName\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00201}00201\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00203}\mbox{\hyperlink{imgui__impl__glut_8cpp_a7179b8bb37575e9b60f50a81791bd298}{00203}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_a7179b8bb37575e9b60f50a81791bd298}{ImGui\_ImplGLUT\_NewFrame}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00204}00204\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00205}00205\ \ \ \ \ \textcolor{comment}{//\ Setup\ time\ step}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00206}00206\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00207}00207\ \ \ \ \ \textcolor{keywordtype}{int}\ current\_time\ =\ glutGet(GLUT\_ELAPSED\_TIME);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00208}00208\ \ \ \ \ \textcolor{keywordtype}{int}\ delta\_time\_ms\ =\ (current\_time\ -\/\ g\_Time);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00209}00209\ \ \ \ \ \textcolor{keywordflow}{if}\ (delta\_time\_ms\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ delta\_time\_ms\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00211}00211\ \ \ \ \ io.DeltaTime\ =\ delta\_time\_ms\ /\ 1000.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00212}00212\ \ \ \ \ g\_Time\ =\ current\_time;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00213}00213\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00215}00215\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplGLUT\_UpdateKeyModifiers()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00216}00216\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00217}00217\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00218}00218\ \ \ \ \ \textcolor{keywordtype}{int}\ glut\_key\_mods\ =\ glutGetModifiers();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00219}00219\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Ctrl,\ (glut\_key\_mods\ \&\ GLUT\_ACTIVE\_CTRL)\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00220}00220\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Shift,\ (glut\_key\_mods\ \&\ GLUT\_ACTIVE\_SHIFT)\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00221}00221\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Alt,\ (glut\_key\_mods\ \&\ GLUT\_ACTIVE\_ALT)\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00222}00222\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00224}00224\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplGLUT\_AddKeyEvent(ImGuiKey\ key,\ \textcolor{keywordtype}{bool}\ down,\ \textcolor{keywordtype}{int}\ native\_keycode)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00225}00225\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00226}00226\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00227}00227\ \ \ \ \ io.AddKeyEvent(key,\ down);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00228}00228\ \ \ \ \ io.SetKeyEventNativeData(key,\ native\_keycode,\ -\/1);\ \textcolor{comment}{//\ To\ support\ legacy\ indexing\ (<1.87\ user\ code)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00229}00229\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00231}\mbox{\hyperlink{imgui__impl__glut_8cpp_a4662e35b42463fc31a3fc1fb9d6a2f74}{00231}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_a4662e35b42463fc31a3fc1fb9d6a2f74}{ImGui\_ImplGLUT\_KeyboardFunc}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00232}00232\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00233}00233\ \ \ \ \ \textcolor{comment}{//\ Send\ character\ to\ imgui}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00234}00234\ \ \ \ \ \textcolor{comment}{//printf("{}char\_down\_func\ \%d\ '\%c'\(\backslash\)n"{},\ c,\ c);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00235}00235\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00236}00236\ \ \ \ \ \textcolor{keywordflow}{if}\ (c\ >=\ 32)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ io.AddInputCharacter((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int})c);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00239}00239\ \ \ \ \ ImGuiKey\ key\ =\ ImGui\_ImplGLUT\_KeyToImGuiKey(c);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00240}00240\ \ \ \ \ ImGui\_ImplGLUT\_AddKeyEvent(key,\ \textcolor{keyword}{true},\ c);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00241}00241\ \ \ \ \ ImGui\_ImplGLUT\_UpdateKeyModifiers();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00242}00242\ \ \ \ \ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})x;\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}};\ \textcolor{comment}{//\ Unused}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00243}00243\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00245}\mbox{\hyperlink{imgui__impl__glut_8cpp_a1dd98e4b46f666aa5d13a3e97656089d}{00245}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_a1dd98e4b46f666aa5d13a3e97656089d}{ImGui\_ImplGLUT\_KeyboardUpFunc}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ c,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00246}00246\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00247}00247\ \ \ \ \ \textcolor{comment}{//printf("{}char\_up\_func\ \%d\ '\%c'\(\backslash\)n"{},\ c,\ c);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00248}00248\ \ \ \ \ ImGuiKey\ key\ =\ ImGui\_ImplGLUT\_KeyToImGuiKey(c);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00249}00249\ \ \ \ \ ImGui\_ImplGLUT\_AddKeyEvent(key,\ \textcolor{keyword}{false},\ c);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00250}00250\ \ \ \ \ ImGui\_ImplGLUT\_UpdateKeyModifiers();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00251}00251\ \ \ \ \ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})x;\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}};\ \textcolor{comment}{//\ Unused}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00252}00252\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00254}\mbox{\hyperlink{imgui__impl__glut_8cpp_a1e1a8592c263b06d60b822cf4d755049}{00254}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_a1e1a8592c263b06d60b822cf4d755049}{ImGui\_ImplGLUT\_SpecialFunc}}(\textcolor{keywordtype}{int}\ key,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00255}00255\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00256}00256\ \ \ \ \ \textcolor{comment}{//printf("{}key\_down\_func\ \%d\(\backslash\)n"{},\ key);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00257}00257\ \ \ \ \ ImGuiKey\ imgui\_key\ =\ ImGui\_ImplGLUT\_KeyToImGuiKey(key\ +\ 256);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00258}00258\ \ \ \ \ ImGui\_ImplGLUT\_AddKeyEvent(imgui\_key,\ \textcolor{keyword}{true},\ key\ +\ 256);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00259}00259\ \ \ \ \ ImGui\_ImplGLUT\_UpdateKeyModifiers();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00260}00260\ \ \ \ \ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})x;\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}};\ \textcolor{comment}{//\ Unused}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00261}00261\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00263}\mbox{\hyperlink{imgui__impl__glut_8cpp_a5374218f11c02c10ed917641a3aeb404}{00263}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_a5374218f11c02c10ed917641a3aeb404}{ImGui\_ImplGLUT\_SpecialUpFunc}}(\textcolor{keywordtype}{int}\ key,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00264}00264\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00265}00265\ \ \ \ \ \textcolor{comment}{//printf("{}key\_up\_func\ \%d\(\backslash\)n"{},\ key);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00266}00266\ \ \ \ \ ImGuiKey\ imgui\_key\ =\ ImGui\_ImplGLUT\_KeyToImGuiKey(key\ +\ 256);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00267}00267\ \ \ \ \ ImGui\_ImplGLUT\_AddKeyEvent(imgui\_key,\ \textcolor{keyword}{false},\ key\ +\ 256);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00268}00268\ \ \ \ \ ImGui\_ImplGLUT\_UpdateKeyModifiers();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00269}00269\ \ \ \ \ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})x;\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}};\ \textcolor{comment}{//\ Unused}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00270}00270\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00272}\mbox{\hyperlink{imgui__impl__glut_8cpp_a59658878376dcb4b05802fa6016726c7}{00272}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_a59658878376dcb4b05802fa6016726c7}{ImGui\_ImplGLUT\_MouseFunc}}(\textcolor{keywordtype}{int}\ glut\_button,\ \textcolor{keywordtype}{int}\ state,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00273}00273\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00274}00274\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00275}00275\ \ \ \ \ io.AddMousePosEvent((\textcolor{keywordtype}{float})x,\ (\textcolor{keywordtype}{float})\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00276}00276\ \ \ \ \ \textcolor{keywordtype}{int}\ button\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00277}00277\ \ \ \ \ \textcolor{keywordflow}{if}\ (glut\_button\ ==\ GLUT\_LEFT\_BUTTON)\ button\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00278}00278\ \ \ \ \ \textcolor{keywordflow}{if}\ (glut\_button\ ==\ GLUT\_RIGHT\_BUTTON)\ button\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00279}00279\ \ \ \ \ \textcolor{keywordflow}{if}\ (glut\_button\ ==\ GLUT\_MIDDLE\_BUTTON)\ button\ =\ 2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00280}00280\ \ \ \ \ \textcolor{keywordflow}{if}\ (button\ !=\ -\/1\ \&\&\ (state\ ==\ GLUT\_DOWN\ ||\ state\ ==\ GLUT\_UP))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ io.AddMouseButtonEvent(button,\ state\ ==\ GLUT\_DOWN);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00282}00282\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00284}00284\ \textcolor{preprocessor}{\#ifdef\ \_\_FREEGLUT\_EXT\_H\_\_}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00285}00285\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8h_a46808f6c768cc32748ce77b07d28b4be}{ImGui\_ImplGLUT\_MouseWheelFunc}}(\textcolor{keywordtype}{int}\ button,\ \textcolor{keywordtype}{int}\ dir,\ \textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00286}00286\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00287}00287\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00288}00288\ \ \ \ \ io.AddMousePosEvent((\textcolor{keywordtype}{float})x,\ (\textcolor{keywordtype}{float})\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00289}00289\ \ \ \ \ \textcolor{keywordflow}{if}\ (dir\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ io.AddMouseWheelEvent(0.0f,\ dir\ >\ 0\ ?\ 1.0f\ :\ -\/1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00291}00291\ \ \ \ \ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})button;\ \textcolor{comment}{//\ Unused}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00292}00292\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00293}00293\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00295}\mbox{\hyperlink{imgui__impl__glut_8cpp_a34896b8d999a720ee8749f65ece0a5bd}{00295}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_a34896b8d999a720ee8749f65ece0a5bd}{ImGui\_ImplGLUT\_ReshapeFunc}}(\textcolor{keywordtype}{int}\ w,\ \textcolor{keywordtype}{int}\ h)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00296}00296\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00297}00297\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00298}00298\ \ \ \ \ io.DisplaySize\ =\ ImVec2((\textcolor{keywordtype}{float})w,\ (\textcolor{keywordtype}{float})h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00299}00299\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00301}\mbox{\hyperlink{imgui__impl__glut_8cpp_a6c7586b84d542b02fc04f8d599a16c80}{00301}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glut_8cpp_a6c7586b84d542b02fc04f8d599a16c80}{ImGui\_ImplGLUT\_MotionFunc}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00302}00302\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00303}00303\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00304}00304\ \ \ \ \ io.AddMousePosEvent((\textcolor{keywordtype}{float})x,\ (\textcolor{keywordtype}{float})\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00305}00305\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00307}00307\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00308}00308\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glut_8cpp_source_l00309}00309\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

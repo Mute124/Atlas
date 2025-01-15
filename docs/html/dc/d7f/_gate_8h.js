@@ -1,4 +1,4 @@
 var _gate_8h =
 [
-    [ "Techstorm::Gate< T >", "d6/d46/class_techstorm_1_1_gate.html", "d6/d46/class_techstorm_1_1_gate" ]
+    [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", "dc/dba/class_atlas_1_1abstract" ]
 ];

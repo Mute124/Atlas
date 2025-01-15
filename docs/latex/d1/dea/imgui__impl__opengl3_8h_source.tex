@@ -1,0 +1,72 @@
+\doxysection{imgui\+\_\+impl\+\_\+opengl3.\+h}
+\hypertarget{imgui__impl__opengl3_8h_source}{}\label{imgui__impl__opengl3_8h_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_opengl3.h@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_opengl3.h}}
+\mbox{\hyperlink{imgui__impl__opengl3_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Renderer\ Backend\ for\ modern\ OpenGL\ with\ shaders\ /\ programmatic\ pipeline}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00002}00002\ \textcolor{comment}{//\ -\/\ Desktop\ GL:\ 2.x\ 3.x\ 4.x}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00003}00003\ \textcolor{comment}{//\ -\/\ Embedded\ GL:\ ES\ 2.0\ (WebGL\ 1.0),\ ES\ 3.0\ (WebGL\ 2.0)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00004}00004\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Platform\ Backend\ (e.g.\ GLFW,\ SDL,\ Win32,\ custom..)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00006}00006\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00007}00007\ \textcolor{comment}{//\ \ [X]\ Renderer:\ User\ texture\ binding.\ Use\ 'GLuint'\ OpenGL\ texture\ identifier\ as\ void*/ImTextureID.\ Read\ the\ FAQ\ about\ ImTextureID!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00008}00008\ \textcolor{comment}{//\ \ [x]\ Renderer:\ Large\ meshes\ support\ (64k+\ vertices)\ with\ 16-\/bit\ indices\ (Desktop\ OpenGL\ only).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00010}00010\ \textcolor{comment}{//\ About\ WebGL/ES:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00011}00011\ \textcolor{comment}{//\ -\/\ You\ need\ to\ '\#define\ IMGUI\_IMPL\_OPENGL\_ES2'\ or\ '\#define\ IMGUI\_IMPL\_OPENGL\_ES3'\ to\ use\ WebGL\ or\ OpenGL\ ES.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00012}00012\ \textcolor{comment}{//\ -\/\ This\ is\ done\ automatically\ on\ iOS,\ Android\ and\ Emscripten\ targets.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00013}00013\ \textcolor{comment}{//\ -\/\ For\ other\ targets,\ the\ define\ needs\ to\ be\ visible\ from\ the\ imgui\_impl\_opengl3.cpp\ compilation\ unit.\ If\ unsure,\ define\ globally\ or\ in\ imconfig.h.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00015}00015\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00016}00016\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00017}00017\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00018}00018\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00019}00019\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00020}00020\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00021}00021\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00023}00023\ \textcolor{comment}{//\ About\ GLSL\ version:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00024}00024\ \textcolor{comment}{//\ \ The\ 'glsl\_version'\ initialization\ parameter\ should\ be\ nullptr\ (default)\ or\ a\ "{}\#version\ XXX"{}\ string.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00025}00025\ \textcolor{comment}{//\ \ On\ computer\ platform\ the\ GLSL\ version\ default\ to\ "{}\#version\ 130"{}.\ On\ OpenGL\ ES\ 3\ platform\ it\ defaults\ to\ "{}\#version\ 300\ es"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00026}00026\ \textcolor{comment}{//\ \ Only\ override\ if\ your\ GL\ version\ doesn't\ handle\ this\ GLSL\ version.\ See\ GLSL\ version\ table\ at\ the\ top\ of\ imgui\_impl\_opengl3.cpp.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00028}00028\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00029}00029\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}\ \ \ \ \ \ \textcolor{comment}{//\ IMGUI\_IMPL\_API}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00030}00030\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00032}00032\ \textcolor{comment}{//\ Follow\ "{}Getting\ Started"{}\ link\ and\ check\ examples/\ folder\ to\ learn\ about\ using\ backends!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00033}00033\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3_8h_a305c13d8d366d5eb3ff10f481c1357ff}{ImGui\_ImplOpenGL3\_Init}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ glsl\_version\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00034}00034\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3_8h_a931f17bcb9a656ebf0ae3207ff6802cd}{ImGui\_ImplOpenGL3\_Shutdown}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00035}00035\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3_8h_a3bf17e1235c290ba19933f8ef23889bf}{ImGui\_ImplOpenGL3\_NewFrame}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00036}00036\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3_8h_a0c2b59f0157154902aa47f8f1f8dfcf5}{ImGui\_ImplOpenGL3\_RenderDrawData}}(ImDrawData*\ draw\_data);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00038}00038\ \textcolor{comment}{//\ (Optional)\ Called\ by\ Init/NewFrame/Shutdown}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00039}00039\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3_8h_a263f7a01cdc7b273e2a3cdf852dcafae}{ImGui\_ImplOpenGL3\_CreateFontsTexture}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00040}00040\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3_8h_a71e7bdfaf14b7a86e6af475219574216}{ImGui\_ImplOpenGL3\_DestroyFontsTexture}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00041}00041\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3_8h_abb227ee1988e1f08a58b28989c21606e}{ImGui\_ImplOpenGL3\_CreateDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00042}00042\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3_8h_a2d09c3502809e95462ccd1e604c50a68}{ImGui\_ImplOpenGL3\_DestroyDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00044}00044\ \textcolor{comment}{//\ Configuration\ flags\ to\ add\ in\ your\ imconfig\ file:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00045}00045\ \textcolor{comment}{//\#define\ IMGUI\_IMPL\_OPENGL\_ES2\ \ \ \ \ //\ Enable\ ES\ 2\ (Auto-\/detected\ on\ Emscripten)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00046}00046\ \textcolor{comment}{//\#define\ IMGUI\_IMPL\_OPENGL\_ES3\ \ \ \ \ //\ Enable\ ES\ 3\ (Auto-\/detected\ on\ iOS/Android)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00048}00048\ \textcolor{comment}{//\ You\ can\ explicitly\ select\ GLES2\ or\ GLES3\ API\ by\ using\ one\ of\ the\ '\#define\ IMGUI\_IMPL\_OPENGL\_LOADER\_XXX'\ in\ imconfig.h\ or\ compiler\ command-\/line.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00049}00049\ \textcolor{preprocessor}{\#if\ !defined(IMGUI\_IMPL\_OPENGL\_ES2)\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00050}00050\ \textcolor{preprocessor}{\ \&\&\ !defined(IMGUI\_IMPL\_OPENGL\_ES3)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00052}00052\ \textcolor{comment}{//\ Try\ to\ detect\ GLES\ on\ matching\ platforms}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00053}00053\ \textcolor{preprocessor}{\#if\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00054}00054\ \textcolor{preprocessor}{\#include\ <TargetConditionals.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00055}00055\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00056}00056\ \textcolor{preprocessor}{\#if\ (defined(\_\_APPLE\_\_)\ \&\&\ (TARGET\_OS\_IOS\ ||\ TARGET\_OS\_TV))\ ||\ (defined(\_\_ANDROID\_\_))}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00057}00057\ \textcolor{preprocessor}{\#define\ IMGUI\_IMPL\_OPENGL\_ES3\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ iOS,\ Android\ \ -\/>\ GL\ ES\ 3,\ "{}\#version\ 300\ es"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00058}00058\ \textcolor{preprocessor}{\#elif\ defined(\_\_EMSCRIPTEN\_\_)\ ||\ defined(\_\_amigaos4\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00059}00059\ \textcolor{preprocessor}{\#define\ IMGUI\_IMPL\_OPENGL\_ES2\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Emscripten\ \ \ \ -\/>\ GL\ ES\ 2,\ "{}\#version\ 100"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00060}00060\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00061}00061\ \textcolor{comment}{//\ Otherwise\ imgui\_impl\_opengl3\_loader.h\ will\ be\ used.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00062}00062\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00064}00064\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl3_8h_source_l00066}00066\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

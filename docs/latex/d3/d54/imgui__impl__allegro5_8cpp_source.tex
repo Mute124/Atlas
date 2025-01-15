@@ -1,0 +1,626 @@
+\doxysection{imgui\+\_\+impl\+\_\+allegro5.\+cpp}
+\hypertarget{imgui__impl__allegro5_8cpp_source}{}\label{imgui__impl__allegro5_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_allegro5.cpp@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_allegro5.cpp}}
+\mbox{\hyperlink{imgui__impl__allegro5_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Renderer\ +\ Platform\ Backend\ for\ Allegro\ 5}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00002}00002\ \textcolor{comment}{//\ (Info:\ Allegro\ 5\ is\ a\ cross-\/platform\ general\ purpose\ library\ for\ handling\ windows,\ inputs,\ graphics,\ etc.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00004}00004\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00005}00005\ \textcolor{comment}{//\ \ [X]\ Renderer:\ User\ texture\ binding.\ Use\ 'ALLEGRO\_BITMAP*'\ as\ ImTextureID.\ Read\ the\ FAQ\ about\ ImTextureID!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00006}00006\ \textcolor{comment}{//\ \ [X]\ Platform:\ Keyboard\ support.\ Since\ 1.87\ we\ are\ using\ the\ io.AddKeyEvent()\ function.\ Pass\ ImGuiKey\ values\ to\ all\ key\ functions\ e.g.\ ImGui::IsKeyPressed(ImGuiKey\_Space).\ [Legacy\ ALLEGRO\_KEY\_*\ values\ are\ obsolete\ since\ 1.87\ and\ not\ supported\ since\ 1.91.5]}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ [X]\ Platform:\ Clipboard\ support\ (from\ Allegro\ 5.1.12)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00008}00008\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ cursor\ shape\ and\ visibility.\ Disable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NoMouseCursorChange'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Issues:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00010}00010\ \textcolor{comment}{//\ \ [\ ]\ Renderer:\ The\ renderer\ is\ suboptimal\ as\ we\ need\ to\ convert\ vertices\ manually.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00011}00011\ \textcolor{comment}{//\ \ [\ ]\ Platform:\ Missing\ gamepad\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00013}00013\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00014}00014\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00015}00015\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00016}00016\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00017}00017\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00018}00018\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00019}00019\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00021}00021\ \textcolor{comment}{//\ CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00022}00022\ \textcolor{comment}{//\ (minor\ and\ older\ changes\ stripped\ away,\ please\ see\ git\ history\ for\ details)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00023}00023\ \textcolor{comment}{//\ \ 2024-\/08-\/22:\ moved\ some\ OS/backend\ related\ function\ pointers\ from\ ImGuiIO\ to\ ImGuiPlatformIO:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00024}00024\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.GetClipboardTextFn\ \ \ \ -\/>\ platform\_io.Platform\_GetClipboardTextFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00025}00025\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.SetClipboardTextFn\ \ \ \ -\/>\ platform\_io.Platform\_SetClipboardTextFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00026}00026\ \textcolor{comment}{//\ \ 2022-\/11-\/30:\ Renderer:\ Restoring\ using\ al\_draw\_indexed\_prim()\ when\ Allegro\ version\ is\ >=\ 5.2.5.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00027}00027\ \textcolor{comment}{//\ \ 2022-\/10-\/11:\ Using\ 'nullptr'\ instead\ of\ 'NULL'\ as\ per\ our\ switch\ to\ C++11.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00028}00028\ \textcolor{comment}{//\ \ 2022-\/09-\/26:\ Inputs:\ Renamed\ ImGuiKey\_ModXXX\ introduced\ in\ 1.87\ to\ ImGuiMod\_XXX\ (old\ names\ still\ supported).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00029}00029\ \textcolor{comment}{//\ \ 2022-\/01-\/26:\ Inputs:\ replaced\ short-\/lived\ io.AddKeyModsEvent()\ (added\ two\ weeks\ ago)\ with\ io.AddKeyEvent()\ using\ ImGuiKey\_ModXXX\ flags.\ Sorry\ for\ the\ confusion.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00030}00030\ \textcolor{comment}{//\ \ 2022-\/01-\/17:\ Inputs:\ calling\ new\ io.AddMousePosEvent(),\ io.AddMouseButtonEvent(),\ io.AddMouseWheelEvent()\ API\ (1.87+).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00031}00031\ \textcolor{comment}{//\ \ 2022-\/01-\/17:\ Inputs:\ always\ calling\ io.AddKeyModsEvent()\ next\ and\ before\ key\ event\ (not\ in\ NewFrame)\ to\ fix\ input\ queue\ with\ very\ low\ framerates.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00032}00032\ \textcolor{comment}{//\ \ 2022-\/01-\/10:\ Inputs:\ calling\ new\ io.AddKeyEvent(),\ io.AddKeyModsEvent()\ +\ io.SetKeyEventNativeData()\ API\ (1.87+).\ Support\ for\ full\ ImGuiKey\ range.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00033}00033\ \textcolor{comment}{//\ \ 2021-\/12-\/08:\ Renderer:\ Fixed\ mishandling\ of\ the\ ImDrawCmd::IdxOffset\ field!\ This\ is\ an\ old\ bug\ but\ it\ never\ had\ an\ effect\ until\ some\ internal\ rendering\ changes\ in\ 1.86.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00034}00034\ \textcolor{comment}{//\ \ 2021-\/08-\/17:\ Calling\ io.AddFocusEvent()\ on\ ALLEGRO\_EVENT\_DISPLAY\_SWITCH\_OUT/ALLEGRO\_EVENT\_DISPLAY\_SWITCH\_IN\ events.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00035}00035\ \textcolor{comment}{//\ \ 2021-\/06-\/29:\ Reorganized\ backend\ to\ pull\ data\ from\ a\ single\ structure\ to\ facilitate\ usage\ with\ multiple-\/contexts\ (all\ g\_XXXX\ access\ changed\ to\ bd-\/>XXXX).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00036}00036\ \textcolor{comment}{//\ \ 2021-\/05-\/19:\ Renderer:\ Replaced\ direct\ access\ to\ ImDrawCmd::TextureId\ with\ a\ call\ to\ ImDrawCmd::GetTexID().\ (will\ become\ a\ requirement)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00037}00037\ \textcolor{comment}{//\ \ 2021-\/02-\/18:\ Change\ blending\ equation\ to\ preserve\ alpha\ in\ output\ buffer.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00038}00038\ \textcolor{comment}{//\ \ 2020-\/08-\/10:\ Inputs:\ Fixed\ horizontal\ mouse\ wheel\ direction.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00039}00039\ \textcolor{comment}{//\ \ 2019-\/12-\/05:\ Inputs:\ Added\ support\ for\ ImGuiMouseCursor\_NotAllowed\ mouse\ cursor.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00040}00040\ \textcolor{comment}{//\ \ 2019-\/07-\/21:\ Inputs:\ Added\ mapping\ for\ ImGuiKey\_KeyPadEnter.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00041}00041\ \textcolor{comment}{//\ \ 2019-\/05-\/11:\ Inputs:\ Don't\ filter\ character\ value\ from\ ALLEGRO\_EVENT\_KEY\_CHAR\ before\ calling\ AddInputCharacter().}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00042}00042\ \textcolor{comment}{//\ \ 2019-\/04-\/30:\ Renderer:\ Added\ support\ for\ special\ ImDrawCallback\_ResetRenderState\ callback\ to\ reset\ render\ state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00043}00043\ \textcolor{comment}{//\ \ 2018-\/11-\/30:\ Platform:\ Added\ touchscreen\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00044}00044\ \textcolor{comment}{//\ \ 2018-\/11-\/30:\ Misc:\ Setting\ up\ io.BackendPlatformName/io.BackendRendererName\ so\ they\ can\ be\ displayed\ in\ the\ About\ Window.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00045}00045\ \textcolor{comment}{//\ \ 2018-\/06-\/13:\ Platform:\ Added\ clipboard\ support\ (from\ Allegro\ 5.1.12).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00046}00046\ \textcolor{comment}{//\ \ 2018-\/06-\/13:\ Renderer:\ Use\ draw\_data-\/>DisplayPos\ and\ draw\_data-\/>DisplaySize\ to\ setup\ projection\ matrix\ and\ clipping\ rectangle.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00047}00047\ \textcolor{comment}{//\ \ 2018-\/06-\/13:\ Renderer:\ Stopped\ using\ al\_draw\_indexed\_prim()\ as\ it\ is\ buggy\ in\ Allegro's\ DX9\ backend.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00048}00048\ \textcolor{comment}{//\ \ 2018-\/06-\/13:\ Renderer:\ Backup/restore\ transform\ and\ clipping\ rectangle.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00049}00049\ \textcolor{comment}{//\ \ 2018-\/06-\/11:\ Misc:\ Setup\ io.BackendFlags\ ImGuiBackendFlags\_HasMouseCursors\ flag\ +\ honor\ ImGuiConfigFlags\_NoMouseCursorChange\ flag.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00050}00050\ \textcolor{comment}{//\ \ 2018-\/04-\/18:\ Misc:\ Renamed\ file\ from\ imgui\_impl\_a5.cpp\ to\ imgui\_impl\_allegro5.cpp.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00051}00051\ \textcolor{comment}{//\ \ 2018-\/04-\/18:\ Misc:\ Added\ support\ for\ 32-\/bit\ vertex\ indices\ to\ avoid\ conversion\ at\ runtime.\ Added\ imconfig\_allegro5.h\ to\ enforce\ 32-\/bit\ indices\ when\ included\ from\ imgui.h.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00052}00052\ \textcolor{comment}{//\ \ 2018-\/02-\/16:\ Misc:\ Obsoleted\ the\ io.RenderDrawListsFn\ callback\ and\ exposed\ ImGui\_ImplAllegro5\_RenderDrawData()\ in\ the\ .h\ file\ so\ you\ can\ call\ it\ yourself.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00053}00053\ \textcolor{comment}{//\ \ 2018-\/02-\/06:\ Misc:\ Removed\ call\ to\ ImGui::Shutdown()\ which\ is\ not\ available\ from\ 1.60\ WIP,\ user\ needs\ to\ call\ CreateContext/DestroyContext\ themselves.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00054}00054\ \textcolor{comment}{//\ \ 2018-\/02-\/06:\ Inputs:\ Added\ mapping\ for\ ImGuiKey\_Space.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00056}00056\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00057}00057\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00058}00058\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{imgui__impl__allegro5_8h}{imgui\_impl\_allegro5.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00059}00059\ \textcolor{preprocessor}{\#include\ <stdint.h>}\ \ \ \ \ \textcolor{comment}{//\ uint64\_t}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00060}00060\ \textcolor{preprocessor}{\#include\ <cstring>}\ \ \ \ \ \ \textcolor{comment}{//\ memcpy}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00062}00062\ \textcolor{comment}{//\ Allegro}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00063}00063\ \textcolor{preprocessor}{\#include\ <allegro5/allegro.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00064}00064\ \textcolor{preprocessor}{\#include\ <allegro5/allegro\_primitives.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00065}00065\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00066}00066\ \textcolor{preprocessor}{\#include\ <allegro5/allegro\_windows.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00067}00067\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00068}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_a3075d26d56db9747d99d8e2229e11543}{00068}}\ \textcolor{preprocessor}{\#define\ ALLEGRO\_HAS\_CLIPBOARD\ \ \ \ \ \ \ \ \ \ \ ((ALLEGRO\_VERSION\_INT\ \&\ \string~ALLEGRO\_UNSTABLE\_BIT)\ >=\ ((5\ <<\ 24)\ |\ (1\ <<\ 16)\ |\ (12\ <<\ 8)))\ }\textcolor{comment}{//\ Clipboard\ only\ supported\ from\ Allegro\ 5.1.12}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00069}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_a529dc68f5fcf2c043c073e3e38783e00}{00069}}\ \textcolor{preprocessor}{\#define\ ALLEGRO\_HAS\_DRAW\_INDEXED\_PRIM\ \ \ ((ALLEGRO\_VERSION\_INT\ \&\ \string~ALLEGRO\_UNSTABLE\_BIT)\ >=\ ((5\ <<\ 24)\ |\ (2\ <<\ 16)\ |\ (\ 5\ <<\ 8)))\ }\textcolor{comment}{//\ DX9\ implementation\ of\ al\_draw\_indexed\_prim()\ got\ fixed\ in\ Allegro\ 5.2.5}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00071}00071\ \textcolor{comment}{//\ Visual\ Studio\ warnings}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00072}00072\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00073}00073\ \textcolor{preprocessor}{\#pragma\ warning\ (disable:\ 4127)\ }\textcolor{comment}{//\ condition\ expression\ is\ constant}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00074}00074\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00076}\mbox{\hyperlink{struct_im_draw_vert_allegro}{00076}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_draw_vert_allegro}{ImDrawVertAllegro}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00077}00077\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00078}\mbox{\hyperlink{struct_im_draw_vert_allegro_a132358e0610fd1691a55101e6bb470eb}{00078}}\ \ \ \ \ ImVec2\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_draw_vert_allegro_a132358e0610fd1691a55101e6bb470eb}{pos}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00079}\mbox{\hyperlink{struct_im_draw_vert_allegro_a99adeb37caaa0be78aa790522f3f0bfd}{00079}}\ \ \ \ \ ImVec2\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_draw_vert_allegro_a99adeb37caaa0be78aa790522f3f0bfd}{uv}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00080}\mbox{\hyperlink{struct_im_draw_vert_allegro_ac19aa852b9e406d90bc97ab41243a7db}{00080}}\ \ \ \ \ ALLEGRO\_COLOR\ \ \ \mbox{\hyperlink{struct_im_draw_vert_allegro_ac19aa852b9e406d90bc97ab41243a7db}{col}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00081}00081\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00083}00083\ \textcolor{comment}{//\ FIXME-\/OPT:\ Unfortunately\ Allegro\ doesn't\ support\ 32-\/bit\ packed\ colors\ so\ we\ have\ to\ convert\ them\ to\ 4\ float\ as\ well..}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00084}00084\ \textcolor{comment}{//\ FIXME-\/OPT:\ Consider\ inlining\ al\_map\_rgba()?}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00085}00085\ \textcolor{comment}{//\ see\ https://github.com/liballeg/allegro5/blob/master/src/pixels.c\#L554}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00086}00086\ \textcolor{comment}{//\ and\ https://github.com/liballeg/allegro5/blob/master/include/allegro5/internal/aintern\_pixels.h}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00087}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_a24ff514637c9262e260747002365b9a7}{00087}}\ \textcolor{preprocessor}{\#define\ DRAW\_VERT\_IMGUI\_TO\_ALLEGRO(DST,\ SRC)\ \ \{\ (DST)-\/>pos\ =\ (SRC)-\/>pos;\ (DST)-\/>uv\ =\ (SRC)-\/>uv;\ unsigned\ char*\ c\ =\ (unsigned\ char*)\&(SRC)-\/>col;\ (DST)-\/>col\ =\ al\_map\_rgba(c[0],\ c[1],\ c[2],\ c[3]);\ \}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00089}00089\ \textcolor{comment}{//\ Allegro\ Data}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00090}\mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{00090}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00091}00091\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00092}\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{00092}}\ \ \ \ \ ALLEGRO\_DISPLAY*\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00093}\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a0aeca627d0f07bed89fc1229f46e12b8}{00093}}\ \ \ \ \ ALLEGRO\_BITMAP*\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a0aeca627d0f07bed89fc1229f46e12b8}{Texture}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00094}\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a4c32317a535a2345f0ecb20316a77078}{00094}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a4c32317a535a2345f0ecb20316a77078}{Time}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00095}\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d2290227b9958f5f8b9ff2b09961e0c}{00095}}\ \ \ \ \ ALLEGRO\_MOUSE\_CURSOR*\ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d2290227b9958f5f8b9ff2b09961e0c}{MouseCursorInvisible}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00096}\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d56c5f21907d9d77b7036c5d91f8c86}{00096}}\ \ \ \ \ ALLEGRO\_VERTEX\_DECL*\ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d56c5f21907d9d77b7036c5d91f8c86}{VertexDecl}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00097}\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5245a295ac92f1734bc344784a1bb710}{00097}}\ \ \ \ \ \textcolor{keywordtype}{char}*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5245a295ac92f1734bc344784a1bb710}{ClipboardTextData}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00099}\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5bd178f19817b2d3f8165d2278b71e8f}{00099}}\ \ \ \ \ ImVector<ImDrawVertAllegro>\ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5bd178f19817b2d3f8165d2278b71e8f}{BufVertices}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00100}\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_aadcfb048c36f97008498f66085aa4279}{00100}}\ \ \ \ \ ImVector<int>\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data_aadcfb048c36f97008498f66085aa4279}{BufIndices}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00102}\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a2b4a53e945890aeef025472989c7e9db}{00102}}\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a2b4a53e945890aeef025472989c7e9db}{ImGui\_ImplAllegro5\_Data}}()\ \ \ \{\ memset((\textcolor{keywordtype}{void}*)\textcolor{keyword}{this},\ 0,\ \textcolor{keyword}{sizeof}(*\textcolor{keyword}{this}));\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00103}00103\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00105}00105\ \textcolor{comment}{//\ Backend\ data\ stored\ in\ io.BackendPlatformUserData\ to\ allow\ support\ for\ multiple\ Dear\ ImGui\ contexts}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00106}00106\ \textcolor{comment}{//\ It\ is\ STRONGLY\ preferred\ that\ you\ use\ docking\ branch\ with\ multi-\/viewports\ (==\ single\ Dear\ ImGui\ context\ +\ multiple\ windows)\ instead\ of\ multiple\ Dear\ ImGui\ contexts.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00107}00107\ \textcolor{comment}{//\ FIXME:\ multi-\/context\ support\ is\ not\ well\ tested\ and\ probably\ dysfunctional\ in\ this\ backend.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00108}00108\ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ ImGui\_ImplAllegro5\_GetBackendData()\ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ ImGui::GetCurrentContext()\ ?\ (\mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*)ImGui::GetIO().BackendPlatformUserData\ :\ \textcolor{keyword}{nullptr};\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00110}00110\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplAllegro5\_SetupRenderState(ImDrawData*\ draw\_data)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00111}00111\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00112}00112\ \ \ \ \ \textcolor{comment}{//\ Setup\ blending}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00113}00113\ \ \ \ \ al\_set\_separate\_blender(ALLEGRO\_ADD,\ ALLEGRO\_ALPHA,\ ALLEGRO\_INVERSE\_ALPHA,\ ALLEGRO\_ADD,\ ALLEGRO\_ONE,\ ALLEGRO\_INVERSE\_ALPHA);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00115}00115\ \ \ \ \ \textcolor{comment}{//\ Setup\ orthographic\ projection\ matrix}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00116}00116\ \ \ \ \ \textcolor{comment}{//\ Our\ visible\ imgui\ space\ lies\ from\ draw\_data-\/>DisplayPos\ (top\ left)\ to\ draw\_data-\/>DisplayPos+data\_data-\/>DisplaySize\ (bottom\ right).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00117}00117\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ L\ =\ draw\_data-\/>DisplayPos.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ R\ =\ draw\_data-\/>DisplayPos.x\ +\ draw\_data-\/>DisplaySize.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ T\ =\ draw\_data-\/>DisplayPos.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ B\ =\ draw\_data-\/>DisplayPos.y\ +\ draw\_data-\/>DisplaySize.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ ALLEGRO\_TRANSFORM\ transform;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ al\_identity\_transform(\&transform);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ al\_use\_transform(\&transform);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ al\_orthographic\_transform(\&transform,\ L,\ T,\ 1.0f,\ R,\ B,\ -\/1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ al\_use\_projection\_transform(\&transform);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00127}00127\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00128}00128\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00130}00130\ \textcolor{comment}{//\ Render\ function.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00131}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_a303aac161173a556e17e4bf0df5c476d}{00131}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a303aac161173a556e17e4bf0df5c476d}{ImGui\_ImplAllegro5\_RenderDrawData}}(ImDrawData*\ draw\_data)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00132}00132\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00133}00133\ \ \ \ \ \textcolor{comment}{//\ Avoid\ rendering\ when\ minimized}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00134}00134\ \ \ \ \ \textcolor{keywordflow}{if}\ (draw\_data-\/>DisplaySize.x\ <=\ 0.0f\ ||\ draw\_data-\/>DisplaySize.y\ <=\ 0.0f)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00137}00137\ \ \ \ \ \textcolor{comment}{//\ Backup\ Allegro\ state\ that\ will\ be\ modified}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00138}00138\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ bd\ =\ ImGui\_ImplAllegro5\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00139}00139\ \ \ \ \ ALLEGRO\_TRANSFORM\ last\_transform\ =\ *al\_get\_current\_transform();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00140}00140\ \ \ \ \ ALLEGRO\_TRANSFORM\ last\_projection\_transform\ =\ *al\_get\_current\_projection\_transform();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00141}00141\ \ \ \ \ \textcolor{keywordtype}{int}\ last\_clip\_x,\ last\_clip\_y,\ last\_clip\_w,\ last\_clip\_h;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00142}00142\ \ \ \ \ al\_get\_clipping\_rectangle(\&last\_clip\_x,\ \&last\_clip\_y,\ \&last\_clip\_w,\ \&last\_clip\_h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00143}00143\ \ \ \ \ \textcolor{keywordtype}{int}\ last\_blender\_op,\ last\_blender\_src,\ last\_blender\_dst;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00144}00144\ \ \ \ \ al\_get\_blender(\&last\_blender\_op,\ \&last\_blender\_src,\ \&last\_blender\_dst);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00146}00146\ \ \ \ \ \textcolor{comment}{//\ Setup\ desired\ render\ state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00147}00147\ \ \ \ \ ImGui\_ImplAllegro5\_SetupRenderState(draw\_data);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00149}00149\ \ \ \ \ \textcolor{comment}{//\ Render\ command\ lists}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00150}00150\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ draw\_data-\/>CmdListsCount;\ n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00151}00151\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawList*\ draw\_list\ =\ draw\_data-\/>CmdLists[n];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ ImVector<ImDrawVertAllegro>\&\ vertices\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5bd178f19817b2d3f8165d2278b71e8f}{BufVertices}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00155}00155\ \textcolor{preprocessor}{\#if\ ALLEGRO\_HAS\_DRAW\_INDEXED\_PRIM}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ vertices.resize(draw\_list-\/>VtxBuffer.Size);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ draw\_list-\/>VtxBuffer.Size;\ i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawVert*\ src\_v\ =\ \&draw\_list-\/>VtxBuffer[i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_draw_vert_allegro}{ImDrawVertAllegro}}*\ dst\_v\ =\ \&vertices[i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a24ff514637c9262e260747002365b9a7}{DRAW\_VERT\_IMGUI\_TO\_ALLEGRO}}(dst\_v,\ src\_v);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}*\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a94ae715eebfc1eb65456c0ab9b97f1e9}{indices}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{sizeof}(ImDrawIdx)\ ==\ 2)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00165}00165\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FIXME-\/OPT:\ Allegro\ doesn't\ support\ 16-\/bit\ indices.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ You\ can\ '\#define\ ImDrawIdx\ int'\ in\ imconfig.h\ to\ request\ Dear\ ImGui\ to\ output\ 32-\/bit\ indices.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otherwise,\ we\ convert\ them\ from\ 16-\/bit\ to\ 32-\/bit\ at\ runtime\ here,\ which\ works\ perfectly\ but\ is\ a\ little\ wasteful.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_aadcfb048c36f97008498f66085aa4279}{BufIndices}}.resize(draw\_list-\/>IdxBuffer.Size);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ draw\_list-\/>IdxBuffer.Size;\ ++i)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_aadcfb048c36f97008498f66085aa4279}{BufIndices}}[i]\ =\ (\textcolor{keywordtype}{int})draw\_list-\/>IdxBuffer.Data[i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a94ae715eebfc1eb65456c0ab9b97f1e9}{indices}}\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_aadcfb048c36f97008498f66085aa4279}{BufIndices}}.Data;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{sizeof}(ImDrawIdx)\ ==\ 4)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a94ae715eebfc1eb65456c0ab9b97f1e9}{indices}}\ =\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}*)draw\_list-\/>IdxBuffer.Data;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00178}00178\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Allegro's\ implementation\ of\ al\_draw\_indexed\_prim()\ for\ DX9\ was\ broken\ until\ 5.2.5.\ Unindex\ buffers\ ourselves\ while\ converting\ vertex\ format.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ vertices.resize(draw\_list-\/>IdxBuffer.Size);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ draw\_list-\/>IdxBuffer.Size;\ i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawVert*\ src\_v\ =\ \&draw\_list-\/>VtxBuffer[draw\_list-\/>IdxBuffer[i]];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_draw_vert_allegro}{ImDrawVertAllegro}}*\ dst\_v\ =\ \&vertices[i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a24ff514637c9262e260747002365b9a7}{DRAW\_VERT\_IMGUI\_TO\_ALLEGRO}}(dst\_v,\ src\_v);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00187}00187\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Render\ command\ lists}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ ImVec2\ clip\_off\ =\ draw\_data-\/>DisplayPos;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ cmd\_i\ =\ 0;\ cmd\_i\ <\ draw\_list-\/>CmdBuffer.Size;\ cmd\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawCmd*\ pcmd\ =\ \&draw\_list-\/>CmdBuffer[cmd\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pcmd-\/>UserCallback)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ User\ callback,\ registered\ via\ ImDrawList::AddCallback()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (ImDrawCallback\_ResetRenderState\ is\ a\ special\ callback\ value\ used\ by\ the\ user\ to\ request\ the\ renderer\ to\ reset\ render\ state.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pcmd-\/>UserCallback\ ==\ ImDrawCallback\_ResetRenderState)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImGui\_ImplAllegro5\_SetupRenderState(draw\_data);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pcmd-\/>UserCallback(draw\_list,\ pcmd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Project\ scissor/clipping\ rectangles\ into\ framebuffer\ space}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImVec2\ clip\_min(pcmd-\/>ClipRect.x\ -\/\ clip\_off.x,\ pcmd-\/>ClipRect.y\ -\/\ clip\_off.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImVec2\ clip\_max(pcmd-\/>ClipRect.z\ -\/\ clip\_off.x,\ pcmd-\/>ClipRect.w\ -\/\ clip\_off.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clip\_max.x\ <=\ clip\_min.x\ ||\ clip\_max.y\ <=\ clip\_min.y)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Apply\ scissor/clipping\ rectangle,\ Draw}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ALLEGRO\_BITMAP*\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a0b57774cb59b667df4a205ae0b1a50e2}{texture}}\ =\ (ALLEGRO\_BITMAP*)pcmd-\/>GetTexID();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ al\_set\_clipping\_rectangle(clip\_min.x,\ clip\_min.y,\ clip\_max.x\ -\/\ clip\_min.x,\ clip\_max.y\ -\/\ clip\_min.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00214}00214\ \textcolor{preprocessor}{\#if\ ALLEGRO\_HAS\_DRAW\_INDEXED\_PRIM}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ al\_draw\_indexed\_prim(\&vertices[0],\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d56c5f21907d9d77b7036c5d91f8c86}{VertexDecl}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a0b57774cb59b667df4a205ae0b1a50e2}{texture}},\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a94ae715eebfc1eb65456c0ab9b97f1e9}{indices}}[pcmd-\/>IdxOffset],\ pcmd-\/>ElemCount,\ ALLEGRO\_PRIM\_TRIANGLE\_LIST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00216}00216\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ al\_draw\_prim(\&vertices[0],\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d56c5f21907d9d77b7036c5d91f8c86}{VertexDecl}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a0b57774cb59b667df4a205ae0b1a50e2}{texture}},\ pcmd-\/>IdxOffset,\ pcmd-\/>IdxOffset\ +\ pcmd-\/>ElemCount,\ ALLEGRO\_PRIM\_TRIANGLE\_LIST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00218}00218\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00221}00221\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00223}00223\ \ \ \ \ \textcolor{comment}{//\ Restore\ modified\ Allegro\ state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00224}00224\ \ \ \ \ al\_set\_blender(last\_blender\_op,\ last\_blender\_src,\ last\_blender\_dst);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00225}00225\ \ \ \ \ al\_set\_clipping\_rectangle(last\_clip\_x,\ last\_clip\_y,\ last\_clip\_w,\ last\_clip\_h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00226}00226\ \ \ \ \ al\_use\_transform(\&last\_transform);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00227}00227\ \ \ \ \ al\_use\_projection\_transform(\&last\_projection\_transform);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00228}00228\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00230}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_a789742ed378f216bc5d5531d86212f36}{00230}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a789742ed378f216bc5d5531d86212f36}{ImGui\_ImplAllegro5\_CreateDeviceObjects}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00231}00231\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00232}00232\ \ \ \ \ \textcolor{comment}{//\ Build\ texture\ atlas}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00233}00233\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ bd\ =\ ImGui\_ImplAllegro5\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00234}00234\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00235}00235\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa6f05cf9167efe04d7c20e5d34561086}{pixels}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00236}00236\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00237}00237\ \ \ \ \ io.Fonts-\/>GetTexDataAsRGBA32(\&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa6f05cf9167efe04d7c20e5d34561086}{pixels}},\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00239}00239\ \ \ \ \ \textcolor{comment}{//\ Create\ texture}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00240}00240\ \ \ \ \ \textcolor{comment}{//\ (Bilinear\ sampling\ is\ required\ by\ default.\ Set\ 'io.Fonts-\/>Flags\ |=\ ImFontAtlasFlags\_NoBakedLines'\ or\ 'style.AntiAliasedLinesUseTex\ =\ false'\ to\ allow\ point/nearest\ sampling)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00241}00241\ \ \ \ \ \textcolor{keywordtype}{int}\ flags\ =\ al\_get\_new\_bitmap\_flags();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00242}00242\ \ \ \ \ \textcolor{keywordtype}{int}\ fmt\ =\ al\_get\_new\_bitmap\_format();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00243}00243\ \ \ \ \ al\_set\_new\_bitmap\_flags(ALLEGRO\_MEMORY\_BITMAP\ |\ ALLEGRO\_MIN\_LINEAR\ |\ ALLEGRO\_MAG\_LINEAR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00244}00244\ \ \ \ \ al\_set\_new\_bitmap\_format(ALLEGRO\_PIXEL\_FORMAT\_ABGR\_8888\_LE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00245}00245\ \ \ \ \ ALLEGRO\_BITMAP*\ img\ =\ al\_create\_bitmap(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00246}00246\ \ \ \ \ al\_set\_new\_bitmap\_flags(flags);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00247}00247\ \ \ \ \ al\_set\_new\_bitmap\_format(fmt);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00248}00248\ \ \ \ \ \textcolor{keywordflow}{if}\ (!img)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00251}00251\ \ \ \ \ ALLEGRO\_LOCKED\_REGION*\ locked\_img\ =\ al\_lock\_bitmap(img,\ al\_get\_bitmap\_format(img),\ ALLEGRO\_LOCK\_WRITEONLY);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00252}00252\ \ \ \ \ \textcolor{keywordflow}{if}\ (!locked\_img)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00253}00253\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ al\_destroy\_bitmap(img);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00256}00256\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00257}00257\ \ \ \ \ memcpy(locked\_img-\/>data,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa6f05cf9167efe04d7c20e5d34561086}{pixels}},\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int})\ *\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}}\ *\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00258}00258\ \ \ \ \ al\_unlock\_bitmap(img);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00259}00259\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00260}00260\ \ \ \ \ \textcolor{comment}{//\ Convert\ software\ texture\ to\ hardware\ texture.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00261}00261\ \ \ \ \ ALLEGRO\_BITMAP*\ cloned\_img\ =\ al\_clone\_bitmap(img);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00262}00262\ \ \ \ \ al\_destroy\_bitmap(img);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00263}00263\ \ \ \ \ \textcolor{keywordflow}{if}\ (!cloned\_img)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00266}00266\ \ \ \ \ \textcolor{comment}{//\ Store\ our\ identifier}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00267}00267\ \ \ \ \ io.Fonts-\/>SetTexID((ImTextureID)(intptr\_t)cloned\_img);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00268}00268\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a0aeca627d0f07bed89fc1229f46e12b8}{Texture}}\ =\ cloned\_img;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00270}00270\ \ \ \ \ \textcolor{comment}{//\ Create\ an\ invisible\ mouse\ cursor}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00271}00271\ \ \ \ \ \textcolor{comment}{//\ Because\ al\_hide\_mouse\_cursor()\ seems\ to\ mess\ up\ with\ the\ actual\ inputs..}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00272}00272\ \ \ \ \ ALLEGRO\_BITMAP*\ mouse\_cursor\ =\ al\_create\_bitmap(8,\ 8);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00273}00273\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d2290227b9958f5f8b9ff2b09961e0c}{MouseCursorInvisible}}\ =\ al\_create\_mouse\_cursor(mouse\_cursor,\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00274}00274\ \ \ \ \ al\_destroy\_bitmap(mouse\_cursor);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00276}00276\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00277}00277\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00279}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_a0d09ba855db6d3fdc94cc0c6eb4a032f}{00279}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a0d09ba855db6d3fdc94cc0c6eb4a032f}{ImGui\_ImplAllegro5\_InvalidateDeviceObjects}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00280}00280\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00281}00281\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00282}00282\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ bd\ =\ ImGui\_ImplAllegro5\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00283}00283\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a0aeca627d0f07bed89fc1229f46e12b8}{Texture}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00284}00284\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ io.Fonts-\/>SetTexID(0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ al\_destroy\_bitmap(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a0aeca627d0f07bed89fc1229f46e12b8}{Texture}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a0aeca627d0f07bed89fc1229f46e12b8}{Texture}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00288}00288\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00289}00289\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d2290227b9958f5f8b9ff2b09961e0c}{MouseCursorInvisible}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00290}00290\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ al\_destroy\_mouse\_cursor(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d2290227b9958f5f8b9ff2b09961e0c}{MouseCursorInvisible}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d2290227b9958f5f8b9ff2b09961e0c}{MouseCursorInvisible}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00293}00293\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00294}00294\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00296}00296\ \textcolor{preprocessor}{\#if\ ALLEGRO\_HAS\_CLIPBOARD}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00297}00297\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ ImGui\_ImplAllegro5\_GetClipboardText(ImGuiContext*)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00298}00298\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00299}00299\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ bd\ =\ ImGui\_ImplAllegro5\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00300}00300\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5245a295ac92f1734bc344784a1bb710}{ClipboardTextData}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ al\_free(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5245a295ac92f1734bc344784a1bb710}{ClipboardTextData}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00302}00302\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5245a295ac92f1734bc344784a1bb710}{ClipboardTextData}}\ =\ al\_get\_clipboard\_text(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00303}00303\ \ \ \ \ \textcolor{keywordflow}{return}\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5245a295ac92f1734bc344784a1bb710}{ClipboardTextData}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00304}00304\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00305}00305\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00306}00306\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplAllegro5\_SetClipboardText(ImGuiContext*,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00307}00307\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00308}00308\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ bd\ =\ ImGui\_ImplAllegro5\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00309}00309\ \ \ \ \ al\_set\_clipboard\_text(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}},\ text);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00310}00310\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00311}00311\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00312}00312\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00313}00313\ \textcolor{comment}{//\ Not\ static\ to\ allow\ third-\/party\ code\ to\ use\ that\ if\ they\ want\ to\ (but\ undocumented)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00314}00314\ ImGuiKey\ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a9120eeef18fc70a5d5dd0f0be4c4a438}{ImGui\_ImplAllegro5\_KeyCodeToImGuiKey}}(\textcolor{keywordtype}{int}\ key\_code);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00315}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_a9120eeef18fc70a5d5dd0f0be4c4a438}{00315}}\ ImGuiKey\ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a9120eeef18fc70a5d5dd0f0be4c4a438}{ImGui\_ImplAllegro5\_KeyCodeToImGuiKey}}(\textcolor{keywordtype}{int}\ key\_code)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00316}00316\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00317}00317\ \ \ \ \ \textcolor{keywordflow}{switch}\ (key\_code)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00318}00318\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_TAB:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Tab;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_LEFT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00321}00321\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_RIGHT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_UP:\ \textcolor{keywordflow}{return}\ ImGuiKey\_UpArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_DOWN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_DownArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PGUP:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PageUp;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PGDN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PageDown;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00326}00326\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_HOME:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Home;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_END:\ \textcolor{keywordflow}{return}\ ImGuiKey\_End;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_INSERT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Insert;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_DELETE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Delete;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00330}00330\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_BACKSPACE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Backspace;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_SPACE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Space;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_ENTER:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Enter;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00333}00333\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_ESCAPE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Escape;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_QUOTE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Apostrophe;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_COMMA:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Comma;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_MINUS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Minus;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_FULLSTOP:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Period;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_SLASH:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Slash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_SEMICOLON:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Semicolon;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_EQUALS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Equal;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_OPENBRACE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftBracket;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_BACKSLASH:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Backslash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_CLOSEBRACE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightBracket;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_TILDE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_GraveAccent;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_CAPSLOCK:\ \textcolor{keywordflow}{return}\ ImGuiKey\_CapsLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00346}00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_SCROLLLOCK:\ \textcolor{keywordflow}{return}\ ImGuiKey\_ScrollLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_NUMLOCK:\ \textcolor{keywordflow}{return}\ ImGuiKey\_NumLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PRINTSCREEN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PrintScreen;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAUSE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Pause;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_0:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00352}00352\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00354}00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00355}00355\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00358}00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00359}00359\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_DELETE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadDecimal;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_SLASH:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadDivide;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00362}00362\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_ASTERISK:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadMultiply;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00363}00363\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_MINUS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadSubtract;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00364}00364\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_PLUS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadAdd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00365}00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_ENTER:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadEnter;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_PAD\_EQUALS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadEqual;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_LCTRL:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftCtrl;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_LSHIFT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftShift;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_ALT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftAlt;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_LWIN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftSuper;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00371}00371\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_RCTRL:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightCtrl;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00372}00372\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_RSHIFT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightShift;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00373}00373\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_ALTGR:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightAlt;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00374}00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_RWIN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightSuper;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00375}00375\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_MENU:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Menu;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00376}00376\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_0:\ \textcolor{keywordflow}{return}\ ImGuiKey\_0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00377}00377\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00378}00378\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00379}00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00380}00380\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00382}00382\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00383}00383\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00385}00385\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00386}00386\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_A:\ \textcolor{keywordflow}{return}\ ImGuiKey\_A;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00387}00387\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_B:\ \textcolor{keywordflow}{return}\ ImGuiKey\_B;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00388}00388\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_C:\ \textcolor{keywordflow}{return}\ ImGuiKey\_C;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00389}00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_D:\ \textcolor{keywordflow}{return}\ ImGuiKey\_D;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00390}00390\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_E:\ \textcolor{keywordflow}{return}\ ImGuiKey\_E;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00391}00391\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00392}00392\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_G:\ \textcolor{keywordflow}{return}\ ImGuiKey\_G;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00393}00393\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_H:\ \textcolor{keywordflow}{return}\ ImGuiKey\_H;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00394}00394\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_I:\ \textcolor{keywordflow}{return}\ ImGuiKey\_I;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00395}00395\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_J:\ \textcolor{keywordflow}{return}\ ImGuiKey\_J;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00396}00396\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_K:\ \textcolor{keywordflow}{return}\ ImGuiKey\_K;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00397}00397\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_L:\ \textcolor{keywordflow}{return}\ ImGuiKey\_L;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00398}00398\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_M:\ \textcolor{keywordflow}{return}\ ImGuiKey\_M;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00399}00399\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_N:\ \textcolor{keywordflow}{return}\ ImGuiKey\_N;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00400}00400\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_O:\ \textcolor{keywordflow}{return}\ ImGuiKey\_O;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00401}00401\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_P:\ \textcolor{keywordflow}{return}\ ImGuiKey\_P;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00402}00402\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_Q:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Q;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00403}00403\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_R:\ \textcolor{keywordflow}{return}\ ImGuiKey\_R;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00404}00404\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_S:\ \textcolor{keywordflow}{return}\ ImGuiKey\_S;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00405}00405\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_T:\ \textcolor{keywordflow}{return}\ ImGuiKey\_T;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00406}00406\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_U:\ \textcolor{keywordflow}{return}\ ImGuiKey\_U;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00407}00407\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_V:\ \textcolor{keywordflow}{return}\ ImGuiKey\_V;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00408}00408\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_W:\ \textcolor{keywordflow}{return}\ ImGuiKey\_W;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00409}00409\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_X:\ \textcolor{keywordflow}{return}\ ImGuiKey\_X;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00410}00410\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_Y:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00411}00411\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_Z:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Z;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00412}00412\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00413}00413\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00414}00414\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00415}00415\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00416}00416\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00417}00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00418}00418\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00419}00419\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00420}00420\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00421}00421\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F10:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F10;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00422}00422\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F11:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F11;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00423}00423\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_KEY\_F12:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F12;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00424}00424\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ ImGuiKey\_None;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00425}00425\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00426}00426\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00427}00427\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00428}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_ad4f2998624c4f6df0a56222e774614c8}{00428}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_ad4f2998624c4f6df0a56222e774614c8}{ImGui\_ImplAllegro5\_Init}}(ALLEGRO\_DISPLAY*\ display)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00429}00429\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00430}00430\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00431}00431\ \ \ \ \ IMGUI\_CHECKVERSION();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00432}00432\ \ \ \ \ IM\_ASSERT(io.BackendPlatformUserData\ ==\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Already\ initialized\ a\ platform\ backend!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00433}00433\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00434}00434\ \ \ \ \ \textcolor{comment}{//\ Setup\ backend\ capabilities\ flags}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00435}00435\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ bd\ =\ IM\_NEW(\mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}})();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00436}00436\ \ \ \ \ io.BackendPlatformUserData\ =\ (\textcolor{keywordtype}{void}*)bd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00437}00437\ \ \ \ \ io.BackendPlatformName\ =\ io.BackendRendererName\ =\ \textcolor{stringliteral}{"{}imgui\_impl\_allegro5"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00438}00438\ \ \ \ \ io.BackendFlags\ |=\ ImGuiBackendFlags\_HasMouseCursors;\ \ \ \ \ \ \ \textcolor{comment}{//\ We\ can\ honor\ GetMouseCursor()\ values\ (optional)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00439}00439\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00440}00440\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}}\ =\ display;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00441}00441\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00442}00442\ \ \ \ \ \textcolor{comment}{//\ Create\ custom\ vertex\ declaration.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00443}00443\ \ \ \ \ \textcolor{comment}{//\ Unfortunately\ Allegro\ doesn't\ support\ 32-\/bit\ packed\ colors\ so\ we\ have\ to\ convert\ them\ to\ 4\ floats.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00444}00444\ \ \ \ \ \textcolor{comment}{//\ We\ still\ use\ a\ custom\ declaration\ to\ use\ 'ALLEGRO\_PRIM\_TEX\_COORD'\ instead\ of\ 'ALLEGRO\_PRIM\_TEX\_COORD\_PIXEL'\ else\ we\ can't\ do\ a\ reliable\ conversion.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00445}00445\ \ \ \ \ ALLEGRO\_VERTEX\_ELEMENT\ elems[]\ =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00446}00446\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00447}00447\ \ \ \ \ \ \ \ \ \{\ ALLEGRO\_PRIM\_POSITION,\ ALLEGRO\_PRIM\_FLOAT\_2,\ offsetof(\mbox{\hyperlink{struct_im_draw_vert_allegro}{ImDrawVertAllegro}},\ pos)\ \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00448}00448\ \ \ \ \ \ \ \ \ \{\ ALLEGRO\_PRIM\_TEX\_COORD,\ ALLEGRO\_PRIM\_FLOAT\_2,\ offsetof(\mbox{\hyperlink{struct_im_draw_vert_allegro}{ImDrawVertAllegro}},\ uv)\ \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00449}00449\ \ \ \ \ \ \ \ \ \{\ ALLEGRO\_PRIM\_COLOR\_ATTR,\ 0,\ offsetof(\mbox{\hyperlink{struct_im_draw_vert_allegro}{ImDrawVertAllegro}},\ col)\ \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00450}00450\ \ \ \ \ \ \ \ \ \{\ 0,\ 0,\ 0\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00451}00451\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00452}00452\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d56c5f21907d9d77b7036c5d91f8c86}{VertexDecl}}\ =\ al\_create\_vertex\_decl(elems,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_im_draw_vert_allegro}{ImDrawVertAllegro}}));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00453}00453\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00454}00454\ \textcolor{preprocessor}{\#if\ ALLEGRO\_HAS\_CLIPBOARD}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00455}00455\ \ \ \ \ ImGuiPlatformIO\&\ platform\_io\ =\ ImGui::GetPlatformIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00456}00456\ \ \ \ \ platform\_io.Platform\_SetClipboardTextFn\ =\ ImGui\_ImplAllegro5\_SetClipboardText;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00457}00457\ \ \ \ \ platform\_io.Platform\_GetClipboardTextFn\ =\ ImGui\_ImplAllegro5\_GetClipboardText;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00458}00458\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00459}00459\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00460}00460\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00461}00461\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00462}00462\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00463}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_a109536e8da23d4e801517f95d7f6d248}{00463}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a109536e8da23d4e801517f95d7f6d248}{ImGui\_ImplAllegro5\_Shutdown}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00464}00464\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00465}00465\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ bd\ =\ ImGui\_ImplAllegro5\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00466}00466\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}No\ platform\ backend\ to\ shutdown,\ or\ already\ shutdown?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00467}00467\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00469}00469\ \ \ \ \ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a0d09ba855db6d3fdc94cc0c6eb4a032f}{ImGui\_ImplAllegro5\_InvalidateDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00470}00470\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d56c5f21907d9d77b7036c5d91f8c86}{VertexDecl}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00471}00471\ \ \ \ \ \ \ \ \ al\_destroy\_vertex\_decl(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d56c5f21907d9d77b7036c5d91f8c86}{VertexDecl}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00472}00472\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5245a295ac92f1734bc344784a1bb710}{ClipboardTextData}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00473}00473\ \ \ \ \ \ \ \ \ al\_free(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5245a295ac92f1734bc344784a1bb710}{ClipboardTextData}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00474}00474\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00475}00475\ \ \ \ \ io.BackendPlatformName\ =\ io.BackendRendererName\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00476}00476\ \ \ \ \ io.BackendPlatformUserData\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00477}00477\ \ \ \ \ io.BackendFlags\ \&=\ \string~ImGuiBackendFlags\_HasMouseCursors;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00478}00478\ \ \ \ \ IM\_DELETE(bd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00479}00479\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00480}00480\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00481}00481\ \textcolor{comment}{//\ ev-\/>keyboard.modifiers\ seems\ always\ zero\ so\ using\ that...}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00482}00482\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplAllegro5\_UpdateKeyModifiers()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00483}00483\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00484}00484\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00485}00485\ \ \ \ \ ALLEGRO\_KEYBOARD\_STATE\ keys;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00486}00486\ \ \ \ \ al\_get\_keyboard\_state(\&keys);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00487}00487\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Ctrl,\ al\_key\_down(\&keys,\ ALLEGRO\_KEY\_LCTRL)\ ||\ al\_key\_down(\&keys,\ ALLEGRO\_KEY\_RCTRL));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00488}00488\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Shift,\ al\_key\_down(\&keys,\ ALLEGRO\_KEY\_LSHIFT)\ ||\ al\_key\_down(\&keys,\ ALLEGRO\_KEY\_RSHIFT));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00489}00489\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Alt,\ al\_key\_down(\&keys,\ ALLEGRO\_KEY\_ALT)\ ||\ al\_key\_down(\&keys,\ ALLEGRO\_KEY\_ALTGR));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00490}00490\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Super,\ al\_key\_down(\&keys,\ ALLEGRO\_KEY\_LWIN)\ ||\ al\_key\_down(\&keys,\ ALLEGRO\_KEY\_RWIN));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00491}00491\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00492}00492\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00493}00493\ \textcolor{comment}{//\ You\ can\ read\ the\ io.WantCaptureMouse,\ io.WantCaptureKeyboard\ flags\ to\ tell\ if\ dear\ imgui\ wants\ to\ use\ your\ inputs.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00494}00494\ \textcolor{comment}{//\ -\/\ When\ io.WantCaptureMouse\ is\ true,\ do\ not\ dispatch\ mouse\ input\ data\ to\ your\ main\ application,\ or\ clear/overwrite\ your\ copy\ of\ the\ mouse\ data.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00495}00495\ \textcolor{comment}{//\ -\/\ When\ io.WantCaptureKeyboard\ is\ true,\ do\ not\ dispatch\ keyboard\ input\ data\ to\ your\ main\ application,\ or\ clear/overwrite\ your\ copy\ of\ the\ keyboard\ data.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00496}00496\ \textcolor{comment}{//\ Generally\ you\ may\ always\ pass\ all\ inputs\ to\ dear\ imgui,\ and\ hide\ them\ from\ your\ application\ based\ on\ those\ two\ flags.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00497}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_a33e63231523cf294f97d6ae6759e52ca}{00497}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a33e63231523cf294f97d6ae6759e52ca}{ImGui\_ImplAllegro5\_ProcessEvent}}(ALLEGRO\_EVENT*\ ev)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00498}00498\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00499}00499\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ bd\ =\ ImGui\_ImplAllegro5\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00500}00500\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Context\ or\ backend\ not\ initialized!\ Did\ you\ call\ ImGui\_ImplAllegro5\_Init()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00501}00501\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00502}00502\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00503}00503\ \ \ \ \ \textcolor{keywordflow}{switch}\ (ev-\/>type)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00504}00504\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00505}00505\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_MOUSE\_AXES:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00506}00506\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>mouse.display\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00507}00507\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00508}00508\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMousePosEvent(ev-\/>mouse.x,\ ev-\/>mouse.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseWheelEvent(-\/ev-\/>mouse.dw,\ ev-\/>mouse.dz);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00510}00510\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00511}00511\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00512}00512\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_MOUSE\_BUTTON\_DOWN:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00513}00513\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_MOUSE\_BUTTON\_UP:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00514}00514\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>mouse.display\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}}\ \&\&\ ev-\/>mouse.button\ >\ 0\ \&\&\ ev-\/>mouse.button\ <=\ 5)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseButtonEvent(ev-\/>mouse.button\ -\/\ 1,\ ev-\/>type\ ==\ ALLEGRO\_EVENT\_MOUSE\_BUTTON\_DOWN);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00516}00516\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00517}00517\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_TOUCH\_MOVE:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00518}00518\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>touch.display\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMousePosEvent(ev-\/>touch.x,\ ev-\/>touch.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00520}00520\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00521}00521\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_TOUCH\_BEGIN:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00522}00522\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_TOUCH\_END:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00523}00523\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_TOUCH\_CANCEL:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00524}00524\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>touch.display\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}}\ \&\&\ ev-\/>touch.primary)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseButtonEvent(0,\ ev-\/>type\ ==\ ALLEGRO\_EVENT\_TOUCH\_BEGIN);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00526}00526\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00527}00527\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_MOUSE\_LEAVE\_DISPLAY:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00528}00528\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>mouse.display\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMousePosEvent(-\/FLT\_MAX,\ -\/FLT\_MAX);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00530}00530\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00531}00531\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_KEY\_CHAR:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00532}00532\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>keyboard.display\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>keyboard.unichar\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ io.AddInputCharacter((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int})ev-\/>keyboard.unichar);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00535}00535\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00536}00536\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_KEY\_DOWN:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00537}00537\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_KEY\_UP:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00538}00538\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>keyboard.display\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00539}00539\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui\_ImplAllegro5\_UpdateKeyModifiers();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ ImGuiKey\ key\ =\ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a9120eeef18fc70a5d5dd0f0be4c4a438}{ImGui\_ImplAllegro5\_KeyCodeToImGuiKey}}(ev-\/>keyboard.keycode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00542}00542\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddKeyEvent(key,\ (ev-\/>type\ ==\ ALLEGRO\_EVENT\_KEY\_DOWN));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ io.SetKeyEventNativeData(key,\ ev-\/>keyboard.keycode,\ -\/1);\ \textcolor{comment}{//\ To\ support\ legacy\ indexing\ (<1.87\ user\ code)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00544}00544\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00545}00545\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00546}00546\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_DISPLAY\_SWITCH\_OUT:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00547}00547\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>display.source\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddFocusEvent(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00549}00549\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00550}00550\ \ \ \ \ \textcolor{keywordflow}{case}\ ALLEGRO\_EVENT\_DISPLAY\_SWITCH\_IN:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00551}00551\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>display.source\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00552}00552\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddFocusEvent(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00554}00554\ \textcolor{preprocessor}{\#if\ defined(ALLEGRO\_UNSTABLE)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00555}00555\ \ \ \ \ \ \ \ \ \ \ \ \ al\_clear\_keyboard\_state(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00556}00556\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00557}00557\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00558}00558\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00559}00559\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00560}00560\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00561}00561\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00563}00563\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplAllegro5\_UpdateMouseCursor()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00564}00564\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00565}00565\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00566}00566\ \ \ \ \ \textcolor{keywordflow}{if}\ (io.ConfigFlags\ \&\ ImGuiConfigFlags\_NoMouseCursorChange)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00567}00567\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00568}00568\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00569}00569\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ bd\ =\ ImGui\_ImplAllegro5\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00570}00570\ \ \ \ \ ImGuiMouseCursor\ imgui\_cursor\ =\ ImGui::GetMouseCursor();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00571}00571\ \ \ \ \ \textcolor{keywordflow}{if}\ (io.MouseDrawCursor\ ||\ imgui\_cursor\ ==\ ImGuiMouseCursor\_None)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00572}00572\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00573}00573\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Hide\ OS\ mouse\ cursor\ if\ imgui\ is\ drawing\ it\ or\ if\ it\ wants\ no\ cursor}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00574}00574\ \ \ \ \ \ \ \ \ al\_set\_mouse\_cursor(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}},\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a5d2290227b9958f5f8b9ff2b09961e0c}{MouseCursorInvisible}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00575}00575\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00576}00576\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00577}00577\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00578}00578\ \ \ \ \ \ \ \ \ ALLEGRO\_SYSTEM\_MOUSE\_CURSOR\ cursor\_id\ =\ ALLEGRO\_SYSTEM\_MOUSE\_CURSOR\_DEFAULT;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00579}00579\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (imgui\_cursor)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00580}00580\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00581}00581\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiMouseCursor\_TextInput:\ \ \ \ cursor\_id\ =\ ALLEGRO\_SYSTEM\_MOUSE\_CURSOR\_EDIT;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00582}00582\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiMouseCursor\_ResizeAll:\ \ \ \ cursor\_id\ =\ ALLEGRO\_SYSTEM\_MOUSE\_CURSOR\_MOVE;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00583}00583\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiMouseCursor\_ResizeNS:\ \ \ \ \ cursor\_id\ =\ ALLEGRO\_SYSTEM\_MOUSE\_CURSOR\_RESIZE\_N;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00584}00584\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiMouseCursor\_ResizeEW:\ \ \ \ \ cursor\_id\ =\ ALLEGRO\_SYSTEM\_MOUSE\_CURSOR\_RESIZE\_E;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00585}00585\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiMouseCursor\_ResizeNESW:\ \ \ cursor\_id\ =\ ALLEGRO\_SYSTEM\_MOUSE\_CURSOR\_RESIZE\_NE;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00586}00586\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiMouseCursor\_ResizeNWSE:\ \ \ cursor\_id\ =\ ALLEGRO\_SYSTEM\_MOUSE\_CURSOR\_RESIZE\_NW;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00587}00587\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiMouseCursor\_NotAllowed:\ \ \ cursor\_id\ =\ ALLEGRO\_SYSTEM\_MOUSE\_CURSOR\_UNAVAILABLE;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00588}00588\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00589}00589\ \ \ \ \ \ \ \ \ al\_set\_system\_mouse\_cursor(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}},\ cursor\_id);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00590}00590\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00591}00591\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00592}00592\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00593}\mbox{\hyperlink{imgui__impl__allegro5_8cpp_a0e1712e5951f3f545d336db317cdcc6c}{00593}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a0e1712e5951f3f545d336db317cdcc6c}{ImGui\_ImplAllegro5\_NewFrame}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00594}00594\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00595}00595\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_allegro5___data}{ImGui\_ImplAllegro5\_Data}}*\ bd\ =\ ImGui\_ImplAllegro5\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00596}00596\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Context\ or\ backend\ not\ initialized!\ Did\ you\ call\ ImGui\_ImplAllegro5\_Init()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00597}00597\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00598}00598\ \ \ \ \ \textcolor{keywordflow}{if}\ (!bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a0aeca627d0f07bed89fc1229f46e12b8}{Texture}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00599}00599\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__allegro5_8cpp_a789742ed378f216bc5d5531d86212f36}{ImGui\_ImplAllegro5\_CreateDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00600}00600\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00601}00601\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00602}00602\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00603}00603\ \ \ \ \ \textcolor{comment}{//\ Setup\ display\ size\ (every\ frame\ to\ accommodate\ for\ window\ resizing)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00604}00604\ \ \ \ \ \textcolor{keywordtype}{int}\ w,\ h;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00605}00605\ \ \ \ \ w\ =\ al\_get\_display\_width(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00606}00606\ \ \ \ \ h\ =\ al\_get\_display\_height(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a94e37696ba088a8513ebca7c3b143b1f}{Display}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00607}00607\ \ \ \ \ io.DisplaySize\ =\ ImVec2((\textcolor{keywordtype}{float})w,\ (\textcolor{keywordtype}{float})h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00608}00608\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00609}00609\ \ \ \ \ \textcolor{comment}{//\ Setup\ time\ step}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00610}00610\ \ \ \ \ \textcolor{keywordtype}{double}\ current\_time\ =\ al\_get\_time();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00611}00611\ \ \ \ \ io.DeltaTime\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a4c32317a535a2345f0ecb20316a77078}{Time}}\ >\ 0.0\ ?\ (float)(current\_time\ -\/\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a4c32317a535a2345f0ecb20316a77078}{Time}})\ :\ (float)(1.0f\ /\ 60.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00612}00612\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_allegro5___data_a4c32317a535a2345f0ecb20316a77078}{Time}}\ =\ current\_time;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00613}00613\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00614}00614\ \ \ \ \ \textcolor{comment}{//\ Setup\ mouse\ cursor\ shape}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00615}00615\ \ \ \ \ ImGui\_ImplAllegro5\_UpdateMouseCursor();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00616}00616\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00617}00617\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00618}00618\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00619}00619\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__allegro5_8cpp_source_l00620}00620\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

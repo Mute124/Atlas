@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['main_0',['Main',['../d5/d0b/_rml_ui___renderer___g_l3_8cpp.html#a31a58e9ede5df1dcf7c52d5f494e7018aa02c83a7dbd96295beaefb72c2bee2de',1,'RmlUi_Renderer_GL3.cpp']]],
-  ['maskimage_1',['MaskImage',['../d5/d0b/_rml_ui___renderer___g_l3_8cpp.html#a7ef0ab496f57e183b484e62e2053c94fa5c42fb7d0348160a336d5b66e2c9a233',1,'RmlUi_Renderer_GL3.cpp']]]
+  ['process_5fdpi_5funaware_0',['PROCESS_DPI_UNAWARE',['../d1/d3f/imgui__impl__win32_8cpp.html#a0b4072c3e306aab56e4b1f41f66ecfd0ab42f9fa8bef80716253ff5732f98d019',1,'imgui_impl_win32.cpp']]],
+  ['process_5fper_5fmonitor_5fdpi_5faware_1',['PROCESS_PER_MONITOR_DPI_AWARE',['../d1/d3f/imgui__impl__win32_8cpp.html#a0b4072c3e306aab56e4b1f41f66ecfd0aad0077e9938715939b18fc533eeae097',1,'imgui_impl_win32.cpp']]],
+  ['process_5fsystem_5fdpi_5faware_2',['PROCESS_SYSTEM_DPI_AWARE',['../d1/d3f/imgui__impl__win32_8cpp.html#a0b4072c3e306aab56e4b1f41f66ecfd0a2690b1d0f73cd71a24c38dbccc99be8b',1,'imgui_impl_win32.cpp']]]
 ];

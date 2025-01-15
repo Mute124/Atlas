@@ -1,0 +1,773 @@
+\doxysection{imgui\+\_\+impl\+\_\+dx12.\+cpp}
+\hypertarget{imgui__impl__dx12_8cpp_source}{}\label{imgui__impl__dx12_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_dx12.cpp@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_dx12.cpp}}
+\mbox{\hyperlink{imgui__impl__dx12_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Renderer\ Backend\ for\ DirectX12}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00002}00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Platform\ Backend\ (e.g.\ Win32)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00004}00004\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00005}00005\ \textcolor{comment}{//\ \ [X]\ Renderer:\ User\ texture\ binding.\ Use\ 'D3D12\_GPU\_DESCRIPTOR\_HANDLE'\ as\ ImTextureID.\ Read\ the\ FAQ\ about\ ImTextureID!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00006}00006\ \textcolor{comment}{//\ \ [X]\ Renderer:\ Large\ meshes\ support\ (64k+\ vertices)\ with\ 16-\/bit\ indices.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ [X]\ Renderer:\ Expose\ selected\ render\ state\ for\ draw\ callbacks\ to\ use.\ Access\ in\ '(ImGui\_ImplXXXX\_RenderState*)GetPlatformIO().Renderer\_RenderState'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00009}00009\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00010}00010\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00011}00011\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00012}00012\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00013}00013\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00014}00014\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00015}00015\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00017}00017\ \textcolor{comment}{//\ CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00018}00018\ \textcolor{comment}{//\ (minor\ and\ older\ changes\ stripped\ away,\ please\ see\ git\ history\ for\ details)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00019}00019\ \textcolor{comment}{//\ \ 2024-\/10-\/23:\ DirectX12:\ Unmap()\ call\ specify\ written\ range.\ The\ range\ is\ informational\ and\ may\ be\ used\ by\ debug\ tools.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00020}00020\ \textcolor{comment}{//\ \ 2024-\/10-\/07:\ DirectX12:\ Changed\ default\ texture\ sampler\ to\ Clamp\ instead\ of\ Repeat/Wrap.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00021}00021\ \textcolor{comment}{//\ \ 2024-\/10-\/07:\ DirectX12:\ Expose\ selected\ render\ state\ in\ ImGui\_ImplDX12\_RenderState,\ which\ you\ can\ access\ in\ 'void*\ platform\_io.Renderer\_RenderState'\ during\ draw\ callbacks.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00022}00022\ \textcolor{comment}{//\ \ 2024-\/10-\/07:\ DirectX12:\ Compiling\ with\ '\#define\ ImTextureID=ImU64'\ is\ unnecessary\ now\ that\ dear\ imgui\ defaults\ ImTextureID\ to\ u64\ instead\ of\ void*.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00023}00023\ \textcolor{comment}{//\ \ 2022-\/10-\/11:\ Using\ 'nullptr'\ instead\ of\ 'NULL'\ as\ per\ our\ switch\ to\ C++11.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00024}00024\ \textcolor{comment}{//\ \ 2021-\/06-\/29:\ Reorganized\ backend\ to\ pull\ data\ from\ a\ single\ structure\ to\ facilitate\ usage\ with\ multiple-\/contexts\ (all\ g\_XXXX\ access\ changed\ to\ bd-\/>XXXX).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00025}00025\ \textcolor{comment}{//\ \ 2021-\/05-\/19:\ DirectX12:\ Replaced\ direct\ access\ to\ ImDrawCmd::TextureId\ with\ a\ call\ to\ ImDrawCmd::GetTexID().\ (will\ become\ a\ requirement)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00026}00026\ \textcolor{comment}{//\ \ 2021-\/02-\/18:\ DirectX12:\ Change\ blending\ equation\ to\ preserve\ alpha\ in\ output\ buffer.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00027}00027\ \textcolor{comment}{//\ \ 2021-\/01-\/11:\ DirectX12:\ Improve\ Windows\ 7\ compatibility\ (for\ D3D12On7)\ by\ loading\ d3d12.dll\ dynamically.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00028}00028\ \textcolor{comment}{//\ \ 2020-\/09-\/16:\ DirectX12:\ Avoid\ rendering\ calls\ with\ zero-\/sized\ scissor\ rectangle\ since\ it\ generates\ a\ validation\ layer\ warning.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00029}00029\ \textcolor{comment}{//\ \ 2020-\/09-\/08:\ DirectX12:\ Clarified\ support\ for\ building\ on\ 32-\/bit\ systems\ by\ redefining\ ImTextureID.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00030}00030\ \textcolor{comment}{//\ \ 2019-\/10-\/18:\ DirectX12:\ *BREAKING\ CHANGE*\ Added\ extra\ ID3D12DescriptorHeap\ parameter\ to\ ImGui\_ImplDX12\_Init()\ function.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00031}00031\ \textcolor{comment}{//\ \ 2019-\/05-\/29:\ DirectX12:\ Added\ support\ for\ large\ mesh\ (64K+\ vertices),\ enable\ ImGuiBackendFlags\_RendererHasVtxOffset\ flag.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00032}00032\ \textcolor{comment}{//\ \ 2019-\/04-\/30:\ DirectX12:\ Added\ support\ for\ special\ ImDrawCallback\_ResetRenderState\ callback\ to\ reset\ render\ state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00033}00033\ \textcolor{comment}{//\ \ 2019-\/03-\/29:\ Misc:\ Various\ minor\ tidying\ up.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00034}00034\ \textcolor{comment}{//\ \ 2018-\/12-\/03:\ Misc:\ Added\ \#pragma\ comment\ statement\ to\ automatically\ link\ with\ d3dcompiler.lib\ when\ using\ D3DCompile().}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00035}00035\ \textcolor{comment}{//\ \ 2018-\/11-\/30:\ Misc:\ Setting\ up\ io.BackendRendererName\ so\ it\ can\ be\ displayed\ in\ the\ About\ Window.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00036}00036\ \textcolor{comment}{//\ \ 2018-\/06-\/12:\ DirectX12:\ Moved\ the\ ID3D12GraphicsCommandList*\ parameter\ from\ NewFrame()\ to\ RenderDrawData().}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00037}00037\ \textcolor{comment}{//\ \ 2018-\/06-\/08:\ Misc:\ Extracted\ imgui\_impl\_dx12.cpp/.h\ away\ from\ the\ old\ combined\ DX12+Win32\ example.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00038}00038\ \textcolor{comment}{//\ \ 2018-\/06-\/08:\ DirectX12:\ Use\ draw\_data-\/>DisplayPos\ and\ draw\_data-\/>DisplaySize\ to\ setup\ projection\ matrix\ and\ clipping\ rectangle\ (to\ ease\ support\ for\ future\ multi-\/viewport).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00039}00039\ \textcolor{comment}{//\ \ 2018-\/02-\/22:\ Merged\ into\ master\ with\ all\ Win32\ code\ synchronized\ to\ other\ examples.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00041}00041\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00042}00042\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00043}00043\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{imgui__impl__dx12_8h}{imgui\_impl\_dx12.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00045}00045\ \textcolor{comment}{//\ DirectX}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00046}00046\ \textcolor{preprocessor}{\#include\ <d3d12.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00047}00047\ \textcolor{preprocessor}{\#include\ <dxgi1\_4.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00048}00048\ \textcolor{preprocessor}{\#include\ <d3dcompiler.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00049}00049\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00050}00050\ \textcolor{preprocessor}{\#pragma\ comment(lib,\ "{}d3dcompiler"{})\ }\textcolor{comment}{//\ Automatically\ link\ with\ d3dcompiler.lib\ as\ we\ are\ using\ D3DCompile()\ below.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00051}00051\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00053}00053\ \textcolor{comment}{//\ DirectX\ data}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00054}00054\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers}{ImGui\_ImplDX12\_RenderBuffers}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00055}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{00055}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00056}00056\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00057}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{00057}}\ \ \ \ \ ID3D12Device*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00058}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a5ec586be9457edb382e26db52b84bba5}{00058}}\ \ \ \ \ ID3D12RootSignature*\ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a5ec586be9457edb382e26db52b84bba5}{pRootSignature}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00059}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a56ca2ec999af6c639ad32f7204248500}{00059}}\ \ \ \ \ ID3D12PipelineState*\ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a56ca2ec999af6c639ad32f7204248500}{pPipelineState}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00060}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac51215a8aa27a0c0fa095abc87e0a80b}{00060}}\ \ \ \ \ DXGI\_FORMAT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac51215a8aa27a0c0fa095abc87e0a80b}{RTVFormat}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00061}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a3157f6d9f8b586f4fbabb8dc59e74ece}{00061}}\ \ \ \ \ ID3D12Resource*\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a3157f6d9f8b586f4fbabb8dc59e74ece}{pFontTextureResource}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00062}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a0a595d2e3657b5d3b6933d74e65adc3c}{00062}}\ \ \ \ \ D3D12\_CPU\_DESCRIPTOR\_HANDLE\ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a0a595d2e3657b5d3b6933d74e65adc3c}{hFontSrvCpuDescHandle}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00063}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_afbc904e7880493b7d4813238233c3db6}{00063}}\ \ \ \ \ D3D12\_GPU\_DESCRIPTOR\_HANDLE\ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_afbc904e7880493b7d4813238233c3db6}{hFontSrvGpuDescHandle}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00064}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a470d80e9fd5c7b77c19640654466721b}{00064}}\ \ \ \ \ ID3D12DescriptorHeap*\ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a470d80e9fd5c7b77c19640654466721b}{pd3dSrvDescHeap}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00065}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a6a541239da42836b2127d1428032cf7d}{00065}}\ \ \ \ \ UINT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a6a541239da42836b2127d1428032cf7d}{numFramesInFlight}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00067}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac61eccc7bdd8782896d100ec000191c4}{00067}}\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers}{ImGui\_ImplDX12\_RenderBuffers}}*\ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac61eccc7bdd8782896d100ec000191c4}{pFrameResources}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00068}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a36f325ca3e65ccc7185559cb6cf09c41}{00068}}\ \ \ \ \ UINT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a36f325ca3e65ccc7185559cb6cf09c41}{frameIndex}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00070}\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a2dc01db87c392f50d408e5bb4135206d}{00070}}\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a2dc01db87c392f50d408e5bb4135206d}{ImGui\_ImplDX12\_Data}}()\ \ \ \ \ \ \ \{\ memset((\textcolor{keywordtype}{void}*)\textcolor{keyword}{this},\ 0,\ \textcolor{keyword}{sizeof}(*\textcolor{keyword}{this}));\ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a36f325ca3e65ccc7185559cb6cf09c41}{frameIndex}}\ =\ UINT\_MAX;\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00071}00071\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00073}00073\ \textcolor{comment}{//\ Backend\ data\ stored\ in\ io.BackendRendererUserData\ to\ allow\ support\ for\ multiple\ Dear\ ImGui\ contexts}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00074}00074\ \textcolor{comment}{//\ It\ is\ STRONGLY\ preferred\ that\ you\ use\ docking\ branch\ with\ multi-\/viewports\ (==\ single\ Dear\ ImGui\ context\ +\ multiple\ windows)\ instead\ of\ multiple\ Dear\ ImGui\ contexts.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00075}00075\ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}*\ ImGui\_ImplDX12\_GetBackendData()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00076}00076\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00077}00077\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui::GetCurrentContext()\ ?\ (\mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}*)ImGui::GetIO().BackendRendererUserData\ :\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00078}00078\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00080}00080\ \textcolor{comment}{//\ Buffers\ used\ during\ the\ rendering\ of\ a\ frame}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00081}\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers}{00081}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers}{ImGui\_ImplDX12\_RenderBuffers}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00082}00082\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00083}\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_adea8d9622af0a5c6376f4b98840b0812}{00083}}\ \ \ \ \ ID3D12Resource*\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_adea8d9622af0a5c6376f4b98840b0812}{IndexBuffer}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00084}\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a5ffee1b7a7d728d15dfd33739819101c}{00084}}\ \ \ \ \ ID3D12Resource*\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a5ffee1b7a7d728d15dfd33739819101c}{VertexBuffer}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00085}\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a29214b15eceea549928373591e877640}{00085}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a29214b15eceea549928373591e877640}{IndexBufferSize}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00086}\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a6643010c24e4046769271a36d596398a}{00086}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a6643010c24e4046769271a36d596398a}{VertexBufferSize}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00087}00087\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00089}\mbox{\hyperlink{struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12}{00089}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12}{VERTEX\_CONSTANT\_BUFFER\_DX12}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00090}00090\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00091}\mbox{\hyperlink{struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12_af977128a020d49a3a5478a59e4229274}{00091}}\ \ \ \ \ \textcolor{keywordtype}{float}\ \ \ \mbox{\hyperlink{struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12_af977128a020d49a3a5478a59e4229274}{mvp}}[4][4];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00092}00092\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00094}00094\ \textcolor{comment}{//\ Functions}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00095}00095\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplDX12\_SetupRenderState(ImDrawData*\ draw\_data,\ ID3D12GraphicsCommandList*\ command\_list,\ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers}{ImGui\_ImplDX12\_RenderBuffers}}*\ fr)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00096}00096\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00097}00097\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}*\ bd\ =\ ImGui\_ImplDX12\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{comment}{//\ Setup\ orthographic\ projection\ matrix\ into\ our\ constant\ buffer}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{comment}{//\ Our\ visible\ imgui\ space\ lies\ from\ draw\_data-\/>DisplayPos\ (top\ left)\ to\ draw\_data-\/>DisplayPos+data\_data-\/>DisplaySize\ (bottom\ right).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00101}00101\ \ \ \ \ \mbox{\hyperlink{struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12}{VERTEX\_CONSTANT\_BUFFER\_DX12}}\ vertex\_constant\_buffer;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00102}00102\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ L\ =\ draw\_data-\/>DisplayPos.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ R\ =\ draw\_data-\/>DisplayPos.x\ +\ draw\_data-\/>DisplaySize.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ T\ =\ draw\_data-\/>DisplayPos.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ B\ =\ draw\_data-\/>DisplayPos.y\ +\ draw\_data-\/>DisplaySize.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ mvp[4][4]\ =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ 2.0f/(R-\/L),\ \ \ 0.0f,\ \ \ \ \ \ \ \ \ \ \ 0.0f,\ \ \ \ \ \ \ 0.0f\ \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ 0.0f,\ \ \ \ \ \ \ \ \ 2.0f/(T-\/B),\ \ \ \ \ 0.0f,\ \ \ \ \ \ \ 0.0f\ \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ 0.0f,\ \ \ \ \ \ \ \ \ 0.0f,\ \ \ \ \ \ \ \ \ \ \ 0.5f,\ \ \ \ \ \ \ 0.0f\ \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ (R+L)/(L-\/R),\ \ (T+B)/(B-\/T),\ \ \ \ 0.5f,\ \ \ \ \ \ \ 1.0f\ \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ memcpy(\&vertex\_constant\_buffer.\mbox{\hyperlink{struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12_af977128a020d49a3a5478a59e4229274}{mvp}},\ mvp,\ \textcolor{keyword}{sizeof}(mvp));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00115}00115\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00117}00117\ \ \ \ \ \textcolor{comment}{//\ Setup\ viewport}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00118}00118\ \ \ \ \ D3D12\_VIEWPORT\ vp;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00119}00119\ \ \ \ \ memset(\&vp,\ 0,\ \textcolor{keyword}{sizeof}(D3D12\_VIEWPORT));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00120}00120\ \ \ \ \ vp.Width\ =\ draw\_data-\/>DisplaySize.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00121}00121\ \ \ \ \ vp.Height\ =\ draw\_data-\/>DisplaySize.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00122}00122\ \ \ \ \ vp.MinDepth\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00123}00123\ \ \ \ \ vp.MaxDepth\ =\ 1.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00124}00124\ \ \ \ \ vp.TopLeftX\ =\ vp.TopLeftY\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00125}00125\ \ \ \ \ command\_list-\/>RSSetViewports(1,\ \&vp);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00127}00127\ \ \ \ \ \textcolor{comment}{//\ Bind\ shader\ and\ vertex\ buffers}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00128}00128\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_adec60f1216ca1b900f8d776c5b6190e0}{stride}}\ =\ \textcolor{keyword}{sizeof}(ImDrawVert);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00129}00129\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ae1b92ae085ddef4b1cdca7d749339fb0}{offset}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00130}00130\ \ \ \ \ D3D12\_VERTEX\_BUFFER\_VIEW\ vbv;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00131}00131\ \ \ \ \ memset(\&vbv,\ 0,\ \textcolor{keyword}{sizeof}(D3D12\_VERTEX\_BUFFER\_VIEW));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00132}00132\ \ \ \ \ vbv.BufferLocation\ =\ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a5ffee1b7a7d728d15dfd33739819101c}{VertexBuffer}}-\/>GetGPUVirtualAddress()\ +\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ae1b92ae085ddef4b1cdca7d749339fb0}{offset}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00133}00133\ \ \ \ \ vbv.SizeInBytes\ =\ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a6643010c24e4046769271a36d596398a}{VertexBufferSize}}\ *\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_adec60f1216ca1b900f8d776c5b6190e0}{stride}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00134}00134\ \ \ \ \ vbv.StrideInBytes\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_adec60f1216ca1b900f8d776c5b6190e0}{stride}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00135}00135\ \ \ \ \ command\_list-\/>IASetVertexBuffers(0,\ 1,\ \&vbv);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00136}00136\ \ \ \ \ D3D12\_INDEX\_BUFFER\_VIEW\ ibv;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00137}00137\ \ \ \ \ memset(\&ibv,\ 0,\ \textcolor{keyword}{sizeof}(D3D12\_INDEX\_BUFFER\_VIEW));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00138}00138\ \ \ \ \ ibv.BufferLocation\ =\ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_adea8d9622af0a5c6376f4b98840b0812}{IndexBuffer}}-\/>GetGPUVirtualAddress();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00139}00139\ \ \ \ \ ibv.SizeInBytes\ =\ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a29214b15eceea549928373591e877640}{IndexBufferSize}}\ *\ \textcolor{keyword}{sizeof}(ImDrawIdx);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00140}00140\ \ \ \ \ ibv.Format\ =\ \textcolor{keyword}{sizeof}(ImDrawIdx)\ ==\ 2\ ?\ DXGI\_FORMAT\_R16\_UINT\ :\ DXGI\_FORMAT\_R32\_UINT;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00141}00141\ \ \ \ \ command\_list-\/>IASetIndexBuffer(\&ibv);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00142}00142\ \ \ \ \ command\_list-\/>IASetPrimitiveTopology(D3D\_PRIMITIVE\_TOPOLOGY\_TRIANGLELIST);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00143}00143\ \ \ \ \ command\_list-\/>SetPipelineState(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a56ca2ec999af6c639ad32f7204248500}{pPipelineState}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00144}00144\ \ \ \ \ command\_list-\/>SetGraphicsRootSignature(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a5ec586be9457edb382e26db52b84bba5}{pRootSignature}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00145}00145\ \ \ \ \ command\_list-\/>SetGraphicsRoot32BitConstants(0,\ 16,\ \&vertex\_constant\_buffer,\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00147}00147\ \ \ \ \ \textcolor{comment}{//\ Setup\ blend\ factor}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00148}00148\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ blend\_factor[4]\ =\ \{\ 0.f,\ 0.f,\ 0.f,\ 0.f\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00149}00149\ \ \ \ \ command\_list-\/>OMSetBlendFactor(blend\_factor);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00150}00150\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00152}00152\ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00153}00153\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ SafeRelease(T*\&\ res)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00154}00154\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00155}00155\ \ \ \ \ \textcolor{keywordflow}{if}\ (res)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ res-\/>Release();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00157}00157\ \ \ \ \ res\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00158}00158\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00160}00160\ \textcolor{comment}{//\ Render\ function}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00161}\mbox{\hyperlink{imgui__impl__dx12_8cpp_a823d8bc2e350a998ec96894eb0e8f9bf}{00161}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__dx12_8cpp_a823d8bc2e350a998ec96894eb0e8f9bf}{ImGui\_ImplDX12\_RenderDrawData}}(ImDrawData*\ draw\_data,\ ID3D12GraphicsCommandList*\ command\_list)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00162}00162\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00163}00163\ \ \ \ \ \textcolor{comment}{//\ Avoid\ rendering\ when\ minimized}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00164}00164\ \ \ \ \ \textcolor{keywordflow}{if}\ (draw\_data-\/>DisplaySize.x\ <=\ 0.0f\ ||\ draw\_data-\/>DisplaySize.y\ <=\ 0.0f)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00167}00167\ \ \ \ \ \textcolor{comment}{//\ FIXME:\ I'm\ assuming\ that\ this\ only\ gets\ called\ once\ per\ frame!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00168}00168\ \ \ \ \ \textcolor{comment}{//\ If\ not,\ we\ can't\ just\ re-\/allocate\ the\ IB\ or\ VB,\ we'll\ have\ to\ do\ a\ proper\ allocator.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00169}00169\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}*\ bd\ =\ ImGui\_ImplDX12\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00170}00170\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a36f325ca3e65ccc7185559cb6cf09c41}{frameIndex}}\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a36f325ca3e65ccc7185559cb6cf09c41}{frameIndex}}\ +\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00171}00171\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers}{ImGui\_ImplDX12\_RenderBuffers}}*\ fr\ =\ \&bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac61eccc7bdd8782896d100ec000191c4}{pFrameResources}}[bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a36f325ca3e65ccc7185559cb6cf09c41}{frameIndex}}\ \%\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a6a541239da42836b2127d1428032cf7d}{numFramesInFlight}}];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00173}00173\ \ \ \ \ \textcolor{comment}{//\ Create\ and\ grow\ vertex/index\ buffers\ if\ needed}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00174}00174\ \ \ \ \ \textcolor{keywordflow}{if}\ (fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a5ffee1b7a7d728d15dfd33739819101c}{VertexBuffer}}\ ==\ \textcolor{keyword}{nullptr}\ ||\ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a6643010c24e4046769271a36d596398a}{VertexBufferSize}}\ <\ draw\_data-\/>TotalVtxCount)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00175}00175\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ SafeRelease(fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a5ffee1b7a7d728d15dfd33739819101c}{VertexBuffer}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a6643010c24e4046769271a36d596398a}{VertexBufferSize}}\ =\ draw\_data-\/>TotalVtxCount\ +\ 5000;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ D3D12\_HEAP\_PROPERTIES\ props;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ memset(\&props,\ 0,\ \textcolor{keyword}{sizeof}(D3D12\_HEAP\_PROPERTIES));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ props.Type\ =\ D3D12\_HEAP\_TYPE\_UPLOAD;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ props.CPUPageProperty\ =\ D3D12\_CPU\_PAGE\_PROPERTY\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ props.MemoryPoolPreference\ =\ D3D12\_MEMORY\_POOL\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ D3D12\_RESOURCE\_DESC\ desc;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ memset(\&desc,\ 0,\ \textcolor{keyword}{sizeof}(D3D12\_RESOURCE\_DESC));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ desc.Dimension\ =\ D3D12\_RESOURCE\_DIMENSION\_BUFFER;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ desc.Width\ =\ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a6643010c24e4046769271a36d596398a}{VertexBufferSize}}\ *\ \textcolor{keyword}{sizeof}(ImDrawVert);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ desc.Height\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ desc.DepthOrArraySize\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ desc.MipLevels\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ desc.Format\ =\ DXGI\_FORMAT\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ desc.SampleDesc.Count\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ desc.Layout\ =\ D3D12\_TEXTURE\_LAYOUT\_ROW\_MAJOR;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ desc.Flags\ =\ D3D12\_RESOURCE\_FLAG\_NONE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateCommittedResource(\&props,\ D3D12\_HEAP\_FLAG\_NONE,\ \&desc,\ D3D12\_RESOURCE\_STATE\_GENERIC\_READ,\ \textcolor{keyword}{nullptr},\ IID\_PPV\_ARGS(\&fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a5ffee1b7a7d728d15dfd33739819101c}{VertexBuffer}}))\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00196}00196\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00197}00197\ \ \ \ \ \textcolor{keywordflow}{if}\ (fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_adea8d9622af0a5c6376f4b98840b0812}{IndexBuffer}}\ ==\ \textcolor{keyword}{nullptr}\ ||\ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a29214b15eceea549928373591e877640}{IndexBufferSize}}\ <\ draw\_data-\/>TotalIdxCount)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00198}00198\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ SafeRelease(fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_adea8d9622af0a5c6376f4b98840b0812}{IndexBuffer}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a29214b15eceea549928373591e877640}{IndexBufferSize}}\ =\ draw\_data-\/>TotalIdxCount\ +\ 10000;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ D3D12\_HEAP\_PROPERTIES\ props;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ memset(\&props,\ 0,\ \textcolor{keyword}{sizeof}(D3D12\_HEAP\_PROPERTIES));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ props.Type\ =\ D3D12\_HEAP\_TYPE\_UPLOAD;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ props.CPUPageProperty\ =\ D3D12\_CPU\_PAGE\_PROPERTY\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ props.MemoryPoolPreference\ =\ D3D12\_MEMORY\_POOL\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ D3D12\_RESOURCE\_DESC\ desc;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ memset(\&desc,\ 0,\ \textcolor{keyword}{sizeof}(D3D12\_RESOURCE\_DESC));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ desc.Dimension\ =\ D3D12\_RESOURCE\_DIMENSION\_BUFFER;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ desc.Width\ =\ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a29214b15eceea549928373591e877640}{IndexBufferSize}}\ *\ \textcolor{keyword}{sizeof}(ImDrawIdx);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ desc.Height\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ desc.DepthOrArraySize\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ desc.MipLevels\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ desc.Format\ =\ DXGI\_FORMAT\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ desc.SampleDesc.Count\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ desc.Layout\ =\ D3D12\_TEXTURE\_LAYOUT\_ROW\_MAJOR;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ desc.Flags\ =\ D3D12\_RESOURCE\_FLAG\_NONE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateCommittedResource(\&props,\ D3D12\_HEAP\_FLAG\_NONE,\ \&desc,\ D3D12\_RESOURCE\_STATE\_GENERIC\_READ,\ \textcolor{keyword}{nullptr},\ IID\_PPV\_ARGS(\&fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_adea8d9622af0a5c6376f4b98840b0812}{IndexBuffer}}))\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00219}00219\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00220}00220\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00221}00221\ \ \ \ \ \textcolor{comment}{//\ Upload\ vertex/index\ data\ into\ a\ single\ contiguous\ GPU\ buffer}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00222}00222\ \ \ \ \ \textcolor{comment}{//\ During\ Map()\ we\ specify\ a\ null\ read\ range\ (as\ per\ DX12\ API,\ this\ is\ informational\ and\ for\ tooling\ only)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00223}00223\ \ \ \ \ \textcolor{keywordtype}{void}*\ vtx\_resource,\ *idx\_resource;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00224}00224\ \ \ \ \ D3D12\_RANGE\ range\ =\ \{\ 0,\ 0\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00225}00225\ \ \ \ \ \textcolor{keywordflow}{if}\ (fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a5ffee1b7a7d728d15dfd33739819101c}{VertexBuffer}}-\/>Map(0,\ \&range,\ \&vtx\_resource)\ !=\ S\_OK)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00227}00227\ \ \ \ \ \textcolor{keywordflow}{if}\ (fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_adea8d9622af0a5c6376f4b98840b0812}{IndexBuffer}}-\/>Map(0,\ \&range,\ \&idx\_resource)\ !=\ S\_OK)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00229}00229\ \ \ \ \ ImDrawVert*\ vtx\_dst\ =\ (ImDrawVert*)vtx\_resource;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00230}00230\ \ \ \ \ ImDrawIdx*\ idx\_dst\ =\ (ImDrawIdx*)idx\_resource;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00231}00231\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ draw\_data-\/>CmdListsCount;\ n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00232}00232\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawList*\ draw\_list\ =\ draw\_data-\/>CmdLists[n];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00234}00234\ \ \ \ \ \ \ \ \ memcpy(vtx\_dst,\ draw\_list-\/>VtxBuffer.Data,\ draw\_list-\/>VtxBuffer.Size\ *\ \textcolor{keyword}{sizeof}(ImDrawVert));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00235}00235\ \ \ \ \ \ \ \ \ memcpy(idx\_dst,\ draw\_list-\/>IdxBuffer.Data,\ draw\_list-\/>IdxBuffer.Size\ *\ \textcolor{keyword}{sizeof}(ImDrawIdx));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ vtx\_dst\ +=\ draw\_list-\/>VtxBuffer.Size;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ idx\_dst\ +=\ draw\_list-\/>IdxBuffer.Size;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00238}00238\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00240}00240\ \ \ \ \ \textcolor{comment}{//\ During\ Unmap()\ we\ specify\ the\ written\ range\ (as\ per\ DX12\ API,\ this\ is\ informational\ and\ for\ tooling\ only)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00241}00241\ \ \ \ \ range.End\ =\ (SIZE\_T)((intptr\_t)vtx\_dst\ -\/\ (intptr\_t)vtx\_resource);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00242}00242\ \ \ \ \ IM\_ASSERT(range.End\ ==\ draw\_data-\/>TotalVtxCount\ *\ \textcolor{keyword}{sizeof}(ImDrawVert));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00243}00243\ \ \ \ \ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a5ffee1b7a7d728d15dfd33739819101c}{VertexBuffer}}-\/>Unmap(0,\ \&range);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00244}00244\ \ \ \ \ range.End\ =\ (SIZE\_T)((intptr\_t)idx\_dst\ -\/\ (intptr\_t)idx\_resource);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00245}00245\ \ \ \ \ IM\_ASSERT(range.End\ ==\ draw\_data-\/>TotalIdxCount\ *\ \textcolor{keyword}{sizeof}(ImDrawIdx));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00246}00246\ \ \ \ \ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_adea8d9622af0a5c6376f4b98840b0812}{IndexBuffer}}-\/>Unmap(0,\ \&range);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00248}00248\ \ \ \ \ \textcolor{comment}{//\ Setup\ desired\ DX\ state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00249}00249\ \ \ \ \ ImGui\_ImplDX12\_SetupRenderState(draw\_data,\ command\_list,\ fr);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00251}00251\ \ \ \ \ \textcolor{comment}{//\ Setup\ render\ state\ structure\ (for\ callbacks\ and\ custom\ texture\ bindings)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00252}00252\ \ \ \ \ ImGuiPlatformIO\&\ platform\_io\ =\ ImGui::GetPlatformIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00253}00253\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_state}{ImGui\_ImplDX12\_RenderState}}\ render\_state;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00254}00254\ \ \ \ \ render\_state.\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_state_ad27390092da6a903c2cfee9608610f98}{Device}}\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00255}00255\ \ \ \ \ render\_state.\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_state_a014293355a89a8b544565164d4bf27ad}{CommandList}}\ =\ command\_list;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00256}00256\ \ \ \ \ platform\_io.Renderer\_RenderState\ =\ \&render\_state;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00257}00257\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00258}00258\ \ \ \ \ \textcolor{comment}{//\ Render\ command\ lists}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00259}00259\ \ \ \ \ \textcolor{comment}{//\ (Because\ we\ merged\ all\ buffers\ into\ a\ single\ one,\ we\ maintain\ our\ own\ offset\ into\ them)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00260}00260\ \ \ \ \ \textcolor{keywordtype}{int}\ global\_vtx\_offset\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00261}00261\ \ \ \ \ \textcolor{keywordtype}{int}\ global\_idx\_offset\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00262}00262\ \ \ \ \ ImVec2\ clip\_off\ =\ draw\_data-\/>DisplayPos;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00263}00263\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ draw\_data-\/>CmdListsCount;\ n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00264}00264\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawList*\ draw\_list\ =\ draw\_data-\/>CmdLists[n];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ cmd\_i\ =\ 0;\ cmd\_i\ <\ draw\_list-\/>CmdBuffer.Size;\ cmd\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00267}00267\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawCmd*\ pcmd\ =\ \&draw\_list-\/>CmdBuffer[cmd\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pcmd-\/>UserCallback\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ User\ callback,\ registered\ via\ ImDrawList::AddCallback()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (ImDrawCallback\_ResetRenderState\ is\ a\ special\ callback\ value\ used\ by\ the\ user\ to\ request\ the\ renderer\ to\ reset\ render\ state.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pcmd-\/>UserCallback\ ==\ ImDrawCallback\_ResetRenderState)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImGui\_ImplDX12\_SetupRenderState(draw\_data,\ command\_list,\ fr);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pcmd-\/>UserCallback(draw\_list,\ pcmd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Project\ scissor/clipping\ rectangles\ into\ framebuffer\ space}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImVec2\ clip\_min(pcmd-\/>ClipRect.x\ -\/\ clip\_off.x,\ pcmd-\/>ClipRect.y\ -\/\ clip\_off.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImVec2\ clip\_max(pcmd-\/>ClipRect.z\ -\/\ clip\_off.x,\ pcmd-\/>ClipRect.w\ -\/\ clip\_off.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clip\_max.x\ <=\ clip\_min.x\ ||\ clip\_max.y\ <=\ clip\_min.y)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00285}00285\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Apply\ scissor/clipping\ rectangle}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ D3D12\_RECT\ r\ =\ \{\ (LONG)clip\_min.x,\ (LONG)clip\_min.y,\ (LONG)clip\_max.x,\ (LONG)clip\_max.y\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ command\_list-\/>RSSetScissorRects(1,\ \&r);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Bind\ texture,\ Draw}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ D3D12\_GPU\_DESCRIPTOR\_HANDLE\ texture\_handle\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ texture\_handle.ptr\ =\ (UINT64)pcmd-\/>GetTexID();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ command\_list-\/>SetGraphicsRootDescriptorTable(1,\ texture\_handle);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ command\_list-\/>DrawIndexedInstanced(pcmd-\/>ElemCount,\ 1,\ pcmd-\/>IdxOffset\ +\ global\_idx\_offset,\ pcmd-\/>VtxOffset\ +\ global\_vtx\_offset,\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00296}00296\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ global\_idx\_offset\ +=\ draw\_list-\/>IdxBuffer.Size;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00298}00298\ \ \ \ \ \ \ \ \ global\_vtx\_offset\ +=\ draw\_list-\/>VtxBuffer.Size;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00299}00299\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00300}00300\ \ \ \ \ platform\_io.Renderer\_RenderState\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00301}00301\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00303}00303\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplDX12\_CreateFontsTexture()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00304}00304\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00305}00305\ \ \ \ \ \textcolor{comment}{//\ Build\ texture\ atlas}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00306}00306\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00307}00307\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}*\ bd\ =\ ImGui\_ImplDX12\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00308}00308\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa6f05cf9167efe04d7c20e5d34561086}{pixels}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00309}00309\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00310}00310\ \ \ \ \ io.Fonts-\/>GetTexDataAsRGBA32(\&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa6f05cf9167efe04d7c20e5d34561086}{pixels}},\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00311}00311\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00312}00312\ \ \ \ \ \textcolor{comment}{//\ Upload\ texture\ to\ graphics\ system}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00313}00313\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00314}00314\ \ \ \ \ \ \ \ \ D3D12\_HEAP\_PROPERTIES\ props;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00315}00315\ \ \ \ \ \ \ \ \ memset(\&props,\ 0,\ \textcolor{keyword}{sizeof}(D3D12\_HEAP\_PROPERTIES));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00316}00316\ \ \ \ \ \ \ \ \ props.Type\ =\ D3D12\_HEAP\_TYPE\_DEFAULT;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00317}00317\ \ \ \ \ \ \ \ \ props.CPUPageProperty\ =\ D3D12\_CPU\_PAGE\_PROPERTY\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00318}00318\ \ \ \ \ \ \ \ \ props.MemoryPoolPreference\ =\ D3D12\_MEMORY\_POOL\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00319}00319\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00320}00320\ \ \ \ \ \ \ \ \ D3D12\_RESOURCE\_DESC\ desc;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00321}00321\ \ \ \ \ \ \ \ \ ZeroMemory(\&desc,\ \textcolor{keyword}{sizeof}(desc));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ desc.Dimension\ =\ D3D12\_RESOURCE\_DIMENSION\_TEXTURE2D;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ desc.Alignment\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ desc.Width\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ desc.Height\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00326}00326\ \ \ \ \ \ \ \ \ desc.DepthOrArraySize\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ \ desc.MipLevels\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ desc.Format\ =\ DXGI\_FORMAT\_R8G8B8A8\_UNORM;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ \ desc.SampleDesc.Count\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00330}00330\ \ \ \ \ \ \ \ \ desc.SampleDesc.Quality\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00331}00331\ \ \ \ \ \ \ \ \ desc.Layout\ =\ D3D12\_TEXTURE\_LAYOUT\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00332}00332\ \ \ \ \ \ \ \ \ desc.Flags\ =\ D3D12\_RESOURCE\_FLAG\_NONE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ ID3D12Resource*\ pTexture\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00335}00335\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateCommittedResource(\&props,\ D3D12\_HEAP\_FLAG\_NONE,\ \&desc,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ D3D12\_RESOURCE\_STATE\_COPY\_DEST,\ \textcolor{keyword}{nullptr},\ IID\_PPV\_ARGS(\&pTexture));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00337}00337\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ UINT\ uploadPitch\ =\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}}\ *\ 4\ +\ D3D12\_TEXTURE\_DATA\_PITCH\_ALIGNMENT\ -\/\ 1u)\ \&\ \string~(D3D12\_TEXTURE\_DATA\_PITCH\_ALIGNMENT\ -\/\ 1u);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ UINT\ uploadSize\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}}\ *\ uploadPitch;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ desc.Dimension\ =\ D3D12\_RESOURCE\_DIMENSION\_BUFFER;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ desc.Alignment\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ desc.Width\ =\ uploadSize;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ desc.Height\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ desc.DepthOrArraySize\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ desc.MipLevels\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00346}00346\ \ \ \ \ \ \ \ \ desc.Format\ =\ DXGI\_FORMAT\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ desc.SampleDesc.Count\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ desc.SampleDesc.Quality\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00349}00349\ \ \ \ \ \ \ \ \ desc.Layout\ =\ D3D12\_TEXTURE\_LAYOUT\_ROW\_MAJOR;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ desc.Flags\ =\ D3D12\_RESOURCE\_FLAG\_NONE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00351}00351\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00352}00352\ \ \ \ \ \ \ \ \ props.Type\ =\ D3D12\_HEAP\_TYPE\_UPLOAD;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ props.CPUPageProperty\ =\ D3D12\_CPU\_PAGE\_PROPERTY\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00354}00354\ \ \ \ \ \ \ \ \ props.MemoryPoolPreference\ =\ D3D12\_MEMORY\_POOL\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00356}00356\ \ \ \ \ \ \ \ \ ID3D12Resource*\ uploadBuffer\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ HRESULT\ hr\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateCommittedResource(\&props,\ D3D12\_HEAP\_FLAG\_NONE,\ \&desc,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ D3D12\_RESOURCE\_STATE\_GENERIC\_READ,\ \textcolor{keyword}{nullptr},\ IID\_PPV\_ARGS(\&uploadBuffer));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00359}00359\ \ \ \ \ \ \ \ \ IM\_ASSERT(SUCCEEDED(hr));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00360}00360\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ mapped\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00362}00362\ \ \ \ \ \ \ \ \ D3D12\_RANGE\ range\ =\ \{\ 0,\ uploadSize\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00363}00363\ \ \ \ \ \ \ \ \ hr\ =\ uploadBuffer-\/>Map(0,\ \&range,\ \&mapped);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00364}00364\ \ \ \ \ \ \ \ \ IM\_ASSERT(SUCCEEDED(hr));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00365}00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}}\ =\ 0;\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}}\ <\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}};\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}}++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ memcpy((\textcolor{keywordtype}{void}*)\ ((uintptr\_t)\ mapped\ +\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}}\ *\ uploadPitch),\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa6f05cf9167efe04d7c20e5d34561086}{pixels}}\ +\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}}\ *\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}}\ *\ 4,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}}\ *\ 4);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ uploadBuffer-\/>Unmap(0,\ \&range);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ D3D12\_TEXTURE\_COPY\_LOCATION\ srcLocation\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ srcLocation.pResource\ =\ uploadBuffer;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00371}00371\ \ \ \ \ \ \ \ \ srcLocation.Type\ =\ D3D12\_TEXTURE\_COPY\_TYPE\_PLACED\_FOOTPRINT;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00372}00372\ \ \ \ \ \ \ \ \ srcLocation.PlacedFootprint.Footprint.Format\ =\ DXGI\_FORMAT\_R8G8B8A8\_UNORM;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00373}00373\ \ \ \ \ \ \ \ \ srcLocation.PlacedFootprint.Footprint.Width\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00374}00374\ \ \ \ \ \ \ \ \ srcLocation.PlacedFootprint.Footprint.Height\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00375}00375\ \ \ \ \ \ \ \ \ srcLocation.PlacedFootprint.Footprint.Depth\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00376}00376\ \ \ \ \ \ \ \ \ srcLocation.PlacedFootprint.Footprint.RowPitch\ =\ uploadPitch;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00377}00377\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00378}00378\ \ \ \ \ \ \ \ \ D3D12\_TEXTURE\_COPY\_LOCATION\ dstLocation\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00379}00379\ \ \ \ \ \ \ \ \ dstLocation.pResource\ =\ pTexture;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00380}00380\ \ \ \ \ \ \ \ \ dstLocation.Type\ =\ D3D12\_TEXTURE\_COPY\_TYPE\_SUBRESOURCE\_INDEX;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ dstLocation.SubresourceIndex\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00383}00383\ \ \ \ \ \ \ \ \ D3D12\_RESOURCE\_BARRIER\ barrier\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00384}00384\ \ \ \ \ \ \ \ \ barrier.Type\ =\ D3D12\_RESOURCE\_BARRIER\_TYPE\_TRANSITION;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00385}00385\ \ \ \ \ \ \ \ \ barrier.Flags\ =\ D3D12\_RESOURCE\_BARRIER\_FLAG\_NONE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00386}00386\ \ \ \ \ \ \ \ \ barrier.Transition.pResource\ \ \ =\ pTexture;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00387}00387\ \ \ \ \ \ \ \ \ barrier.Transition.Subresource\ =\ D3D12\_RESOURCE\_BARRIER\_ALL\_SUBRESOURCES;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00388}00388\ \ \ \ \ \ \ \ \ barrier.Transition.StateBefore\ =\ D3D12\_RESOURCE\_STATE\_COPY\_DEST;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00389}00389\ \ \ \ \ \ \ \ \ barrier.Transition.StateAfter\ \ =\ D3D12\_RESOURCE\_STATE\_PIXEL\_SHADER\_RESOURCE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00390}00390\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00391}00391\ \ \ \ \ \ \ \ \ ID3D12Fence*\ fence\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00392}00392\ \ \ \ \ \ \ \ \ hr\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateFence(0,\ D3D12\_FENCE\_FLAG\_NONE,\ IID\_PPV\_ARGS(\&fence));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00393}00393\ \ \ \ \ \ \ \ \ IM\_ASSERT(SUCCEEDED(hr));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00394}00394\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00395}00395\ \ \ \ \ \ \ \ \ HANDLE\ \textcolor{keyword}{event}\ =\ CreateEvent(0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00396}00396\ \ \ \ \ \ \ \ \ IM\_ASSERT(event\ !=\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00398}00398\ \ \ \ \ \ \ \ \ D3D12\_COMMAND\_QUEUE\_DESC\ queueDesc\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00399}00399\ \ \ \ \ \ \ \ \ queueDesc.Type\ \ \ \ \ =\ D3D12\_COMMAND\_LIST\_TYPE\_DIRECT;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00400}00400\ \ \ \ \ \ \ \ \ queueDesc.Flags\ \ \ \ =\ D3D12\_COMMAND\_QUEUE\_FLAG\_NONE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00401}00401\ \ \ \ \ \ \ \ \ queueDesc.NodeMask\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00402}00402\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00403}00403\ \ \ \ \ \ \ \ \ ID3D12CommandQueue*\ cmdQueue\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00404}00404\ \ \ \ \ \ \ \ \ hr\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateCommandQueue(\&queueDesc,\ IID\_PPV\_ARGS(\&cmdQueue));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00405}00405\ \ \ \ \ \ \ \ \ IM\_ASSERT(SUCCEEDED(hr));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00406}00406\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00407}00407\ \ \ \ \ \ \ \ \ ID3D12CommandAllocator*\ cmdAlloc\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00408}00408\ \ \ \ \ \ \ \ \ hr\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateCommandAllocator(D3D12\_COMMAND\_LIST\_TYPE\_DIRECT,\ IID\_PPV\_ARGS(\&cmdAlloc));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00409}00409\ \ \ \ \ \ \ \ \ IM\_ASSERT(SUCCEEDED(hr));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00410}00410\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00411}00411\ \ \ \ \ \ \ \ \ ID3D12GraphicsCommandList*\ cmdList\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00412}00412\ \ \ \ \ \ \ \ \ hr\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateCommandList(0,\ D3D12\_COMMAND\_LIST\_TYPE\_DIRECT,\ cmdAlloc,\ \textcolor{keyword}{nullptr},\ IID\_PPV\_ARGS(\&cmdList));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00413}00413\ \ \ \ \ \ \ \ \ IM\_ASSERT(SUCCEEDED(hr));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00414}00414\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00415}00415\ \ \ \ \ \ \ \ \ cmdList-\/>CopyTextureRegion(\&dstLocation,\ 0,\ 0,\ 0,\ \&srcLocation,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00416}00416\ \ \ \ \ \ \ \ \ cmdList-\/>ResourceBarrier(1,\ \&barrier);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00418}00418\ \ \ \ \ \ \ \ \ hr\ =\ cmdList-\/>Close();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00419}00419\ \ \ \ \ \ \ \ \ IM\_ASSERT(SUCCEEDED(hr));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00420}00420\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00421}00421\ \ \ \ \ \ \ \ \ cmdQueue-\/>ExecuteCommandLists(1,\ (ID3D12CommandList*\ \textcolor{keyword}{const}*)\&cmdList);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00422}00422\ \ \ \ \ \ \ \ \ hr\ =\ cmdQueue-\/>Signal(fence,\ 1);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00423}00423\ \ \ \ \ \ \ \ \ IM\_ASSERT(SUCCEEDED(hr));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00424}00424\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00425}00425\ \ \ \ \ \ \ \ \ fence-\/>SetEventOnCompletion(1,\ event);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00426}00426\ \ \ \ \ \ \ \ \ WaitForSingleObject(event,\ INFINITE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00427}00427\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00428}00428\ \ \ \ \ \ \ \ \ cmdList-\/>Release();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00429}00429\ \ \ \ \ \ \ \ \ cmdAlloc-\/>Release();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00430}00430\ \ \ \ \ \ \ \ \ cmdQueue-\/>Release();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00431}00431\ \ \ \ \ \ \ \ \ CloseHandle(event);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00432}00432\ \ \ \ \ \ \ \ \ fence-\/>Release();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00433}00433\ \ \ \ \ \ \ \ \ uploadBuffer-\/>Release();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00434}00434\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00435}00435\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ texture\ view}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00436}00436\ \ \ \ \ \ \ \ \ D3D12\_SHADER\_RESOURCE\_VIEW\_DESC\ srvDesc;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00437}00437\ \ \ \ \ \ \ \ \ ZeroMemory(\&srvDesc,\ \textcolor{keyword}{sizeof}(srvDesc));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00438}00438\ \ \ \ \ \ \ \ \ srvDesc.Format\ =\ DXGI\_FORMAT\_R8G8B8A8\_UNORM;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00439}00439\ \ \ \ \ \ \ \ \ srvDesc.ViewDimension\ =\ D3D12\_SRV\_DIMENSION\_TEXTURE2D;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00440}00440\ \ \ \ \ \ \ \ \ srvDesc.Texture2D.MipLevels\ =\ desc.MipLevels;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00441}00441\ \ \ \ \ \ \ \ \ srvDesc.Texture2D.MostDetailedMip\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00442}00442\ \ \ \ \ \ \ \ \ srvDesc.Shader4ComponentMapping\ =\ D3D12\_DEFAULT\_SHADER\_4\_COMPONENT\_MAPPING;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00443}00443\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateShaderResourceView(pTexture,\ \&srvDesc,\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a0a595d2e3657b5d3b6933d74e65adc3c}{hFontSrvCpuDescHandle}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00444}00444\ \ \ \ \ \ \ \ \ SafeRelease(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a3157f6d9f8b586f4fbabb8dc59e74ece}{pFontTextureResource}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00445}00445\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a3157f6d9f8b586f4fbabb8dc59e74ece}{pFontTextureResource}}\ =\ pTexture;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00446}00446\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00447}00447\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00448}00448\ \ \ \ \ \textcolor{comment}{//\ Store\ our\ identifier}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00449}00449\ \ \ \ \ io.Fonts-\/>SetTexID((ImTextureID)bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_afbc904e7880493b7d4813238233c3db6}{hFontSrvGpuDescHandle}}.ptr);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00450}00450\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00451}00451\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00452}\mbox{\hyperlink{imgui__impl__dx12_8cpp_ab272c7b74e08931d1036bc06ba34402e}{00452}}\ \textcolor{keywordtype}{bool}\ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8cpp_ab272c7b74e08931d1036bc06ba34402e}{ImGui\_ImplDX12\_CreateDeviceObjects}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00453}00453\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00454}00454\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}*\ bd\ =\ ImGui\_ImplDX12\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00455}00455\ \ \ \ \ \textcolor{keywordflow}{if}\ (!bd\ ||\ !bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00456}00456\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00457}00457\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a56ca2ec999af6c639ad32f7204248500}{pPipelineState}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00458}00458\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8cpp_af97805bc6088d9f57e53e90df5a69176}{ImGui\_ImplDX12\_InvalidateDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00459}00459\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00460}00460\ \ \ \ \ \textcolor{comment}{//\ Create\ the\ root\ signature}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00461}00461\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00462}00462\ \ \ \ \ \ \ \ \ D3D12\_DESCRIPTOR\_RANGE\ descRange\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00463}00463\ \ \ \ \ \ \ \ \ descRange.RangeType\ =\ D3D12\_DESCRIPTOR\_RANGE\_TYPE\_SRV;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00464}00464\ \ \ \ \ \ \ \ \ descRange.NumDescriptors\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00465}00465\ \ \ \ \ \ \ \ \ descRange.BaseShaderRegister\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00466}00466\ \ \ \ \ \ \ \ \ descRange.RegisterSpace\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00467}00467\ \ \ \ \ \ \ \ \ descRange.OffsetInDescriptorsFromTableStart\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00469}00469\ \ \ \ \ \ \ \ \ D3D12\_ROOT\_PARAMETER\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}}[2]\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00470}00470\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00471}00471\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}}[0].ParameterType\ =\ D3D12\_ROOT\_PARAMETER\_TYPE\_32BIT\_CONSTANTS;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00472}00472\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}}[0].Constants.ShaderRegister\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00473}00473\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}}[0].Constants.RegisterSpace\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00474}00474\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}}[0].Constants.Num32BitValues\ =\ 16;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00475}00475\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}}[0].ShaderVisibility\ =\ D3D12\_SHADER\_VISIBILITY\_VERTEX;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00476}00476\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00477}00477\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}}[1].ParameterType\ =\ D3D12\_ROOT\_PARAMETER\_TYPE\_DESCRIPTOR\_TABLE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00478}00478\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}}[1].DescriptorTable.NumDescriptorRanges\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00479}00479\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}}[1].DescriptorTable.pDescriptorRanges\ =\ \&descRange;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00480}00480\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}}[1].ShaderVisibility\ =\ D3D12\_SHADER\_VISIBILITY\_PIXEL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00481}00481\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00482}00482\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Bilinear\ sampling\ is\ required\ by\ default.\ Set\ 'io.Fonts-\/>Flags\ |=\ ImFontAtlasFlags\_NoBakedLines'\ or\ 'style.AntiAliasedLinesUseTex\ =\ false'\ to\ allow\ point/nearest\ sampling.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00483}00483\ \ \ \ \ \ \ \ \ D3D12\_STATIC\_SAMPLER\_DESC\ staticSampler\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00484}00484\ \ \ \ \ \ \ \ \ staticSampler.Filter\ =\ D3D12\_FILTER\_MIN\_MAG\_MIP\_LINEAR;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00485}00485\ \ \ \ \ \ \ \ \ staticSampler.AddressU\ =\ D3D12\_TEXTURE\_ADDRESS\_MODE\_CLAMP;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00486}00486\ \ \ \ \ \ \ \ \ staticSampler.AddressV\ =\ D3D12\_TEXTURE\_ADDRESS\_MODE\_CLAMP;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00487}00487\ \ \ \ \ \ \ \ \ staticSampler.AddressW\ =\ D3D12\_TEXTURE\_ADDRESS\_MODE\_CLAMP;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00488}00488\ \ \ \ \ \ \ \ \ staticSampler.MipLODBias\ =\ 0.f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00489}00489\ \ \ \ \ \ \ \ \ staticSampler.MaxAnisotropy\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00490}00490\ \ \ \ \ \ \ \ \ staticSampler.ComparisonFunc\ =\ D3D12\_COMPARISON\_FUNC\_ALWAYS;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00491}00491\ \ \ \ \ \ \ \ \ staticSampler.BorderColor\ =\ D3D12\_STATIC\_BORDER\_COLOR\_TRANSPARENT\_BLACK;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00492}00492\ \ \ \ \ \ \ \ \ staticSampler.MinLOD\ =\ 0.f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00493}00493\ \ \ \ \ \ \ \ \ staticSampler.MaxLOD\ =\ 0.f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00494}00494\ \ \ \ \ \ \ \ \ staticSampler.ShaderRegister\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00495}00495\ \ \ \ \ \ \ \ \ staticSampler.RegisterSpace\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00496}00496\ \ \ \ \ \ \ \ \ staticSampler.ShaderVisibility\ =\ D3D12\_SHADER\_VISIBILITY\_PIXEL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00497}00497\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00498}00498\ \ \ \ \ \ \ \ \ D3D12\_ROOT\_SIGNATURE\_DESC\ desc\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00499}00499\ \ \ \ \ \ \ \ \ desc.NumParameters\ =\ \_countof(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00500}00500\ \ \ \ \ \ \ \ \ desc.pParameters\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa18f5f638c58bcb864e367eacbb3380d}{param}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00501}00501\ \ \ \ \ \ \ \ \ desc.NumStaticSamplers\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00502}00502\ \ \ \ \ \ \ \ \ desc.pStaticSamplers\ =\ \&staticSampler;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00503}00503\ \ \ \ \ \ \ \ \ desc.Flags\ =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ D3D12\_ROOT\_SIGNATURE\_FLAG\_ALLOW\_INPUT\_ASSEMBLER\_INPUT\_LAYOUT\ |}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ D3D12\_ROOT\_SIGNATURE\_FLAG\_DENY\_HULL\_SHADER\_ROOT\_ACCESS\ |}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ D3D12\_ROOT\_SIGNATURE\_FLAG\_DENY\_DOMAIN\_SHADER\_ROOT\_ACCESS\ |}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ D3D12\_ROOT\_SIGNATURE\_FLAG\_DENY\_GEOMETRY\_SHADER\_ROOT\_ACCESS;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00508}00508\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00509}00509\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Load\ d3d12.dll\ and\ D3D12SerializeRootSignature()\ function\ address\ dynamically\ to\ facilitate\ using\ with\ D3D12On7.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00510}00510\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ See\ if\ any\ version\ of\ d3d12.dll\ is\ already\ loaded\ in\ the\ process.\ If\ so,\ give\ preference\ to\ that.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00511}00511\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ HINSTANCE\ d3d12\_dll\ =\ ::GetModuleHandleA(\textcolor{stringliteral}{"{}d3d12.dll"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00512}00512\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (d3d12\_dll\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00513}00513\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Attempt\ to\ load\ d3d12.dll\ from\ local\ directories.\ This\ will\ only\ succeed\ if}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (1)\ the\ current\ OS\ is\ Windows\ 7,\ and}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (2)\ there\ exists\ a\ version\ of\ d3d12.dll\ for\ Windows\ 7\ (D3D12On7)\ in\ one\ of\ the\ following\ directories.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ See\ https://github.com/ocornut/imgui/pull/3696\ for\ details.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ localD3d12Paths[]\ =\ \{\ \textcolor{stringliteral}{"{}.\(\backslash\)\(\backslash\)d3d12.dll"{}},\ \textcolor{stringliteral}{"{}.\(\backslash\)\(\backslash\)d3d12on7\(\backslash\)\(\backslash\)d3d12.dll"{}},\ \textcolor{stringliteral}{"{}.\(\backslash\)\(\backslash\)12on7\(\backslash\)\(\backslash\)d3d12.dll"{}}\ \};\ \textcolor{comment}{//\ A.\ current\ directory,\ B.\ used\ by\ some\ games,\ C.\ used\ in\ Microsoft\ D3D12On7\ sample}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ IM\_ARRAYSIZE(localD3d12Paths);\ i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((d3d12\_dll\ =\ ::LoadLibraryA(localD3d12Paths[i]))\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00522}00522\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ failed,\ we\ are\ on\ Windows\ >=\ 10.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (d3d12\_dll\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ d3d12\_dll\ =\ ::LoadLibraryA(\textcolor{stringliteral}{"{}d3d12.dll"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00526}00526\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (d3d12\_dll\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00529}00529\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00530}00530\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00531}00531\ \ \ \ \ \ \ \ \ PFN\_D3D12\_SERIALIZE\_ROOT\_SIGNATURE\ D3D12SerializeRootSignatureFn\ =\ (PFN\_D3D12\_SERIALIZE\_ROOT\_SIGNATURE)::GetProcAddress(d3d12\_dll,\ \textcolor{stringliteral}{"{}D3D12SerializeRootSignature"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00532}00532\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (D3D12SerializeRootSignatureFn\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00534}00534\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00535}00535\ \ \ \ \ \ \ \ \ ID3DBlob*\ blob\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00536}00536\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (D3D12SerializeRootSignatureFn(\&desc,\ D3D\_ROOT\_SIGNATURE\_VERSION\_1,\ \&blob,\ \textcolor{keyword}{nullptr})\ !=\ S\_OK)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00538}00538\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00539}00539\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateRootSignature(0,\ blob-\/>GetBufferPointer(),\ blob-\/>GetBufferSize(),\ IID\_PPV\_ARGS(\&bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a5ec586be9457edb382e26db52b84bba5}{pRootSignature}}));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00540}00540\ \ \ \ \ \ \ \ \ blob-\/>Release();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00541}00541\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00542}00542\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00543}00543\ \ \ \ \ \textcolor{comment}{//\ By\ using\ D3DCompile()\ from\ <d3dcompiler.h>\ /\ d3dcompiler.lib,\ we\ introduce\ a\ dependency\ to\ a\ given\ version\ of\ d3dcompiler\_XX.dll\ (see\ D3DCOMPILER\_DLL\_A)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00544}00544\ \ \ \ \ \textcolor{comment}{//\ If\ you\ would\ like\ to\ use\ this\ DX12\ sample\ code\ but\ remove\ this\ dependency\ you\ can:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00545}00545\ \ \ \ \ \textcolor{comment}{//\ \ 1)\ compile\ once,\ save\ the\ compiled\ shader\ blobs\ into\ a\ file\ or\ source\ code\ and\ assign\ them\ to\ psoDesc.VS/PS\ [preferred\ solution]}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00546}00546\ \ \ \ \ \textcolor{comment}{//\ \ 2)\ use\ code\ to\ detect\ any\ version\ of\ the\ DLL\ and\ grab\ a\ pointer\ to\ D3DCompile\ from\ the\ DLL.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00547}00547\ \ \ \ \ \textcolor{comment}{//\ See\ https://github.com/ocornut/imgui/pull/638\ for\ sources\ and\ details.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00548}00548\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00549}00549\ \ \ \ \ D3D12\_GRAPHICS\_PIPELINE\_STATE\_DESC\ psoDesc;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00550}00550\ \ \ \ \ memset(\&psoDesc,\ 0,\ \textcolor{keyword}{sizeof}(D3D12\_GRAPHICS\_PIPELINE\_STATE\_DESC));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00551}00551\ \ \ \ \ psoDesc.NodeMask\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00552}00552\ \ \ \ \ psoDesc.PrimitiveTopologyType\ =\ D3D12\_PRIMITIVE\_TOPOLOGY\_TYPE\_TRIANGLE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00553}00553\ \ \ \ \ psoDesc.pRootSignature\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a5ec586be9457edb382e26db52b84bba5}{pRootSignature}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00554}00554\ \ \ \ \ psoDesc.SampleMask\ =\ UINT\_MAX;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00555}00555\ \ \ \ \ psoDesc.NumRenderTargets\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00556}00556\ \ \ \ \ psoDesc.RTVFormats[0]\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac51215a8aa27a0c0fa095abc87e0a80b}{RTVFormat}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00557}00557\ \ \ \ \ psoDesc.SampleDesc.Count\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00558}00558\ \ \ \ \ psoDesc.Flags\ =\ D3D12\_PIPELINE\_STATE\_FLAG\_NONE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00559}00559\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00560}00560\ \ \ \ \ ID3DBlob*\ vertexShaderBlob;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00561}00561\ \ \ \ \ ID3DBlob*\ pixelShaderBlob;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00563}00563\ \ \ \ \ \textcolor{comment}{//\ Create\ the\ vertex\ shader}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00564}00564\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00565}00565\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ vertexShader\ =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00566}00566\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cbuffer\ vertexBuffer\ :\ register(b0)\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00567}00567\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \{\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00568}00568\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float4x4\ ProjectionMatrix;\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00569}00569\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \};\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00570}00570\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ struct\ VS\_INPUT\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00571}00571\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \{\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00572}00572\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float2\ pos\ :\ POSITION;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00573}00573\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float4\ col\ :\ COLOR0;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00574}00574\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float2\ uv\ \ :\ TEXCOORD0;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00575}00575\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \};\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00576}00576\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00577}00577\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ struct\ PS\_INPUT\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00578}00578\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \{\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00579}00579\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float4\ pos\ :\ SV\_POSITION;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00580}00580\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float4\ col\ :\ COLOR0;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00581}00581\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float2\ uv\ \ :\ TEXCOORD0;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00582}00582\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \};\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00583}00583\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00584}00584\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ PS\_INPUT\ main(VS\_INPUT\ input)\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00585}00585\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \{\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00586}00586\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ PS\_INPUT\ output;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00587}00587\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ output.pos\ =\ mul(\ ProjectionMatrix,\ float4(input.pos.xy,\ 0.f,\ 1.f));\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00588}00588\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ output.col\ =\ input.col;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00589}00589\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ output.uv\ \ =\ input.uv;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00590}00590\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ output;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00591}00591\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \}"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00592}00592\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00593}00593\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (FAILED(D3DCompile(vertexShader,\ strlen(vertexShader),\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr},\ \textcolor{stringliteral}{"{}main"{}},\ \textcolor{stringliteral}{"{}vs\_5\_0"{}},\ 0,\ 0,\ \&vertexShaderBlob,\ \textcolor{keyword}{nullptr})))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00594}00594\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ NB:\ Pass\ ID3DBlob*\ pErrorBlob\ to\ D3DCompile()\ to\ get\ error\ showing\ in\ (const\ char*)pErrorBlob-\/>GetBufferPointer().\ Make\ sure\ to\ Release()\ the\ blob!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00595}00595\ \ \ \ \ \ \ \ \ psoDesc.VS\ =\ \{\ vertexShaderBlob-\/>GetBufferPointer(),\ vertexShaderBlob-\/>GetBufferSize()\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00596}00596\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00597}00597\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ the\ input\ layout}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00598}00598\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ D3D12\_INPUT\_ELEMENT\_DESC\ local\_layout[]\ =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00599}00599\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00600}00600\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}POSITION"{}},\ 0,\ DXGI\_FORMAT\_R32G32\_FLOAT,\ \ \ 0,\ (UINT)offsetof(ImDrawVert,\ pos),\ D3D12\_INPUT\_CLASSIFICATION\_PER\_VERTEX\_DATA,\ 0\ \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00601}00601\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}TEXCOORD"{}},\ 0,\ DXGI\_FORMAT\_R32G32\_FLOAT,\ \ \ 0,\ (UINT)offsetof(ImDrawVert,\ uv),\ \ D3D12\_INPUT\_CLASSIFICATION\_PER\_VERTEX\_DATA,\ 0\ \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00602}00602\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}COLOR"{}},\ \ \ \ 0,\ DXGI\_FORMAT\_R8G8B8A8\_UNORM,\ 0,\ (UINT)offsetof(ImDrawVert,\ col),\ D3D12\_INPUT\_CLASSIFICATION\_PER\_VERTEX\_DATA,\ 0\ \},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00603}00603\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00604}00604\ \ \ \ \ \ \ \ \ psoDesc.InputLayout\ =\ \{\ local\_layout,\ 3\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00605}00605\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00606}00606\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00607}00607\ \ \ \ \ \textcolor{comment}{//\ Create\ the\ pixel\ shader}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00608}00608\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00609}00609\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ pixelShader\ =}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00610}00610\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}struct\ PS\_INPUT\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00611}00611\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \{\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00612}00612\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float4\ pos\ :\ SV\_POSITION;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00613}00613\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float4\ col\ :\ COLOR0;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00614}00614\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float2\ uv\ \ :\ TEXCOORD0;\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00615}00615\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \};\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00616}00616\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ SamplerState\ sampler0\ :\ register(s0);\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00617}00617\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Texture2D\ texture0\ :\ register(t0);\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00618}00618\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00619}00619\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ float4\ main(PS\_INPUT\ input)\ :\ SV\_Target\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00620}00620\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \{\(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00621}00621\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ float4\ out\_col\ =\ input.col\ *\ texture0.Sample(sampler0,\ input.uv);\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00622}00622\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ out\_col;\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00623}00623\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \}"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00624}00624\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00625}00625\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (FAILED(D3DCompile(pixelShader,\ strlen(pixelShader),\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr},\ \textcolor{stringliteral}{"{}main"{}},\ \textcolor{stringliteral}{"{}ps\_5\_0"{}},\ 0,\ 0,\ \&pixelShaderBlob,\ \textcolor{keyword}{nullptr})))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00626}00626\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00627}00627\ \ \ \ \ \ \ \ \ \ \ \ \ vertexShaderBlob-\/>Release();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00628}00628\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ NB:\ Pass\ ID3DBlob*\ pErrorBlob\ to\ D3DCompile()\ to\ get\ error\ showing\ in\ (const\ char*)pErrorBlob-\/>GetBufferPointer().\ Make\ sure\ to\ Release()\ the\ blob!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00629}00629\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00630}00630\ \ \ \ \ \ \ \ \ psoDesc.PS\ =\ \{\ pixelShaderBlob-\/>GetBufferPointer(),\ pixelShaderBlob-\/>GetBufferSize()\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00631}00631\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00632}00632\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00633}00633\ \ \ \ \ \textcolor{comment}{//\ Create\ the\ blending\ setup}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00634}00634\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00635}00635\ \ \ \ \ \ \ \ \ D3D12\_BLEND\_DESC\&\ desc\ =\ psoDesc.BlendState;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00636}00636\ \ \ \ \ \ \ \ \ desc.AlphaToCoverageEnable\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00637}00637\ \ \ \ \ \ \ \ \ desc.RenderTarget[0].BlendEnable\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00638}00638\ \ \ \ \ \ \ \ \ desc.RenderTarget[0].SrcBlend\ =\ D3D12\_BLEND\_SRC\_ALPHA;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00639}00639\ \ \ \ \ \ \ \ \ desc.RenderTarget[0].DestBlend\ =\ D3D12\_BLEND\_INV\_SRC\_ALPHA;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00640}00640\ \ \ \ \ \ \ \ \ desc.RenderTarget[0].BlendOp\ =\ D3D12\_BLEND\_OP\_ADD;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00641}00641\ \ \ \ \ \ \ \ \ desc.RenderTarget[0].SrcBlendAlpha\ =\ D3D12\_BLEND\_ONE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00642}00642\ \ \ \ \ \ \ \ \ desc.RenderTarget[0].DestBlendAlpha\ =\ D3D12\_BLEND\_INV\_SRC\_ALPHA;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00643}00643\ \ \ \ \ \ \ \ \ desc.RenderTarget[0].BlendOpAlpha\ =\ D3D12\_BLEND\_OP\_ADD;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00644}00644\ \ \ \ \ \ \ \ \ desc.RenderTarget[0].RenderTargetWriteMask\ =\ D3D12\_COLOR\_WRITE\_ENABLE\_ALL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00645}00645\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00646}00646\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00647}00647\ \ \ \ \ \textcolor{comment}{//\ Create\ the\ rasterizer\ state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00648}00648\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00649}00649\ \ \ \ \ \ \ \ \ D3D12\_RASTERIZER\_DESC\&\ desc\ =\ psoDesc.RasterizerState;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00650}00650\ \ \ \ \ \ \ \ \ desc.FillMode\ =\ D3D12\_FILL\_MODE\_SOLID;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00651}00651\ \ \ \ \ \ \ \ \ desc.CullMode\ =\ D3D12\_CULL\_MODE\_NONE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00652}00652\ \ \ \ \ \ \ \ \ desc.FrontCounterClockwise\ =\ FALSE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00653}00653\ \ \ \ \ \ \ \ \ desc.DepthBias\ =\ D3D12\_DEFAULT\_DEPTH\_BIAS;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00654}00654\ \ \ \ \ \ \ \ \ desc.DepthBiasClamp\ =\ D3D12\_DEFAULT\_DEPTH\_BIAS\_CLAMP;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00655}00655\ \ \ \ \ \ \ \ \ desc.SlopeScaledDepthBias\ =\ D3D12\_DEFAULT\_SLOPE\_SCALED\_DEPTH\_BIAS;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00656}00656\ \ \ \ \ \ \ \ \ desc.DepthClipEnable\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00657}00657\ \ \ \ \ \ \ \ \ desc.MultisampleEnable\ =\ FALSE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00658}00658\ \ \ \ \ \ \ \ \ desc.AntialiasedLineEnable\ =\ FALSE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00659}00659\ \ \ \ \ \ \ \ \ desc.ForcedSampleCount\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00660}00660\ \ \ \ \ \ \ \ \ desc.ConservativeRaster\ =\ D3D12\_CONSERVATIVE\_RASTERIZATION\_MODE\_OFF;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00661}00661\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00662}00662\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00663}00663\ \ \ \ \ \textcolor{comment}{//\ Create\ depth-\/stencil\ State}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00664}00664\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00665}00665\ \ \ \ \ \ \ \ \ D3D12\_DEPTH\_STENCIL\_DESC\&\ desc\ =\ psoDesc.DepthStencilState;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00666}00666\ \ \ \ \ \ \ \ \ desc.DepthEnable\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00667}00667\ \ \ \ \ \ \ \ \ desc.DepthWriteMask\ =\ D3D12\_DEPTH\_WRITE\_MASK\_ALL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00668}00668\ \ \ \ \ \ \ \ \ desc.DepthFunc\ =\ D3D12\_COMPARISON\_FUNC\_ALWAYS;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00669}00669\ \ \ \ \ \ \ \ \ desc.StencilEnable\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00670}00670\ \ \ \ \ \ \ \ \ desc.FrontFace.StencilFailOp\ =\ desc.FrontFace.StencilDepthFailOp\ =\ desc.FrontFace.StencilPassOp\ =\ D3D12\_STENCIL\_OP\_KEEP;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00671}00671\ \ \ \ \ \ \ \ \ desc.FrontFace.StencilFunc\ =\ D3D12\_COMPARISON\_FUNC\_ALWAYS;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00672}00672\ \ \ \ \ \ \ \ \ desc.BackFace\ =\ desc.FrontFace;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00673}00673\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00674}00674\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00675}00675\ \ \ \ \ HRESULT\ result\_pipeline\_state\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}-\/>CreateGraphicsPipelineState(\&psoDesc,\ IID\_PPV\_ARGS(\&bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a56ca2ec999af6c639ad32f7204248500}{pPipelineState}}));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00676}00676\ \ \ \ \ vertexShaderBlob-\/>Release();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00677}00677\ \ \ \ \ pixelShaderBlob-\/>Release();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00678}00678\ \ \ \ \ \textcolor{keywordflow}{if}\ (result\_pipeline\_state\ !=\ S\_OK)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00679}00679\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00680}00680\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00681}00681\ \ \ \ \ ImGui\_ImplDX12\_CreateFontsTexture();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00682}00682\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00683}00683\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00684}00684\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00685}00685\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00686}\mbox{\hyperlink{imgui__impl__dx12_8cpp_af97805bc6088d9f57e53e90df5a69176}{00686}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8cpp_af97805bc6088d9f57e53e90df5a69176}{ImGui\_ImplDX12\_InvalidateDeviceObjects}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00687}00687\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00688}00688\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}*\ bd\ =\ ImGui\_ImplDX12\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00689}00689\ \ \ \ \ \textcolor{keywordflow}{if}\ (!bd\ ||\ !bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00690}00690\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00691}00691\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00692}00692\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00693}00693\ \ \ \ \ SafeRelease(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a5ec586be9457edb382e26db52b84bba5}{pRootSignature}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00694}00694\ \ \ \ \ SafeRelease(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a56ca2ec999af6c639ad32f7204248500}{pPipelineState}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00695}00695\ \ \ \ \ SafeRelease(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a3157f6d9f8b586f4fbabb8dc59e74ece}{pFontTextureResource}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00696}00696\ \ \ \ \ io.Fonts-\/>SetTexID(0);\ \textcolor{comment}{//\ We\ copied\ bd-\/>pFontTextureView\ to\ io.Fonts-\/>TexID\ so\ let's\ clear\ that\ as\ well.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00697}00697\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00698}00698\ \ \ \ \ \textcolor{keywordflow}{for}\ (UINT\ i\ =\ 0;\ i\ <\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a6a541239da42836b2127d1428032cf7d}{numFramesInFlight}};\ i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00699}00699\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00700}00700\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers}{ImGui\_ImplDX12\_RenderBuffers}}*\ fr\ =\ \&bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac61eccc7bdd8782896d100ec000191c4}{pFrameResources}}[i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00701}00701\ \ \ \ \ \ \ \ \ SafeRelease(fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_adea8d9622af0a5c6376f4b98840b0812}{IndexBuffer}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00702}00702\ \ \ \ \ \ \ \ \ SafeRelease(fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a5ffee1b7a7d728d15dfd33739819101c}{VertexBuffer}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00703}00703\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00704}00704\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00705}00705\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00706}\mbox{\hyperlink{imgui__impl__dx12_8cpp_a81f7c3b7c05640e9994debd34bc38616}{00706}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__dx12_8cpp_a81f7c3b7c05640e9994debd34bc38616}{ImGui\_ImplDX12\_Init}}(ID3D12Device*\ device,\ \textcolor{keywordtype}{int}\ num\_frames\_in\_flight,\ DXGI\_FORMAT\ rtv\_format,\ ID3D12DescriptorHeap*\ cbv\_srv\_heap,}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00707}00707\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ D3D12\_CPU\_DESCRIPTOR\_HANDLE\ font\_srv\_cpu\_desc\_handle,\ D3D12\_GPU\_DESCRIPTOR\_HANDLE\ font\_srv\_gpu\_desc\_handle)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00708}00708\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00709}00709\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00710}00710\ \ \ \ \ IMGUI\_CHECKVERSION();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00711}00711\ \ \ \ \ IM\_ASSERT(io.BackendRendererUserData\ ==\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Already\ initialized\ a\ renderer\ backend!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00712}00712\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00713}00713\ \ \ \ \ \textcolor{comment}{//\ Setup\ backend\ capabilities\ flags}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00714}00714\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}*\ bd\ =\ IM\_NEW(\mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}})();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00715}00715\ \ \ \ \ io.BackendRendererUserData\ =\ (\textcolor{keywordtype}{void}*)bd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00716}00716\ \ \ \ \ io.BackendRendererName\ =\ \textcolor{stringliteral}{"{}imgui\_impl\_dx12"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00717}00717\ \ \ \ \ io.BackendFlags\ |=\ ImGuiBackendFlags\_RendererHasVtxOffset;\ \ \textcolor{comment}{//\ We\ can\ honor\ the\ ImDrawCmd::VtxOffset\ field,\ allowing\ for\ large\ meshes.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00718}00718\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00719}00719\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a1c8a790e04e775e3dc8e3f9b5a8f886e}{pd3dDevice}}\ =\ device;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00720}00720\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac51215a8aa27a0c0fa095abc87e0a80b}{RTVFormat}}\ =\ rtv\_format;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00721}00721\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a0a595d2e3657b5d3b6933d74e65adc3c}{hFontSrvCpuDescHandle}}\ =\ font\_srv\_cpu\_desc\_handle;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00722}00722\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_afbc904e7880493b7d4813238233c3db6}{hFontSrvGpuDescHandle}}\ =\ font\_srv\_gpu\_desc\_handle;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00723}00723\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac61eccc7bdd8782896d100ec000191c4}{pFrameResources}}\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers}{ImGui\_ImplDX12\_RenderBuffers}}[num\_frames\_in\_flight];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00724}00724\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a6a541239da42836b2127d1428032cf7d}{numFramesInFlight}}\ =\ num\_frames\_in\_flight;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00725}00725\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a470d80e9fd5c7b77c19640654466721b}{pd3dSrvDescHeap}}\ =\ cbv\_srv\_heap;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00726}00726\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a36f325ca3e65ccc7185559cb6cf09c41}{frameIndex}}\ =\ UINT\_MAX;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00727}00727\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00728}00728\ \ \ \ \ \textcolor{comment}{//\ Create\ buffers\ with\ a\ default\ size\ (they\ will\ later\ be\ grown\ as\ needed)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00729}00729\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ num\_frames\_in\_flight;\ i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00730}00730\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00731}00731\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers}{ImGui\_ImplDX12\_RenderBuffers}}*\ fr\ =\ \&bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac61eccc7bdd8782896d100ec000191c4}{pFrameResources}}[i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00732}00732\ \ \ \ \ \ \ \ \ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_adea8d9622af0a5c6376f4b98840b0812}{IndexBuffer}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00733}00733\ \ \ \ \ \ \ \ \ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a5ffee1b7a7d728d15dfd33739819101c}{VertexBuffer}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00734}00734\ \ \ \ \ \ \ \ \ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a29214b15eceea549928373591e877640}{IndexBufferSize}}\ =\ 10000;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00735}00735\ \ \ \ \ \ \ \ \ fr-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___render_buffers_a6643010c24e4046769271a36d596398a}{VertexBufferSize}}\ =\ 5000;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00736}00736\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00737}00737\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00738}00738\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00739}00739\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00740}00740\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00741}\mbox{\hyperlink{imgui__impl__dx12_8cpp_a35feaca4a5ef1d61ed0528238a829fa7}{00741}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__dx12_8cpp_a35feaca4a5ef1d61ed0528238a829fa7}{ImGui\_ImplDX12\_Shutdown}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00742}00742\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00743}00743\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}*\ bd\ =\ ImGui\_ImplDX12\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00744}00744\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}No\ renderer\ backend\ to\ shutdown,\ or\ already\ shutdown?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00745}00745\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00746}00746\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00747}00747\ \ \ \ \ \textcolor{comment}{//\ Clean\ up\ windows\ and\ device\ objects}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00748}00748\ \ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8cpp_af97805bc6088d9f57e53e90df5a69176}{ImGui\_ImplDX12\_InvalidateDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00749}00749\ \ \ \ \ \textcolor{keyword}{delete}[]\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_ac61eccc7bdd8782896d100ec000191c4}{pFrameResources}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00750}00750\ \ \ \ \ io.BackendRendererName\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00751}00751\ \ \ \ \ io.BackendRendererUserData\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00752}00752\ \ \ \ \ io.BackendFlags\ \&=\ \string~ImGuiBackendFlags\_RendererHasVtxOffset;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00753}00753\ \ \ \ \ IM\_DELETE(bd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00754}00754\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00755}00755\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00756}\mbox{\hyperlink{imgui__impl__dx12_8cpp_a90c28de6beeafe228957536ce6edab33}{00756}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__dx12_8cpp_a90c28de6beeafe228957536ce6edab33}{ImGui\_ImplDX12\_NewFrame}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00757}00757\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00758}00758\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_d_x12___data}{ImGui\_ImplDX12\_Data}}*\ bd\ =\ ImGui\_ImplDX12\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00759}00759\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Context\ or\ backend\ not\ initialized!\ Did\ you\ call\ ImGui\_ImplDX12\_Init()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00760}00760\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00761}00761\ \ \ \ \ \textcolor{keywordflow}{if}\ (!bd-\/>\mbox{\hyperlink{struct_im_gui___impl_d_x12___data_a56ca2ec999af6c639ad32f7204248500}{pPipelineState}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00762}00762\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__dx12_8cpp_ab272c7b74e08931d1036bc06ba34402e}{ImGui\_ImplDX12\_CreateDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00763}00763\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00764}00764\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00765}00765\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00766}00766\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__dx12_8cpp_source_l00767}00767\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

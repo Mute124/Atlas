@@ -1,20 +1,14 @@
 var searchData=
 [
-  ['name_0',['name',['../d9/d02/class_techstorm_1_1_input_action.html#a6b30fa90cc6e9ee0b74873853ace65f4',1,'Techstorm::InputAction']]],
-  ['name_5fstr_1',['name_str',['../df/d6f/struct_gfx_1_1_vert_shader_definition.html#adc7f6b24a23e7dd0a436954a7376376a',1,'Gfx::VertShaderDefinition::name_str'],['../d4/d6d/struct_gfx_1_1_frag_shader_definition.html#a041c8a11a142707421003d62687f769e',1,'Gfx::FragShaderDefinition::name_str'],['../dd/d8f/struct_gfx_1_1_program_definition.html#a00333b904e21051999b31f5909bf2923',1,'Gfx::ProgramDefinition::name_str']]],
-  ['names_2',['Allocation names',['../d2/d47/allocation_annotation.html#allocation_names',1,'']]],
-  ['names_20and_20user_20data_3',['Allocation names and user data',['../d2/d47/allocation_annotation.html',1,'index']]],
-  ['newlayer_4',['newlayer',['../d6/d34/class_techstorm_1_1abstract.html#aed3709933c4636a1672127aa35a2a0df',1,'Techstorm::abstract::newLayer(T layer, K key)=0'],['../d6/d34/class_techstorm_1_1abstract.html#a7253a8369508acb9d13dfd8b9920b5e1',1,'Techstorm::abstract::newLayer(K key)=0'],['../db/d5d/class_techstorm_1_1_layer_registry.html#abc776e02233516e0494c6dfa252bd390',1,'Techstorm::LayerRegistry::newLayer(T layer, std::string key)'],['../db/d5d/class_techstorm_1_1_layer_registry.html#ad0cd9931bf953cf94b8c2551288420da',1,'Techstorm::LayerRegistry::newLayer(std::string key)']]],
-  ['newlayout_5',['newLayout',['../de/d32/struct_vk_image_memory_barrier.html#ac6357a16939b9fb41b7f566fde527525',1,'VkImageMemoryBarrier']]],
-  ['next_6',['next',['../d0/db8/class_circular_map.html#a6d123a2668e0ebddf1678b9be2935b32',1,'CircularMap']]],
-  ['noise_7',['noise',['../d1/dee/class_terrain.html#af666983558eb4f14edd2bc93c6e54626',1,'Terrain']]],
-  ['nominmax_8',['NOMINMAX',['../d0/dba/_rml_ui___include___windows_8h.html#a9f918755b601cf4bffca775992e6fb90',1,'RmlUi_Include_Windows.h']]],
-  ['noncoherentatomsize_9',['nonCoherentAtomSize',['../d4/d0c/struct_vk_physical_device_limits.html#a6d2214c1f9529c2c33b7f590ef897204',1,'VkPhysicalDeviceLimits']]],
-  ['none_10',['none',['../d5/d0b/_rml_ui___renderer___g_l3_8cpp.html#aef39ea06ec027f46e65b8280775df70aa6adf97f83acf6453d4a6a4b1070f3754',1,'None:&#160;RmlUi_Renderer_GL3.cpp'],['../de/d47/namespace_gfx.html#a6a8eacf67f9e951ff855489fe86edb52a6adf97f83acf6453d4a6a4b1070f3754',1,'Gfx::None']]],
-  ['normalize_11',['normalize',['../df/d8a/struct_vec3.html#af4e3610dbe35306be56ea47aa160b7ca',1,'Vec3']]],
-  ['normals_12',['normals',['../d7/d58/class_chunk.html#afefb01c8c87235fb83cfdafd35c76735',1,'Chunk']]],
-  ['not_20supported_13',['Features not supported',['../d7/d19/general_considerations.html#general_considerations_features_not_supported',1,'']]],
-  ['num_5fcomponents_14',['num_components',['../df/d67/struct_renderer_extensions_1_1_image.html#aee8ea434c97b86998cd9b328686511b0',1,'RendererExtensions::Image']]],
-  ['numeric_20statistics_15',['Numeric statistics',['../d5/d6f/statistics.html#statistics_numeric_statistics',1,'']]],
-  ['numstops_16',['NumStops',['../d5/d0b/_rml_ui___renderer___g_l3_8cpp.html#adad77d2c16c419d8ae9cc19e7d849fd5a29d3027c8135c540ab52081682bca384',1,'RmlUi_Renderer_GL3.cpp']]]
+  ['name_0',['name',['../d6/d5c/class_atlas_1_1_input_action.html#a3e6313a9bd882322deeb869be5f5af73',1,'Atlas::InputAction::name'],['../d4/d72/class_sample.html#a211998e0f07580ace5778c7ee6423a73',1,'Sample::name'],['../df/d5f/imgui__impl__opengl3__loader_8h.html#a5c4947d4516dd7cfa3505ce3a648a4ef',1,'name:&#160;imgui_impl_opengl3_loader.h']]],
+  ['newlayer_1',['newlayer',['../d6/d34/class_techstorm_1_1abstract.html#aed3709933c4636a1672127aa35a2a0df',1,'Techstorm::abstract::newLayer(T layer, K key)=0'],['../d6/d34/class_techstorm_1_1abstract.html#a7253a8369508acb9d13dfd8b9920b5e1',1,'Techstorm::abstract::newLayer(K key)=0'],['../db/d5d/class_techstorm_1_1_layer_registry.html#abc776e02233516e0494c6dfa252bd390',1,'Techstorm::LayerRegistry::newLayer(T layer, std::string key)'],['../db/d5d/class_techstorm_1_1_layer_registry.html#ad0cd9931bf953cf94b8c2551288420da',1,'Techstorm::LayerRegistry::newLayer(std::string key)']]],
+  ['next_2',['next',['../d0/db8/class_circular_map.html#a6d123a2668e0ebddf1678b9be2935b32',1,'CircularMap']]],
+  ['noise_3',['noise',['../d1/dee/class_terrain.html#af666983558eb4f14edd2bc93c6e54626',1,'Terrain']]],
+  ['none_4',['NONE',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079ab50339a10e1de285ac99d4c3990b8693',1,'Atlas']]],
+  ['normalize_5',['normalize',['../df/d8a/struct_vec3.html#af4e3610dbe35306be56ea47aa160b7ca',1,'Vec3']]],
+  ['normalized_6',['normalized',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a991495bc19f64c176dd83a350b8b1c88',1,'imgui_impl_opengl3_loader.h']]],
+  ['normals_7',['normals',['../d7/d58/class_chunk.html#afefb01c8c87235fb83cfdafd35c76735',1,'Chunk']]],
+  ['nscursor_28_29_8',['NSCursor()',['../d7/dd9/category_n_s_cursor_07_08.html',1,'']]],
+  ['num_5fcomponents_9',['num_components',['../df/d67/struct_renderer_extensions_1_1_image.html#aee8ea434c97b86998cd9b328686511b0',1,'RendererExtensions::Image']]],
+  ['numframesinflight_10',['numframesinflight',['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#ada0c7e772195e1466be60c78cf0b52e0',1,'ImGui_ImplWGPU_InitInfo::NumFramesInFlight'],['../d3/dcd/struct_im_gui___impl_d_x12___data.html#a6a541239da42836b2127d1428032cf7d',1,'ImGui_ImplDX12_Data::numFramesInFlight'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a6c5df0f3745f9c235ec7349227eeae2a',1,'ImGui_ImplWGPU_Data::numFramesInFlight']]]
 ];

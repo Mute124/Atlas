@@ -1,12 +1,23 @@
 var searchData=
 [
-  ['edgetable_0',['edgetable',['../dc/dbe/class_marching_cubes.html#afe2c4c20ebe28db6e420c339dba67e66',1,'MarchingCubes::edgeTable'],['../d0/db6/_types_8h.html#a2ae360429745655f0f152f4318ba97a0',1,'edgeTable:&#160;Types.h']]],
-  ['edgetovertices_1',['edgetovertices',['../dc/dbe/class_marching_cubes.html#ac919019472f9718aef214ab0b05de7ac',1,'MarchingCubes::edgeToVertices'],['../d0/db6/_types_8h.html#a50e02b40e24f48a3b6a0b1080cb1e529',1,'edgeToVertices:&#160;Types.h']]],
-  ['enabledextensioncount_2',['enabledextensioncount',['../d2/db4/struct_vk_instance_create_info.html#a61acf255c166d205d753238b7ec2374a',1,'VkInstanceCreateInfo::enabledExtensionCount'],['../d1/dcd/struct_vk_device_create_info.html#a2bdd5da108f017c003249dd48918fe4a',1,'VkDeviceCreateInfo::enabledExtensionCount']]],
-  ['enabledlayercount_3',['enabledlayercount',['../d2/db4/struct_vk_instance_create_info.html#ae7ba84112efc8039646834b64feafd4c',1,'VkInstanceCreateInfo::enabledLayerCount'],['../d1/dcd/struct_vk_device_create_info.html#ad8adda001e8f9c6264acaed0f0b95e5d',1,'VkDeviceCreateInfo::enabledLayerCount']]],
-  ['enabledvalidationfeaturecount_4',['enabledValidationFeatureCount',['../df/d5a/struct_vk_validation_features_e_x_t.html#aefae7140dd26e9d498dcec4f5d5bbaf3',1,'VkValidationFeaturesEXT']]],
-  ['engineversion_5',['engineVersion',['../d5/d44/struct_vk_application_info.html#a1408d2f8c9a5a22c598b7968d319fd09',1,'VkApplicationInfo']]],
-  ['extension_6',['extension',['../d2/d71/class_techstorm_1_1_file_meta.html#aaba4dcad71e1357642351211230c8b06',1,'Techstorm::FileMeta']]],
-  ['extensionname_7',['extensionName',['../d7/de0/struct_vk_extension_properties.html#a4a40215b3fa8eb5e197bfd15aae99331',1,'VkExtensionProperties']]],
-  ['extent_8',['extent',['../d1/d3f/struct_vk_rect2_d.html#a9a31a9e1b65f9dd46128de90cf9f1536',1,'VkRect2D::extent'],['../dc/d64/struct_vk_image_create_info.html#a8987da3bd3f1614dbb69a70fb3539299',1,'VkImageCreateInfo::extent'],['../d5/de8/struct_vk_sparse_image_memory_bind.html#ab4bf48c2c1366994ca8ccb4c9ff803a9',1,'VkSparseImageMemoryBind::extent'],['../dc/d01/struct_vk_image_copy.html#a11c0caef139634ece994552bac4951f8',1,'VkImageCopy::extent'],['../da/d07/struct_vk_image_resolve.html#a6bd07b9de6700edd5af8c7acb40c0035',1,'VkImageResolve::extent']]]
+  ['data_0',['data',['../df/d67/struct_renderer_extensions_1_1_image.html#a733904c59e464d884ebbf14ef6cf2910',1,'RendererExtensions::Image']]],
+  ['defaultqueue_1',['defaultQueue',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a4281fd4cf419267792c8ba5195517360',1,'ImGui_ImplWGPU_Data']]],
+  ['deletebuffers_2',['DeleteBuffers',['../d4/d6c/union_im_g_l3_w_procs.html#a21f8b9b279f9f360c3fea73bd9b806df',1,'ImGL3WProcs']]],
+  ['deleteprogram_3',['DeleteProgram',['../d4/d6c/union_im_g_l3_w_procs.html#afc34a93712a985d2bd99e48c924cc9aa',1,'ImGL3WProcs']]],
+  ['deleteshader_4',['DeleteShader',['../d4/d6c/union_im_g_l3_w_procs.html#a4c661060128d1d0ff8c0ef36ec36d2d7',1,'ImGL3WProcs']]],
+  ['deletetextures_5',['DeleteTextures',['../d4/d6c/union_im_g_l3_w_procs.html#ab11376688525d1f30b3f3fdb951a4a33',1,'ImGL3WProcs']]],
+  ['deletevertexarrays_6',['DeleteVertexArrays',['../d4/d6c/union_im_g_l3_w_procs.html#aa36cc089a00829a19d2743a7352f4abe',1,'ImGL3WProcs']]],
+  ['depth_7',['depth',['../dc/dba/class_atlas_1_1abstract.html#a7f6e5dc79241315ff8753e3ea3fbf3d2',1,'Atlas::abstract']]],
+  ['depthstencilformat_8',['depthstencilformat',['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#a0e63ac323c2f2c0272677d079fe1a6cb',1,'ImGui_ImplWGPU_InitInfo::DepthStencilFormat'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a346d81380745d85c9065283da935c1e2',1,'ImGui_ImplWGPU_Data::depthStencilFormat']]],
+  ['descriptorpool_9',['DescriptorPool',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a8062aeaef73fcda522fbb866b312320a',1,'ImGui_ImplVulkan_InitInfo']]],
+  ['descriptorsetlayout_10',['DescriptorSetLayout',['../d2/d86/struct_im_gui___impl_vulkan___data.html#adac2b4aabd37341e2546c01744947e85',1,'ImGui_ImplVulkan_Data']]],
+  ['detachshader_11',['DetachShader',['../d4/d6c/union_im_g_l3_w_procs.html#a83b8b2656e4b0dd5df33c68d1ad7ada2',1,'ImGL3WProcs']]],
+  ['device_12',['device',['../db/dbf/struct_im_gui___impl_d_x11___render_state.html#aa5280394b74970e8f1f4d12078b7d915',1,'ImGui_ImplDX11_RenderState::Device'],['../d3/db6/struct_im_gui___impl_d_x12___render_state.html#ad27390092da6a903c2cfee9608610f98',1,'ImGui_ImplDX12_RenderState::Device'],['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a9afcaa962b5f6ca11181588ae439af78',1,'ImGui_ImplVulkan_InitInfo::Device'],['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#ae9a8f8f3fd94b8763d9c9d73ceabea42',1,'ImGui_ImplWGPU_InitInfo::Device'],['../da/d0a/struct_im_gui___impl_w_g_p_u___render_state.html#a973eeb1fd5d1655ace41ea66c41f9e5a',1,'ImGui_ImplWGPU_RenderState::Device']]],
+  ['devicecontext_13',['DeviceContext',['../db/dbf/struct_im_gui___impl_d_x11___render_state.html#ad0c04f4dee7da14bdd804daa2d87f71e',1,'ImGui_ImplDX11_RenderState']]],
+  ['disable_14',['Disable',['../d4/d6c/union_im_g_l3_w_procs.html#aa10a09d5b6dc8fac252a6f1beb6806ea',1,'ImGL3WProcs']]],
+  ['disablevertexattribarray_15',['DisableVertexAttribArray',['../d4/d6c/union_im_g_l3_w_procs.html#ae3f7cf1a46d65f209adb34e395bab032',1,'ImGL3WProcs']]],
+  ['display_16',['Display',['../d4/d33/struct_im_gui___impl_allegro5___data.html#a94e37696ba088a8513ebca7c3b143b1f',1,'ImGui_ImplAllegro5_Data']]],
+  ['drawelements_17',['DrawElements',['../d4/d6c/union_im_g_l3_w_procs.html#a520d59c638470205c4b481098e55bc20',1,'ImGL3WProcs']]],
+  ['drawelementsbasevertex_18',['DrawElementsBaseVertex',['../d4/d6c/union_im_g_l3_w_procs.html#a0c495e775cdb6058aeacf56c89d3f193',1,'ImGL3WProcs']]],
+  ['dummyprompt_19',['dummyPrompt',['../d5/da5/_console_8cpp.html#a99f8a5fc1a7f41e12c3e8570698edb73',1,'Console.cpp']]]
 ];

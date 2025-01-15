@@ -1,12 +1,22 @@
 var searchData=
 [
-  ['techstormengine_0',['TechstormEngine',['../d0/de6/class_techstorm_1_1_techstorm_engine.html#af1c1334fcbbd993b9cdc8cfe0ac28a76',1,'Techstorm::TechstormEngine']]],
-  ['tell_1',['Tell',['../dc/d7b/class_shell_file_interface.html#a5f7be9911ef812ef14a87042bbc49d71',1,'ShellFileInterface']]],
-  ['terrain_2',['Terrain',['../d1/dee/class_terrain.html#a7a8878e064ea91eba0266380112e4e2c',1,'Terrain']]],
-  ['textinputmethodeditor_5fwin32_3',['TextInputMethodEditor_Win32',['../d7/df2/class_text_input_method_editor___win32.html#ac364b2b32e514ade49d79df6f96f7ded',1,'TextInputMethodEditor_Win32']]],
-  ['texture_4',['texture',['../d6/d34/class_techstorm_1_1abstract.html#a3e03fcd5f137aab15e5331078e86ada0',1,'Techstorm::abstract::texture()'],['../d6/d34/class_techstorm_1_1abstract.html#aa9cf38cda2120b17bc25dfa44913102e',1,'Techstorm::abstract::texture()=0'],['../d4/de0/class_techstorm_1_1_game_object.html#ab51e2dc704def766ef026d61558d677d',1,'Techstorm::GameObject::texture()'],['../de/dc7/class_techstorm_1_1_game_object_registry.html#a01c5ae69af4b97a28c125452e5413a59',1,'Techstorm::GameObjectRegistry::texture()'],['../d4/d22/class_techstorm_1_1_renderer.html#ab36d231a2601557ac2e475f7195cf7e9',1,'Techstorm::Renderer::texture()']]],
-  ['tovector3_5',['toVector3',['../df/d8a/struct_vec3.html#a973c377b0b99bb3aeaa1dddd10fcab38',1,'Vec3']]],
-  ['trianglestruct_6',['TriangleStruct',['../da/d89/struct_terrain_1_1_triangle_struct.html#aac9325c98a28904db75597db9c193b89',1,'Terrain::TriangleStruct']]],
-  ['triangulate_5fcell_7',['triangulate_cell',['../dc/dbe/class_marching_cubes.html#af0e5a2fce6595009d00e7babbfa5ced7',1,'MarchingCubes']]],
-  ['triangulate_5ffield_8',['triangulate_field',['../dc/dbe/class_marching_cubes.html#a4b02e2b43e6b7eb3ae01e2a776093bb3',1,'MarchingCubes']]]
+  ['rayliblogcallback_0',['RaylibLogCallback',['../df/dca/class_atlas_1_1_logger.html#a398af7c047e4381962d12b1a44c9fbc4',1,'Atlas::Logger']]],
+  ['read_1',['Read',['../dc/d7b/class_shell_file_interface.html#ab31fefee930cd3fd221a4afcb3c1afa5',1,'ShellFileInterface']]],
+  ['read_5fgrid_5ffrom_5ffile_2',['read_grid_from_file',['../d0/df5/class_generator.html#a07cf79db4a7837045f12f02eea3bd165',1,'Generator']]],
+  ['readconfigfile_3',['readConfigFile',['../d3/d1a/class_atlas_1_1_config_file_registry.html#af1abaa13cf6ea9d22f773bbc54cb0b46',1,'Atlas::ConfigFileRegistry']]],
+  ['readconfigfiles_4',['readConfigFiles',['../d3/d1a/class_atlas_1_1_config_file_registry.html#acdc0d0cfa94c56b393e2d220f44ec1d7',1,'Atlas::ConfigFileRegistry']]],
+  ['referenceholder_5',['ReferenceHolder',['../d9/d0a/class_atlas_1_1_reference_holder.html#af2131b75339a87a30f548e05da759270',1,'Atlas::ReferenceHolder']]],
+  ['registeractioncallback_6',['registerActionCallback',['../d7/d84/class_atlas_1_1_input_registry.html#a535a4f9b5b4c3665f90b1a150fd9acf8',1,'Atlas::InputRegistry']]],
+  ['registerconfigfile_7',['registerConfigFile',['../d3/d1a/class_atlas_1_1_config_file_registry.html#a619960f3012e4ae5e1a2c96ff99d3588',1,'Atlas::ConfigFileRegistry']]],
+  ['registerconfigfiles_8',['registerConfigFiles',['../d3/d1a/class_atlas_1_1_config_file_registry.html#a4f1c7deec0f1f97ce20c5ee7c9509226',1,'Atlas::ConfigFileRegistry']]],
+  ['registeredfile_9',['registeredfile',['../d5/d07/class_atlas_1_1_registered_file.html#a3f1738c407bd31efac2567d27ec26ee7',1,'Atlas::RegisteredFile::RegisteredFile()'],['../d5/d07/class_atlas_1_1_registered_file.html#a1e213a88014fb4cc91e0126fd4b83cc1',1,'Atlas::RegisteredFile::RegisteredFile(std::shared_ptr&lt; FileMeta &gt; const &amp;meta)']]],
+  ['removegameobject_10',['removeGameObject',['../dc/d71/class_atlas_1_1_renderer.html#af5374ec4da3b6ad8d03c045e38553f50',1,'Atlas::Renderer']]],
+  ['removegameobjectgate_11',['removeGameObjectGate',['../dc/d71/class_atlas_1_1_renderer.html#ac02e9382439306b154cc0d923ce21c07',1,'Atlas::Renderer']]],
+  ['removelayer_12',['removelayer',['../d6/d34/class_techstorm_1_1abstract.html#a141bceb7b0643d59cb5190b661c47977',1,'Techstorm::abstract::removeLayer()'],['../db/d5d/class_techstorm_1_1_layer_registry.html#a1b8c7fe50198fd8c8098880d5d0d5866',1,'Techstorm::LayerRegistry::removeLayer()']]],
+  ['render_13',['render',['../d0/d43/class_atlas_1_1_game_object.html#af9d4ab2f1efb97d808bbdaad76ae2a58',1,'Atlas::GameObject::render()'],['../d1/d4c/class_atlas_1_1_game_object_registry.html#ae8cc62b19166f88ebb0915c9cdcfc7e2',1,'Atlas::GameObjectRegistry::render()'],['../dc/dba/class_atlas_1_1abstract.html#af8a59fd0f0cc15edb614f55f75631f5f',1,'Atlas::abstract::render()'],['../dc/dba/class_atlas_1_1abstract.html#a29586314da8c4090a39b7090cf10b6aa',1,'Atlas::abstract::render()'],['../d6/d78/class_atlas_1_1_plane_object.html#a44ecf1e50c85fb52e775a9d33d0aa8e8',1,'Atlas::PlaneObject::render()'],['../dc/d71/class_atlas_1_1_renderer.html#ade8b1f2086970ad251510384b8764bef',1,'Atlas::Renderer::render(GameCamera &amp;cam)']]],
+  ['renderer_14',['Renderer',['../dc/d71/class_atlas_1_1_renderer.html#aaf5fc139ec0c1add636838ad386df8f9',1,'Atlas::Renderer']]],
+  ['renderpipelinestateforframebufferdescriptor_3adevice_3a_15',['renderPipelineStateForFramebufferDescriptor:device:',['../d4/dae/interface_metal_context.html#aac2bd030147e62717964be692e0bd95d',1,'MetalContext']]],
+  ['run_16',['run',['../dc/dba/class_atlas_1_1abstract.html#a5480ff8b8358152363632f9ffeebfc2c',1,'Atlas::abstract']]],
+  ['runupdatethread_17',['RunUpdateThread',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#a5f78713877ba044b6534789aa38766f2',1,'Atlas::Application::FrameManager']]],
+  ['runworkerthread_18',['RunWorkerThread',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#af07476eb14c9e42665f5d67915549150',1,'Atlas::Application::FrameManager']]]
 ];

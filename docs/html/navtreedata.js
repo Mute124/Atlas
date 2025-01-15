@@ -24,13 +24,12 @@
 */
 var NAVTREE =
 [
-  [ "Techstorm", "index.html", [
-    [ "Vulkan Memory Allocator", "index.html", "index" ],
+  [ "Atlas", "index.html", [
+    [ "What is Techstorm", "index.html", "index" ],
     [ "Detailed Analysis Of Dependencies", "dc/dec/detailed-analysis-of-dependencies.html", null ],
     [ "building", "dd/da6/md_building.html", null ],
     [ "Todo List", "dd/da0/todo.html", null ],
     [ "Deprecated List", "da/d58/deprecated.html", null ],
-    [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -49,7 +48,7 @@ var NAVTREE =
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", "functions_vars" ],
-        [ "Typedefs", "functions_type.html", null ],
+        [ "Properties", "functions_prop.html", null ],
         [ "Related Symbols", "functions_rela.html", null ]
       ] ]
     ] ],
@@ -57,11 +56,11 @@ var NAVTREE =
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", "globals_dup" ],
-        [ "Functions", "globals_func.html", null ],
-        [ "Variables", "globals_vars.html", "globals_vars" ],
-        [ "Typedefs", "globals_type.html", "globals_type" ],
+        [ "Functions", "globals_func.html", "globals_func" ],
+        [ "Variables", "globals_vars.html", null ],
+        [ "Typedefs", "globals_type.html", null ],
         [ "Enumerations", "globals_enum.html", null ],
-        [ "Enumerator", "globals_eval.html", "globals_eval" ],
+        [ "Enumerator", "globals_eval.html", null ],
         [ "Macros", "globals_defs.html", "globals_defs" ]
       ] ]
     ] ]
@@ -71,34 +70,17 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d1/d2a/struct_vk_image_subresource_layers.html#a67223fbe06b79211b86dd331349b8e28",
-"d2/d59/_rml_ui___include___g_l3_8h.html#a000ea5d0091e287efd51a66dcc9e99c6",
-"d2/d59/_rml_ui___include___g_l3_8h.html#a20a1ae722383e52d49ba1ea25e6553d3",
-"d2/d59/_rml_ui___include___g_l3_8h.html#a413082c483eb1170e407e27431b0749c",
-"d2/d59/_rml_ui___include___g_l3_8h.html#a5f9404927a5fbe364c4437f3ebdba7c0",
-"d2/d59/_rml_ui___include___g_l3_8h.html#a7fd7333f3517a3ced6b780fc601194b4",
-"d2/d59/_rml_ui___include___g_l3_8h.html#aa0817ce66934d545ee41b57c21675453",
-"d2/d59/_rml_ui___include___g_l3_8h.html#ac043a3fd3ab29bcfae0a51bcc0f1dbd3",
-"d2/d59/_rml_ui___include___g_l3_8h.html#ae5116368c78a4376ac1b6fbc714892a7",
-"d2/d7f/struct_vk_framebuffer_create_info.html#a271936b6baf69250d357e4b955a3da7b",
-"d3/d68/group__group__virtual.html#ga565936f8d98d225b536a2d9703bc7676",
-"d4/d26/namespace_techstorm.html#ab0981a062221a3d61fdce049730b3e79a580f5f107dba3aaffb9cd457c554977a",
-"d5/d0b/_rml_ui___renderer___g_l3_8cpp.html#adad77d2c16c419d8ae9cc19e7d849fd5a8831731b52fdc6cb7f162f9767d66e4d",
-"d6/d34/class_techstorm_1_1abstract.html#a63a7d7602ba0baa0754d58fba2ec56ef",
-"d7/d8e/_rml_ui___renderer___backward_compatible___g_l3_8cpp.html#a18823fdafde60692d4eeac379b903b06",
-"d8/d55/vulkan_8h.html#a12dccd541b57388ec171a337ef761bd7",
-"d8/d55/vulkan_8h.html#a46f31e87043d023a2bba8a807fb0626d",
-"d8/d55/vulkan_8h.html#a70ad5d79db53aef728a95528945a4c0fafe4622f266178f0afb61d6a6868333e9",
-"d8/d55/vulkan_8h.html#a9cd1fa7e5d4a5d040a23588dff49d179af212e2d9d60d24039788c26db17ce520",
-"d8/d55/vulkan_8h.html#abf75186f354a2ff1c7f225bb2ce625eaa2e606c9f498540415d6f9478f9b4553c",
-"d8/d55/vulkan_8h.html#ad61b5b94a526d0f9ae0db97072cf6b3faa629467f73205da33116e9f436f5dc04",
-"d8/d55/vulkan_8h.html#aedf963c62e73551fe7738f8c77a765baa601441146632498ed90b97a2ac4a427e",
-"d8/d97/struct_vk_write_descriptor_set.html#a9ab3ac2bd5372dbdf7c9823ac9599fd9",
-"da/d0c/struct_vk_physical_device_properties2.html#a61a109fcf9676a49ed2f996999402389",
-"db/d1a/struct_vk_sparse_image_opaque_memory_bind_info.html#a7eb2126a4205a6d14383bc42f38fa5db",
-"dd/d0a/struct_vk_sparse_memory_bind.html#a784c20bcb04d44e598408ba4c0f9474d",
-"de/da5/utilities_8cpp.html",
-"dir_bcab553346f4eff5a986862403650cc6.html"
+"d1/d81/class_atlas_1_1_i_exception.html",
+"d3/d86/_mod_manager_8h_source.html",
+"d4/de4/class_atlas_1_1_file_system_registry.html#ab6baf9187bfbfacd8c3466b1227dc5f9",
+"d7/d24/class_atlas_1_1_x_m_l_file.html#af4beb67648d62290feab2302efaf9855",
+"d9/d0a/class_atlas_1_1_reference_holder.html#a1c72b6a0bc69ffc5f62d777dcc4eb9a5",
+"da/d9c/_prototyping_terrain_8h.html#a563aba938007825acdba52e5c557b0e2",
+"dc/d71/class_atlas_1_1_renderer.html#ade8b1f2086970ad251510384b8764bef",
+"dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#a9c07046876fd1b3103f8ddd54b18e574",
+"df/d5f/imgui__impl__opengl3__loader_8h.html#a02ecd5c6098e5a11f5d65e51c40c3939",
+"df/d62/_body_activation_listener_8h_source.html",
+"globals_func_g.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

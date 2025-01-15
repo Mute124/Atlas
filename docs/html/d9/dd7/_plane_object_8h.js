@@ -1,4 +1,4 @@
 var _plane_object_8h =
 [
-    [ "Techstorm::PlaneObject", "da/d48/class_techstorm_1_1_plane_object.html", "da/d48/class_techstorm_1_1_plane_object" ]
+    [ "Atlas::PlaneObject", "d6/d78/class_atlas_1_1_plane_object.html", "d6/d78/class_atlas_1_1_plane_object" ]
 ];

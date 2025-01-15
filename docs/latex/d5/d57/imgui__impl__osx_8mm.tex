@@ -1,0 +1,185 @@
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/bindings/imgui\+\_\+impl\+\_\+osx.mm File Reference}
+\hypertarget{imgui__impl__osx_8mm}{}\label{imgui__impl__osx_8mm}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_osx.mm@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_osx.mm}}
+{\ttfamily import "{}imgui.\+h"{}}\newline
+{\ttfamily import "{}imgui\+\_\+impl\+\_\+osx.\+h"{}}\newline
+{\ttfamily import $<$Cocoa/\+Cocoa.\+h$>$}\newline
+{\ttfamily import $<$Carbon/\+Carbon.\+h$>$}\newline
+{\ttfamily import $<$Game\+Controller/\+Game\+Controller.\+h$>$}\newline
+{\ttfamily import $<$time.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Data}}
+\item 
+class \mbox{\hyperlink{interface_key_event_responder}{Key\+Event\+Responder}}
+\item 
+class \mbox{\hyperlink{interface_im_gui_observer}{Im\+Gui\+Observer}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{imgui__impl__osx_8mm_aee91fef8731ea5824c510af7ac26eb14}{APPLE\+\_\+\+HAS\+\_\+\+BUTTON\+\_\+\+OPTIONS}}~(\+\_\+\+\_\+\+IPHONE\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 130000 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+MAC\+\_\+\+OS\+\_\+\+X\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 101500 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+TV\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 130000)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__osx_8mm_a9dc71e704b64954e5cc8fa9eb1d7a2f3}{APPLE\+\_\+\+HAS\+\_\+\+CONTROLLER}}~(\+\_\+\+\_\+\+IPHONE\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 140000 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+MAC\+\_\+\+OS\+\_\+\+X\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 110000 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+TV\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 140000)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__osx_8mm_ae80a0030f0ca50357dff788785862d44}{APPLE\+\_\+\+HAS\+\_\+\+THUMBSTICKS}}~(\+\_\+\+\_\+\+IPHONE\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 120100 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+MAC\+\_\+\+OS\+\_\+\+X\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 101401 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+TV\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 120100)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__osx_8mm_abfc205127accf0adc131007017a20442}{IM\+\_\+\+SATURATE}}(V)~(V $<$ 0.\+0f ? 0.\+0f \+: V $>$ 1.\+0f ? 1.\+0f \+: V)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\+\_\+\+BUTTON}}(KEY\+\_\+\+NO,  BUTTON\+\_\+\+NAME)~\{ io.\+Add\+Key\+Event(KEY\+\_\+\+NO, gp.\+BUTTON\+\_\+\+NAME.\+is\+Pressed); \}
+\item 
+\#define \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\+\_\+\+ANALOG}}(KEY\+\_\+\+NO,  AXIS\+\_\+\+NAME,  V0,  V1)~\{ float vn = (float)(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{gp.\+AXIS\+\_\+\+NAME.\+value}} -\/ V0) / (float)(V1 -\/ V0); vn = \mbox{\hyperlink{imgui__impl__osx_8mm_abfc205127accf0adc131007017a20442}{IM\+\_\+\+SATURATE}}(vn); io.\+Add\+Key\+Analog\+Event(KEY\+\_\+\+NO, vn $>$ 0.\+1f, vn); \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Im\+Gui\+Key \mbox{\hyperlink{imgui__impl__osx_8mm_a90495bb2b36b9c03dd276b791ef2f469}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Key\+Code\+To\+Im\+Gui\+Key}} (int key\+\_\+code)
+\item 
+bool \mbox{\hyperlink{imgui__impl__osx_8mm_ac4e94ef001edb88c5c2c0de165a18080}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Init}} (NSView \texorpdfstring{$\ast$}{*}view)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__osx_8mm_acc3a2c3d2bc80b8374406e8ca9f3c17e}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Shutdown}} ()
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__osx_8mm_a5f96863293e2c918e919fe0e372ea141}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+New\+Frame}} (NSView \texorpdfstring{$\ast$}{*}view)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{imgui__impl__osx_8mm_aac039e5cfe18e6601b5c82eb5140d7ae}{\+\_\+posY}}
+\item 
+NSRect \mbox{\hyperlink{imgui__impl__osx_8mm_acbb5da7ccff4ce29dc47d54084ffbbf6}{\+\_\+ime\+Rect}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{imgui__impl__osx_8mm_aee91fef8731ea5824c510af7ac26eb14}\label{imgui__impl__osx_8mm_aee91fef8731ea5824c510af7ac26eb14} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!APPLE\_HAS\_BUTTON\_OPTIONS@{APPLE\_HAS\_BUTTON\_OPTIONS}}
+\index{APPLE\_HAS\_BUTTON\_OPTIONS@{APPLE\_HAS\_BUTTON\_OPTIONS}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{APPLE\_HAS\_BUTTON\_OPTIONS}{APPLE\_HAS\_BUTTON\_OPTIONS}}
+{\footnotesize\ttfamily \#define APPLE\+\_\+\+HAS\+\_\+\+BUTTON\+\_\+\+OPTIONS~(\+\_\+\+\_\+\+IPHONE\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 130000 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+MAC\+\_\+\+OS\+\_\+\+X\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 101500 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+TV\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 130000)}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00071}{71}} of file \mbox{\hyperlink{imgui__impl__osx_8mm_source}{imgui\+\_\+impl\+\_\+osx.\+mm}}.
+
+\Hypertarget{imgui__impl__osx_8mm_a9dc71e704b64954e5cc8fa9eb1d7a2f3}\label{imgui__impl__osx_8mm_a9dc71e704b64954e5cc8fa9eb1d7a2f3} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!APPLE\_HAS\_CONTROLLER@{APPLE\_HAS\_CONTROLLER}}
+\index{APPLE\_HAS\_CONTROLLER@{APPLE\_HAS\_CONTROLLER}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{APPLE\_HAS\_CONTROLLER}{APPLE\_HAS\_CONTROLLER}}
+{\footnotesize\ttfamily \#define APPLE\+\_\+\+HAS\+\_\+\+CONTROLLER~(\+\_\+\+\_\+\+IPHONE\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 140000 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+MAC\+\_\+\+OS\+\_\+\+X\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 110000 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+TV\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 140000)}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00072}{72}} of file \mbox{\hyperlink{imgui__impl__osx_8mm_source}{imgui\+\_\+impl\+\_\+osx.\+mm}}.
+
+\Hypertarget{imgui__impl__osx_8mm_ae80a0030f0ca50357dff788785862d44}\label{imgui__impl__osx_8mm_ae80a0030f0ca50357dff788785862d44} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!APPLE\_HAS\_THUMBSTICKS@{APPLE\_HAS\_THUMBSTICKS}}
+\index{APPLE\_HAS\_THUMBSTICKS@{APPLE\_HAS\_THUMBSTICKS}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{APPLE\_HAS\_THUMBSTICKS}{APPLE\_HAS\_THUMBSTICKS}}
+{\footnotesize\ttfamily \#define APPLE\+\_\+\+HAS\+\_\+\+THUMBSTICKS~(\+\_\+\+\_\+\+IPHONE\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 120100 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+MAC\+\_\+\+OS\+\_\+\+X\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 101401 \texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|} \+\_\+\+\_\+\+TV\+\_\+\+OS\+\_\+\+VERSION\+\_\+\+MIN\+\_\+\+REQUIRED $>$= 120100)}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00073}{73}} of file \mbox{\hyperlink{imgui__impl__osx_8mm_source}{imgui\+\_\+impl\+\_\+osx.\+mm}}.
+
+\Hypertarget{imgui__impl__osx_8mm_abfc205127accf0adc131007017a20442}\label{imgui__impl__osx_8mm_abfc205127accf0adc131007017a20442} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!IM\_SATURATE@{IM\_SATURATE}}
+\index{IM\_SATURATE@{IM\_SATURATE}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{IM\_SATURATE}{IM\_SATURATE}}
+{\footnotesize\ttfamily \#define IM\+\_\+\+SATURATE(\begin{DoxyParamCaption}\item[{}]{V }\end{DoxyParamCaption})~(V $<$ 0.\+0f ? 0.\+0f \+: V $>$ 1.\+0f ? 1.\+0f \+: V)}
+
+\Hypertarget{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}\label{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!MAP\_ANALOG@{MAP\_ANALOG}}
+\index{MAP\_ANALOG@{MAP\_ANALOG}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{MAP\_ANALOG}{MAP\_ANALOG}}
+{\footnotesize\ttfamily \#define MAP\+\_\+\+ANALOG(\begin{DoxyParamCaption}\item[{}]{KEY\+\_\+\+NO,  }\item[{}]{AXIS\+\_\+\+NAME,  }\item[{}]{V0,  }\item[{}]{V1 }\end{DoxyParamCaption})~\{ float vn = (float)(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{gp.\+AXIS\+\_\+\+NAME.\+value}} -\/ V0) / (float)(V1 -\/ V0); vn = \mbox{\hyperlink{imgui__impl__osx_8mm_abfc205127accf0adc131007017a20442}{IM\+\_\+\+SATURATE}}(vn); io.\+Add\+Key\+Analog\+Event(KEY\+\_\+\+NO, vn $>$ 0.\+1f, vn); \}}
+
+\Hypertarget{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}\label{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!MAP\_BUTTON@{MAP\_BUTTON}}
+\index{MAP\_BUTTON@{MAP\_BUTTON}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{MAP\_BUTTON}{MAP\_BUTTON}}
+{\footnotesize\ttfamily \#define MAP\+\_\+\+BUTTON(\begin{DoxyParamCaption}\item[{}]{KEY\+\_\+\+NO,  }\item[{}]{BUTTON\+\_\+\+NAME }\end{DoxyParamCaption})~\{ io.\+Add\+Key\+Event(KEY\+\_\+\+NO, gp.\+BUTTON\+\_\+\+NAME.\+is\+Pressed); \}}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{imgui__impl__osx_8mm_ac4e94ef001edb88c5c2c0de165a18080}\label{imgui__impl__osx_8mm_ac4e94ef001edb88c5c2c0de165a18080} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!ImGui\_ImplOSX\_Init@{ImGui\_ImplOSX\_Init}}
+\index{ImGui\_ImplOSX\_Init@{ImGui\_ImplOSX\_Init}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplOSX\_Init()}{ImGui\_ImplOSX\_Init()}}
+{\footnotesize\ttfamily bool Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Init (\begin{DoxyParamCaption}\item[{NSView \texorpdfstring{$\ast$}{*}}]{view }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00400}{400}} of file \mbox{\hyperlink{imgui__impl__osx_8mm_source}{imgui\+\_\+impl\+\_\+osx.\+mm}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00086}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Data\+::\+Input\+Context}}, \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00085}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Data\+::\+Key\+Event\+Responder}}, \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00083}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Data\+::\+Mouse\+Cursor\+Hidden}}, \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00082}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Data\+::\+Mouse\+Cursors}}, \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00084}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Data\+::\+Observer}}, and \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00088}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Data\+::\+Window}}.
+
+\Hypertarget{imgui__impl__osx_8mm_a90495bb2b36b9c03dd276b791ef2f469}\label{imgui__impl__osx_8mm_a90495bb2b36b9c03dd276b791ef2f469} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!ImGui\_ImplOSX\_KeyCodeToImGuiKey@{ImGui\_ImplOSX\_KeyCodeToImGuiKey}}
+\index{ImGui\_ImplOSX\_KeyCodeToImGuiKey@{ImGui\_ImplOSX\_KeyCodeToImGuiKey}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplOSX\_KeyCodeToImGuiKey()}{ImGui\_ImplOSX\_KeyCodeToImGuiKey()}}
+{\footnotesize\ttfamily Im\+Gui\+Key Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Key\+Code\+To\+Im\+Gui\+Key (\begin{DoxyParamCaption}\item[{int}]{key\+\_\+code }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00265}{265}} of file \mbox{\hyperlink{imgui__impl__osx_8mm_source}{imgui\+\_\+impl\+\_\+osx.\+mm}}.
+
+\Hypertarget{imgui__impl__osx_8mm_a5f96863293e2c918e919fe0e372ea141}\label{imgui__impl__osx_8mm_a5f96863293e2c918e919fe0e372ea141} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!ImGui\_ImplOSX\_NewFrame@{ImGui\_ImplOSX\_NewFrame}}
+\index{ImGui\_ImplOSX\_NewFrame@{ImGui\_ImplOSX\_NewFrame}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplOSX\_NewFrame()}{ImGui\_ImplOSX\_NewFrame()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+New\+Frame (\begin{DoxyParamCaption}\item[{NSView \texorpdfstring{$\ast$}{*}}]{view }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00614}{614}} of file \mbox{\hyperlink{imgui__impl__osx_8mm_source}{imgui\+\_\+impl\+\_\+osx.\+mm}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00081}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Data\+::\+Time}}.
+
+\Hypertarget{imgui__impl__osx_8mm_acc3a2c3d2bc80b8374406e8ca9f3c17e}\label{imgui__impl__osx_8mm_acc3a2c3d2bc80b8374406e8ca9f3c17e} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!ImGui\_ImplOSX\_Shutdown@{ImGui\_ImplOSX\_Shutdown}}
+\index{ImGui\_ImplOSX\_Shutdown@{ImGui\_ImplOSX\_Shutdown}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplOSX\_Shutdown()}{ImGui\_ImplOSX\_Shutdown()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Shutdown (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00495}{495}} of file \mbox{\hyperlink{imgui__impl__osx_8mm_source}{imgui\+\_\+impl\+\_\+osx.\+mm}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00087}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Data\+::\+Monitor}}, and \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00084}{Im\+Gui\+\_\+\+Impl\+OSX\+\_\+\+Data\+::\+Observer}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{imgui__impl__osx_8mm_acbb5da7ccff4ce29dc47d54084ffbbf6}\label{imgui__impl__osx_8mm_acbb5da7ccff4ce29dc47d54084ffbbf6} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!\_imeRect@{\_imeRect}}
+\index{\_imeRect@{\_imeRect}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{\_imeRect}{\_imeRect}}
+{\footnotesize\ttfamily NSRect \+\_\+ime\+Rect}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00129}{129}} of file \mbox{\hyperlink{imgui__impl__osx_8mm_source}{imgui\+\_\+impl\+\_\+osx.\+mm}}.
+
+\Hypertarget{imgui__impl__osx_8mm_aac039e5cfe18e6601b5c82eb5140d7ae}\label{imgui__impl__osx_8mm_aac039e5cfe18e6601b5c82eb5140d7ae} 
+\index{imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}!\_posY@{\_posY}}
+\index{\_posY@{\_posY}!imgui\_impl\_osx.mm@{imgui\_impl\_osx.mm}}
+\doxysubsubsection{\texorpdfstring{\_posY}{\_posY}}
+{\footnotesize\ttfamily float \+\_\+posY}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{float}\ \_posX}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__osx_8mm_source_l00128}{128}} of file \mbox{\hyperlink{imgui__impl__osx_8mm_source}{imgui\+\_\+impl\+\_\+osx.\+mm}}.
+

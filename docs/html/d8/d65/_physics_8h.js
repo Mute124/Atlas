@@ -1,5 +1,5 @@
 var _physics_8h =
 [
-    [ "Techstorm::AllocatedPhysicsResources", "d5/d91/struct_techstorm_1_1_allocated_physics_resources.html", "d5/d91/struct_techstorm_1_1_allocated_physics_resources" ],
-    [ "Techstorm::PhysicsEngine", "d1/d87/class_techstorm_1_1_physics_engine.html", "d1/d87/class_techstorm_1_1_physics_engine" ]
+    [ "Atlas::AllocatedPhysicsResources", "df/df6/struct_atlas_1_1_allocated_physics_resources.html", "df/df6/struct_atlas_1_1_allocated_physics_resources" ],
+    [ "Atlas::PhysicsEngine", "d2/dec/class_atlas_1_1_physics_engine.html", "d2/dec/class_atlas_1_1_physics_engine" ]
 ];

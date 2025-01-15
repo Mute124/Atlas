@@ -1,8 +1,27 @@
 var searchData=
 [
-  ['key_0',['key',['../d9/d02/class_techstorm_1_1_input_action.html#a0215b21856de62246ad7b6c91ee0eb88',1,'Techstorm::InputAction']]],
-  ['key_5fdown_5fcallback_1',['key_down_callback',['../d6/d97/struct_backend_data.html#ac50d39f732245d186851a3ba3981d6ad',1,'BackendData']]],
-  ['keysyms_5fper_5fkeycode_2',['keysyms_per_keycode',['../d2/dac/struct_x_key_data.html#a934b9d83785ed7b3a36f30711904fab5',1,'XKeyData']]],
-  ['kswapchainbackbuffercount_3',['kSwapchainBackBufferCount',['../d1/d5b/class_render_interface___v_k.html#a6113d272e5a72c0fcdb95233597dc6ad',1,'RenderInterface_VK']]],
-  ['kvideomemoryforallocation_4',['kVideoMemoryForAllocation',['../d1/d5b/class_render_interface___v_k.html#ab347f6c59dcb25d5d8ac07818f5dd256',1,'RenderInterface_VK']]]
+  ['icon_0',['icon',['../da/d6a/struct_atlas_1_1_window_decorations.html#a8ec2fb6be249b6434ec3af2f00153e2e',1,'Atlas::WindowDecorations']]],
+  ['id_1',['id',['../d0/dd1/class_game_object.html#a6e70aa2531bbd8cb00d98dccb103fe22',1,'GameObject::id'],['../d1/dee/class_terrain.html#ab4cc282c14ff2a5bf05629906f6d0969',1,'Terrain::id'],['../dc/dba/class_atlas_1_1abstract.html#aa1eeb8231c39966224c080c2fa390d3c',1,'Atlas::abstract::id']]],
+  ['imageacquiredsemaphore_2',['ImageAcquiredSemaphore',['../d5/d82/struct_im_gui___impl_vulkan_h___frame_semaphores.html#ad396afd28149848364513e2015c992d1',1,'ImGui_ImplVulkanH_FrameSemaphores']]],
+  ['imagebindgroup_3',['ImageBindGroup',['../d9/d42/struct_render_resources.html#a3a9297d4919d344474dbffc843f87a13',1,'RenderResources']]],
+  ['imagebindgrouplayout_4',['ImageBindGroupLayout',['../d9/d42/struct_render_resources.html#a4dac394ca31925180b5bf88a584597c8',1,'RenderResources']]],
+  ['imagebindgroups_5',['ImageBindGroups',['../d9/d42/struct_render_resources.html#a022d689ce72006f56225836c1d56931b',1,'RenderResources']]],
+  ['imagecount_6',['imagecount',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#ad54bf1ace8ef43826a80148cfc0b336c',1,'ImGui_ImplVulkan_InitInfo::ImageCount'],['../de/d27/struct_im_gui___impl_vulkan_h___window.html#ae4f91464af2252fd58640577da78c42c',1,'ImGui_ImplVulkanH_Window::ImageCount']]],
+  ['imewindow_7',['ImeWindow',['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#a7121e9e60789fb732ca6f7682f4a83f4',1,'ImGui_ImplSDL3_Data']]],
+  ['imgl3wprocs_8',['imgl3wProcs',['../df/d5f/imgui__impl__opengl3__loader_8h.html#ab3c9060cad86d0300652e2d7130b831c',1,'imgui_impl_opengl3_loader.h']]],
+  ['index_9',['Index',['../d4/d6d/struct_im_gui___impl_vulkan___window_render_buffers.html#a4caf94951b750f1421dc96d32d1adf27',1,'ImGui_ImplVulkan_WindowRenderBuffers']]],
+  ['indexbuffer_10',['indexbuffer',['../d4/dc1/struct_im_gui___impl_d_x12___render_buffers.html#adea8d9622af0a5c6376f4b98840b0812',1,'ImGui_ImplDX12_RenderBuffers::IndexBuffer'],['../d4/d27/struct_im_gui___impl_vulkan___frame_render_buffers.html#a278783f96b729fcb2d7800c69001aa1e',1,'ImGui_ImplVulkan_FrameRenderBuffers::IndexBuffer'],['../da/d55/struct_frame_resources.html#adb51b091a1d65761a46efdb28a57460d',1,'FrameResources::IndexBuffer']]],
+  ['indexbufferhost_11',['IndexBufferHost',['../da/d55/struct_frame_resources.html#afc67af1e5b7695064cfc88fa4800a65f',1,'FrameResources']]],
+  ['indexbuffermemory_12',['IndexBufferMemory',['../d4/d27/struct_im_gui___impl_vulkan___frame_render_buffers.html#af89d68d85a89683a7a17308365a745cf',1,'ImGui_ImplVulkan_FrameRenderBuffers']]],
+  ['indexbuffersize_13',['indexbuffersize',['../d1/d6d/struct_im_gui___impl_d_x11___data.html#ac7d5bcde5f9906da4cad27bf17b43777',1,'ImGui_ImplDX11_Data::IndexBufferSize'],['../d4/dc1/struct_im_gui___impl_d_x12___render_buffers.html#a29214b15eceea549928373591e877640',1,'ImGui_ImplDX12_RenderBuffers::IndexBufferSize'],['../db/d07/struct_im_gui___impl_d_x9___data.html#a772496c7d1e14eca1973b9ed8ea84b9b',1,'ImGui_ImplDX9_Data::IndexBufferSize'],['../dc/d45/struct_im_gui___impl_open_g_l3___data.html#a4fff755aff6cc130aab106a8b20e3041',1,'ImGui_ImplOpenGL3_Data::IndexBufferSize'],['../d4/d27/struct_im_gui___impl_vulkan___frame_render_buffers.html#ae4a8742879545acadf2123203152b4d8',1,'ImGui_ImplVulkan_FrameRenderBuffers::IndexBufferSize'],['../da/d55/struct_frame_resources.html#a40399cf0ff9d5b63ec4b5a0ee57a9689',1,'FrameResources::IndexBufferSize'],['../dd/d9e/struct_im_gui___impl_d_x10___data.html#accb1853d64e6eb1a496078f60aebe866',1,'ImGui_ImplDX10_Data::IndexBufferSize']]],
+  ['indices_14',['indices',['../d7/d58/class_chunk.html#a232cc7d6d7a2a83c3404cf278e3eeffe',1,'Chunk']]],
+  ['initinfo_15',['initInfo',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#ad34cc23f50bbb127be2db2196f05f601',1,'ImGui_ImplWGPU_Data']]],
+  ['inputcontext_16',['InputContext',['../d2/d61/struct_im_gui___impl_o_s_x___data.html#ae5c9f0f3565a0ce5e2a71a776624fb69',1,'ImGui_ImplOSX_Data']]],
+  ['installedcallbacks_17',['InstalledCallbacks',['../d5/d6e/struct_im_gui___impl_glfw___data.html#a2cd25c9a1afd831a20c9ec5a6dc52b91',1,'ImGui_ImplGlfw_Data']]],
+  ['instance_18',['Instance',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a7b876fe4c1aa7d3e974eeb1292973a7c',1,'ImGui_ImplVulkan_InitInfo']]],
+  ['isenabled_19',['IsEnabled',['../d4/d6c/union_im_g_l3_w_procs.html#aac7ad0f2970978d316941601bddaa906',1,'ImGL3WProcs']]],
+  ['isinit_20',['isInit',['../d1/dee/class_terrain.html#a462071b619861733cc9873104d276fe9',1,'Terrain']]],
+  ['isprogram_21',['IsProgram',['../d4/d6c/union_im_g_l3_w_procs.html#ad38a8b3eda897e9b93115a054f43989a',1,'ImGL3WProcs']]],
+  ['isupdatewaiting_22',['isUpdateWaiting',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#afd20c807332826370e6b78b0fc0207d0',1,'Atlas::Application::FrameManager']]],
+  ['isworkerwaiting_23',['isWorkerWaiting',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#a51643a5ed38c3e23d4445d3471f449cf',1,'Atlas::Application::FrameManager']]]
 ];

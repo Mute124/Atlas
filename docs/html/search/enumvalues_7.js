@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['khronos_5fboolean_5fenum_5fforce_5fsize_0',['KHRONOS_BOOLEAN_ENUM_FORCE_SIZE',['../d2/d59/_rml_ui___include___g_l3_8h.html#a0b823cfbc138820708978d43a5f26c64a47d7d559cf039488acac78e797bc3cf9',1,'RmlUi_Include_GL3.h']]],
-  ['khronos_5ffalse_1',['KHRONOS_FALSE',['../d2/d59/_rml_ui___include___g_l3_8h.html#a0b823cfbc138820708978d43a5f26c64a37d68e7202b4d30f7742acebb50d1ba6',1,'RmlUi_Include_GL3.h']]],
-  ['khronos_5ftrue_2',['KHRONOS_TRUE',['../d2/d59/_rml_ui___include___g_l3_8h.html#a0b823cfbc138820708978d43a5f26c64a9275264520295ae24bc2033c05d6cb70',1,'RmlUi_Include_GL3.h']]]
+  ['mdt_5fangular_5fdpi_0',['MDT_ANGULAR_DPI',['../d1/d3f/imgui__impl__win32_8cpp.html#a6d3b6e6160452fd0315bf529461dadcfa7c555ba8472b1bcc44a2b8b7da7bc1c3',1,'imgui_impl_win32.cpp']]],
+  ['mdt_5fdefault_1',['MDT_DEFAULT',['../d1/d3f/imgui__impl__win32_8cpp.html#a6d3b6e6160452fd0315bf529461dadcfacf96ef9f03d6fbbef385b67cfbe2578f',1,'imgui_impl_win32.cpp']]],
+  ['mdt_5feffective_5fdpi_2',['MDT_EFFECTIVE_DPI',['../d1/d3f/imgui__impl__win32_8cpp.html#a6d3b6e6160452fd0315bf529461dadcfa75d3ba3b96559377e5cac23d6e380162',1,'imgui_impl_win32.cpp']]],
+  ['mdt_5fraw_5fdpi_3',['MDT_RAW_DPI',['../d1/d3f/imgui__impl__win32_8cpp.html#a6d3b6e6160452fd0315bf529461dadcfa3a8c01568cf5b17569b53587783e9851',1,'imgui_impl_win32.cpp']]]
 ];

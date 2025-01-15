@@ -1,4 +1,4 @@
 var _renderer_8h =
 [
-    [ "Techstorm::Renderer", "d4/d22/class_techstorm_1_1_renderer.html", "d4/d22/class_techstorm_1_1_renderer" ]
+    [ "Atlas::Renderer", "dc/d71/class_atlas_1_1_renderer.html", "dc/d71/class_atlas_1_1_renderer" ]
 ];

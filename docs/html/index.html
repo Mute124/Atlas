@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Techstorm: Vulkan Memory Allocator</title>
+<title>Atlas: What is Techstorm</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,9 +26,9 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Techstorm<span id="projectnumber">&#160;0.0.6</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
    </div>
-   <div id="projectbrief">The 5th iteration of the Techstorm game engine</div>
+   <div id="projectbrief">The Open World Game Engine</div>
   </td>
  </tr>
  </tbody>
@@ -91,119 +91,188 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">Vulkan Memory Allocator </div></div>
+  <div class="headertitle"><div class="title">What is <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><b>Version 3.0.1 (2022-05-26)</b></p>
-<p>Copyright (c) 2017-2022 Advanced Micro Devices, Inc. All rights reserved. <br  />
-License: MIT</p>
-<p><b>API documentation divided into groups:</b> <a href="modules.html">Modules</a></p>
-<h1><a class="anchor" id="main_table_of_contents"></a>
-Table of contents</h1>
+<div class="textblock"><p><a class="anchor" id="what-is-techstorm"></a> </p><hr  />
+<p><a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> is the response to the lack of a free game engine that is built for large open worlds. While Unity or Unreal can make open world games, there are alot of hoops that must be jumped through first, which is why there is a need for it. <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> aims to be flexible and moldable to suit needs without having to make major changes. It also aims to be easy to work with and a limited number of complex components.</p>
+<p>If you are looking for a hello world application, please see hello-world-example</p>
+<h1><a class="anchor" id="architecture"></a>
+Architecture</h1>
+<hr  />
+<h2><a class="anchor" id="building"></a>
+Building</h2>
+<hr  />
+<h3><a class="anchor" id="automatic-building"></a>
+Automatic Building</h3>
+<p>The building process of <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> is simple because of a provided Python script. To run said script, go to the directory where you cloned the repository in a command line application. Once there, simply run: </p><div class="fragment"><div class="line">$ python3 Build.py</div>
+</div><!-- fragment --><p> This is all you will need to do because it will do the following:</p><ul>
+<li>Install &amp; setup Conan if not already done</li>
+<li>Install &amp; build packages<ul>
+<li>For both Debug and Release</li>
+</ul>
+</li>
+<li>Configure, build, and generate the CMake project</li>
+<li>Open VS2022 solution</li>
+</ul>
+<p>Keep in mind this <b>will</b> take a while for the first time, so go drink water (We know that you have not done this yet today), go for a quick walk, or go to the bathroom. Once this is done, that is it! Pretty easy, right?</p>
+<h3><a class="anchor" id="autotoc_md4"></a>
+Manual Building</h3>
+<hr  />
+<blockquote class="doxtable">
+<p>&zwj;The following instructions are <b>NOT YET COMPLETE</b>. For now, please see <a class="el" href="index.html#automatic-building">Automatic Building</a> </p>
+</blockquote>
+<p>In the event that you would like to build directly, start at what ever point you would like.</p>
+<h4><a class="anchor" id="installing-and-setting-up-conan"></a>
+Installing And Setting Up Conan</h4>
+<hr  />
+<p>The following instructions are based on Conan 2.9's documentation. If you would like to use their documentation to install Conan, please see <a href="https://docs.conan.io/2/tutorial/consuming_packages/build_simple_cmake_project.html">their installation tutorial</a>. With that said, first make sure that you have python by using:</p>
+<div class="fragment"><div class="line">$ python3 --version</div>
+</div><!-- fragment --><p>If you got an error, congrats! You do not have python. If it worked and you have a version greater than or equal to 3.6, please run:</p>
+<div class="fragment"><div class="line">$ pip install conan</div>
+</div><!-- fragment --><blockquote class="doxtable">
+<p>&zwj;According to their documentation, ensure your <b>pip version</b> matches your <b>python version</b>. </p>
+</blockquote>
+<h2><a class="anchor" id="flow-architecture"></a>
+Flow</h2>
+<p>Due to the inherent nature of <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a>, the architecture can be complex. In terms of building, there are a few things that are required to understand how <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> works. There are 4 groups that are used to build the engine, as outlined below:</p><ul>
+<li>Application</li>
+<li>Engine</li>
+<li><a class="el" href="d9/d6e/class_project.html" title="Write your project code here or do what you want with it. However, you MUST implement the IProject in...">Project</a></li>
+<li>Tools The Application is responsible for loading the engine and handling the project, as seen below.</li>
+</ul>
+<p><img src="flowchart.png" alt="Game Engine Application Flow Chart" title="Techstorm&apos;s high level flow chart" class="inline"/></p>
+<h2><a class="anchor" id="file-system-architecture"></a>
+File System Architecture</h2>
+<hr  />
+<p>&gt;**The design of the file system will cause errors if it is used improperly. As a result, it is highly encouraged that this is read very carefully. **</p>
+<p>As of now, the file system works by recursively searching the "game" folder in the root directory (Techstorm-v5). The folder will contain the "assets" and "data" sub-directories, wherein you will put assets and data files. Any file that is within the search area will be registered. For a detailed analysis of how it works, please see detailed-file-registry.</p>
+<p>When it comes to file loading, the <b>extension matters</b>. This is because the FileSystemRegistry loads files based on the loading function assigned to the extension. For this reason, when getting the file, you must have the filename along with the extension or just the extension (highly discouraged, see why-not-extensions). For this example, <code>ExampleFile.txt</code> will be used to represent a file. In order to get a file, please see below:</p>
+<div class="fragment"><div class="line">std::shared_ptr&lt;RegisteredFile&gt; file = GetFileSystemRegistry().getFile(&quot;ExampleFile.txt&quot;);</div>
+</div><!-- fragment --><h2><a class="anchor" id="graphics-architecture"></a>
+Graphics Architecture</h2>
+<hr  />
+<h3><a class="anchor" id="graphics-introduction"></a>
+Graphics Introduction</h3>
+<hr  />
+<p>Despite the fact <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> tries to make graphics easier, it can become complex due to the nature of 3D graphics. For this reason, it is imperative that you read this carefully in order to reduce future headache. In addition, if you are not well versed in how OpenGL and Raylib works, please read the online book/tutorial <a href="https://learnopengl.com/">Learn OpenGL</a> and using-raylib respectably. <br  />
+</p>
+<h3><a class="anchor" id="how-cameras-work"></a>
+How Cameras Work</h3>
+<hr  />
+<h4><a class="anchor" id="graphics-terminology"></a>
+Graphics Terminology</h4>
+<hr  />
+<h1><a class="anchor" id="dependencies"></a>
+Dependencies</h1>
+<hr  />
+<p>As it is a game engine, <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> has alot of dependencies and can be found within the conanfile.txt in the same folder as the main CMakeLists.txt file. In addition to this, the current dependencies are listed as listed below with it's basic purpose.</p>
 <ul>
-<li><b>User guide</b><ul>
-<li><a class="el" href="da/d0d/quick_start.html">Quick start</a><ul>
-<li><a class="el" href="da/d0d/quick_start.html#quick_start_project_setup">Project setup</a></li>
-<li><a class="el" href="da/d0d/quick_start.html#quick_start_initialization">Initialization</a></li>
-<li><a class="el" href="da/d0d/quick_start.html#quick_start_resource_allocation">Resource allocation</a></li>
+<li>Jolt Physics<ul>
+<li>Handle <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a>'s physics.</li>
+<li><a href="https://jrouwe.github.io/JoltPhysics/index.html">Online Documentation</a></li>
+<li><a href="https://github.com/jrouwe/JoltPhysics/tree/master">Github</a></li>
 </ul>
 </li>
-<li><a class="el" href="d9/d88/choosing_memory_type.html">Choosing memory type</a><ul>
-<li><a class="el" href="d9/d88/choosing_memory_type.html#choosing_memory_type_usage">Usage</a></li>
-<li><a class="el" href="d9/d88/choosing_memory_type.html#choosing_memory_type_required_preferred_flags">Required and preferred flags</a></li>
-<li><a class="el" href="d9/d88/choosing_memory_type.html#choosing_memory_type_explicit_memory_types">Explicit memory types</a></li>
-<li><a class="el" href="d9/d88/choosing_memory_type.html#choosing_memory_type_custom_memory_pools">Custom memory pools</a></li>
-<li><a class="el" href="d9/d88/choosing_memory_type.html#choosing_memory_type_dedicated_allocations">Dedicated allocations</a></li>
+<li>Libconfig<ul>
+<li>Handle configuration file read/write.</li>
+<li><a href="http://hyperrealm.github.io/libconfig/libconfig_manual.html">Online Documentation</a></li>
+<li><a href="https://github.com/hyperrealm/libconfig">Github</a></li>
+<li><a href="http://hyperrealm.github.io/libconfig/">Website</a></li>
 </ul>
 </li>
-<li><a class="el" href="dd/d92/memory_mapping.html">Memory mapping</a><ul>
-<li><a class="el" href="dd/d92/memory_mapping.html#memory_mapping_mapping_functions">Mapping functions</a></li>
-<li><a class="el" href="dd/d92/memory_mapping.html#memory_mapping_persistently_mapped_memory">Persistently mapped memory</a></li>
-<li><a class="el" href="dd/d92/memory_mapping.html#memory_mapping_cache_control">Cache flush and invalidate</a></li>
+<li>RmlUi<ul>
+<li>Handle <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a>'s UI with HTML/CSS.</li>
+<li><a href="https://mikke89.github.io/RmlUiDoc/">Online Documentation</a></li>
+<li><a href="https://github.com/mikke89/RmlUi">Github</a></li>
 </ul>
 </li>
-<li><a class="el" href="d4/d65/staying_within_budget.html">Staying within budget</a><ul>
-<li><a class="el" href="d4/d65/staying_within_budget.html#staying_within_budget_querying_for_budget">Querying for budget</a></li>
-<li><a class="el" href="d4/d65/staying_within_budget.html#staying_within_budget_controlling_memory_usage">Controlling memory usage</a></li>
+<li>Asio<ul>
+<li>Provides <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a>'s networking functionality</li>
+<li><a href="https://think-async.com/Asio/asio-1.30.2/doc/">Online Documentation</a></li>
+<li><a href="https://think-async.com/Asio/">Website</a></li>
 </ul>
 </li>
-<li><a class="el" href="d7/d1f/resource_aliasing.html">Resource aliasing (overlap)</a></li>
-<li><a class="el" href="d6/d89/custom_memory_pools.html">Custom memory pools</a><ul>
-<li><a class="el" href="d6/d89/custom_memory_pools.html#custom_memory_pools_MemTypeIndex">Choosing memory type index</a></li>
-<li><a class="el" href="d6/d89/custom_memory_pools.html#linear_algorithm">Linear allocation algorithm</a><ul>
-<li><a class="el" href="d6/d89/custom_memory_pools.html#linear_algorithm_free_at_once">Free-at-once</a></li>
-<li><a class="el" href="d6/d89/custom_memory_pools.html#linear_algorithm_stack">Stack</a></li>
-<li><a class="el" href="d6/d89/custom_memory_pools.html#linear_algorithm_double_stack">Double stack</a></li>
-<li><a class="el" href="d6/d89/custom_memory_pools.html#linear_algorithm_ring_buffer">Ring buffer</a></li>
+<li>Argh<ul>
+<li>Command line parsing library that is mainly used by tools.</li>
+<li><a href="https://github.com/adishavit/argh/blob/master/README.md">Online Documentation</a></li>
+<li><a href="https://github.com/adishavit/argh">Github</a></li>
 </ul>
 </li>
+<li>Dear ImGUI<ul>
+<li>Provides an in-game debug UI for developers.</li>
+<li><a href="https://github.com/ocornut/imgui/wiki">Online Documentation</a></li>
+<li><a href="https://github.com/ocornut/imgui">Github</a></li>
 </ul>
 </li>
-<li><a class="el" href="dd/d7d/defragmentation.html">Defragmentation</a></li>
-<li><a class="el" href="d5/d6f/statistics.html">Statistics</a><ul>
-<li><a class="el" href="d5/d6f/statistics.html#statistics_numeric_statistics">Numeric statistics</a></li>
-<li><a class="el" href="d5/d6f/statistics.html#statistics_json_dump">JSON dump</a></li>
+<li>Sol2<ul>
+<li>Provides Lua scripting and modding support.</li>
+<li><a href="https://sol2.readthedocs.io/en/latest/">Online Documentation</a></li>
+<li><a href="https://github.com/ThePhD/sol2">Github</a></li>
 </ul>
 </li>
-<li><a class="el" href="d2/d47/allocation_annotation.html">Allocation names and user data</a><ul>
-<li><a class="el" href="d2/d47/allocation_annotation.html#allocation_user_data">Allocation user data</a></li>
-<li><a class="el" href="d2/d47/allocation_annotation.html#allocation_names">Allocation names</a></li>
-</ul>
-</li>
-<li><a class="el" href="da/d75/virtual_allocator.html">Virtual allocator</a></li>
-<li><a class="el" href="de/d64/debugging_memory_usage.html">Debugging incorrect memory usage</a><ul>
-<li><a class="el" href="de/d64/debugging_memory_usage.html#debugging_memory_usage_initialization">Memory initialization</a></li>
-<li><a class="el" href="de/d64/debugging_memory_usage.html#debugging_memory_usage_margins">Margins</a></li>
-<li><a class="el" href="de/d64/debugging_memory_usage.html#debugging_memory_usage_corruption_detection">Corruption detection</a></li>
-</ul>
-</li>
-<li><a class="el" href="dd/da0/opengl_interop.html">OpenGL Interop</a></li>
-</ul>
-</li>
-<li><a class="el" href="da/dc0/usage_patterns.html">Recommended usage patterns</a><ul>
-<li><a class="el" href="da/dc0/usage_patterns.html#usage_patterns_gpu_only">GPU-only resource</a></li>
-<li><a class="el" href="da/dc0/usage_patterns.html#usage_patterns_staging_copy_upload">Staging copy for upload</a></li>
-<li><a class="el" href="da/dc0/usage_patterns.html#usage_patterns_readback">Readback</a></li>
-<li><a class="el" href="da/dc0/usage_patterns.html#usage_patterns_advanced_data_uploading">Advanced data uploading</a></li>
-<li><a class="el" href="da/dc0/usage_patterns.html#usage_patterns_other_use_cases">Other use cases</a></li>
-</ul>
-</li>
-<li><a class="el" href="de/dbe/configuration.html">Configuration</a><ul>
-<li><a class="el" href="de/dbe/configuration.html#config_Vulkan_functions">Pointers to Vulkan functions</a></li>
-<li><a class="el" href="de/dbe/configuration.html#custom_memory_allocator">Custom host memory allocator</a></li>
-<li><a class="el" href="de/dbe/configuration.html#allocation_callbacks">Device memory allocation callbacks</a></li>
-<li><a class="el" href="de/dbe/configuration.html#heap_memory_limit">Device heap memory limit</a></li>
-</ul>
-</li>
-<li><b>Extension support</b><ul>
-<li><a class="el" href="da/da6/vk_khr_dedicated_allocation.html">VK_KHR_dedicated_allocation</a></li>
-<li><a class="el" href="d8/d25/enabling_buffer_device_address.html">Enabling buffer device address</a></li>
-<li><a class="el" href="d0/dfd/vk_ext_memory_priority.html">VK_EXT_memory_priority</a></li>
-<li><a class="el" href="d6/d3e/vk_amd_device_coherent_memory.html">VK_AMD_device_coherent_memory</a></li>
-</ul>
-</li>
-<li><a class="el" href="d7/d19/general_considerations.html">General considerations</a><ul>
-<li><a class="el" href="d7/d19/general_considerations.html#general_considerations_thread_safety">Thread safety</a></li>
-<li><a class="el" href="d7/d19/general_considerations.html#general_considerations_versioning_and_compatibility">Versioning and compatibility</a></li>
-<li><a class="el" href="d7/d19/general_considerations.html#general_considerations_validation_layer_warnings">Validation layer warnings</a></li>
-<li><a class="el" href="d7/d19/general_considerations.html#general_considerations_allocation_algorithm">Allocation algorithm</a></li>
-<li><a class="el" href="d7/d19/general_considerations.html#general_considerations_features_not_supported">Features not supported</a></li>
+<li>Angel Script<ul>
+<li>Provides a more advanced form of modding and scripting support.</li>
+<li><a href="https://www.angelcode.com/angelscript/documentation.html">Online Documentation</a></li>
+<li><a href="https://www.angelcode.com/angelscript/">Website</a></li>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="main_see_also"></a>
-See also</h1>
-<ul>
-<li><a href="https://gpuopen.com/gaming-product/vulkan-memory-allocator/"><b>Product page on GPUOpen</b></a></li>
-<li><a href="https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator"><b>Source repository on GitHub</b></a> </li>
-</ul>
+<p>If you want an indepth explanation of these dependencies and their implementation status, see <a class="el" href="dc/dec/detailed-analysis-of-dependencies.html">Detailed Analysis Of Dependencies</a>.</p>
+<h1><a class="anchor" id="code-conventions"></a>
+Code Conventions</h1>
+<hr  />
+<p><a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> tries to be as easy to read as possible by making the code read similarly to English (This is mandatory for engine contributions!). In addition, <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> tries to be intuitive and understandable at a quick glance, hence it uses PascalCase and CamelCase. As such, the code conventions are simple and intuitive. The only exception is with broad cases.</p>
+<p>Broad cases should only be used as long as there are no other applicable cases. For example, a private static variable. This variable would look like a static type variable rather than a private variable. That means it should be named with a prefix of "s" rather than a 'm'. However, please note that this only applies when the "Notes" section contains "Broad case". Additionally, There are some other important distinctions, definitions, and use cases that must be followed to stay compliant, as seen below.</p>
+<h2><a class="anchor" id="important-convention-use-cases"></a>
+Important Convention Use Cases</h2>
+<hr  />
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Case   </th><th class="markdownTableHeadNone">Distinction    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Preprocessors Unless there are multiple logical inputs, avoid using <code>#if defined()</code> and use <code>#ifdef</code> instead. .   </td><td class="markdownTableBodyNone"></td></tr>
+</table>
+<h2><a class="anchor" id="variables"></a>
+Variables</h2>
+<hr  />
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Case   </th><th class="markdownTableHeadNone">Format   </th><th class="markdownTableHeadNone">Example   </th><th class="markdownTableHeadNone">Notes    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Private Variables   </td><td class="markdownTableBodyNone">mPrivateVariable   </td><td class="markdownTableBodyNone"><code>int mPrivateVariable = 7;</code>   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Protected Variables   </td><td class="markdownTableBodyNone">mProtectedVariable   </td><td class="markdownTableBodyNone"><code>int mProtectedVariable = 4;</code>   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Static Type Variables   </td><td class="markdownTableBodyNone">sStaticTypeVariable   </td><td class="markdownTableBodyNone"><code>static inline float sStaticVariable = 3.14f;</code>   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Static Variable   </td><td class="markdownTableBodyNone">StaticVariable   </td><td class="markdownTableBodyNone"><code>static inline int StaticVariable = 72;</code>   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Constant Variable   </td><td class="markdownTableBodyNone">cConstantVariable   </td><td class="markdownTableBodyNone"><code>const double cConstantVariable = 3.14;</code>   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Constant Expression   </td><td class="markdownTableBodyNone">CONSTANT_EXPRESSION_VARIABLE   </td><td class="markdownTableBodyNone"><code>constexpr int CONSTANT_EXPRESSION_VARIABLE = 45;</code>   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Constant Global   </td><td class="markdownTableBodyNone">CONSTANT_GLOBAL_VARIABLE   </td><td class="markdownTableBodyNone"><code>const int GLOBAL_VARIABLE;</code>   </td><td class="markdownTableBodyNone">A constant global is a variable that is not declared inside a type.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Macro   </td><td class="markdownTableBodyNone">MACRO_VARIABLE   </td><td class="markdownTableBodyNone"><code>#define MACRO_VARIABLE 8</code>   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Local Variable   </td><td class="markdownTableBodyNone">localVariable   </td><td class="markdownTableBodyNone"><code>int localVariable = 34;</code>   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Parameter Variable   </td><td class="markdownTableBodyNone">parameterVariable   </td><td class="markdownTableBodyNone"><code>int parameterVariable</code>   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Public Variable   </td><td class="markdownTableBodyNone">publicVariable   </td><td class="markdownTableBodyNone"><code>int publicVariable = 3;</code>   </td><td class="markdownTableBodyNone"></td></tr>
+</table>
+<h2><a class="anchor" id="functions"></a>
+Functions</h2>
+<hr  />
+<p>Functions are simple, any that are not bound to a specific object will have the first letter lowercase. If it is a static, namespace, or global function, then it will have the first letter capitalized instead. When it comes to Preprocessor functions, it will follow the same rules as Constant Global variables, as seen below: </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Dec 1 2024 for Techstorm by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Jan 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

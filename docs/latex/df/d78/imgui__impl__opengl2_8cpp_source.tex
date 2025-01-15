@@ -1,0 +1,315 @@
+\doxysection{imgui\+\_\+impl\+\_\+opengl2.\+cpp}
+\hypertarget{imgui__impl__opengl2_8cpp_source}{}\label{imgui__impl__opengl2_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_opengl2.cpp@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_opengl2.cpp}}
+\mbox{\hyperlink{imgui__impl__opengl2_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Renderer\ Backend\ for\ OpenGL2\ (legacy\ OpenGL,\ fixed\ pipeline)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00002}00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Platform\ Backend\ (e.g.\ GLFW,\ SDL,\ Win32,\ custom..)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00004}00004\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00005}00005\ \textcolor{comment}{//\ \ [X]\ Renderer:\ User\ texture\ binding.\ Use\ 'GLuint'\ OpenGL\ texture\ identifier\ as\ void*/ImTextureID.\ Read\ the\ FAQ\ about\ ImTextureID!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00007}00007\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00008}00008\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00009}00009\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00010}00010\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00011}00011\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00012}00012\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00013}00013\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00015}00015\ \textcolor{comment}{//\ **DO\ NOT\ USE\ THIS\ CODE\ IF\ YOUR\ CODE/ENGINE\ IS\ USING\ MODERN\ OPENGL\ (SHADERS,\ VBO,\ VAO,\ etc.)**}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00016}00016\ \textcolor{comment}{//\ **Prefer\ using\ the\ code\ in\ imgui\_impl\_opengl3.cpp**}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00017}00017\ \textcolor{comment}{//\ This\ code\ is\ mostly\ provided\ as\ a\ reference\ to\ learn\ how\ ImGui\ integration\ works,\ because\ it\ is\ shorter\ to\ read.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00018}00018\ \textcolor{comment}{//\ If\ your\ code\ is\ using\ GL3+\ context\ or\ any\ semi\ modern\ OpenGL\ calls,\ using\ this\ is\ likely\ to\ make\ everything\ more}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00019}00019\ \textcolor{comment}{//\ complicated,\ will\ require\ your\ code\ to\ reset\ every\ single\ OpenGL\ attributes\ to\ their\ initial\ state,\ and\ might}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00020}00020\ \textcolor{comment}{//\ confuse\ your\ GPU\ driver.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00021}00021\ \textcolor{comment}{//\ The\ GL2\ code\ is\ unable\ to\ reset\ attributes\ or\ even\ call\ e.g.\ "{}glUseProgram(0)"{}\ because\ they\ don't\ exist\ in\ that\ API.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00023}00023\ \textcolor{comment}{//\ CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00024}00024\ \textcolor{comment}{//\ (minor\ and\ older\ changes\ stripped\ away,\ please\ see\ git\ history\ for\ details)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00025}00025\ \textcolor{comment}{//\ \ 2024-\/10-\/07:\ OpenGL:\ Changed\ default\ texture\ sampler\ to\ Clamp\ instead\ of\ Repeat/Wrap.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00026}00026\ \textcolor{comment}{//\ \ 2024-\/06-\/28:\ OpenGL:\ ImGui\_ImplOpenGL2\_NewFrame()\ recreates\ font\ texture\ if\ it\ has\ been\ destroyed\ by\ ImGui\_ImplOpenGL2\_DestroyFontsTexture().\ (\#7748)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00027}00027\ \textcolor{comment}{//\ \ 2022-\/10-\/11:\ Using\ 'nullptr'\ instead\ of\ 'NULL'\ as\ per\ our\ switch\ to\ C++11.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00028}00028\ \textcolor{comment}{//\ \ 2021-\/12-\/08:\ OpenGL:\ Fixed\ mishandling\ of\ the\ ImDrawCmd::IdxOffset\ field!\ This\ is\ an\ old\ bug\ but\ it\ never\ had\ an\ effect\ until\ some\ internal\ rendering\ changes\ in\ 1.86.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00029}00029\ \textcolor{comment}{//\ \ 2021-\/06-\/29:\ Reorganized\ backend\ to\ pull\ data\ from\ a\ single\ structure\ to\ facilitate\ usage\ with\ multiple-\/contexts\ (all\ g\_XXXX\ access\ changed\ to\ bd-\/>XXXX).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00030}00030\ \textcolor{comment}{//\ \ 2021-\/05-\/19:\ OpenGL:\ Replaced\ direct\ access\ to\ ImDrawCmd::TextureId\ with\ a\ call\ to\ ImDrawCmd::GetTexID().\ (will\ become\ a\ requirement)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00031}00031\ \textcolor{comment}{//\ \ 2021-\/01-\/03:\ OpenGL:\ Backup,\ setup\ and\ restore\ GL\_SHADE\_MODEL\ state,\ disable\ GL\_STENCIL\_TEST\ and\ disable\ GL\_NORMAL\_ARRAY\ client\ state\ to\ increase\ compatibility\ with\ legacy\ OpenGL\ applications.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00032}00032\ \textcolor{comment}{//\ \ 2020-\/01-\/23:\ OpenGL:\ Backup,\ setup\ and\ restore\ GL\_TEXTURE\_ENV\ to\ increase\ compatibility\ with\ legacy\ OpenGL\ applications.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00033}00033\ \textcolor{comment}{//\ \ 2019-\/04-\/30:\ OpenGL:\ Added\ support\ for\ special\ ImDrawCallback\_ResetRenderState\ callback\ to\ reset\ render\ state.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00034}00034\ \textcolor{comment}{//\ \ 2019-\/02-\/11:\ OpenGL:\ Projecting\ clipping\ rectangles\ correctly\ using\ draw\_data-\/>FramebufferScale\ to\ allow\ multi-\/viewports\ for\ retina\ display.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00035}00035\ \textcolor{comment}{//\ \ 2018-\/11-\/30:\ Misc:\ Setting\ up\ io.BackendRendererName\ so\ it\ can\ be\ displayed\ in\ the\ About\ Window.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00036}00036\ \textcolor{comment}{//\ \ 2018-\/08-\/03:\ OpenGL:\ Disabling/restoring\ GL\_LIGHTING\ and\ GL\_COLOR\_MATERIAL\ to\ increase\ compatibility\ with\ legacy\ OpenGL\ applications.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00037}00037\ \textcolor{comment}{//\ \ 2018-\/06-\/08:\ Misc:\ Extracted\ imgui\_impl\_opengl2.cpp/.h\ away\ from\ the\ old\ combined\ GLFW/SDL+OpenGL2\ examples.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00038}00038\ \textcolor{comment}{//\ \ 2018-\/06-\/08:\ OpenGL:\ Use\ draw\_data-\/>DisplayPos\ and\ draw\_data-\/>DisplaySize\ to\ setup\ projection\ matrix\ and\ clipping\ rectangle.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00039}00039\ \textcolor{comment}{//\ \ 2018-\/02-\/16:\ Misc:\ Obsoleted\ the\ io.RenderDrawListsFn\ callback\ and\ exposed\ ImGui\_ImplOpenGL2\_RenderDrawData()\ in\ the\ .h\ file\ so\ you\ can\ call\ it\ yourself.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00040}00040\ \textcolor{comment}{//\ \ 2017-\/09-\/01:\ OpenGL:\ Save\ and\ restore\ current\ polygon\ mode.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00041}00041\ \textcolor{comment}{//\ \ 2016-\/09-\/10:\ OpenGL:\ Uploading\ font\ texture\ as\ RGBA32\ to\ increase\ compatibility\ with\ users\ shaders\ (not\ ideal).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00042}00042\ \textcolor{comment}{//\ \ 2016-\/09-\/05:\ OpenGL:\ Fixed\ save\ and\ restore\ of\ current\ scissor\ rectangle.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00044}00044\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00045}00045\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00046}00046\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{imgui__impl__opengl2_8h}{imgui\_impl\_opengl2.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00047}00047\ \textcolor{preprocessor}{\#include\ <stdint.h>}\ \ \ \ \ \textcolor{comment}{//\ intptr\_t}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00049}00049\ \textcolor{comment}{//\ Clang/GCC\ warnings\ with\ -\/Weverything}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00050}00050\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00051}00051\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ push}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00052}00052\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ ignored\ "{}-\/Wunused-\/macros"{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ warning:\ macro\ is\ not\ used}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00053}00053\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ ignored\ "{}-\/Wnonportable-\/system-\/include-\/path"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00054}00054\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00056}00056\ \textcolor{comment}{//\ Include\ OpenGL\ header\ (without\ an\ OpenGL\ loader)\ requires\ a\ bit\ of\ fiddling}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00057}00057\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ \&\&\ !defined(APIENTRY)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00058}00058\ \textcolor{preprocessor}{\#define\ APIENTRY\ \_\_stdcall\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ It\ is\ customary\ to\ use\ APIENTRY\ for\ OpenGL\ function\ pointer\ declarations\ on\ all\ platforms.\ \ Additionally,\ the\ Windows\ OpenGL\ header\ needs\ APIENTRY.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00059}00059\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00060}00060\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ \&\&\ !defined(WINGDIAPI)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00061}00061\ \textcolor{preprocessor}{\#define\ WINGDIAPI\ \_\_declspec(dllimport)\ \ \ \ \ }\textcolor{comment}{//\ Some\ Windows\ OpenGL\ headers\ need\ this}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00062}00062\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00063}00063\ \textcolor{preprocessor}{\#if\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00064}00064\ \textcolor{preprocessor}{\#define\ GL\_SILENCE\_DEPRECATION}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00065}00065\ \textcolor{preprocessor}{\#include\ <OpenGL/gl.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00066}00066\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00067}00067\ \textcolor{preprocessor}{\#include\ <GL/gl.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00068}00068\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00070}\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data}{00070}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data}{ImGui\_ImplOpenGL2\_Data}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00071}00071\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00072}\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a5c5200430adb068ba7c4723af1cb1060}{00072}}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a68c4714e43d8e827d80759f9cb864f3c}{GLuint}}\ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a5c5200430adb068ba7c4723af1cb1060}{FontTexture}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00074}\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a048c7b389a00313e4f483eeb2d39b6d8}{00074}}\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a048c7b389a00313e4f483eeb2d39b6d8}{ImGui\_ImplOpenGL2\_Data}}()\ \{\ memset((\textcolor{keywordtype}{void}*)\textcolor{keyword}{this},\ 0,\ \textcolor{keyword}{sizeof}(*\textcolor{keyword}{this}));\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00075}00075\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00077}00077\ \textcolor{comment}{//\ Backend\ data\ stored\ in\ io.BackendRendererUserData\ to\ allow\ support\ for\ multiple\ Dear\ ImGui\ contexts}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00078}00078\ \textcolor{comment}{//\ It\ is\ STRONGLY\ preferred\ that\ you\ use\ docking\ branch\ with\ multi-\/viewports\ (==\ single\ Dear\ ImGui\ context\ +\ multiple\ windows)\ instead\ of\ multiple\ Dear\ ImGui\ contexts.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00079}00079\ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data}{ImGui\_ImplOpenGL2\_Data}}*\ ImGui\_ImplOpenGL2\_GetBackendData()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00080}00080\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui::GetCurrentContext()\ ?\ (\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data}{ImGui\_ImplOpenGL2\_Data}}*)ImGui::GetIO().BackendRendererUserData\ :\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00082}00082\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00084}00084\ \textcolor{comment}{//\ Functions}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00085}\mbox{\hyperlink{imgui__impl__opengl2_8cpp_a6eaf994af4c385ea9858cc1af5d234a0}{00085}}\ \textcolor{keywordtype}{bool}\ \ \ \ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a6eaf994af4c385ea9858cc1af5d234a0}{ImGui\_ImplOpenGL2\_Init}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00086}00086\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00087}00087\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00088}00088\ \ \ \ \ IMGUI\_CHECKVERSION();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00089}00089\ \ \ \ \ IM\_ASSERT(io.BackendRendererUserData\ ==\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Already\ initialized\ a\ renderer\ backend!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00091}00091\ \ \ \ \ \textcolor{comment}{//\ Setup\ backend\ capabilities\ flags}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00092}00092\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data}{ImGui\_ImplOpenGL2\_Data}}*\ bd\ =\ IM\_NEW(\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data}{ImGui\_ImplOpenGL2\_Data}})();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00093}00093\ \ \ \ \ io.BackendRendererUserData\ =\ (\textcolor{keywordtype}{void}*)bd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00094}00094\ \ \ \ \ io.BackendRendererName\ =\ \textcolor{stringliteral}{"{}imgui\_impl\_opengl2"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00096}00096\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00097}00097\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00099}\mbox{\hyperlink{imgui__impl__opengl2_8cpp_ad79dd5ab4eb96f259be274cbcb4e48f0}{00099}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_ad79dd5ab4eb96f259be274cbcb4e48f0}{ImGui\_ImplOpenGL2\_Shutdown}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00100}00100\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00101}00101\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data}{ImGui\_ImplOpenGL2\_Data}}*\ bd\ =\ ImGui\_ImplOpenGL2\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00102}00102\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}No\ renderer\ backend\ to\ shutdown,\ or\ already\ shutdown?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00103}00103\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00105}00105\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a186c0a15389a738c8b9beec8131b95f4}{ImGui\_ImplOpenGL2\_DestroyDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00106}00106\ \ \ \ \ io.BackendRendererName\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00107}00107\ \ \ \ \ io.BackendRendererUserData\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00108}00108\ \ \ \ \ IM\_DELETE(bd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00109}00109\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00111}\mbox{\hyperlink{imgui__impl__opengl2_8cpp_a118aaff2d52a10d4a7e8aaad92182a16}{00111}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a118aaff2d52a10d4a7e8aaad92182a16}{ImGui\_ImplOpenGL2\_NewFrame}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00112}00112\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00113}00113\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data}{ImGui\_ImplOpenGL2\_Data}}*\ bd\ =\ ImGui\_ImplOpenGL2\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00114}00114\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Context\ or\ backend\ not\ initialized!\ Did\ you\ call\ ImGui\_ImplOpenGL2\_Init()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00116}00116\ \ \ \ \ \textcolor{keywordflow}{if}\ (!bd-\/>\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a5c5200430adb068ba7c4723af1cb1060}{FontTexture}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a3d26784c8bb438bacfd4981e58187307}{ImGui\_ImplOpenGL2\_CreateDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{if}\ (!bd-\/>\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a5c5200430adb068ba7c4723af1cb1060}{FontTexture}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a23758540c1ea4ff2bac250c9a562cb14}{ImGui\_ImplOpenGL2\_CreateFontsTexture}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00120}00120\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00122}00122\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplOpenGL2\_SetupRenderState(ImDrawData*\ draw\_data,\ \textcolor{keywordtype}{int}\ fb\_width,\ \textcolor{keywordtype}{int}\ fb\_height)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00123}00123\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00124}00124\ \ \ \ \ \textcolor{comment}{//\ Setup\ render\ state:\ alpha-\/blending\ enabled,\ no\ face\ culling,\ no\ depth\ testing,\ scissor\ enabled,\ vertex/texcoord/color\ pointers,\ polygon\ fill.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00125}00125\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3f7fa0df22505dd09a24a4e1e74eca09}{glEnable}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa290e8f9ee6f6862778355aa22bb0b13}{GL\_BLEND}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00126}00126\ \ \ \ \ glBlendFunc(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a51e6c75d54b3a9fb93fbc880463c212c}{GL\_SRC\_ALPHA}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa3926eb5e008f14829baa8d72435215f}{GL\_ONE\_MINUS\_SRC\_ALPHA}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00127}00127\ \ \ \ \ \textcolor{comment}{//glBlendFuncSeparate(GL\_SRC\_ALPHA,\ GL\_ONE\_MINUS\_SRC\_ALPHA,\ GL\_ONE,\ GL\_ONE\_MINUS\_SRC\_ALPHA);\ //\ In\ order\ to\ composite\ our\ output\ buffer\ we\ need\ to\ preserve\ alpha}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00128}00128\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_adbbb0a7d41b44182b74a9d4f62ca8a63}{glDisable}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a8c4f153ed20a741aaae952650fec46f0}{GL\_CULL\_FACE}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00129}00129\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_adbbb0a7d41b44182b74a9d4f62ca8a63}{glDisable}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a4ccf1dc093190cc3798b9abea3655f98}{GL\_DEPTH\_TEST}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00130}00130\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_adbbb0a7d41b44182b74a9d4f62ca8a63}{glDisable}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a4f0fd22afde7215e4412dafa5e522097}{GL\_STENCIL\_TEST}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00131}00131\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_adbbb0a7d41b44182b74a9d4f62ca8a63}{glDisable}}(GL\_LIGHTING);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00132}00132\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_adbbb0a7d41b44182b74a9d4f62ca8a63}{glDisable}}(GL\_COLOR\_MATERIAL);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00133}00133\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3f7fa0df22505dd09a24a4e1e74eca09}{glEnable}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abe1c2e1876841bc483127fd45d7ca3b1}{GL\_SCISSOR\_TEST}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00134}00134\ \ \ \ \ glEnableClientState(GL\_VERTEX\_ARRAY);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00135}00135\ \ \ \ \ glEnableClientState(GL\_TEXTURE\_COORD\_ARRAY);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00136}00136\ \ \ \ \ glEnableClientState(GL\_COLOR\_ARRAY);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00137}00137\ \ \ \ \ glDisableClientState(GL\_NORMAL\_ARRAY);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00138}00138\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3f7fa0df22505dd09a24a4e1e74eca09}{glEnable}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad4de17abefa73fa2ef53379f73b734be}{GL\_TEXTURE\_2D}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00139}00139\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad1c418e56ab98e908d315fb30fd57e5d}{glPolygonMode}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a355cd0068666a25037ca163a57eaa214}{GL\_FRONT\_AND\_BACK}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a95af009d03993e7ed7df00306cc53573}{GL\_FILL}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00140}00140\ \ \ \ \ glShadeModel(GL\_SMOOTH);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00141}00141\ \ \ \ \ glTexEnvi(GL\_TEXTURE\_ENV,\ GL\_TEXTURE\_ENV\_MODE,\ GL\_MODULATE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00143}00143\ \ \ \ \ \textcolor{comment}{//\ If\ you\ are\ using\ this\ code\ with\ non-\/legacy\ OpenGL\ header/contexts\ (which\ you\ should\ not,\ prefer\ using\ imgui\_impl\_opengl3.cpp!!),}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00144}00144\ \ \ \ \ \textcolor{comment}{//\ you\ may\ need\ to\ backup/reset/restore\ other\ state,\ e.g.\ for\ current\ shader\ using\ the\ commented\ lines\ below.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00145}00145\ \ \ \ \ \textcolor{comment}{//\ (DO\ NOT\ MODIFY\ THIS\ FILE!\ Add\ the\ code\ in\ your\ calling\ function)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00146}00146\ \ \ \ \ \textcolor{comment}{//\ \ \ GLint\ last\_program;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00147}00147\ \ \ \ \ \textcolor{comment}{//\ \ \ glGetIntegerv(GL\_CURRENT\_PROGRAM,\ \&last\_program);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00148}00148\ \ \ \ \ \textcolor{comment}{//\ \ \ glUseProgram(0);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00149}00149\ \ \ \ \ \textcolor{comment}{//\ \ \ ImGui\_ImplOpenGL2\_RenderDrawData(...);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00150}00150\ \ \ \ \ \textcolor{comment}{//\ \ \ glUseProgram(last\_program)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00151}00151\ \ \ \ \ \textcolor{comment}{//\ There\ are\ potentially\ many\ more\ states\ you\ could\ need\ to\ clear/setup\ that\ we\ can't\ access\ from\ default\ headers.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00152}00152\ \ \ \ \ \textcolor{comment}{//\ e.g.\ glBindBuffer(GL\_ARRAY\_BUFFER,\ 0),\ glDisable(GL\_TEXTURE\_CUBE\_MAP).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00154}00154\ \ \ \ \ \textcolor{comment}{//\ Setup\ viewport,\ orthographic\ projection\ matrix}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00155}00155\ \ \ \ \ \textcolor{comment}{//\ Our\ visible\ imgui\ space\ lies\ from\ draw\_data-\/>DisplayPos\ (top\ left)\ to\ draw\_data-\/>DisplayPos+data\_data-\/>DisplaySize\ (bottom\ right).\ DisplayPos\ is\ (0,0)\ for\ single\ viewport\ apps.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00156}00156\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ab54b002beb984f066acd0dd7fff469dc}{glViewport}}(0,\ 0,\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a9289d5b99dc1f27f01480360f2e18ae0}{GLsizei}})fb\_width,\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a9289d5b99dc1f27f01480360f2e18ae0}{GLsizei}})fb\_height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00157}00157\ \ \ \ \ glMatrixMode(GL\_PROJECTION);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00158}00158\ \ \ \ \ glPushMatrix();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00159}00159\ \ \ \ \ glLoadIdentity();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00160}00160\ \ \ \ \ glOrtho(draw\_data-\/>DisplayPos.x,\ draw\_data-\/>DisplayPos.x\ +\ draw\_data-\/>DisplaySize.x,\ draw\_data-\/>DisplayPos.y\ +\ draw\_data-\/>DisplaySize.y,\ draw\_data-\/>DisplayPos.y,\ -\/1.0f,\ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00161}00161\ \ \ \ \ glMatrixMode(GL\_MODELVIEW);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00162}00162\ \ \ \ \ glPushMatrix();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00163}00163\ \ \ \ \ glLoadIdentity();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00164}00164\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00166}00166\ \textcolor{comment}{//\ OpenGL2\ Render\ function.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00167}00167\ \textcolor{comment}{//\ Note\ that\ this\ implementation\ is\ little\ overcomplicated\ because\ we\ are\ saving/setting\ up/restoring\ every\ OpenGL\ state\ explicitly.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00168}00168\ \textcolor{comment}{//\ This\ is\ in\ order\ to\ be\ able\ to\ run\ within\ an\ OpenGL\ engine\ that\ doesn't\ do\ so.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00169}\mbox{\hyperlink{imgui__impl__opengl2_8cpp_ab65d71bd0bdfcc4a0a73436b84f82647}{00169}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_ab65d71bd0bdfcc4a0a73436b84f82647}{ImGui\_ImplOpenGL2\_RenderDrawData}}(ImDrawData*\ draw\_data)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00170}00170\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00171}00171\ \ \ \ \ \textcolor{comment}{//\ Avoid\ rendering\ when\ minimized,\ scale\ coordinates\ for\ retina\ displays\ (screen\ coordinates\ !=\ framebuffer\ coordinates)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00172}00172\ \ \ \ \ \textcolor{keywordtype}{int}\ fb\_width\ =\ (int)(draw\_data-\/>DisplaySize.x\ *\ draw\_data-\/>FramebufferScale.x);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00173}00173\ \ \ \ \ \textcolor{keywordtype}{int}\ fb\_height\ =\ (int)(draw\_data-\/>DisplaySize.y\ *\ draw\_data-\/>FramebufferScale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00174}00174\ \ \ \ \ \textcolor{keywordflow}{if}\ (fb\_width\ ==\ 0\ ||\ fb\_height\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00177}00177\ \ \ \ \ \textcolor{comment}{//\ Backup\ GL\ state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00178}00178\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_acebcc1c5663f14ebde1d16831e5fed94}{GLint}}\ last\_texture;\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a70ad6a21033347a0478dad517dd2bb83}{glGetIntegerv}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ae5116368c78a4376ac1b6fbc714892a7}{GL\_TEXTURE\_BINDING\_2D}},\ \&last\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00179}00179\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_acebcc1c5663f14ebde1d16831e5fed94}{GLint}}\ last\_polygon\_mode[2];\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a70ad6a21033347a0478dad517dd2bb83}{glGetIntegerv}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a02ecd5c6098e5a11f5d65e51c40c3939}{GL\_POLYGON\_MODE}},\ last\_polygon\_mode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00180}00180\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_acebcc1c5663f14ebde1d16831e5fed94}{GLint}}\ last\_viewport[4];\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a70ad6a21033347a0478dad517dd2bb83}{glGetIntegerv}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a8195c4c567f9ebe31c8208485f4fbb1b}{GL\_VIEWPORT}},\ last\_viewport);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00181}00181\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_acebcc1c5663f14ebde1d16831e5fed94}{GLint}}\ last\_scissor\_box[4];\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a70ad6a21033347a0478dad517dd2bb83}{glGetIntegerv}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ae71615052102b461b47f543a75ff680a}{GL\_SCISSOR\_BOX}},\ last\_scissor\_box);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00182}00182\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_acebcc1c5663f14ebde1d16831e5fed94}{GLint}}\ last\_shade\_model;\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a70ad6a21033347a0478dad517dd2bb83}{glGetIntegerv}}(GL\_SHADE\_MODEL,\ \&last\_shade\_model);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00183}00183\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_acebcc1c5663f14ebde1d16831e5fed94}{GLint}}\ last\_tex\_env\_mode;\ glGetTexEnviv(GL\_TEXTURE\_ENV,\ GL\_TEXTURE\_ENV\_MODE,\ \&last\_tex\_env\_mode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00184}00184\ \ \ \ \ glPushAttrib(GL\_ENABLE\_BIT\ |\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a947db9ff944c4b78e652144c3dd1060c}{GL\_COLOR\_BUFFER\_BIT}}\ |\ GL\_TRANSFORM\_BIT);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00186}00186\ \ \ \ \ \textcolor{comment}{//\ Setup\ desired\ GL\ state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00187}00187\ \ \ \ \ ImGui\_ImplOpenGL2\_SetupRenderState(draw\_data,\ fb\_width,\ fb\_height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00189}00189\ \ \ \ \ \textcolor{comment}{//\ Will\ project\ scissor/clipping\ rectangles\ into\ framebuffer\ space}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00190}00190\ \ \ \ \ ImVec2\ clip\_off\ =\ draw\_data-\/>DisplayPos;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (0,0)\ unless\ using\ multi-\/viewports}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00191}00191\ \ \ \ \ ImVec2\ clip\_scale\ =\ draw\_data-\/>FramebufferScale;\ \textcolor{comment}{//\ (1,1)\ unless\ using\ retina\ display\ which\ are\ often\ (2,2)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00193}00193\ \ \ \ \ \textcolor{comment}{//\ Render\ command\ lists}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00194}00194\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ draw\_data-\/>CmdListsCount;\ n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00195}00195\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawList*\ draw\_list\ =\ draw\_data-\/>CmdLists[n];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawVert*\ vtx\_buffer\ =\ draw\_list-\/>VtxBuffer.Data;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawIdx*\ idx\_buffer\ =\ draw\_list-\/>IdxBuffer.Data;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ glVertexPointer(2,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6d19915d4237cb559505bd3e5dcfcf3c}{GL\_FLOAT}},\ \textcolor{keyword}{sizeof}(ImDrawVert),\ (\textcolor{keyword}{const}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e5eb1ac5e47603cc80ab58338b92393}{GLvoid}}*)((\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*)vtx\_buffer\ +\ offsetof(ImDrawVert,\ pos)));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ glTexCoordPointer(2,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6d19915d4237cb559505bd3e5dcfcf3c}{GL\_FLOAT}},\ \textcolor{keyword}{sizeof}(ImDrawVert),\ (\textcolor{keyword}{const}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e5eb1ac5e47603cc80ab58338b92393}{GLvoid}}*)((\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*)vtx\_buffer\ +\ offsetof(ImDrawVert,\ uv)));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ glColorPointer(4,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a80a33c79f69417372d65d2a65ca36d49}{GL\_UNSIGNED\_BYTE}},\ \textcolor{keyword}{sizeof}(ImDrawVert),\ (\textcolor{keyword}{const}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e5eb1ac5e47603cc80ab58338b92393}{GLvoid}}*)((\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*)vtx\_buffer\ +\ offsetof(ImDrawVert,\ col)));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ cmd\_i\ =\ 0;\ cmd\_i\ <\ draw\_list-\/>CmdBuffer.Size;\ cmd\_i++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ImDrawCmd*\ pcmd\ =\ \&draw\_list-\/>CmdBuffer[cmd\_i];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pcmd-\/>UserCallback)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ User\ callback,\ registered\ via\ ImDrawList::AddCallback()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (ImDrawCallback\_ResetRenderState\ is\ a\ special\ callback\ value\ used\ by\ the\ user\ to\ request\ the\ renderer\ to\ reset\ render\ state.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pcmd-\/>UserCallback\ ==\ ImDrawCallback\_ResetRenderState)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImGui\_ImplOpenGL2\_SetupRenderState(draw\_data,\ fb\_width,\ fb\_height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pcmd-\/>UserCallback(draw\_list,\ pcmd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Project\ scissor/clipping\ rectangles\ into\ framebuffer\ space}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImVec2\ clip\_min((pcmd-\/>ClipRect.x\ -\/\ clip\_off.x)\ *\ clip\_scale.x,\ (pcmd-\/>ClipRect.y\ -\/\ clip\_off.y)\ *\ clip\_scale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImVec2\ clip\_max((pcmd-\/>ClipRect.z\ -\/\ clip\_off.x)\ *\ clip\_scale.x,\ (pcmd-\/>ClipRect.w\ -\/\ clip\_off.y)\ *\ clip\_scale.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clip\_max.x\ <=\ clip\_min.x\ ||\ clip\_max.y\ <=\ clip\_min.y)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Apply\ scissor/clipping\ rectangle\ (Y\ is\ inverted\ in\ OpenGL)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a59fda0798af5145c920422ba0bd28bac}{glScissor}}((\textcolor{keywordtype}{int})clip\_min.x,\ (\textcolor{keywordtype}{int})((\textcolor{keywordtype}{float})fb\_height\ -\/\ clip\_max.y),\ (\textcolor{keywordtype}{int})(clip\_max.x\ -\/\ clip\_min.x),\ (\textcolor{keywordtype}{int})(clip\_max.y\ -\/\ clip\_min.y));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Bind\ texture,\ Draw}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a987aecafceffb9afaef11412d42e605b}{glBindTexture}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad4de17abefa73fa2ef53379f73b734be}{GL\_TEXTURE\_2D}},\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a68c4714e43d8e827d80759f9cb864f3c}{GLuint}})(intptr\_t)pcmd-\/>GetTexID());}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a81cf4a101af4a4dba6544c8017b5f75e}{glDrawElements}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6079e7a02a59adad65eb953d9482b1ed}{GL\_TRIANGLES}},\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a9289d5b99dc1f27f01480360f2e18ae0}{GLsizei}})pcmd-\/>ElemCount,\ \textcolor{keyword}{sizeof}(ImDrawIdx)\ ==\ 2\ ?\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a36c3f955599ab92217a70cce8a22e11f}{GL\_UNSIGNED\_SHORT}}\ :\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a69b1c02ba0bd93c643c6d82e0c16eb99}{GL\_UNSIGNED\_INT}},\ idx\_buffer\ +\ pcmd-\/>IdxOffset);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00231}00231\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00233}00233\ \ \ \ \ \textcolor{comment}{//\ Restore\ modified\ GL\ state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00234}00234\ \ \ \ \ glDisableClientState(GL\_COLOR\_ARRAY);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00235}00235\ \ \ \ \ glDisableClientState(GL\_TEXTURE\_COORD\_ARRAY);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00236}00236\ \ \ \ \ glDisableClientState(GL\_VERTEX\_ARRAY);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00237}00237\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a987aecafceffb9afaef11412d42e605b}{glBindTexture}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad4de17abefa73fa2ef53379f73b734be}{GL\_TEXTURE\_2D}},\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a68c4714e43d8e827d80759f9cb864f3c}{GLuint}})last\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00238}00238\ \ \ \ \ glMatrixMode(GL\_MODELVIEW);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00239}00239\ \ \ \ \ glPopMatrix();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00240}00240\ \ \ \ \ glMatrixMode(GL\_PROJECTION);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00241}00241\ \ \ \ \ glPopMatrix();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00242}00242\ \ \ \ \ glPopAttrib();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00243}00243\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad1c418e56ab98e908d315fb30fd57e5d}{glPolygonMode}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad66599a87de5c80f8c174da72080a811}{GL\_FRONT}},\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a7efd7809e1632cdae75603fd1fee61c0}{GLenum}})last\_polygon\_mode[0]);\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad1c418e56ab98e908d315fb30fd57e5d}{glPolygonMode}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a688ad6fbf908a39f7197da6d4e4dd083}{GL\_BACK}},\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a7efd7809e1632cdae75603fd1fee61c0}{GLenum}})last\_polygon\_mode[1]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00244}00244\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ab54b002beb984f066acd0dd7fff469dc}{glViewport}}(last\_viewport[0],\ last\_viewport[1],\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a9289d5b99dc1f27f01480360f2e18ae0}{GLsizei}})last\_viewport[2],\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a9289d5b99dc1f27f01480360f2e18ae0}{GLsizei}})last\_viewport[3]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00245}00245\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a59fda0798af5145c920422ba0bd28bac}{glScissor}}(last\_scissor\_box[0],\ last\_scissor\_box[1],\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a9289d5b99dc1f27f01480360f2e18ae0}{GLsizei}})last\_scissor\_box[2],\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a9289d5b99dc1f27f01480360f2e18ae0}{GLsizei}})last\_scissor\_box[3]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00246}00246\ \ \ \ \ glShadeModel(last\_shade\_model);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00247}00247\ \ \ \ \ glTexEnvi(GL\_TEXTURE\_ENV,\ GL\_TEXTURE\_ENV\_MODE,\ last\_tex\_env\_mode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00248}00248\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00250}\mbox{\hyperlink{imgui__impl__opengl2_8cpp_a23758540c1ea4ff2bac250c9a562cb14}{00250}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a23758540c1ea4ff2bac250c9a562cb14}{ImGui\_ImplOpenGL2\_CreateFontsTexture}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00251}00251\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00252}00252\ \ \ \ \ \textcolor{comment}{//\ Build\ texture\ atlas}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00253}00253\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00254}00254\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data}{ImGui\_ImplOpenGL2\_Data}}*\ bd\ =\ ImGui\_ImplOpenGL2\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00255}00255\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa6f05cf9167efe04d7c20e5d34561086}{pixels}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00256}00256\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00257}00257\ \ \ \ \ io.Fonts-\/>GetTexDataAsRGBA32(\&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa6f05cf9167efe04d7c20e5d34561086}{pixels}},\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}});\ \ \ \textcolor{comment}{//\ Load\ as\ RGBA\ 32-\/bit\ (75\%\ of\ the\ memory\ is\ wasted,\ but\ default\ font\ is\ so\ small)\ because\ it\ is\ more\ likely\ to\ be\ compatible\ with\ user's\ existing\ shaders.\ If\ your\ ImTextureId\ represent\ a\ higher-\/level\ concept\ than\ just\ a\ GL\ texture\ id,\ consider\ calling\ GetTexDataAsAlpha8()\ instead\ to\ save\ on\ GPU\ memory.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00259}00259\ \ \ \ \ \textcolor{comment}{//\ Upload\ texture\ to\ graphics\ system}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00260}00260\ \ \ \ \ \textcolor{comment}{//\ (Bilinear\ sampling\ is\ required\ by\ default.\ Set\ 'io.Fonts-\/>Flags\ |=\ ImFontAtlasFlags\_NoBakedLines'\ or\ 'style.AntiAliasedLinesUseTex\ =\ false'\ to\ allow\ point/nearest\ sampling)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00261}00261\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_acebcc1c5663f14ebde1d16831e5fed94}{GLint}}\ last\_texture;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00262}00262\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a70ad6a21033347a0478dad517dd2bb83}{glGetIntegerv}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ae5116368c78a4376ac1b6fbc714892a7}{GL\_TEXTURE\_BINDING\_2D}},\ \&last\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00263}00263\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a82ac4415f852b8b5bfe7356202ca934e}{glGenTextures}}(1,\ \&bd-\/>\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a5c5200430adb068ba7c4723af1cb1060}{FontTexture}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00264}00264\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a987aecafceffb9afaef11412d42e605b}{glBindTexture}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad4de17abefa73fa2ef53379f73b734be}{GL\_TEXTURE\_2D}},\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a5c5200430adb068ba7c4723af1cb1060}{FontTexture}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00265}00265\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5817fa85137822142b4951eacd0154e7}{glTexParameteri}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad4de17abefa73fa2ef53379f73b734be}{GL\_TEXTURE\_2D}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a173a2b2453322dd8d613df6cf2e72480}{GL\_TEXTURE\_MIN\_FILTER}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a4e682f218130b98b27a1e33fa7325080}{GL\_LINEAR}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00266}00266\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5817fa85137822142b4951eacd0154e7}{glTexParameteri}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad4de17abefa73fa2ef53379f73b734be}{GL\_TEXTURE\_2D}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_acb47a41b5963d44826f44b7370bccc26}{GL\_TEXTURE\_MAG\_FILTER}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a4e682f218130b98b27a1e33fa7325080}{GL\_LINEAR}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00267}00267\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5817fa85137822142b4951eacd0154e7}{glTexParameteri}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad4de17abefa73fa2ef53379f73b734be}{GL\_TEXTURE\_2D}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a23a0bc2909cc2f79fe7287aaa044e880}{GL\_TEXTURE\_WRAP\_S}},\ GL\_CLAMP);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00268}00268\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5817fa85137822142b4951eacd0154e7}{glTexParameteri}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad4de17abefa73fa2ef53379f73b734be}{GL\_TEXTURE\_2D}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac307a4772e1d3decd5b6f36192113ab6}{GL\_TEXTURE\_WRAP\_T}},\ GL\_CLAMP);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00269}00269\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2fafe3fe4732d1a3b3f4202ae5332ef8}{glPixelStorei}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aff4ed0953505deed9ddec7e44c0cebe5}{GL\_UNPACK\_ROW\_LENGTH}},\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00270}00270\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a7da97095b562f67f161b50104776a66d}{glTexImage2D}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad4de17abefa73fa2ef53379f73b734be}{GL\_TEXTURE\_2D}},\ 0,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a9f2854f4a91a0d83d2d54cb8110bfca4}{GL\_RGBA}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}},\ 0,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a9f2854f4a91a0d83d2d54cb8110bfca4}{GL\_RGBA}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a80a33c79f69417372d65d2a65ca36d49}{GL\_UNSIGNED\_BYTE}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa6f05cf9167efe04d7c20e5d34561086}{pixels}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00272}00272\ \ \ \ \ \textcolor{comment}{//\ Store\ our\ identifier}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00273}00273\ \ \ \ \ io.Fonts-\/>SetTexID((ImTextureID)(intptr\_t)bd-\/>\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a5c5200430adb068ba7c4723af1cb1060}{FontTexture}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00275}00275\ \ \ \ \ \textcolor{comment}{//\ Restore\ state}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00276}00276\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a987aecafceffb9afaef11412d42e605b}{glBindTexture}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ad4de17abefa73fa2ef53379f73b734be}{GL\_TEXTURE\_2D}},\ last\_texture);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00277}00277\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00278}00278\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00279}00279\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00280}00280\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00281}\mbox{\hyperlink{imgui__impl__opengl2_8cpp_a937c12429933f8bed93bfcf7cd780085}{00281}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a937c12429933f8bed93bfcf7cd780085}{ImGui\_ImplOpenGL2\_DestroyFontsTexture}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00282}00282\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00283}00283\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00284}00284\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data}{ImGui\_ImplOpenGL2\_Data}}*\ bd\ =\ ImGui\_ImplOpenGL2\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00285}00285\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a5c5200430adb068ba7c4723af1cb1060}{FontTexture}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00286}00286\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aedf2546140e2c0f0e8d6f62e9998ae73}{glDeleteTextures}}(1,\ \&bd-\/>\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a5c5200430adb068ba7c4723af1cb1060}{FontTexture}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ io.Fonts-\/>SetTexID(0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_open_g_l2___data_a5c5200430adb068ba7c4723af1cb1060}{FontTexture}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00290}00290\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00291}00291\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00293}\mbox{\hyperlink{imgui__impl__opengl2_8cpp_a3d26784c8bb438bacfd4981e58187307}{00293}}\ \textcolor{keywordtype}{bool}\ \ \ \ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a3d26784c8bb438bacfd4981e58187307}{ImGui\_ImplOpenGL2\_CreateDeviceObjects}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00294}00294\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00295}00295\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a23758540c1ea4ff2bac250c9a562cb14}{ImGui\_ImplOpenGL2\_CreateFontsTexture}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00296}00296\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00298}\mbox{\hyperlink{imgui__impl__opengl2_8cpp_a186c0a15389a738c8b9beec8131b95f4}{00298}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a186c0a15389a738c8b9beec8131b95f4}{ImGui\_ImplOpenGL2\_DestroyDeviceObjects}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00299}00299\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00300}00300\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl2_8cpp_a937c12429933f8bed93bfcf7cd780085}{ImGui\_ImplOpenGL2\_DestroyFontsTexture}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00301}00301\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00303}00303\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00305}00305\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00306}00306\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ pop}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00307}00307\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00308}00308\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__opengl2_8cpp_source_l00309}00309\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

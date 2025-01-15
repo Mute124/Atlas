@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['renderer_0',['renderer',['../d0/db5/class_techstorm_1_1_game_camera.html#a70538530bc36e033e360880ef311df61',1,'Techstorm::GameCamera::Renderer'],['../de/dc7/class_techstorm_1_1_game_object_registry.html#a70538530bc36e033e360880ef311df61',1,'Techstorm::GameObjectRegistry::Renderer']]]
+  ['filesystemregistry_0',['FileSystemRegistry',['../d5/d07/class_atlas_1_1_registered_file.html#a252ce492f4891703ba0a8f80ce3e7111',1,'Atlas::RegisteredFile']]]
 ];

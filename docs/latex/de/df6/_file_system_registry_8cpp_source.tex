@@ -1,0 +1,92 @@
+\doxysection{File\+System\+Registry.\+cpp}
+\hypertarget{_file_system_registry_8cpp_source}{}\label{_file_system_registry_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/fs/FileSystemRegistry.cpp@{C:/Dev/Techstorm-\/v5/src/engine/fs/FileSystemRegistry.cpp}}
+\mbox{\hyperlink{_file_system_registry_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}../dbg/ELogLevel.h"{}}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}../dbg/Logging.h"{}}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_file_meta_8h}{FileMeta.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_file_system_registry_8h}{FileSystemRegistry.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_registered_file_8h}{RegisteredFile.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_registered_file_8h}{RegisteredFile.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <raylib.h>}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <format>}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00015}\mbox{\hyperlink{class_atlas_1_1_file_system_registry_a09591b2eeacb6c7b5aa460780be9a26f}{00015}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a09591b2eeacb6c7b5aa460780be9a26f}{Atlas::FileSystemRegistry::init}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ rootPath)}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00016}00016\ \{}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00017}00017\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_singleton_a035c506193c225c5b60eb7ad9242c245}{Logger::Instance}}().\mbox{\hyperlink{class_atlas_1_1_logger_a2b8515898dc56c34780f4b7adbab664e}{log}}(\textcolor{stringliteral}{"{}Initializing\ File\ Registry..."{}});}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00019}00019\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Scanning\ "{}}\ +\ std::string(rootPath)\ +\ \textcolor{stringliteral}{"{}\ for\ files..."{}});}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00020}00020\ \ \ \ \ FilePathList\ files\ =\ LoadDirectoryFilesEx(rootPath,\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00021}00021\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Found\ "{}}\ +\ std::to\_string(files.count)\ +\ \textcolor{stringliteral}{"{}\ files."{}});}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00024}00024\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ files.count;\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ std::string\ path\ =\ files.paths[i];}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ std::string\ filename\ =\ path.substr(path.find\_last\_of(\textcolor{stringliteral}{"{}\(\backslash\)\(\backslash\)"{}})\ +\ 1);}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ std::string\ extension\ =\ filename.substr(filename.find\_last\_of(\textcolor{stringliteral}{"{}."{}})\ +\ 1);}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ create\ file\ meta}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_file_meta}{FileMeta}}\ meta;}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ meta.\mbox{\hyperlink{class_atlas_1_1_file_meta_aab605a9768425bafb1eb1071c3a2b674}{path}}\ =\ path;}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ meta.\mbox{\hyperlink{class_atlas_1_1_file_meta_a3ada7360e1dc36940f5ea3a997519ff3}{filename}}\ =\ filename;}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ meta.\mbox{\hyperlink{class_atlas_1_1_file_meta_a7fb1ecce503c0ee850d4ecc3ed308733}{extension}}\ =\ extension;}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ file\ index}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ uint16\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}}\ =\ GetNextFileIndex();}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ add\ to\ configLookup\ table}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ this-\/>mLookupTable[meta.\mbox{\hyperlink{class_atlas_1_1_file_meta_aab605a9768425bafb1eb1071c3a2b674}{path}}]\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}};}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ this-\/>mLookupTable[meta.\mbox{\hyperlink{class_atlas_1_1_file_meta_a3ada7360e1dc36940f5ea3a997519ff3}{filename}}]\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}};}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ this-\/>mLookupTable[meta.\mbox{\hyperlink{class_atlas_1_1_file_meta_a7fb1ecce503c0ee850d4ecc3ed308733}{extension}}]\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}};}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Register\ file}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ this-\/>mFileMetaRegistry[\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}}]\ =\ std::make\_shared<FileMeta>(meta);}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ this-\/>mRegisteredFiles[\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}}]\ =\ std::make\_shared<RegisteredFile>(std::make\_shared<FileMeta>(meta));}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>mLoadOnRegisterExtensionsSet.contains(extension))\ \{}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a54252bda23d0a8c8190f7da6703cd356}{loadFile}}(this-\/>mRegisteredFiles[\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}}]);}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ std::string\ output\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ output\ =\ std::format(\textcolor{stringliteral}{"{}File\ with\ index[\{\}],\ named:\ \{\}\ with\ an\ extension\ of\ \{\}\ was\ registered"{}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}},\ filename,\ path,\ extension);}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(output,\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a2d3e4144aa384b18849ab9a8abad74d6}{ELogLevel::TRACE}});}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00056}00056\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00057}00057\ \}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00059}\mbox{\hyperlink{class_atlas_1_1_file_system_registry_a917d5ab715847a8a2f9c38abdedfc0f7}{00059}}\ std::shared\_ptr<Atlas::FileMeta>\ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a917d5ab715847a8a2f9c38abdedfc0f7}{Atlas::FileSystemRegistry::GetFileMeta}}(std::string\ \textcolor{keyword}{const}\&\ key)}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00060}00060\ \{}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00061}00061\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}}\ =\ this-\/>mLookupTable[key];}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>mFileMetaRegistry[\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}}];}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00064}00064\ \}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00071}\mbox{\hyperlink{class_atlas_1_1_file_system_registry_a54252bda23d0a8c8190f7da6703cd356}{00071}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a54252bda23d0a8c8190f7da6703cd356}{Atlas::FileSystemRegistry::loadFile}}(std::shared\_ptr<RegisteredFile>\ file)\ \{}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00072}00072\ \ \ \ \ std::scoped\_lock\ lock(file-\/>getLoadMutex());}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00073}00073\ \ \ \ \ std::shared\_ptr<FileMeta>\ fileMeta\ =\ file-\/>getFileMeta();}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00075}00075\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Loading\ file:\ "{}}\ +\ fileMeta-\/>filename\ +\ \textcolor{stringliteral}{"{}\ ("{}}\ +\ fileMeta-\/>extension\ +\ \textcolor{stringliteral}{"{})"{}},\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a2d3e4144aa384b18849ab9a8abad74d6}{ELogLevel::TRACE}});}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00076}00076\ \ \ \ \ std::function<std::any(std::shared\_ptr<FileMeta>)>\ loadFunc\ =\ mLoadingFunctions.at(fileMeta-\/>extension);}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00078}00078\ \ \ \ \ file-\/>mFileData\ =\ loadFunc(fileMeta);}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00080}00080\ \ \ \ \ file-\/>mIsLoaded\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00081}00081\ \}}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00089}\mbox{\hyperlink{class_atlas_1_1_file_system_registry_a148cbf55e8644d0e33dabdbbecd12fb2}{00089}}\ std::shared\_ptr<Atlas::RegisteredFile>\ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a148cbf55e8644d0e33dabdbbecd12fb2}{Atlas::FileSystemRegistry::getFile}}(std::string\ key,\ \textcolor{keywordtype}{bool}\ loadIfNotLoaded)\ \{}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00090}00090\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}}\ =\ this-\/>mLookupTable[key];}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00091}00091\ \ \ \ \ std::shared\_ptr<RegisteredFile>\ file\ =\ this-\/>mRegisteredFiles[\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}}];}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00093}00093\ \ \ \ \ \textcolor{keywordflow}{if}\ (loadIfNotLoaded\ \&\&\ !file-\/>mIsLoaded)\ this-\/>loadFile(file);}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00095}00095\ \ \ \ \ \textcolor{keywordflow}{return}\ file;}
+\DoxyCodeLine{\Hypertarget{_file_system_registry_8cpp_source_l00096}00096\ \}}
+
+\end{DoxyCode}

@@ -1,5 +1,5 @@
 var engine_8h =
 [
-    [ "Techstorm::EngineConfig", "de/d6a/struct_techstorm_1_1_engine_config.html", null ],
-    [ "Techstorm::TechstormEngine", "d0/de6/class_techstorm_1_1_techstorm_engine.html", "d0/de6/class_techstorm_1_1_techstorm_engine" ]
+    [ "Atlas::EngineConfig", "d7/d1a/struct_atlas_1_1_engine_config.html", null ],
+    [ "Atlas::TechstormEngine", "d3/db6/class_atlas_1_1_techstorm_engine.html", "d3/db6/class_atlas_1_1_techstorm_engine" ]
 ];

@@ -5,8 +5,70 @@
 {\ttfamily \#include $<$exception$>$}\newline
 {\ttfamily \#include $<$stdexcept$>$}\newline
 {\ttfamily \#include $<$source\+\_\+location$>$}\newline
+{\ttfamily \#include "{}Logging.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_i_exception}{Atlas\+::\+IException}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_invalid_value}{Atlas\+::\+Invalid\+Value}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_invalid_argument}{Atlas\+::\+Invalid\+Argument}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1abstract}{Atlas\+::abstract$<$ Console\+Sink $>$}}
+\begin{DoxyCompactList}\small\item\em Represents a base abstract class for errors. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_i_o_failure}{Atlas\+::\+File\+IOFailure}}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
-namespace \mbox{\hyperlink{namespace_techstorm}{Techstorm}}
+namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_errors_8h_a94e83f953b01de09fc08847da4e4a76e}{ATLAS\+\_\+\+DEFAULT\+\_\+\+EXCEPTION\+\_\+\+CONSTRUCTOR}}(exception\+Type)~ exception\+Type(std\+::string const\& message, std\+::source\+\_\+location location = std\+::source\+\_\+location\+::current()) \+: IException(message, location) \{\}
+\item 
+\#define \mbox{\hyperlink{_errors_8h_ab5d89f95636e7973e05279f614f38085}{ATLAS\+\_\+\+CHILD\+\_\+\+EXCEPTION\+\_\+\+CONSTRUCTOR}}(exception\+Type,  base\+Type)~ exception\+Type(std\+::string const\& message, std\+::source\+\_\+location location = std\+::source\+\_\+location\+::current()) \+: base\+Type(message, location) \{\}
+\item 
+\#define \mbox{\hyperlink{_errors_8h_a7932c37ac7d99b2c1291062b5b9bd663}{ATLAS\+\_\+\+DEFAULT\+\_\+\+EXCEPTION\+\_\+\+BODY}}(exception\+Type)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_errors_8h_ab5d89f95636e7973e05279f614f38085}\label{_errors_8h_ab5d89f95636e7973e05279f614f38085} 
+\index{Errors.h@{Errors.h}!ATLAS\_CHILD\_EXCEPTION\_CONSTRUCTOR@{ATLAS\_CHILD\_EXCEPTION\_CONSTRUCTOR}}
+\index{ATLAS\_CHILD\_EXCEPTION\_CONSTRUCTOR@{ATLAS\_CHILD\_EXCEPTION\_CONSTRUCTOR}!Errors.h@{Errors.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_CHILD\_EXCEPTION\_CONSTRUCTOR}{ATLAS\_CHILD\_EXCEPTION\_CONSTRUCTOR}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+CHILD\+\_\+\+EXCEPTION\+\_\+\+CONSTRUCTOR(\begin{DoxyParamCaption}\item[{}]{exception\+Type,  }\item[{}]{base\+Type }\end{DoxyParamCaption})~ exception\+Type(std\+::string const\& message, std\+::source\+\_\+location location = std\+::source\+\_\+location\+::current()) \+: base\+Type(message, location) \{\}}
+
+
+
+Definition at line \mbox{\hyperlink{_errors_8h_source_l00013}{13}} of file \mbox{\hyperlink{_errors_8h_source}{Errors.\+h}}.
+
+\Hypertarget{_errors_8h_a7932c37ac7d99b2c1291062b5b9bd663}\label{_errors_8h_a7932c37ac7d99b2c1291062b5b9bd663} 
+\index{Errors.h@{Errors.h}!ATLAS\_DEFAULT\_EXCEPTION\_BODY@{ATLAS\_DEFAULT\_EXCEPTION\_BODY}}
+\index{ATLAS\_DEFAULT\_EXCEPTION\_BODY@{ATLAS\_DEFAULT\_EXCEPTION\_BODY}!Errors.h@{Errors.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_DEFAULT\_EXCEPTION\_BODY}{ATLAS\_DEFAULT\_EXCEPTION\_BODY}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+DEFAULT\+\_\+\+EXCEPTION\+\_\+\+BODY(\begin{DoxyParamCaption}\item[{}]{exception\+Type }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{_errors_8h_a94e83f953b01de09fc08847da4e4a76e}{ATLAS\_DEFAULT\_EXCEPTION\_CONSTRUCTOR}}(exceptionType)\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ what()\ const\ noexcept\textcolor{keyword}{\ override\ }\{\ \textcolor{keywordflow}{return}\ this-\/>mMessage.c\_str();\ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{_errors_8h_source_l00016}{16}} of file \mbox{\hyperlink{_errors_8h_source}{Errors.\+h}}.
+
+\Hypertarget{_errors_8h_a94e83f953b01de09fc08847da4e4a76e}\label{_errors_8h_a94e83f953b01de09fc08847da4e4a76e} 
+\index{Errors.h@{Errors.h}!ATLAS\_DEFAULT\_EXCEPTION\_CONSTRUCTOR@{ATLAS\_DEFAULT\_EXCEPTION\_CONSTRUCTOR}}
+\index{ATLAS\_DEFAULT\_EXCEPTION\_CONSTRUCTOR@{ATLAS\_DEFAULT\_EXCEPTION\_CONSTRUCTOR}!Errors.h@{Errors.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_DEFAULT\_EXCEPTION\_CONSTRUCTOR}{ATLAS\_DEFAULT\_EXCEPTION\_CONSTRUCTOR}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+DEFAULT\+\_\+\+EXCEPTION\+\_\+\+CONSTRUCTOR(\begin{DoxyParamCaption}\item[{}]{exception\+Type }\end{DoxyParamCaption})~ exception\+Type(std\+::string const\& message, std\+::source\+\_\+location location = std\+::source\+\_\+location\+::current()) \+: IException(message, location) \{\}}
+
+
+
+Definition at line \mbox{\hyperlink{_errors_8h_source_l00010}{10}} of file \mbox{\hyperlink{_errors_8h_source}{Errors.\+h}}.
+

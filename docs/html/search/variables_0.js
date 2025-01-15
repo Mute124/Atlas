@@ -1,27 +1,5 @@
 var searchData=
 [
-  ['a_0',['a',['../da/d5f/struct_vk_component_mapping.html#ad04aa02c0b98452ce358f4cb89fe607a',1,'VkComponentMapping']]],
-  ['addressmodeu_1',['addressModeU',['../d1/d93/struct_vk_sampler_create_info.html#a2d9ee9fbd02413be549ddbfdd6695361',1,'VkSamplerCreateInfo']]],
-  ['addressmodev_2',['addressModeV',['../d1/d93/struct_vk_sampler_create_info.html#ae511ebda6058b624351172f70053073a',1,'VkSamplerCreateInfo']]],
-  ['addressmodew_3',['addressModeW',['../d1/d93/struct_vk_sampler_create_info.html#aad05e079159aff762c040f4dc818b0f7',1,'VkSamplerCreateInfo']]],
-  ['alignment_4',['alignment',['../d5/dd4/struct_vma_virtual_allocation_create_info.html#a9d19709872fc1904a105079e1c885821',1,'VmaVirtualAllocationCreateInfo::alignment'],['../d0/dca/struct_vk_memory_requirements.html#ae62c6de395ea295132c8553d145b04a7',1,'VkMemoryRequirements::alignment']]],
-  ['allocationbytes_5',['allocationBytes',['../df/d03/struct_vma_statistics.html#a21db06eba3422f87a2b4b4703d879c16',1,'VmaStatistics']]],
-  ['allocationcount_6',['allocationCount',['../df/d03/struct_vma_statistics.html#ab0ff76e50f58f9f54b6f265e5bf5dde2',1,'VmaStatistics']]],
-  ['allocationsize_7',['allocationSize',['../d5/d09/struct_vk_memory_allocate_info.html#a75e3b738318f8247395f02ea9d6a22ad',1,'VkMemoryAllocateInfo']]],
-  ['allocationsizemax_8',['allocationSizeMax',['../d0/d5a/struct_vma_detailed_statistics.html#a06b2add24eed3449a66ff151979a0201',1,'VmaDetailedStatistics']]],
-  ['allocationsizemin_9',['allocationSizeMin',['../d0/d5a/struct_vma_detailed_statistics.html#a6fb397e7487e10f2a52e241577d2a2b8',1,'VmaDetailedStatistics']]],
-  ['allocationsmoved_10',['allocationsMoved',['../de/d15/struct_vma_defragmentation_stats.html#aefeabf130022008eadd75999478af3f9',1,'VmaDefragmentationStats']]],
-  ['alphablendop_11',['alphaBlendOp',['../de/d50/struct_vk_pipeline_color_blend_attachment_state.html#a35d07872610f4794eaba5cfdfb8fde7d',1,'VkPipelineColorBlendAttachmentState']]],
-  ['alphatocoverageenable_12',['alphaToCoverageEnable',['../de/dcb/struct_vk_pipeline_multisample_state_create_info.html#afe18db48a4bc07295e3cbeee7505f6f8',1,'VkPipelineMultisampleStateCreateInfo']]],
-  ['alphatoone_13',['alphaToOne',['../d2/d91/struct_vk_physical_device_features.html#a8a33d3e61e7989fe510f2f86430da8e6',1,'VkPhysicalDeviceFeatures']]],
-  ['alphatooneenable_14',['alphaToOneEnable',['../de/dcb/struct_vk_pipeline_multisample_state_create_info.html#a669f26ac42c5c15ac509436f855fe2eb',1,'VkPipelineMultisampleStateCreateInfo']]],
-  ['anisotropyenable_15',['anisotropyEnable',['../d1/d93/struct_vk_sampler_create_info.html#a36ea3423f9f13f1c81225afaf1d7ad36',1,'VkSamplerCreateInfo']]],
-  ['apiversion_16',['apiversion',['../d5/d44/struct_vk_application_info.html#a800383dc7646476e4277233a1a541bca',1,'VkApplicationInfo::apiVersion'],['../dd/d97/struct_vk_physical_device_properties.html#a2d58614618bc123f6983fe12e1a23597',1,'VkPhysicalDeviceProperties::apiVersion']]],
-  ['applicationversion_17',['applicationVersion',['../d5/d44/struct_vk_application_info.html#ab3743deffa7b138d9bf5f0527645341a',1,'VkApplicationInfo']]],
-  ['arraylayer_18',['arrayLayer',['../d9/d1e/struct_vk_image_subresource.html#a1a2582770739a46c0678c934c17de095',1,'VkImageSubresource']]],
-  ['arraylayers_19',['arrayLayers',['../dc/d64/struct_vk_image_create_info.html#a844cb4fcd6af3b0f1249342a1e603b2a',1,'VkImageCreateInfo']]],
-  ['arraypitch_20',['arrayPitch',['../df/d58/struct_vk_subresource_layout.html#afb883c6c3bbe6339cc7c6f6d180ae8cc',1,'VkSubresourceLayout']]],
-  ['aspectmask_21',['aspectmask',['../d1/d91/struct_vk_sparse_image_format_properties.html#a312bc4237d24b81a0b809d1ef7ecefc6',1,'VkSparseImageFormatProperties::aspectMask'],['../d9/d1e/struct_vk_image_subresource.html#ad0fb37309dd78d768dad5b8f945951fe',1,'VkImageSubresource::aspectMask'],['../d1/d2a/struct_vk_image_subresource_layers.html#ada4d12a99e57d6ff1e6d1464d5e2ec3f',1,'VkImageSubresourceLayers::aspectMask'],['../dc/d07/struct_vk_image_subresource_range.html#adf4f707b0407e8147be0152ab8d44324',1,'VkImageSubresourceRange::aspectMask'],['../d2/d7c/struct_vk_clear_attachment.html#a1029be172b8021b61ec3464b8e6dc347',1,'VkClearAttachment::aspectMask']]],
-  ['attachment_22',['attachment',['../de/d66/struct_vk_attachment_reference.html#a11ddafaa646cdedf16254e6319f86089',1,'VkAttachmentReference']]],
-  ['attachmentcount_23',['attachmentcount',['../da/d74/struct_vk_pipeline_color_blend_state_create_info.html#afb8e8f954933b9b36265b526d326cfba',1,'VkPipelineColorBlendStateCreateInfo::attachmentCount'],['../d5/df4/struct_vk_render_pass_create_info.html#a39b5bef7323f26ea83f0411f8f205d9f',1,'VkRenderPassCreateInfo::attachmentCount'],['../d2/d7f/struct_vk_framebuffer_create_info.html#af9499c8719de035be241f965d2e3adbe',1,'VkFramebufferCreateInfo::attachmentCount']]]
+  ['_5fimerect_0',['_imeRect',['../d5/d57/imgui__impl__osx_8mm.html#acbb5da7ccff4ce29dc47d54084ffbbf6',1,'imgui_impl_osx.mm']]],
+  ['_5fposy_1',['_posY',['../d5/d57/imgui__impl__osx_8mm.html#aac039e5cfe18e6601b5c82eb5140d7ae',1,'imgui_impl_osx.mm']]]
 ];

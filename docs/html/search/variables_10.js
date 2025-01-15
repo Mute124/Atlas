@@ -1,28 +1,5 @@
 var searchData=
 [
-  ['r_0',['r',['../da/d5f/struct_vk_component_mapping.html#acd5dbc4710f8c2f0c0802757477b69d0',1,'VkComponentMapping']]],
-  ['range_1',['range',['../d2/d0c/struct_vk_descriptor_buffer_info.html#a029157154254f5e5f5222d37ba7cf53e',1,'VkDescriptorBufferInfo::range'],['../dd/d56/struct_vk_buffer_view_create_info.html#a9b654ebb0e7b10ea6b50b42c07187aac',1,'VkBufferViewCreateInfo::range']]],
-  ['rasterizationsamples_2',['rasterizationSamples',['../de/dcb/struct_vk_pipeline_multisample_state_create_info.html#a636af1c4d51989c77314a8998e7bed1c',1,'VkPipelineMultisampleStateCreateInfo']]],
-  ['rasterizerdiscardenable_3',['rasterizerDiscardEnable',['../d6/d2a/struct_vk_pipeline_rasterization_state_create_info.html#a059aa1f1cfe44fbf434491dafb811a2d',1,'VkPipelineRasterizationStateCreateInfo']]],
-  ['rect_4',['rect',['../d6/ded/struct_vk_clear_rect.html#a64234948e35c29adca91bdf9a8f9d06f',1,'VkClearRect']]],
-  ['ref_5',['ref',['../d3/d22/struct_render_interface___backward_compatible___g_l3_1_1_g_l_state_backup_1_1_stencil.html#a295cd6f96cae81e035e6881c4138fde8',1,'RenderInterface_BackwardCompatible_GL3::GLStateBackup::Stencil::ref'],['../de/dd7/struct_render_interface___g_l3_1_1_g_l_state_backup_1_1_stencil.html#a79a6e8d49bdd360ec6bbd9a8ec138760',1,'RenderInterface_GL3::GLStateBackup::Stencil::ref']]],
-  ['reference_6',['reference',['../da/df7/struct_vk_stencil_op_state.html#a9737f13358cb52b40712f492b51c3d6b',1,'VkStencilOpState']]],
-  ['render_5fcontext_7',['render_context',['../d6/d97/struct_backend_data.html#a4949e5c2a6cc3d543bfc6d2c50cd0ab2',1,'BackendData']]],
-  ['render_5finterface_8',['render_interface',['../d6/d97/struct_backend_data.html#a5ddf0c745edc324e046955c8ad1e775c',1,'BackendData::render_interface'],['../d6/d97/struct_backend_data.html#ac135b3c49369af0da10ed89dbac81a78',1,'BackendData::render_interface'],['../d6/d97/struct_backend_data.html#a76e698495f1f84f2039124a5f3798c33',1,'BackendData::render_interface'],['../d6/d97/struct_backend_data.html#a8e030b5bb12df3ce8f9cab0d0988ee1c',1,'BackendData::render_interface'],['../d6/d97/struct_backend_data.html#a0640d26412d9aae9fd117badaad24c0b',1,'BackendData::render_interface'],['../d6/d97/struct_backend_data.html#a9dec41e01ad454a9cf0450df8853ce57',1,'BackendData::render_interface'],['../d6/d97/struct_backend_data.html#a3c654b58c4f4ad12ec8a0596e3321db3',1,'BackendData::render_interface'],['../d6/d97/struct_backend_data.html#ac31875e54489d86d55eb9b3b8b34d72e',1,'BackendData::render_interface'],['../d6/d97/struct_backend_data.html#aeebb8fb973ec64204ca64b800acafe1d',1,'BackendData::render_interface']]],
-  ['renderarea_9',['renderArea',['../df/d58/struct_vk_render_pass_begin_info.html#a385a2e3de27462c1c4174c354e1d0170',1,'VkRenderPassBeginInfo']]],
-  ['renderer_10',['renderer',['../d6/d97/struct_backend_data.html#ad20509fa8e85e1a68a064d065dba962d',1,'BackendData::renderer'],['../d0/de6/class_techstorm_1_1_techstorm_engine.html#aafd9794d40326e8082a46636b4983d88',1,'Techstorm::TechstormEngine::renderer']]],
-  ['renderpass_11',['renderpass',['../da/d19/struct_vk_graphics_pipeline_create_info.html#a8b14244a77f916e86e398ea8f1dde687',1,'VkGraphicsPipelineCreateInfo::renderPass'],['../d9/dd4/struct_vk_command_buffer_inheritance_info.html#a0b262cf04f4ab41ee25d88348379e992',1,'VkCommandBufferInheritanceInfo::renderPass'],['../df/d58/struct_vk_render_pass_begin_info.html#af89f190cbaa1194e8ebb3153a67d8111',1,'VkRenderPassBeginInfo::renderPass'],['../d2/d7f/struct_vk_framebuffer_create_info.html#a271936b6baf69250d357e4b955a3da7b',1,'VkFramebufferCreateInfo::renderPass']]],
-  ['requiredflags_12',['requiredFlags',['../da/d54/struct_vma_allocation_create_info.html#a9166390303ff42d783305bc31c2b6b90',1,'VmaAllocationCreateInfo']]],
-  ['residencyalignedmipsize_13',['residencyAlignedMipSize',['../df/db9/struct_vk_physical_device_sparse_properties.html#ab1dd4fd9abf91c21992c5a18e05c7111',1,'VkPhysicalDeviceSparseProperties']]],
-  ['residencynonresidentstrict_14',['residencyNonResidentStrict',['../df/db9/struct_vk_physical_device_sparse_properties.html#abbeb0cb585130caf26ec47b5406db5e8',1,'VkPhysicalDeviceSparseProperties']]],
-  ['residencystandard2dblockshape_15',['residencyStandard2DBlockShape',['../df/db9/struct_vk_physical_device_sparse_properties.html#aaf62693de6013ac9e2821f4dcdca1eea',1,'VkPhysicalDeviceSparseProperties']]],
-  ['residencystandard2dmultisampleblockshape_16',['residencyStandard2DMultisampleBlockShape',['../df/db9/struct_vk_physical_device_sparse_properties.html#aeca602765ecea32a2d362d6a9a4bb0a3',1,'VkPhysicalDeviceSparseProperties']]],
-  ['residencystandard3dblockshape_17',['residencyStandard3DBlockShape',['../df/db9/struct_vk_physical_device_sparse_properties.html#a08c966029f937288f5bdf1ae79f26b3f',1,'VkPhysicalDeviceSparseProperties']]],
-  ['resourceoffset_18',['resourceOffset',['../dd/d0a/struct_vk_sparse_memory_bind.html#a2abea1b403e86538e052e2f583d7476c',1,'VkSparseMemoryBind']]],
-  ['robustbufferaccess_19',['robustBufferAccess',['../d2/d91/struct_vk_physical_device_features.html#a895a95d199c62053e976f1b7d805f77e',1,'VkPhysicalDeviceFeatures']]],
-  ['rotation_20',['rotation',['../d0/dd1/class_game_object.html#ae2d2785c50d645a728cee32be422cf85',1,'GameObject']]],
-  ['rotationangle_21',['rotationAngle',['../d6/d34/class_techstorm_1_1abstract.html#a4579f8a2409ba917291c4892f784e82d',1,'Techstorm::abstract']]],
-  ['rotationaxis_22',['rotationAxis',['../d6/d34/class_techstorm_1_1abstract.html#aa194976991e491e2a79b438fc9fe39ab',1,'Techstorm::abstract']]],
-  ['rowpitch_23',['rowPitch',['../df/d58/struct_vk_subresource_layout.html#a2c9df38ae9d4efbb242aff3635a1f1df',1,'VkSubresourceLayout']]],
-  ['running_24',['running',['../d6/d97/struct_backend_data.html#a10431090486eea0b0bf68da765eb3d7d',1,'BackendData']]]
+  ['queue_0',['Queue',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a43144f43d4eeb25a5230a55a1cea2bd4',1,'ImGui_ImplVulkan_InitInfo']]],
+  ['queuefamily_1',['QueueFamily',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a51c934190a99b91180bf95ce56a36407',1,'ImGui_ImplVulkan_InitInfo']]]
 ];

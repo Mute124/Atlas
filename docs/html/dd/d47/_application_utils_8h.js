@@ -1,9 +1,8 @@
 var _application_utils_8h =
 [
-    [ "GameThreadInfo", "dd/d47/_application_utils_8h.html#a6079db1af199dffb61f0c4f8bbe4056e", null ],
-    [ "CalculateGameThreadInfo", "dd/d47/_application_utils_8h.html#a759f35ccfa739ce1d7d79802f5f48a65", null ],
-    [ "DecorateWindow", "dd/d47/_application_utils_8h.html#accf966b138c767185d29915a5539d659", null ],
-    [ "RunPhysicsThread", "dd/d47/_application_utils_8h.html#a72f0e2e4e62f79edf52aa7b2e194b6e5", null ],
-    [ "RunUpdateThread", "dd/d47/_application_utils_8h.html#aa5bdf069f51cdb0b45fd01483c6adcb3", null ],
-    [ "RunWorkerThread", "dd/d47/_application_utils_8h.html#adaf00a8bc9f15007aac233a1f915990b", null ]
+    [ "Atlas::Application::FrameManager", "dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html", "dd/d1c/class_atlas_1_1_application_1_1_frame_manager" ],
+    [ "ATLAS_THREAD_YIELD", "dd/d47/_application_utils_8h.html#a3711f4a8c8c046e940934d2e00b53c2b", null ],
+    [ "GameThreadInfo", "dd/d47/_application_utils_8h.html#a84192df2b516294cdb53601117c24fff", null ],
+    [ "CalculateGameThreadInfo", "dd/d47/_application_utils_8h.html#a300ee1ee66363243a98010a32b32ad66", null ],
+    [ "DecorateWindow", "dd/d47/_application_utils_8h.html#a7d116b9123d4ff1bb571b9cc48996a4c", null ]
 ];

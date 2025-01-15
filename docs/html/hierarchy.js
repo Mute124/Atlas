@@ -1,310 +1,207 @@
 var hierarchy =
 [
     [ "AllocatedPhysicsResources", "dc/d25/struct_allocated_physics_resources.html", null ],
-    [ "Techstorm::AllocatedPhysicsResources", "d5/d91/struct_techstorm_1_1_allocated_physics_resources.html", null ],
-    [ "BackendData", "d6/d97/struct_backend_data.html", null ],
+    [ "Atlas::AllocatedPhysicsResources", "df/df6/struct_atlas_1_1_allocated_physics_resources.html", null ],
+    [ "Atlas::Application::AtlasApp", "de/d87/class_atlas_1_1_application_1_1_atlas_app.html", null ],
     [ "JPH::BodyActivationListener", null, [
-      [ "MyBodyActivationListener", "d0/d3a/class_my_body_activation_listener.html", null ],
-      [ "Techstorm::MyBodyActivationListener", "dd/dd3/class_techstorm_1_1_my_body_activation_listener.html", null ]
+      [ "Atlas::MyBodyActivationListener", "d4/d38/class_atlas_1_1_my_body_activation_listener.html", null ],
+      [ "MyBodyActivationListener", "d0/d3a/class_my_body_activation_listener.html", null ]
     ] ],
     [ "JPH::BroadPhaseLayerInterface", null, [
-      [ "BPLayerInterfaceImpl", "d9/d49/class_b_p_layer_interface_impl.html", null ],
-      [ "Techstorm::BPLayerInterfaceImpl", "d8/d8c/class_techstorm_1_1_b_p_layer_interface_impl.html", null ]
+      [ "Atlas::BPLayerInterfaceImpl", "db/d4d/class_atlas_1_1_b_p_layer_interface_impl.html", null ],
+      [ "BPLayerInterfaceImpl", "d9/d49/class_b_p_layer_interface_impl.html", null ]
     ] ],
     [ "Chunk", "d7/d58/class_chunk.html", null ],
     [ "CircularMap< T >", "d0/db8/class_circular_map.html", null ],
     [ "CircularMap< Color >", "d0/db8/class_circular_map.html", null ],
     [ "Techstorm::DevTools::SetupTool::CMDLineArgumentsHandler", "d0/d85/class_techstorm_1_1_dev_tools_1_1_setup_tool_1_1_c_m_d_line_arguments_handler.html", null ],
-    [ "CompiledFilter", "df/d66/struct_compiled_filter.html", null ],
-    [ "Gfx::CompiledGeometryData", "d1/da7/struct_gfx_1_1_compiled_geometry_data.html", null ],
-    [ "CompiledShader", "db/de4/struct_compiled_shader.html", null ],
     [ "JPH::ContactListener", null, [
-      [ "MyContactListener", "d3/d3f/class_my_contact_listener.html", null ],
-      [ "Techstorm::ObjectContactListener", "d9/d66/class_techstorm_1_1_object_contact_listener.html", null ]
+      [ "Atlas::ObjectContactListener", "d1/dda/class_atlas_1_1_object_contact_listener.html", null ],
+      [ "MyContactListener", "d3/d3f/class_my_contact_listener.html", null ]
     ] ],
-    [ "Techstorm::EngineConfig", "de/d6a/struct_techstorm_1_1_engine_config.html", null ],
-    [ "Gfx::EnumArray< T, Enum >", "d0/d00/class_gfx_1_1_enum_array.html", null ],
-    [ "Gfx::EnumArray< GLuint, FragShaderId >", "d0/d00/class_gfx_1_1_enum_array.html", null ],
-    [ "Gfx::EnumArray< GLuint, ProgramId >", "d0/d00/class_gfx_1_1_enum_array.html", null ],
-    [ "Gfx::EnumArray< GLuint, VertShaderId >", "d0/d00/class_gfx_1_1_enum_array.html", null ],
-    [ "Techstorm::ExportedFunction", "da/d2c/struct_techstorm_1_1_exported_function.html", null ],
+    [ "Atlas::ContactListenerGateParams", "d9/ddf/struct_atlas_1_1_contact_listener_gate_params.html", null ],
+    [ "CUSTOMVERTEX", "d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html", null ],
+    [ "Atlas::EngineConfig", "d7/d1a/struct_atlas_1_1_engine_config.html", null ],
+    [ "Atlas::Entity", "d4/d48/class_atlas_1_1_entity.html", null ],
+    [ "std::exception", null, [
+      [ "Atlas::IException", "d1/d81/class_atlas_1_1_i_exception.html", [
+        [ "Atlas::InvalidValue", "de/df2/class_atlas_1_1_invalid_value.html", [
+          [ "Atlas::InvalidArgument", "df/d7c/class_atlas_1_1_invalid_argument.html", null ]
+        ] ],
+        [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
+      ] ]
+    ] ],
     [ "Rml::FileInterface", null, [
       [ "ShellFileInterface", "dc/d7b/class_shell_file_interface.html", null ]
     ] ],
-    [ "Techstorm::FileMeta", "d2/d71/class_techstorm_1_1_file_meta.html", null ],
-    [ "Gfx::FragShaderDefinition", "d4/d6d/struct_gfx_1_1_frag_shader_definition.html", null ],
-    [ "Gfx::FramebufferData", "d7/dfb/struct_gfx_1_1_framebuffer_data.html", null ],
-    [ "Techstorm::GameCamera", "d0/db5/class_techstorm_1_1_game_camera.html", null ],
+    [ "Atlas::FileMeta", "d7/d78/class_atlas_1_1_file_meta.html", null ],
+    [ "FrameResources", "da/d55/struct_frame_resources.html", null ],
+    [ "Atlas::GameCamera", "d7/dc3/class_atlas_1_1_game_camera.html", null ],
+    [ "Atlas::GameModel", "df/dec/class_atlas_1_1_game_model.html", null ],
     [ "GameObject", "d0/dd1/class_game_object.html", null ],
-    [ "Techstorm::GameObjectRegistry", "de/dc7/class_techstorm_1_1_game_object_registry.html", null ],
-    [ "Techstorm::Gate< T >", "d6/d46/class_techstorm_1_1_gate.html", null ],
-    [ "Techstorm::Gate< GameObject * >", "d6/d46/class_techstorm_1_1_gate.html", [
-      [ "Techstorm::abstract< K, D, T >", "d6/d34/class_techstorm_1_1abstract.html", null ]
-    ] ],
+    [ "Atlas::GameObjectRegistry", "d1/d4c/class_atlas_1_1_game_object_registry.html", null ],
     [ "Generator", "d0/df5/class_generator.html", null ],
     [ "GridCell", "d4/d3c/struct_grid_cell.html", null ],
-    [ "IGameObject", null, [
-      [ "Techstorm::GameObject", "d4/de0/class_techstorm_1_1_game_object.html", [
-        [ "Techstorm::PlaneObject", "da/d48/class_techstorm_1_1_plane_object.html", null ]
-      ] ],
-      [ "Techstorm::abstract< K, D, T >", "d6/d34/class_techstorm_1_1abstract.html", null ]
+    [ "IConsole", null, [
+      [ "Atlas::Console", "d3/d9f/class_atlas_1_1_console.html", null ]
     ] ],
+    [ "IConsoleSink", null, [
+      [ "Atlas::ConsoleSink", "d7/dd2/class_atlas_1_1_console_sink.html", null ]
+    ] ],
+    [ "IError", null, [
+      [ "Atlas::FileIOFailure", "db/d34/class_atlas_1_1_file_i_o_failure.html", null ]
+    ] ],
+    [ "IGameObject", null, [
+      [ "Atlas::GameObject", "d0/d43/class_atlas_1_1_game_object.html", [
+        [ "Atlas::PlaneObject", "d6/d78/class_atlas_1_1_plane_object.html", null ]
+      ] ],
+      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
+      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
+    ] ],
+    [ "IGate", null, [
+      [ "Atlas::ContactListenerGate", "d8/d75/class_atlas_1_1_contact_listener_gate.html", null ],
+      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
+    ] ],
+    [ "Atlas::IGUIContainer", "d5/d9b/class_atlas_1_1_i_g_u_i_container.html", null ],
     [ "ILayerRegistry", null, [
       [ "Techstorm::LayerRegistry< T >", "db/d5d/class_techstorm_1_1_layer_registry.html", null ]
     ] ],
     [ "RendererExtensions::Image", "df/d67/struct_renderer_extensions_1_1_image.html", null ],
-    [ "Techstorm::InputAction", "d9/d02/class_techstorm_1_1_input_action.html", null ],
-    [ "Techstorm::IProject", null, [
-      [ "Project", "d9/d6e/class_project.html", null ]
+    [ "ImDrawVertAllegro", "db/dae/struct_im_draw_vert_allegro.html", null ],
+    [ "ImGL3WProcs", "d4/d6c/union_im_g_l3_w_procs.html", null ],
+    [ "ImGui_ImplAllegro5_Data", "d4/d33/struct_im_gui___impl_allegro5___data.html", null ],
+    [ "ImGui_ImplDX10_Data", "dd/d9e/struct_im_gui___impl_d_x10___data.html", null ],
+    [ "ImGui_ImplDX11_Data", "d1/d6d/struct_im_gui___impl_d_x11___data.html", null ],
+    [ "ImGui_ImplDX11_RenderState", "db/dbf/struct_im_gui___impl_d_x11___render_state.html", null ],
+    [ "ImGui_ImplDX12_Data", "d3/dcd/struct_im_gui___impl_d_x12___data.html", null ],
+    [ "ImGui_ImplDX12_RenderBuffers", "d4/dc1/struct_im_gui___impl_d_x12___render_buffers.html", null ],
+    [ "ImGui_ImplDX12_RenderState", "d3/db6/struct_im_gui___impl_d_x12___render_state.html", null ],
+    [ "ImGui_ImplDX9_Data", "db/d07/struct_im_gui___impl_d_x9___data.html", null ],
+    [ "ImGui_ImplGlfw_Data", "d5/d6e/struct_im_gui___impl_glfw___data.html", null ],
+    [ "ImGui_ImplMetal_Data", "d0/dda/struct_im_gui___impl_metal___data.html", null ],
+    [ "ImGui_ImplOpenGL2_Data", "d5/d7a/struct_im_gui___impl_open_g_l2___data.html", null ],
+    [ "ImGui_ImplOpenGL3_Data", "dc/d45/struct_im_gui___impl_open_g_l3___data.html", null ],
+    [ "ImGui_ImplOSX_Data", "d2/d61/struct_im_gui___impl_o_s_x___data.html", null ],
+    [ "ImGui_ImplSDL2_Data", "de/d4e/struct_im_gui___impl_s_d_l2___data.html", null ],
+    [ "ImGui_ImplSDL3_Data", "dc/de5/struct_im_gui___impl_s_d_l3___data.html", null ],
+    [ "ImGui_ImplSDLRenderer2_Data", "d1/d05/struct_im_gui___impl_s_d_l_renderer2___data.html", null ],
+    [ "ImGui_ImplSDLRenderer2_RenderState", "da/d7d/struct_im_gui___impl_s_d_l_renderer2___render_state.html", null ],
+    [ "ImGui_ImplSDLRenderer3_Data", "df/d54/struct_im_gui___impl_s_d_l_renderer3___data.html", null ],
+    [ "ImGui_ImplSDLRenderer3_RenderState", "d0/d19/struct_im_gui___impl_s_d_l_renderer3___render_state.html", null ],
+    [ "ImGui_ImplVulkan_Data", "d2/d86/struct_im_gui___impl_vulkan___data.html", null ],
+    [ "ImGui_ImplVulkan_FrameRenderBuffers", "d4/d27/struct_im_gui___impl_vulkan___frame_render_buffers.html", null ],
+    [ "ImGui_ImplVulkan_InitInfo", "de/d2c/struct_im_gui___impl_vulkan___init_info.html", null ],
+    [ "ImGui_ImplVulkan_RenderState", "d6/db6/struct_im_gui___impl_vulkan___render_state.html", null ],
+    [ "ImGui_ImplVulkan_WindowRenderBuffers", "d4/d6d/struct_im_gui___impl_vulkan___window_render_buffers.html", null ],
+    [ "ImGui_ImplVulkanH_Frame", "d6/df7/struct_im_gui___impl_vulkan_h___frame.html", null ],
+    [ "ImGui_ImplVulkanH_FrameSemaphores", "d5/d82/struct_im_gui___impl_vulkan_h___frame_semaphores.html", null ],
+    [ "ImGui_ImplVulkanH_Window", "de/d27/struct_im_gui___impl_vulkan_h___window.html", null ],
+    [ "ImGui_ImplWGPU_Data", "df/d96/struct_im_gui___impl_w_g_p_u___data.html", null ],
+    [ "ImGui_ImplWGPU_InitInfo", "dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html", null ],
+    [ "ImGui_ImplWGPU_RenderState", "da/d0a/struct_im_gui___impl_w_g_p_u___render_state.html", null ],
+    [ "ImGui_ImplWin32_Data", "d5/d71/struct_im_gui___impl_win32___data.html", null ],
+    [ "Atlas::InputAction", "d6/d5c/class_atlas_1_1_input_action.html", null ],
+    [ "Atlas::IProject", null, [
+      [ "Project", "d9/d6e/class_project.html", null ],
+      [ "SamplesProject", "dc/dc3/class_samples_project.html", null ]
     ] ],
+    [ "ITerminalSink", null, [
+      [ "Atlas::TerminalSink", "d9/dbb/class_atlas_1_1_terminal_sink.html", null ]
+    ] ],
+    [ "Atlas::JSONFile", "d8/dc8/class_atlas_1_1_j_s_o_n_file.html", null ],
+    [ "Atlas::Language", "d4/d6b/class_atlas_1_1_language.html", null ],
+    [ "Atlas::LoggerConfig", "d5/d0c/struct_atlas_1_1_logger_config.html", null ],
     [ "MarchingCubes", "dc/dbe/class_marching_cubes.html", null ],
-    [ "Techstorm::Mod", "d3/d3c/class_techstorm_1_1_mod.html", null ],
-    [ "Techstorm::ModLoader", "da/d6d/class_techstorm_1_1_mod_loader.html", null ],
+    [ "Atlas::MemoryStatus", "dc/da5/class_atlas_1_1_memory_status.html", null ],
+    [ "Atlas::Mod", "df/d6e/class_atlas_1_1_mod.html", null ],
+    [ "Atlas::ModLoader", "d9/dc9/class_atlas_1_1_mod_loader.html", null ],
+    [ "Atlas::ModManager", "d8/d41/class_atlas_1_1_mod_manager.html", null ],
+    [ "<NSCopying>", null, [
+      [ "FramebufferDescriptor", "d6/d1f/interface_framebuffer_descriptor.html", null ]
+    ] ],
+    [ "NSCursor()", "d7/dd9/category_n_s_cursor_07_08.html", null ],
+    [ "NSObject", null, [
+      [ "FramebufferDescriptor", "d6/d1f/interface_framebuffer_descriptor.html", null ],
+      [ "ImGuiObserver", "df/d35/interface_im_gui_observer.html", null ],
+      [ "MetalBuffer", "dc/d2d/interface_metal_buffer.html", null ],
+      [ "MetalContext", "d4/dae/interface_metal_context.html", null ]
+    ] ],
+    [ "<NSTextInputClient>", null, [
+      [ "KeyEventResponder", "d9/d62/interface_key_event_responder.html", null ]
+    ] ],
+    [ "NSView", null, [
+      [ "KeyEventResponder", "d9/d62/interface_key_event_responder.html", null ]
+    ] ],
     [ "JPH::ObjectLayerPairFilter", null, [
-      [ "ObjectLayerPairFilterImpl", "de/d9a/class_object_layer_pair_filter_impl.html", null ],
-      [ "Techstorm::ObjectLayerPairFilterImpl", "d9/d0b/class_techstorm_1_1_object_layer_pair_filter_impl.html", null ]
+      [ "Atlas::ObjectLayerPairFilterImpl", "d1/dea/class_atlas_1_1_object_layer_pair_filter_impl.html", null ],
+      [ "ObjectLayerPairFilterImpl", "de/d9a/class_object_layer_pair_filter_impl.html", null ]
     ] ],
     [ "JPH::ObjectVsBroadPhaseLayerFilter", null, [
-      [ "ObjectVsBroadPhaseLayerFilterImpl", "d3/d37/class_object_vs_broad_phase_layer_filter_impl.html", null ],
-      [ "Techstorm::ObjectVsBroadPhaseLayerFilterImpl", "d7/d05/class_techstorm_1_1_object_vs_broad_phase_layer_filter_impl.html", null ]
+      [ "Atlas::ObjectVsBroadPhaseLayerFilterImpl", "d2/dcc/class_atlas_1_1_object_vs_broad_phase_layer_filter_impl.html", null ],
+      [ "ObjectVsBroadPhaseLayerFilterImpl", "d3/d37/class_object_vs_broad_phase_layer_filter_impl.html", null ]
     ] ],
     [ "Point", "d8/dc8/struct_point.html", null ],
-    [ "Gfx::ProgramData", "d5/d6b/struct_gfx_1_1_program_data.html", null ],
-    [ "Gfx::ProgramDefinition", "dd/d8f/struct_gfx_1_1_program_definition.html", null ],
-    [ "Techstorm::RegisteredFile", "de/d03/class_techstorm_1_1_registered_file.html", null ],
-    [ "Techstorm::Renderer", "d4/d22/class_techstorm_1_1_renderer.html", null ],
-    [ "Rml::RenderInterface", null, [
-      [ "RenderInterface_GL2", "da/d1f/class_render_interface___g_l2.html", [
-        [ "RenderInterface_GL2_SDL", "da/daf/class_render_interface___g_l2___s_d_l.html", null ],
-        [ "RenderInterface_GL2_SFML", "df/d9e/class_render_interface___g_l2___s_f_m_l.html", null ]
-      ] ],
-      [ "RenderInterface_GL3", "d4/d97/class_render_interface___g_l3.html", [
-        [ "RenderInterface_GL3_SDL", "da/d01/class_render_interface___g_l3___s_d_l.html", null ]
-      ] ],
-      [ "RenderInterface_SDL", "d1/ddd/class_render_interface___s_d_l.html", null ],
-      [ "RenderInterface_VK", "d1/d5b/class_render_interface___v_k.html", null ]
+    [ "Atlas::ReferenceHolder< T >", "d9/d0a/class_atlas_1_1_reference_holder.html", null ],
+    [ "Atlas::RegisteredFile", "d5/d07/class_atlas_1_1_registered_file.html", null ],
+    [ "Atlas::Renderer", "dc/d71/class_atlas_1_1_renderer.html", null ],
+    [ "RenderResources", "d9/d42/struct_render_resources.html", null ],
+    [ "Sample", "d4/d72/class_sample.html", [
+      [ "HelloWorldSample", "d1/d0b/class_hello_world_sample.html", null ]
     ] ],
-    [ "Rml::RenderInterfaceCompatibility", null, [
-      [ "RenderInterface_BackwardCompatible_GL2", "d4/d8a/class_render_interface___backward_compatible___g_l2.html", null ],
-      [ "RenderInterface_BackwardCompatible_GL3", "d2/d9a/class_render_interface___backward_compatible___g_l3.html", null ]
+    [ "SampleGroup", "d4/da6/class_sample_group.html", [
+      [ "BasicSampleGroup", "d5/d6c/class_basic_sample_group.html", null ]
     ] ],
-    [ "Gfx::ShadersData", "d4/dfd/struct_gfx_1_1_shaders_data.html", null ],
-    [ "Techstorm::Singleton< T >", "d5/d55/class_techstorm_1_1_singleton.html", null ],
-    [ "Techstorm::Singleton< ConfigFileRegistry >", "d5/d55/class_techstorm_1_1_singleton.html", [
-      [ "Techstorm::ConfigFileRegistry", "d1/dcb/class_techstorm_1_1_config_file_registry.html", null ]
-    ] ],
-    [ "Techstorm::Singleton< D >", "d5/d55/class_techstorm_1_1_singleton.html", [
+    [ "Atlas::Singleton< T >", "d6/dd4/class_atlas_1_1_singleton.html", null ],
+    [ "Techstorm::Singleton", null, [
+      [ "PhysicsEngine", "db/db4/class_physics_engine.html", null ],
       [ "Techstorm::abstract< K, D, T >", "d6/d34/class_techstorm_1_1abstract.html", null ]
     ] ],
-    [ "Techstorm::Singleton< FileSystemRegistry >", "d5/d55/class_techstorm_1_1_singleton.html", [
-      [ "Techstorm::FileSystemRegistry", "d5/dae/class_techstorm_1_1_file_system_registry.html", null ]
+    [ "Atlas::Singleton< ConfigFileRegistry >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::ConfigFileRegistry", "d3/d1a/class_atlas_1_1_config_file_registry.html", null ]
     ] ],
-    [ "Techstorm::Singleton< GlobalsContainer >", "d5/d55/class_techstorm_1_1_singleton.html", [
-      [ "Techstorm::GlobalsContainer", "d7/d44/class_techstorm_1_1_globals_container.html", null ]
+    [ "Atlas::Singleton< FileSystemRegistry >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::FileSystemRegistry", "d4/de4/class_atlas_1_1_file_system_registry.html", null ]
     ] ],
-    [ "Techstorm::Singleton< InputRegistry >", "d5/d55/class_techstorm_1_1_singleton.html", [
-      [ "Techstorm::InputRegistry", "dc/d16/class_techstorm_1_1_input_registry.html", null ]
+    [ "Atlas::Singleton< FrameManager >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::Application::FrameManager", "dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html", null ]
     ] ],
-    [ "Techstorm::Singleton< PhysicsEngine >", "d5/d55/class_techstorm_1_1_singleton.html", [
-      [ "PhysicsEngine", "db/db4/class_physics_engine.html", null ],
-      [ "Techstorm::PhysicsEngine", "d1/d87/class_techstorm_1_1_physics_engine.html", null ]
+    [ "Atlas::Singleton< Globals >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::Globals", "d0/dfb/class_atlas_1_1_globals.html", null ]
     ] ],
-    [ "Techstorm::Singleton< ProjectReference >", "d5/d55/class_techstorm_1_1_singleton.html", [
-      [ "Techstorm::abstract< K, D, T >::ProjectReference", "db/dc4/class_techstorm_1_1abstract_1_1_project_reference.html", null ]
+    [ "Atlas::Singleton< GlobalsContainer >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::GlobalsContainer", "d6/d6d/class_atlas_1_1_globals_container.html", null ]
     ] ],
-    [ "Techstorm::Singleton< ScriptingAPI >", "d5/d55/class_techstorm_1_1_singleton.html", [
-      [ "Techstorm::ScriptingAPI", "de/d97/class_techstorm_1_1_scripting_a_p_i.html", null ]
+    [ "Atlas::Singleton< InputRegistry >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::InputRegistry", "d7/d84/class_atlas_1_1_input_registry.html", null ]
     ] ],
-    [ "Techstorm::Singleton< TechstormEngine >", "d5/d55/class_techstorm_1_1_singleton.html", [
-      [ "Techstorm::TechstormEngine", "d0/de6/class_techstorm_1_1_techstorm_engine.html", null ]
+    [ "Atlas::Singleton< LocalizationRegistry >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::LocalizationRegistry", "d7/de3/class_atlas_1_1_localization_registry.html", null ]
     ] ],
-    [ "RenderInterface_BackwardCompatible_GL3::GLStateBackup::Stencil", "d3/d22/struct_render_interface___backward_compatible___g_l3_1_1_g_l_state_backup_1_1_stencil.html", null ],
-    [ "RenderInterface_GL3::GLStateBackup::Stencil", "de/dd7/struct_render_interface___g_l3_1_1_g_l_state_backup_1_1_stencil.html", null ],
-    [ "Rml::SystemInterface", null, [
-      [ "SystemInterface_GLFW", "d0/db1/class_system_interface___g_l_f_w.html", null ],
-      [ "SystemInterface_SDL", "d5/da2/class_system_interface___s_d_l.html", null ],
-      [ "SystemInterface_SFML", "da/dbd/class_system_interface___s_f_m_l.html", null ],
-      [ "SystemInterface_Win32", "d1/d8c/class_system_interface___win32.html", null ],
-      [ "SystemInterface_X11", "d9/dd0/class_system_interface___x11.html", null ]
+    [ "Atlas::Singleton< Logger >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::Logger", "df/dca/class_atlas_1_1_logger.html", null ]
+    ] ],
+    [ "Atlas::Singleton< PhysicsEngine >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::PhysicsEngine", "d2/dec/class_atlas_1_1_physics_engine.html", null ]
+    ] ],
+    [ "Atlas::Singleton< ProjectReference >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::abstract< ConsoleSink >::ProjectReference", "dd/d11/class_atlas_1_1abstract_1_1_project_reference.html", null ]
+    ] ],
+    [ "Atlas::Singleton< TechstormEngine >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::TechstormEngine", "d3/db6/class_atlas_1_1_techstorm_engine.html", null ]
     ] ],
     [ "Terrain", "d1/dee/class_terrain.html", null ],
     [ "TerrainSector", "d4/d42/class_terrain_sector.html", null ],
-    [ "Rml::TextInputHandler", null, [
-      [ "TextInputMethodEditor_Win32", "d7/df2/class_text_input_method_editor___win32.html", null ]
-    ] ],
-    [ "TGAHeader", "df/d18/struct_t_g_a_header.html", null ],
     [ "Terrain::TriangleStruct", "da/d89/struct_terrain_1_1_triangle_struct.html", null ],
-    [ "Gfx::Uniforms", "d0/de2/class_gfx_1_1_uniforms.html", null ],
-    [ "Techstorm::Vec2", "d4/d88/struct_techstorm_1_1_vec2.html", null ],
-    [ "Techstorm::Vec3", "d9/db6/struct_techstorm_1_1_vec3.html", null ],
+    [ "Uniforms", "da/d5c/struct_uniforms.html", null ],
+    [ "Atlas::Vec2", "d1/dd9/struct_atlas_1_1_vec2.html", null ],
+    [ "Atlas::Vec3", "df/dca/struct_atlas_1_1_vec3.html", null ],
     [ "Vec3", "df/d8a/struct_vec3.html", null ],
-    [ "Techstorm::Vec4", "dc/d7f/struct_techstorm_1_1_vec4.html", null ],
+    [ "Atlas::Vec4", "d4/d28/struct_atlas_1_1_vec4.html", null ],
+    [ "VERTEX_CONSTANT_BUFFER_DX10", "d0/d75/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x10.html", null ],
+    [ "VERTEX_CONSTANT_BUFFER_DX11", "d8/d09/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x11.html", null ],
+    [ "VERTEX_CONSTANT_BUFFER_DX12", "d2/d16/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12.html", null ],
     [ "VertexContainer", "d0/dbd/struct_vertex_container.html", null ],
-    [ "Gfx::VertShaderDefinition", "df/d6f/struct_gfx_1_1_vert_shader_definition.html", null ],
-    [ "VkAcquireNextImageInfoKHR", "da/d8f/struct_vk_acquire_next_image_info_k_h_r.html", null ],
-    [ "VkAllocationCallbacks", "d1/dae/struct_vk_allocation_callbacks.html", null ],
-    [ "VkApplicationInfo", "d5/d44/struct_vk_application_info.html", null ],
-    [ "VkAttachmentDescription", "df/d5e/struct_vk_attachment_description.html", null ],
-    [ "VkAttachmentReference", "de/d66/struct_vk_attachment_reference.html", null ],
-    [ "VkBaseInStructure", "d2/dc7/struct_vk_base_in_structure.html", null ],
-    [ "VkBaseOutStructure", "d6/d1c/struct_vk_base_out_structure.html", null ],
-    [ "VkBindImageMemorySwapchainInfoKHR", "da/d15/struct_vk_bind_image_memory_swapchain_info_k_h_r.html", null ],
-    [ "VkBindSparseInfo", "dd/de0/struct_vk_bind_sparse_info.html", null ],
-    [ "VkBufferCopy", "dd/d13/struct_vk_buffer_copy.html", null ],
-    [ "VkBufferCreateInfo", "d8/d77/struct_vk_buffer_create_info.html", null ],
-    [ "VkBufferImageCopy", "d7/d46/struct_vk_buffer_image_copy.html", null ],
-    [ "VkBufferMemoryBarrier", "da/dde/struct_vk_buffer_memory_barrier.html", null ],
-    [ "VkBufferViewCreateInfo", "dd/d56/struct_vk_buffer_view_create_info.html", null ],
-    [ "VkClearAttachment", "d2/d7c/struct_vk_clear_attachment.html", null ],
-    [ "VkClearColorValue", "de/df7/union_vk_clear_color_value.html", null ],
-    [ "VkClearDepthStencilValue", "d6/de8/struct_vk_clear_depth_stencil_value.html", null ],
-    [ "VkClearRect", "d6/ded/struct_vk_clear_rect.html", null ],
-    [ "VkClearValue", "d3/dba/union_vk_clear_value.html", null ],
-    [ "VkCommandBufferAllocateInfo", "d3/df0/struct_vk_command_buffer_allocate_info.html", null ],
-    [ "VkCommandBufferBeginInfo", "da/df5/struct_vk_command_buffer_begin_info.html", null ],
-    [ "VkCommandBufferInheritanceInfo", "d9/dd4/struct_vk_command_buffer_inheritance_info.html", null ],
-    [ "VkCommandPoolCreateInfo", "d8/db6/struct_vk_command_pool_create_info.html", null ],
-    [ "VkComponentMapping", "da/d5f/struct_vk_component_mapping.html", null ],
-    [ "VkComputePipelineCreateInfo", "d0/de2/struct_vk_compute_pipeline_create_info.html", null ],
-    [ "VkCopyDescriptorSet", "d3/daf/struct_vk_copy_descriptor_set.html", null ],
-    [ "VkDebugReportCallbackCreateInfoEXT", "d1/de9/struct_vk_debug_report_callback_create_info_e_x_t.html", null ],
-    [ "VkDebugUtilsLabelEXT", "dc/d0d/struct_vk_debug_utils_label_e_x_t.html", null ],
-    [ "VkDebugUtilsMessengerCallbackDataEXT", "d8/dd9/struct_vk_debug_utils_messenger_callback_data_e_x_t.html", null ],
-    [ "VkDebugUtilsMessengerCreateInfoEXT", "d5/dc6/struct_vk_debug_utils_messenger_create_info_e_x_t.html", null ],
-    [ "VkDebugUtilsObjectNameInfoEXT", "d0/d4b/struct_vk_debug_utils_object_name_info_e_x_t.html", null ],
-    [ "VkDebugUtilsObjectTagInfoEXT", "d8/d4a/struct_vk_debug_utils_object_tag_info_e_x_t.html", null ],
-    [ "VkDescriptorBufferInfo", "d2/d0c/struct_vk_descriptor_buffer_info.html", null ],
-    [ "VkDescriptorImageInfo", "dd/dc4/struct_vk_descriptor_image_info.html", null ],
-    [ "VkDescriptorPoolCreateInfo", "d7/d6d/struct_vk_descriptor_pool_create_info.html", null ],
-    [ "VkDescriptorPoolSize", "dc/d0b/struct_vk_descriptor_pool_size.html", null ],
-    [ "VkDescriptorSetAllocateInfo", "d8/d30/struct_vk_descriptor_set_allocate_info.html", null ],
-    [ "VkDescriptorSetLayoutBinding", "dc/d11/struct_vk_descriptor_set_layout_binding.html", null ],
-    [ "VkDescriptorSetLayoutCreateInfo", "de/db0/struct_vk_descriptor_set_layout_create_info.html", null ],
-    [ "VkDeviceCreateInfo", "d1/dcd/struct_vk_device_create_info.html", null ],
-    [ "VkDeviceGroupPresentCapabilitiesKHR", "d2/d03/struct_vk_device_group_present_capabilities_k_h_r.html", null ],
-    [ "VkDeviceGroupPresentInfoKHR", "dd/dc7/struct_vk_device_group_present_info_k_h_r.html", null ],
-    [ "VkDeviceGroupSwapchainCreateInfoKHR", "dd/dbc/struct_vk_device_group_swapchain_create_info_k_h_r.html", null ],
-    [ "VkDeviceQueueCreateInfo", "dc/d8b/struct_vk_device_queue_create_info.html", null ],
-    [ "VkDispatchIndirectCommand", "d0/db8/struct_vk_dispatch_indirect_command.html", null ],
-    [ "VkDrawIndexedIndirectCommand", "db/dc6/struct_vk_draw_indexed_indirect_command.html", null ],
-    [ "VkDrawIndirectCommand", "dd/d7c/struct_vk_draw_indirect_command.html", null ],
-    [ "VkEventCreateInfo", "db/d13/struct_vk_event_create_info.html", null ],
-    [ "VkExtensionProperties", "d7/de0/struct_vk_extension_properties.html", null ],
-    [ "VkExtent2D", "da/d19/struct_vk_extent2_d.html", null ],
-    [ "VkExtent3D", "d1/da5/struct_vk_extent3_d.html", null ],
-    [ "VkFenceCreateInfo", "de/d3e/struct_vk_fence_create_info.html", null ],
-    [ "VkFormatProperties", "d0/d06/struct_vk_format_properties.html", null ],
-    [ "VkFormatProperties2", "d5/d75/struct_vk_format_properties2.html", null ],
-    [ "VkFramebufferCreateInfo", "d2/d7f/struct_vk_framebuffer_create_info.html", null ],
-    [ "VkGraphicsPipelineCreateInfo", "da/d19/struct_vk_graphics_pipeline_create_info.html", null ],
-    [ "VkImageBlit", "d0/d08/struct_vk_image_blit.html", null ],
-    [ "VkImageCopy", "dc/d01/struct_vk_image_copy.html", null ],
-    [ "VkImageCreateInfo", "dc/d64/struct_vk_image_create_info.html", null ],
-    [ "VkImageFormatProperties", "d2/d06/struct_vk_image_format_properties.html", null ],
-    [ "VkImageFormatProperties2", "d9/d20/struct_vk_image_format_properties2.html", null ],
-    [ "VkImageMemoryBarrier", "de/d32/struct_vk_image_memory_barrier.html", null ],
-    [ "VkImageResolve", "da/d07/struct_vk_image_resolve.html", null ],
-    [ "VkImageSubresource", "d9/d1e/struct_vk_image_subresource.html", null ],
-    [ "VkImageSubresourceLayers", "d1/d2a/struct_vk_image_subresource_layers.html", null ],
-    [ "VkImageSubresourceRange", "dc/d07/struct_vk_image_subresource_range.html", null ],
-    [ "VkImageSwapchainCreateInfoKHR", "d4/d8a/struct_vk_image_swapchain_create_info_k_h_r.html", null ],
-    [ "VkImageViewCreateInfo", "d5/d33/struct_vk_image_view_create_info.html", null ],
-    [ "VkInstanceCreateInfo", "d2/db4/struct_vk_instance_create_info.html", null ],
-    [ "VkLayerProperties", "d4/d46/struct_vk_layer_properties.html", null ],
-    [ "VkMappedMemoryRange", "df/deb/struct_vk_mapped_memory_range.html", null ],
-    [ "VkMemoryAllocateInfo", "d5/d09/struct_vk_memory_allocate_info.html", null ],
-    [ "VkMemoryBarrier", "d4/d0f/struct_vk_memory_barrier.html", null ],
-    [ "VkMemoryHeap", "d8/db0/struct_vk_memory_heap.html", null ],
-    [ "VkMemoryRequirements", "d0/dca/struct_vk_memory_requirements.html", null ],
-    [ "VkMemoryType", "d0/d45/struct_vk_memory_type.html", null ],
-    [ "VkOffset2D", "d2/d0d/struct_vk_offset2_d.html", null ],
-    [ "VkOffset3D", "d1/dd1/struct_vk_offset3_d.html", null ],
-    [ "VkPhysicalDeviceFeatures", "d2/d91/struct_vk_physical_device_features.html", null ],
-    [ "VkPhysicalDeviceFeatures2", "db/d1e/struct_vk_physical_device_features2.html", null ],
-    [ "VkPhysicalDeviceImageFormatInfo2", "da/dba/struct_vk_physical_device_image_format_info2.html", null ],
-    [ "VkPhysicalDeviceLimits", "d4/d0c/struct_vk_physical_device_limits.html", null ],
-    [ "VkPhysicalDeviceMemoryProperties", "d0/d5a/struct_vk_physical_device_memory_properties.html", null ],
-    [ "VkPhysicalDeviceMemoryProperties2", "d9/db4/struct_vk_physical_device_memory_properties2.html", null ],
-    [ "VkPhysicalDeviceProperties", "dd/d97/struct_vk_physical_device_properties.html", null ],
-    [ "VkPhysicalDeviceProperties2", "da/d0c/struct_vk_physical_device_properties2.html", null ],
-    [ "VkPhysicalDeviceScalarBlockLayoutFeatures", "d0/dd2/struct_vk_physical_device_scalar_block_layout_features.html", null ],
-    [ "VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures", "de/dc6/struct_vk_physical_device_shader_subgroup_extended_types_features.html", null ],
-    [ "VkPhysicalDeviceSparseImageFormatInfo2", "d9/d57/struct_vk_physical_device_sparse_image_format_info2.html", null ],
-    [ "VkPhysicalDeviceSparseProperties", "df/db9/struct_vk_physical_device_sparse_properties.html", null ],
-    [ "VkPipelineCacheCreateInfo", "d7/dad/struct_vk_pipeline_cache_create_info.html", null ],
-    [ "VkPipelineCacheHeaderVersionOne", "d0/dcc/struct_vk_pipeline_cache_header_version_one.html", null ],
-    [ "VkPipelineColorBlendAttachmentState", "de/d50/struct_vk_pipeline_color_blend_attachment_state.html", null ],
-    [ "VkPipelineColorBlendStateCreateInfo", "da/d74/struct_vk_pipeline_color_blend_state_create_info.html", null ],
-    [ "VkPipelineDepthStencilStateCreateInfo", "d3/dca/struct_vk_pipeline_depth_stencil_state_create_info.html", null ],
-    [ "VkPipelineDynamicStateCreateInfo", "d1/de3/struct_vk_pipeline_dynamic_state_create_info.html", null ],
-    [ "VkPipelineInputAssemblyStateCreateInfo", "d9/de1/struct_vk_pipeline_input_assembly_state_create_info.html", null ],
-    [ "VkPipelineLayoutCreateInfo", "d7/dff/struct_vk_pipeline_layout_create_info.html", null ],
-    [ "VkPipelineMultisampleStateCreateInfo", "de/dcb/struct_vk_pipeline_multisample_state_create_info.html", null ],
-    [ "VkPipelineRasterizationStateCreateInfo", "d6/d2a/struct_vk_pipeline_rasterization_state_create_info.html", null ],
-    [ "VkPipelineShaderStageCreateInfo", "d5/de4/struct_vk_pipeline_shader_stage_create_info.html", null ],
-    [ "VkPipelineTessellationStateCreateInfo", "dc/dd4/struct_vk_pipeline_tessellation_state_create_info.html", null ],
-    [ "VkPipelineVertexInputStateCreateInfo", "df/db6/struct_vk_pipeline_vertex_input_state_create_info.html", null ],
-    [ "VkPipelineViewportStateCreateInfo", "d8/dca/struct_vk_pipeline_viewport_state_create_info.html", null ],
-    [ "VkPresentInfoKHR", "d9/d1b/struct_vk_present_info_k_h_r.html", null ],
-    [ "VkPushConstantRange", "d1/d55/struct_vk_push_constant_range.html", null ],
-    [ "VkQueryPoolCreateInfo", "d5/d81/struct_vk_query_pool_create_info.html", null ],
-    [ "VkQueueFamilyProperties", "d9/db2/struct_vk_queue_family_properties.html", null ],
-    [ "VkQueueFamilyProperties2", "dc/d69/struct_vk_queue_family_properties2.html", null ],
-    [ "VkRect2D", "d1/d3f/struct_vk_rect2_d.html", null ],
-    [ "VkRenderPassBeginInfo", "df/d58/struct_vk_render_pass_begin_info.html", null ],
-    [ "VkRenderPassCreateInfo", "d5/df4/struct_vk_render_pass_create_info.html", null ],
-    [ "VkSamplerCreateInfo", "d1/d93/struct_vk_sampler_create_info.html", null ],
-    [ "VkSemaphoreCreateInfo", "df/d27/struct_vk_semaphore_create_info.html", null ],
-    [ "VkShaderModuleCreateInfo", "d4/d95/struct_vk_shader_module_create_info.html", null ],
-    [ "VkSparseBufferMemoryBindInfo", "da/d21/struct_vk_sparse_buffer_memory_bind_info.html", null ],
-    [ "VkSparseImageFormatProperties", "d1/d91/struct_vk_sparse_image_format_properties.html", null ],
-    [ "VkSparseImageFormatProperties2", "d6/dfa/struct_vk_sparse_image_format_properties2.html", null ],
-    [ "VkSparseImageMemoryBind", "d5/de8/struct_vk_sparse_image_memory_bind.html", null ],
-    [ "VkSparseImageMemoryBindInfo", "d0/d8a/struct_vk_sparse_image_memory_bind_info.html", null ],
-    [ "VkSparseImageMemoryRequirements", "d0/daa/struct_vk_sparse_image_memory_requirements.html", null ],
-    [ "VkSparseImageOpaqueMemoryBindInfo", "db/d1a/struct_vk_sparse_image_opaque_memory_bind_info.html", null ],
-    [ "VkSparseMemoryBind", "dd/d0a/struct_vk_sparse_memory_bind.html", null ],
-    [ "VkSpecializationInfo", "d5/de7/struct_vk_specialization_info.html", null ],
-    [ "VkSpecializationMapEntry", "df/dde/struct_vk_specialization_map_entry.html", null ],
-    [ "VkStencilOpState", "da/df7/struct_vk_stencil_op_state.html", null ],
-    [ "VkSubmitInfo", "d3/d7e/struct_vk_submit_info.html", null ],
-    [ "VkSubpassDependency", "de/d0c/struct_vk_subpass_dependency.html", null ],
-    [ "VkSubpassDescription", "d8/de5/struct_vk_subpass_description.html", null ],
-    [ "VkSubresourceLayout", "df/d58/struct_vk_subresource_layout.html", null ],
-    [ "VkSurfaceCapabilitiesKHR", "dd/d19/struct_vk_surface_capabilities_k_h_r.html", null ],
-    [ "VkSurfaceFormatKHR", "d9/d86/struct_vk_surface_format_k_h_r.html", null ],
-    [ "VkSwapchainCreateInfoKHR", "d9/d0e/struct_vk_swapchain_create_info_k_h_r.html", null ],
-    [ "VkValidationFeaturesEXT", "df/d5a/struct_vk_validation_features_e_x_t.html", null ],
-    [ "VkVertexInputAttributeDescription", "df/d7a/struct_vk_vertex_input_attribute_description.html", null ],
-    [ "VkVertexInputBindingDescription", "d8/d41/struct_vk_vertex_input_binding_description.html", null ],
-    [ "VkViewport", "de/d4d/struct_vk_viewport.html", null ],
-    [ "VkWriteDescriptorSet", "d8/d97/struct_vk_write_descriptor_set.html", null ],
-    [ "VmaAllocation", "d1/dc3/struct_vma_allocation.html", null ],
-    [ "VmaAllocationCreateInfo", "da/d54/struct_vma_allocation_create_info.html", null ],
-    [ "VmaAllocationInfo", "d4/d25/struct_vma_allocation_info.html", null ],
-    [ "VmaAllocator", "d8/d39/struct_vma_allocator.html", null ],
-    [ "VmaAllocatorCreateInfo", "d7/de5/struct_vma_allocator_create_info.html", null ],
-    [ "VmaAllocatorInfo", "d7/d60/struct_vma_allocator_info.html", null ],
-    [ "VmaBudget", "d2/d24/struct_vma_budget.html", null ],
-    [ "VmaDefragmentationContext", "d2/dbb/struct_vma_defragmentation_context.html", null ],
-    [ "VmaDefragmentationInfo", "d0/db3/struct_vma_defragmentation_info.html", null ],
-    [ "VmaDefragmentationMove", "d0/d4a/struct_vma_defragmentation_move.html", null ],
-    [ "VmaDefragmentationPassMoveInfo", "de/dee/struct_vma_defragmentation_pass_move_info.html", null ],
-    [ "VmaDefragmentationStats", "de/d15/struct_vma_defragmentation_stats.html", null ],
-    [ "VmaDetailedStatistics", "d0/d5a/struct_vma_detailed_statistics.html", null ],
-    [ "VmaDeviceMemoryCallbacks", "d2/da4/struct_vma_device_memory_callbacks.html", null ],
-    [ "VmaPool", "d1/d67/struct_vma_pool.html", null ],
-    [ "VmaPoolCreateInfo", "d9/dc9/struct_vma_pool_create_info.html", null ],
-    [ "VmaStatistics", "df/d03/struct_vma_statistics.html", null ],
-    [ "VmaTotalStatistics", "d7/d21/struct_vma_total_statistics.html", null ],
-    [ "VmaVirtualAllocation", "d8/d76/struct_vma_virtual_allocation.html", null ],
-    [ "VmaVirtualAllocationCreateInfo", "d5/dd4/struct_vma_virtual_allocation_create_info.html", null ],
-    [ "VmaVirtualAllocationInfo", "df/de2/struct_vma_virtual_allocation_info.html", null ],
-    [ "VmaVirtualBlock", "d2/d37/struct_vma_virtual_block.html", null ],
-    [ "VmaVirtualBlockCreateInfo", "de/d73/struct_vma_virtual_block_create_info.html", null ],
-    [ "VmaVulkanFunctions", "d8/d6b/struct_vma_vulkan_functions.html", null ],
-    [ "Techstorm::Window", "da/d10/class_techstorm_1_1_window.html", null ],
-    [ "Techstorm::WindowDecorations", "d2/d61/struct_techstorm_1_1_window_decorations.html", null ],
-    [ "Techstorm::World", "d1/d78/class_techstorm_1_1_world.html", null ],
-    [ "XKeyData", "d2/dac/struct_x_key_data.html", null ]
+    [ "Atlas::Window", "d1/df6/class_atlas_1_1_window.html", null ],
+    [ "Atlas::WindowDecorations", "da/d6a/struct_atlas_1_1_window_decorations.html", null ],
+    [ "Atlas::XMLFile", "d7/d24/class_atlas_1_1_x_m_l_file.html", null ]
 ];

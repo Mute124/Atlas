@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['none_0',['none',['../d5/d0b/_rml_ui___renderer___g_l3_8cpp.html#aef39ea06ec027f46e65b8280775df70aa6adf97f83acf6453d4a6a4b1070f3754',1,'None:&#160;RmlUi_Renderer_GL3.cpp'],['../de/d47/namespace_gfx.html#a6a8eacf67f9e951ff855489fe86edb52a6adf97f83acf6453d4a6a4b1070f3754',1,'Gfx::None']]],
-  ['numstops_1',['NumStops',['../d5/d0b/_rml_ui___renderer___g_l3_8cpp.html#adad77d2c16c419d8ae9cc19e7d849fd5a29d3027c8135c540ab52081682bca384',1,'RmlUi_Renderer_GL3.cpp']]]
+  ['successful_5foperation_0',['SUCCESSFUL_OPERATION',['../d7/d54/namespace_atlas.html#a8db949e6d304e138149d0c697ed389aaa8a95d44f1a581d3abec3a3a1d6f92fe1',1,'Atlas']]],
+  ['successful_5foperation_5fwith_5fcaught_5fexception_1',['SUCCESSFUL_OPERATION_WITH_CAUGHT_EXCEPTION',['../d7/d54/namespace_atlas.html#a8db949e6d304e138149d0c697ed389aaaa39792c4fe2be6d4b965945c0e47de5e',1,'Atlas']]],
+  ['successful_5foperation_5fwith_5fwarning_2',['SUCCESSFUL_OPERATION_WITH_WARNING',['../d7/d54/namespace_atlas.html#a8db949e6d304e138149d0c697ed389aaa580f5f107dba3aaffb9cd457c554977a',1,'Atlas']]]
 ];

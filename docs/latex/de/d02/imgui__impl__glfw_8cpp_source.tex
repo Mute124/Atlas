@@ -1,0 +1,931 @@
+\doxysection{imgui\+\_\+impl\+\_\+glfw.\+cpp}
+\hypertarget{imgui__impl__glfw_8cpp_source}{}\label{imgui__impl__glfw_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_glfw.cpp@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_glfw.cpp}}
+\mbox{\hyperlink{imgui__impl__glfw_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Platform\ Backend\ for\ GLFW}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00002}00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Renderer\ (e.g.\ OpenGL3,\ Vulkan,\ WebGPU..)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00003}00003\ \textcolor{comment}{//\ (Info:\ GLFW\ is\ a\ cross-\/platform\ general\ purpose\ library\ for\ handling\ windows,\ inputs,\ OpenGL/Vulkan\ graphics\ context\ creation,\ etc.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00004}00004\ \textcolor{comment}{//\ (Requires:\ GLFW\ 3.1+.\ Prefer\ GLFW\ 3.3+\ or\ GLFW\ 3.4+\ for\ full\ feature\ support.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00006}00006\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00007}00007\ \textcolor{comment}{//\ \ [X]\ Platform:\ Clipboard\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00008}00008\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ support.\ Can\ discriminate\ Mouse/TouchScreen/Pen\ (Windows\ only).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00009}00009\ \textcolor{comment}{//\ \ [X]\ Platform:\ Keyboard\ support.\ Since\ 1.87\ we\ are\ using\ the\ io.AddKeyEvent()\ function.\ Pass\ ImGuiKey\ values\ to\ all\ key\ functions\ e.g.\ ImGui::IsKeyPressed(ImGuiKey\_Space).\ [Legacy\ GLFW\_KEY\_*\ values\ are\ obsolete\ since\ 1.87\ and\ not\ supported\ since\ 1.91.5]}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00010}00010\ \textcolor{comment}{//\ \ [X]\ Platform:\ Gamepad\ support.\ Enable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NavEnableGamepad'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00011}00011\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ cursor\ shape\ and\ visibility.\ Disable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NoMouseCursorChange'\ (note:\ the\ resizing\ cursors\ requires\ GLFW\ 3.4+).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00013}00013\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00014}00014\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00015}00015\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00016}00016\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00017}00017\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00018}00018\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00019}00019\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00021}00021\ \textcolor{comment}{//\ About\ Emscripten\ support:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00022}00022\ \textcolor{comment}{//\ -\/\ Emscripten\ provides\ its\ own\ GLFW\ (3.2.1)\ implementation\ (syntax:\ "{}-\/sUSE\_GLFW=3"{}),\ but\ Joystick\ is\ broken\ and\ several\ features\ are\ not\ supported\ (multiple\ windows,\ clipboard,\ timer,\ etc.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00023}00023\ \textcolor{comment}{//\ -\/\ A\ third-\/party\ Emscripten\ GLFW\ (3.4.0)\ implementation\ (syntax:\ "{}-\/-\/use-\/port=contrib.glfw3"{})\ fixes\ the\ Joystick\ issue\ and\ implements\ all\ relevant\ features\ for\ the\ browser.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00024}00024\ \textcolor{comment}{//\ See\ https://github.com/pongasoft/emscripten-\/glfw/blob/master/docs/Comparison.md\ for\ details.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00026}00026\ \textcolor{comment}{//\ CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00027}00027\ \textcolor{comment}{//\ (minor\ and\ older\ changes\ stripped\ away,\ please\ see\ git\ history\ for\ details)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00028}00028\ \textcolor{comment}{//\ \ 2024-\/08-\/22:\ moved\ some\ OS/backend\ related\ function\ pointers\ from\ ImGuiIO\ to\ ImGuiPlatformIO:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00029}00029\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.GetClipboardTextFn\ \ \ \ -\/>\ platform\_io.Platform\_GetClipboardTextFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00030}00030\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.SetClipboardTextFn\ \ \ \ -\/>\ platform\_io.Platform\_SetClipboardTextFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00031}00031\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.PlatformOpenInShellFn\ -\/>\ platform\_io.Platform\_OpenInShellFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00032}00032\ \textcolor{comment}{//\ \ 2024-\/07-\/31:\ Added\ ImGui\_ImplGlfw\_Sleep()\ helper\ function\ for\ usage\ by\ our\ examples\ app,\ since\ GLFW\ doesn't\ provide\ one.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00033}00033\ \textcolor{comment}{//\ \ 2024-\/07-\/08:\ *BREAKING*\ Renamed\ ImGui\_ImplGlfw\_InstallEmscriptenCanvasResizeCallback\ to\ ImGui\_ImplGlfw\_InstallEmscriptenCallbacks(),\ added\ GLFWWindow*\ parameter.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00034}00034\ \textcolor{comment}{//\ \ 2024-\/07-\/08:\ Emscripten:\ Added\ support\ for\ GLFW3\ contrib\ port\ (GLFW\ 3.4.0\ features\ +\ bug\ fixes):\ to\ enable,\ replace\ -\/sUSE\_GLFW=3\ with\ -\/-\/use-\/port=contrib.glfw3\ (requires\ emscripten\ 3.1.59+)\ (https://github.com/pongasoft/emscripten-\/glfw)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00035}00035\ \textcolor{comment}{//\ \ 2024-\/07-\/02:\ Emscripten:\ Added\ io.PlatformOpenInShellFn()\ handler\ for\ Emscripten\ versions.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00036}00036\ \textcolor{comment}{//\ \ 2023-\/12-\/19:\ Emscripten:\ Added\ ImGui\_ImplGlfw\_InstallEmscriptenCanvasResizeCallback()\ to\ register\ canvas\ selector\ and\ auto-\/resize\ GLFW\ window.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00037}00037\ \textcolor{comment}{//\ \ 2023-\/10-\/05:\ Inputs:\ Added\ support\ for\ extra\ ImGuiKey\ values:\ F13\ to\ F24\ function\ keys.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00038}00038\ \textcolor{comment}{//\ \ 2023-\/07-\/18:\ Inputs:\ Revert\ ignoring\ mouse\ data\ on\ GLFW\_CURSOR\_DISABLED\ as\ it\ can\ be\ used\ differently.\ User\ may\ set\ ImGuiConfigFLags\_NoMouse\ if\ desired.\ (\#5625,\ \#6609)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00039}00039\ \textcolor{comment}{//\ \ 2023-\/06-\/12:\ Accept\ glfwGetTime()\ not\ returning\ a\ monotonically\ increasing\ value.\ This\ seems\ to\ happens\ on\ some\ Windows\ setup\ when\ peripherals\ disconnect,\ and\ is\ likely\ to\ also\ happen\ on\ browser\ +\ Emscripten.\ (\#6491)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00040}00040\ \textcolor{comment}{//\ \ 2023-\/04-\/04:\ Inputs:\ Added\ support\ for\ io.AddMouseSourceEvent()\ to\ discriminate\ ImGuiMouseSource\_Mouse/ImGuiMouseSource\_TouchScreen/ImGuiMouseSource\_Pen\ on\ Windows\ ONLY,\ using\ a\ custom\ WndProc\ hook.\ (\#2702)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00041}00041\ \textcolor{comment}{//\ \ 2023-\/03-\/16:\ Inputs:\ Fixed\ key\ modifiers\ handling\ on\ secondary\ viewports\ (docking\ branch).\ Broken\ on\ 2023/01/04.\ (\#6248,\ \#6034)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00042}00042\ \textcolor{comment}{//\ \ 2023-\/03-\/14:\ Emscripten:\ Avoid\ using\ glfwGetError()\ and\ glfwGetGamepadState()\ which\ are\ not\ correctly\ implemented\ in\ Emscripten\ emulation.\ (\#6240)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00043}00043\ \textcolor{comment}{//\ \ 2023-\/02-\/03:\ Emscripten:\ Registering\ custom\ low-\/level\ mouse\ wheel\ handler\ to\ get\ more\ accurate\ scrolling\ impulses\ on\ Emscripten.\ (\#4019,\ \#6096)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00044}00044\ \textcolor{comment}{//\ \ 2023-\/01-\/04:\ Inputs:\ Fixed\ mods\ state\ on\ Linux\ when\ using\ Alt-\/GR\ text\ input\ (e.g.\ German\ keyboard\ layout),\ could\ lead\ to\ broken\ text\ input.\ Revert\ a\ 2022/01/17\ change\ were\ we\ resumed\ using\ mods\ provided\ by\ GLFW,\ turns\ out\ they\ were\ faulty.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00045}00045\ \textcolor{comment}{//\ \ 2022-\/11-\/22:\ Perform\ a\ dummy\ glfwGetError()\ read\ to\ cancel\ missing\ names\ with\ glfwGetKeyName().\ (\#5908)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00046}00046\ \textcolor{comment}{//\ \ 2022-\/10-\/18:\ Perform\ a\ dummy\ glfwGetError()\ read\ to\ cancel\ missing\ mouse\ cursors\ errors.\ Using\ GLFW\_VERSION\_COMBINED\ directly.\ (\#5785)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00047}00047\ \textcolor{comment}{//\ \ 2022-\/10-\/11:\ Using\ 'nullptr'\ instead\ of\ 'NULL'\ as\ per\ our\ switch\ to\ C++11.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00048}00048\ \textcolor{comment}{//\ \ 2022-\/09-\/26:\ Inputs:\ Renamed\ ImGuiKey\_ModXXX\ introduced\ in\ 1.87\ to\ ImGuiMod\_XXX\ (old\ names\ still\ supported).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00049}00049\ \textcolor{comment}{//\ \ 2022-\/09-\/01:\ Inputs:\ Honor\ GLFW\_CURSOR\_DISABLED\ by\ not\ setting\ mouse\ position\ *EDIT*\ Reverted\ 2023-\/07-\/18.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00050}00050\ \textcolor{comment}{//\ \ 2022-\/04-\/30:\ Inputs:\ Fixed\ ImGui\_ImplGlfw\_TranslateUntranslatedKey()\ for\ lower\ case\ letters\ on\ OSX.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00051}00051\ \textcolor{comment}{//\ \ 2022-\/03-\/23:\ Inputs:\ Fixed\ a\ regression\ in\ 1.87\ which\ resulted\ in\ keyboard\ modifiers\ events\ being\ reported\ incorrectly\ on\ Linux/X11.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00052}00052\ \textcolor{comment}{//\ \ 2022-\/02-\/07:\ Added\ ImGui\_ImplGlfw\_InstallCallbacks()/ImGui\_ImplGlfw\_RestoreCallbacks()\ helpers\ to\ facilitate\ user\ installing\ callbacks\ after\ initializing\ backend.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00053}00053\ \textcolor{comment}{//\ \ 2022-\/01-\/26:\ Inputs:\ replaced\ short-\/lived\ io.AddKeyModsEvent()\ (added\ two\ weeks\ ago)\ with\ io.AddKeyEvent()\ using\ ImGuiKey\_ModXXX\ flags.\ Sorry\ for\ the\ confusion.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00054}00054\ \textcolor{comment}{//\ \ 2021-\/01-\/20:\ Inputs:\ calling\ new\ io.AddKeyAnalogEvent()\ for\ gamepad\ support,\ instead\ of\ writing\ directly\ to\ io.NavInputs[].}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00055}00055\ \textcolor{comment}{//\ \ 2022-\/01-\/17:\ Inputs:\ calling\ new\ io.AddMousePosEvent(),\ io.AddMouseButtonEvent(),\ io.AddMouseWheelEvent()\ API\ (1.87+).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00056}00056\ \textcolor{comment}{//\ \ 2022-\/01-\/17:\ Inputs:\ always\ update\ key\ mods\ next\ and\ before\ key\ event\ (not\ in\ NewFrame)\ to\ fix\ input\ queue\ with\ very\ low\ framerates.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00057}00057\ \textcolor{comment}{//\ \ 2022-\/01-\/12:\ *BREAKING\ CHANGE*:\ Now\ using\ glfwSetCursorPosCallback().\ If\ you\ called\ ImGui\_ImplGlfw\_InitXXX()\ with\ install\_callbacks\ =\ false,\ you\ MUST\ install\ glfwSetCursorPosCallback()\ and\ forward\ it\ to\ the\ backend\ via\ ImGui\_ImplGlfw\_CursorPosCallback().}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00058}00058\ \textcolor{comment}{//\ \ 2022-\/01-\/10:\ Inputs:\ calling\ new\ io.AddKeyEvent(),\ io.AddKeyModsEvent()\ +\ io.SetKeyEventNativeData()\ API\ (1.87+).\ Support\ for\ full\ ImGuiKey\ range.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00059}00059\ \textcolor{comment}{//\ \ 2022-\/01-\/05:\ Inputs:\ Converting\ GLFW\ untranslated\ keycodes\ back\ to\ translated\ keycodes\ (in\ the\ ImGui\_ImplGlfw\_KeyCallback()\ function)\ in\ order\ to\ match\ the\ behavior\ of\ every\ other\ backend,\ and\ facilitate\ the\ use\ of\ GLFW\ with\ lettered-\/shortcuts\ API.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00060}00060\ \textcolor{comment}{//\ \ 2021-\/08-\/17:\ *BREAKING\ CHANGE*:\ Now\ using\ glfwSetWindowFocusCallback()\ to\ calling\ io.AddFocusEvent().\ If\ you\ called\ ImGui\_ImplGlfw\_InitXXX()\ with\ install\_callbacks\ =\ false,\ you\ MUST\ install\ glfwSetWindowFocusCallback()\ and\ forward\ it\ to\ the\ backend\ via\ ImGui\_ImplGlfw\_WindowFocusCallback().}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00061}00061\ \textcolor{comment}{//\ \ 2021-\/07-\/29:\ *BREAKING\ CHANGE*:\ Now\ using\ glfwSetCursorEnterCallback().\ MousePos\ is\ correctly\ reported\ when\ the\ host\ platform\ window\ is\ hovered\ but\ not\ focused.\ If\ you\ called\ ImGui\_ImplGlfw\_InitXXX()\ with\ install\_callbacks\ =\ false,\ you\ MUST\ install\ glfwSetWindowFocusCallback()\ callback\ and\ forward\ it\ to\ the\ backend\ via\ ImGui\_ImplGlfw\_CursorEnterCallback().}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00062}00062\ \textcolor{comment}{//\ \ 2021-\/06-\/29:\ Reorganized\ backend\ to\ pull\ data\ from\ a\ single\ structure\ to\ facilitate\ usage\ with\ multiple-\/contexts\ (all\ g\_XXXX\ access\ changed\ to\ bd-\/>XXXX).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00063}00063\ \textcolor{comment}{//\ \ 2020-\/01-\/17:\ Inputs:\ Disable\ error\ callback\ while\ assigning\ mouse\ cursors\ because\ some\ X11\ setup\ don't\ have\ them\ and\ it\ generates\ errors.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00064}00064\ \textcolor{comment}{//\ \ 2019-\/12-\/05:\ Inputs:\ Added\ support\ for\ new\ mouse\ cursors\ added\ in\ GLFW\ 3.4+\ (resizing\ cursors,\ not\ allowed\ cursor).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00065}00065\ \textcolor{comment}{//\ \ 2019-\/10-\/18:\ Misc:\ Previously\ installed\ user\ callbacks\ are\ now\ restored\ on\ shutdown.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00066}00066\ \textcolor{comment}{//\ \ 2019-\/07-\/21:\ Inputs:\ Added\ mapping\ for\ ImGuiKey\_KeyPadEnter.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00067}00067\ \textcolor{comment}{//\ \ 2019-\/05-\/11:\ Inputs:\ Don't\ filter\ value\ from\ character\ callback\ before\ calling\ AddInputCharacter().}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00068}00068\ \textcolor{comment}{//\ \ 2019-\/03-\/12:\ Misc:\ Preserve\ DisplayFramebufferScale\ when\ main\ window\ is\ minimized.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00069}00069\ \textcolor{comment}{//\ \ 2018-\/11-\/30:\ Misc:\ Setting\ up\ io.BackendPlatformName\ so\ it\ can\ be\ displayed\ in\ the\ About\ Window.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00070}00070\ \textcolor{comment}{//\ \ 2018-\/11-\/07:\ Inputs:\ When\ installing\ our\ GLFW\ callbacks,\ we\ save\ user's\ previously\ installed\ ones\ -\/\ if\ any\ -\/\ and\ chain\ call\ them.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00071}00071\ \textcolor{comment}{//\ \ 2018-\/08-\/01:\ Inputs:\ Workaround\ for\ Emscripten\ which\ doesn't\ seem\ to\ handle\ focus\ related\ calls.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00072}00072\ \textcolor{comment}{//\ \ 2018-\/06-\/29:\ Inputs:\ Added\ support\ for\ the\ ImGuiMouseCursor\_Hand\ cursor.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00073}00073\ \textcolor{comment}{//\ \ 2018-\/06-\/08:\ Misc:\ Extracted\ imgui\_impl\_glfw.cpp/.h\ away\ from\ the\ old\ combined\ GLFW+OpenGL/Vulkan\ examples.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00074}00074\ \textcolor{comment}{//\ \ 2018-\/03-\/20:\ Misc:\ Setup\ io.BackendFlags\ ImGuiBackendFlags\_HasMouseCursors\ flag\ +\ honor\ ImGuiConfigFlags\_NoMouseCursorChange\ flag.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00075}00075\ \textcolor{comment}{//\ \ 2018-\/02-\/20:\ Inputs:\ Added\ support\ for\ mouse\ cursors\ (ImGui::GetMouseCursor()\ value,\ passed\ to\ glfwSetCursor()).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00076}00076\ \textcolor{comment}{//\ \ 2018-\/02-\/06:\ Misc:\ Removed\ call\ to\ ImGui::Shutdown()\ which\ is\ not\ available\ from\ 1.60\ WIP,\ user\ needs\ to\ call\ CreateContext/DestroyContext\ themselves.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00077}00077\ \textcolor{comment}{//\ \ 2018-\/02-\/06:\ Inputs:\ Added\ mapping\ for\ ImGuiKey\_Space.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00078}00078\ \textcolor{comment}{//\ \ 2018-\/01-\/25:\ Inputs:\ Added\ gamepad\ support\ if\ ImGuiConfigFlags\_NavEnableGamepad\ is\ set.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00079}00079\ \textcolor{comment}{//\ \ 2018-\/01-\/25:\ Inputs:\ Honoring\ the\ io.WantSetMousePos\ by\ repositioning\ the\ mouse\ (when\ using\ navigation\ and\ ImGuiConfigFlags\_NavMoveMouse\ is\ set).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00080}00080\ \textcolor{comment}{//\ \ 2018-\/01-\/20:\ Inputs:\ Added\ Horizontal\ Mouse\ Wheel\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00081}00081\ \textcolor{comment}{//\ \ 2018-\/01-\/18:\ Inputs:\ Added\ mapping\ for\ ImGuiKey\_Insert.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00082}00082\ \textcolor{comment}{//\ \ 2017-\/08-\/25:\ Inputs:\ MousePos\ set\ to\ -\/FLT\_MAX,-\/FLT\_MAX\ when\ mouse\ is\ unavailable/missing\ (instead\ of\ -\/1,-\/1).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00083}00083\ \textcolor{comment}{//\ \ 2016-\/10-\/15:\ Misc:\ Added\ a\ void*\ user\_data\ parameter\ to\ Clipboard\ function\ handlers.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00085}00085\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00086}00086\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00087}00087\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{imgui__impl__glfw_8h}{imgui\_impl\_glfw.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00089}00089\ \textcolor{comment}{//\ Clang\ warnings\ with\ -\/Weverything}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00090}00090\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00091}00091\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ push}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00092}00092\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ ignored\ "{}-\/Wold-\/style-\/cast"{}\ \ \ \ \ }\textcolor{comment}{//\ warning:\ use\ of\ old-\/style\ cast}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00093}00093\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ ignored\ "{}-\/Wsign-\/conversion"{}\ \ \ \ }\textcolor{comment}{//\ warning:\ implicit\ conversion\ changes\ signedness}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00094}00094\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00096}00096\ \textcolor{comment}{//\ GLFW}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00097}00097\ \textcolor{preprocessor}{\#include\ <GLFW/glfw3.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00099}00099\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00100}00100\ \textcolor{preprocessor}{\#undef\ APIENTRY}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00101}00101\ \textcolor{preprocessor}{\#ifndef\ GLFW\_EXPOSE\_NATIVE\_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00102}00102\ \textcolor{preprocessor}{\#define\ GLFW\_EXPOSE\_NATIVE\_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00103}00103\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00104}00104\ \textcolor{preprocessor}{\#include\ <GLFW/glfw3native.h>}\ \ \ \textcolor{comment}{//\ for\ glfwGetWin32Window()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00105}00105\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00106}00106\ \textcolor{preprocessor}{\#ifdef\ \_\_APPLE\_\_}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00107}00107\ \textcolor{preprocessor}{\#ifndef\ GLFW\_EXPOSE\_NATIVE\_COCOA}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00108}00108\ \textcolor{preprocessor}{\#define\ GLFW\_EXPOSE\_NATIVE\_COCOA}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00109}00109\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00110}00110\ \textcolor{preprocessor}{\#include\ <GLFW/glfw3native.h>}\ \ \ \textcolor{comment}{//\ for\ glfwGetCocoaWindow()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00111}00111\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00112}00112\ \textcolor{preprocessor}{\#ifndef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00113}00113\ \textcolor{preprocessor}{\#include\ <unistd.h>}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ for\ usleep()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00114}00114\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00116}00116\ \textcolor{preprocessor}{\#ifdef\ \_\_EMSCRIPTEN\_\_}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00117}00117\ \textcolor{preprocessor}{\#include\ <emscripten.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00118}00118\ \textcolor{preprocessor}{\#include\ <emscripten/html5.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00119}00119\ \textcolor{preprocessor}{\#ifdef\ EMSCRIPTEN\_USE\_PORT\_CONTRIB\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00120}00120\ \textcolor{preprocessor}{\#include\ <GLFW/emscripten\_glfw3.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00121}00121\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00122}00122\ \textcolor{preprocessor}{\#define\ EMSCRIPTEN\_USE\_EMBEDDED\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00123}00123\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00124}00124\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00126}00126\ \textcolor{comment}{//\ We\ gather\ version\ tests\ as\ define\ in\ order\ to\ easily\ see\ which\ features\ are\ version-\/dependent.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00127}\mbox{\hyperlink{imgui__impl__glfw_8cpp_aee966a60cedeab1426e1f85893d97d2c}{00127}}\ \textcolor{preprocessor}{\#define\ GLFW\_VERSION\_COMBINED\ \ \ \ \ \ \ \ \ \ \ (GLFW\_VERSION\_MAJOR\ *\ 1000\ +\ GLFW\_VERSION\_MINOR\ *\ 100\ +\ GLFW\_VERSION\_REVISION)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00128}00128\ \textcolor{preprocessor}{\#ifdef\ GLFW\_RESIZE\_NESW\_CURSOR\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Let's\ be\ nice\ to\ people\ who\ pulled\ GLFW\ between\ 2019-\/04-\/16\ (3.4\ define)\ and\ 2019-\/11-\/29\ (cursors\ defines)\ //\ FIXME:\ Remove\ when\ GLFW\ 3.4\ is\ released?}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00129}00129\ \textcolor{preprocessor}{\#define\ GLFW\_HAS\_NEW\_CURSORS\ \ \ \ \ \ \ \ \ \ \ \ (GLFW\_VERSION\_COMBINED\ >=\ 3400)\ }\textcolor{comment}{//\ 3.4+\ GLFW\_RESIZE\_ALL\_CURSOR,\ GLFW\_RESIZE\_NESW\_CURSOR,\ GLFW\_RESIZE\_NWSE\_CURSOR,\ GLFW\_NOT\_ALLOWED\_CURSOR}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00130}00130\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00131}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a58ac1869ab11654688bc0ea77bf224fe}{00131}}\ \textcolor{preprocessor}{\#define\ GLFW\_HAS\_NEW\_CURSORS\ \ \ \ \ \ \ \ \ \ \ \ (0)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00132}00132\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00133}\mbox{\hyperlink{imgui__impl__glfw_8cpp_ad255402ad8fe11dc0abae162cc28d1b7}{00133}}\ \textcolor{preprocessor}{\#define\ GLFW\_HAS\_GAMEPAD\_API\ \ \ \ \ \ \ \ \ \ \ \ (GLFW\_VERSION\_COMBINED\ >=\ 3300)\ }\textcolor{comment}{//\ 3.3+\ glfwGetGamepadState()\ new\ api}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00134}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a33146f8ee47a87da71c112e599827f55}{00134}}\ \textcolor{preprocessor}{\#define\ GLFW\_HAS\_GETKEYNAME\ \ \ \ \ \ \ \ \ \ \ \ \ (GLFW\_VERSION\_COMBINED\ >=\ 3200)\ }\textcolor{comment}{//\ 3.2+\ glfwGetKeyName()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00135}\mbox{\hyperlink{imgui__impl__glfw_8cpp_aef783fc59bbf51dd44c19b3bf3b694af}{00135}}\ \textcolor{preprocessor}{\#define\ GLFW\_HAS\_GETERROR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (GLFW\_VERSION\_COMBINED\ >=\ 3300)\ }\textcolor{comment}{//\ 3.3+\ glfwGetError()}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00137}00137\ \textcolor{comment}{//\ GLFW\ data}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00138}\mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{00138}}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{GlfwClientApi}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00139}00139\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00140}\mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97}{00140}}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97}{GlfwClientApi\_Unknown}},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00141}\mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189}{00141}}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189}{GlfwClientApi\_OpenGL}},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00142}\mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5}{00142}}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5}{GlfwClientApi\_Vulkan}},}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00143}00143\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00145}\mbox{\hyperlink{struct_im_gui___impl_glfw___data}{00145}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00146}00146\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00147}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{00147}}\ \ \ \ \ GLFWwindow*\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00148}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a089d00194b9c811ee8da7a4976ea6ab9}{00148}}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{GlfwClientApi}}\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a089d00194b9c811ee8da7a4976ea6ab9}{ClientApi}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00149}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a63f538471c9e5113975333df9494d526}{00149}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a63f538471c9e5113975333df9494d526}{Time}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00150}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0cd83054e5f18b548ad7030e56e44fa7}{00150}}\ \ \ \ \ GLFWwindow*\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0cd83054e5f18b548ad7030e56e44fa7}{MouseWindow}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00151}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{00151}}\ \ \ \ \ GLFWcursor*\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_COUNT];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00152}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a71c8194d82a00e458884c50552e21933}{00152}}\ \ \ \ \ ImVec2\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a71c8194d82a00e458884c50552e21933}{LastValidMousePos}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00153}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2cd25c9a1afd831a20c9ec5a6dc52b91}{00153}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2cd25c9a1afd831a20c9ec5a6dc52b91}{InstalledCallbacks}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00154}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2a8575611eb554c3acb0e8c8228cdc44}{00154}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2a8575611eb554c3acb0e8c8228cdc44}{CallbacksChainForAllWindows}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00155}00155\ \textcolor{preprocessor}{\#ifdef\ EMSCRIPTEN\_USE\_EMBEDDED\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00156}00156\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \ \ \ \ \ \ \ \ \ \ \ \ CanvasSelector;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00157}00157\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00159}00159\ \ \ \ \ \textcolor{comment}{//\ Chain\ GLFW\ callbacks:\ our\ callbacks\ will\ call\ the\ user's\ previously\ installed\ callbacks,\ if\ any.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00160}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ab2d6f0997eee54b310ab657e48b50033}{00160}}\ \ \ \ \ GLFWwindowfocusfun\ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_ab2d6f0997eee54b310ab657e48b50033}{PrevUserCallbackWindowFocus}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00161}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a58577fb2f4a4f9657802712f728e5d17}{00161}}\ \ \ \ \ GLFWcursorposfun\ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a58577fb2f4a4f9657802712f728e5d17}{PrevUserCallbackCursorPos}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00162}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0bb12cf6a91ce6e42900a5c1fb58369e}{00162}}\ \ \ \ \ GLFWcursorenterfun\ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0bb12cf6a91ce6e42900a5c1fb58369e}{PrevUserCallbackCursorEnter}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00163}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a4f072029ab315c801b69849648bd5e86}{00163}}\ \ \ \ \ GLFWmousebuttonfun\ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a4f072029ab315c801b69849648bd5e86}{PrevUserCallbackMousebutton}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00164}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a37a806957eff842793b1010bf55b3a49}{00164}}\ \ \ \ \ GLFWscrollfun\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a37a806957eff842793b1010bf55b3a49}{PrevUserCallbackScroll}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00165}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a61c7fb5bae79f2296c361912ef0c7179}{00165}}\ \ \ \ \ GLFWkeyfun\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a61c7fb5bae79f2296c361912ef0c7179}{PrevUserCallbackKey}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00166}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a537697690bd14a0a11be72f3ef874793}{00166}}\ \ \ \ \ GLFWcharfun\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a537697690bd14a0a11be72f3ef874793}{PrevUserCallbackChar}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00167}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a874ea29cb2f17f07255a738b9eda8118}{00167}}\ \ \ \ \ GLFWmonitorfun\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_a874ea29cb2f17f07255a738b9eda8118}{PrevUserCallbackMonitor}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00168}00168\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00169}00169\ \ \ \ \ WNDPROC\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PrevWndProc;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00170}00170\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00172}\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ae3a69538a90536f112b99b968d385be7}{00172}}\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data_ae3a69538a90536f112b99b968d385be7}{ImGui\_ImplGlfw\_Data}}()\ \ \ \{\ memset((\textcolor{keywordtype}{void}*)\textcolor{keyword}{this},\ 0,\ \textcolor{keyword}{sizeof}(*\textcolor{keyword}{this}));\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00173}00173\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00175}00175\ \textcolor{comment}{//\ Backend\ data\ stored\ in\ io.BackendPlatformUserData\ to\ allow\ support\ for\ multiple\ Dear\ ImGui\ contexts}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00176}00176\ \textcolor{comment}{//\ It\ is\ STRONGLY\ preferred\ that\ you\ use\ docking\ branch\ with\ multi-\/viewports\ (==\ single\ Dear\ ImGui\ context\ +\ multiple\ windows)\ instead\ of\ multiple\ Dear\ ImGui\ contexts.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00177}00177\ \textcolor{comment}{//\ FIXME:\ multi-\/context\ support\ is\ not\ well\ tested\ and\ probably\ dysfunctional\ in\ this\ backend.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00178}00178\ \textcolor{comment}{//\ -\/\ Because\ glfwPollEvents()\ process\ all\ windows\ and\ some\ events\ may\ be\ called\ outside\ of\ it,\ you\ will\ need\ to\ register\ your\ own\ callbacks}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00179}00179\ \textcolor{comment}{//\ \ \ (passing\ install\_callbacks=false\ in\ ImGui\_ImplGlfw\_InitXXX\ functions),\ set\ the\ current\ dear\ imgui\ context\ and\ then\ call\ our\ callbacks.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00180}00180\ \textcolor{comment}{//\ -\/\ Otherwise\ we\ may\ need\ to\ store\ a\ GLFWWindow*\ -\/>\ ImGuiContext*\ map\ and\ handle\ this\ in\ the\ backend,\ adding\ a\ little\ bit\ of\ extra\ complexity\ to\ it.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00181}00181\ \textcolor{comment}{//\ FIXME:\ some\ shared\ resources\ (mouse\ cursor\ shape,\ gamepad)\ are\ mishandled\ when\ using\ multi-\/context.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00182}00182\ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ ImGui\_ImplGlfw\_GetBackendData()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00183}00183\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00184}00184\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui::GetCurrentContext()\ ?\ (\mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*)ImGui::GetIO().BackendPlatformUserData\ :\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00185}00185\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00187}00187\ \textcolor{comment}{//\ Functions}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00189}00189\ \textcolor{comment}{//\ Not\ static\ to\ allow\ third-\/party\ code\ to\ use\ that\ if\ they\ want\ to\ (but\ undocumented)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00190}00190\ ImGuiKey\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a758c933a543b8670f1c96cba13f80636}{ImGui\_ImplGlfw\_KeyToImGuiKey}}(\textcolor{keywordtype}{int}\ keycode,\ \textcolor{keywordtype}{int}\ scancode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00191}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a758c933a543b8670f1c96cba13f80636}{00191}}\ ImGuiKey\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a758c933a543b8670f1c96cba13f80636}{ImGui\_ImplGlfw\_KeyToImGuiKey}}(\textcolor{keywordtype}{int}\ keycode,\ \textcolor{keywordtype}{int}\ scancode)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00192}00192\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00193}00193\ \ \ \ \ IM\_UNUSED(scancode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00194}00194\ \ \ \ \ \textcolor{keywordflow}{switch}\ (keycode)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00195}00195\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_TAB:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Tab;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_LEFT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_RIGHT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_UP:\ \textcolor{keywordflow}{return}\ ImGuiKey\_UpArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_DOWN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_DownArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_PAGE\_UP:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PageUp;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_PAGE\_DOWN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PageDown;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_HOME:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Home;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_END:\ \textcolor{keywordflow}{return}\ ImGuiKey\_End;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_INSERT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Insert;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_DELETE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Delete;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_BACKSPACE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Backspace;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_SPACE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Space;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_ENTER:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Enter;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_ESCAPE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Escape;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_APOSTROPHE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Apostrophe;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_COMMA:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Comma;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_MINUS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Minus;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_PERIOD:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Period;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_SLASH:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Slash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_SEMICOLON:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Semicolon;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_EQUAL:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Equal;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_LEFT\_BRACKET:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftBracket;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_BACKSLASH:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Backslash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_RIGHT\_BRACKET:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightBracket;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_GRAVE\_ACCENT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_GraveAccent;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_CAPS\_LOCK:\ \textcolor{keywordflow}{return}\ ImGuiKey\_CapsLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_SCROLL\_LOCK:\ \textcolor{keywordflow}{return}\ ImGuiKey\_ScrollLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_NUM\_LOCK:\ \textcolor{keywordflow}{return}\ ImGuiKey\_NumLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_PRINT\_SCREEN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PrintScreen;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_PAUSE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Pause;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_0:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00234}00234\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_DECIMAL:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadDecimal;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_DIVIDE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadDivide;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_MULTIPLY:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadMultiply;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_SUBTRACT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadSubtract;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00241}00241\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_ADD:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadAdd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00242}00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_ENTER:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadEnter;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_EQUAL:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadEqual;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_LEFT\_SHIFT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftShift;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00245}00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_LEFT\_CONTROL:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftCtrl;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00246}00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_LEFT\_ALT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftAlt;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00247}00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_LEFT\_SUPER:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftSuper;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00248}00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_RIGHT\_SHIFT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightShift;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_RIGHT\_CONTROL:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightCtrl;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_RIGHT\_ALT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightAlt;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_RIGHT\_SUPER:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightSuper;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_MENU:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Menu;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_0:\ \textcolor{keywordflow}{return}\ ImGuiKey\_0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_A:\ \textcolor{keywordflow}{return}\ ImGuiKey\_A;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_B:\ \textcolor{keywordflow}{return}\ ImGuiKey\_B;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_C:\ \textcolor{keywordflow}{return}\ ImGuiKey\_C;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_D:\ \textcolor{keywordflow}{return}\ ImGuiKey\_D;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_E:\ \textcolor{keywordflow}{return}\ ImGuiKey\_E;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_G:\ \textcolor{keywordflow}{return}\ ImGuiKey\_G;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_H:\ \textcolor{keywordflow}{return}\ ImGuiKey\_H;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_I:\ \textcolor{keywordflow}{return}\ ImGuiKey\_I;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_J:\ \textcolor{keywordflow}{return}\ ImGuiKey\_J;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_K:\ \textcolor{keywordflow}{return}\ ImGuiKey\_K;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_L:\ \textcolor{keywordflow}{return}\ ImGuiKey\_L;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_M:\ \textcolor{keywordflow}{return}\ ImGuiKey\_M;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_N:\ \textcolor{keywordflow}{return}\ ImGuiKey\_N;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_O:\ \textcolor{keywordflow}{return}\ ImGuiKey\_O;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_P:\ \textcolor{keywordflow}{return}\ ImGuiKey\_P;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_Q:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Q;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_R:\ \textcolor{keywordflow}{return}\ ImGuiKey\_R;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_S:\ \textcolor{keywordflow}{return}\ ImGuiKey\_S;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_T:\ \textcolor{keywordflow}{return}\ ImGuiKey\_T;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_U:\ \textcolor{keywordflow}{return}\ ImGuiKey\_U;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_V:\ \textcolor{keywordflow}{return}\ ImGuiKey\_V;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_W:\ \textcolor{keywordflow}{return}\ ImGuiKey\_W;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_X:\ \textcolor{keywordflow}{return}\ ImGuiKey\_X;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_Y:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_Z:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Z;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00298}00298\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F10:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F10;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F11:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F11;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F12:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F12;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F13:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F13;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F14:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F14;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F15:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F15;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F16:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F16;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00305}00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F17:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F17;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00306}00306\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F18:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F18;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F19:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F19;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F20:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F20;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00309}00309\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F21:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F21;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00310}00310\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F22:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F22;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00311}00311\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F23:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F23;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00312}00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F24:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F24;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00313}00313\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ ImGuiKey\_None;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00314}00314\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00315}00315\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00316}00316\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00317}00317\ \textcolor{comment}{//\ X11\ does\ not\ include\ current\ pressed/released\ modifier\ key\ in\ 'mods'\ flags\ submitted\ by\ GLFW}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00318}00318\ \textcolor{comment}{//\ See\ https://github.com/ocornut/imgui/issues/6034\ and\ https://github.com/glfw/glfw/issues/1630}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00319}00319\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplGlfw\_UpdateKeyModifiers(GLFWwindow*\ window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00320}00320\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00321}00321\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00322}00322\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Ctrl,\ \ (glfwGetKey(window,\ GLFW\_KEY\_LEFT\_CONTROL)\ ==\ GLFW\_PRESS)\ ||\ (glfwGetKey(window,\ GLFW\_KEY\_RIGHT\_CONTROL)\ ==\ GLFW\_PRESS));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00323}00323\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Shift,\ (glfwGetKey(window,\ GLFW\_KEY\_LEFT\_SHIFT)\ \ \ ==\ GLFW\_PRESS)\ ||\ (glfwGetKey(window,\ GLFW\_KEY\_RIGHT\_SHIFT)\ \ \ ==\ GLFW\_PRESS));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00324}00324\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Alt,\ \ \ (glfwGetKey(window,\ GLFW\_KEY\_LEFT\_ALT)\ \ \ \ \ ==\ GLFW\_PRESS)\ ||\ (glfwGetKey(window,\ GLFW\_KEY\_RIGHT\_ALT)\ \ \ \ \ ==\ GLFW\_PRESS));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00325}00325\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Super,\ (glfwGetKey(window,\ GLFW\_KEY\_LEFT\_SUPER)\ \ \ ==\ GLFW\_PRESS)\ ||\ (glfwGetKey(window,\ GLFW\_KEY\_RIGHT\_SUPER)\ \ \ ==\ GLFW\_PRESS));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00326}00326\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00327}00327\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00328}00328\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ ImGui\_ImplGlfw\_ShouldChainCallback(GLFWwindow*\ window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00329}00329\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00330}00330\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00331}00331\ \ \ \ \ \textcolor{keywordflow}{return}\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2a8575611eb554c3acb0e8c8228cdc44}{CallbacksChainForAllWindows}}\ ?\ true\ :\ (window\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00332}00332\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00334}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a075e351f00b5c13086cacb05b5b6ee08}{00334}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a075e351f00b5c13086cacb05b5b6ee08}{ImGui\_ImplGlfw\_MouseButtonCallback}}(GLFWwindow*\ window,\ \textcolor{keywordtype}{int}\ button,\ \textcolor{keywordtype}{int}\ action,\ \textcolor{keywordtype}{int}\ mods)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00335}00335\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00336}00336\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00337}00337\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a4f072029ab315c801b69849648bd5e86}{PrevUserCallbackMousebutton}}\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ ImGui\_ImplGlfw\_ShouldChainCallback(window))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a4f072029ab315c801b69849648bd5e86}{PrevUserCallbackMousebutton}}(window,\ button,\ action,\ mods);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00339}00339\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00340}00340\ \ \ \ \ ImGui\_ImplGlfw\_UpdateKeyModifiers(window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00342}00342\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00343}00343\ \ \ \ \ \textcolor{keywordflow}{if}\ (button\ >=\ 0\ \&\&\ button\ <\ ImGuiMouseButton\_COUNT)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ io.AddMouseButtonEvent(button,\ action\ ==\ GLFW\_PRESS);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00345}00345\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00346}00346\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00347}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a59c26c674cfd04975ac49c7d83339113}{00347}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a59c26c674cfd04975ac49c7d83339113}{ImGui\_ImplGlfw\_ScrollCallback}}(GLFWwindow*\ window,\ \textcolor{keywordtype}{double}\ xoffset,\ \textcolor{keywordtype}{double}\ yoffset)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00348}00348\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00349}00349\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00350}00350\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a37a806957eff842793b1010bf55b3a49}{PrevUserCallbackScroll}}\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ ImGui\_ImplGlfw\_ShouldChainCallback(window))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a37a806957eff842793b1010bf55b3a49}{PrevUserCallbackScroll}}(window,\ xoffset,\ yoffset);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00353}00353\ \textcolor{preprocessor}{\#ifdef\ EMSCRIPTEN\_USE\_EMBEDDED\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00354}00354\ \ \ \ \ \textcolor{comment}{//\ Ignore\ GLFW\ events:\ will\ be\ processed\ in\ ImGui\_ImplEmscripten\_WheelCallback().}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00355}00355\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00356}00356\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00357}00357\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00358}00358\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00359}00359\ \ \ \ \ io.AddMouseWheelEvent((\textcolor{keywordtype}{float})xoffset,\ (\textcolor{keywordtype}{float})yoffset);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00360}00360\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00361}00361\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00362}00362\ \textcolor{comment}{//\ FIXME:\ should\ this\ be\ baked\ into\ ImGui\_ImplGlfw\_KeyToImGuiKey()?\ then\ what\ about\ the\ values\ passed\ to\ io.SetKeyEventNativeData()?}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00363}00363\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ ImGui\_ImplGlfw\_TranslateUntranslatedKey(\textcolor{keywordtype}{int}\ key,\ \textcolor{keywordtype}{int}\ scancode)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00364}00364\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00365}00365\ \textcolor{preprocessor}{\#if\ GLFW\_HAS\_GETKEYNAME\ \&\&\ !defined(EMSCRIPTEN\_USE\_EMBEDDED\_GLFW3)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00366}00366\ \ \ \ \ \textcolor{comment}{//\ GLFW\ 3.1+\ attempts\ to\ "{}untranslate"{}\ keys,\ which\ goes\ the\ opposite\ of\ what\ every\ other\ framework\ does,\ making\ using\ lettered\ shortcuts\ difficult.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00367}00367\ \ \ \ \ \textcolor{comment}{//\ (It\ had\ reasons\ to\ do\ so:\ namely\ GLFW\ is/was\ more\ likely\ to\ be\ used\ for\ WASD-\/type\ game\ controls\ rather\ than\ lettered\ shortcuts,\ but\ IHMO\ the\ 3.1\ change\ could\ have\ been\ done\ differently)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00368}00368\ \ \ \ \ \textcolor{comment}{//\ See\ https://github.com/glfw/glfw/issues/1502\ for\ details.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00369}00369\ \ \ \ \ \textcolor{comment}{//\ Adding\ a\ workaround\ to\ undo\ this\ (so\ our\ keys\ are\ translated-\/>untranslated-\/>translated,\ likely\ a\ lossy\ process).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00370}00370\ \ \ \ \ \textcolor{comment}{//\ This\ won't\ cover\ edge\ cases\ but\ this\ is\ at\ least\ going\ to\ cover\ common\ cases.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00371}00371\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ >=\ GLFW\_KEY\_KP\_0\ \&\&\ key\ <=\ GLFW\_KEY\_KP\_EQUAL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00372}00372\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ key;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00373}00373\ \ \ \ \ GLFWerrorfun\ prev\_error\_callback\ =\ glfwSetErrorCallback(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00374}00374\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ key\_name\ =\ glfwGetKeyName(key,\ scancode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00375}00375\ \ \ \ \ glfwSetErrorCallback(prev\_error\_callback);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00376}00376\ \textcolor{preprocessor}{\#if\ GLFW\_HAS\_GETERROR\ \&\&\ !defined(EMSCRIPTEN\_USE\_EMBEDDED\_GLFW3)\ }\textcolor{comment}{//\ Eat\ errors\ (see\ \#5908)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00377}00377\ \ \ \ \ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})glfwGetError(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00378}00378\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00379}00379\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_name\ \&\&\ key\_name[0]\ !=\ 0\ \&\&\ key\_name[1]\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00380}00380\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ char\_names[]\ =\ \textcolor{stringliteral}{"{}\`{}-\/=[]\(\backslash\)\(\backslash\),;\(\backslash\)'./"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00382}00382\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ char\_keys[]\ =\ \{\ GLFW\_KEY\_GRAVE\_ACCENT,\ GLFW\_KEY\_MINUS,\ GLFW\_KEY\_EQUAL,\ GLFW\_KEY\_LEFT\_BRACKET,\ GLFW\_KEY\_RIGHT\_BRACKET,\ GLFW\_KEY\_BACKSLASH,\ GLFW\_KEY\_COMMA,\ GLFW\_KEY\_SEMICOLON,\ GLFW\_KEY\_APOSTROPHE,\ GLFW\_KEY\_PERIOD,\ GLFW\_KEY\_SLASH,\ 0\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00383}00383\ \ \ \ \ \ \ \ \ IM\_ASSERT(IM\_ARRAYSIZE(char\_names)\ ==\ IM\_ARRAYSIZE(char\_keys));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_name[0]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ key\_name[0]\ <=\ \textcolor{charliteral}{'9'})\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ key\ =\ GLFW\_KEY\_0\ +\ (key\_name[0]\ -\/\ \textcolor{charliteral}{'0'});\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00385}00385\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (key\_name[0]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ key\_name[0]\ <=\ \textcolor{charliteral}{'Z'})\ \ \ \ \ \ \ \ \ \ \{\ key\ =\ GLFW\_KEY\_A\ +\ (key\_name[0]\ -\/\ \textcolor{charliteral}{'A'});\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00386}00386\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (key\_name[0]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ key\_name[0]\ <=\ \textcolor{charliteral}{'z'})\ \ \ \ \ \ \ \ \ \ \{\ key\ =\ GLFW\_KEY\_A\ +\ (key\_name[0]\ -\/\ \textcolor{charliteral}{'a'});\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00387}00387\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ p\ =\ strchr(char\_names,\ key\_name[0]))\ \ \ \{\ key\ =\ char\_keys[p\ -\/\ char\_names];\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00388}00388\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00389}00389\ \ \ \ \ \textcolor{comment}{//\ if\ (action\ ==\ GLFW\_PRESS)\ printf("{}key\ \%d\ scancode\ \%d\ name\ '\%s'\(\backslash\)n"{},\ key,\ scancode,\ key\_name);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00390}00390\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00391}00391\ \ \ \ \ IM\_UNUSED(scancode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00392}00392\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00393}00393\ \ \ \ \ \textcolor{keywordflow}{return}\ key;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00394}00394\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00396}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a66afe6468f3645befeb50a75f82b5efc}{00396}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a66afe6468f3645befeb50a75f82b5efc}{ImGui\_ImplGlfw\_KeyCallback}}(GLFWwindow*\ window,\ \textcolor{keywordtype}{int}\ keycode,\ \textcolor{keywordtype}{int}\ scancode,\ \textcolor{keywordtype}{int}\ action,\ \textcolor{keywordtype}{int}\ mods)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00397}00397\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00398}00398\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00399}00399\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a61c7fb5bae79f2296c361912ef0c7179}{PrevUserCallbackKey}}\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ ImGui\_ImplGlfw\_ShouldChainCallback(window))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00400}00400\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a61c7fb5bae79f2296c361912ef0c7179}{PrevUserCallbackKey}}(window,\ keycode,\ scancode,\ action,\ mods);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00401}00401\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00402}00402\ \ \ \ \ \textcolor{keywordflow}{if}\ (action\ !=\ GLFW\_PRESS\ \&\&\ action\ !=\ GLFW\_RELEASE)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00403}00403\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00404}00404\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00405}00405\ \ \ \ \ ImGui\_ImplGlfw\_UpdateKeyModifiers(window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00406}00406\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00407}00407\ \ \ \ \ keycode\ =\ ImGui\_ImplGlfw\_TranslateUntranslatedKey(keycode,\ scancode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00408}00408\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00409}00409\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00410}00410\ \ \ \ \ ImGuiKey\ imgui\_key\ =\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a758c933a543b8670f1c96cba13f80636}{ImGui\_ImplGlfw\_KeyToImGuiKey}}(keycode,\ scancode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00411}00411\ \ \ \ \ io.AddKeyEvent(imgui\_key,\ (action\ ==\ GLFW\_PRESS));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00412}00412\ \ \ \ \ io.SetKeyEventNativeData(imgui\_key,\ keycode,\ scancode);\ \textcolor{comment}{//\ To\ support\ legacy\ indexing\ (<1.87\ user\ code)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00413}00413\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00414}00414\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00415}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a64954a853e7f22592743e177b29780d6}{00415}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a64954a853e7f22592743e177b29780d6}{ImGui\_ImplGlfw\_WindowFocusCallback}}(GLFWwindow*\ window,\ \textcolor{keywordtype}{int}\ focused)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00416}00416\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00417}00417\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00418}00418\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ab2d6f0997eee54b310ab657e48b50033}{PrevUserCallbackWindowFocus}}\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ ImGui\_ImplGlfw\_ShouldChainCallback(window))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00419}00419\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ab2d6f0997eee54b310ab657e48b50033}{PrevUserCallbackWindowFocus}}(window,\ focused);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00420}00420\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00421}00421\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00422}00422\ \ \ \ \ io.AddFocusEvent(focused\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00423}00423\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00424}00424\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00425}\mbox{\hyperlink{imgui__impl__glfw_8cpp_aff2e41a5905ff393a8c6a458809f8c8e}{00425}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_aff2e41a5905ff393a8c6a458809f8c8e}{ImGui\_ImplGlfw\_CursorPosCallback}}(GLFWwindow*\ window,\ \textcolor{keywordtype}{double}\ x,\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00426}00426\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00427}00427\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00428}00428\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a58577fb2f4a4f9657802712f728e5d17}{PrevUserCallbackCursorPos}}\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ ImGui\_ImplGlfw\_ShouldChainCallback(window))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00429}00429\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a58577fb2f4a4f9657802712f728e5d17}{PrevUserCallbackCursorPos}}(window,\ x,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00430}00430\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00431}00431\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00432}00432\ \ \ \ \ io.AddMousePosEvent((\textcolor{keywordtype}{float})x,\ (\textcolor{keywordtype}{float})\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00433}00433\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a71c8194d82a00e458884c50552e21933}{LastValidMousePos}}\ =\ ImVec2((\textcolor{keywordtype}{float})x,\ (\textcolor{keywordtype}{float})\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00434}00434\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00435}00435\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00436}00436\ \textcolor{comment}{//\ Workaround:\ X11\ seems\ to\ send\ spurious\ Leave/Enter\ events\ which\ would\ make\ us\ lose\ our\ position,}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00437}00437\ \textcolor{comment}{//\ so\ we\ back\ it\ up\ and\ restore\ on\ Leave/Enter\ (see\ https://github.com/ocornut/imgui/issues/4984)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00438}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a36cddf1dc9af69c03ea52450a32d3818}{00438}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a36cddf1dc9af69c03ea52450a32d3818}{ImGui\_ImplGlfw\_CursorEnterCallback}}(GLFWwindow*\ window,\ \textcolor{keywordtype}{int}\ entered)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00439}00439\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00440}00440\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00441}00441\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0bb12cf6a91ce6e42900a5c1fb58369e}{PrevUserCallbackCursorEnter}}\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ ImGui\_ImplGlfw\_ShouldChainCallback(window))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00442}00442\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0bb12cf6a91ce6e42900a5c1fb58369e}{PrevUserCallbackCursorEnter}}(window,\ entered);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00443}00443\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00444}00444\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00445}00445\ \ \ \ \ \textcolor{keywordflow}{if}\ (entered)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00446}00446\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00447}00447\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0cd83054e5f18b548ad7030e56e44fa7}{MouseWindow}}\ =\ window;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00448}00448\ \ \ \ \ \ \ \ \ io.AddMousePosEvent(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a71c8194d82a00e458884c50552e21933}{LastValidMousePos}}.x,\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a71c8194d82a00e458884c50552e21933}{LastValidMousePos}}.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00449}00449\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00450}00450\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!entered\ \&\&\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0cd83054e5f18b548ad7030e56e44fa7}{MouseWindow}}\ ==\ window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00451}00451\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00452}00452\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a71c8194d82a00e458884c50552e21933}{LastValidMousePos}}\ =\ io.MousePos;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00453}00453\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0cd83054e5f18b548ad7030e56e44fa7}{MouseWindow}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00454}00454\ \ \ \ \ \ \ \ \ io.AddMousePosEvent(-\/FLT\_MAX,\ -\/FLT\_MAX);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00455}00455\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00456}00456\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00457}00457\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00458}\mbox{\hyperlink{imgui__impl__glfw_8cpp_afe604d459cc5c4a173ce9e331af6735b}{00458}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_afe604d459cc5c4a173ce9e331af6735b}{ImGui\_ImplGlfw\_CharCallback}}(GLFWwindow*\ window,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ c)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00459}00459\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00460}00460\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00461}00461\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a537697690bd14a0a11be72f3ef874793}{PrevUserCallbackChar}}\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ ImGui\_ImplGlfw\_ShouldChainCallback(window))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00462}00462\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a537697690bd14a0a11be72f3ef874793}{PrevUserCallbackChar}}(window,\ c);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00463}00463\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00464}00464\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00465}00465\ \ \ \ \ io.AddInputCharacter(c);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00466}00466\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00467}00467\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00468}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a9acaa23c8338d1ef4ba82b48142ee895}{00468}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9acaa23c8338d1ef4ba82b48142ee895}{ImGui\_ImplGlfw\_MonitorCallback}}(GLFWmonitor*,\ \textcolor{keywordtype}{int})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00469}00469\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00470}00470\ \ \ \ \ \textcolor{comment}{//\ Unused\ in\ 'master'\ branch\ but\ 'docking'\ branch\ will\ use\ this,\ so\ we\ declare\ it\ ahead\ of\ it\ so\ if\ you\ have\ to\ install\ callbacks\ you\ can\ install\ this\ one\ too.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00471}00471\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00472}00472\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00473}00473\ \textcolor{preprocessor}{\#ifdef\ EMSCRIPTEN\_USE\_EMBEDDED\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00474}00474\ \textcolor{keyword}{static}\ EM\_BOOL\ ImGui\_ImplEmscripten\_WheelCallback(\textcolor{keywordtype}{int},\ \textcolor{keyword}{const}\ EmscriptenWheelEvent*\ ev,\ \textcolor{keywordtype}{void}*)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00475}00475\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00476}00476\ \ \ \ \ \textcolor{comment}{//\ Mimic\ Emscripten\_HandleWheel()\ in\ SDL.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00477}00477\ \ \ \ \ \textcolor{comment}{//\ Corresponding\ equivalent\ in\ GLFW\ JS\ emulation\ layer\ has\ incorrect\ quantizing\ preventing\ small\ values.\ See\ \#6096}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00478}00478\ \ \ \ \ \textcolor{keywordtype}{float}\ multiplier\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00479}00479\ \ \ \ \ \textcolor{keywordflow}{if}\ (ev-\/>deltaMode\ ==\ DOM\_DELTA\_PIXEL)\ \ \ \ \ \ \ \{\ multiplier\ =\ 1.0f\ /\ 100.0f;\ \}\ \textcolor{comment}{//\ 100\ pixels\ make\ up\ a\ step.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00480}00480\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (ev-\/>deltaMode\ ==\ DOM\_DELTA\_LINE)\ \ \ \{\ multiplier\ =\ 1.0f\ /\ 3.0f;\ \}\ \ \ \textcolor{comment}{//\ 3\ lines\ make\ up\ a\ step.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00481}00481\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (ev-\/>deltaMode\ ==\ DOM\_DELTA\_PAGE)\ \ \ \{\ multiplier\ =\ 80.0f;\ \}\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ A\ page\ makes\ up\ 80\ steps.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00482}00482\ \ \ \ \ \textcolor{keywordtype}{float}\ wheel\_x\ =\ ev-\/>deltaX\ *\ -\/multiplier;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00483}00483\ \ \ \ \ \textcolor{keywordtype}{float}\ wheel\_y\ =\ ev-\/>deltaY\ *\ -\/multiplier;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00484}00484\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00485}00485\ \ \ \ \ io.AddMouseWheelEvent(wheel\_x,\ wheel\_y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00486}00486\ \ \ \ \ \textcolor{comment}{//IMGUI\_DEBUG\_LOG("{}[Emsc]\ mode\ \%d\ dx:\ \%.2f,\ dy:\ \%.2f,\ dz:\ \%.2f\ -\/-\/>\ feed\ \%.2f\ \%.2f\(\backslash\)n"{},\ (int)ev-\/>deltaMode,\ ev-\/>deltaX,\ ev-\/>deltaY,\ ev-\/>deltaZ,\ wheel\_x,\ wheel\_y);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00487}00487\ \ \ \ \ \textcolor{keywordflow}{return}\ EM\_TRUE;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00488}00488\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00489}00489\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00490}00490\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00491}00491\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00492}00492\ \textcolor{comment}{//\ GLFW\ doesn't\ allow\ to\ distinguish\ Mouse\ vs\ TouchScreen\ vs\ Pen.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00493}00493\ \textcolor{comment}{//\ Add\ support\ for\ Win32\ (based\ on\ imgui\_impl\_win32),\ because\ we\ rely\ on\ \_TouchScreen\ info\ to\ trickle\ inputs\ differently.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00494}00494\ \textcolor{keyword}{static}\ ImGuiMouseSource\ GetMouseSourceFromMessageExtraInfo()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00495}00495\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00496}00496\ \ \ \ \ LPARAM\ extra\_info\ =\ ::GetMessageExtraInfo();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00497}00497\ \ \ \ \ \textcolor{keywordflow}{if}\ ((extra\_info\ \&\ 0xFFFFFF80)\ ==\ 0xFF515700)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00498}00498\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiMouseSource\_Pen;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00499}00499\ \ \ \ \ \textcolor{keywordflow}{if}\ ((extra\_info\ \&\ 0xFFFFFF80)\ ==\ 0xFF515780)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00500}00500\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiMouseSource\_TouchScreen;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00501}00501\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiMouseSource\_Mouse;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00502}00502\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00503}00503\ \textcolor{keyword}{static}\ LRESULT\ CALLBACK\ ImGui\_ImplGlfw\_WndProc(HWND\ hWnd,\ UINT\ msg,\ WPARAM\ wParam,\ LPARAM\ lParam)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00504}00504\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00505}00505\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00506}00506\ \ \ \ \ \textcolor{keywordflow}{switch}\ (msg)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00507}00507\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00508}00508\ \ \ \ \ \textcolor{keywordflow}{case}\ WM\_MOUSEMOVE:\ \textcolor{keywordflow}{case}\ WM\_NCMOUSEMOVE:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00509}00509\ \ \ \ \ \textcolor{keywordflow}{case}\ WM\_LBUTTONDOWN:\ \textcolor{keywordflow}{case}\ WM\_LBUTTONDBLCLK:\ \textcolor{keywordflow}{case}\ WM\_LBUTTONUP:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00510}00510\ \ \ \ \ \textcolor{keywordflow}{case}\ WM\_RBUTTONDOWN:\ \textcolor{keywordflow}{case}\ WM\_RBUTTONDBLCLK:\ \textcolor{keywordflow}{case}\ WM\_RBUTTONUP:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00511}00511\ \ \ \ \ \textcolor{keywordflow}{case}\ WM\_MBUTTONDOWN:\ \textcolor{keywordflow}{case}\ WM\_MBUTTONDBLCLK:\ \textcolor{keywordflow}{case}\ WM\_MBUTTONUP:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00512}00512\ \ \ \ \ \textcolor{keywordflow}{case}\ WM\_XBUTTONDOWN:\ \textcolor{keywordflow}{case}\ WM\_XBUTTONDBLCLK:\ \textcolor{keywordflow}{case}\ WM\_XBUTTONUP:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00513}00513\ \ \ \ \ \ \ \ \ ImGui::GetIO().AddMouseSourceEvent(GetMouseSourceFromMessageExtraInfo());}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00514}00514\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00515}00515\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00516}00516\ \ \ \ \ return\ ::CallWindowProcW(bd-\/>PrevWndProc,\ hWnd,\ msg,\ wParam,\ lParam);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00517}00517\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00518}00518\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00519}00519\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00520}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a6fe1ba0e49c2da76f4f28856bc8511fb}{00520}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a6fe1ba0e49c2da76f4f28856bc8511fb}{ImGui\_ImplGlfw\_InstallCallbacks}}(GLFWwindow*\ window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00521}00521\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00522}00522\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00523}00523\ \ \ \ \ IM\_ASSERT(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2cd25c9a1afd831a20c9ec5a6dc52b91}{InstalledCallbacks}}\ ==\ \textcolor{keyword}{false}\ \&\&\ \textcolor{stringliteral}{"{}Callbacks\ already\ installed!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00524}00524\ \ \ \ \ IM\_ASSERT(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}}\ ==\ window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00525}00525\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00526}00526\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ab2d6f0997eee54b310ab657e48b50033}{PrevUserCallbackWindowFocus}}\ =\ glfwSetWindowFocusCallback(window,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a64954a853e7f22592743e177b29780d6}{ImGui\_ImplGlfw\_WindowFocusCallback}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00527}00527\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0bb12cf6a91ce6e42900a5c1fb58369e}{PrevUserCallbackCursorEnter}}\ =\ glfwSetCursorEnterCallback(window,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a36cddf1dc9af69c03ea52450a32d3818}{ImGui\_ImplGlfw\_CursorEnterCallback}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00528}00528\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a58577fb2f4a4f9657802712f728e5d17}{PrevUserCallbackCursorPos}}\ =\ glfwSetCursorPosCallback(window,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_aff2e41a5905ff393a8c6a458809f8c8e}{ImGui\_ImplGlfw\_CursorPosCallback}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00529}00529\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a4f072029ab315c801b69849648bd5e86}{PrevUserCallbackMousebutton}}\ =\ glfwSetMouseButtonCallback(window,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a075e351f00b5c13086cacb05b5b6ee08}{ImGui\_ImplGlfw\_MouseButtonCallback}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00530}00530\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a37a806957eff842793b1010bf55b3a49}{PrevUserCallbackScroll}}\ =\ glfwSetScrollCallback(window,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a59c26c674cfd04975ac49c7d83339113}{ImGui\_ImplGlfw\_ScrollCallback}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00531}00531\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a61c7fb5bae79f2296c361912ef0c7179}{PrevUserCallbackKey}}\ =\ glfwSetKeyCallback(window,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a66afe6468f3645befeb50a75f82b5efc}{ImGui\_ImplGlfw\_KeyCallback}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00532}00532\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a537697690bd14a0a11be72f3ef874793}{PrevUserCallbackChar}}\ =\ glfwSetCharCallback(window,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_afe604d459cc5c4a173ce9e331af6735b}{ImGui\_ImplGlfw\_CharCallback}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00533}00533\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a874ea29cb2f17f07255a738b9eda8118}{PrevUserCallbackMonitor}}\ =\ glfwSetMonitorCallback(\mbox{\hyperlink{imgui__impl__glfw_8cpp_a9acaa23c8338d1ef4ba82b48142ee895}{ImGui\_ImplGlfw\_MonitorCallback}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00534}00534\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2cd25c9a1afd831a20c9ec5a6dc52b91}{InstalledCallbacks}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00535}00535\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00536}00536\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00537}\mbox{\hyperlink{imgui__impl__glfw_8cpp_aa7cddd7ef946da421374a6bea12db744}{00537}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_aa7cddd7ef946da421374a6bea12db744}{ImGui\_ImplGlfw\_RestoreCallbacks}}(GLFWwindow*\ window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00538}00538\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00539}00539\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00540}00540\ \ \ \ \ IM\_ASSERT(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2cd25c9a1afd831a20c9ec5a6dc52b91}{InstalledCallbacks}}\ ==\ \textcolor{keyword}{true}\ \&\&\ \textcolor{stringliteral}{"{}Callbacks\ not\ installed!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00541}00541\ \ \ \ \ IM\_ASSERT(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}}\ ==\ window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00542}00542\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00543}00543\ \ \ \ \ glfwSetWindowFocusCallback(window,\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ab2d6f0997eee54b310ab657e48b50033}{PrevUserCallbackWindowFocus}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00544}00544\ \ \ \ \ glfwSetCursorEnterCallback(window,\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0bb12cf6a91ce6e42900a5c1fb58369e}{PrevUserCallbackCursorEnter}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00545}00545\ \ \ \ \ glfwSetCursorPosCallback(window,\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a58577fb2f4a4f9657802712f728e5d17}{PrevUserCallbackCursorPos}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00546}00546\ \ \ \ \ glfwSetMouseButtonCallback(window,\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a4f072029ab315c801b69849648bd5e86}{PrevUserCallbackMousebutton}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00547}00547\ \ \ \ \ glfwSetScrollCallback(window,\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a37a806957eff842793b1010bf55b3a49}{PrevUserCallbackScroll}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00548}00548\ \ \ \ \ glfwSetKeyCallback(window,\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a61c7fb5bae79f2296c361912ef0c7179}{PrevUserCallbackKey}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00549}00549\ \ \ \ \ glfwSetCharCallback(window,\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a537697690bd14a0a11be72f3ef874793}{PrevUserCallbackChar}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00550}00550\ \ \ \ \ glfwSetMonitorCallback(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a874ea29cb2f17f07255a738b9eda8118}{PrevUserCallbackMonitor}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00551}00551\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2cd25c9a1afd831a20c9ec5a6dc52b91}{InstalledCallbacks}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00552}00552\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ab2d6f0997eee54b310ab657e48b50033}{PrevUserCallbackWindowFocus}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00553}00553\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0bb12cf6a91ce6e42900a5c1fb58369e}{PrevUserCallbackCursorEnter}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00554}00554\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a58577fb2f4a4f9657802712f728e5d17}{PrevUserCallbackCursorPos}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00555}00555\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a4f072029ab315c801b69849648bd5e86}{PrevUserCallbackMousebutton}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00556}00556\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a37a806957eff842793b1010bf55b3a49}{PrevUserCallbackScroll}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00557}00557\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a61c7fb5bae79f2296c361912ef0c7179}{PrevUserCallbackKey}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00558}00558\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a537697690bd14a0a11be72f3ef874793}{PrevUserCallbackChar}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00559}00559\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a874ea29cb2f17f07255a738b9eda8118}{PrevUserCallbackMonitor}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00560}00560\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00561}00561\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00562}00562\ \textcolor{comment}{//\ Set\ to\ 'true'\ to\ enable\ chaining\ installed\ callbacks\ for\ all\ windows\ (including\ secondary\ viewports\ created\ by\ backends\ or\ by\ user.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00563}00563\ \textcolor{comment}{//\ This\ is\ 'false'\ by\ default\ meaning\ we\ only\ chain\ callbacks\ for\ the\ main\ viewport.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00564}00564\ \textcolor{comment}{//\ We\ cannot\ set\ this\ to\ 'true'\ by\ default\ because\ user\ callbacks\ code\ may\ be\ not\ testing\ the\ 'window'\ parameter\ of\ their\ callback.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00565}00565\ \textcolor{comment}{//\ If\ you\ set\ this\ to\ 'true'\ your\ user\ callback\ code\ will\ need\ to\ make\ sure\ you\ are\ testing\ the\ 'window'\ parameter.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00566}\mbox{\hyperlink{imgui__impl__glfw_8cpp_addd8948824f9bd78b0c8ec4c81213c9e}{00566}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_addd8948824f9bd78b0c8ec4c81213c9e}{ImGui\_ImplGlfw\_SetCallbacksChainForAllWindows}}(\textcolor{keywordtype}{bool}\ chain\_for\_all\_windows)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00567}00567\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00568}00568\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00569}00569\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2a8575611eb554c3acb0e8c8228cdc44}{CallbacksChainForAllWindows}}\ =\ chain\_for\_all\_windows;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00570}00570\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00571}00571\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00572}00572\ \textcolor{preprocessor}{\#ifdef\ \_\_EMSCRIPTEN\_\_}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00573}00573\ \textcolor{preprocessor}{\#if\ EMSCRIPTEN\_USE\_PORT\_CONTRIB\_GLFW3\ >=\ 34020240817}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00574}00574\ \textcolor{keywordtype}{void}\ ImGui\_ImplGlfw\_EmscriptenOpenURL(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ url)\ \{\ \textcolor{keywordflow}{if}\ (url)\ emscripten::glfw3::OpenURL(url);\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00575}00575\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00576}00576\ EM\_JS(\textcolor{keywordtype}{void},\ ImGui\_ImplGlfw\_EmscriptenOpenURL,\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ url),\ \{\ url\ =\ url\ ?\ UTF8ToString(url)\ :\ null;\ \textcolor{keywordflow}{if}\ (url)\ window.open(url,\ \textcolor{stringliteral}{'\_blank'});\ \});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00577}00577\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00578}00578\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00579}00579\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00580}00580\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ ImGui\_ImplGlfw\_Init(GLFWwindow*\ window,\ \textcolor{keywordtype}{bool}\ install\_callbacks,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{GlfwClientApi}}\ client\_api)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00581}00581\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00582}00582\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00583}00583\ \ \ \ \ IMGUI\_CHECKVERSION();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00584}00584\ \ \ \ \ IM\_ASSERT(io.BackendPlatformUserData\ ==\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Already\ initialized\ a\ platform\ backend!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00585}00585\ \ \ \ \ \textcolor{comment}{//printf("{}GLFW\_VERSION:\ \%d.\%d.\%d\ (\%d)"{},\ GLFW\_VERSION\_MAJOR,\ GLFW\_VERSION\_MINOR,\ GLFW\_VERSION\_REVISION,\ GLFW\_VERSION\_COMBINED);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00586}00586\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00587}00587\ \ \ \ \ \textcolor{comment}{//\ Setup\ backend\ capabilities\ flags}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00588}00588\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ IM\_NEW(\mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}})();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00589}00589\ \ \ \ \ io.BackendPlatformUserData\ =\ (\textcolor{keywordtype}{void}*)bd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00590}00590\ \ \ \ \ io.BackendPlatformName\ =\ \textcolor{stringliteral}{"{}imgui\_impl\_glfw"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00591}00591\ \ \ \ \ io.BackendFlags\ |=\ ImGuiBackendFlags\_HasMouseCursors;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ can\ honor\ GetMouseCursor()\ values\ (optional)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00592}00592\ \ \ \ \ io.BackendFlags\ |=\ ImGuiBackendFlags\_HasSetMousePos;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ can\ honor\ io.WantSetMousePos\ requests\ (optional,\ rarely\ used)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00593}00593\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00594}00594\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}}\ =\ window;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00595}00595\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a63f538471c9e5113975333df9494d526}{Time}}\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00596}00596\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00597}00597\ \ \ \ \ ImGuiPlatformIO\&\ platform\_io\ =\ ImGui::GetPlatformIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00598}00598\ \ \ \ \ platform\_io.Platform\_SetClipboardTextFn\ =\ [](ImGuiContext*,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text)\ \{\ glfwSetClipboardString(NULL,\ text);\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00599}00599\ \ \ \ \ platform\_io.Platform\_GetClipboardTextFn\ =\ [](ImGuiContext*)\ \{\ \textcolor{keywordflow}{return}\ glfwGetClipboardString(NULL);\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00600}00600\ \textcolor{preprocessor}{\#ifdef\ \_\_EMSCRIPTEN\_\_}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00601}00601\ \ \ \ \ platform\_io.Platform\_OpenInShellFn\ =\ [](ImGuiContext*,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ url)\ \{\ ImGui\_ImplGlfw\_EmscriptenOpenURL(url);\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00602}00602\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00603}00603\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00604}00604\ \ \ \ \ \textcolor{comment}{//\ Create\ mouse\ cursors}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00605}00605\ \ \ \ \ \textcolor{comment}{//\ (By\ design,\ on\ X11\ cursors\ are\ user\ configurable\ and\ some\ cursors\ may\ be\ missing.\ When\ a\ cursor\ doesn't\ exist,}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00606}00606\ \ \ \ \ \textcolor{comment}{//\ GLFW\ will\ emit\ an\ error\ which\ will\ often\ be\ printed\ by\ the\ app,\ so\ we\ temporarily\ disable\ error\ reporting.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00607}00607\ \ \ \ \ \textcolor{comment}{//\ Missing\ cursors\ will\ return\ nullptr\ and\ our\ \_UpdateMouseCursor()\ function\ will\ use\ the\ Arrow\ cursor\ instead.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00608}00608\ \ \ \ \ GLFWerrorfun\ prev\_error\_callback\ =\ glfwSetErrorCallback(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00609}00609\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_Arrow]\ =\ glfwCreateStandardCursor(GLFW\_ARROW\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00610}00610\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_TextInput]\ =\ glfwCreateStandardCursor(GLFW\_IBEAM\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00611}00611\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_ResizeNS]\ =\ glfwCreateStandardCursor(GLFW\_VRESIZE\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00612}00612\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_ResizeEW]\ =\ glfwCreateStandardCursor(GLFW\_HRESIZE\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00613}00613\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_Hand]\ =\ glfwCreateStandardCursor(GLFW\_HAND\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00614}00614\ \textcolor{preprocessor}{\#if\ GLFW\_HAS\_NEW\_CURSORS}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00615}00615\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_ResizeAll]\ =\ glfwCreateStandardCursor(GLFW\_RESIZE\_ALL\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00616}00616\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_ResizeNESW]\ =\ glfwCreateStandardCursor(GLFW\_RESIZE\_NESW\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00617}00617\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_ResizeNWSE]\ =\ glfwCreateStandardCursor(GLFW\_RESIZE\_NWSE\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00618}00618\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_NotAllowed]\ =\ glfwCreateStandardCursor(GLFW\_NOT\_ALLOWED\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00619}00619\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00620}00620\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_ResizeAll]\ =\ glfwCreateStandardCursor(GLFW\_ARROW\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00621}00621\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_ResizeNESW]\ =\ glfwCreateStandardCursor(GLFW\_ARROW\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00622}00622\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_ResizeNWSE]\ =\ glfwCreateStandardCursor(GLFW\_ARROW\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00623}00623\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[ImGuiMouseCursor\_NotAllowed]\ =\ glfwCreateStandardCursor(GLFW\_ARROW\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00624}00624\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00625}00625\ \ \ \ \ glfwSetErrorCallback(prev\_error\_callback);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00626}00626\ \textcolor{preprocessor}{\#if\ GLFW\_HAS\_GETERROR\ \&\&\ !defined(\_\_EMSCRIPTEN\_\_)\ }\textcolor{comment}{//\ Eat\ errors\ (see\ \#5908)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00627}00627\ \ \ \ \ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})glfwGetError(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00628}00628\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00629}00629\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00630}00630\ \ \ \ \ \textcolor{comment}{//\ Chain\ GLFW\ callbacks:\ our\ callbacks\ will\ call\ the\ user's\ previously\ installed\ callbacks,\ if\ any.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00631}00631\ \ \ \ \ \textcolor{keywordflow}{if}\ (install\_callbacks)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00632}00632\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a6fe1ba0e49c2da76f4f28856bc8511fb}{ImGui\_ImplGlfw\_InstallCallbacks}}(window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00633}00633\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00634}00634\ \ \ \ \ \textcolor{comment}{//\ Set\ platform\ dependent\ data\ in\ viewport}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00635}00635\ \ \ \ \ ImGuiViewport*\ main\_viewport\ =\ ImGui::GetMainViewport();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00636}00636\ \ \ \ \ main\_viewport-\/>PlatformHandle\ =\ (\textcolor{keywordtype}{void}*)bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00637}00637\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00638}00638\ \ \ \ \ main\_viewport-\/>PlatformHandleRaw\ =\ glfwGetWin32Window(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00639}00639\ \textcolor{preprocessor}{\#elif\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00640}00640\ \ \ \ \ main\_viewport-\/>PlatformHandleRaw\ =\ (\textcolor{keywordtype}{void}*)glfwGetCocoaWindow(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00641}00641\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00642}00642\ \ \ \ \ IM\_UNUSED(main\_viewport);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00643}00643\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00644}00644\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00645}00645\ \ \ \ \ \textcolor{comment}{//\ Windows:\ register\ a\ WndProc\ hook\ so\ we\ can\ intercept\ some\ messages.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00646}00646\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00647}00647\ \ \ \ \ bd-\/>PrevWndProc\ =\ (WNDPROC)::GetWindowLongPtrW((HWND)main\_viewport-\/>PlatformHandleRaw,\ GWLP\_WNDPROC);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00648}00648\ \ \ \ \ IM\_ASSERT(bd-\/>PrevWndProc\ !=\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00649}00649\ \ \ \ \ ::SetWindowLongPtrW((HWND)main\_viewport-\/>PlatformHandleRaw,\ GWLP\_WNDPROC,\ (LONG\_PTR)ImGui\_ImplGlfw\_WndProc);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00650}00650\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00651}00651\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00652}00652\ \ \ \ \ \textcolor{comment}{//\ Emscripten:\ the\ same\ application\ can\ run\ on\ various\ platforms,\ so\ we\ detect\ the\ Apple\ platform\ at\ runtime}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00653}00653\ \ \ \ \ \textcolor{comment}{//\ to\ override\ io.ConfigMacOSXBehaviors\ from\ its\ default\ (which\ is\ always\ false\ in\ Emscripten).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00654}00654\ \textcolor{preprocessor}{\#ifdef\ \_\_EMSCRIPTEN\_\_}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00655}00655\ \textcolor{preprocessor}{\#if\ EMSCRIPTEN\_USE\_PORT\_CONTRIB\_GLFW3\ >=\ 34020240817}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00656}00656\ \ \ \ \ \textcolor{keywordflow}{if}\ (emscripten::glfw3::IsRuntimePlatformApple())}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00657}00657\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00658}00658\ \ \ \ \ \ \ \ \ ImGui::GetIO().ConfigMacOSXBehaviors\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00659}00659\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00660}00660\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Due\ to\ how\ the\ browser\ (poorly)\ handles\ the\ Meta\ Key,\ this\ line\ essentially\ disables\ repeats\ when\ used.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00661}00661\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ means\ that\ Meta\ +\ V\ only\ registers\ a\ single\ key-\/press,\ even\ if\ the\ keys\ are\ held.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00662}00662\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ a\ compromise\ for\ dealing\ with\ this\ issue\ in\ ImGui\ since\ ImGui\ implements\ key\ repeat\ itself.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00663}00663\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ See\ https://github.com/pongasoft/emscripten-\/glfw/blob/v3.4.0.20240817/docs/Usage.md\#the-\/problem-\/of-\/the-\/super-\/key}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00664}00664\ \ \ \ \ \ \ \ \ emscripten::glfw3::SetSuperPlusKeyTimeouts(10,\ 10);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00665}00665\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00666}00666\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00667}00667\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00668}00668\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00669}00669\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a089d00194b9c811ee8da7a4976ea6ab9}{ClientApi}}\ =\ client\_api;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00670}00670\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00671}00671\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00672}00672\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00673}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a3d472e598f8e218a0bd994e840b865ab}{00673}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a3d472e598f8e218a0bd994e840b865ab}{ImGui\_ImplGlfw\_InitForOpenGL}}(GLFWwindow*\ window,\ \textcolor{keywordtype}{bool}\ install\_callbacks)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00674}00674\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00675}00675\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui\_ImplGlfw\_Init(window,\ install\_callbacks,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189}{GlfwClientApi\_OpenGL}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00676}00676\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00677}00677\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00678}\mbox{\hyperlink{imgui__impl__glfw_8cpp_ac7cab00e5027bccc3b536afb0e07bc8f}{00678}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_ac7cab00e5027bccc3b536afb0e07bc8f}{ImGui\_ImplGlfw\_InitForVulkan}}(GLFWwindow*\ window,\ \textcolor{keywordtype}{bool}\ install\_callbacks)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00679}00679\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00680}00680\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui\_ImplGlfw\_Init(window,\ install\_callbacks,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5}{GlfwClientApi\_Vulkan}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00681}00681\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00682}00682\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00683}\mbox{\hyperlink{imgui__impl__glfw_8cpp_ab1ec1d0dc53754ef893e6ab23ec564e5}{00683}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_ab1ec1d0dc53754ef893e6ab23ec564e5}{ImGui\_ImplGlfw\_InitForOther}}(GLFWwindow*\ window,\ \textcolor{keywordtype}{bool}\ install\_callbacks)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00684}00684\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00685}00685\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui\_ImplGlfw\_Init(window,\ install\_callbacks,\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97}{GlfwClientApi\_Unknown}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00686}00686\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00687}00687\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00688}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a983c2903ccb938fea5ecdd4d53e54704}{00688}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a983c2903ccb938fea5ecdd4d53e54704}{ImGui\_ImplGlfw\_Shutdown}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00689}00689\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00690}00690\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00691}00691\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}No\ platform\ backend\ to\ shutdown,\ or\ already\ shutdown?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00692}00692\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00693}00693\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00694}00694\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a2cd25c9a1afd831a20c9ec5a6dc52b91}{InstalledCallbacks}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00695}00695\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_aa7cddd7ef946da421374a6bea12db744}{ImGui\_ImplGlfw\_RestoreCallbacks}}(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00696}00696\ \textcolor{preprocessor}{\#ifdef\ EMSCRIPTEN\_USE\_EMBEDDED\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00697}00697\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>CanvasSelector)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00698}00698\ \ \ \ \ \ \ \ \ emscripten\_set\_wheel\_callback(bd-\/>CanvasSelector,\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{false},\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00699}00699\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00700}00700\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00701}00701\ \ \ \ \ \textcolor{keywordflow}{for}\ (ImGuiMouseCursor\ cursor\_n\ =\ 0;\ cursor\_n\ <\ ImGuiMouseCursor\_COUNT;\ cursor\_n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00702}00702\ \ \ \ \ \ \ \ \ glfwDestroyCursor(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[cursor\_n]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00703}00703\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00704}00704\ \ \ \ \ \textcolor{comment}{//\ Windows:\ restore\ our\ WndProc\ hook}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00705}00705\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00706}00706\ \ \ \ \ ImGuiViewport*\ main\_viewport\ =\ ImGui::GetMainViewport();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00707}00707\ \ \ \ \ ::SetWindowLongPtrW((HWND)main\_viewport-\/>PlatformHandleRaw,\ GWLP\_WNDPROC,\ (LONG\_PTR)bd-\/>PrevWndProc);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00708}00708\ \ \ \ \ bd-\/>PrevWndProc\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00709}00709\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00710}00710\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00711}00711\ \ \ \ \ io.BackendPlatformName\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00712}00712\ \ \ \ \ io.BackendPlatformUserData\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00713}00713\ \ \ \ \ io.BackendFlags\ \&=\ \string~(ImGuiBackendFlags\_HasMouseCursors\ |\ ImGuiBackendFlags\_HasSetMousePos\ |\ ImGuiBackendFlags\_HasGamepad);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00714}00714\ \ \ \ \ IM\_DELETE(bd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00715}00715\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00716}00716\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00717}00717\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplGlfw\_UpdateMouseData()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00718}00718\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00719}00719\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00720}00720\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00721}00721\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00722}00722\ \ \ \ \ \textcolor{comment}{//\ (those\ braces\ are\ here\ to\ reduce\ diff\ with\ multi-\/viewports\ support\ in\ 'docking'\ branch)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00723}00723\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00724}00724\ \ \ \ \ \ \ \ \ GLFWwindow*\ window\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00725}00725\ \textcolor{preprocessor}{\#ifdef\ EMSCRIPTEN\_USE\_EMBEDDED\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00726}00726\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ is\_window\_focused\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00727}00727\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00728}00728\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ is\_window\_focused\ =\ glfwGetWindowAttrib(window,\ GLFW\_FOCUSED)\ !=\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00729}00729\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00730}00730\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_window\_focused)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00731}00731\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00732}00732\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (Optional)\ Set\ OS\ mouse\ position\ from\ Dear\ ImGui\ if\ requested\ (rarely\ used,\ only\ when\ io.ConfigNavMoveSetMousePos\ is\ enabled\ by\ user)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00733}00733\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (io.WantSetMousePos)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00734}00734\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glfwSetCursorPos(window,\ (\textcolor{keywordtype}{double})io.MousePos.x,\ (\textcolor{keywordtype}{double})io.MousePos.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00735}00735\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00736}00736\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (Optional)\ Fallback\ to\ provide\ mouse\ position\ when\ focused\ (ImGui\_ImplGlfw\_CursorPosCallback\ already\ provides\ this\ when\ hovered\ or\ captured)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00737}00737\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a0cd83054e5f18b548ad7030e56e44fa7}{MouseWindow}}\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00738}00738\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00739}00739\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ mouse\_x,\ mouse\_y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00740}00740\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glfwGetCursorPos(window,\ \&mouse\_x,\ \&mouse\_y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00741}00741\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a71c8194d82a00e458884c50552e21933}{LastValidMousePos}}\ =\ ImVec2((\textcolor{keywordtype}{float})mouse\_x,\ (\textcolor{keywordtype}{float})mouse\_y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00742}00742\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMousePosEvent((\textcolor{keywordtype}{float})mouse\_x,\ (\textcolor{keywordtype}{float})mouse\_y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00743}00743\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00744}00744\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00745}00745\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00746}00746\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00747}00747\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00748}00748\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplGlfw\_UpdateMouseCursor()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00749}00749\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00750}00750\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00751}00751\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00752}00752\ \ \ \ \ \textcolor{keywordflow}{if}\ ((io.ConfigFlags\ \&\ ImGuiConfigFlags\_NoMouseCursorChange)\ ||\ glfwGetInputMode(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}},\ GLFW\_CURSOR)\ ==\ GLFW\_CURSOR\_DISABLED)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00753}00753\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00754}00754\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00755}00755\ \ \ \ \ ImGuiMouseCursor\ imgui\_cursor\ =\ ImGui::GetMouseCursor();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00756}00756\ \ \ \ \ \textcolor{comment}{//\ (those\ braces\ are\ here\ to\ reduce\ diff\ with\ multi-\/viewports\ support\ in\ 'docking'\ branch)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00757}00757\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00758}00758\ \ \ \ \ \ \ \ \ GLFWwindow*\ window\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00759}00759\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (imgui\_cursor\ ==\ ImGuiMouseCursor\_None\ ||\ io.MouseDrawCursor)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00760}00760\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00761}00761\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Hide\ OS\ mouse\ cursor\ if\ imgui\ is\ drawing\ it\ or\ if\ it\ wants\ no\ cursor}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00762}00762\ \ \ \ \ \ \ \ \ \ \ \ \ glfwSetInputMode(window,\ GLFW\_CURSOR,\ GLFW\_CURSOR\_HIDDEN);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00763}00763\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00764}00764\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00765}00765\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00766}00766\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Show\ OS\ mouse\ cursor}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00767}00767\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FIXME-\/PLATFORM:\ Unfocused\ windows\ seems\ to\ fail\ changing\ the\ mouse\ cursor\ with\ GLFW\ 3.2,\ but\ 3.3\ works\ here.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00768}00768\ \ \ \ \ \ \ \ \ \ \ \ \ glfwSetCursor(window,\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[imgui\_cursor]\ ?\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_ad7072d22c235f2e6d53e1a5a0e54cc0c}{MouseCursors}}[imgui\_cursor]\ :\ bd-\/>MouseCursors[ImGuiMouseCursor\_Arrow]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00769}00769\ \ \ \ \ \ \ \ \ \ \ \ \ glfwSetInputMode(window,\ GLFW\_CURSOR,\ GLFW\_CURSOR\_NORMAL);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00770}00770\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00771}00771\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00772}00772\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00773}00773\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00774}00774\ \textcolor{comment}{//\ Update\ gamepad\ inputs}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00775}00775\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ Saturate(\textcolor{keywordtype}{float}\ v)\ \{\ \textcolor{keywordflow}{return}\ v\ <\ 0.0f\ ?\ 0.0f\ :\ v\ \ >\ 1.0f\ ?\ 1.0f\ :\ v;\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00776}00776\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplGlfw\_UpdateGamepads()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00777}00777\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00778}00778\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00779}00779\ \ \ \ \ \textcolor{keywordflow}{if}\ ((io.ConfigFlags\ \&\ ImGuiConfigFlags\_NavEnableGamepad)\ ==\ 0)\ \textcolor{comment}{//\ FIXME:\ Technically\ feeding\ gamepad\ shouldn't\ depend\ on\ this\ now\ that\ they\ are\ regular\ inputs.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00780}00780\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00781}00781\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00782}00782\ \ \ \ \ io.BackendFlags\ \&=\ \string~ImGuiBackendFlags\_HasGamepad;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00783}00783\ \textcolor{preprocessor}{\#if\ GLFW\_HAS\_GAMEPAD\_API\ \&\&\ !defined(EMSCRIPTEN\_USE\_EMBEDDED\_GLFW3)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00784}00784\ \ \ \ \ GLFWgamepadstate\ gamepad;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00785}00785\ \ \ \ \ \textcolor{keywordflow}{if}\ (!glfwGetGamepadState(GLFW\_JOYSTICK\_1,\ \&gamepad))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00786}00786\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00787}00787\ \textcolor{preprocessor}{\ \ \ \ \#define\ MAP\_BUTTON(KEY\_NO,\ BUTTON\_NO,\ \_UNUSED)\ \ \ \ \ \ \ \ \ \ do\ \{\ io.AddKeyEvent(KEY\_NO,\ gamepad.buttons[BUTTON\_NO]\ !=\ 0);\ \}\ while\ (0)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00788}00788\ \textcolor{preprocessor}{\ \ \ \ \#define\ MAP\_ANALOG(KEY\_NO,\ AXIS\_NO,\ \_UNUSED,\ V0,\ V1)\ \ \ \ do\ \{\ float\ v\ =\ gamepad.axes[AXIS\_NO];\ v\ =\ (v\ -\/\ V0)\ /\ (V1\ -\/\ V0);\ io.AddKeyAnalogEvent(KEY\_NO,\ v\ >\ 0.10f,\ Saturate(v));\ \}\ while\ (0)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00789}00789\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00790}00790\ \ \ \ \ \textcolor{keywordtype}{int}\ axes\_count\ =\ 0,\ buttons\_count\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00791}00791\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}*\ axes\ =\ glfwGetJoystickAxes(GLFW\_JOYSTICK\_1,\ \&axes\_count);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00792}00792\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ buttons\ =\ glfwGetJoystickButtons(GLFW\_JOYSTICK\_1,\ \&buttons\_count);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00793}00793\ \ \ \ \ \textcolor{keywordflow}{if}\ (axes\_count\ ==\ 0\ ||\ buttons\_count\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00794}00794\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00795}00795\ \textcolor{preprocessor}{\ \ \ \ \#define\ MAP\_BUTTON(KEY\_NO,\ \_UNUSED,\ BUTTON\_NO)\ \ \ \ \ \ \ \ \ \ do\ \{\ io.AddKeyEvent(KEY\_NO,\ (buttons\_count\ >\ BUTTON\_NO\ \&\&\ buttons[BUTTON\_NO]\ ==\ GLFW\_PRESS));\ \}\ while\ (0)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00796}00796\ \textcolor{preprocessor}{\ \ \ \ \#define\ MAP\_ANALOG(KEY\_NO,\ \_UNUSED,\ AXIS\_NO,\ V0,\ V1)\ \ \ \ do\ \{\ float\ v\ =\ (axes\_count\ >\ AXIS\_NO)\ ?\ axes[AXIS\_NO]\ :\ V0;\ v\ =\ (v\ -\/\ V0)\ /\ (V1\ -\/\ V0);\ io.AddKeyAnalogEvent(KEY\_NO,\ v\ >\ 0.10f,\ Saturate(v));\ \}\ while\ (0)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00797}00797\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00798}00798\ \ \ \ \ io.BackendFlags\ |=\ ImGuiBackendFlags\_HasGamepad;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00799}00799\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadStart,\ \ \ \ \ \ \ GLFW\_GAMEPAD\_BUTTON\_START,\ \ \ \ \ \ \ \ \ \ 7);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00800}00800\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadBack,\ \ \ \ \ \ \ \ GLFW\_GAMEPAD\_BUTTON\_BACK,\ \ \ \ \ \ \ \ \ \ \ 6);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00801}00801\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadFaceLeft,\ \ \ \ GLFW\_GAMEPAD\_BUTTON\_X,\ \ \ \ \ \ \ \ \ \ \ \ \ \ 2);\ \ \ \ \ \textcolor{comment}{//\ Xbox\ X,\ PS\ Square}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00802}00802\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadFaceRight,\ \ \ GLFW\_GAMEPAD\_BUTTON\_B,\ \ \ \ \ \ \ \ \ \ \ \ \ \ 1);\ \ \ \ \ \textcolor{comment}{//\ Xbox\ B,\ PS\ Circle}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00803}00803\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadFaceUp,\ \ \ \ \ \ GLFW\_GAMEPAD\_BUTTON\_Y,\ \ \ \ \ \ \ \ \ \ \ \ \ \ 3);\ \ \ \ \ \textcolor{comment}{//\ Xbox\ Y,\ PS\ Triangle}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00804}00804\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadFaceDown,\ \ \ \ GLFW\_GAMEPAD\_BUTTON\_A,\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0);\ \ \ \ \ \textcolor{comment}{//\ Xbox\ A,\ PS\ Cross}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00805}00805\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadDpadLeft,\ \ \ \ GLFW\_GAMEPAD\_BUTTON\_DPAD\_LEFT,\ \ \ \ \ \ 13);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00806}00806\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadDpadRight,\ \ \ GLFW\_GAMEPAD\_BUTTON\_DPAD\_RIGHT,\ \ \ \ \ 11);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00807}00807\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadDpadUp,\ \ \ \ \ \ GLFW\_GAMEPAD\_BUTTON\_DPAD\_UP,\ \ \ \ \ \ \ \ 10);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00808}00808\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadDpadDown,\ \ \ \ GLFW\_GAMEPAD\_BUTTON\_DPAD\_DOWN,\ \ \ \ \ \ 12);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00809}00809\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadL1,\ \ \ \ \ \ \ \ \ \ GLFW\_GAMEPAD\_BUTTON\_LEFT\_BUMPER,\ \ \ \ 4);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00810}00810\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadR1,\ \ \ \ \ \ \ \ \ \ GLFW\_GAMEPAD\_BUTTON\_RIGHT\_BUMPER,\ \ \ 5);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00811}00811\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\_ANALOG}}(ImGuiKey\_GamepadL2,\ \ \ \ \ \ \ \ \ \ GLFW\_GAMEPAD\_AXIS\_LEFT\_TRIGGER,\ \ \ \ \ 4,\ \ \ \ \ \ -\/0.75f,\ \ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00812}00812\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\_ANALOG}}(ImGuiKey\_GamepadR2,\ \ \ \ \ \ \ \ \ \ GLFW\_GAMEPAD\_AXIS\_RIGHT\_TRIGGER,\ \ \ \ 5,\ \ \ \ \ \ -\/0.75f,\ \ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00813}00813\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadL3,\ \ \ \ \ \ \ \ \ \ GLFW\_GAMEPAD\_BUTTON\_LEFT\_THUMB,\ \ \ \ \ 8);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00814}00814\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\_BUTTON}}(ImGuiKey\_GamepadR3,\ \ \ \ \ \ \ \ \ \ GLFW\_GAMEPAD\_BUTTON\_RIGHT\_THUMB,\ \ \ \ 9);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00815}00815\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\_ANALOG}}(ImGuiKey\_GamepadLStickLeft,\ \ GLFW\_GAMEPAD\_AXIS\_LEFT\_X,\ \ \ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ -\/0.25f,\ \ -\/1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00816}00816\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\_ANALOG}}(ImGuiKey\_GamepadLStickRight,\ GLFW\_GAMEPAD\_AXIS\_LEFT\_X,\ \ \ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ +0.25f,\ \ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00817}00817\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\_ANALOG}}(ImGuiKey\_GamepadLStickUp,\ \ \ \ GLFW\_GAMEPAD\_AXIS\_LEFT\_Y,\ \ \ \ \ \ \ \ \ \ \ 1,\ \ \ \ \ \ -\/0.25f,\ \ -\/1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00818}00818\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\_ANALOG}}(ImGuiKey\_GamepadLStickDown,\ \ GLFW\_GAMEPAD\_AXIS\_LEFT\_Y,\ \ \ \ \ \ \ \ \ \ \ 1,\ \ \ \ \ \ +0.25f,\ \ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00819}00819\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\_ANALOG}}(ImGuiKey\_GamepadRStickLeft,\ \ GLFW\_GAMEPAD\_AXIS\_RIGHT\_X,\ \ \ \ \ \ \ \ \ \ 2,\ \ \ \ \ \ -\/0.25f,\ \ -\/1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00820}00820\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\_ANALOG}}(ImGuiKey\_GamepadRStickRight,\ GLFW\_GAMEPAD\_AXIS\_RIGHT\_X,\ \ \ \ \ \ \ \ \ \ 2,\ \ \ \ \ \ +0.25f,\ \ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00821}00821\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\_ANALOG}}(ImGuiKey\_GamepadRStickUp,\ \ \ \ GLFW\_GAMEPAD\_AXIS\_RIGHT\_Y,\ \ \ \ \ \ \ \ \ \ 3,\ \ \ \ \ \ -\/0.25f,\ \ -\/1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00822}00822\ \ \ \ \ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\_ANALOG}}(ImGuiKey\_GamepadRStickDown,\ \ GLFW\_GAMEPAD\_AXIS\_RIGHT\_Y,\ \ \ \ \ \ \ \ \ \ 3,\ \ \ \ \ \ +0.25f,\ \ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00823}00823\ \textcolor{preprocessor}{\ \ \ \ \#undef\ MAP\_BUTTON}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00824}00824\ \textcolor{preprocessor}{\ \ \ \ \#undef\ MAP\_ANALOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00825}00825\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00826}00826\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00827}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a206e99434f63c4b8e24e8a4208c11b65}{00827}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a206e99434f63c4b8e24e8a4208c11b65}{ImGui\_ImplGlfw\_NewFrame}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00828}00828\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00829}00829\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00830}00830\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00831}00831\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Context\ or\ backend\ not\ initialized!\ Did\ you\ call\ ImGui\_ImplGlfw\_InitForXXX()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00832}00832\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00833}00833\ \ \ \ \ \textcolor{comment}{//\ Setup\ display\ size\ (every\ frame\ to\ accommodate\ for\ window\ resizing)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00834}00834\ \ \ \ \ \textcolor{keywordtype}{int}\ w,\ h;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00835}00835\ \ \ \ \ \textcolor{keywordtype}{int}\ display\_w,\ display\_h;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00836}00836\ \ \ \ \ glfwGetWindowSize(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}},\ \&w,\ \&h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00837}00837\ \ \ \ \ glfwGetFramebufferSize(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}},\ \&display\_w,\ \&display\_h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00838}00838\ \ \ \ \ io.DisplaySize\ =\ ImVec2((\textcolor{keywordtype}{float})w,\ (\textcolor{keywordtype}{float})h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00839}00839\ \ \ \ \ \textcolor{keywordflow}{if}\ (w\ >\ 0\ \&\&\ h\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00840}00840\ \ \ \ \ \ \ \ \ io.DisplayFramebufferScale\ =\ ImVec2((\textcolor{keywordtype}{float})display\_w\ /\ (\textcolor{keywordtype}{float})w,\ (\textcolor{keywordtype}{float})display\_h\ /\ (\textcolor{keywordtype}{float})h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00841}00841\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00842}00842\ \ \ \ \ \textcolor{comment}{//\ Setup\ time\ step}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00843}00843\ \ \ \ \ \textcolor{comment}{//\ (Accept\ glfwGetTime()\ not\ returning\ a\ monotonically\ increasing\ value.\ Seems\ to\ happens\ on\ disconnecting\ peripherals\ and\ probably\ on\ VMs\ and\ Emscripten,\ see\ \#6491,\ \#6189,\ \#6114,\ \#3644)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00844}00844\ \ \ \ \ \textcolor{keywordtype}{double}\ current\_time\ =\ glfwGetTime();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00845}00845\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_time\ <=\ bd-\/>Time)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00846}00846\ \ \ \ \ \ \ \ \ current\_time\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a63f538471c9e5113975333df9494d526}{Time}}\ +\ 0.00001f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00847}00847\ \ \ \ \ io.DeltaTime\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a63f538471c9e5113975333df9494d526}{Time}}\ >\ 0.0\ ?\ (float)(current\_time\ -\/\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a63f538471c9e5113975333df9494d526}{Time}})\ :\ (float)(1.0f\ /\ 60.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00848}00848\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_a63f538471c9e5113975333df9494d526}{Time}}\ =\ current\_time;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00849}00849\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00850}00850\ \ \ \ \ ImGui\_ImplGlfw\_UpdateMouseData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00851}00851\ \ \ \ \ ImGui\_ImplGlfw\_UpdateMouseCursor();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00852}00852\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00853}00853\ \ \ \ \ \textcolor{comment}{//\ Update\ game\ controllers\ (if\ enabled\ and\ available)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00854}00854\ \ \ \ \ ImGui\_ImplGlfw\_UpdateGamepads();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00855}00855\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00856}00856\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00857}00857\ \textcolor{comment}{//\ GLFW\ doesn't\ provide\ a\ portable\ sleep\ function}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00858}\mbox{\hyperlink{imgui__impl__glfw_8cpp_a76f4eb755b660ac33c672fbed7455c39}{00858}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__glfw_8cpp_a76f4eb755b660ac33c672fbed7455c39}{ImGui\_ImplGlfw\_Sleep}}(\textcolor{keywordtype}{int}\ milliseconds)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00859}00859\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00860}00860\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00861}00861\ \ \ \ \ ::Sleep(milliseconds);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00862}00862\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00863}00863\ \ \ \ \ usleep(milliseconds\ *\ 1000);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00864}00864\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00865}00865\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00866}00866\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00867}00867\ \textcolor{preprocessor}{\#ifdef\ EMSCRIPTEN\_USE\_EMBEDDED\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00868}00868\ \textcolor{keyword}{static}\ EM\_BOOL\ ImGui\_ImplGlfw\_OnCanvasSizeChange(\textcolor{keywordtype}{int}\ event\_type,\ \textcolor{keyword}{const}\ EmscriptenUiEvent*\ event,\ \textcolor{keywordtype}{void}*\ user\_data)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00869}00869\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00870}00870\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ (\mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*)user\_data;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00871}00871\ \ \ \ \ \textcolor{keywordtype}{double}\ canvas\_width,\ canvas\_height;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00872}00872\ \ \ \ \ emscripten\_get\_element\_css\_size(bd-\/>CanvasSelector,\ \&canvas\_width,\ \&canvas\_height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00873}00873\ \ \ \ \ glfwSetWindowSize(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}},\ (\textcolor{keywordtype}{int})canvas\_width,\ (\textcolor{keywordtype}{int})canvas\_height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00874}00874\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00875}00875\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00876}00876\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00877}00877\ \textcolor{keyword}{static}\ EM\_BOOL\ ImGui\_ImplEmscripten\_FullscreenChangeCallback(\textcolor{keywordtype}{int}\ event\_type,\ \textcolor{keyword}{const}\ EmscriptenFullscreenChangeEvent*\ event,\ \textcolor{keywordtype}{void}*\ user\_data)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00878}00878\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00879}00879\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ (\mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*)user\_data;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00880}00880\ \ \ \ \ \textcolor{keywordtype}{double}\ canvas\_width,\ canvas\_height;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00881}00881\ \ \ \ \ emscripten\_get\_element\_css\_size(bd-\/>CanvasSelector,\ \&canvas\_width,\ \&canvas\_height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00882}00882\ \ \ \ \ glfwSetWindowSize(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_glfw___data_aad8ecdab1cb486c427254f2032214da7}{Window}},\ (\textcolor{keywordtype}{int})canvas\_width,\ (\textcolor{keywordtype}{int})canvas\_height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00883}00883\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00884}00884\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00885}00885\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00886}00886\ \textcolor{comment}{//\ 'canvas\_selector'\ is\ a\ CSS\ selector.\ The\ event\ listener\ is\ applied\ to\ the\ first\ element\ that\ matches\ the\ query.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00887}00887\ \textcolor{comment}{//\ STRING\ MUST\ PERSIST\ FOR\ THE\ APPLICATION\ DURATION.\ PLEASE\ USE\ A\ STRING\ LITERAL\ OR\ ENSURE\ POINTER\ WILL\ STAY\ VALID.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00888}00888\ \textcolor{keywordtype}{void}\ ImGui\_ImplGlfw\_InstallEmscriptenCallbacks(GLFWwindow*,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ canvas\_selector)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00889}00889\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00890}00890\ \ \ \ \ IM\_ASSERT(canvas\_selector\ !=\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00891}00891\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{ImGui\_ImplGlfw\_Data}}*\ bd\ =\ ImGui\_ImplGlfw\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00892}00892\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Context\ or\ backend\ not\ initialized!\ Did\ you\ call\ ImGui\_ImplGlfw\_InitForXXX()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00893}00893\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00894}00894\ \ \ \ \ bd-\/>CanvasSelector\ =\ canvas\_selector;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00895}00895\ \ \ \ \ emscripten\_set\_resize\_callback(EMSCRIPTEN\_EVENT\_TARGET\_WINDOW,\ bd,\ \textcolor{keyword}{false},\ ImGui\_ImplGlfw\_OnCanvasSizeChange);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00896}00896\ \ \ \ \ emscripten\_set\_fullscreenchange\_callback(EMSCRIPTEN\_EVENT\_TARGET\_DOCUMENT,\ bd,\ \textcolor{keyword}{false},\ ImGui\_ImplEmscripten\_FullscreenChangeCallback);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00897}00897\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00898}00898\ \ \ \ \ \textcolor{comment}{//\ Change\ the\ size\ of\ the\ GLFW\ window\ according\ to\ the\ size\ of\ the\ canvas}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00899}00899\ \ \ \ \ ImGui\_ImplGlfw\_OnCanvasSizeChange(EMSCRIPTEN\_EVENT\_RESIZE,\ \{\},\ bd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00900}00900\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00901}00901\ \ \ \ \ \textcolor{comment}{//\ Register\ Emscripten\ Wheel\ callback\ to\ workaround\ issue\ in\ Emscripten\ GLFW\ Emulation\ (\#6096)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00902}00902\ \ \ \ \ \textcolor{comment}{//\ We\ intentionally\ do\ not\ check\ 'if\ (install\_callbacks)'\ here,\ as\ some\ users\ may\ set\ it\ to\ false\ and\ call\ GLFW\ callback\ themselves.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00903}00903\ \ \ \ \ \textcolor{comment}{//\ FIXME:\ May\ break\ chaining\ in\ case\ user\ registered\ their\ own\ Emscripten\ callback?}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00904}00904\ \ \ \ \ emscripten\_set\_wheel\_callback(bd-\/>CanvasSelector,\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{false},\ ImGui\_ImplEmscripten\_WheelCallback);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00905}00905\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00906}00906\ \textcolor{preprocessor}{\#elif\ defined(EMSCRIPTEN\_USE\_PORT\_CONTRIB\_GLFW3)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00907}00907\ \textcolor{comment}{//\ When\ using\ -\/-\/use-\/port=contrib.glfw3\ for\ the\ GLFW\ implementation,\ you\ can\ override\ the\ behavior\ of\ this\ call}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00908}00908\ \textcolor{comment}{//\ by\ invoking\ emscripten\_glfw\_make\_canvas\_resizable\ afterward.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00909}00909\ \textcolor{comment}{//\ See\ https://github.com/pongasoft/emscripten-\/glfw/blob/master/docs/Usage.md\#how-\/to-\/make-\/the-\/canvas-\/resizable-\/by-\/the-\/user\ for\ an\ explanation}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00910}00910\ \textcolor{keywordtype}{void}\ ImGui\_ImplGlfw\_InstallEmscriptenCallbacks(GLFWwindow*\ window,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ canvas\_selector)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00911}00911\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00912}00912\ \ \ GLFWwindow*\ w\ =\ (GLFWwindow*)(EM\_ASM\_INT(\{\ \textcolor{keywordflow}{return}\ Module.glfwGetWindow(UTF8ToString(\$0));\ \},\ canvas\_selector));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00913}00913\ \ \ IM\_ASSERT(window\ ==\ w);\ \textcolor{comment}{//\ Sanity\ check}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00914}00914\ \ \ IM\_UNUSED(w);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00915}00915\ \ \ emscripten\_glfw\_make\_canvas\_resizable(window,\ \textcolor{stringliteral}{"{}window"{}},\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00916}00916\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00917}00917\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifdef\ EMSCRIPTEN\_USE\_PORT\_CONTRIB\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00918}00918\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00919}00919\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00920}00920\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00921}00921\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00922}00922\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ pop}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00923}00923\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00924}00924\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__glfw_8cpp_source_l00925}00925\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

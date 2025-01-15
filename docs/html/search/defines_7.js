@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['khronos_5fapiattributes_0',['KHRONOS_APIATTRIBUTES',['../d2/d59/_rml_ui___include___g_l3_8h.html#afd38e339bdb8f65b1ac0c8f214c427e5',1,'RmlUi_Include_GL3.h']]],
-  ['khronos_5fapicall_1',['KHRONOS_APICALL',['../d2/d59/_rml_ui___include___g_l3_8h.html#a5d0e04fe11e69b75470eb0a2a2546af3',1,'RmlUi_Include_GL3.h']]],
-  ['khronos_5fglad_5fapi_5fptr_2',['KHRONOS_GLAD_API_PTR',['../d2/d59/_rml_ui___include___g_l3_8h.html#add6cff7ef8c6eaaeccbf784c8b5e9af9',1,'RmlUi_Include_GL3.h']]],
-  ['khronos_5fmax_5fenum_3',['KHRONOS_MAX_ENUM',['../d2/d59/_rml_ui___include___g_l3_8h.html#af23931754c6a5adf1892efe8933bf788',1,'RmlUi_Include_GL3.h']]],
-  ['khronos_5fsupport_5ffloat_4',['KHRONOS_SUPPORT_FLOAT',['../d2/d59/_rml_ui___include___g_l3_8h.html#a2005a9aed8272da688b4f4ea414531bc',1,'RmlUi_Include_GL3.h']]],
-  ['khronos_5fsupport_5fint64_5',['KHRONOS_SUPPORT_INT64',['../d2/d59/_rml_ui___include___g_l3_8h.html#a5000aa7e3c9ca9d348b1d17326a35635',1,'RmlUi_Include_GL3.h']]]
+  ['map_5fanalog_0',['map_analog',['../de/d02/imgui__impl__glfw_8cpp.html#a9f278ea488f471a9c1ad2ed71488f8fd',1,'MAP_ANALOG:&#160;imgui_impl_glfw.cpp'],['../d5/d57/imgui__impl__osx_8mm.html#a3776de756858a336b0e533b764406256',1,'MAP_ANALOG:&#160;imgui_impl_osx.mm'],['../d1/d3f/imgui__impl__win32_8cpp.html#ab9e788661f93cea16f50bdd44f7228f2',1,'MAP_ANALOG:&#160;imgui_impl_win32.cpp']]],
+  ['map_5fbutton_1',['map_button',['../de/d02/imgui__impl__glfw_8cpp.html#a260637e5a9303a72f59a33757b3881b3',1,'MAP_BUTTON:&#160;imgui_impl_glfw.cpp'],['../d5/d57/imgui__impl__osx_8mm.html#acde2e6121f011b1ce1e59afbd6ac34b4',1,'MAP_BUTTON:&#160;imgui_impl_osx.mm'],['../d1/d3f/imgui__impl__win32_8cpp.html#a2836771b67b5a6453c60b139320d255c',1,'MAP_BUTTON:&#160;imgui_impl_win32.cpp']]],
+  ['memalign_2',['MEMALIGN',['../d0/d9d/imgui__impl__wgpu_8cpp.html#a1dbae471b43ebf44868ee706fd817332',1,'imgui_impl_wgpu.cpp']]]
 ];

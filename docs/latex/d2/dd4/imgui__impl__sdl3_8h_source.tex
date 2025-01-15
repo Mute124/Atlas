@@ -1,0 +1,53 @@
+\doxysection{imgui\+\_\+impl\+\_\+sdl3.\+h}
+\hypertarget{imgui__impl__sdl3_8h_source}{}\label{imgui__impl__sdl3_8h_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_sdl3.h@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_sdl3.h}}
+\mbox{\hyperlink{imgui__impl__sdl3_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Platform\ Backend\ for\ SDL3\ (*EXPERIMENTAL*)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00002}00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Renderer\ (e.g.\ DirectX11,\ OpenGL3,\ Vulkan..)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00003}00003\ \textcolor{comment}{//\ (Info:\ SDL3\ is\ a\ cross-\/platform\ general\ purpose\ library\ for\ handling\ windows,\ inputs,\ graphics\ context\ creation,\ etc.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00005}00005\ \textcolor{comment}{//\ (**IMPORTANT:\ SDL\ 3.0.0\ is\ NOT\ YET\ RELEASED\ AND\ CURRENTLY\ HAS\ A\ FAST\ CHANGING\ API.\ THIS\ CODE\ BREAKS\ OFTEN\ AS\ SDL3\ CHANGES.**)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00007}00007\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00008}00008\ \textcolor{comment}{//\ \ [X]\ Platform:\ Clipboard\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00009}00009\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ support.\ Can\ discriminate\ Mouse/TouchScreen.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00010}00010\ \textcolor{comment}{//\ \ [X]\ Platform:\ Keyboard\ support.\ Since\ 1.87\ we\ are\ using\ the\ io.AddKeyEvent()\ function.\ Pass\ ImGuiKey\ values\ to\ all\ key\ functions\ e.g.\ ImGui::IsKeyPressed(ImGuiKey\_Space).\ [Legacy\ SDL\_SCANCODE\_*\ values\ are\ obsolete\ since\ 1.87\ and\ not\ supported\ since\ 1.91.5]}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00011}00011\ \textcolor{comment}{//\ \ [X]\ Platform:\ Gamepad\ support.\ Enabled\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NavEnableGamepad'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00012}00012\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ cursor\ shape\ and\ visibility.\ Disable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NoMouseCursorChange'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00014}00014\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00015}00015\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00016}00016\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00017}00017\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00018}00018\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00019}00019\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00020}00020\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00022}00022\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}\ \ \ \ \ \ \textcolor{comment}{//\ IMGUI\_IMPL\_API}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00024}00024\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00026}00026\ \textcolor{keyword}{struct\ }SDL\_Window;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00027}00027\ \textcolor{keyword}{struct\ }SDL\_Renderer;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00028}00028\ \textcolor{keyword}{struct\ }SDL\_Gamepad;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00029}\mbox{\hyperlink{imgui__impl__sdl3_8h_a33fcc6aa445cb781bfca881e39e5333e}{00029}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\mbox{\hyperlink{imgui__impl__sdl2_8h_a33fcc6aa445cb781bfca881e39e5333e}{SDL\_Event}}\ \mbox{\hyperlink{imgui__impl__sdl2_8h_a33fcc6aa445cb781bfca881e39e5333e}{SDL\_Event}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00031}00031\ \textcolor{comment}{//\ Follow\ "{}Getting\ Started"{}\ link\ and\ check\ examples/\ folder\ to\ learn\ about\ using\ backends!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00032}00032\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_a2e36fa76e8cecbd2f33a0f0bdb6810d4}{ImGui\_ImplSDL3\_InitForOpenGL}}(SDL\_Window*\ window,\ \textcolor{keywordtype}{void}*\ sdl\_gl\_context);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00033}00033\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_a3bac48a7f2ea3fb7e92a1334517c4829}{ImGui\_ImplSDL3\_InitForVulkan}}(SDL\_Window*\ window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00034}00034\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad0aac635eae98bc6006fb0c7a21b74dd}{ImGui\_ImplSDL3\_InitForD3D}}(SDL\_Window*\ window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00035}00035\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_aa0a1074735094c5c95377aaf7b8580a8}{ImGui\_ImplSDL3\_InitForMetal}}(SDL\_Window*\ window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00036}00036\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_a4a4f2dd4360b9c7947b8299d8d0d4ea3}{ImGui\_ImplSDL3\_InitForSDLRenderer}}(SDL\_Window*\ window,\ SDL\_Renderer*\ renderer);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00037}00037\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_aeb83d869012d8c71bd21cf963b768484}{ImGui\_ImplSDL3\_InitForOther}}(SDL\_Window*\ window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00038}00038\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_a32e477a210f9fc23ebbac92979c27a4e}{ImGui\_ImplSDL3\_Shutdown}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00039}00039\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_a2cf4f0d75975e069a8c0f58960432896}{ImGui\_ImplSDL3\_NewFrame}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00040}00040\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_a232f87cb9d21f89f1808c0a558561ef0}{ImGui\_ImplSDL3\_ProcessEvent}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{imgui__impl__sdl2_8h_a33fcc6aa445cb781bfca881e39e5333e}{SDL\_Event}}*\ event);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00042}00042\ \textcolor{comment}{//\ Gamepad\ selection\ automatically\ starts\ in\ AutoFirst\ mode,\ picking\ first\ available\ SDL\_Gamepad.\ You\ may\ override\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00043}00043\ \textcolor{comment}{//\ When\ using\ manual\ mode,\ caller\ is\ responsible\ for\ opening/closing\ gamepad.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00044}\mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bd}{00044}}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bd}{ImGui\_ImplSDL3\_GamepadMode}}\ \{\ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bdaf01800b5937cac0863b5077ac1d630ff}{ImGui\_ImplSDL3\_GamepadMode\_AutoFirst}},\ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bdad7e8e5b43dc7593ffc191ebd11e5c063}{ImGui\_ImplSDL3\_GamepadMode\_AutoAll}},\ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bda6ab67002cee0908a818242a0e62b0136}{ImGui\_ImplSDL3\_GamepadMode\_Manual}}\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00045}00045\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_a382de086c9c20638813148a279f8fcb5}{ImGui\_ImplSDL3\_SetGamepadMode}}(\mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bd}{ImGui\_ImplSDL3\_GamepadMode}}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode}},\ SDL\_Gamepad**\ manual\_gamepads\_array\ =\ NULL,\ \textcolor{keywordtype}{int}\ manual\_gamepads\_count\ =\ -\/1);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8h_source_l00047}00047\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

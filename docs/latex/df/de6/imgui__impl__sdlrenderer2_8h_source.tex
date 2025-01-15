@@ -1,0 +1,55 @@
+\doxysection{imgui\+\_\+impl\+\_\+sdlrenderer2.\+h}
+\hypertarget{imgui__impl__sdlrenderer2_8h_source}{}\label{imgui__impl__sdlrenderer2_8h_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_sdlrenderer2.h@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_sdlrenderer2.h}}
+\mbox{\hyperlink{imgui__impl__sdlrenderer2_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Renderer\ Backend\ for\ SDL\_Renderer\ for\ SDL2}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00002}00002\ \textcolor{comment}{//\ (Requires:\ SDL\ 2.0.17+)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00004}00004\ \textcolor{comment}{//\ Note\ how\ SDL\_Renderer\ is\ an\ \_optional\_\ component\ of\ SDL2.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00005}00005\ \textcolor{comment}{//\ For\ a\ multi-\/platform\ app\ consider\ using\ e.g.\ SDL+DirectX\ on\ Windows\ and\ SDL+OpenGL\ on\ Linux/OSX.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00006}00006\ \textcolor{comment}{//\ If\ your\ application\ will\ want\ to\ render\ any\ non\ trivial\ amount\ of\ graphics\ other\ than\ UI,}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00007}00007\ \textcolor{comment}{//\ please\ be\ aware\ that\ SDL\_Renderer\ currently\ offers\ a\ limited\ graphic\ API\ to\ the\ end-\/user\ and}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00008}00008\ \textcolor{comment}{//\ it\ might\ be\ difficult\ to\ step\ out\ of\ those\ boundaries.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00010}00010\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00011}00011\ \textcolor{comment}{//\ \ [X]\ Renderer:\ User\ texture\ binding.\ Use\ 'SDL\_Texture*'\ as\ ImTextureID.\ Read\ the\ FAQ\ about\ ImTextureID!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00012}00012\ \textcolor{comment}{//\ \ [X]\ Renderer:\ Large\ meshes\ support\ (64k+\ vertices)\ with\ 16-\/bit\ indices.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00013}00013\ \textcolor{comment}{//\ \ [X]\ Renderer:\ Expose\ selected\ render\ state\ for\ draw\ callbacks\ to\ use.\ Access\ in\ '(ImGui\_ImplXXXX\_RenderState*)GetPlatformIO().Renderer\_RenderState'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00015}00015\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00016}00016\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00017}00017\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00018}00018\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00019}00019\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00020}00020\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00021}00021\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00023}00023\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00024}00024\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}\ \ \ \ \ \ \textcolor{comment}{//\ IMGUI\_IMPL\_API}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00027}00027\ \textcolor{keyword}{struct\ }SDL\_Renderer;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00029}00029\ \textcolor{comment}{//\ Follow\ "{}Getting\ Started"{}\ link\ and\ check\ examples/\ folder\ to\ learn\ about\ using\ backends!}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00030}00030\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdlrenderer2_8h_af527f68c8ade7fcf94b34d8b625be758}{ImGui\_ImplSDLRenderer2\_Init}}(SDL\_Renderer*\ renderer);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00031}00031\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdlrenderer2_8h_af5216c928d4b0d5f2a8b2a9c31456d03}{ImGui\_ImplSDLRenderer2\_Shutdown}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00032}00032\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdlrenderer2_8h_a8cb2315839bf051e7e256db7d410b613}{ImGui\_ImplSDLRenderer2\_NewFrame}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00033}00033\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdlrenderer2_8h_ac6339e6931773c07b4e8e134e4eeb59b}{ImGui\_ImplSDLRenderer2\_RenderDrawData}}(ImDrawData*\ draw\_data,\ SDL\_Renderer*\ renderer);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00035}00035\ \textcolor{comment}{//\ Called\ by\ Init/NewFrame/Shutdown}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00036}00036\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdlrenderer2_8h_a830035e48f7fc4fb17754e23c2530bc4}{ImGui\_ImplSDLRenderer2\_CreateFontsTexture}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00037}00037\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdlrenderer2_8h_ad3d52abe195048f3d477848c87cfcda8}{ImGui\_ImplSDLRenderer2\_DestroyFontsTexture}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00038}00038\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdlrenderer2_8h_a6e0a9a3761bce5aa6a9ce6ec5c106b62}{ImGui\_ImplSDLRenderer2\_CreateDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00039}00039\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdlrenderer2_8h_a2312b1aaca63d6a8ec4ba40090be9233}{ImGui\_ImplSDLRenderer2\_DestroyDeviceObjects}}();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00041}00041\ \textcolor{comment}{//\ [BETA]\ Selected\ render\ state\ data\ shared\ with\ callbacks.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00042}00042\ \textcolor{comment}{//\ This\ is\ temporarily\ stored\ in\ GetPlatformIO().Renderer\_RenderState\ during\ the\ ImGui\_ImplSDLRenderer2\_RenderDrawData()\ call.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00043}00043\ \textcolor{comment}{//\ (Please\ open\ an\ issue\ if\ you\ feel\ you\ need\ access\ to\ more\ data)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00044}\mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer2___render_state}{00044}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer2___render_state}{ImGui\_ImplSDLRenderer2\_RenderState}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00045}00045\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00046}\mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer2___render_state_ad7f66ec0d296e756542b5f83cae2ed62}{00046}}\ \ \ \ \ SDL\_Renderer*\ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l_renderer2___render_state_ad7f66ec0d296e756542b5f83cae2ed62}{Renderer}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00047}00047\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdlrenderer2_8h_source_l00049}00049\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}
