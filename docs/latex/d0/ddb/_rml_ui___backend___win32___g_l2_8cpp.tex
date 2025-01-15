@@ -1,0 +1,90 @@
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/backends/\+Rml\+Ui\+\_\+\+Backend\+\_\+\+Win32\+\_\+\+GL2.cpp File Reference}
+\hypertarget{_rml_ui___backend___win32___g_l2_8cpp}{}\label{_rml_ui___backend___win32___g_l2_8cpp}\index{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Backend\_Win32\_GL2.cpp@{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Backend\_Win32\_GL2.cpp}}
+{\ttfamily \#include "{}Rml\+Ui\+\_\+\+Backend.\+h"{}}\newline
+{\ttfamily \#include "{}Rml\+Ui\+\_\+\+Include\+\_\+\+Windows.\+h"{}}\newline
+{\ttfamily \#include "{}Rml\+Ui\+\_\+\+Platform\+\_\+\+Win32.\+h"{}}\newline
+{\ttfamily \#include "{}Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL2.\+h"{}}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Context.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Core.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Input.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Log.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Profiling.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_backend_data}{Backend\+Data}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_ac007743843b15f477f33dc5c3dd0507a}{DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT\+\_\+\+PER\+\_\+\+MONITOR\+\_\+\+AWARE\+\_\+\+V2}}~((HANDLE)-\/4)
+\item 
+\#define \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_a53e033000a66015712a3ddceea09ac5c}{WM\+\_\+\+DPICHANGED}}~0x02\+E0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_a495e9ddfa4fdbf99cdd567577755cc18}{Proc\+Set\+Process\+Dpi\+Awareness\+Context}} = BOOL(WINAPI \texorpdfstring{$\ast$}{*})(HANDLE value)
+\item 
+using \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_a08579059731a7cc612772a23532cd287}{Proc\+Get\+Dpi\+For\+Window}} = UINT(WINAPI \texorpdfstring{$\ast$}{*})(HWND hwnd)
+\item 
+using \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_a6503358dce3c2b78ecb9a8eca692d3eb}{Proc\+Adjust\+Window\+Rect\+Ex\+For\+Dpi}} = BOOL(WINAPI \texorpdfstring{$\ast$}{*})(LPRECT lp\+Rect, DWORD dw\+Style, BOOL b\+Menu, DWORD dw\+Ex\+Style, UINT dpi)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_rml_ui___backend___win32___g_l2_8cpp_ac007743843b15f477f33dc5c3dd0507a}\label{_rml_ui___backend___win32___g_l2_8cpp_ac007743843b15f477f33dc5c3dd0507a} 
+\index{RmlUi\_Backend\_Win32\_GL2.cpp@{RmlUi\_Backend\_Win32\_GL2.cpp}!DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2@{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2}}
+\index{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2@{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2}!RmlUi\_Backend\_Win32\_GL2.cpp@{RmlUi\_Backend\_Win32\_GL2.cpp}}
+\doxysubsubsection{\texorpdfstring{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2}{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2}}
+{\footnotesize\ttfamily \#define DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT\+\_\+\+PER\+\_\+\+MONITOR\+\_\+\+AWARE\+\_\+\+V2~((HANDLE)-\/4)}
+
+High DPI support using Windows Per Monitor V2 DPI awareness.
+
+Requires Windows 10, version 1703. 
+
+Definition at line \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_source_l00045}{45}} of file \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_source}{Rml\+Ui\+\_\+\+Backend\+\_\+\+Win32\+\_\+\+GL2.\+cpp}}.
+
+\Hypertarget{_rml_ui___backend___win32___g_l2_8cpp_a53e033000a66015712a3ddceea09ac5c}\label{_rml_ui___backend___win32___g_l2_8cpp_a53e033000a66015712a3ddceea09ac5c} 
+\index{RmlUi\_Backend\_Win32\_GL2.cpp@{RmlUi\_Backend\_Win32\_GL2.cpp}!WM\_DPICHANGED@{WM\_DPICHANGED}}
+\index{WM\_DPICHANGED@{WM\_DPICHANGED}!RmlUi\_Backend\_Win32\_GL2.cpp@{RmlUi\_Backend\_Win32\_GL2.cpp}}
+\doxysubsubsection{\texorpdfstring{WM\_DPICHANGED}{WM\_DPICHANGED}}
+{\footnotesize\ttfamily \#define WM\+\_\+\+DPICHANGED~0x02\+E0}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_source_l00048}{48}} of file \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_source}{Rml\+Ui\+\_\+\+Backend\+\_\+\+Win32\+\_\+\+GL2.\+cpp}}.
+
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{_rml_ui___backend___win32___g_l2_8cpp_a6503358dce3c2b78ecb9a8eca692d3eb}\label{_rml_ui___backend___win32___g_l2_8cpp_a6503358dce3c2b78ecb9a8eca692d3eb} 
+\index{RmlUi\_Backend\_Win32\_GL2.cpp@{RmlUi\_Backend\_Win32\_GL2.cpp}!ProcAdjustWindowRectExForDpi@{ProcAdjustWindowRectExForDpi}}
+\index{ProcAdjustWindowRectExForDpi@{ProcAdjustWindowRectExForDpi}!RmlUi\_Backend\_Win32\_GL2.cpp@{RmlUi\_Backend\_Win32\_GL2.cpp}}
+\doxysubsubsection{\texorpdfstring{ProcAdjustWindowRectExForDpi}{ProcAdjustWindowRectExForDpi}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_a6503358dce3c2b78ecb9a8eca692d3eb}{Proc\+Adjust\+Window\+Rect\+Ex\+For\+Dpi}} =  BOOL(WINAPI\texorpdfstring{$\ast$}{*})(LPRECT lp\+Rect, DWORD dw\+Style, BOOL b\+Menu, DWORD dw\+Ex\+Style, UINT dpi)}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_source_l00054}{54}} of file \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_source}{Rml\+Ui\+\_\+\+Backend\+\_\+\+Win32\+\_\+\+GL2.\+cpp}}.
+
+\Hypertarget{_rml_ui___backend___win32___g_l2_8cpp_a08579059731a7cc612772a23532cd287}\label{_rml_ui___backend___win32___g_l2_8cpp_a08579059731a7cc612772a23532cd287} 
+\index{RmlUi\_Backend\_Win32\_GL2.cpp@{RmlUi\_Backend\_Win32\_GL2.cpp}!ProcGetDpiForWindow@{ProcGetDpiForWindow}}
+\index{ProcGetDpiForWindow@{ProcGetDpiForWindow}!RmlUi\_Backend\_Win32\_GL2.cpp@{RmlUi\_Backend\_Win32\_GL2.cpp}}
+\doxysubsubsection{\texorpdfstring{ProcGetDpiForWindow}{ProcGetDpiForWindow}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_a08579059731a7cc612772a23532cd287}{Proc\+Get\+Dpi\+For\+Window}} =  UINT(WINAPI\texorpdfstring{$\ast$}{*})(HWND hwnd)}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_source_l00053}{53}} of file \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_source}{Rml\+Ui\+\_\+\+Backend\+\_\+\+Win32\+\_\+\+GL2.\+cpp}}.
+
+\Hypertarget{_rml_ui___backend___win32___g_l2_8cpp_a495e9ddfa4fdbf99cdd567577755cc18}\label{_rml_ui___backend___win32___g_l2_8cpp_a495e9ddfa4fdbf99cdd567577755cc18} 
+\index{RmlUi\_Backend\_Win32\_GL2.cpp@{RmlUi\_Backend\_Win32\_GL2.cpp}!ProcSetProcessDpiAwarenessContext@{ProcSetProcessDpiAwarenessContext}}
+\index{ProcSetProcessDpiAwarenessContext@{ProcSetProcessDpiAwarenessContext}!RmlUi\_Backend\_Win32\_GL2.cpp@{RmlUi\_Backend\_Win32\_GL2.cpp}}
+\doxysubsubsection{\texorpdfstring{ProcSetProcessDpiAwarenessContext}{ProcSetProcessDpiAwarenessContext}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_a495e9ddfa4fdbf99cdd567577755cc18}{Proc\+Set\+Process\+Dpi\+Awareness\+Context}} =  BOOL(WINAPI\texorpdfstring{$\ast$}{*})(HANDLE value)}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_source_l00052}{52}} of file \mbox{\hyperlink{_rml_ui___backend___win32___g_l2_8cpp_source}{Rml\+Ui\+\_\+\+Backend\+\_\+\+Win32\+\_\+\+GL2.\+cpp}}.
+

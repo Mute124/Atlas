@@ -2,7 +2,7 @@
 
 // See: ContactListener
 
-  JPH::ValidateResult Techstorm::ObjectContactListener::OnContactValidate(const JPH::Body& inBody1, const JPH::Body& inBody2, JPH::RVec3Arg inBaseOffset, const JPH::CollideShapeResult& inCollisionResult)
+  JPH::ValidateResult Atlas::ObjectContactListener::OnContactValidate(const JPH::Body& inBody1, const JPH::Body& inBody2, JPH::RVec3Arg inBaseOffset, const JPH::CollideShapeResult& inCollisionResult)
 {
 	//cout << "Contact validate callback" << endl;
 
@@ -10,27 +10,31 @@
 	return JPH::ValidateResult::AcceptAllContactsForThisBodyPair;
 }
 
-  void Techstorm::ObjectContactListener::OnContactAdded(const JPH::Body& inBody1, const JPH::Body& inBody2, const JPH::ContactManifold& inManifold, JPH::ContactSettings& ioSettings)
+  void Atlas::ObjectContactListener::OnContactAdded(const JPH::Body& inBody1, const JPH::Body& inBody2, const JPH::ContactManifold& inManifold, JPH::ContactSettings& ioSettings)
 {
 	//cout << "A contact was added" << endl;
 }
 
-  void Techstorm::ObjectContactListener::OnContactPersisted(const JPH::Body& inBody1, const JPH::Body& inBody2, const JPH::ContactManifold& inManifold, JPH::ContactSettings& ioSettings)
+  void Atlas::ObjectContactListener::OnContactPersisted(const JPH::Body& inBody1, const JPH::Body& inBody2, const JPH::ContactManifold& inManifold, JPH::ContactSettings& ioSettings)
 {
 	//cout << "A contact was persisted" << endl;
 }
 
-  void Techstorm::ObjectContactListener::OnContactRemoved(const JPH::SubShapeIDPair& inSubShapePair)
+  void Atlas::ObjectContactListener::OnContactRemoved(const JPH::SubShapeIDPair& inSubShapePair)
 {
 	//cout << "A contact was removed" << endl;
 }
 
-  void Techstorm::MyBodyActivationListener::OnBodyActivated(const JPH::BodyID& inBodyID, JPH::uint64 inBodyUserData)
+  void Atlas::MyBodyActivationListener::OnBodyActivated(const JPH::BodyID& inBodyID, JPH::uint64 inBodyUserData)
 {
 	//cout << "A body got activated" << endl;
 }
 
-  void Techstorm::MyBodyActivationListener::OnBodyDeactivated(const JPH::BodyID& inBodyID, JPH::uint64 inBodyUserData)
+  void Atlas::MyBodyActivationListener::OnBodyDeactivated(const JPH::BodyID& inBodyID, JPH::uint64 inBodyUserData)
 {
 	//cout << "A body went to sleep" << endl;
 }
+
+  void Atlas::ContactListenerGate::process(ContactListenerGateParams entree)
+  {
+  }

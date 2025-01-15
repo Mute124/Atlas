@@ -1,93 +1,27 @@
 \doxysection{Game\+Object.\+h}
-\hypertarget{_game_object_8h_source}{}\label{_game_object_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/renderer/GameObject.h@{C:/Dev/Techstorm-\/v5/src/engine/renderer/GameObject.h}}
+\hypertarget{_game_object_8h_source}{}\label{_game_object_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/objects/GameObject.h@{C:/Dev/Techstorm-\/v5/src/engine/objects/GameObject.h}}
 \mbox{\hyperlink{_game_object_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}../math/Vector.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_game_object_8h}{IGameObject.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <raylib.h>}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <raymath.h>}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}../utils/DoublyLinkedList.h"{}}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}../physics/Physics.h"{}}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00007}00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_techstorm}{Techstorm}}\ \{}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00008}00008\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{class\ }IGameObject\ \textcolor{keyword}{abstract}\ \{}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Defines\ what\ layer\ the\ object\ is\ on\ to\ prevent\ z-\/fighting}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00030}\mbox{\hyperlink{class_techstorm_1_1abstract_a93214f9f4d74e58ff7ed49e089c68213}{00030}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ depth\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00031}00031\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00032}\mbox{\hyperlink{class_techstorm_1_1abstract_a55f5f1c35b36dd8266ab3887337e0d0b}{00032}}\ \ \ \ \ \ \ \ \ Model\ \mbox{\hyperlink{class_techstorm_1_1abstract_a55f5f1c35b36dd8266ab3887337e0d0b}{model}};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00033}00033\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ positional\ variables\ that\ are\ used\ to\ draw\ the\ object}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00035}\mbox{\hyperlink{class_techstorm_1_1abstract_a376ce35fc2ca9b1088dcaaa36a68cb24}{00035}}\ \ \ \ \ \ \ \ \ Vector3\ position\ =\ Vector3Zero();}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00036}\mbox{\hyperlink{class_techstorm_1_1abstract_aa194976991e491e2a79b438fc9fe39ab}{00036}}\ \ \ \ \ \ \ \ \ Vector3\ \mbox{\hyperlink{class_techstorm_1_1abstract_aa194976991e491e2a79b438fc9fe39ab}{rotationAxis}};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00037}\mbox{\hyperlink{class_techstorm_1_1abstract_a9b45c16a8ff92b5dede7255391a01d9b}{00037}}\ \ \ \ \ \ \ \ \ Vector3\ \mbox{\hyperlink{class_techstorm_1_1abstract_a9b45c16a8ff92b5dede7255391a01d9b}{scale}};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00038}00038\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00039}\mbox{\hyperlink{class_techstorm_1_1abstract_a4579f8a2409ba917291c4892f784e82d}{00039}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_techstorm_1_1abstract_a4579f8a2409ba917291c4892f784e82d}{rotationAngle}};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00040}\mbox{\hyperlink{class_techstorm_1_1abstract_a1e104c5d3299a8c79fff4216a1b26421}{00040}}\ \ \ \ \ \ \ \ \ Color\ tint\ =\ WHITE;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00041}00041\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ constructors/destructors}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00043}\mbox{\hyperlink{class_techstorm_1_1abstract_a0ed72fb77264955cbb13e298dcf92051}{00043}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_techstorm_1_1abstract_a0ed72fb77264955cbb13e298dcf92051}{IGameObject}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00044}\mbox{\hyperlink{class_techstorm_1_1abstract_a23a04a87e0f50937d2d9ff899f5cc14b}{00044}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_techstorm_1_1abstract_a23a04a87e0f50937d2d9ff899f5cc14b}{\string~IGameObject}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00045}00045\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00050}\mbox{\hyperlink{class_techstorm_1_1abstract_aa9cf38cda2120b17bc25dfa44913102e}{00050}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_aa9cf38cda2120b17bc25dfa44913102e}{texture}}()\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00051}00051\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00055}\mbox{\hyperlink{class_techstorm_1_1abstract_abd76d7ab5c43c2482cede1cbf7044c5a}{00055}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_abd76d7ab5c43c2482cede1cbf7044c5a}{render}}()\ \{\}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00056}00056\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00062}\mbox{\hyperlink{class_techstorm_1_1abstract_aec38bee941f0f8a0cb48880746c2d205}{00062}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_aec38bee941f0f8a0cb48880746c2d205}{prePhysicsUpdate}}()\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00063}00063\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00069}\mbox{\hyperlink{class_techstorm_1_1abstract_ac9ebe837a4fbcec732e81ddf8b38ab2c}{00069}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_ac9ebe837a4fbcec732e81ddf8b38ab2c}{update}}()\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00070}00070\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00076}\mbox{\hyperlink{class_techstorm_1_1abstract_a9bbad12f7eeef8bfcccc6295e3895ee0}{00076}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_a9bbad12f7eeef8bfcccc6295e3895ee0}{postUpdate}}()\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00077}00077\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00083}\mbox{\hyperlink{class_techstorm_1_1abstract_a1c78ff5c43eb03bbf20e7c58db8e2dd2}{00083}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_a1c78ff5c43eb03bbf20e7c58db8e2dd2}{destroy}}()\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00084}00084\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00090}\mbox{\hyperlink{class_techstorm_1_1abstract_aa46fb3338c2570e22ded414e462582d6}{00090}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_aa46fb3338c2570e22ded414e462582d6}{cleanup}}()\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00091}00091\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00092}00092\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00093}00093\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00094}00094\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00098}\mbox{\hyperlink{class_techstorm_1_1_game_object}{00098}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_techstorm_1_1_game_object}{GameObject}}\ :\ \textcolor{keyword}{public}\ IGameObject\ \{}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00099}00099\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ being\ used\ to\ avoid\ a\ redundant\ constructor}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }IGameObject::IGameObject;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00102}00102\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00107}\mbox{\hyperlink{class_techstorm_1_1_game_object_ab51e2dc704def766ef026d61558d677d}{00107}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1_game_object_ab51e2dc704def766ef026d61558d677d}{texture}}()\ \{\}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00108}00108\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1_game_object_aaca78ab748cdac47a8c9d65084a925be}{render}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00113}00113\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1_game_object_a38bfdc8ae3a6a364341f478773fcba91}{update}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00120}00120\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00126}\mbox{\hyperlink{class_techstorm_1_1_game_object_a824a42b64dbfa8bc05f9765555996db5}{00126}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1_game_object_a824a42b64dbfa8bc05f9765555996db5}{prePhysicsUpdate}}()\textcolor{keyword}{\ override\ }\{\};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00127}00127\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00128}00128\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00134}\mbox{\hyperlink{class_techstorm_1_1_game_object_a5712be1bc55365f5a1753ebe2029de27}{00134}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1_game_object_a5712be1bc55365f5a1753ebe2029de27}{postUpdate}}()\textcolor{keyword}{\ override\ }\{\};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00135}00135\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1_game_object_adcc7c7dac445cd30b29624051abb9dad}{destroy}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00141}00141\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00147}\mbox{\hyperlink{class_techstorm_1_1_game_object_a3a403c362f191972ae514a264ae6f39a}{00147}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1_game_object_a3a403c362f191972ae514a264ae6f39a}{cleanup}}()\ \{\};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00148}00148\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00149}00149\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00150}00150\ \ \ \ \ \textcolor{keyword}{class\ }IPhysicsGameObject\ \textcolor{keyword}{abstract}\ :\ \textcolor{keyword}{public}\ IGameObject\ \{}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00151}00151\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00152}\mbox{\hyperlink{class_techstorm_1_1abstract_ae0fdff03123508f69b3451dbb55d666d}{00152}}\ \ \ \ \ \ \ \ \ JPH::BodyID\ \mbox{\hyperlink{class_techstorm_1_1abstract_ae0fdff03123508f69b3451dbb55d666d}{id}};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00153}\mbox{\hyperlink{class_techstorm_1_1abstract_a80c55b2bc8896523e105601392a2475f}{00153}}\ \ \ \ \ \ \ \ \ JPH::BodyInterface\&\ \mbox{\hyperlink{class_techstorm_1_1abstract_a80c55b2bc8896523e105601392a2475f}{bodyInterface}};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00154}00154\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00155}\mbox{\hyperlink{class_techstorm_1_1abstract_a3e8b6f4d6d5b6928eac74465e0a62db6}{00155}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_techstorm_1_1abstract_a3e8b6f4d6d5b6928eac74465e0a62db6}{IPhysicsGameObject}}(JPH::BodyCreationSettings\ \textcolor{keyword}{const}\&\ bodySettings,\ JPH::EActivation\ activationState)\ :\ IGameObject(),\ bodyInterface(\mbox{\hyperlink{class_techstorm_1_1_physics_engine}{PhysicsEngine}}::Instance().getBodyInterface())\ \{}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>\textcolor{keywordtype}{id}\ =\ bodyInterface.CreateAndAddBody(bodySettings,\ activationState);}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00157}00157\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00158}00158\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00159}\mbox{\hyperlink{class_techstorm_1_1abstract_aa0f5ad4e289f98389e410b33ec03b41c}{00159}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_techstorm_1_1abstract_aa0f5ad4e289f98389e410b33ec03b41c}{\string~IPhysicsGameObject}}()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>bodyInterface.RemoveBody(this-\/>\textcolor{keywordtype}{id});}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00161}00161\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00162}00162\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00167}\mbox{\hyperlink{class_techstorm_1_1abstract_a2ccd09df4a03d97b58d232dd82d9c54e}{00167}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_a2ccd09df4a03d97b58d232dd82d9c54e}{onCollisionValidation}}(IGameObject*\ other)\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00168}00168\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00173}\mbox{\hyperlink{class_techstorm_1_1abstract_a8926e5c448241a55a9a2a770e8f85bae}{00173}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_a8926e5c448241a55a9a2a770e8f85bae}{onCollisionEnter}}(IGameObject*\ other)\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00174}00174\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00179}\mbox{\hyperlink{class_techstorm_1_1abstract_ac045cdc2a81e589df5c621220ca06049}{00179}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_ac045cdc2a81e589df5c621220ca06049}{onCollisionExit}}(IGameObject*\ other)\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00180}00180\ }
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00186}\mbox{\hyperlink{class_techstorm_1_1abstract_a4a290254b4265e2bb2ca7455eee955e4}{00186}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1abstract_a4a290254b4265e2bb2ca7455eee955e4}{onCollisionStay}}(IGameObject*\ other)\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00187}00187\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00188}00188\ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00009}\mbox{\hyperlink{class_atlas_1_1_game_object}{00009}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_game_object}{GameObject}}\ :\ \textcolor{keyword}{public}\ IGameObject\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ being\ used\ to\ avoid\ a\ redundant\ constructor}}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }IGameObject::IGameObject;}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00018}\mbox{\hyperlink{class_atlas_1_1_game_object_aeabafc2334b96d3fb2e8bb1704e352f8}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_aeabafc2334b96d3fb2e8bb1704e352f8}{texture}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00023}\mbox{\hyperlink{class_atlas_1_1_game_object_af9d4ab2f1efb97d808bbdaad76ae2a58}{00023}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_af9d4ab2f1efb97d808bbdaad76ae2a58}{render}}()\textcolor{keyword}{\ override\ }\{\}}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00029}\mbox{\hyperlink{class_atlas_1_1_game_object_ad86fa0de4eacd9e4829c3f7c1c6c0fb8}{00029}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_ad86fa0de4eacd9e4829c3f7c1c6c0fb8}{destroy}}()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ UnloadModel(this-\/>model);}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00031}00031\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00038}\mbox{\hyperlink{class_atlas_1_1_game_object_ac78b1edf5ea3a291b3992dc898acf662}{00038}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_ac78b1edf5ea3a291b3992dc898acf662}{cleanup}}()\ \{\};}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00039}00039\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_game_object_8h_source_l00040}00040\ \}}
 
 \end{DoxyCode}

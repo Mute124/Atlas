@@ -1,0 +1,591 @@
+\doxysection{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+h}
+\hypertarget{_rml_ui___renderer___v_k_8h_source}{}\label{_rml_ui___renderer___v_k_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Renderer\_VK.h@{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Renderer\_VK.h}}
+\mbox{\hyperlink{_rml_ui___renderer___v_k_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00002}00002\ \textcolor{comment}{\ *\ This\ source\ file\ is\ part\ of\ RmlUi,\ the\ HTML/CSS\ Interface\ Middleware}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00003}00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00004}00004\ \textcolor{comment}{\ *\ For\ the\ latest\ information,\ see\ http://github.com/mikke89/RmlUi}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00005}00005\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00006}00006\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2008-\/2010\ CodePoint\ Ltd,\ Shift\ Technology\ Ltd}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00007}00007\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2019-\/2023\ The\ RmlUi\ Team,\ and\ contributors}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00008}00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00009}00009\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00010}00010\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00011}00011\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00012}00012\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00013}00013\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00014}00014\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00015}00015\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00016}00016\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00017}00017\ \textcolor{comment}{\ *\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00019}00019\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00020}00020\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00021}00021\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00022}00022\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00023}00023\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00024}00024\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00025}00025\ \textcolor{comment}{\ *\ THE\ SOFTWARE.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00026}00026\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00027}00027\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00029}00029\ \textcolor{preprocessor}{\#ifndef\ RMLUI\_BACKENDS\_RENDERER\_VK\_H}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00030}00030\ \textcolor{preprocessor}{\#define\ RMLUI\_BACKENDS\_RENDERER\_VK\_H}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/RenderInterface.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00034}00034\ \textcolor{preprocessor}{\#ifdef\ RMLUI\_PLATFORM\_WIN32}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00035}00035\ \textcolor{preprocessor}{\ \ \ \ \#include\ "{}\mbox{\hyperlink{_rml_ui___include___windows_8h}{RmlUi\_Include\_Windows.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00036}00036\ \textcolor{preprocessor}{\ \ \ \ \#define\ VK\_USE\_PLATFORM\_WIN32\_KHR}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00037}00037\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00039}00039\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rml_ui___include___vulkan_8h}{RmlUi\_Include\_Vulkan.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00041}00041\ \textcolor{preprocessor}{\#ifdef\ RMLUI\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00042}00042\ \textcolor{preprocessor}{\ \ \ \ \#define\ RMLUI\_VK\_ASSERTMSG(statement,\ msg)\ RMLUI\_ASSERTMSG(statement,\ msg)}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00044}00044\ \ \ \ \ \textcolor{comment}{//\ Uncomment\ the\ following\ line\ to\ enable\ additional\ Vulkan\ debugging.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00045}00045\ \ \ \ \ \textcolor{comment}{//\ \#define\ RMLUI\_VK\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00046}00046\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00047}\mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{00047}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ RMLUI\_VK\_ASSERTMSG(statement,\ msg)\ static\_cast<void>(statement)}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00048}00048\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00050}00050\ \textcolor{comment}{//\ your\ specified\ api\ version,\ but\ in\ future\ it\ will\ be\ dynamic\ \string^\_\string^}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00051}\mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a82e3cfea843891df8e200b77be6692a9}{00051}}\ \textcolor{preprocessor}{\#define\ RMLUI\_VK\_API\_VERSION\ VK\_API\_VERSION\_1\_0}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00072}\mbox{\hyperlink{class_render_interface___v_k}{00072}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_render_interface___v_k}{RenderInterface\_VK}}\ :\ \textcolor{keyword}{public}\ Rml::RenderInterface\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00073}00073\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00074}\mbox{\hyperlink{class_render_interface___v_k_a6113d272e5a72c0fcdb95233597dc6ad}{00074}}\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ uint32\_t\ \mbox{\hyperlink{class_render_interface___v_k_a6113d272e5a72c0fcdb95233597dc6ad}{kSwapchainBackBufferCount}}\ =\ 3;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00075}\mbox{\hyperlink{class_render_interface___v_k_ab347f6c59dcb25d5d8ac07818f5dd256}{00075}}\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ \mbox{\hyperlink{class_render_interface___v_k_ab347f6c59dcb25d5d8ac07818f5dd256}{kVideoMemoryForAllocation}}\ =\ 4\ *\ 1024\ *\ 1024;\ \textcolor{comment}{//\ [bytes]}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00077}00077\ \ \ \ \ \mbox{\hyperlink{class_render_interface___v_k_a08e8e502b93af823d928d5663795c3a8}{RenderInterface\_VK}}();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00078}00078\ \ \ \ \ \mbox{\hyperlink{class_render_interface___v_k_aeeaa4ad76e131eb4665c26a3eba74666}{\string~RenderInterface\_VK}}();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00080}\mbox{\hyperlink{class_render_interface___v_k_aafdcde7585cd7a3b544aa373471fe492}{00080}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_render_interface___v_k_aafdcde7585cd7a3b544aa373471fe492}{CreateSurfaceCallback}}\ =\ bool\ (*)(VkInstance\ instance,\ VkSurfaceKHR*\ out\_surface);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00082}00082\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_render_interface___v_k_aec4e0388baefa69764c997d45e4bef1d}{Initialize}}(Rml::Vector<const\ char*>\ required\_extensions,\ \mbox{\hyperlink{class_render_interface___v_k_aafdcde7585cd7a3b544aa373471fe492}{CreateSurfaceCallback}}\ create\_surface\_callback);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00083}00083\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_ad9997316820b2eee1e207d6c5075d242}{Shutdown}}();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00085}00085\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_a1c2388e686ccc5522c71a5ae86dad538}{BeginFrame}}();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00086}00086\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_acc2be49188a11fe109bf182c9bd5cd3e}{EndFrame}}();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00088}00088\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_a74c87a61ed0b410c33c72b53d1825800}{SetViewport}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00089}00089\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_render_interface___v_k_aa4f89b8b42e3b5772d62de54ab2f5b3d}{IsSwapchainValid}}();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00090}00090\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_ad971a7f6f9e99140156f7b928af34dd8}{RecreateSwapchain}}();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00092}00092\ \ \ \ \ \textcolor{comment}{//\ -\/-\/\ Inherited\ from\ Rml::RenderInterface\ -\/-\/}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00095}00095\ \ \ \ \ Rml::CompiledGeometryHandle\ \mbox{\hyperlink{class_render_interface___v_k_a9a4c956d42066f10c082eb20b08178cd}{CompileGeometry}}(Rml::Span<const\ Rml::Vertex>\ vertices,\ Rml::Span<const\ int>\ indices)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00097}00097\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_a35dd1ee34f9a49bc45d12e5056ada38b}{RenderGeometry}}(Rml::CompiledGeometryHandle\ handle,\ Rml::Vector2f\ translation,\ Rml::TextureHandle\ texture)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00099}00099\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_a39f99ab1fe33e75b603056d652b2499b}{ReleaseGeometry}}(Rml::CompiledGeometryHandle\ geometry)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00102}00102\ \ \ \ \ Rml::TextureHandle\ \mbox{\hyperlink{class_render_interface___v_k_a039980fc92282dd220fb9e19e0cf6f3a}{LoadTexture}}(Rml::Vector2i\&\ texture\_dimensions,\ \textcolor{keyword}{const}\ Rml::String\&\ source)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00104}00104\ \ \ \ \ Rml::TextureHandle\ \mbox{\hyperlink{class_render_interface___v_k_a879e9c51c1a1139d14540636c1ad5fa4}{GenerateTexture}}(Rml::Span<const\ Rml::byte>\ source\_data,\ Rml::Vector2i\ source\_dimensions)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00106}00106\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_af1f0b3f641639257e8d018a417a58212}{ReleaseTexture}}(Rml::TextureHandle\ texture\_handle)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00109}00109\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_a6a4f6d8529b72e14ecfe31708aadfa48}{EnableScissorRegion}}(\textcolor{keywordtype}{bool}\ enable)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00111}00111\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_a5c0ded9fc6a1f196044d672d72cff7f9}{SetScissorRegion}}(Rml::Rectanglei\ region)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00114}00114\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___v_k_abe537301d0b37357ffb4b4fb1e904776}{SetTransform}}(\textcolor{keyword}{const}\ Rml::Matrix4f*\ transform)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00116}00116\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00117}00117\ \ \ \ \ \textcolor{keyword}{enum\ class}\ shader\_type\_t\ :\ \textcolor{keywordtype}{int}\ \{\ Vertex,\ Fragment,\ Unknown\ =\ -\/1\ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00118}00118\ \ \ \ \ \textcolor{keyword}{enum\ class}\ shader\_id\_t\ :\ \textcolor{keywordtype}{int}\ \{\ Vertex,\ Fragment\_WithoutTextures,\ Fragment\_WithTextures\ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00120}00120\ \ \ \ \ \textcolor{keyword}{struct\ }shader\_vertex\_user\_data\_t\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Member\ objects\ are\ order-\/sensitive\ to\ match\ shader.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00122}00122\ \ \ \ \ \ \ \ \ Rml::Matrix4f\ m\_transform;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00123}00123\ \ \ \ \ \ \ \ \ Rml::Vector2f\ m\_translate;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00124}00124\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00126}00126\ \ \ \ \ \textcolor{keyword}{struct\ }texture\_data\_t\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00127}00127\ \ \ \ \ \ \ \ \ VkImage\ m\_p\_vk\_image;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00128}00128\ \ \ \ \ \ \ \ \ VkImageView\ m\_p\_vk\_image\_view;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00129}00129\ \ \ \ \ \ \ \ \ VkSampler\ m\_p\_vk\_sampler;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00130}00130\ \ \ \ \ \ \ \ \ VkDescriptorSet\ m\_p\_vk\_descriptor\_set;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00131}00131\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ m\_p\_vma\_allocation;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00132}00132\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00134}00134\ \ \ \ \ \textcolor{keyword}{struct\ }geometry\_handle\_t\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ m\_num\_indices;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00137}00137\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_descriptor_buffer_info}{VkDescriptorBufferInfo}}\ m\_p\_vertex;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00138}00138\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_descriptor_buffer_info}{VkDescriptorBufferInfo}}\ m\_p\_index;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00139}00139\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_descriptor_buffer_info}{VkDescriptorBufferInfo}}\ m\_p\_shader;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00141}00141\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ @\ this\ is\ for\ freeing\ our\ logical\ blocks\ for\ VMA}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ see\ https://gpuopen-\/librariesandsdks.github.io/VulkanMemoryAllocator/html/virtual\_allocator.html}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00143}00143\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_virtual_allocation}{VmaVirtualAllocation}}\ m\_p\_vertex\_allocation;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00144}00144\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_virtual_allocation}{VmaVirtualAllocation}}\ m\_p\_index\_allocation;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00145}00145\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_virtual_allocation}{VmaVirtualAllocation}}\ m\_p\_shader\_allocation;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00146}00146\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00148}00148\ \ \ \ \ \textcolor{keyword}{struct\ }buffer\_data\_t\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00149}00149\ \ \ \ \ \ \ \ \ VkBuffer\ m\_p\_vk\_buffer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00150}00150\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ m\_p\_vma\_allocation;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00151}00151\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00153}00153\ \ \ \ \ \textcolor{keyword}{class\ }UploadResourceManager\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00154}00154\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00155}00155\ \ \ \ \ \ \ \ \ UploadResourceManager()\ :\ m\_p\_device\{\},\ m\_p\_fence\{\},\ m\_p\_command\_buffer\{\},\ m\_p\_command\_pool\{\},\ m\_p\_graphics\_queue\{\}\ \{\}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00156}00156\ \ \ \ \ \ \ \ \ \string~UploadResourceManager()\ \{\}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_shell_afa8a9ce6af8d26bcda3757514e2c439b}{Initialize}}(VkDevice\ p\_device,\ VkQueue\ p\_queue,\ uint32\_t\ queue\_family\_index)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00159}00159\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(p\_queue,\ \textcolor{stringliteral}{"{}you\ have\ to\ pass\ a\ valid\ VkQueue"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(p\_device,\ \textcolor{stringliteral}{"{}you\ have\ to\ pass\ a\ valid\ VkDevice\ for\ creation\ resources"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ m\_p\_device\ =\ p\_device;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ m\_p\_graphics\_queue\ =\ p\_queue;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ Create\_All(queue\_family\_index);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00167}00167\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_shell_a5433fa08fbb1afd5c72a582c98d28797}{Shutdown}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00170}00170\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_a94fb5ea6127d8f3887bf32f3363c1f6d}{vkDestroyFence}}(m\_p\_device,\ m\_p\_fence,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_a93569a1cb27e11787362a5c0f37f6940}{vkDestroyCommandPool}}(m\_p\_device,\ m\_p\_command\_pool,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00173}00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Func>}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00176}00176\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ UploadToGPU(\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a00d0b4f2d7dcdaaef835b97cf5d1e0df}{Func}}\&\&\ p\_user\_commands)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00177}00177\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(m\_p\_command\_buffer,\ \textcolor{stringliteral}{"{}you\ didn't\ initialize\ VkCommandBuffer"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_command_buffer_begin_info}{VkCommandBufferBeginInfo}}\ info\_command\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ info\_command.\mbox{\hyperlink{struct_vk_command_buffer_begin_info_a84e25a52283c43bbb206170caab0586c}{sType}}\ =\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a81ea8c126d535414b1ad3f3976f83dee}{VK\_STRUCTURE\_TYPE\_COMMAND\_BUFFER\_BEGIN\_INFO}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ info\_command.\mbox{\hyperlink{struct_vk_command_buffer_begin_info_aa50f5ab24e6c8bed29cd7316b37b52b4}{pNext}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ info\_command.\mbox{\hyperlink{struct_vk_command_buffer_begin_info_a2c940cb8df24d54523c424cc0810321b}{pInheritanceInfo}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ info\_command.\mbox{\hyperlink{struct_vk_command_buffer_begin_info_ab61f526b3a573a80b980669c9b32b605}{flags}}\ =\ \mbox{\hyperlink{vulkan_8h_a552f398a2714e9cbde7be4d69562d2cca426b9ebbde455d05c404cd475fe1c357}{VK\_COMMAND\_BUFFER\_USAGE\_ONE\_TIME\_SUBMIT\_BIT}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{VkResult}}\ status\ =\ \mbox{\hyperlink{vulkan_8h_a3630367bd35b9121de7a0abf8007ff32}{vkBeginCommandBuffer}}(m\_p\_command\_buffer,\ \&info\_command);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(status\ ==\ VkResult::VK\_SUCCESS,\ \textcolor{stringliteral}{"{}failed\ to\ vkBeginCommandBuffer"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ p\_user\_commands(m\_p\_command\_buffer);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ status\ =\ \mbox{\hyperlink{vulkan_8h_a61dc4a5dc7d88e29eda514243a3edde2}{vkEndCommandBuffer}}(m\_p\_command\_buffer);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(status\ ==\ VkResult::VK\_SUCCESS,\ \textcolor{stringliteral}{"{}faield\ to\ vkEndCommandBuffer"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ Submit();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ Wait();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00199}00199\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00201}00201\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Create\_Fence()\ noexcept}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00203}00203\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_fence_create_info}{VkFenceCreateInfo}}\ info\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_fence_create_info_adc52c9555adc6d3d3d377686b3fc6878}{sType}}\ =\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8abfaa0737218921b75a2475597b093070}{VK\_STRUCTURE\_TYPE\_FENCE\_CREATE\_INFO}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_fence_create_info_a66b1d6e5fbad17c5492d75ac1a829560}{pNext}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_fence_create_info_a9bcb097c35600788c72be8911c38f8fb}{flags}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{VkResult}}\ status\ =\ \mbox{\hyperlink{vulkan_8h_a0568573f78923ad74b966dd65452e1aa}{vkCreateFence}}(m\_p\_device,\ \&info,\ \textcolor{keyword}{nullptr},\ \&m\_p\_fence);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(status\ ==\ VkResult::VK\_SUCCESS,\ \textcolor{stringliteral}{"{}failed\ to\ vkCreateFence"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00212}00212\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Create\_CommandBuffer()\ noexcept}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00215}00215\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(m\_p\_command\_pool,\ \textcolor{stringliteral}{"{}you\ have\ to\ initialize\ VkCommandPool\ before\ calling\ this\ method!"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_command_buffer_allocate_info}{VkCommandBufferAllocateInfo}}\ info\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_command_buffer_allocate_info_aa3690ba29d32736364209f7a8053e4cc}{sType}}\ =\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a703c7bc2b2cd76f261c2a8876e681deb}{VK\_STRUCTURE\_TYPE\_COMMAND\_BUFFER\_ALLOCATE\_INFO}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_command_buffer_allocate_info_a701d8fcfd1560f2f4caafcce12396a06}{pNext}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_command_buffer_allocate_info_ac72a39215c9f661b5f10d4e3663cbb89}{commandPool}}\ =\ m\_p\_command\_pool;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_command_buffer_allocate_info_a26c0f87daad56f2199cbeb47b11fa226}{commandBufferCount}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_command_buffer_allocate_info_acd063b55b5a57c71601f61a9b2529fac}{level}}\ =\ \mbox{\hyperlink{vulkan_8h_a138cbc4070067347bfbc39980a0525a5aecd56e07659f13e1fe948f264f8b6336}{VK\_COMMAND\_BUFFER\_LEVEL\_PRIMARY}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{VkResult}}\ status\ =\ \mbox{\hyperlink{vulkan_8h_a245a6e0acd91fd10f668503cdb3638f8}{vkAllocateCommandBuffers}}(m\_p\_device,\ \&info,\ \&m\_p\_command\_buffer);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(status\ ==\ VkResult::VK\_SUCCESS,\ \textcolor{stringliteral}{"{}failed\ to\ vkAllocateCommandBuffers"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00228}00228\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Create\_CommandPool(uint32\_t\ queue\_family\_index)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00231}00231\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_command_pool_create_info}{VkCommandPoolCreateInfo}}\ info\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_command_pool_create_info_a93f0eb252db1738f973375d0c33769ec}{sType}}\ =\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8afb4999fc207bb004ca0980baabb9173e}{VK\_STRUCTURE\_TYPE\_COMMAND\_POOL\_CREATE\_INFO}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_command_pool_create_info_a501ef5c80349ccdf02806bf3f1535363}{pNext}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_command_pool_create_info_a9ab332528162361c67d61f23224d0e75}{queueFamilyIndex}}\ =\ queue\_family\_index;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_command_pool_create_info_ad840022655caaac74fd3a0a13041235e}{flags}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{VkResult}}\ status\ =\ \mbox{\hyperlink{vulkan_8h_a61f77608b64fed9db333f34fe420b34c}{vkCreateCommandPool}}(m\_p\_device,\ \&info,\ \textcolor{keyword}{nullptr},\ \&m\_p\_command\_pool);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(status\ ==\ VkResult::VK\_SUCCESS,\ \textcolor{stringliteral}{"{}failed\ to\ vkCreateCommandPool"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00242}00242\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Create\_All(uint32\_t\ queue\_family\_index)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00245}00245\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ Create\_Fence();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ Create\_CommandPool(queue\_family\_index);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ Create\_CommandBuffer();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00249}00249\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Wait()\ noexcept}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00252}00252\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(m\_p\_fence,\ \textcolor{stringliteral}{"{}you\ must\ initialize\ your\ VkFence"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_a5507b2ce202e4184e8754fd1803f2481}{vkWaitForFences}}(m\_p\_device,\ 1,\ \&m\_p\_fence,\ \mbox{\hyperlink{vulkan_8h_a194519942d53e7f5fe402ae75f6ec1b4}{VK\_TRUE}},\ UINT64\_MAX);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_a94b34df02f9244a19e3133ba05c1c6ee}{vkResetFences}}(m\_p\_device,\ 1,\ \&m\_p\_fence);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_aa592a5335255120b455810e6e352b58a}{vkResetCommandPool}}(m\_p\_device,\ m\_p\_command\_pool,\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00258}00258\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00259}00259\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Submit()\ noexcept}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00261}00261\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_submit_info}{VkSubmitInfo}}\ info\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_submit_info_aee3cc5c2a1fb144a0476fa8baa835571}{sType}}\ =\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8ad25bf02f2647fdaab704b5cd6a7e3b39}{VK\_STRUCTURE\_TYPE\_SUBMIT\_INFO}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_submit_info_aa827f32b74dd9a2c42ffdbaddb910850}{pNext}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_submit_info_a08492c7fad96588a5354330450769506}{waitSemaphoreCount}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_submit_info_a86c49ef4e4c6b783a7eb91a0765eac32}{signalSemaphoreCount}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_submit_info_aea8d3d54dcd0b4a8a6fdf1720efa1dc1}{pSignalSemaphores}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_submit_info_a49e8c32885385a6d3ed7198787698f02}{pWaitSemaphores}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_submit_info_a15e1ab15586994f39450aec9a7a1317a}{pWaitDstStageMask}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_submit_info_a8aebb603c2e1bd882744947dd0872570}{pCommandBuffers}}\ =\ \&m\_p\_command\_buffer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_submit_info_a367092c16fada2ba0a5dec4282b604d2}{commandBufferCount}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ status\ =\ \mbox{\hyperlink{vulkan_8h_a19e8438702538a89ef76315eb319ad2d}{vkQueueSubmit}}(m\_p\_graphics\_queue,\ 1,\ \&info,\ m\_p\_fence);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(status\ ==\ VkResult::VK\_SUCCESS,\ \textcolor{stringliteral}{"{}failed\ to\ vkQueueSubmit"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00277}00277\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00279}00279\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00280}00280\ \ \ \ \ \ \ \ \ VkDevice\ m\_p\_device;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00281}00281\ \ \ \ \ \ \ \ \ VkFence\ m\_p\_fence;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00282}00282\ \ \ \ \ \ \ \ \ VkCommandBuffer\ m\_p\_command\_buffer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00283}00283\ \ \ \ \ \ \ \ \ VkCommandPool\ m\_p\_command\_pool;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00284}00284\ \ \ \ \ \ \ \ \ VkQueue\ m\_p\_graphics\_queue;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00285}00285\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00287}00287\ \ \ \ \ \textcolor{comment}{//\ @\ main\ manager\ for\ "{}allocating"{}\ vertex,\ index,\ uniform\ stuff}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00288}00288\ \ \ \ \ \textcolor{keyword}{class\ }MemoryPool\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00289}00289\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00290}00290\ \ \ \ \ \ \ \ \ MemoryPool();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00291}00291\ \ \ \ \ \ \ \ \ \string~MemoryPool();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00293}00293\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_shell_afa8a9ce6af8d26bcda3757514e2c439b}{Initialize}}(\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ byte\_size,\ \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ device\_min\_uniform\_alignment,\ \mbox{\hyperlink{struct_vma_allocator}{VmaAllocator}}\ p\_allocator,\ VkDevice\ p\_device)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00294}00294\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_shell_a5433fa08fbb1afd5c72a582c98d28797}{Shutdown}}()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ Alloc\_GeneralBuffer(\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ size,\ \textcolor{keywordtype}{void}**\ p\_data,\ \mbox{\hyperlink{struct_vk_descriptor_buffer_info}{VkDescriptorBufferInfo}}*\ p\_out,\ \mbox{\hyperlink{struct_vma_virtual_allocation}{VmaVirtualAllocation}}*\ p\_alloc)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00297}00297\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ Alloc\_VertexBuffer(uint32\_t\ number\_of\_elements,\ uint32\_t\ stride\_in\_bytes,\ \textcolor{keywordtype}{void}**\ p\_data,\ \mbox{\hyperlink{struct_vk_descriptor_buffer_info}{VkDescriptorBufferInfo}}*\ p\_out,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_virtual_allocation}{VmaVirtualAllocation}}*\ p\_alloc)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ Alloc\_IndexBuffer(uint32\_t\ number\_of\_elements,\ uint32\_t\ stride\_in\_bytes,\ \textcolor{keywordtype}{void}**\ p\_data,\ \mbox{\hyperlink{struct_vk_descriptor_buffer_info}{VkDescriptorBufferInfo}}*\ p\_out,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_virtual_allocation}{VmaVirtualAllocation}}*\ p\_alloc)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00302}00302\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ SetDescriptorSet(uint32\_t\ binding\_index,\ uint32\_t\ size,\ \mbox{\hyperlink{vulkan_8h_abf75186f354a2ff1c7f225bb2ce625ea}{VkDescriptorType}}\ descriptor\_type,\ VkDescriptorSet\ p\_set)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00303}00303\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ SetDescriptorSet(uint32\_t\ binding\_index,\ \mbox{\hyperlink{struct_vk_descriptor_buffer_info}{VkDescriptorBufferInfo}}*\ p\_info,\ \mbox{\hyperlink{vulkan_8h_abf75186f354a2ff1c7f225bb2ce625ea}{VkDescriptorType}}\ descriptor\_type,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorSet\ p\_set)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00305}00305\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ SetDescriptorSet(uint32\_t\ binding\_index,\ VkSampler\ p\_sampler,\ \mbox{\hyperlink{vulkan_8h_a10d9a29817e871a926df1834c7ccd88c}{VkImageLayout}}\ layout,\ VkImageView\ p\_view,\ \mbox{\hyperlink{vulkan_8h_abf75186f354a2ff1c7f225bb2ce625ea}{VkDescriptorType}}\ descriptor\_type,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorSet\ p\_set)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00307}00307\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Free\_GeometryHandle(geometry\_handle\_t*\ p\_valid\_geometry\_handle)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00309}00309\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Free\_GeometryHandle\_ShaderDataOnly(geometry\_handle\_t*\ p\_valid\_geometry\_handle)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00311}00311\ \ \ \ \ private:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00312}00312\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ m\_memory\_total\_size;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00313}00313\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ m\_device\_min\_uniform\_alignment;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00314}00314\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ m\_p\_data;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00315}00315\ \ \ \ \ \ \ \ \ VkBuffer\ m\_p\_buffer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00316}00316\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ m\_p\_buffer\_alloc;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00317}00317\ \ \ \ \ \ \ \ \ VkDevice\ m\_p\_device;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00318}00318\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_allocator}{VmaAllocator}}\ m\_p\_vk\_allocator;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00319}00319\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_virtual_block}{VmaVirtualBlock}}\ m\_p\_block;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00320}00320\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00321}00321\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00322}00322\ \ \ \ \ \textcolor{comment}{//\ If\ we\ need\ additional\ command\ buffers,\ we\ can\ add\ them\ to\ this\ list\ and\ retrieve\ them\ from\ the\ ring.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00323}00323\ \ \ \ \ enum\ class\ CommandBufferName\ \{\ Primary,\ \mbox{\hyperlink{namespace_gfx_ad5487176b489a39830d8611e38914d25ae93f994f01c537c4e2f7d8528c3eb5e9}{Count}}\ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00324}00324\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00325}00325\ \ \ \ \ \textcolor{comment}{//\ The\ command\ buffer\ ring\ stores\ a\ unique\ set\ of\ named\ command\ buffers\ for\ each\ bufferd\ frame.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00326}00326\ \ \ \ \ \textcolor{comment}{//\ Explanation\ of\ how\ to\ use\ Vulkan\ efficiently:\ https://vkguide.dev/docs/chapter-\/4/double\_buffering/}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00327}00327\ \ \ \ \ \textcolor{keyword}{class\ }CommandBufferRing\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00328}00328\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00329}00329\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ uint32\_t\ kNumFramesToBuffer\ =\ kSwapchainBackBufferCount;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00330}00330\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ uint32\_t\ kNumCommandBuffersPerFrame\ =\ \textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(CommandBufferName::Count);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00332}00332\ \ \ \ \ \ \ \ \ CommandBufferRing();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_shell_afa8a9ce6af8d26bcda3757514e2c439b}{Initialize}}(VkDevice\ p\_device,\ uint32\_t\ queue\_index\_graphics)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_shell_a5433fa08fbb1afd5c72a582c98d28797}{Shutdown}}();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ OnBeginFrame();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00338}00338\ \ \ \ \ \ \ \ \ VkCommandBuffer\ GetCommandBufferForActiveFrame(CommandBufferName\ named\_command\_buffer);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00339}00339\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00340}00340\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00341}00341\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }CommandBuffersPerFrame\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ Rml::Array<VkCommandPool,\ kNumCommandBuffersPerFrame>\ m\_command\_pools;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ Rml::Array<VkCommandBuffer,\ kNumCommandBuffersPerFrame>\ m\_command\_buffers;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00344}00344\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00346}00346\ \ \ \ \ \ \ \ \ VkDevice\ m\_p\_device;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00347}00347\ \ \ \ \ \ \ \ \ uint32\_t\ m\_frame\_index;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00348}00348\ \ \ \ \ \ \ \ \ CommandBuffersPerFrame*\ m\_p\_current\_frame;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00349}00349\ \ \ \ \ \ \ \ \ Rml::Array<CommandBuffersPerFrame,\ kNumFramesToBuffer>\ m\_frames;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00350}00350\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00351}00351\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00352}00352\ \ \ \ \ \textcolor{keyword}{class\ }DescriptorPoolManager\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00353}00353\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00354}00354\ \ \ \ \ \ \ \ \ DescriptorPoolManager()\ :\ m\_allocated\_descriptor\_count\{\},\ m\_p\_descriptor\_pool\{\}\ \{\}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00355}00355\ \ \ \ \ \ \ \ \ \string~DescriptorPoolManager()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00356}00356\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(m\_allocated\_descriptor\_count\ <=\ 0,\ \textcolor{stringliteral}{"{}something\ is\ wrong.\ You\ didn't\ free\ some\ VkDescriptorSet"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00358}00358\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_shell_afa8a9ce6af8d26bcda3757514e2c439b}{Initialize}}(VkDevice\ p\_device,\ uint32\_t\ count\_uniform\_buffer,\ uint32\_t\ count\_image\_sampler,\ uint32\_t\ count\_sampler,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ count\_storage\_buffer)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00362}00362\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(p\_device,\ \textcolor{stringliteral}{"{}you\ can't\ pass\ an\ invalid\ VkDevice\ here"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00364}00364\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ Rml::Array<VkDescriptorPoolSize,\ 5>\ sizes;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ sizes[0]\ =\ \{\mbox{\hyperlink{vulkan_8h_abf75186f354a2ff1c7f225bb2ce625eaa8829dcf4883430d2720fd4f994251fb7}{VK\_DESCRIPTOR\_TYPE\_UNIFORM\_BUFFER\_DYNAMIC}},\ count\_uniform\_buffer\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ sizes[1]\ =\ \{\mbox{\hyperlink{vulkan_8h_abf75186f354a2ff1c7f225bb2ce625eaa36785869726141f3a810eacd0a60fbff}{VK\_DESCRIPTOR\_TYPE\_UNIFORM\_BUFFER}},\ count\_uniform\_buffer\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ sizes[2]\ =\ \{\mbox{\hyperlink{vulkan_8h_abf75186f354a2ff1c7f225bb2ce625eaae5f1804a536ef65918b5e7dc377bc272}{VK\_DESCRIPTOR\_TYPE\_COMBINED\_IMAGE\_SAMPLER}},\ count\_image\_sampler\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ sizes[3]\ =\ \{\mbox{\hyperlink{vulkan_8h_abf75186f354a2ff1c7f225bb2ce625eaa2e606c9f498540415d6f9478f9b4553c}{VK\_DESCRIPTOR\_TYPE\_SAMPLER}},\ count\_sampler\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ sizes[4]\ =\ \{\mbox{\hyperlink{vulkan_8h_abf75186f354a2ff1c7f225bb2ce625eaacc13be1a89ce4da60afc24309f76ca8d}{VK\_DESCRIPTOR\_TYPE\_STORAGE\_BUFFER}},\ count\_storage\_buffer\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00371}00371\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_descriptor_pool_create_info}{VkDescriptorPoolCreateInfo}}\ info\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_pool_create_info_a08aeadb4ed508b233e94df1e3155a84a}{sType}}\ =\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8ab8ea5659e11a9c4a0653a85fe1664ddf}{VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_POOL\_CREATE\_INFO}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_pool_create_info_a6c2b7d54984752c99c101be216c02341}{pNext}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_pool_create_info_a8356f573a3594d11acd1e24ccb5e4903}{flags}}\ =\ \mbox{\hyperlink{vulkan_8h_a5429833d1aad0da5031b4f0b8e50653dad9e8574efa3d5234f672c87b7ee1ff67}{VK\_DESCRIPTOR\_POOL\_CREATE\_FREE\_DESCRIPTOR\_SET\_BIT}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_pool_create_info_ad4f8283d18e0a1e2c423e696f5a4e5db}{maxSets}}\ =\ 1000;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_pool_create_info_a4e126e015c62b61676c551821939921a}{poolSizeCount}}\ =\ \textcolor{keyword}{static\_cast<}uint32\_t\textcolor{keyword}{>}(sizes.size());}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_pool_create_info_a3b42ba834889209243a163b1ad5370ed}{pPoolSizes}}\ =\ sizes.data();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00379}00379\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ status\ =\ \mbox{\hyperlink{vulkan_8h_a2a5ea318e135d3c897aff602ae9e312d}{vkCreateDescriptorPool}}(p\_device,\ \&info,\ \textcolor{keyword}{nullptr},\ \&m\_p\_descriptor\_pool);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(status\ ==\ VkResult::VK\_SUCCESS,\ \textcolor{stringliteral}{"{}failed\ to\ vkCreateDescriptorPool"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00382}00382\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00383}00383\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_shell_a5433fa08fbb1afd5c72a582c98d28797}{Shutdown}}(VkDevice\ p\_device)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00385}00385\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(p\_device,\ \textcolor{stringliteral}{"{}you\ can't\ pass\ an\ invalid\ VkDevice\ here"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00387}00387\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_ab24cde1990e17990009604a8142890d5}{vkDestroyDescriptorPool}}(p\_device,\ m\_p\_descriptor\_pool,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00389}00389\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00390}00390\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00391}00391\ \ \ \ \ \ \ \ \ uint32\_t\ Get\_AllocatedDescriptorCount()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ m\_allocated\_descriptor\_count;\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00392}00392\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00393}00393\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ Alloc\_Descriptor(VkDevice\ p\_device,\ VkDescriptorSetLayout*\ p\_layouts,\ VkDescriptorSet*\ p\_sets,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ descriptor\_count\_for\_creation\ =\ 1)\ noexcept}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00395}00395\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(p\_layouts,\ \textcolor{stringliteral}{"{}you\ have\ to\ pass\ a\ valid\ and\ initialized\ VkDescriptorSetLayout\ (probably\ you\ must\ create\ it)"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(p\_device,\ \textcolor{stringliteral}{"{}you\ must\ pass\ a\ valid\ VkDevice\ here"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00398}00398\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_descriptor_set_allocate_info}{VkDescriptorSetAllocateInfo}}\ info\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_set_allocate_info_a2ba811f9c23f3a535b3a18da107a5ed9}{sType}}\ =\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8aa56080cca9cbd1d9a20aa95949f6d783}{VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_SET\_ALLOCATE\_INFO}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_set_allocate_info_a411154a2039c9484e95488885b15bbfe}{pNext}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_set_allocate_info_a54d71d3f3fcdeb2cc77d2e44d1cc1b18}{descriptorPool}}\ =\ m\_p\_descriptor\_pool;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_set_allocate_info_a08d32682bc040616c0dc885cb751af48}{descriptorSetCount}}\ =\ descriptor\_count\_for\_creation;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ info.\mbox{\hyperlink{struct_vk_descriptor_set_allocate_info_aab5d13afefc7f60deaeea37f0b30131b}{pSetLayouts}}\ =\ p\_layouts;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00405}00405\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ status\ =\ \mbox{\hyperlink{vulkan_8h_a42cca3fe9d4a89856f7f19eebc48b716}{vkAllocateDescriptorSets}}(p\_device,\ \&info,\ p\_sets);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(status\ ==\ VkResult::VK\_SUCCESS,\ \textcolor{stringliteral}{"{}failed\ to\ vkAllocateDescriptorSets"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00408}00408\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ m\_allocated\_descriptor\_count\ +=\ descriptor\_count\_for\_creation;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00410}00410\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status\ ==\ VkResult::VK\_SUCCESS;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00412}00412\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00413}00413\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00414}00414\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ Free\_Descriptors(VkDevice\ p\_device,\ VkDescriptorSet*\ p\_sets,\ uint32\_t\ descriptor\_count\ =\ 1)\ noexcept}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00415}00415\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00416}00416\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_a18bc14e720e1499de984a9ddd6f1fd07}{RMLUI\_VK\_ASSERTMSG}}(p\_device,\ \textcolor{stringliteral}{"{}you\ must\ pass\ a\ valid\ VkDevice\ here"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p\_sets)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ m\_allocated\_descriptor\_count\ -\/=\ descriptor\_count;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_a5a6c4d9e9b034e86d8861ce1f2028968}{vkFreeDescriptorSets}}(p\_device,\ m\_p\_descriptor\_pool,\ descriptor\_count,\ p\_sets);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00423}00423\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00424}00424\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00425}00425\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00426}00426\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ m\_allocated\_descriptor\_count;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00427}00427\ \ \ \ \ \ \ \ \ VkDescriptorPool\ m\_p\_descriptor\_pool;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00428}00428\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00429}00429\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00430}00430\ \ \ \ \ \textcolor{keyword}{struct\ }PhysicalDeviceWrapper\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00431}00431\ \ \ \ \ \ \ \ \ VkPhysicalDevice\ m\_p\_physical\_device;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00432}00432\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_physical_device_properties}{VkPhysicalDeviceProperties}}\ m\_physical\_device\_properties;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00433}00433\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00434}00434\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00435}00435\ \ \ \ \ \textcolor{keyword}{using\ }PhysicalDeviceWrapperList\ =\ Rml::Vector<PhysicalDeviceWrapper>;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00436}00436\ \ \ \ \ \textcolor{keyword}{using\ }LayerPropertiesList\ =\ Rml::Vector<VkLayerProperties>;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00437}00437\ \ \ \ \ \textcolor{keyword}{using\ }ExtensionPropertiesList\ =\ Rml::Vector<VkExtensionProperties>;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00438}00438\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00439}00439\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00440}00440\ \ \ \ \ Rml::TextureHandle\ CreateTexture(Rml::Span<const\ Rml::byte>\ source,\ Rml::Vector2i\ dimensions,\ \textcolor{keyword}{const}\ Rml::String\&\ name);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00441}00441\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00442}00442\ \ \ \ \ \textcolor{keywordtype}{void}\ Initialize\_Instance(Rml::Vector<const\ char*>\ required\_extensions)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00443}00443\ \ \ \ \ \textcolor{keywordtype}{void}\ Initialize\_Device()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00444}00444\ \ \ \ \ \textcolor{keywordtype}{void}\ Initialize\_PhysicalDevice(\mbox{\hyperlink{struct_vk_physical_device_properties}{VkPhysicalDeviceProperties}}\&\ out\_physical\_device\_properties)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00445}00445\ \ \ \ \ \textcolor{keywordtype}{void}\ Initialize\_Swapchain(\mbox{\hyperlink{struct_vk_extent2_d}{VkExtent2D}}\ window\_extent)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00446}00446\ \ \ \ \ \textcolor{keywordtype}{void}\ Initialize\_Surface(\mbox{\hyperlink{class_render_interface___v_k_aafdcde7585cd7a3b544aa373471fe492}{CreateSurfaceCallback}}\ create\_surface\_callback)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00447}00447\ \ \ \ \ \textcolor{keywordtype}{void}\ Initialize\_QueueIndecies()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00448}00448\ \ \ \ \ \textcolor{keywordtype}{void}\ Initialize\_Queues()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00449}00449\ \ \ \ \ \textcolor{keywordtype}{void}\ Initialize\_SyncPrimitives()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00450}00450\ \ \ \ \ \textcolor{keywordtype}{void}\ Initialize\_Resources(const\ \mbox{\hyperlink{struct_vk_physical_device_properties}{VkPhysicalDeviceProperties}}\&\ physical\_device\_properties)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00451}00451\ \ \ \ \ \textcolor{keywordtype}{void}\ Initialize\_Allocator()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00452}00452\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00453}00453\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_Instance()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00454}00454\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_Device()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00455}00455\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_Swapchain()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00456}00456\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_Surface()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00457}00457\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_SyncPrimitives()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00458}00458\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_Resources()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00459}00459\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_Allocator()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00460}00460\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00461}00461\ \ \ \ \ \textcolor{keywordtype}{void}\ QueryInstanceLayers(LayerPropertiesList\&\ result)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00462}00462\ \ \ \ \ \textcolor{keywordtype}{void}\ QueryInstanceExtensions(ExtensionPropertiesList\&\ result,\ const\ LayerPropertiesList\&\ instance\_layer\_properties)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00463}00463\ \ \ \ \ \textcolor{keywordtype}{bool}\ AddLayerToInstance(Rml::Vector<const\ \textcolor{keywordtype}{char}*>\&\ result,\ const\ LayerPropertiesList\&\ instance\_layer\_properties,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00464}00464\ \ \ \ \ \ \ \ \ const\ \textcolor{keywordtype}{char}*\ p\_instance\_layer\_name)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00465}00465\ \ \ \ \ \textcolor{keywordtype}{bool}\ AddExtensionToInstance(Rml::Vector<const\ \textcolor{keywordtype}{char}*>\&\ result,\ const\ ExtensionPropertiesList\&\ instance\_extension\_properties,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00466}00466\ \ \ \ \ \ \ \ \ const\ \textcolor{keywordtype}{char}*\ p\_instance\_extension\_name)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00467}00467\ \ \ \ \ \textcolor{keywordtype}{void}\ CreatePropertiesFor\_Instance(Rml::Vector<const\ \textcolor{keywordtype}{char}*>\&\ instance\_layer\_names,\ Rml::Vector<const\ \textcolor{keywordtype}{char}*>\&\ instance\_extension\_names)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00469}00469\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsLayerPresent(const\ LayerPropertiesList\&\ properties,\ const\ \textcolor{keywordtype}{char}*\ p\_layer\_name)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00470}00470\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsExtensionPresent(const\ ExtensionPropertiesList\&\ properties,\ const\ \textcolor{keywordtype}{char}*\ p\_extension\_name)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00471}00471\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00472}00472\ \ \ \ \ \textcolor{keywordtype}{bool}\ AddExtensionToDevice(Rml::Vector<const\ \textcolor{keywordtype}{char}*>\&\ result,\ const\ ExtensionPropertiesList\&\ device\_extension\_properties,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00473}00473\ \ \ \ \ \ \ \ \ const\ \textcolor{keywordtype}{char}*\ p\_device\_extension\_name)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00474}00474\ \ \ \ \ \textcolor{keywordtype}{void}\ CreatePropertiesFor\_Device(ExtensionPropertiesList\&\ result)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00475}00475\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00476}00476\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateReportDebugCallback()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00477}00477\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_ReportDebugCallback()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00478}00478\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00479}00479\ \ \ \ \ uint32\_t\ GetUserAPIVersion()\ const\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00480}00480\ \ \ \ \ uint32\_t\ GetRequiredVersionAndValidateMachine()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00481}00481\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00482}00482\ \ \ \ \ \textcolor{keywordtype}{void}\ CollectPhysicalDevices(PhysicalDeviceWrapperList\&\ out\_physical\_devices)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00483}00483\ \ \ \ \ const\ PhysicalDeviceWrapper*\ ChoosePhysicalDevice(const\ PhysicalDeviceWrapperList\&\ physical\_devices,\ \mbox{\hyperlink{vulkan_8h_aabf99966e5d0aef65b9fe7cedcf63f17}{VkPhysicalDeviceType}}\ device\_type)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00484}00484\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00485}00485\ \ \ \ \ \mbox{\hyperlink{struct_vk_surface_format_k_h_r}{VkSurfaceFormatKHR}}\ ChooseSwapchainFormat()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00486}00486\ \ \ \ \ \mbox{\hyperlink{vulkan_8h_abfb1e808560ccb29323e96a384aa5a41}{VkSurfaceTransformFlagBitsKHR}}\ CreatePretransformSwapchain()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00487}00487\ \ \ \ \ \mbox{\hyperlink{vulkan_8h_a8266c3bdfbd3bf1dbbdc2d4f2890d1d7}{VkCompositeAlphaFlagBitsKHR}}\ ChooseSwapchainCompositeAlpha()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00488}00488\ \ \ \ \ \textcolor{keywordtype}{int}\ Choose\_SwapchainImageCount(uint32\_t\ user\_swapchain\_count\_for\_creation\ =\ \mbox{\hyperlink{class_render_interface___v_k_a6113d272e5a72c0fcdb95233597dc6ad}{kSwapchainBackBufferCount}},\ \textcolor{keywordtype}{bool}\ if\_failed\_choose\_min\ =\ true)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00489}00489\ \ \ \ \ \mbox{\hyperlink{vulkan_8h_acfe074f0be1b52a106d074c7ac6851c9}{VkPresentModeKHR}}\ GetPresentMode(\mbox{\hyperlink{vulkan_8h_acfe074f0be1b52a106d074c7ac6851c9}{VkPresentModeKHR}}\ type\ =\ \mbox{\hyperlink{vulkan_8h_acfe074f0be1b52a106d074c7ac6851c9}{VkPresentModeKHR}}::\mbox{\hyperlink{vulkan_8h_acfe074f0be1b52a106d074c7ac6851c9ab5a82ca6833d3e8e6cb314e265dc185b}{VK\_PRESENT\_MODE\_FIFO\_KHR}})\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00490}00490\ \ \ \ \ \mbox{\hyperlink{struct_vk_surface_capabilities_k_h_r}{VkSurfaceCapabilitiesKHR}}\ GetSurfaceCapabilities()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00491}00491\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00492}00492\ \ \ \ \ \mbox{\hyperlink{struct_vk_extent2_d}{VkExtent2D}}\ GetValidSurfaceExtent()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00493}00493\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00494}00494\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateShaders()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00495}00495\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateDescriptorSetLayout()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00496}00496\ \ \ \ \ \textcolor{keywordtype}{void}\ CreatePipelineLayout()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00497}00497\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateDescriptorSets()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00498}00498\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateSamplers()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00499}00499\ \ \ \ \ \textcolor{keywordtype}{void}\ Create\_Pipelines()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00500}00500\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateRenderPass()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00501}00501\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00502}00502\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateSwapchainFrameBuffers(const\ \mbox{\hyperlink{struct_vk_extent2_d}{VkExtent2D}}\&\ real\_render\_image\_size)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00503}00503\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00504}00504\ \ \ \ \ \textcolor{comment}{//\ This\ method\ is\ called\ in\ Views,\ so\ don't\ call\ it\ manually}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00505}00505\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateSwapchainImages()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00506}00506\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateSwapchainImageViews()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00507}00507\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00508}00508\ \ \ \ \ \textcolor{keywordtype}{void}\ Create\_DepthStencilImage()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00509}00509\ \ \ \ \ \textcolor{keywordtype}{void}\ Create\_DepthStencilImageViews()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00510}00510\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00511}00511\ \ \ \ \ \textcolor{keywordtype}{void}\ CreateResourcesDependentOnSize(const\ \mbox{\hyperlink{struct_vk_extent2_d}{VkExtent2D}}\&\ real\_render\_image\_size)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00512}00512\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00513}00513\ \ \ \ \ buffer\_data\_t\ CreateResource\_StagingBuffer(\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ size,\ \mbox{\hyperlink{vulkan_8h_ab221f627433dcae79b6a004fc42b50a9}{VkBufferUsageFlags}}\ flags)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00514}00514\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyResource\_StagingBuffer(const\ buffer\_data\_t\&\ data)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00515}00515\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00516}00516\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_Textures()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00517}00517\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_Geometries()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00518}00518\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00519}00519\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_Texture(const\ texture\_data\_t\&\ p\_texture)\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00520}00520\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00521}00521\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyResourcesDependentOnSize()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00522}00522\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroySwapchainImageViews()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00523}00523\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroySwapchainFrameBuffers()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00524}00524\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyRenderPass()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00525}00525\ \ \ \ \ \textcolor{keywordtype}{void}\ Destroy\_Pipelines()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00526}00526\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyDescriptorSets()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00527}00527\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroyPipelineLayout()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00528}00528\ \ \ \ \ \textcolor{keywordtype}{void}\ DestroySamplers()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00529}00529\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00530}00530\ \ \ \ \ \textcolor{keywordtype}{void}\ Wait()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00531}00531\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00532}00532\ \ \ \ \ \textcolor{keywordtype}{void}\ Update\_PendingForDeletion\_Textures\_By\_Frames()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00533}00533\ \ \ \ \ \textcolor{keywordtype}{void}\ Update\_PendingForDeletion\_Geometries()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00534}00534\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00535}00535\ \ \ \ \ \textcolor{keywordtype}{void}\ Submit()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00536}00536\ \ \ \ \ \textcolor{keywordtype}{void}\ Present()\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00537}00537\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00538}00538\ \ \ \ \ \mbox{\hyperlink{vulkan_8h_ad61b5b94a526d0f9ae0db97072cf6b3f}{VkFormat}}\ Get\_SupportedDepthFormat();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00539}00539\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00540}00540\ private:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00541}00541\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_is\_transform\_enabled;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00542}00542\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_is\_apply\_to\_regular\_geometry\_stencil;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00543}00543\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_is\_use\_scissor\_specified;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00544}00544\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_is\_use\_stencil\_pipeline;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00545}00545\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00546}00546\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_width;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00547}00547\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_height;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00548}00548\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00549}00549\ \ \ \ \ uint32\_t\ m\_queue\_index\_present;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00550}00550\ \ \ \ \ uint32\_t\ m\_queue\_index\_graphics;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00551}00551\ \ \ \ \ uint32\_t\ m\_queue\_index\_compute;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00552}00552\ \ \ \ \ uint32\_t\ m\_semaphore\_index;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00553}00553\ \ \ \ \ uint32\_t\ m\_semaphore\_index\_previous;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00554}00554\ \ \ \ \ uint32\_t\ m\_image\_index;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00555}00555\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00556}00556\ \ \ \ \ VkInstance\ m\_p\_instance;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00557}00557\ \ \ \ \ VkDevice\ m\_p\_device;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00558}00558\ \ \ \ \ VkPhysicalDevice\ m\_p\_physical\_device;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00559}00559\ \ \ \ \ VkSurfaceKHR\ m\_p\_surface;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00560}00560\ \ \ \ \ VkSwapchainKHR\ m\_p\_swapchain;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00561}00561\ \ \ \ \ \mbox{\hyperlink{struct_vma_allocator}{VmaAllocator}}\ m\_p\_allocator;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00562}00562\ \ \ \ \ \textcolor{comment}{//\ @\ obtained\ from\ command\ list\ see\ PrepareRenderBuffer\ method}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00563}00563\ \ \ \ \ VkCommandBuffer\ m\_p\_current\_command\_buffer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00564}00564\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00565}00565\ \ \ \ \ VkDescriptorSetLayout\ m\_p\_descriptor\_set\_layout\_vertex\_transform;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00566}00566\ \ \ \ \ VkDescriptorSetLayout\ m\_p\_descriptor\_set\_layout\_texture;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00567}00567\ \ \ \ \ VkPipelineLayout\ m\_p\_pipeline\_layout;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00568}00568\ \ \ \ \ VkPipeline\ m\_p\_pipeline\_with\_textures;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00569}00569\ \ \ \ \ VkPipeline\ m\_p\_pipeline\_without\_textures;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00570}00570\ \ \ \ \ VkPipeline\ m\_p\_pipeline\_stencil\_for\_region\_where\_geometry\_will\_be\_drawn;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00571}00571\ \ \ \ \ VkPipeline\ m\_p\_pipeline\_stencil\_for\_regular\_geometry\_that\_applied\_to\_region\_with\_textures;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00572}00572\ \ \ \ \ VkPipeline\ m\_p\_pipeline\_stencil\_for\_regular\_geometry\_that\_applied\_to\_region\_without\_textures;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00573}00573\ \ \ \ \ VkDescriptorSet\ m\_p\_descriptor\_set;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00574}00574\ \ \ \ \ VkRenderPass\ m\_p\_render\_pass;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00575}00575\ \ \ \ \ VkSampler\ m\_p\_sampler\_linear;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00576}00576\ \ \ \ \ \mbox{\hyperlink{struct_vk_rect2_d}{VkRect2D}}\ m\_scissor;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00577}00577\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00578}00578\ \ \ \ \ \textcolor{comment}{//\ @\ means\ it\ captures\ the\ window\ size\ full\ width\ and\ full\ height,\ offset\ equals\ both\ x\ and\ y\ to\ 0}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00579}00579\ \ \ \ \ \mbox{\hyperlink{struct_vk_rect2_d}{VkRect2D}}\ m\_scissor\_original;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00580}00580\ \ \ \ \ \mbox{\hyperlink{struct_vk_viewport}{VkViewport}}\ m\_viewport;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00581}00581\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00582}00582\ \ \ \ \ VkQueue\ m\_p\_queue\_present;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00583}00583\ \ \ \ \ VkQueue\ m\_p\_queue\_graphics;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00584}00584\ \ \ \ \ VkQueue\ m\_p\_queue\_compute;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00585}00585\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00586}00586\ \textcolor{preprocessor}{\#ifdef\ RMLUI\_VK\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00587}00587\ \ \ \ \ VkDebugUtilsMessengerEXT\ m\_debug\_messenger;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00588}00588\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00589}00589\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00590}00590\ \ \ \ \ \mbox{\hyperlink{struct_vk_surface_format_k_h_r}{VkSurfaceFormatKHR}}\ m\_swapchain\_format;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00591}00591\ \ \ \ \ shader\_vertex\_user\_data\_t\ m\_user\_data\_for\_vertex\_shader;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00592}00592\ \ \ \ \ texture\_data\_t\ m\_texture\_depthstencil;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00593}00593\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00594}00594\ \ \ \ \ Rml::Matrix4f\ m\_projection;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00595}00595\ \ \ \ \ Rml::Vector<VkFence>\ m\_executed\_fences;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00596}00596\ \ \ \ \ Rml::Vector<VkSemaphore>\ m\_semaphores\_image\_available;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00597}00597\ \ \ \ \ Rml::Vector<VkSemaphore>\ m\_semaphores\_finished\_render;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00598}00598\ \ \ \ \ Rml::Vector<VkFramebuffer>\ m\_swapchain\_frame\_buffers;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00599}00599\ \ \ \ \ Rml::Vector<VkImage>\ m\_swapchain\_images;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00600}00600\ \ \ \ \ Rml::Vector<VkImageView>\ m\_swapchain\_image\_views;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00601}00601\ \ \ \ \ Rml::Vector<VkShaderModule>\ m\_shaders;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00602}00602\ \ \ \ \ Rml::Array<Rml::Vector<texture\_data\_t*>,\ \mbox{\hyperlink{class_render_interface___v_k_a6113d272e5a72c0fcdb95233597dc6ad}{kSwapchainBackBufferCount}}>\ m\_pending\_for\_deletion\_textures\_by\_frames;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00603}00603\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00604}00604\ \ \ \ \ \textcolor{comment}{//\ vma\ handles\ that\ thing,\ so\ there's\ no\ need\ for\ frame\ splitting}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00605}00605\ \ \ \ \ Rml::Vector<geometry\_handle\_t*>\ m\_pending\_for\_deletion\_geometries;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00606}00606\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00607}00607\ \ \ \ \ CommandBufferRing\ m\_command\_buffer\_ring;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00608}00608\ \ \ \ \ MemoryPool\ m\_memory\_pool;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00609}00609\ \ \ \ \ UploadResourceManager\ m\_upload\_manager;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00610}00610\ \ \ \ \ DescriptorPoolManager\ m\_manager\_descriptors;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00611}00611\ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00612}00612\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___renderer___v_k_8h_source_l00613}00613\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

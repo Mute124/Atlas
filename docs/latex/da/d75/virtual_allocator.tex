@@ -1,0 +1,132 @@
+\doxysection{Virtual allocator}
+\hypertarget{virtual_allocator}{}\label{virtual_allocator}\index{Virtual allocator@{Virtual allocator}}
+As an extra feature, the core allocation algorithm of the library is exposed through a simple and convenient API of "{}virtual allocator"{}. It doesn\textquotesingle{}t allocate any real GPU memory. It just keeps track of used and free regions of a "{}virtual block"{}. You can use it to allocate your own memory or other objects, even completely unrelated to Vulkan. A common use case is sub-\/allocation of pieces of one large GPU buffer.\hypertarget{virtual_allocator_virtual_allocator_creating_virtual_block}{}\doxysubsection{\texorpdfstring{Creating virtual block}{Creating virtual block}}\label{virtual_allocator_virtual_allocator_creating_virtual_block}
+To use this functionality, there is no main "{}allocator"{} object. You don\textquotesingle{}t need to have \doxylink{struct_vma_allocator}{Vma\+Allocator} object created. All you need to do is to create a separate \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} object for each block of memory you want to be managed by the allocator\+:
+
+
+\begin{DoxyEnumerate}
+\item Fill in \doxylink{struct_vma_virtual_block_create_info}{Vma\+Virtual\+Block\+Create\+Info} structure.
+\item Call \doxylink{group__group__virtual_ga869baad02bf3b5fb012d61e1a43f92c5}{vma\+Create\+Virtual\+Block()}. Get new \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} object.
+\end{DoxyEnumerate}
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_virtual_block_create_info}{VmaVirtualBlockCreateInfo}}\ blockCreateInfo\ =\ \{\};}
+\DoxyCodeLine{blockCreateInfo.\mbox{\hyperlink{struct_vma_virtual_block_create_info_a670ab8c6a6e822f3c36781d79e8824e9}{size}}\ =\ 1048576;\ \textcolor{comment}{//\ 1\ MB}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_virtual_block}{VmaVirtualBlock}}\ block;}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{VkResult}}\ res\ =\ \mbox{\hyperlink{group__group__virtual_ga869baad02bf3b5fb012d61e1a43f92c5}{vmaCreateVirtualBlock}}(\&blockCreateInfo,\ \&block);}
+
+\end{DoxyCode}
+\hypertarget{virtual_allocator_virtual_allocator_making_virtual_allocations}{}\doxysubsection{\texorpdfstring{Making virtual allocations}{Making virtual allocations}}\label{virtual_allocator_virtual_allocator_making_virtual_allocations}
+\doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} object contains internal data structure that keeps track of free and occupied regions using the same code as the main Vulkan memory allocator. Similarly to \doxylink{struct_vma_allocation}{Vma\+Allocation} for standard GPU allocations, there is \doxylink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation} type that represents an opaque handle to an allocation withing the virtual block.
+
+In order to make such allocation\+:
+
+
+\begin{DoxyEnumerate}
+\item Fill in \doxylink{struct_vma_virtual_allocation_create_info}{Vma\+Virtual\+Allocation\+Create\+Info} structure.
+\item Call \doxylink{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac}{vma\+Virtual\+Allocate()}. Get new \doxylink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation} object that represents the allocation. You can also receive {\ttfamily Vk\+Device\+Size offset} that was assigned to the allocation.
+\end{DoxyEnumerate}
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_virtual_allocation_create_info}{VmaVirtualAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_virtual_allocation_create_info_aae08752b86817abd0d944c6025dc603e}{size}}\ =\ 4096;\ \textcolor{comment}{//\ 4\ KB}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_virtual_allocation}{VmaVirtualAllocation}}\ alloc;}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ offset;}
+\DoxyCodeLine{res\ =\ \mbox{\hyperlink{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac}{vmaVirtualAllocate}}(block,\ \&allocCreateInfo,\ \&alloc,\ \&offset);}
+\DoxyCodeLine{\textcolor{keywordflow}{if}(res\ ==\ \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45a3671aecac45b2f102cbe941e2ed4d32a}{VK\_SUCCESS}})}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Use\ the\ 4\ KB\ of\ your\ memory\ starting\ at\ offset.}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{\textcolor{keywordflow}{else}}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Allocation\ failed\ -\/\ no\ space\ for\ it\ could\ be\ found.\ Handle\ this\ error!}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{virtual_allocator_virtual_allocator_deallocation}{}\doxysubsection{\texorpdfstring{Deallocation}{Deallocation}}\label{virtual_allocator_virtual_allocator_deallocation}
+When no longer needed, an allocation can be freed by calling \doxylink{group__group__virtual_ga9f82fb8b8160d10bb469ae06b90134d2}{vma\+Virtual\+Free()}. You can only pass to this function an allocation that was previously returned by \doxylink{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac}{vma\+Virtual\+Allocate()} called for the same \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}.
+
+When whole block is no longer needed, the block object can be released by calling \doxylink{group__group__virtual_ga1a464943809fb27dd3b78d1cd6e3d534}{vma\+Destroy\+Virtual\+Block()}. All allocations must be freed before the block is destroyed, which is checked internally by an assert. However, if you don\textquotesingle{}t want to call \doxylink{group__group__virtual_ga9f82fb8b8160d10bb469ae06b90134d2}{vma\+Virtual\+Free()} for each allocation, you can use \doxylink{group__group__virtual_ga3114a4b34e1225b3d0a246b219d29d9d}{vma\+Clear\+Virtual\+Block()} to free them all at once -\/ a feature not available in normal Vulkan memory allocator. Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__virtual_ga9f82fb8b8160d10bb469ae06b90134d2}{vmaVirtualFree}}(block,\ alloc);}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__virtual_ga1a464943809fb27dd3b78d1cd6e3d534}{vmaDestroyVirtualBlock}}(block);}
+
+\end{DoxyCode}
+\hypertarget{virtual_allocator_virtual_allocator_allocation_parameters}{}\doxysubsection{\texorpdfstring{Allocation parameters}{Allocation parameters}}\label{virtual_allocator_virtual_allocator_allocation_parameters}
+You can attach a custom pointer to each allocation by using \doxylink{group__group__virtual_ga9e697c001a3750c3bf1a081ee15f6b10}{vma\+Set\+Virtual\+Allocation\+User\+Data()}. Its default value is null. It can be used to store any data that needs to be associated with that allocation -\/ e.\+g. an index, a handle, or a pointer to some larger data structure containing more information. Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{struct\ }CustomAllocData}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ std::string\ m\_AllocName;}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{CustomAllocData*\ allocData\ =\ \textcolor{keyword}{new}\ CustomAllocData();}
+\DoxyCodeLine{allocData-\/>m\_AllocName\ =\ \textcolor{stringliteral}{"{}My\ allocation\ 1"{}};}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__virtual_ga9e697c001a3750c3bf1a081ee15f6b10}{vmaSetVirtualAllocationUserData}}(block,\ alloc,\ allocData);}
+
+\end{DoxyCode}
+
+
+The pointer can later be fetched, along with allocation offset and size, by passing the allocation handle to function \doxylink{group__group__virtual_ga64b8c2939b82f83fbec507f29a43307b}{vma\+Get\+Virtual\+Allocation\+Info()} and inspecting returned structure \doxylink{struct_vma_virtual_allocation_info}{Vma\+Virtual\+Allocation\+Info}. If you allocated a new object to be used as the custom pointer, don\textquotesingle{}t forget to delete that object before freeing the allocation! Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_virtual_allocation_info}{VmaVirtualAllocationInfo}}\ allocInfo;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__virtual_ga64b8c2939b82f83fbec507f29a43307b}{vmaGetVirtualAllocationInfo}}(block,\ alloc,\ \&allocInfo);}
+\DoxyCodeLine{\textcolor{keyword}{delete}\ (CustomAllocData*)allocInfo.\mbox{\hyperlink{struct_vma_virtual_allocation_info_a224aa08739618d27066a16b7f60a2bbc}{pUserData}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__virtual_ga9f82fb8b8160d10bb469ae06b90134d2}{vmaVirtualFree}}(block,\ alloc);}
+
+\end{DoxyCode}
+\hypertarget{virtual_allocator_virtual_allocator_alignment_and_units}{}\doxysubsection{\texorpdfstring{Alignment and units}{Alignment and units}}\label{virtual_allocator_virtual_allocator_alignment_and_units}
+It feels natural to express sizes and offsets in bytes. If an offset of an allocation needs to be aligned to a multiply of some number (e.\+g. 4 bytes), you can fill optional member \doxylink{struct_vma_virtual_allocation_create_info_a9d19709872fc1904a105079e1c885821}{Vma\+Virtual\+Allocation\+Create\+Info\+::alignment} to request it. Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_virtual_allocation_create_info}{VmaVirtualAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_virtual_allocation_create_info_aae08752b86817abd0d944c6025dc603e}{size}}\ =\ 4096;\ \textcolor{comment}{//\ 4\ KB}}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_virtual_allocation_create_info_a9d19709872fc1904a105079e1c885821}{alignment}}\ =\ 4;\ \textcolor{comment}{//\ Returned\ offset\ must\ be\ a\ multiply\ of\ 4\ B}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_virtual_allocation}{VmaVirtualAllocation}}\ alloc;}
+\DoxyCodeLine{res\ =\ \mbox{\hyperlink{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac}{vmaVirtualAllocate}}(block,\ \&allocCreateInfo,\ \&alloc,\ \textcolor{keyword}{nullptr});}
+
+\end{DoxyCode}
+
+
+Alignments of different allocations made from one block may vary. However, if all alignments and sizes are always multiply of some size e.\+g. 4 B or {\ttfamily sizeof(\+My\+Data\+Struct)}, you can express all sizes, alignments, and offsets in multiples of that size instead of individual bytes. It might be more convenient, but you need to make sure to use this new unit consistently in all the places\+:
+
+
+\begin{DoxyItemize}
+\item \doxylink{struct_vma_virtual_block_create_info_a670ab8c6a6e822f3c36781d79e8824e9}{Vma\+Virtual\+Block\+Create\+Info\+::size}
+\item \doxylink{struct_vma_virtual_allocation_create_info_aae08752b86817abd0d944c6025dc603e}{Vma\+Virtual\+Allocation\+Create\+Info\+::size} and \doxylink{struct_vma_virtual_allocation_create_info_a9d19709872fc1904a105079e1c885821}{Vma\+Virtual\+Allocation\+Create\+Info\+::alignment}
+\item Using offset returned by \doxylink{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac}{vma\+Virtual\+Allocate()} or in \doxylink{struct_vma_virtual_allocation_info_accb40a8205f49ccca3de975da7d1a2b5}{Vma\+Virtual\+Allocation\+Info\+::offset}
+\end{DoxyItemize}\hypertarget{virtual_allocator_virtual_allocator_statistics}{}\doxysubsection{\texorpdfstring{Statistics}{Statistics}}\label{virtual_allocator_virtual_allocator_statistics}
+You can obtain statistics of a virtual block using \doxylink{group__group__virtual_gac63bab2c8ae8e74451a11ef6dab48a5d}{vma\+Get\+Virtual\+Block\+Statistics()} (to get brief statistics that are fast to calculate) or \doxylink{group__group__virtual_ga87017b57fb0e9623573f07c236c37566}{vma\+Calculate\+Virtual\+Block\+Statistics()} (to get more detailed statistics, slower to calculate). The functions fill structures \doxylink{struct_vma_statistics}{Vma\+Statistics}, \doxylink{struct_vma_detailed_statistics}{Vma\+Detailed\+Statistics} respectively -\/ same as used by the normal Vulkan memory allocator. Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_statistics}{VmaStatistics}}\ stats;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__virtual_gac63bab2c8ae8e74451a11ef6dab48a5d}{vmaGetVirtualBlockStatistics}}(block,\ \&stats);}
+\DoxyCodeLine{printf(\textcolor{stringliteral}{"{}My\ virtual\ block\ has\ \%llu\ bytes\ used\ by\ \%u\ virtual\ allocations\(\backslash\)n"{}},}
+\DoxyCodeLine{\ \ \ \ stats.\mbox{\hyperlink{struct_vma_statistics_a21db06eba3422f87a2b4b4703d879c16}{allocationBytes}},\ stats.\mbox{\hyperlink{struct_vma_statistics_ab0ff76e50f58f9f54b6f265e5bf5dde2}{allocationCount}});}
+
+\end{DoxyCode}
+
+
+You can also request a full list of allocations and free regions as a string in JSON format by calling \doxylink{group__group__stats_ga874ef8790380b6643ee5c1144ae5b32b}{vma\+Build\+Virtual\+Block\+Stats\+String()}. Returned string must be later freed using \doxylink{group__group__stats_ga5b3acd266c1f20d0b360d4259ff411bf}{vma\+Free\+Virtual\+Block\+Stats\+String()}. The format of this string differs from the one returned by the main Vulkan allocator, but it is similar.\hypertarget{virtual_allocator_virtual_allocator_additional_considerations}{}\doxysubsection{\texorpdfstring{Additional considerations}{Additional considerations}}\label{virtual_allocator_virtual_allocator_additional_considerations}
+The "{}virtual allocator"{} functionality is implemented on a level of individual memory blocks. Keeping track of a whole collection of blocks, allocating new ones when out of free space, deleting empty ones, and deciding which one to try first for a new allocation must be implemented by the user.
+
+Alternative allocation algorithms are supported, just like in custom pools of the real GPU memory. See enum \doxylink{group__group__virtual_ga88bcf8c1cd3bb1610ff7343811c65bca}{Vma\+Virtual\+Block\+Create\+Flag\+Bits} to learn how to specify them (e.\+g. \doxylink{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaae6423e2fa2f3c9211b21c819e3f10f96}{VMA\+\_\+\+VIRTUAL\+\_\+\+BLOCK\+\_\+\+CREATE\+\_\+\+LINEAR\+\_\+\+ALGORITHM\+\_\+\+BIT}). You can find their description in chapter \doxylink{custom_memory_pools}{Custom memory pools}. Allocation strategies are also supported. See enum \doxylink{group__group__virtual_ga2e9c64d405b14156fea7e10c4ad06cb6}{Vma\+Virtual\+Allocation\+Create\+Flag\+Bits} to learn how to specify them (e.\+g. \doxylink{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6a562d10a46012719d33167d3dc5dbbf9b}{VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MIN\+\_\+\+TIME\+\_\+\+BIT}).
+
+Following features are supported only by the allocator of the real GPU memory and not by virtual allocations\+: buffer-\/image granularity, {\ttfamily VMA\+\_\+\+DEBUG\+\_\+\+MARGIN}, {\ttfamily VMA\+\_\+\+MIN\+\_\+\+ALIGNMENT}. 

@@ -1,0 +1,776 @@
+\doxysection{imgui\+\_\+impl\+\_\+sdl3.\+cpp}
+\hypertarget{imgui__impl__sdl3_8cpp_source}{}\label{imgui__impl__sdl3_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_sdl3.cpp@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_sdl3.cpp}}
+\mbox{\hyperlink{imgui__impl__sdl3_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Platform\ Backend\ for\ SDL3\ (*EXPERIMENTAL*)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00002}00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Renderer\ (e.g.\ DirectX11,\ OpenGL3,\ Vulkan..)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00003}00003\ \textcolor{comment}{//\ (Info:\ SDL3\ is\ a\ cross-\/platform\ general\ purpose\ library\ for\ handling\ windows,\ inputs,\ graphics\ context\ creation,\ etc.)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00005}00005\ \textcolor{comment}{//\ (**IMPORTANT:\ SDL\ 3.0.0\ is\ NOT\ YET\ RELEASED\ AND\ CURRENTLY\ HAS\ A\ FAST\ CHANGING\ API.\ THIS\ CODE\ BREAKS\ OFTEN\ AS\ SDL3\ CHANGES.**)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00007}00007\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00008}00008\ \textcolor{comment}{//\ \ [X]\ Platform:\ Clipboard\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00009}00009\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ support.\ Can\ discriminate\ Mouse/TouchScreen.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00010}00010\ \textcolor{comment}{//\ \ [X]\ Platform:\ Keyboard\ support.\ Since\ 1.87\ we\ are\ using\ the\ io.AddKeyEvent()\ function.\ Pass\ ImGuiKey\ values\ to\ all\ key\ functions\ e.g.\ ImGui::IsKeyPressed(ImGuiKey\_Space).\ [Legacy\ SDL\_SCANCODE\_*\ values\ are\ obsolete\ since\ 1.87\ and\ not\ supported\ since\ 1.91.5]}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00011}00011\ \textcolor{comment}{//\ \ [X]\ Platform:\ Gamepad\ support.\ Enabled\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NavEnableGamepad'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00012}00012\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ cursor\ shape\ and\ visibility.\ Disable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NoMouseCursorChange'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00014}00014\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00015}00015\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00016}00016\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00017}00017\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00018}00018\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00019}00019\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00020}00020\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00022}00022\ \textcolor{comment}{//\ CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00023}00023\ \textcolor{comment}{//\ (minor\ and\ older\ changes\ stripped\ away,\ please\ see\ git\ history\ for\ details)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00024}00024\ \textcolor{comment}{//\ \ 2024-\/10-\/24:\ Emscripten:\ SDL\_EVENT\_MOUSE\_WHEEL\ event\ doesn't\ require\ dividing\ by\ 100.0f\ on\ Emscripten.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00025}00025\ \textcolor{comment}{//\ \ 2024-\/09-\/03:\ Update\ for\ SDL3\ api\ changes:\ SDL\_GetGamepads()\ memory\ ownership\ revert.\ (\#7918,\ \#7898,\ \#7807)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00026}00026\ \textcolor{comment}{//\ \ 2024-\/08-\/22:\ moved\ some\ OS/backend\ related\ function\ pointers\ from\ ImGuiIO\ to\ ImGuiPlatformIO:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00027}00027\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.GetClipboardTextFn\ \ \ \ -\/>\ platform\_io.Platform\_GetClipboardTextFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00028}00028\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.SetClipboardTextFn\ \ \ \ -\/>\ platform\_io.Platform\_SetClipboardTextFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00029}00029\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.PlatformSetImeDataFn\ \ -\/>\ platform\_io.Platform\_SetImeDataFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00030}00030\ \textcolor{comment}{//\ \ 2024-\/08-\/19:\ Storing\ SDL\_WindowID\ inside\ ImGuiViewport::PlatformHandle\ instead\ of\ SDL\_Window*.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00031}00031\ \textcolor{comment}{//\ \ 2024-\/08-\/19:\ ImGui\_ImplSDL3\_ProcessEvent()\ now\ ignores\ events\ intended\ for\ other\ SDL\ windows.\ (\#7853)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00032}00032\ \textcolor{comment}{//\ \ 2024-\/07-\/22:\ Update\ for\ SDL3\ api\ changes:\ SDL\_GetGamepads()\ memory\ ownership\ change.\ (\#7807)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00033}00033\ \textcolor{comment}{//\ \ 2024-\/07-\/18:\ Update\ for\ SDL3\ api\ changes:\ SDL\_GetClipboardText()\ memory\ ownership\ change.\ (\#7801)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00034}00034\ \textcolor{comment}{//\ \ 2024-\/07-\/15:\ Update\ for\ SDL3\ api\ changes:\ SDL\_GetProperty()\ change\ to\ SDL\_GetPointerProperty().\ (\#7794)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00035}00035\ \textcolor{comment}{//\ \ 2024-\/07-\/02:\ Update\ for\ SDL3\ api\ changes:\ SDLK\_x\ renames\ and\ SDLK\_KP\_x\ removals\ (\#7761,\ \#7762).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00036}00036\ \textcolor{comment}{//\ \ 2024-\/07-\/01:\ Update\ for\ SDL3\ api\ changes:\ SDL\_SetTextInputRect()\ changed\ to\ SDL\_SetTextInputArea().}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00037}00037\ \textcolor{comment}{//\ \ 2024-\/06-\/26:\ Update\ for\ SDL3\ api\ changes:\ SDL\_StartTextInput()/SDL\_StopTextInput()/SDL\_SetTextInputRect()\ functions\ signatures.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00038}00038\ \textcolor{comment}{//\ \ 2024-\/06-\/24:\ Update\ for\ SDL3\ api\ changes:\ SDL\_EVENT\_KEY\_DOWN/SDL\_EVENT\_KEY\_UP\ contents.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00039}00039\ \textcolor{comment}{//\ \ 2024-\/06-\/03;\ Update\ for\ SDL3\ api\ changes:\ SDL\_SYSTEM\_CURSOR\_\ renames.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00040}00040\ \textcolor{comment}{//\ \ 2024-\/05-\/15:\ Update\ for\ SDL3\ api\ changes:\ SDLK\_\ renames.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00041}00041\ \textcolor{comment}{//\ \ 2024-\/04-\/15:\ Inputs:\ Re-\/enable\ calling\ SDL\_StartTextInput()/SDL\_StopTextInput()\ as\ SDL3\ no\ longer\ enables\ it\ by\ default\ and\ should\ play\ nicer\ with\ IME.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00042}00042\ \textcolor{comment}{//\ \ 2024-\/02-\/13:\ Inputs:\ Fixed\ gamepad\ support.\ Handle\ gamepad\ disconnection.\ Added\ ImGui\_ImplSDL3\_SetGamepadMode().}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00043}00043\ \textcolor{comment}{//\ \ 2023-\/11-\/13:\ Updated\ for\ recent\ SDL3\ API\ changes.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00044}00044\ \textcolor{comment}{//\ \ 2023-\/10-\/05:\ Inputs:\ Added\ support\ for\ extra\ ImGuiKey\ values:\ F13\ to\ F24\ function\ keys,\ app\ back/forward\ keys.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00045}00045\ \textcolor{comment}{//\ \ 2023-\/05-\/04:\ Fixed\ build\ on\ Emscripten/iOS/Android.\ (\#6391)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00046}00046\ \textcolor{comment}{//\ \ 2023-\/04-\/06:\ Inputs:\ Avoid\ calling\ SDL\_StartTextInput()/SDL\_StopTextInput()\ as\ they\ don't\ only\ pertain\ to\ IME.\ It's\ unclear\ exactly\ what\ their\ relation\ is\ to\ IME.\ (\#6306)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00047}00047\ \textcolor{comment}{//\ \ 2023-\/04-\/04:\ Inputs:\ Added\ support\ for\ io.AddMouseSourceEvent()\ to\ discriminate\ ImGuiMouseSource\_Mouse/ImGuiMouseSource\_TouchScreen.\ (\#2702)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00048}00048\ \textcolor{comment}{//\ \ 2023-\/02-\/23:\ Accept\ SDL\_GetPerformanceCounter()\ not\ returning\ a\ monotonically\ increasing\ value.\ (\#6189,\ \#6114,\ \#3644)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00049}00049\ \textcolor{comment}{//\ \ 2023-\/02-\/07:\ Forked\ "{}imgui\_impl\_sdl2"{}\ into\ "{}imgui\_impl\_sdl3"{}.\ Removed\ version\ checks\ for\ old\ feature.\ Refer\ to\ imgui\_impl\_sdl2.cpp\ for\ older\ changelog.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00051}00051\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00052}00052\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00053}00053\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{imgui__impl__sdl3_8h}{imgui\_impl\_sdl3.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00055}00055\ \textcolor{comment}{//\ Clang\ warnings\ with\ -\/Weverything}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00056}00056\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00057}00057\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ push}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00058}00058\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ ignored\ "{}-\/Wimplicit-\/int-\/float-\/conversion"{}\ \ }\textcolor{comment}{//\ warning:\ implicit\ conversion\ from\ 'xxx'\ to\ 'float'\ may\ lose\ precision}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00059}00059\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00061}00061\ \textcolor{comment}{//\ SDL}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00062}00062\ \textcolor{preprocessor}{\#include\ <SDL3/SDL.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00063}00063\ \textcolor{preprocessor}{\#if\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00064}00064\ \textcolor{preprocessor}{\#include\ <TargetConditionals.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00065}00065\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00066}00066\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00067}00067\ \textcolor{preprocessor}{\#ifndef\ WIN32\_LEAN\_AND\_MEAN}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00068}00068\ \textcolor{preprocessor}{\#define\ WIN32\_LEAN\_AND\_MEAN}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00069}00069\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00070}00070\ \textcolor{preprocessor}{\#include\ <windows.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00071}00071\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00073}00073\ \textcolor{preprocessor}{\#if\ !defined(\_\_EMSCRIPTEN\_\_)\ \&\&\ !defined(\_\_ANDROID\_\_)\ \&\&\ !(defined(\_\_APPLE\_\_)\ \&\&\ TARGET\_OS\_IOS)\ \&\&\ !defined(\_\_amigaos4\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00074}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_a313b5bc58c0de4eb53710ddc720e094d}{00074}}\ \textcolor{preprocessor}{\#define\ SDL\_HAS\_CAPTURE\_AND\_GLOBAL\_MOUSE\ \ \ \ 1}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00075}00075\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00076}00076\ \textcolor{preprocessor}{\#define\ SDL\_HAS\_CAPTURE\_AND\_GLOBAL\_MOUSE\ \ \ \ 0}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00077}00077\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00079}00079\ \textcolor{comment}{//\ FIXME-\/LEGACY:\ remove\ when\ SDL\ 3.1.3\ preview\ is\ released.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00080}00080\ \textcolor{preprocessor}{\#ifndef\ SDLK\_APOSTROPHE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00081}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_afc3a107ed10170a65c0aab45cd9465b5}{00081}}\ \textcolor{preprocessor}{\#define\ SDLK\_APOSTROPHE\ SDLK\_QUOTE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00082}00082\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00083}00083\ \textcolor{preprocessor}{\#ifndef\ SDLK\_GRAVE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00084}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_a4262c604c55ccdb079e6ffce695b3e29}{00084}}\ \textcolor{preprocessor}{\#define\ SDLK\_GRAVE\ SDLK\_BACKQUOTE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00085}00085\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00087}00087\ \textcolor{comment}{//\ SDL\ Data}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00088}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{00088}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00089}00089\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00090}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ae50aeb95c54eafefcf9cfbd8fa15b956}{00090}}\ \ \ \ \ SDL\_Window*\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ae50aeb95c54eafefcf9cfbd8fa15b956}{Window}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00091}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a970654f0a901585cde2090d4f7c04300}{00091}}\ \ \ \ \ SDL\_WindowID\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a970654f0a901585cde2090d4f7c04300}{WindowID}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00092}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a1082e4b98694ff6d198f5b4bc5297e22}{00092}}\ \ \ \ \ SDL\_Renderer*\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a1082e4b98694ff6d198f5b4bc5297e22}{Renderer}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00093}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acf68a508d393cc156a981c6e7852cdad}{00093}}\ \ \ \ \ Uint64\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acf68a508d393cc156a981c6e7852cdad}{Time}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00094}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ad0b42f05faf0f97e53af430da1865c35}{00094}}\ \ \ \ \ \textcolor{keywordtype}{char}*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ad0b42f05faf0f97e53af430da1865c35}{ClipboardTextData}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00096}00096\ \ \ \ \ \textcolor{comment}{//\ IME\ handling}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00097}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a7121e9e60789fb732ca6f7682f4a83f4}{00097}}\ \ \ \ \ SDL\_Window*\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a7121e9e60789fb732ca6f7682f4a83f4}{ImeWindow}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{comment}{//\ Mouse\ handling}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00100}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_aed284c05802b6443567ed3c1646b9a03}{00100}}\ \ \ \ \ Uint32\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_aed284c05802b6443567ed3c1646b9a03}{MouseWindowID}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00101}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a2e8936be362fc88fccba677a7e7c4c27}{00101}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a2e8936be362fc88fccba677a7e7c4c27}{MouseButtonsDown}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00102}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{00102}}\ \ \ \ \ SDL\_Cursor*\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_COUNT];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00103}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a6952a0069b70808ee58ff65152cc401c}{00103}}\ \ \ \ \ SDL\_Cursor*\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a6952a0069b70808ee58ff65152cc401c}{MouseLastCursor}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00104}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a9db5414c6cdec9b8a447d5b6f9516f5b}{00104}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a9db5414c6cdec9b8a447d5b6f9516f5b}{MousePendingLeaveFrame}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00105}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a6d94eb5f6fca2c72f4a2e597862d8a8e}{00105}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a6d94eb5f6fca2c72f4a2e597862d8a8e}{MouseCanUseGlobalState}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00107}00107\ \ \ \ \ \textcolor{comment}{//\ Gamepad\ handling}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00108}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_aa0cb944dad2ecf18a37da544e3cd051d}{00108}}\ \ \ \ \ ImVector<SDL\_Gamepad*>\ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_aa0cb944dad2ecf18a37da544e3cd051d}{Gamepads}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00109}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a844e29c21cb8fa1d21e48f7b47dc12a3}{00109}}\ \ \ \ \ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bd}{ImGui\_ImplSDL3\_GamepadMode}}\ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a844e29c21cb8fa1d21e48f7b47dc12a3}{GamepadMode}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00110}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a45708c21d3f0b48340ddd894af611ade}{00110}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a45708c21d3f0b48340ddd894af611ade}{WantUpdateGamepadsList}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00112}\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a65b1b516e4357ce34960d74f023b2d50}{00112}}\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a65b1b516e4357ce34960d74f023b2d50}{ImGui\_ImplSDL3\_Data}}()\ \ \ \{\ memset((\textcolor{keywordtype}{void}*)\textcolor{keyword}{this},\ 0,\ \textcolor{keyword}{sizeof}(*\textcolor{keyword}{this}));\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00113}00113\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00115}00115\ \textcolor{comment}{//\ Backend\ data\ stored\ in\ io.BackendPlatformUserData\ to\ allow\ support\ for\ multiple\ Dear\ ImGui\ contexts}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00116}00116\ \textcolor{comment}{//\ It\ is\ STRONGLY\ preferred\ that\ you\ use\ docking\ branch\ with\ multi-\/viewports\ (==\ single\ Dear\ ImGui\ context\ +\ multiple\ windows)\ instead\ of\ multiple\ Dear\ ImGui\ contexts.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00117}00117\ \textcolor{comment}{//\ FIXME:\ multi-\/context\ support\ is\ not\ well\ tested\ and\ probably\ dysfunctional\ in\ this\ backend.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00118}00118\ \textcolor{comment}{//\ FIXME:\ some\ shared\ resources\ (mouse\ cursor\ shape,\ gamepad)\ are\ mishandled\ when\ using\ multi-\/context.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00119}00119\ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ ImGui\_ImplSDL3\_GetBackendData()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00120}00120\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00121}00121\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui::GetCurrentContext()\ ?\ (\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*)ImGui::GetIO().BackendPlatformUserData\ :\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00122}00122\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00124}00124\ \textcolor{comment}{//\ Functions}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00125}00125\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ ImGui\_ImplSDL3\_GetClipboardText(ImGuiContext*)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00126}00126\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00127}00127\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00128}00128\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ad0b42f05faf0f97e53af430da1865c35}{ClipboardTextData}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ SDL\_free(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ad0b42f05faf0f97e53af430da1865c35}{ClipboardTextData}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00130}00130\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ sdl\_clipboard\_text\ =\ SDL\_GetClipboardText();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00131}00131\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ad0b42f05faf0f97e53af430da1865c35}{ClipboardTextData}}\ =\ sdl\_clipboard\_text\ ?\ SDL\_strdup(sdl\_clipboard\_text)\ :\ NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00132}00132\ \ \ \ \ \textcolor{keywordflow}{return}\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ad0b42f05faf0f97e53af430da1865c35}{ClipboardTextData}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00133}00133\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00135}00135\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_SetClipboardText(ImGuiContext*,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ text)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00136}00136\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00137}00137\ \ \ \ \ SDL\_SetClipboardText(text);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00138}00138\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00140}00140\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_PlatformSetImeData(ImGuiContext*,\ ImGuiViewport*\ viewport,\ ImGuiPlatformImeData*\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00141}00141\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00142}00142\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00143}00143\ \ \ \ \ SDL\_WindowID\ window\_id\ =\ (SDL\_WindowID)(intptr\_t)viewport-\/>PlatformHandle;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00144}00144\ \ \ \ \ SDL\_Window*\ window\ =\ SDL\_GetWindowFromID(window\_id);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00145}00145\ \ \ \ \ \textcolor{keywordflow}{if}\ ((\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}}-\/>WantVisible\ ==\ \textcolor{keyword}{false}\ ||\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a7121e9e60789fb732ca6f7682f4a83f4}{ImeWindow}}\ !=\ window)\ \&\&\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a7121e9e60789fb732ca6f7682f4a83f4}{ImeWindow}}\ !=\ NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00146}00146\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ SDL\_StopTextInput(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a7121e9e60789fb732ca6f7682f4a83f4}{ImeWindow}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a7121e9e60789fb732ca6f7682f4a83f4}{ImeWindow}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00149}00149\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00150}00150\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}}-\/>WantVisible)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00151}00151\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ SDL\_Rect\ r;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ r.x\ =\ (int)\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}}-\/>InputPos.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ r.y\ =\ (int)\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}}-\/>InputPos.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ r.w\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ r.h\ =\ (int)\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}}-\/>InputLineHeight;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ SDL\_SetTextInputArea(window,\ \&r,\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ SDL\_StartTextInput(window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a7121e9e60789fb732ca6f7682f4a83f4}{ImeWindow}}\ =\ window;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00160}00160\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00161}00161\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00163}00163\ \textcolor{comment}{//\ Not\ static\ to\ allow\ third-\/party\ code\ to\ use\ that\ if\ they\ want\ to\ (but\ undocumented)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00164}00164\ ImGuiKey\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_ae48f06bf93afdbe78237cec47af15117}{ImGui\_ImplSDL3\_KeyEventToImGuiKey}}(SDL\_Keycode\ keycode,\ SDL\_Scancode\ scancode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00165}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_ae48f06bf93afdbe78237cec47af15117}{00165}}\ ImGuiKey\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_ae48f06bf93afdbe78237cec47af15117}{ImGui\_ImplSDL3\_KeyEventToImGuiKey}}(SDL\_Keycode\ keycode,\ SDL\_Scancode\ scancode)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00166}00166\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00167}00167\ \ \ \ \ \textcolor{comment}{//\ Keypad\ doesn't\ have\ individual\ key\ values\ in\ SDL3}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00168}00168\ \ \ \ \ \textcolor{keywordflow}{switch}\ (scancode)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00169}00169\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_0:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_PERIOD:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadDecimal;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_DIVIDE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadDivide;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_MULTIPLY:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadMultiply;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_MINUS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadSubtract;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_PLUS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadAdd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_ENTER:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadEnter;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_SCANCODE\_KP\_EQUALS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadEqual;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00188}00188\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00189}00189\ \ \ \ \ \textcolor{keywordflow}{switch}\ (keycode)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00190}00190\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_TAB:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Tab;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_LEFT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_RIGHT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_UP:\ \textcolor{keywordflow}{return}\ ImGuiKey\_UpArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_DOWN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_DownArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_PAGEUP:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PageUp;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_PAGEDOWN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PageDown;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_HOME:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Home;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_END:\ \textcolor{keywordflow}{return}\ ImGuiKey\_End;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_INSERT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Insert;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_DELETE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Delete;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_BACKSPACE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Backspace;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_SPACE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Space;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_RETURN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Enter;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_ESCAPE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Escape;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_afc3a107ed10170a65c0aab45cd9465b5}{SDLK\_APOSTROPHE}}:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Apostrophe;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_COMMA:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Comma;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_MINUS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Minus;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_PERIOD:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Period;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_SLASH:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Slash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_SEMICOLON:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Semicolon;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_EQUALS:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Equal;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_LEFTBRACKET:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftBracket;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_BACKSLASH:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Backslash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_RIGHTBRACKET:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightBracket;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_a4262c604c55ccdb079e6ffce695b3e29}{SDLK\_GRAVE}}:\ \textcolor{keywordflow}{return}\ ImGuiKey\_GraveAccent;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_CAPSLOCK:\ \textcolor{keywordflow}{return}\ ImGuiKey\_CapsLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_SCROLLLOCK:\ \textcolor{keywordflow}{return}\ ImGuiKey\_ScrollLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_NUMLOCKCLEAR:\ \textcolor{keywordflow}{return}\ ImGuiKey\_NumLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_PRINTSCREEN:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PrintScreen;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_PAUSE:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Pause;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_LCTRL:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftCtrl;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_LSHIFT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftShift;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_LALT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftAlt;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_LGUI:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftSuper;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_RCTRL:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightCtrl;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_RSHIFT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightShift;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_RALT:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightAlt;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_RGUI:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightSuper;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_APPLICATION:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Menu;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_0:\ \textcolor{keywordflow}{return}\ ImGuiKey\_0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00234}00234\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00241}00241\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_A:\ \textcolor{keywordflow}{return}\ ImGuiKey\_A;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00242}00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_B:\ \textcolor{keywordflow}{return}\ ImGuiKey\_B;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_C:\ \textcolor{keywordflow}{return}\ ImGuiKey\_C;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_D:\ \textcolor{keywordflow}{return}\ ImGuiKey\_D;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00245}00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_E:\ \textcolor{keywordflow}{return}\ ImGuiKey\_E;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00246}00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00247}00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_G:\ \textcolor{keywordflow}{return}\ ImGuiKey\_G;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00248}00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_H:\ \textcolor{keywordflow}{return}\ ImGuiKey\_H;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_I:\ \textcolor{keywordflow}{return}\ ImGuiKey\_I;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_J:\ \textcolor{keywordflow}{return}\ ImGuiKey\_J;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_K:\ \textcolor{keywordflow}{return}\ ImGuiKey\_K;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_L:\ \textcolor{keywordflow}{return}\ ImGuiKey\_L;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_M:\ \textcolor{keywordflow}{return}\ ImGuiKey\_M;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_N:\ \textcolor{keywordflow}{return}\ ImGuiKey\_N;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_O:\ \textcolor{keywordflow}{return}\ ImGuiKey\_O;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_P:\ \textcolor{keywordflow}{return}\ ImGuiKey\_P;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_Q:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Q;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_R:\ \textcolor{keywordflow}{return}\ ImGuiKey\_R;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_S:\ \textcolor{keywordflow}{return}\ ImGuiKey\_S;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_T:\ \textcolor{keywordflow}{return}\ ImGuiKey\_T;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_U:\ \textcolor{keywordflow}{return}\ ImGuiKey\_U;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_V:\ \textcolor{keywordflow}{return}\ ImGuiKey\_V;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_W:\ \textcolor{keywordflow}{return}\ ImGuiKey\_W;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_X:\ \textcolor{keywordflow}{return}\ ImGuiKey\_X;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_Y:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_Z:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Z;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F10:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F10;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F11:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F11;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F12:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F12;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F13:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F13;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F14:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F14;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F15:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F15;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F16:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F16;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F17:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F17;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F18:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F18;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F19:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F19;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F20:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F20;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F21:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F21;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F22:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F22;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F23:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F23;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_F24:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F24;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_AC\_BACK:\ \textcolor{keywordflow}{return}\ ImGuiKey\_AppBack;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDLK\_AC\_FORWARD:\ \textcolor{keywordflow}{return}\ ImGuiKey\_AppForward;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00294}00294\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00295}00295\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiKey\_None;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00296}00296\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00298}00298\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_UpdateKeyModifiers(SDL\_Keymod\ sdl\_key\_mods)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00299}00299\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00300}00300\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00301}00301\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Ctrl,\ (sdl\_key\_mods\ \&\ SDL\_KMOD\_CTRL)\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00302}00302\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Shift,\ (sdl\_key\_mods\ \&\ SDL\_KMOD\_SHIFT)\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00303}00303\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Alt,\ (sdl\_key\_mods\ \&\ SDL\_KMOD\_ALT)\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00304}00304\ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Super,\ (sdl\_key\_mods\ \&\ SDL\_KMOD\_GUI)\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00305}00305\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00307}00307\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00308}00308\ \textcolor{keyword}{static}\ ImGuiViewport*\ ImGui\_ImplSDL3\_GetViewportForWindowID(SDL\_WindowID\ window\_id)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00309}00309\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00310}00310\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00311}00311\ \ \ \ \ \textcolor{keywordflow}{return}\ (window\_id\ ==\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a970654f0a901585cde2090d4f7c04300}{WindowID}})\ ?\ ImGui::GetMainViewport()\ :\ NULL;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00312}00312\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00314}00314\ \textcolor{comment}{//\ You\ can\ read\ the\ io.WantCaptureMouse,\ io.WantCaptureKeyboard\ flags\ to\ tell\ if\ dear\ imgui\ wants\ to\ use\ your\ inputs.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00315}00315\ \textcolor{comment}{//\ -\/\ When\ io.WantCaptureMouse\ is\ true,\ do\ not\ dispatch\ mouse\ input\ data\ to\ your\ main\ application,\ or\ clear/overwrite\ your\ copy\ of\ the\ mouse\ data.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00316}00316\ \textcolor{comment}{//\ -\/\ When\ io.WantCaptureKeyboard\ is\ true,\ do\ not\ dispatch\ keyboard\ input\ data\ to\ your\ main\ application,\ or\ clear/overwrite\ your\ copy\ of\ the\ keyboard\ data.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00317}00317\ \textcolor{comment}{//\ Generally\ you\ may\ always\ pass\ all\ inputs\ to\ dear\ imgui,\ and\ hide\ them\ from\ your\ application\ based\ on\ those\ two\ flags.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00318}00318\ \textcolor{comment}{//\ If\ you\ have\ multiple\ SDL\ events\ and\ some\ of\ them\ are\ not\ meant\ to\ be\ used\ by\ dear\ imgui,\ you\ may\ need\ to\ filter\ events\ based\ on\ their\ windowID\ field.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00319}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_a58595dc275ecf083f3b6c1c576f1ecd4}{00319}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_a58595dc275ecf083f3b6c1c576f1ecd4}{ImGui\_ImplSDL3\_ProcessEvent}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{imgui__impl__sdl2_8h_a33fcc6aa445cb781bfca881e39e5333e}{SDL\_Event}}*\ event)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00320}00320\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00321}00321\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00322}00322\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Context\ or\ backend\ not\ initialized!\ Did\ you\ call\ ImGui\_ImplSDL3\_Init()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00323}00323\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00324}00324\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00325}00325\ \ \ \ \ \textcolor{keywordflow}{switch}\ (event-\/>type)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00326}00326\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_MOUSE\_MOTION:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui\_ImplSDL3\_GetViewportForWindowID(event-\/>motion.windowID)\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ ImVec2\ mouse\_pos((\textcolor{keywordtype}{float})event-\/>motion.x,\ (\textcolor{keywordtype}{float})event-\/>motion.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseSourceEvent(event-\/>motion.which\ ==\ SDL\_TOUCH\_MOUSEID\ ?\ ImGuiMouseSource\_TouchScreen\ :\ ImGuiMouseSource\_Mouse);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMousePosEvent(mouse\_pos.x,\ mouse\_pos.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00335}00335\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_MOUSE\_WHEEL:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui\_ImplSDL3\_GetViewportForWindowID(event-\/>wheel.windowID)\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//IMGUI\_DEBUG\_LOG("{}wheel\ \%.2f\ \%.2f,\ precise\ \%.2f\ \%.2f\(\backslash\)n"{},\ (float)event-\/>wheel.x,\ (float)event-\/>wheel.y,\ event-\/>wheel.preciseX,\ event-\/>wheel.preciseY);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ wheel\_x\ =\ -\/\textcolor{keyword}{event}-\/>wheel.x;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ wheel\_y\ =\ \textcolor{keyword}{event}-\/>wheel.y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseSourceEvent(event-\/>wheel.which\ ==\ SDL\_TOUCH\_MOUSEID\ ?\ ImGuiMouseSource\_TouchScreen\ :\ ImGuiMouseSource\_Mouse);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseWheelEvent(wheel\_x,\ wheel\_y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00346}00346\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_MOUSE\_BUTTON\_DOWN:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_MOUSE\_BUTTON\_UP:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00349}00349\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui\_ImplSDL3\_GetViewportForWindowID(event-\/>button.windowID)\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ mouse\_button\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (event-\/>button.button\ ==\ SDL\_BUTTON\_LEFT)\ \{\ mouse\_button\ =\ 0;\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (event-\/>button.button\ ==\ SDL\_BUTTON\_RIGHT)\ \{\ mouse\_button\ =\ 1;\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (event-\/>button.button\ ==\ SDL\_BUTTON\_MIDDLE)\ \{\ mouse\_button\ =\ 2;\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (event-\/>button.button\ ==\ SDL\_BUTTON\_X1)\ \{\ mouse\_button\ =\ 3;\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (event-\/>button.button\ ==\ SDL\_BUTTON\_X2)\ \{\ mouse\_button\ =\ 4;\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mouse\_button\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseSourceEvent(event-\/>button.which\ ==\ SDL\_TOUCH\_MOUSEID\ ?\ ImGuiMouseSource\_TouchScreen\ :\ ImGuiMouseSource\_Mouse);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseButtonEvent(mouse\_button,\ (event-\/>type\ ==\ SDL\_EVENT\_MOUSE\_BUTTON\_DOWN));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a2e8936be362fc88fccba677a7e7c4c27}{MouseButtonsDown}}\ =\ (\textcolor{keyword}{event}-\/>type\ ==\ SDL\_EVENT\_MOUSE\_BUTTON\_DOWN)\ ?\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a2e8936be362fc88fccba677a7e7c4c27}{MouseButtonsDown}}\ |\ (1\ <<\ mouse\_button))\ :\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a2e8936be362fc88fccba677a7e7c4c27}{MouseButtonsDown}}\ \&\ \string~(1\ <<\ mouse\_button));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00364}00364\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00365}00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_TEXT\_INPUT:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui\_ImplSDL3\_GetViewportForWindowID(event-\/>text.windowID)\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddInputCharactersUTF8(event-\/>text.text);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00371}00371\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00372}00372\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_KEY\_DOWN:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00373}00373\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_KEY\_UP:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00374}00374\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui\_ImplSDL3\_GetViewportForWindowID(event-\/>key.windowID)\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//IMGUI\_DEBUG\_LOG("{}SDL\_EVENT\_KEY\_\%d:\ key=\%d,\ scancode=\%d,\ mod=\%X\(\backslash\)n"{},\ (event-\/>type\ ==\ SDL\_EVENT\_KEY\_DOWN)\ ?\ "{}DOWN"{}\ :\ "{}UP"{},\ event-\/>key.key,\ event-\/>key.scancode,\ event-\/>key.mod);}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ ImGui\_ImplSDL3\_UpdateKeyModifiers((SDL\_Keymod)event-\/>key.mod);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ ImGuiKey\ key\ =\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_ae48f06bf93afdbe78237cec47af15117}{ImGui\_ImplSDL3\_KeyEventToImGuiKey}}(event-\/>key.key,\ event-\/>key.scancode);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddKeyEvent(key,\ (event-\/>type\ ==\ SDL\_EVENT\_KEY\_DOWN));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ io.SetKeyEventNativeData(key,\ event-\/>key.key,\ event-\/>key.scancode,\ event-\/>key.scancode);\ \textcolor{comment}{//\ To\ support\ legacy\ indexing\ (<1.87\ user\ code).\ Legacy\ backend\ uses\ SDLK\_***\ as\ indices\ to\ IsKeyXXX()\ functions.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00383}00383\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_WINDOW\_MOUSE\_ENTER:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00385}00385\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui\_ImplSDL3\_GetViewportForWindowID(event-\/>window.windowID)\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_aed284c05802b6443567ed3c1646b9a03}{MouseWindowID}}\ =\ \textcolor{keyword}{event}-\/>window.windowID;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a9db5414c6cdec9b8a447d5b6f9516f5b}{MousePendingLeaveFrame}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00391}00391\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00392}00392\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/\ In\ some\ cases,\ when\ detaching\ a\ window\ from\ main\ viewport\ SDL\ may\ send\ SDL\_WINDOWEVENT\_ENTER\ one\ frame\ too\ late,}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00393}00393\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ causing\ SDL\_WINDOWEVENT\_LEAVE\ on\ previous\ frame\ to\ interrupt\ drag\ operation\ by\ clear\ mouse\ position.\ This\ is\ why}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00394}00394\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ we\ delay\ process\ the\ SDL\_WINDOWEVENT\_LEAVE\ events\ by\ one\ frame.\ See\ issue\ \#5012\ for\ details.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00395}00395\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FIXME:\ Unconfirmed\ whether\ this\ is\ still\ needed\ with\ SDL3.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00396}00396\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_WINDOW\_MOUSE\_LEAVE:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00397}00397\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui\_ImplSDL3\_GetViewportForWindowID(event-\/>window.windowID)\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a9db5414c6cdec9b8a447d5b6f9516f5b}{MousePendingLeaveFrame}}\ =\ ImGui::GetFrameCount()\ +\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00402}00402\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00403}00403\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_WINDOW\_FOCUS\_GAINED:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00404}00404\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_WINDOW\_FOCUS\_LOST:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00405}00405\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ImGui\_ImplSDL3\_GetViewportForWindowID(event-\/>window.windowID)\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddFocusEvent(event-\/>type\ ==\ SDL\_EVENT\_WINDOW\_FOCUS\_GAINED);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00410}00410\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00411}00411\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_GAMEPAD\_ADDED:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00412}00412\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_EVENT\_GAMEPAD\_REMOVED:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00413}00413\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a45708c21d3f0b48340ddd894af611ade}{WantUpdateGamepadsList}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00416}00416\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00417}00417\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00418}00418\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00419}00419\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00420}00420\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00421}00421\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_SetupPlatformHandles(ImGuiViewport*\ viewport,\ SDL\_Window*\ window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00422}00422\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00423}00423\ \ \ \ \ viewport-\/>PlatformHandle\ =\ (\textcolor{keywordtype}{void}*)(intptr\_t)SDL\_GetWindowID(window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00424}00424\ \ \ \ \ viewport-\/>PlatformHandleRaw\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00425}00425\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)\ \&\&\ !defined(\_\_WINRT\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00426}00426\ \ \ \ \ viewport-\/>PlatformHandleRaw\ =\ (HWND)SDL\_GetPointerProperty(SDL\_GetWindowProperties(window),\ SDL\_PROP\_WINDOW\_WIN32\_HWND\_POINTER,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00427}00427\ \textcolor{preprocessor}{\#elif\ defined(\_\_APPLE\_\_)\ \&\&\ defined(SDL\_VIDEO\_DRIVER\_COCOA)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00428}00428\ \ \ \ \ viewport-\/>PlatformHandleRaw\ =\ SDL\_GetPointerProperty(SDL\_GetWindowProperties(window),\ SDL\_PROP\_WINDOW\_COCOA\_WINDOW\_POINTER,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00429}00429\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00430}00430\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00431}00431\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00432}00432\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ ImGui\_ImplSDL3\_Init(SDL\_Window*\ window,\ SDL\_Renderer*\ renderer,\ \textcolor{keywordtype}{void}*\ sdl\_gl\_context)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00433}00433\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00434}00434\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00435}00435\ \ \ \ \ IMGUI\_CHECKVERSION();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00436}00436\ \ \ \ \ IM\_ASSERT(io.BackendPlatformUserData\ ==\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Already\ initialized\ a\ platform\ backend!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00437}00437\ \ \ \ \ IM\_UNUSED(sdl\_gl\_context);\ \textcolor{comment}{//\ Unused\ in\ this\ branch}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00438}00438\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00439}00439\ \ \ \ \ \textcolor{comment}{//\ Check\ and\ store\ if\ we\ are\ on\ a\ SDL\ backend\ that\ supports\ global\ mouse\ position}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00440}00440\ \ \ \ \ \textcolor{comment}{//\ ("{}wayland"{}\ and\ "{}rpi"{}\ don't\ support\ it,\ but\ we\ chose\ to\ use\ a\ white-\/list\ instead\ of\ a\ black-\/list)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00441}00441\ \ \ \ \ \textcolor{keywordtype}{bool}\ mouse\_can\_use\_global\_state\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00442}00442\ \textcolor{preprocessor}{\#if\ SDL\_HAS\_CAPTURE\_AND\_GLOBAL\_MOUSE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00443}00443\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ sdl\_backend\ =\ SDL\_GetCurrentVideoDriver();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00444}00444\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ global\_mouse\_whitelist[]\ =\ \{\ \textcolor{stringliteral}{"{}windows"{}},\ \textcolor{stringliteral}{"{}cocoa"{}},\ \textcolor{stringliteral}{"{}x11"{}},\ \textcolor{stringliteral}{"{}DIVE"{}},\ \textcolor{stringliteral}{"{}VMAN"{}}\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00445}00445\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ IM\_ARRAYSIZE(global\_mouse\_whitelist);\ n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00446}00446\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strncmp(sdl\_backend,\ global\_mouse\_whitelist[n],\ strlen(global\_mouse\_whitelist[n]))\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ mouse\_can\_use\_global\_state\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00448}00448\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00449}00449\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00450}00450\ \ \ \ \ \textcolor{comment}{//\ Setup\ backend\ capabilities\ flags}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00451}00451\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ IM\_NEW(\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}})();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00452}00452\ \ \ \ \ io.BackendPlatformUserData\ =\ (\textcolor{keywordtype}{void}*)bd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00453}00453\ \ \ \ \ io.BackendPlatformName\ =\ \textcolor{stringliteral}{"{}imgui\_impl\_sdl3"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00454}00454\ \ \ \ \ io.BackendFlags\ |=\ ImGuiBackendFlags\_HasMouseCursors;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ can\ honor\ GetMouseCursor()\ values\ (optional)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00455}00455\ \ \ \ \ io.BackendFlags\ |=\ ImGuiBackendFlags\_HasSetMousePos;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ can\ honor\ io.WantSetMousePos\ requests\ (optional,\ rarely\ used)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00456}00456\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00457}00457\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ae50aeb95c54eafefcf9cfbd8fa15b956}{Window}}\ =\ window;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00458}00458\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a970654f0a901585cde2090d4f7c04300}{WindowID}}\ =\ SDL\_GetWindowID(window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00459}00459\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a1082e4b98694ff6d198f5b4bc5297e22}{Renderer}}\ =\ renderer;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00460}00460\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a6d94eb5f6fca2c72f4a2e597862d8a8e}{MouseCanUseGlobalState}}\ =\ mouse\_can\_use\_global\_state;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00461}00461\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00462}00462\ \ \ \ \ ImGuiPlatformIO\&\ platform\_io\ =\ ImGui::GetPlatformIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00463}00463\ \ \ \ \ platform\_io.Platform\_SetClipboardTextFn\ =\ ImGui\_ImplSDL3\_SetClipboardText;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00464}00464\ \ \ \ \ platform\_io.Platform\_GetClipboardTextFn\ =\ ImGui\_ImplSDL3\_GetClipboardText;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00465}00465\ \ \ \ \ platform\_io.Platform\_SetImeDataFn\ =\ ImGui\_ImplSDL3\_PlatformSetImeData;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00466}00466\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00467}00467\ \ \ \ \ \textcolor{comment}{//\ Gamepad\ handling}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00468}00468\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a844e29c21cb8fa1d21e48f7b47dc12a3}{GamepadMode}}\ =\ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bdaf01800b5937cac0863b5077ac1d630ff}{ImGui\_ImplSDL3\_GamepadMode\_AutoFirst}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00469}00469\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a45708c21d3f0b48340ddd894af611ade}{WantUpdateGamepadsList}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00470}00470\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00471}00471\ \ \ \ \ \textcolor{comment}{//\ Load\ mouse\ cursors}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00472}00472\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_Arrow]\ =\ SDL\_CreateSystemCursor(SDL\_SYSTEM\_CURSOR\_DEFAULT);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00473}00473\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_TextInput]\ =\ SDL\_CreateSystemCursor(SDL\_SYSTEM\_CURSOR\_TEXT);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00474}00474\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_ResizeAll]\ =\ SDL\_CreateSystemCursor(SDL\_SYSTEM\_CURSOR\_MOVE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00475}00475\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_ResizeNS]\ =\ SDL\_CreateSystemCursor(SDL\_SYSTEM\_CURSOR\_NS\_RESIZE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00476}00476\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_ResizeEW]\ =\ SDL\_CreateSystemCursor(SDL\_SYSTEM\_CURSOR\_EW\_RESIZE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00477}00477\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_ResizeNESW]\ =\ SDL\_CreateSystemCursor(SDL\_SYSTEM\_CURSOR\_NESW\_RESIZE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00478}00478\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_ResizeNWSE]\ =\ SDL\_CreateSystemCursor(SDL\_SYSTEM\_CURSOR\_NWSE\_RESIZE);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00479}00479\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_Hand]\ =\ SDL\_CreateSystemCursor(SDL\_SYSTEM\_CURSOR\_POINTER);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00480}00480\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_NotAllowed]\ =\ SDL\_CreateSystemCursor(SDL\_SYSTEM\_CURSOR\_NOT\_ALLOWED);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00481}00481\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00482}00482\ \ \ \ \ \textcolor{comment}{//\ Set\ platform\ dependent\ data\ in\ viewport}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00483}00483\ \ \ \ \ \textcolor{comment}{//\ Our\ mouse\ update\ function\ expect\ PlatformHandle\ to\ be\ filled\ for\ the\ main\ viewport}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00484}00484\ \ \ \ \ ImGuiViewport*\ main\_viewport\ =\ ImGui::GetMainViewport();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00485}00485\ \ \ \ \ ImGui\_ImplSDL3\_SetupPlatformHandles(main\_viewport,\ window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00486}00486\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00487}00487\ \ \ \ \ \textcolor{comment}{//\ From\ 2.0.5:\ Set\ SDL\ hint\ to\ receive\ mouse\ click\ events\ on\ window\ focus,\ otherwise\ SDL\ doesn't\ emit\ the\ event.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00488}00488\ \ \ \ \ \textcolor{comment}{//\ Without\ this,\ when\ clicking\ to\ gain\ focus,\ our\ widgets\ wouldn't\ activate\ even\ though\ they\ showed\ as\ hovered.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00489}00489\ \ \ \ \ \textcolor{comment}{//\ (This\ is\ unfortunately\ a\ global\ SDL\ setting,\ so\ enabling\ it\ might\ have\ a\ side-\/effect\ on\ your\ application.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00490}00490\ \ \ \ \ \textcolor{comment}{//\ It\ is\ unlikely\ to\ make\ a\ difference,\ but\ if\ your\ app\ absolutely\ needs\ to\ ignore\ the\ initial\ on-\/focus\ click:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00491}00491\ \ \ \ \ \textcolor{comment}{//\ you\ can\ ignore\ SDL\_EVENT\_MOUSE\_BUTTON\_DOWN\ events\ coming\ right\ after\ a\ SDL\_WINDOWEVENT\_FOCUS\_GAINED)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00492}00492\ \textcolor{preprocessor}{\#ifdef\ SDL\_HINT\_MOUSE\_FOCUS\_CLICKTHROUGH}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00493}00493\ \ \ \ \ SDL\_SetHint(SDL\_HINT\_MOUSE\_FOCUS\_CLICKTHROUGH,\ \textcolor{stringliteral}{"{}1"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00494}00494\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00495}00495\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00496}00496\ \ \ \ \ \textcolor{comment}{//\ From\ 2.0.22:\ Disable\ auto-\/capture,\ this\ is\ preventing\ drag\ and\ drop\ across\ multiple\ windows\ (see\ \#5710)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00497}00497\ \textcolor{preprocessor}{\#ifdef\ SDL\_HINT\_MOUSE\_AUTO\_CAPTURE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00498}00498\ \ \ \ \ SDL\_SetHint(SDL\_HINT\_MOUSE\_AUTO\_CAPTURE,\ \textcolor{stringliteral}{"{}0"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00499}00499\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00500}00500\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00501}00501\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00502}00502\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00503}00503\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00504}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_a7348a90cea386ab385cc7229a54bc01b}{00504}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_a7348a90cea386ab385cc7229a54bc01b}{ImGui\_ImplSDL3\_InitForOpenGL}}(SDL\_Window*\ window,\ \textcolor{keywordtype}{void}*\ sdl\_gl\_context)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00505}00505\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00506}00506\ \ \ \ \ IM\_UNUSED(sdl\_gl\_context);\ \textcolor{comment}{//\ Viewport\ branch\ will\ need\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00507}00507\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui\_ImplSDL3\_Init(window,\ \textcolor{keyword}{nullptr},\ sdl\_gl\_context);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00508}00508\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00509}00509\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00510}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_a84dedc42e47a9eca6c6fefeca99289bf}{00510}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_a84dedc42e47a9eca6c6fefeca99289bf}{ImGui\_ImplSDL3\_InitForVulkan}}(SDL\_Window*\ window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00511}00511\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00512}00512\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui\_ImplSDL3\_Init(window,\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00513}00513\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00514}00514\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00515}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_ae2ada3f4ca417aa4b4efd77a47078a38}{00515}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_ae2ada3f4ca417aa4b4efd77a47078a38}{ImGui\_ImplSDL3\_InitForD3D}}(SDL\_Window*\ window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00516}00516\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00517}00517\ \textcolor{preprocessor}{\#if\ !defined(\_WIN32)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00518}00518\ \ \ \ \ IM\_ASSERT(0\ \&\&\ \textcolor{stringliteral}{"{}Unsupported"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00519}00519\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00520}00520\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui\_ImplSDL3\_Init(window,\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00521}00521\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00522}00522\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00523}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_aa55a6a0190e5bf2248858ac01e830e2d}{00523}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_aa55a6a0190e5bf2248858ac01e830e2d}{ImGui\_ImplSDL3\_InitForMetal}}(SDL\_Window*\ window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00524}00524\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00525}00525\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui\_ImplSDL3\_Init(window,\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00526}00526\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00527}00527\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00528}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_a71a5c4cbeb4d9058ac724d68a8c7c762}{00528}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_a71a5c4cbeb4d9058ac724d68a8c7c762}{ImGui\_ImplSDL3\_InitForSDLRenderer}}(SDL\_Window*\ window,\ SDL\_Renderer*\ renderer)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00529}00529\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00530}00530\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui\_ImplSDL3\_Init(window,\ renderer,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00531}00531\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00532}00532\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00533}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_ae8b3e3e94b79cb82e4b5b2175dfe2641}{00533}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_ae8b3e3e94b79cb82e4b5b2175dfe2641}{ImGui\_ImplSDL3\_InitForOther}}(SDL\_Window*\ window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00534}00534\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00535}00535\ \ \ \ \ \textcolor{keywordflow}{return}\ ImGui\_ImplSDL3\_Init(window,\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00536}00536\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00537}00537\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00538}00538\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_CloseGamepads();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00539}00539\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00540}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_a9103a82edb06cbdd5b5827d13fb0d37b}{00540}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_a9103a82edb06cbdd5b5827d13fb0d37b}{ImGui\_ImplSDL3\_Shutdown}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00541}00541\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00542}00542\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00543}00543\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}No\ platform\ backend\ to\ shutdown,\ or\ already\ shutdown?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00544}00544\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00545}00545\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00546}00546\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ad0b42f05faf0f97e53af430da1865c35}{ClipboardTextData}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00547}00547\ \ \ \ \ \ \ \ \ SDL\_free(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ad0b42f05faf0f97e53af430da1865c35}{ClipboardTextData}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00548}00548\ \ \ \ \ \textcolor{keywordflow}{for}\ (ImGuiMouseCursor\ cursor\_n\ =\ 0;\ cursor\_n\ <\ ImGuiMouseCursor\_COUNT;\ cursor\_n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00549}00549\ \ \ \ \ \ \ \ \ SDL\_DestroyCursor(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[cursor\_n]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00550}00550\ \ \ \ \ ImGui\_ImplSDL3\_CloseGamepads();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00551}00551\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00552}00552\ \ \ \ \ io.BackendPlatformName\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00553}00553\ \ \ \ \ io.BackendPlatformUserData\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00554}00554\ \ \ \ \ io.BackendFlags\ \&=\ \string~(ImGuiBackendFlags\_HasMouseCursors\ |\ ImGuiBackendFlags\_HasSetMousePos\ |\ ImGuiBackendFlags\_HasGamepad);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00555}00555\ \ \ \ \ IM\_DELETE(bd);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00556}00556\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00557}00557\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00558}00558\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_UpdateMouseData()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00559}00559\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00560}00560\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00561}00561\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00563}00563\ \ \ \ \ \textcolor{comment}{//\ We\ forward\ mouse\ input\ when\ hovered\ or\ captured\ (via\ SDL\_EVENT\_MOUSE\_MOTION)\ or\ when\ focused\ (below)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00564}00564\ \textcolor{preprocessor}{\#if\ SDL\_HAS\_CAPTURE\_AND\_GLOBAL\_MOUSE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00565}00565\ \ \ \ \ \textcolor{comment}{//\ SDL\_CaptureMouse()\ let\ the\ OS\ know\ e.g.\ that\ our\ imgui\ drag\ outside\ the\ SDL\ window\ boundaries\ shouldn't\ e.g.\ trigger\ other\ operations\ outside}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00566}00566\ \ \ \ \ SDL\_CaptureMouse(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a2e8936be362fc88fccba677a7e7c4c27}{MouseButtonsDown}}\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00567}00567\ \ \ \ \ SDL\_Window*\ focused\_window\ =\ SDL\_GetKeyboardFocus();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00568}00568\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ is\_app\_focused\ =\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ae50aeb95c54eafefcf9cfbd8fa15b956}{Window}}\ ==\ focused\_window);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00569}00569\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00570}00570\ \ \ \ \ SDL\_Window*\ focused\_window\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ae50aeb95c54eafefcf9cfbd8fa15b956}{Window}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00571}00571\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ is\_app\_focused\ =\ (SDL\_GetWindowFlags(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ae50aeb95c54eafefcf9cfbd8fa15b956}{Window}})\ \&\ SDL\_WINDOW\_INPUT\_FOCUS)\ !=\ 0;\ \textcolor{comment}{//\ SDL\ 2.0.3\ and\ non-\/windowed\ systems:\ single-\/viewport\ only}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00572}00572\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00573}00573\ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_app\_focused)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00574}00574\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00575}00575\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (Optional)\ Set\ OS\ mouse\ position\ from\ Dear\ ImGui\ if\ requested\ (rarely\ used,\ only\ when\ io.ConfigNavMoveSetMousePos\ is\ enabled\ by\ user)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00576}00576\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (io.WantSetMousePos)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_WarpMouseInWindow(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ae50aeb95c54eafefcf9cfbd8fa15b956}{Window}},\ io.MousePos.x,\ io.MousePos.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00578}00578\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00579}00579\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (Optional)\ Fallback\ to\ provide\ mouse\ position\ when\ focused\ (SDL\_EVENT\_MOUSE\_MOTION\ already\ provides\ this\ when\ hovered\ or\ captured)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00580}00580\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a6d94eb5f6fca2c72f4a2e597862d8a8e}{MouseCanUseGlobalState}}\ \&\&\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a2e8936be362fc88fccba677a7e7c4c27}{MouseButtonsDown}}\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00581}00581\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00582}00582\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Single-\/viewport\ mode:\ mouse\ position\ in\ client\ window\ coordinates\ (io.MousePos\ is\ (0,0)\ when\ the\ mouse\ is\ on\ the\ upper-\/left\ corner\ of\ the\ app\ window)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ mouse\_x\_global,\ mouse\_y\_global;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ window\_x,\ window\_y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_GetGlobalMouseState(\&mouse\_x\_global,\ \&mouse\_y\_global);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_GetWindowPosition(focused\_window,\ \&window\_x,\ \&window\_y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMousePosEvent(mouse\_x\_global\ -\/\ window\_x,\ mouse\_y\_global\ -\/\ window\_y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00588}00588\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00589}00589\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00590}00590\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00591}00591\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00592}00592\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_UpdateMouseCursor()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00593}00593\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00594}00594\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00595}00595\ \ \ \ \ \textcolor{keywordflow}{if}\ (io.ConfigFlags\ \&\ ImGuiConfigFlags\_NoMouseCursorChange)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00596}00596\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00597}00597\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00598}00598\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00599}00599\ \ \ \ \ ImGuiMouseCursor\ imgui\_cursor\ =\ ImGui::GetMouseCursor();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00600}00600\ \ \ \ \ \textcolor{keywordflow}{if}\ (io.MouseDrawCursor\ ||\ imgui\_cursor\ ==\ ImGuiMouseCursor\_None)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00601}00601\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00602}00602\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Hide\ OS\ mouse\ cursor\ if\ imgui\ is\ drawing\ it\ or\ if\ it\ wants\ no\ cursor}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00603}00603\ \ \ \ \ \ \ \ \ SDL\_HideCursor();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00604}00604\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00605}00605\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00606}00606\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00607}00607\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Show\ OS\ mouse\ cursor}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00608}00608\ \ \ \ \ \ \ \ \ SDL\_Cursor*\ expected\_cursor\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[imgui\_cursor]\ ?\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[imgui\_cursor]\ :\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acdc327a53f1157fd71c2f948a39dc137}{MouseCursors}}[ImGuiMouseCursor\_Arrow];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00609}00609\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a6952a0069b70808ee58ff65152cc401c}{MouseLastCursor}}\ !=\ expected\_cursor)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00610}00610\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00611}00611\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_SetCursor(expected\_cursor);\ \textcolor{comment}{//\ SDL\ function\ doesn't\ have\ an\ early\ out\ (see\ \#6113)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00612}00612\ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a6952a0069b70808ee58ff65152cc401c}{MouseLastCursor}}\ =\ expected\_cursor;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00613}00613\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00614}00614\ \ \ \ \ \ \ \ \ SDL\_ShowCursor();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00615}00615\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00616}00616\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00617}00617\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00618}00618\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_CloseGamepads()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00619}00619\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00620}00620\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00621}00621\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a844e29c21cb8fa1d21e48f7b47dc12a3}{GamepadMode}}\ !=\ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bda6ab67002cee0908a818242a0e62b0136}{ImGui\_ImplSDL3\_GamepadMode\_Manual}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00622}00622\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (SDL\_Gamepad*\ gamepad\ :\ bd-\/>Gamepads)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00623}00623\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_CloseGamepad(gamepad);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00624}00624\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_aa0cb944dad2ecf18a37da544e3cd051d}{Gamepads}}.resize(0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00625}00625\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00626}00626\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00627}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_a061009e592f919d45ee5b79c35d516f9}{00627}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_a061009e592f919d45ee5b79c35d516f9}{ImGui\_ImplSDL3\_SetGamepadMode}}(\mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bd}{ImGui\_ImplSDL3\_GamepadMode}}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode}},\ SDL\_Gamepad**\ manual\_gamepads\_array,\ \textcolor{keywordtype}{int}\ manual\_gamepads\_count)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00628}00628\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00629}00629\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00630}00630\ \ \ \ \ ImGui\_ImplSDL3\_CloseGamepads();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00631}00631\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode}}\ ==\ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bda6ab67002cee0908a818242a0e62b0136}{ImGui\_ImplSDL3\_GamepadMode\_Manual}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00632}00632\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00633}00633\ \ \ \ \ \ \ \ \ IM\_ASSERT(manual\_gamepads\_array\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ manual\_gamepads\_count\ >\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00634}00634\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ manual\_gamepads\_count;\ n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00635}00635\ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_aa0cb944dad2ecf18a37da544e3cd051d}{Gamepads}}.push\_back(manual\_gamepads\_array[n]);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00636}00636\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00637}00637\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00638}00638\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00639}00639\ \ \ \ \ \ \ \ \ IM\_ASSERT(manual\_gamepads\_array\ ==\ \textcolor{keyword}{nullptr}\ \&\&\ manual\_gamepads\_count\ <=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00640}00640\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a45708c21d3f0b48340ddd894af611ade}{WantUpdateGamepadsList}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00641}00641\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00642}00642\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a844e29c21cb8fa1d21e48f7b47dc12a3}{GamepadMode}}\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e71d9c196e4683cc06c4b54d53f7ef5}{mode}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00643}00643\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00644}00644\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00645}00645\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_UpdateGamepadButton(\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd,\ ImGuiIO\&\ io,\ ImGuiKey\ key,\ SDL\_GamepadButton\ button\_no)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00646}00646\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00647}00647\ \ \ \ \ \textcolor{keywordtype}{bool}\ merged\_value\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00648}00648\ \ \ \ \ \textcolor{keywordflow}{for}\ (SDL\_Gamepad*\ gamepad\ :\ bd-\/>Gamepads)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00649}00649\ \ \ \ \ \ \ \ \ merged\_value\ |=\ SDL\_GetGamepadButton(gamepad,\ button\_no)\ !=\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00650}00650\ \ \ \ \ io.AddKeyEvent(key,\ merged\_value);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00651}00651\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00652}00652\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00653}00653\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ Saturate(\textcolor{keywordtype}{float}\ v)\ \{\ \textcolor{keywordflow}{return}\ v\ <\ 0.0f\ ?\ 0.0f\ :\ v\ \ >\ 1.0f\ ?\ 1.0f\ :\ v;\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00654}00654\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_UpdateGamepadAnalog(\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd,\ ImGuiIO\&\ io,\ ImGuiKey\ key,\ SDL\_GamepadAxis\ axis\_no,\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a8f5597b6002609ead33af221dcf29790}{v0}},\ \textcolor{keywordtype}{float}\ v1)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00655}00655\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00656}00656\ \ \ \ \ \textcolor{keywordtype}{float}\ merged\_value\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00657}00657\ \ \ \ \ \textcolor{keywordflow}{for}\ (SDL\_Gamepad*\ gamepad\ :\ bd-\/>Gamepads)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00658}00658\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00659}00659\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ vn\ =\ Saturate((\textcolor{keywordtype}{float})(SDL\_GetGamepadAxis(gamepad,\ axis\_no)\ -\/\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a8f5597b6002609ead33af221dcf29790}{v0}})\ /\ (\textcolor{keywordtype}{float})(v1\ -\/\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a8f5597b6002609ead33af221dcf29790}{v0}}));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00660}00660\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (merged\_value\ <\ vn)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00661}00661\ \ \ \ \ \ \ \ \ \ \ \ \ merged\_value\ =\ vn;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00662}00662\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00663}00663\ \ \ \ \ io.AddKeyAnalogEvent(key,\ merged\_value\ >\ 0.1f,\ merged\_value);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00664}00664\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00665}00665\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00666}00666\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplSDL3\_UpdateGamepads()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00667}00667\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00668}00668\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00669}00669\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00670}00670\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00671}00671\ \ \ \ \ \textcolor{comment}{//\ Update\ list\ of\ gamepads\ to\ use}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00672}00672\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a45708c21d3f0b48340ddd894af611ade}{WantUpdateGamepadsList}}\ \&\&\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a844e29c21cb8fa1d21e48f7b47dc12a3}{GamepadMode}}\ !=\ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bda6ab67002cee0908a818242a0e62b0136}{ImGui\_ImplSDL3\_GamepadMode\_Manual}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00673}00673\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00674}00674\ \ \ \ \ \ \ \ \ ImGui\_ImplSDL3\_CloseGamepads();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00675}00675\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ sdl\_gamepads\_count\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00676}00676\ \ \ \ \ \ \ \ \ SDL\_JoystickID*\ sdl\_gamepads\ =\ SDL\_GetGamepads(\&sdl\_gamepads\_count);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00677}00677\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ sdl\_gamepads\_count;\ n++)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00678}00678\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_Gamepad*\ gamepad\ =\ SDL\_OpenGamepad(sdl\_gamepads[n]))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00679}00679\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00680}00680\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_aa0cb944dad2ecf18a37da544e3cd051d}{Gamepads}}.push\_back(gamepad);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00681}00681\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a844e29c21cb8fa1d21e48f7b47dc12a3}{GamepadMode}}\ ==\ \mbox{\hyperlink{imgui__impl__sdl3_8h_ad480fd2f529e7f698bbf12d024b373bdaf01800b5937cac0863b5077ac1d630ff}{ImGui\_ImplSDL3\_GamepadMode\_AutoFirst}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00682}00682\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00683}00683\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00684}00684\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a45708c21d3f0b48340ddd894af611ade}{WantUpdateGamepadsList}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00685}00685\ \ \ \ \ \ \ \ \ SDL\_free(sdl\_gamepads);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00686}00686\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00687}00687\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00688}00688\ \ \ \ \ \textcolor{comment}{//\ FIXME:\ Technically\ feeding\ gamepad\ shouldn't\ depend\ on\ this\ now\ that\ they\ are\ regular\ inputs.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00689}00689\ \ \ \ \ \textcolor{keywordflow}{if}\ ((io.ConfigFlags\ \&\ ImGuiConfigFlags\_NavEnableGamepad)\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00690}00690\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00691}00691\ \ \ \ \ io.BackendFlags\ \&=\ \string~ImGuiBackendFlags\_HasGamepad;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00692}00692\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_aa0cb944dad2ecf18a37da544e3cd051d}{Gamepads}}.Size\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00693}00693\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00694}00694\ \ \ \ \ io.BackendFlags\ |=\ ImGuiBackendFlags\_HasGamepad;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00695}00695\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00696}00696\ \ \ \ \ \textcolor{comment}{//\ Update\ gamepad\ inputs}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00697}00697\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ thumb\_dead\_zone\ =\ 8000;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SDL\_gamepad.h\ suggests\ using\ this\ value.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00698}00698\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadStart,\ \ \ \ \ \ \ SDL\_GAMEPAD\_BUTTON\_START);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00699}00699\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadBack,\ \ \ \ \ \ \ \ SDL\_GAMEPAD\_BUTTON\_BACK);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00700}00700\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadFaceLeft,\ \ \ \ SDL\_GAMEPAD\_BUTTON\_WEST);\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Xbox\ X,\ PS\ Square}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00701}00701\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadFaceRight,\ \ \ SDL\_GAMEPAD\_BUTTON\_EAST);\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Xbox\ B,\ PS\ Circle}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00702}00702\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadFaceUp,\ \ \ \ \ \ SDL\_GAMEPAD\_BUTTON\_NORTH);\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Xbox\ Y,\ PS\ Triangle}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00703}00703\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadFaceDown,\ \ \ \ SDL\_GAMEPAD\_BUTTON\_SOUTH);\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Xbox\ A,\ PS\ Cross}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00704}00704\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadDpadLeft,\ \ \ \ SDL\_GAMEPAD\_BUTTON\_DPAD\_LEFT);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00705}00705\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadDpadRight,\ \ \ SDL\_GAMEPAD\_BUTTON\_DPAD\_RIGHT);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00706}00706\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadDpadUp,\ \ \ \ \ \ SDL\_GAMEPAD\_BUTTON\_DPAD\_UP);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00707}00707\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadDpadDown,\ \ \ \ SDL\_GAMEPAD\_BUTTON\_DPAD\_DOWN);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00708}00708\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadL1,\ \ \ \ \ \ \ \ \ \ SDL\_GAMEPAD\_BUTTON\_LEFT\_SHOULDER);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00709}00709\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadR1,\ \ \ \ \ \ \ \ \ \ SDL\_GAMEPAD\_BUTTON\_RIGHT\_SHOULDER);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00710}00710\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadAnalog(bd,\ io,\ ImGuiKey\_GamepadL2,\ \ \ \ \ \ \ \ \ \ SDL\_GAMEPAD\_AXIS\_LEFT\_TRIGGER,\ \ 0.0f,\ 32767);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00711}00711\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadAnalog(bd,\ io,\ ImGuiKey\_GamepadR2,\ \ \ \ \ \ \ \ \ \ SDL\_GAMEPAD\_AXIS\_RIGHT\_TRIGGER,\ 0.0f,\ 32767);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00712}00712\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadL3,\ \ \ \ \ \ \ \ \ \ SDL\_GAMEPAD\_BUTTON\_LEFT\_STICK);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00713}00713\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadButton(bd,\ io,\ ImGuiKey\_GamepadR3,\ \ \ \ \ \ \ \ \ \ SDL\_GAMEPAD\_BUTTON\_RIGHT\_STICK);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00714}00714\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadAnalog(bd,\ io,\ ImGuiKey\_GamepadLStickLeft,\ \ SDL\_GAMEPAD\_AXIS\_LEFTX,\ \ -\/thumb\_dead\_zone,\ -\/32768);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00715}00715\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadAnalog(bd,\ io,\ ImGuiKey\_GamepadLStickRight,\ SDL\_GAMEPAD\_AXIS\_LEFTX,\ \ +thumb\_dead\_zone,\ +32767);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00716}00716\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadAnalog(bd,\ io,\ ImGuiKey\_GamepadLStickUp,\ \ \ \ SDL\_GAMEPAD\_AXIS\_LEFTY,\ \ -\/thumb\_dead\_zone,\ -\/32768);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00717}00717\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadAnalog(bd,\ io,\ ImGuiKey\_GamepadLStickDown,\ \ SDL\_GAMEPAD\_AXIS\_LEFTY,\ \ +thumb\_dead\_zone,\ +32767);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00718}00718\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadAnalog(bd,\ io,\ ImGuiKey\_GamepadRStickLeft,\ \ SDL\_GAMEPAD\_AXIS\_RIGHTX,\ -\/thumb\_dead\_zone,\ -\/32768);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00719}00719\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadAnalog(bd,\ io,\ ImGuiKey\_GamepadRStickRight,\ SDL\_GAMEPAD\_AXIS\_RIGHTX,\ +thumb\_dead\_zone,\ +32767);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00720}00720\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadAnalog(bd,\ io,\ ImGuiKey\_GamepadRStickUp,\ \ \ \ SDL\_GAMEPAD\_AXIS\_RIGHTY,\ -\/thumb\_dead\_zone,\ -\/32768);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00721}00721\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepadAnalog(bd,\ io,\ ImGuiKey\_GamepadRStickDown,\ \ SDL\_GAMEPAD\_AXIS\_RIGHTY,\ +thumb\_dead\_zone,\ +32767);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00722}00722\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00723}00723\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00724}\mbox{\hyperlink{imgui__impl__sdl3_8cpp_a234e948df1bab6e801daf91ec31d4f0b}{00724}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__sdl3_8cpp_a234e948df1bab6e801daf91ec31d4f0b}{ImGui\_ImplSDL3\_NewFrame}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00725}00725\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00726}00726\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data}{ImGui\_ImplSDL3\_Data}}*\ bd\ =\ ImGui\_ImplSDL3\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00727}00727\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Context\ or\ backend\ not\ initialized!\ Did\ you\ call\ ImGui\_ImplSDL3\_Init()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00728}00728\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00729}00729\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00730}00730\ \ \ \ \ \textcolor{comment}{//\ Setup\ display\ size\ (every\ frame\ to\ accommodate\ for\ window\ resizing)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00731}00731\ \ \ \ \ \textcolor{keywordtype}{int}\ w,\ h;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00732}00732\ \ \ \ \ \textcolor{keywordtype}{int}\ display\_w,\ display\_h;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00733}00733\ \ \ \ \ SDL\_GetWindowSize(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ae50aeb95c54eafefcf9cfbd8fa15b956}{Window}},\ \&w,\ \&h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00734}00734\ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_GetWindowFlags(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ae50aeb95c54eafefcf9cfbd8fa15b956}{Window}})\ \&\ SDL\_WINDOW\_MINIMIZED)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00735}00735\ \ \ \ \ \ \ \ \ w\ =\ h\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00736}00736\ \ \ \ \ SDL\_GetWindowSizeInPixels(bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_ae50aeb95c54eafefcf9cfbd8fa15b956}{Window}},\ \&display\_w,\ \&display\_h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00737}00737\ \ \ \ \ io.DisplaySize\ =\ ImVec2((\textcolor{keywordtype}{float})w,\ (\textcolor{keywordtype}{float})h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00738}00738\ \ \ \ \ \textcolor{keywordflow}{if}\ (w\ >\ 0\ \&\&\ h\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00739}00739\ \ \ \ \ \ \ \ \ io.DisplayFramebufferScale\ =\ ImVec2((\textcolor{keywordtype}{float})display\_w\ /\ w,\ (\textcolor{keywordtype}{float})display\_h\ /\ h);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00740}00740\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00741}00741\ \ \ \ \ \textcolor{comment}{//\ Setup\ time\ step\ (we\ don't\ use\ SDL\_GetTicks()\ because\ it\ is\ using\ millisecond\ resolution)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00742}00742\ \ \ \ \ \textcolor{comment}{//\ (Accept\ SDL\_GetPerformanceCounter()\ not\ returning\ a\ monotonically\ increasing\ value.\ Happens\ in\ VMs\ and\ Emscripten,\ see\ \#6189,\ \#6114,\ \#3644)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00743}00743\ \ \ \ \ \textcolor{keyword}{static}\ Uint64\ frequency\ =\ SDL\_GetPerformanceFrequency();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00744}00744\ \ \ \ \ Uint64\ current\_time\ =\ SDL\_GetPerformanceCounter();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00745}00745\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_time\ <=\ bd-\/>Time)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00746}00746\ \ \ \ \ \ \ \ \ current\_time\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acf68a508d393cc156a981c6e7852cdad}{Time}}\ +\ 1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00747}00747\ \ \ \ \ io.DeltaTime\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acf68a508d393cc156a981c6e7852cdad}{Time}}\ >\ 0\ ?\ (float)((\textcolor{keywordtype}{double})(current\_time\ -\/\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acf68a508d393cc156a981c6e7852cdad}{Time}})\ /\ frequency)\ :\ (float)(1.0f\ /\ 60.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00748}00748\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_acf68a508d393cc156a981c6e7852cdad}{Time}}\ =\ current\_time;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00749}00749\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00750}00750\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a9db5414c6cdec9b8a447d5b6f9516f5b}{MousePendingLeaveFrame}}\ \&\&\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a9db5414c6cdec9b8a447d5b6f9516f5b}{MousePendingLeaveFrame}}\ >=\ ImGui::GetFrameCount()\ \&\&\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a2e8936be362fc88fccba677a7e7c4c27}{MouseButtonsDown}}\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00751}00751\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00752}00752\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_aed284c05802b6443567ed3c1646b9a03}{MouseWindowID}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00753}00753\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_s_d_l3___data_a9db5414c6cdec9b8a447d5b6f9516f5b}{MousePendingLeaveFrame}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00754}00754\ \ \ \ \ \ \ \ \ io.AddMousePosEvent(-\/FLT\_MAX,\ -\/FLT\_MAX);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00755}00755\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00756}00756\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00757}00757\ \ \ \ \ ImGui\_ImplSDL3\_UpdateMouseData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00758}00758\ \ \ \ \ ImGui\_ImplSDL3\_UpdateMouseCursor();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00759}00759\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00760}00760\ \ \ \ \ \textcolor{comment}{//\ Update\ game\ controllers\ (if\ enabled\ and\ available)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00761}00761\ \ \ \ \ ImGui\_ImplSDL3\_UpdateGamepads();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00762}00762\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00763}00763\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00764}00764\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00765}00765\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00766}00766\ \textcolor{preprocessor}{\#if\ defined(\_\_clang\_\_)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00767}00767\ \textcolor{preprocessor}{\#pragma\ clang\ diagnostic\ pop}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00768}00768\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00769}00769\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__sdl3_8cpp_source_l00770}00770\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

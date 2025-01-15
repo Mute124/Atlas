@@ -1,4 +1,28 @@
-﻿set(PROJECT_SOURCES
+﻿include("${CMAKE_SOURCE_DIR}/CMakeOptions.txt")
+
+if(${ATLAS_BUILD_EXAMPLES})
+   set(BASIC_SAMPLE_SOURCES
+        "samples/basic/BasicSampleGroup.h"
+        "samples/basic/HelloWorldSample.h"
+        "samples/basic/HelloWorldSample.cpp"
+		
+   )
+
+
+    set(SAMPLE_SOURCES 
+        ${BASIC_SAMPLE_SOURCES}
+
+        "samples/SamplesProject.h"
+        "samples/SampleGroup.h"
+        "samples/Sample.h"
+    )
+else() 
+	set(SAMPLE_SOURCES
+	)
+endif()
+
+set(PROJECT_SOURCES
+    ${SAMPLE_SOURCES}
 	"project.cpp"
 	"project.h"
 )
@@ -18,7 +42,7 @@ target_include_directories(project_lib PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(project_lib PRIVATE ${PROJECT_SOURCE_DIR}/src/engine)
 
 # Link to the engine shared library
-target_link_libraries(project_lib PUBLIC Techstorm )
+target_link_libraries(project_lib PUBLIC Atlas )
 
 # Set output name for Windows/Linux
 if(WIN32)

@@ -1,4 +1,29 @@
 var searchData=
 [
-  ['vec3_0',['vec3',['../df/d8a/struct_vec3.html#aae7a1ffaa1108a30c281da216d1cd312',1,'Vec3::Vec3()'],['../df/d8a/struct_vec3.html#a842ccdcdb2b4c7ca7cef20e6e786a231',1,'Vec3::Vec3(float x, float y, float z)'],['../df/d8a/struct_vec3.html#a0bf3ba6f2a1ae1dbad1482fa882d9967',1,'Vec3::Vec3(const Vector3 &amp;other)']]]
+  ['sample_0',['Sample',['../d4/d72/class_sample.html#a7ae22ce5eb16e55563fb9b2c6a3f395b',1,'Sample']]],
+  ['samplegroup_1',['SampleGroup',['../d4/da6/class_sample_group.html#a682fa58437e042ed7eca1cf4bc500b48',1,'SampleGroup']]],
+  ['samplesproject_2',['SamplesProject',['../dc/dc3/class_samples_project.html#abf16803d33466b75e94c38530e3de05b',1,'SamplesProject']]],
+  ['seek_3',['Seek',['../dc/d7b/class_shell_file_interface.html#a2e084ef01b2146a6a24a0515039281b8',1,'ShellFileInterface']]],
+  ['set_4',['set',['../d0/dfb/class_atlas_1_1_globals.html#a0ca44a9cf2318a950f060a673d1b481a',1,'Atlas::Globals::set()'],['../d9/d0a/class_atlas_1_1_reference_holder.html#a1c72b6a0bc69ffc5f62d777dcc4eb9a5',1,'Atlas::ReferenceHolder::set()'],['../d6/d6d/class_atlas_1_1_globals_container.html#ab63db3364a4c0f049fd107c70e023f0c',1,'Atlas::GlobalsContainer::set(const std::string &amp;key, const T &amp;value)'],['../d6/d6d/class_atlas_1_1_globals_container.html#a9348b49c76edbe787f7c6506a425d505',1,'Atlas::GlobalsContainer::set(const std::string &amp;key, const std::any &amp;value)']]],
+  ['setasmaincamera_5',['setAsMainCamera',['../d7/dc3/class_atlas_1_1_game_camera.html#a5c88a0feec80e0688fa081551a94ab32',1,'Atlas::GameCamera']]],
+  ['setcameradata_6',['setCameraData',['../d7/dc3/class_atlas_1_1_game_camera.html#a85234e8276629227ba6725929b769698',1,'Atlas::GameCamera']]],
+  ['setformat_7',['setFormat',['../d9/dbb/class_atlas_1_1_terminal_sink.html#a3e054198f713665b94e512c5ce707330',1,'Atlas::TerminalSink']]],
+  ['setfovy_8',['setFovy',['../d7/dc3/class_atlas_1_1_game_camera.html#a9829cbe79dacf91512c4551103a16286',1,'Atlas::GameCamera']]],
+  ['setglobal_9',['SetGlobal',['../d7/d54/namespace_atlas.html#a51fdcf67897c4f8a2845255331167e28',1,'Atlas']]],
+  ['setglobalvalue_10',['SetGlobalValue',['../d7/d54/namespace_atlas.html#aee18cc5dcd651a9551fb2302e723de8c',1,'Atlas']]],
+  ['setposition_11',['setposition',['../d0/dd1/class_game_object.html#ab53fcba7c5cb35464efc61d11b5370b2',1,'GameObject::setPosition()'],['../d7/dc3/class_atlas_1_1_game_camera.html#a706a3ca60813878866f24a8c7bb14cb3',1,'Atlas::GameCamera::setPosition()']]],
+  ['setproject_12',['setProject',['../dc/dba/class_atlas_1_1abstract.html#a630df1412cba21639820d1735624eb71',1,'Atlas::abstract']]],
+  ['setprojection_13',['setProjection',['../d7/dc3/class_atlas_1_1_game_camera.html#a1f1ca6e4179f14b18de635f89f395e77',1,'Atlas::GameCamera']]],
+  ['setprojectreference_14',['setProjectReference',['../dd/d11/class_atlas_1_1abstract_1_1_project_reference.html#a6607773948f1956e30556f5998c9ac37',1,'Atlas::abstract::ProjectReference']]],
+  ['settarget_15',['setTarget',['../d7/dc3/class_atlas_1_1_game_camera.html#ad6ab6c7993ac2f063f9681548688ee7c',1,'Atlas::GameCamera']]],
+  ['setup_16',['setUp',['../d7/dc3/class_atlas_1_1_game_camera.html#a7b4d3d3a8a862b72dea008b0b1c632f0',1,'Atlas::GameCamera']]],
+  ['setvelocity_17',['setVelocity',['../d0/dd1/class_game_object.html#a8daf2956f2dc546f4baf152ed75b8a68',1,'GameObject']]],
+  ['setwindowdecorations_18',['setWindowDecorations',['../dc/dba/class_atlas_1_1abstract.html#a5e59205fc4d363bb34f40a6cca2a8308',1,'Atlas::abstract']]],
+  ['shellfileinterface_19',['ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#aa5e0f5ccf4489fe4b0b8b9c7849a9bac',1,'ShellFileInterface']]],
+  ['shouldclose_20',['shouldClose',['../d1/df6/class_atlas_1_1_window.html#a0633797e370d735a9bfd474d6cd2533c',1,'Atlas::Window']]],
+  ['shouldcollide_21',['shouldcollide',['../de/d9a/class_object_layer_pair_filter_impl.html#afd7e357870f8e60ff900decf5a02903b',1,'ObjectLayerPairFilterImpl::ShouldCollide()'],['../d3/d37/class_object_vs_broad_phase_layer_filter_impl.html#a630a2d6cb5fa96cba1dcf0fa11bb4a1e',1,'ObjectVsBroadPhaseLayerFilterImpl::ShouldCollide()'],['../d1/dea/class_atlas_1_1_object_layer_pair_filter_impl.html#a4264e415c9e6b5ff9ad5c340c884691f',1,'Atlas::ObjectLayerPairFilterImpl::ShouldCollide()'],['../d2/dcc/class_atlas_1_1_object_vs_broad_phase_layer_filter_impl.html#ab508f358f7f4c7c72b0f3e86db7d0f61',1,'Atlas::ObjectVsBroadPhaseLayerFilterImpl::ShouldCollide()']]],
+  ['shutdown_22',['Shutdown',['../d7/d0d/namespace_shell.html#a5433fa08fbb1afd5c72a582c98d28797',1,'Shell']]],
+  ['start_23',['start',['../dc/dba/class_atlas_1_1abstract.html#a43042816cf60259a8c0109451eec7691',1,'Atlas::abstract']]],
+  ['startsample_24',['startSample',['../d4/da6/class_sample_group.html#a49fbb4c5de1bb579ae6cf4c84b65883f',1,'SampleGroup']]],
+  ['stop_25',['stop',['../dc/dba/class_atlas_1_1abstract.html#a94542b2f8b0aee391e840ff9a81228ed',1,'Atlas::abstract']]]
 ];

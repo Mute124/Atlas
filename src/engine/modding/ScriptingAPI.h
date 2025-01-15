@@ -1,12 +1,13 @@
 /**
 * \file ScriptingAPI.h
 * 
-* \brief This is what will handle all of Techstorm's scripting. Currently only Lua is supported, but AngelScript is planned for a future date. Along with this, the scripting API is responsible for
+* \brief This is what will handle all of Atlas's scripting. Currently only Lua is supported, but AngelScript is planned for a future date. Along with this, the scripting API is responsible for
 * the console, loading/unloading lua libraries, etc.
 * \includegraph
 * 
 */
 #pragma once
+<<<<<<< HEAD
 #define TS_SCRIPTING_LUA
 #define TS_SCRIPTING_ANGELSCRIPT
 
@@ -19,21 +20,60 @@
 #ifdef TS_SCRIPTING_ANGELSCRIPT
 #endif
 
+=======
+>>>>>>> main
 
+#include <iostream>
+#include <filesystem>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <string>
+#include "../dbg/Logging.h"
 
-#include <sol/state.hpp>
-#include <sol/state_view.hpp>
-#include <sol/types.hpp>
-#include <sol/forward.hpp>
+#ifdef ATLAS_ENABLE_MODDING
+	#ifdef ATLAS_ENABLE_LUA
+		/// \brief Protects against safety issues when using lua because it makes the API more stable.
+		#define SOL_ALL_SAFETIES_ON 1
+
+		#include <sol/state.hpp>
+		#include <sol/state_view.hpp>
+		#include <sol/types.hpp>
+		#include <sol/forward.hpp>
+	#endif
+
+	#ifdef ATLAS_ENABLE_ANGELSCRIPT
+
+	#endif
+#endif
 
 #include "../utils/Singleton.h"
 <<<<<<< HEAD
 
-namespace Techstorm {
+namespace Atlas {
 	
+
+#ifdef ATLAS_ENABLE_MODDING
+	// Logic to determine what using statements to use. This is mainly to avoid code duplication.
+	#if defined(ATLAS_ENABLE_LUA) && defined(ATLAS_ENABLE_ANGELSCRIPT)
+	
+	#elif defined(ATLAS_ENABLE_LUA) || defined(ATLAS_ENABLE_ANGELSCRIPT) // only one is defined since it would have triggered the previous if otherwise.
+		#ifdef ATLAS_ENABLE_LUA
+
+		#endif // ATLAS_ENABLE_LUA
+
+		#ifdef ATLAS_ENABLE_ANGELSCRIPT
+
+		#endif // ATLAS_ENABLE_ANGELSCRIPT
+	#else // Preprocessor else of defined(ATLAS_ENABLE_LUA) && defined(ATLAS_ENABLE_ANGELSCRIPT)
+
+
+
+	#endif // defined(ATLAS_ENABLE_LUA) && defined(ATLAS_ENABLE_ANGELSCRIPT)
+
+
+
 	/// <summary>
 	/// Represents a function that can be exported to lua. The reason for it's existence is because it makes it easier to export functions to lua.
 	/// </summary>
@@ -50,13 +90,21 @@ namespace Techstorm {
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 	struct ExportedFunction {
 		const std::string cName; // What the function is called (i.e "Print")
-		const sol::function cFunction;
+#ifdef ATLAS_ENABLE_LUA
+		sol::function cFunction;
+#endif
 	};
 
+<<<<<<< HEAD
 	using LuaLibraryRegistry = std::vector<sol::lib>;
 	using LuaFunctionRegistry = std::unordered_map<std::string, ExportedFunction>;
 <<<<<<< HEAD
 	
+=======
+	using ScriptingLibraryRegistry = std::vector<sol::lib>;
+	using ScriptingFunctionRegistry = std::unordered_map<std::string, ExportedFunction>;
+
+>>>>>>> main
 	/// <summary>
 	/// Everything related to the scripting API, i.e loading/unloading libraries, registering functions, etc. As is mentioned at the file's documentation, only lua is supported at the moment.
 	/// </summary>
@@ -77,6 +125,7 @@ namespace Techstorm {
 		/// </summary>
 		/// <returns>an integer value that represents the result of the operation.</returns>
 <<<<<<< HEAD
+<<<<<<< HEAD
 		int InitializeScripting(LuaLibraryRegistry const& libraries, LuaFunctionRegistry const& functions);
 =======
 		int InitializeScripting(LuaLibraryRegistry const& libraries, LuaFunctionRegistry const& functions)
@@ -85,18 +134,43 @@ namespace Techstorm {
 			return 0;
 		}
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+		int initializeScripting(ScriptingLibraryRegistry const& libraries, ScriptingFunctionRegistry const& functions);
+>>>>>>> main
 
+/*		template<typename T, typename ...Args>
+		int registerFunction(const std::string& name, T function, Args... args) {
+		
+			mLua.new_usertype<T>(args);
+		}*/
+		
+
+
+#ifdef ATLAS_ENABLE_LUA
 		/// <summary>
 		/// Registers the scripting API for Lua.
 		/// </summary>
 		/// <returns>an integer value that represents the result of the operation.</returns>
 <<<<<<< HEAD
+<<<<<<< HEAD
 		int RegisterLua();
+=======
+		int registerLua();
+>>>>>>> main
 
+		/// <summary>
+		/// Returns mLua as a state_view.
+		/// </summary>
+		/// <returns>a state_view that represents the lua state (mLua).</returns>
+		sol::state_view getState() { return mLua.operator lua_State * (); }
+#endif
+
+#ifdef ATLAS_ENABLE_ANGELSCRIPT
 		/// <summary>
 		/// Registers the scripting API for AngelScript. This is just for organization sake and it could be merged with the lua version, but it wont be.
 		/// </summary>
 		/// <returns>an integer value that represents the result of the operation.</returns>
+<<<<<<< HEAD
 		int RegisterAngelScript();
 		sol::state mLua;
 	private:
@@ -123,8 +197,36 @@ namespace Techstorm {
 	private:
 		sol::state mLua;
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+		int registerAngelScript();
+				
+#endif
+>>>>>>> main
 
-		LuaLibraryRegistry mLibraries;
-		LuaFunctionRegistry mFunctions;
+	private:
+
+
+#ifdef ATLAS_ENABLE_LUA
+		sol::state mLua;
+		ScriptingLibraryRegistry mLibraries;
+		ScriptingFunctionRegistry mFunctions;
+		
+		/// <summary>
+		/// Exposes the lua libraries in mLibraries to mLua. See \ref ScriptingLibraryRegistry for more information.
+		/// </summary>
+		void openLuaLibraries();
+#endif
+
+		/// <summary>
+		/// Exposes all functions that fall under the perview of config. As of version 0.0.3, this is only the configLookup function and more will be added in the future. 
+		/// </summary>
+		void registerConfigFunctions();
+
+		/// <summary>
+		/// Exposes all functions that fall under the perview of file system. This includes file loading, reading, writing, etc. 
+		/// </summary>
+		void registerFileSystemFunctions();
 	};
+
+#endif
 }

@@ -1,0 +1,112 @@
+\doxysection{Quick start}
+\hypertarget{quick_start}{}\label{quick_start}\index{Quick start@{Quick start}}
+\hypertarget{quick_start_quick_start_project_setup}{}\doxysubsection{\texorpdfstring{Project setup}{Project setup}}\label{quick_start_quick_start_project_setup}
+Vulkan Memory Allocator comes in form of a "{}stb-\/style"{} single header file. You don\textquotesingle{}t need to build it as a separate library project. You can add this file directly to your project and submit it to code repository next to your other source files.
+
+"{}\+Single header"{} doesn\textquotesingle{}t mean that everything is contained in C/\+C++ declarations, like it tends to be in case of inline functions or C++ templates. It means that implementation is bundled with interface in a single file and needs to be extracted using preprocessor macro. If you don\textquotesingle{}t do it properly, you will get linker errors.
+
+To do it properly\+:
+
+
+\begin{DoxyEnumerate}
+\item Include "{}vk\+\_\+mem\+\_\+alloc.\+h"{} file in each CPP file where you want to use the library. This includes declarations of all members of the library.
+\item In exactly one CPP file define following macro before this include. It enables also internal definitions.
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#define\ VMA\_IMPLEMENTATION}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{vk__mem__alloc_8h}{vk\_mem\_alloc.h}}"{}}}
+
+\end{DoxyCode}
+
+
+It may be a good idea to create dedicated CPP file just for this purpose.
+
+This library includes header {\ttfamily \texorpdfstring{$<$}{<}\doxylink{vulkan_8h}{vulkan/vulkan.\+h}\texorpdfstring{$>$}{>}}, which in turn includes {\ttfamily \texorpdfstring{$<$}{<}windows.\+h\texorpdfstring{$>$}{>}} on Windows. If you need some specific macros defined before including these headers (like {\ttfamily WIN32\+\_\+\+LEAN\+\_\+\+AND\+\_\+\+MEAN} or {\ttfamily WINVER} for Windows, {\ttfamily VK\+\_\+\+USE\+\_\+\+PLATFORM\+\_\+\+WIN32\+\_\+\+KHR} for Vulkan), you must define them before every {\ttfamily \#include} of this library.
+
+This library is written in C++, but has C-\/compatible interface. Thus you can include and use \doxylink{vk__mem__alloc_8h}{vk\+\_\+mem\+\_\+alloc.\+h} in C or C++ code, but full implementation with {\ttfamily VMA\+\_\+\+IMPLEMENTATION} macro must be compiled as C++, NOT as C. Some features of C++14 used. STL containers, RTTI, or C++ exceptions are not used.\hypertarget{quick_start_quick_start_initialization}{}\doxysubsection{\texorpdfstring{Initialization}{Initialization}}\label{quick_start_quick_start_initialization}
+At program startup\+:
+
+
+\begin{DoxyEnumerate}
+\item Initialize Vulkan to have {\ttfamily Vk\+Physical\+Device}, {\ttfamily Vk\+Device} and {\ttfamily Vk\+Instance} object.
+\item Fill \doxylink{struct_vma_allocator_create_info}{Vma\+Allocator\+Create\+Info} structure and create \doxylink{struct_vma_allocator}{Vma\+Allocator} object by calling \doxylink{group__group__init_gaf77c946fbecfcc54d02c3d1c1e7e23e7}{vma\+Create\+Allocator()}.
+\end{DoxyEnumerate}
+
+Only members {\ttfamily physical\+Device}, {\ttfamily device}, {\ttfamily instance} are required. However, you should inform the library which Vulkan version do you use by setting \doxylink{struct_vma_allocator_create_info_ae0ffc55139b54520a6bb704b29ffc285}{Vma\+Allocator\+Create\+Info\+::vulkan\+Api\+Version} and which extensions did you enable by setting \doxylink{struct_vma_allocator_create_info_a392ea2ecbaff93f91a7c49f735ad4346}{Vma\+Allocator\+Create\+Info\+::flags} (like \doxylink{group__group__init_gga4f87c9100d154a65a4ad495f7763cf7ca5f1b28b0414319d1687e1f2b30ab0089}{VMA\+\_\+\+ALLOCATOR\+\_\+\+CREATE\+\_\+\+BUFFER\+\_\+\+DEVICE\+\_\+\+ADDRESS\+\_\+\+BIT} for VK\+\_\+\+KHR\+\_\+buffer\+\_\+device\+\_\+address). Otherwise, VMA would use only features of Vulkan 1.\+0 core with no extensions.
+
+You may need to configure importing Vulkan functions. There are 3 ways to do this\+:
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{If you link with Vulkan static library}} (e.\+g. "{}vulkan-\/1.\+lib"{} on Windows)\+:
+\begin{DoxyItemize}
+\item You don\textquotesingle{}t need to do anything.
+\item VMA will use these, as macro {\ttfamily VMA\+\_\+\+STATIC\+\_\+\+VULKAN\+\_\+\+FUNCTIONS} is defined to 1 by default.
+\end{DoxyItemize}
+\item {\bfseries{If you want VMA to fetch pointers to Vulkan functions dynamically}} using {\ttfamily vk\+Get\+Instance\+Proc\+Addr}, {\ttfamily vk\+Get\+Device\+Proc\+Addr} (this is the option presented in the example below)\+:
+\begin{DoxyItemize}
+\item Define {\ttfamily VMA\+\_\+\+STATIC\+\_\+\+VULKAN\+\_\+\+FUNCTIONS} to 0, {\ttfamily VMA\+\_\+\+DYNAMIC\+\_\+\+VULKAN\+\_\+\+FUNCTIONS} to 1.
+\item Provide pointers to these two functions via \doxylink{struct_vma_vulkan_functions_a2ee50e592de96365bd2a56885d04a20e}{Vma\+Vulkan\+Functions\+::vk\+Get\+Instance\+Proc\+Addr}, \doxylink{struct_vma_vulkan_functions_a5619d8409f652f337efd902a9f5470df}{Vma\+Vulkan\+Functions\+::vk\+Get\+Device\+Proc\+Addr}.
+\item The library will fetch pointers to all other functions it needs internally.
+\end{DoxyItemize}
+\item {\bfseries{If you fetch pointers to all Vulkan functions in a custom way}}, e.\+g. using some loader like \href{https://github.com/zeux/volk}{\texttt{ Volk}}\+:
+\begin{DoxyItemize}
+\item Define {\ttfamily VMA\+\_\+\+STATIC\+\_\+\+VULKAN\+\_\+\+FUNCTIONS} and {\ttfamily VMA\+\_\+\+DYNAMIC\+\_\+\+VULKAN\+\_\+\+FUNCTIONS} to 0.
+\item Pass these pointers via structure \doxylink{struct_vma_vulkan_functions}{Vma\+Vulkan\+Functions}.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_vulkan_functions}{VmaVulkanFunctions}}\ vulkanFunctions\ =\ \{\};}
+\DoxyCodeLine{vulkanFunctions.\mbox{\hyperlink{struct_vma_vulkan_functions_a2ee50e592de96365bd2a56885d04a20e}{vkGetInstanceProcAddr}}\ =\ \&\mbox{\hyperlink{vulkan_8h_ae698fe946e5b75ed4a173e95133cf4f3}{vkGetInstanceProcAddr}};}
+\DoxyCodeLine{vulkanFunctions.\mbox{\hyperlink{struct_vma_vulkan_functions_a5619d8409f652f337efd902a9f5470df}{vkGetDeviceProcAddr}}\ =\ \&\mbox{\hyperlink{vulkan_8h_ae822c84a3136a5e5602164e850342872}{vkGetDeviceProcAddr}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocator_create_info}{VmaAllocatorCreateInfo}}\ allocatorCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocatorCreateInfo.\mbox{\hyperlink{struct_vma_allocator_create_info_ae0ffc55139b54520a6bb704b29ffc285}{vulkanApiVersion}}\ =\ VK\_API\_VERSION\_1\_2;}
+\DoxyCodeLine{allocatorCreateInfo.\mbox{\hyperlink{struct_vma_allocator_create_info_ad09ce637aa92cb7c8c2a742943668087}{physicalDevice}}\ =\ physicalDevice;}
+\DoxyCodeLine{allocatorCreateInfo.\mbox{\hyperlink{struct_vma_allocator_create_info_ac35aa355d3bfcbf6bb2eb88ccf68125c}{device}}\ =\ device;}
+\DoxyCodeLine{allocatorCreateInfo.\mbox{\hyperlink{struct_vma_allocator_create_info_aa2d4e3d86e6828834a56cf9f9406149a}{instance}}\ =\ instance;}
+\DoxyCodeLine{allocatorCreateInfo.\mbox{\hyperlink{struct_vma_allocator_create_info_a5e45da0879451e58bee2f3a975f228f5}{pVulkanFunctions}}\ =\ \&vulkanFunctions;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocator}{VmaAllocator}}\ allocator;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__init_gaf77c946fbecfcc54d02c3d1c1e7e23e7}{vmaCreateAllocator}}(\&allocatorCreateInfo,\ \&allocator);}
+
+\end{DoxyCode}
+\hypertarget{quick_start_quick_start_resource_allocation}{}\doxysubsection{\texorpdfstring{Resource allocation}{Resource allocation}}\label{quick_start_quick_start_resource_allocation}
+When you want to create a buffer or image\+:
+
+
+\begin{DoxyEnumerate}
+\item Fill {\ttfamily \doxylink{struct_vk_buffer_create_info}{Vk\+Buffer\+Create\+Info}} / {\ttfamily \doxylink{struct_vk_image_create_info}{Vk\+Image\+Create\+Info}} structure.
+\item Fill \doxylink{struct_vma_allocation_create_info}{Vma\+Allocation\+Create\+Info} structure.
+\item Call \doxylink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vma\+Create\+Buffer()} / \doxylink{group__group__alloc_gaa76142ae43535c862ad9e194a6e38aaa}{vma\+Create\+Image()} to get {\ttfamily Vk\+Buffer}/{\ttfamily Vk\+Image} with memory already allocated and bound to it, plus \doxylink{struct_vma_allocation}{Vma\+Allocation} objects that represents its underlying memory.
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ bufferInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{bufferInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ 65536;}
+\DoxyCodeLine{bufferInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a8fba003bef49b81686c75a52ba099505}{VK\_BUFFER\_USAGE\_VERTEX\_BUFFER\_BIT}}\ |\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a2671050fa41ffb988c79ac40e67fa25d}{VK\_BUFFER\_USAGE\_TRANSFER\_DST\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocInfo\ =\ \{\};}
+\DoxyCodeLine{allocInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkBuffer\ buffer;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ allocation;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&bufferInfo,\ \&allocInfo,\ \&buffer,\ \&allocation,\ \textcolor{keyword}{nullptr});}
+
+\end{DoxyCode}
+
+
+Don\textquotesingle{}t forget to destroy your objects when no longer needed\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gafcc45e5a6388ab35daa9a46688baee20}{vmaDestroyBuffer}}(allocator,\ buffer,\ allocation);}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__init_ga0383c8c957625914e9b89bd165ff13f3}{vmaDestroyAllocator}}(allocator);}
+
+\end{DoxyCode}
+ 

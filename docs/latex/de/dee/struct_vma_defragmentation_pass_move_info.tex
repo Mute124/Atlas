@@ -1,0 +1,89 @@
+\doxysection{Vma\+Defragmentation\+Pass\+Move\+Info Struct Reference}
+\hypertarget{struct_vma_defragmentation_pass_move_info}{}\label{struct_vma_defragmentation_pass_move_info}\index{VmaDefragmentationPassMoveInfo@{VmaDefragmentationPassMoveInfo}}
+
+
+Parameters for incremental defragmentation steps.  
+
+
+
+
+{\ttfamily \#include $<$vk\+\_\+mem\+\_\+alloc.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_vma_defragmentation_move}{Vma\+Defragmentation\+Move}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a3ff043960766509fbba947bc2c68bdb6}{VMA\+\_\+\+NULLABLE}} \mbox{\hyperlink{struct_vma_defragmentation_pass_move_info_a761d239e4d75f197dc301c33be31d140}{VMA\+\_\+\+LEN\+\_\+\+IF\+\_\+\+NOT\+\_\+\+NULL}} (\mbox{\hyperlink{struct_vma_defragmentation_pass_move_info_a1b3e18c23f9691f35baf183e615c4408}{move\+Count}}) p\+Moves
+\begin{DoxyCompactList}\small\item\em Array of moves to be performed by the user in the current defragmentation pass. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_vma_defragmentation_pass_move_info_a1b3e18c23f9691f35baf183e615c4408}{move\+Count}}
+\begin{DoxyCompactList}\small\item\em Number of elements in the {\ttfamily p\+Moves} array. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Parameters for incremental defragmentation steps. 
+
+To be used with function \doxylink{group__group__alloc_gacbe4a77fdfa7ea29328d2f940d423ab7}{vma\+Begin\+Defragmentation\+Pass()}. 
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01440}{1440}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_vma_defragmentation_pass_move_info_a761d239e4d75f197dc301c33be31d140}\label{struct_vma_defragmentation_pass_move_info_a761d239e4d75f197dc301c33be31d140} 
+\index{VmaDefragmentationPassMoveInfo@{VmaDefragmentationPassMoveInfo}!VMA\_LEN\_IF\_NOT\_NULL@{VMA\_LEN\_IF\_NOT\_NULL}}
+\index{VMA\_LEN\_IF\_NOT\_NULL@{VMA\_LEN\_IF\_NOT\_NULL}!VmaDefragmentationPassMoveInfo@{VmaDefragmentationPassMoveInfo}}
+\doxysubsubsection{\texorpdfstring{VMA\_LEN\_IF\_NOT\_NULL()}{VMA\_LEN\_IF\_NOT\_NULL()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_vma_defragmentation_move}{Vma\+Defragmentation\+Move}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a3ff043960766509fbba947bc2c68bdb6}{VMA\+\_\+\+NULLABLE}} Vma\+Defragmentation\+Pass\+Move\+Info\+::\+VMA\+\_\+\+LEN\+\_\+\+IF\+\_\+\+NOT\+\_\+\+NULL (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_defragmentation_pass_move_info_a1b3e18c23f9691f35baf183e615c4408}{move\+Count}}}]{ }\end{DoxyParamCaption})}
+
+
+
+Array of moves to be performed by the user in the current defragmentation pass. 
+
+Pointer to an array of {\ttfamily move\+Count} elements, owned by VMA, created in \doxylink{group__group__alloc_gacbe4a77fdfa7ea29328d2f940d423ab7}{vma\+Begin\+Defragmentation\+Pass()}, destroyed in \doxylink{group__group__alloc_gabbc69db60f82972ddffaceb6653e344a}{vma\+End\+Defragmentation\+Pass()}.
+
+For each element, you should\+:
+
+
+\begin{DoxyEnumerate}
+\item Create a new buffer/image in the place pointed by Vma\+Defragmentation\+Move\+::dst\+Memory + Vma\+Defragmentation\+Move\+::dst\+Offset.
+\item Copy data from the \doxylink{struct_vma_defragmentation_move_a51c1ff05d7c1290499c4af2ffe238df5}{Vma\+Defragmentation\+Move\+::src\+Allocation} e.\+g. using {\ttfamily vk\+Cmd\+Copy\+Buffer}, {\ttfamily vk\+Cmd\+Copy\+Image}.
+\item Make sure these commands finished executing on the GPU.
+\item Destroy the old buffer/image.
+\end{DoxyEnumerate}
+
+Only then you can finish defragmentation pass by calling \doxylink{group__group__alloc_gabbc69db60f82972ddffaceb6653e344a}{vma\+End\+Defragmentation\+Pass()}. After this call, the allocation will point to the new place in memory.
+
+Alternatively, if you cannot move specific allocation, you can set \doxylink{struct_vma_defragmentation_move_a20996a4686c9246dff77b375ac4a91e2}{Vma\+Defragmentation\+Move\+::operation} to \doxylink{group__group__alloc_ggada9e3861caf96f08894b0bcc160ec257ad25bc6f816b226b4fd5170e845f218d2}{VMA\+\_\+\+DEFRAGMENTATION\+\_\+\+MOVE\+\_\+\+OPERATION\+\_\+\+IGNORE}.
+
+Alternatively, if you decide you want to completely remove the allocation\+:
+
+
+\begin{DoxyEnumerate}
+\item Destroy its buffer/image.
+\item Set \doxylink{struct_vma_defragmentation_move_a20996a4686c9246dff77b375ac4a91e2}{Vma\+Defragmentation\+Move\+::operation} to \doxylink{group__group__alloc_ggada9e3861caf96f08894b0bcc160ec257a9786f8492a9be2c03bd26395e352ab85}{VMA\+\_\+\+DEFRAGMENTATION\+\_\+\+MOVE\+\_\+\+OPERATION\+\_\+\+DESTROY}.
+\end{DoxyEnumerate}
+
+Then, after \doxylink{group__group__alloc_gabbc69db60f82972ddffaceb6653e344a}{vma\+End\+Defragmentation\+Pass()} the allocation will be freed. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_vma_defragmentation_pass_move_info_a1b3e18c23f9691f35baf183e615c4408}\label{struct_vma_defragmentation_pass_move_info_a1b3e18c23f9691f35baf183e615c4408} 
+\index{VmaDefragmentationPassMoveInfo@{VmaDefragmentationPassMoveInfo}!moveCount@{moveCount}}
+\index{moveCount@{moveCount}!VmaDefragmentationPassMoveInfo@{VmaDefragmentationPassMoveInfo}}
+\doxysubsubsection{\texorpdfstring{moveCount}{moveCount}}
+{\footnotesize\ttfamily uint32\+\_\+t Vma\+Defragmentation\+Pass\+Move\+Info\+::move\+Count}
+
+
+
+Number of elements in the {\ttfamily p\+Moves} array. 
+
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01443}{1443}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/backends/\+Rml\+Ui\+\_\+\+Vulkan/\mbox{\hyperlink{vk__mem__alloc_8h}{vk\+\_\+mem\+\_\+alloc.\+h}}\end{DoxyCompactItemize}

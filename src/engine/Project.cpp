@@ -1,11 +1,42 @@
 #include "Project.h"
-using namespace Techstorm;
+#include "physics/Physics.h"
 
-WindowDecorations& Techstorm::IProject::getWindowDecorations() { return mWindowDecorations; }
+using namespace Atlas;
 
-void Techstorm::IProject::setWindowDecorations(WindowDecorations& windowDecorations) { mWindowDecorations = windowDecorations; }
+WindowDecorations& Atlas::IProject::getWindowDecorations() { return mWindowDecorations; }
 
-void Techstorm::IProject::init(int argc, char* argv[]) {
+void Atlas::IProject::setWindowDecorations(WindowDecorations& windowDecorations) { mWindowDecorations = windowDecorations; }
+
+
+/// <summary>
+/// This is the first function that will be called on startup. 
+/// </summary>
+/// <inheritdoc />
+
+inline void Atlas::IProject::preInit() {
+	Logger::Instance().init(LoggerConfig());
+	//std::cout << "IProject::preInit" << std::endl;
+	Log("Test");
+	AddFileRegistryLoadFunction("png", [](std::shared_ptr<FileMeta> loadFunc) {
+		return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
+		});
+
+	AddFileRegistryLoadFunction("jpg", [](std::shared_ptr<FileMeta> loadFunc) {
+		return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
+		});
+
+	AddFileRegistryLoadFunction("jpeg", [](std::shared_ptr<FileMeta> loadFunc) {
+		return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
+		});
+
+	std::string gameDir = ATLAS_GAME_DIR;
+	InitializeFileRegistry(gameDir.c_str());
+
+	this->mLuaLibraries.push_back(sol::lib::base);
+
+}
+
+void Atlas::IProject::init(int argc, char* argv[]) {
 	std::cout << "Initializing Project" << std::endl;
 	mRenderer.initialize();
 	auto resources = AllocatedPhysicsResources();
@@ -13,46 +44,46 @@ void Techstorm::IProject::init(int argc, char* argv[]) {
 
 }
 
-void Techstorm::IProject::postInit() {}
+void Atlas::IProject::postInit() {}
 
-void Techstorm::IProject::initRenderer() {
+void Atlas::IProject::initRenderer() {
 }
 
-int Techstorm::IProject::run(int argc, char* argv[]) {
+int Atlas::IProject::run(int argc, char* argv[]) {
 	return 0;
 }
-int Techstorm::IProject::update()
+int Atlas::IProject::update()
 {
 	return 0;
 }
-int Techstorm::IProject::prePhysicsUpdate() { return 0; }
+int Atlas::IProject::prePhysicsUpdate() { return 0; }
 
-int Techstorm::IProject::physicsUpdate() {
+int Atlas::IProject::physicsUpdate() {
 	PhysicsEngine::Instance().update(1.0f / 60.0f);
 	return 0; 
 }
 
-int Techstorm::IProject::postPhysicsUpdate() { return 0; }
+int Atlas::IProject::postPhysicsUpdate() { return 0; }
 
-int Techstorm::IProject::preObjectUpdate() { return 0; }
+int Atlas::IProject::preObjectUpdate() { return 0; }
 
-int Techstorm::IProject::objectUpdate() { return 0; }
+int Atlas::IProject::objectUpdate() { return 0; }
 
-int Techstorm::IProject::postObjectUpdate() { return 0; }
+int Atlas::IProject::postObjectUpdate() { return 0; }
 
-int Techstorm::IProject::texture() { 
+int Atlas::IProject::texture() { 
 	mRenderer.texture(mRenderer.mCamera);
 	return 0; 
 }
 
-int Techstorm::IProject::render() { 
+int Atlas::IProject::render() { 
 	mRenderer.render(mRenderer.mCamera);
 	return 0;
 }
 
-int Techstorm::IProject::cleanup(int exitCode) { return exitCode; }
+int Atlas::IProject::cleanup(int exitCode) { return exitCode; }
 
-IProject* Techstorm::IProject::GetProject() {
+IProject* Atlas::IProject::GetProject() {
 	return ProjectReference::Instance().project;
 }
 
@@ -60,7 +91,7 @@ IProject* Techstorm::IProject::GetProject() {
 /// Sets the project reference.
 /// </summary>
 /// <param name="project">The project.</param>
-inline void Techstorm::IProject::ProjectReference::setProjectReference(IProject* project) {
+inline void Atlas::IProject::ProjectReference::setProjectReference(IProject* project) {
 	if (project != nullptr) {
 		this->project = project;
 	}

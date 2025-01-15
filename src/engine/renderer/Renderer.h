@@ -1,41 +1,35 @@
 #pragma once
 #include <vector>
 #include <memory>
+
 #include "../utils/Singleton.h"
 
-#include "GameObjectRegistry.h"
+#include "../objects/GameObjectRegistry.h"
 #include "GameCamera.h"
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 =======
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 
 
+=======
+>>>>>>> main
 #include <raylib.h>
 
-namespace Techstorm {
+namespace Atlas {
 	class GameObject;
-
-
 
 	/// <summary>
 	/// Serves as the renderer for the game.
 	/// </summary>
 	class Renderer {
 	public:
-#ifndef TS_CUSTOM_RENDERER_CONSTRUCTOR
+#ifndef ATLAS_CUSTOM_RENDERER_CONSTRUCTOR
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Renderer"/> class.
 		/// </summary>
-		Renderer() {
-			//initialize();
-			mCamera = GameCamera();
-			mCamera.setPosition(Vector3{ 0.0f, 10.0f, 4.0f });
-			mCamera.setTarget(Vector3{ 0.0f, 2.0f, 0.0f });
-			mCamera.setUp(Vector3{ 0.0f, 1.0f, 0.0f });
-			mCamera.setFovy(60.0f);
-			mCamera.setProjection(CAMERA_PERSPECTIVE);
-		}
+		Renderer();
 #endif
 		/// <summary>
 		/// Initializes this instance.
@@ -61,17 +55,20 @@ namespace Techstorm {
 		/// </summary>
 		void drawFBO();
 
+		void addStandaloneDrawCall(std::function<void()> drawCall);
+
+
 		/// <summary>
 		/// Adds the game object.
 		/// </summary>
 		/// <param name="gameObject">The game object pointer to add.</param>
-		void addGameObject(GameObject* gameObject);
+		void addGameObject(IGameObject* gameObject);
 
 		/// <summary>
 		/// Removes a game object.
 		/// </summary>
 		/// <param name="gameObject">The game object pointer to remove.</param>
-		void removeGameObject(GameObject* gameObject);
+		void removeGameObject(IGameObject* gameObject);
 
 		/// <summary>
 		/// Adds a game object gate.
@@ -91,6 +88,7 @@ namespace Techstorm {
 		/// Cleanups this instance.
 		/// </summary>
 		void cleanup();
+
 		GameCamera mCamera;
 	private:
 		GameObjectRegistry mGameObjects;
@@ -99,6 +97,7 @@ namespace Techstorm {
 		Color mFBOTint = WHITE;
 <<<<<<< HEAD
 		
+<<<<<<< HEAD
 		
 =======
 		GameCamera mCamera;
@@ -106,6 +105,9 @@ namespace Techstorm {
 
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 #ifdef TS_RENDERER_2D
+=======
+#ifdef ATLAS_RENDERER_2D
+>>>>>>> main
 		/// <summary>
 		/// Renders the 2d scene.
 		/// </summary>

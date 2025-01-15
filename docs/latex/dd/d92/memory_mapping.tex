@@ -1,0 +1,71 @@
+\doxysection{Memory mapping}
+\hypertarget{memory_mapping}{}\label{memory_mapping}\index{Memory mapping@{Memory mapping}}
+To "{}map memory"{} in Vulkan means to obtain a CPU pointer to {\ttfamily Vk\+Device\+Memory}, to be able to read from it or write to it in CPU code. Mapping is possible only of memory allocated from a memory type that has {\ttfamily VK\+\_\+\+MEMORY\+\_\+\+PROPERTY\+\_\+\+HOST\+\_\+\+VISIBLE\+\_\+\+BIT} flag. Functions {\ttfamily \doxylink{vulkan_8h_a5efbb24c826e19639a9bb7630ee8ed2b}{vk\+Map\+Memory()}}, {\ttfamily \doxylink{vulkan_8h_a6fcb5a559e6bdb68831c6949722bef6d}{vk\+Unmap\+Memory()}} are designed for this purpose. You can use them directly with memory allocated by this library, but it is not recommended because of following issue\+: Mapping the same {\ttfamily Vk\+Device\+Memory} block multiple times is illegal -\/ only one mapping at a time is allowed. This includes mapping disjoint regions. Mapping is not reference-\/counted internally by Vulkan. Because of this, Vulkan Memory Allocator provides following facilities\+:
+
+\begin{DoxyNote}{Note}
+If you want to be able to map an allocation, you need to specify one of the flags \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+SEQUENTIAL\+\_\+\+WRITE\+\_\+\+BIT} or \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597add61238d98e20917b9a06c617763f492}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+RANDOM\+\_\+\+BIT} in \doxylink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{Vma\+Allocation\+Create\+Info\+::flags}. These flags are required for an allocation to be mappable when using \doxylink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO} or other {\ttfamily VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO\texorpdfstring{$\ast$}{*}} enum values. For other usage values they are ignored and every such allocation made in {\ttfamily HOST\+\_\+\+VISIBLE} memory type is mappable, but they can still be used for consistency.
+\end{DoxyNote}
+\hypertarget{memory_mapping_memory_mapping_mapping_functions}{}\doxysubsection{\texorpdfstring{Mapping functions}{Mapping functions}}\label{memory_mapping_memory_mapping_mapping_functions}
+The library provides following functions for mapping of a specific \doxylink{struct_vma_allocation}{Vma\+Allocation}\+: \doxylink{group__group__alloc_ga13b93ec0ed38ad7232300cb94931c8d2}{vma\+Map\+Memory()}, \doxylink{group__group__alloc_gaec4645c1787976e2b50d2dfd31279a2b}{vma\+Unmap\+Memory()}. They are safer and more convenient to use than standard Vulkan functions. You can map an allocation multiple times simultaneously -\/ mapping is reference-\/counted internally. You can also map different allocations simultaneously regardless of whether they use the same {\ttfamily Vk\+Device\+Memory} block. The way it is implemented is that the library always maps entire memory block, not just region of the allocation. For further details, see description of \doxylink{group__group__alloc_ga13b93ec0ed38ad7232300cb94931c8d2}{vma\+Map\+Memory()} function. Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ Having\ these\ objects\ initialized:}}
+\DoxyCodeLine{\textcolor{keyword}{struct\ }ConstantBuffer}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ ...}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{ConstantBuffer\ constantBufferData\ =\ ...}
+\DoxyCodeLine{}
+\DoxyCodeLine{VmaAllocator\ allocator\ =\ ...}
+\DoxyCodeLine{VkBuffer\ constantBuffer\ =\ ...}
+\DoxyCodeLine{VmaAllocation\ constantBufferAllocation\ =\ ...}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ You\ can\ map\ and\ fill\ your\ buffer\ using\ following\ code:}}
+\DoxyCodeLine{}
+\DoxyCodeLine{void*\ mappedData;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_ga13b93ec0ed38ad7232300cb94931c8d2}{vmaMapMemory}}(allocator,\ constantBufferAllocation,\ \&mappedData);}
+\DoxyCodeLine{memcpy(mappedData,\ \&constantBufferData,\ \textcolor{keyword}{sizeof}(constantBufferData));}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gaec4645c1787976e2b50d2dfd31279a2b}{vmaUnmapMemory}}(allocator,\ constantBufferAllocation);}
+
+\end{DoxyCode}
+
+
+When mapping, you may see a warning from Vulkan validation layer similar to this one\+:
+
+{\itshape Mapping an image with layout VK\+\_\+\+IMAGE\+\_\+\+LAYOUT\+\_\+\+DEPTH\+\_\+\+STENCIL\+\_\+\+ATTACHMENT\+\_\+\+OPTIMAL can result in undefined behavior if this memory is used by the device. Only GENERAL or PREINITIALIZED should be used.}
+
+It happens because the library maps entire {\ttfamily Vk\+Device\+Memory} block, where different types of images and buffers may end up together, especially on GPUs with unified memory like Intel. You can safely ignore it if you are sure you access only memory of the intended object that you wanted to map.\hypertarget{memory_mapping_memory_mapping_persistently_mapped_memory}{}\doxysubsection{\texorpdfstring{Persistently mapped memory}{Persistently mapped memory}}\label{memory_mapping_memory_mapping_persistently_mapped_memory}
+Kepping your memory persistently mapped is generally OK in Vulkan. You don\textquotesingle{}t need to unmap it before using its data on the GPU. The library provides a special feature designed for that\+: Allocations made with \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+MAPPED\+\_\+\+BIT} flag set in \doxylink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{Vma\+Allocation\+Create\+Info\+::flags} stay mapped all the time, so you can just access CPU pointer to it any time without a need to call any "{}map"{} or "{}unmap"{} function. Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ bufCreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{bufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ \textcolor{keyword}{sizeof}(ConstantBuffer);}
+\DoxyCodeLine{bufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a99f8f265d9d6dccbaa85d63807471909}{VK\_BUFFER\_USAGE\_TRANSFER\_SRC\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{flags}}\ =\ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\_ALLOCATION\_CREATE\_HOST\_ACCESS\_SEQUENTIAL\_WRITE\_BIT}}\ |}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\_ALLOCATION\_CREATE\_MAPPED\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkBuffer\ buf;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ alloc;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_info}{VmaAllocationInfo}}\ allocInfo;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&bufCreateInfo,\ \&allocCreateInfo,\ \&buf,\ \&alloc,\ \&allocInfo);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Buffer\ is\ already\ mapped.\ You\ can\ access\ its\ memory.}}
+\DoxyCodeLine{memcpy(allocInfo.\mbox{\hyperlink{struct_vma_allocation_info_a17a39eb34201a610347acb91b38eca79}{pMappedData}},\ \&constantBufferData,\ \textcolor{keyword}{sizeof}(constantBufferData));}
+
+\end{DoxyCode}
+
+
+\begin{DoxyNote}{Note}
+\doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+MAPPED\+\_\+\+BIT} by itself doesn\textquotesingle{}t guarantee that the allocation will end up in a mappable memory type. For this, you need to also specify \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+SEQUENTIAL\+\_\+\+WRITE\+\_\+\+BIT} or \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597add61238d98e20917b9a06c617763f492}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+RANDOM\+\_\+\+BIT}. \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+MAPPED\+\_\+\+BIT} only guarantees that if the memory is {\ttfamily HOST\+\_\+\+VISIBLE}, the allocation will be mapped on creation. For an example of how to make use of this fact, see section \doxysectlink{usage_patterns_usage_patterns_advanced_data_uploading}{Advanced data uploading}{1}.
+\end{DoxyNote}
+\hypertarget{memory_mapping_memory_mapping_cache_control}{}\doxysubsection{\texorpdfstring{Cache flush and invalidate}{Cache flush and invalidate}}\label{memory_mapping_memory_mapping_cache_control}
+Memory in Vulkan doesn\textquotesingle{}t need to be unmapped before using it on GPU, but unless a memory types has {\ttfamily VK\+\_\+\+MEMORY\+\_\+\+PROPERTY\+\_\+\+HOST\+\_\+\+COHERENT\+\_\+\+BIT} flag set, you need to manually {\bfseries{invalidate}} cache before reading of mapped pointer and {\bfseries{flush}} cache after writing to mapped pointer. Map/unmap operations don\textquotesingle{}t do that automatically. Vulkan provides following functions for this purpose {\ttfamily \doxylink{vulkan_8h_a0545abcf8df648dd0b476c06c158f695}{vk\+Flush\+Mapped\+Memory\+Ranges()}}, {\ttfamily \doxylink{vulkan_8h_acaffc9e7a1a562fd5ded58f7dd766a5d}{vk\+Invalidate\+Mapped\+Memory\+Ranges()}}, but this library provides more convenient functions that refer to given allocation object\+: \doxylink{group__group__alloc_gab8093faf3afb114596d964d4bd24cb4a}{vma\+Flush\+Allocation()}, \doxylink{group__group__alloc_ga1059764930e85ac377a92b5237b5b919}{vma\+Invalidate\+Allocation()}, or multiple objects at once\+: \doxylink{group__group__alloc_ga09b0a57c5c45949a324ac7c0a4ec42d5}{vma\+Flush\+Allocations()}, \doxylink{group__group__alloc_ga693a1ae5faed72fac89f12685e1d366f}{vma\+Invalidate\+Allocations()}.
+
+Regions of memory specified for flush/invalidate must be aligned to {\ttfamily \doxylink{struct_vk_physical_device_limits_a6d2214c1f9529c2c33b7f590ef897204}{Vk\+Physical\+Device\+Limits\+::non\+Coherent\+Atom\+Size}}. This is automatically ensured by the library. In any memory type that is {\ttfamily HOST\+\_\+\+VISIBLE} but not {\ttfamily HOST\+\_\+\+COHERENT}, all allocations within blocks are aligned to this value, so their offsets are always multiply of {\ttfamily non\+Coherent\+Atom\+Size} and two different allocations never share same "{}line"{} of this size.
+
+Also, Windows drivers from all 3 PC GPU vendors (AMD, Intel, NVIDIA) currently provide {\ttfamily HOST\+\_\+\+COHERENT} flag on all memory types that are {\ttfamily HOST\+\_\+\+VISIBLE}, so on PC you may not need to bother. 

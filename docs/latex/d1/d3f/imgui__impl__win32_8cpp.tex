@@ -1,0 +1,477 @@
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/bindings/imgui\+\_\+impl\+\_\+win32.cpp File Reference}
+\hypertarget{imgui__impl__win32_8cpp}{}\label{imgui__impl__win32_8cpp}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_win32.cpp@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_win32.cpp}}
+{\ttfamily \#include "{}imgui.\+h"{}}\newline
+{\ttfamily \#include "{}imgui\+\_\+impl\+\_\+win32.\+h"{}}\newline
+{\ttfamily \#include $<$windows.\+h$>$}\newline
+{\ttfamily \#include $<$windowsx.\+h$>$}\newline
+{\ttfamily \#include $<$tchar.\+h$>$}\newline
+{\ttfamily \#include $<$dwmapi.\+h$>$}\newline
+{\ttfamily \#include $<$xinput.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_im_gui___impl_win32___data}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_ac7bef5d85e3dcd73eef56ad39ffc84a9}{WIN32\+\_\+\+LEAN\+\_\+\+AND\+\_\+\+MEAN}}
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_abfc205127accf0adc131007017a20442}{IM\+\_\+\+SATURATE}}(V)~(V $<$ 0.\+0f ? 0.\+0f \+: V $>$ 1.\+0f ? 1.\+0f \+: V)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_a2836771b67b5a6453c60b139320d255c}{MAP\+\_\+\+BUTTON}}(KEY\+\_\+\+NO,  BUTTON\+\_\+\+ENUM)~\{ io.\+Add\+Key\+Event(KEY\+\_\+\+NO, (gamepad.\+w\+Buttons \& BUTTON\+\_\+\+ENUM) != 0); \}
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_ab9e788661f93cea16f50bdd44f7228f2}{MAP\+\_\+\+ANALOG}}(KEY\+\_\+\+NO,  VALUE,  V0,  V1)~\{ float vn = (float)(VALUE -\/ V0) / (float)(V1 -\/ V0); io.\+Add\+Key\+Analog\+Event(KEY\+\_\+\+NO, vn $>$ 0.\+10f, \mbox{\hyperlink{imgui__impl__osx_8mm_abfc205127accf0adc131007017a20442}{IM\+\_\+\+SATURATE}}(vn)); \}
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_a7b2918d422b3a1fe86a641f74818bb55}{WM\+\_\+\+MOUSEHWHEEL}}~0x020E
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_a454522b0cfb3a366cc14230e62be3e94}{DBT\+\_\+\+DEVNODES\+\_\+\+CHANGED}}~0x0007
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_a742997db6a6fe03581d2244ea085618e}{\+\_\+\+Is\+Windows\+Vista\+Or\+Greater}}()~\+\_\+\+Is\+Windows\+Version\+Or\+Greater(HIBYTE(0x0600), LOBYTE(0x0600), 0)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_ae8ca9bc7824bd084363ae25af2df8991}{\+\_\+\+Is\+Windows8\+Or\+Greater}}()~\+\_\+\+Is\+Windows\+Version\+Or\+Greater(HIBYTE(0x0602), LOBYTE(0x0602), 0)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_a7befc644ed0e43855853f48c1045e9d3}{\+\_\+\+Is\+Windows8\+Point1\+Or\+Greater}}()~\+\_\+\+Is\+Windows\+Version\+Or\+Greater(HIBYTE(0x0603), LOBYTE(0x0603), 0)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_a2b8cd4078bf40e54b53124033cf274a4}{\+\_\+\+Is\+Windows10\+Or\+Greater}}()~\+\_\+\+Is\+Windows\+Version\+Or\+Greater(HIBYTE(0x0\+A00), LOBYTE(0x0\+A00), 0)
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_a9272fbff584df35213a9076e900c24c1}{DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT\+\_\+\+PER\+\_\+\+MONITOR\+\_\+\+AWARE}}~(DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT)-\/3
+\item 
+\#define \mbox{\hyperlink{imgui__impl__win32_8cpp_ac007743843b15f477f33dc5c3dd0507a}{DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT\+\_\+\+PER\+\_\+\+MONITOR\+\_\+\+AWARE\+\_\+\+V2}}~(DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT)-\/4
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef DWORD(WINAPI \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{imgui__impl__win32_8cpp_ab894020cfaceec8e0a7e24a2b8cf003a}{PFN\+\_\+\+XInput\+Get\+Capabilities}}) (DWORD, DWORD, XINPUT\+\_\+\+CAPABILITIES \texorpdfstring{$\ast$}{*})
+\item 
+typedef DWORD(WINAPI \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{imgui__impl__win32_8cpp_a0554b333dae0845c369b9d7234c695e9}{PFN\+\_\+\+XInput\+Get\+State}}) (DWORD, XINPUT\+\_\+\+STATE \texorpdfstring{$\ast$}{*})
+\item 
+typedef HRESULT(WINAPI \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{imgui__impl__win32_8cpp_a36d30a5f5f7942a50b272fa13058cf96}{PFN\+\_\+\+Set\+Process\+Dpi\+Awareness}}) (\mbox{\hyperlink{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0}{PROCESS\+\_\+\+DPI\+\_\+\+AWARENESS}})
+\item 
+typedef HRESULT(WINAPI \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{imgui__impl__win32_8cpp_a411247e61a6621babce2d06bb8a434db}{PFN\+\_\+\+Get\+Dpi\+For\+Monitor}}) (HMONITOR, \mbox{\hyperlink{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcf}{MONITOR\+\_\+\+DPI\+\_\+\+TYPE}}, UINT \texorpdfstring{$\ast$}{*}, UINT \texorpdfstring{$\ast$}{*})
+\item 
+typedef DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT(WINAPI \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{imgui__impl__win32_8cpp_ac4fd09e8ec8568aa443549a1286800b1}{PFN\+\_\+\+Set\+Thread\+Dpi\+Awareness\+Context}}) (DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0}{PROCESS\+\_\+\+DPI\+\_\+\+AWARENESS}} \{ \mbox{\hyperlink{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0ab42f9fa8bef80716253ff5732f98d019}{PROCESS\+\_\+\+DPI\+\_\+\+UNAWARE}} = 0
+, \mbox{\hyperlink{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0a2690b1d0f73cd71a24c38dbccc99be8b}{PROCESS\+\_\+\+SYSTEM\+\_\+\+DPI\+\_\+\+AWARE}} = 1
+, \mbox{\hyperlink{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0aad0077e9938715939b18fc533eeae097}{PROCESS\+\_\+\+PER\+\_\+\+MONITOR\+\_\+\+DPI\+\_\+\+AWARE}} = 2
+ \}
+\item 
+enum \mbox{\hyperlink{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcf}{MONITOR\+\_\+\+DPI\+\_\+\+TYPE}} \{ \mbox{\hyperlink{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfa75d3ba3b96559377e5cac23d6e380162}{MDT\+\_\+\+EFFECTIVE\+\_\+\+DPI}} = 0
+, \mbox{\hyperlink{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfa7c555ba8472b1bcc44a2b8b7da7bc1c3}{MDT\+\_\+\+ANGULAR\+\_\+\+DPI}} = 1
+, \mbox{\hyperlink{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfa3a8c01568cf5b17569b53587783e9851}{MDT\+\_\+\+RAW\+\_\+\+DPI}} = 2
+, \mbox{\hyperlink{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfacf96ef9f03d6fbbef385b67cfbe2578f}{MDT\+\_\+\+DEFAULT}} = MDT\+\_\+\+EFFECTIVE\+\_\+\+DPI
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+IMGUI\+\_\+\+IMPL\+\_\+\+API bool \mbox{\hyperlink{imgui__impl__win32_8cpp_a9f752412a1f6dfdf6fc00dbbd90a8428}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Init}} (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}hwnd)
+\item 
+IMGUI\+\_\+\+IMPL\+\_\+\+API bool \mbox{\hyperlink{imgui__impl__win32_8cpp_a62c65c5f453046a14119bc62234ac5b7}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Init\+For\+Open\+GL}} (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}hwnd)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__win32_8cpp_a4eddd1969cc460312197f2df3dbc992a}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Shutdown}} ()
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__win32_8cpp_ade4f55b90fdbd75a562d894d33f1909e}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+New\+Frame}} ()
+\item 
+Im\+Gui\+Key \mbox{\hyperlink{imgui__impl__win32_8cpp_a2942d25da60c96f3681b4ca43de6b426}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Key\+Event\+To\+Im\+Gui\+Key}} (WPARAM w\+Param, LPARAM l\+Param)
+\item 
+IMGUI\+\_\+\+IMPL\+\_\+\+API LRESULT \mbox{\hyperlink{imgui__impl__win32_8cpp_a87a3f9652a75339308cf5fd5699ef1fd}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Wnd\+Proc\+Handler}} (HWND h\+Wnd, UINT msg, WPARAM w\+Param, LPARAM l\+Param)
+\item 
+IMGUI\+\_\+\+IMPL\+\_\+\+API LRESULT \mbox{\hyperlink{imgui__impl__win32_8cpp_a7038e1f34a0be8f5b6023a08973f4431}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Wnd\+Proc\+Handler\+Ex}} (HWND h\+Wnd, UINT msg, WPARAM w\+Param, LPARAM l\+Param, Im\+Gui\+IO \&io)
+\item 
+\mbox{\hyperlink{imgui__impl__win32_8cpp_a3d68bc19ea52dbb5682b42f9a3316189}{DECLARE\+\_\+\+HANDLE}} (DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__win32_8cpp_afda525ac1c8a2b4e357f19488f661014}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Enable\+Dpi\+Awareness}} ()
+\item 
+float \mbox{\hyperlink{imgui__impl__win32_8cpp_a765356269dc7e4f7f521d5f9c9bc42a5}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Get\+Dpi\+Scale\+For\+Monitor}} (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}monitor)
+\item 
+float \mbox{\hyperlink{imgui__impl__win32_8cpp_a63408fa92e0f85dcf74b27ba6b81f7f4}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Get\+Dpi\+Scale\+For\+Hwnd}} (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}hwnd)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__win32_8cpp_a726a328080634cc7b808de6b7e1cec9e}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Enable\+Alpha\+Compositing}} (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}hwnd)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{imgui__impl__win32_8cpp_a2b8cd4078bf40e54b53124033cf274a4}\label{imgui__impl__win32_8cpp_a2b8cd4078bf40e54b53124033cf274a4} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!\_IsWindows10OrGreater@{\_IsWindows10OrGreater}}
+\index{\_IsWindows10OrGreater@{\_IsWindows10OrGreater}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{\_IsWindows10OrGreater}{\_IsWindows10OrGreater}}
+{\footnotesize\ttfamily \#define \+\_\+\+Is\+Windows10\+Or\+Greater(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\+\_\+\+Is\+Windows\+Version\+Or\+Greater(HIBYTE(0x0\+A00), LOBYTE(0x0\+A00), 0)}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00812}{812}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_ae8ca9bc7824bd084363ae25af2df8991}\label{imgui__impl__win32_8cpp_ae8ca9bc7824bd084363ae25af2df8991} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!\_IsWindows8OrGreater@{\_IsWindows8OrGreater}}
+\index{\_IsWindows8OrGreater@{\_IsWindows8OrGreater}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{\_IsWindows8OrGreater}{\_IsWindows8OrGreater}}
+{\footnotesize\ttfamily \#define \+\_\+\+Is\+Windows8\+Or\+Greater(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\+\_\+\+Is\+Windows\+Version\+Or\+Greater(HIBYTE(0x0602), LOBYTE(0x0602), 0)}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00810}{810}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a7befc644ed0e43855853f48c1045e9d3}\label{imgui__impl__win32_8cpp_a7befc644ed0e43855853f48c1045e9d3} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!\_IsWindows8Point1OrGreater@{\_IsWindows8Point1OrGreater}}
+\index{\_IsWindows8Point1OrGreater@{\_IsWindows8Point1OrGreater}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{\_IsWindows8Point1OrGreater}{\_IsWindows8Point1OrGreater}}
+{\footnotesize\ttfamily \#define \+\_\+\+Is\+Windows8\+Point1\+Or\+Greater(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\+\_\+\+Is\+Windows\+Version\+Or\+Greater(HIBYTE(0x0603), LOBYTE(0x0603), 0)}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00811}{811}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a742997db6a6fe03581d2244ea085618e}\label{imgui__impl__win32_8cpp_a742997db6a6fe03581d2244ea085618e} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!\_IsWindowsVistaOrGreater@{\_IsWindowsVistaOrGreater}}
+\index{\_IsWindowsVistaOrGreater@{\_IsWindowsVistaOrGreater}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{\_IsWindowsVistaOrGreater}{\_IsWindowsVistaOrGreater}}
+{\footnotesize\ttfamily \#define \+\_\+\+Is\+Windows\+Vista\+Or\+Greater(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\+\_\+\+Is\+Windows\+Version\+Or\+Greater(HIBYTE(0x0600), LOBYTE(0x0600), 0)}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00809}{809}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a454522b0cfb3a366cc14230e62be3e94}\label{imgui__impl__win32_8cpp_a454522b0cfb3a366cc14230e62be3e94} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!DBT\_DEVNODES\_CHANGED@{DBT\_DEVNODES\_CHANGED}}
+\index{DBT\_DEVNODES\_CHANGED@{DBT\_DEVNODES\_CHANGED}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{DBT\_DEVNODES\_CHANGED}{DBT\_DEVNODES\_CHANGED}}
+{\footnotesize\ttfamily \#define DBT\+\_\+\+DEVNODES\+\_\+\+CHANGED~0x0007}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00559}{559}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a9272fbff584df35213a9076e900c24c1}\label{imgui__impl__win32_8cpp_a9272fbff584df35213a9076e900c24c1} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE@{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE}}
+\index{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE@{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE}{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE}}
+{\footnotesize\ttfamily \#define DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT\+\_\+\+PER\+\_\+\+MONITOR\+\_\+\+AWARE~(DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT)-\/3}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00820}{820}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_ac007743843b15f477f33dc5c3dd0507a}\label{imgui__impl__win32_8cpp_ac007743843b15f477f33dc5c3dd0507a} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2@{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2}}
+\index{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2@{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2}{DPI\_AWARENESS\_CONTEXT\_PER\_MONITOR\_AWARE\_V2}}
+{\footnotesize\ttfamily \#define DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT\+\_\+\+PER\+\_\+\+MONITOR\+\_\+\+AWARE\+\_\+\+V2~(DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT)-\/4}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00823}{823}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_abfc205127accf0adc131007017a20442}\label{imgui__impl__win32_8cpp_abfc205127accf0adc131007017a20442} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!IM\_SATURATE@{IM\_SATURATE}}
+\index{IM\_SATURATE@{IM\_SATURATE}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{IM\_SATURATE}{IM\_SATURATE}}
+{\footnotesize\ttfamily \#define IM\+\_\+\+SATURATE(\begin{DoxyParamCaption}\item[{}]{V }\end{DoxyParamCaption})~(V $<$ 0.\+0f ? 0.\+0f \+: V $>$ 1.\+0f ? 1.\+0f \+: V)}
+
+\Hypertarget{imgui__impl__win32_8cpp_ab9e788661f93cea16f50bdd44f7228f2}\label{imgui__impl__win32_8cpp_ab9e788661f93cea16f50bdd44f7228f2} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!MAP\_ANALOG@{MAP\_ANALOG}}
+\index{MAP\_ANALOG@{MAP\_ANALOG}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{MAP\_ANALOG}{MAP\_ANALOG}}
+{\footnotesize\ttfamily \#define MAP\+\_\+\+ANALOG(\begin{DoxyParamCaption}\item[{}]{KEY\+\_\+\+NO,  }\item[{}]{VALUE,  }\item[{}]{V0,  }\item[{}]{V1 }\end{DoxyParamCaption})~\{ float vn = (float)(VALUE -\/ V0) / (float)(V1 -\/ V0); io.\+Add\+Key\+Analog\+Event(KEY\+\_\+\+NO, vn $>$ 0.\+10f, \mbox{\hyperlink{imgui__impl__osx_8mm_abfc205127accf0adc131007017a20442}{IM\+\_\+\+SATURATE}}(vn)); \}}
+
+\Hypertarget{imgui__impl__win32_8cpp_a2836771b67b5a6453c60b139320d255c}\label{imgui__impl__win32_8cpp_a2836771b67b5a6453c60b139320d255c} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!MAP\_BUTTON@{MAP\_BUTTON}}
+\index{MAP\_BUTTON@{MAP\_BUTTON}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{MAP\_BUTTON}{MAP\_BUTTON}}
+{\footnotesize\ttfamily \#define MAP\+\_\+\+BUTTON(\begin{DoxyParamCaption}\item[{}]{KEY\+\_\+\+NO,  }\item[{}]{BUTTON\+\_\+\+ENUM }\end{DoxyParamCaption})~\{ io.\+Add\+Key\+Event(KEY\+\_\+\+NO, (gamepad.\+w\+Buttons \& BUTTON\+\_\+\+ENUM) != 0); \}}
+
+\Hypertarget{imgui__impl__win32_8cpp_ac7bef5d85e3dcd73eef56ad39ffc84a9}\label{imgui__impl__win32_8cpp_ac7bef5d85e3dcd73eef56ad39ffc84a9} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!WIN32\_LEAN\_AND\_MEAN@{WIN32\_LEAN\_AND\_MEAN}}
+\index{WIN32\_LEAN\_AND\_MEAN@{WIN32\_LEAN\_AND\_MEAN}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{WIN32\_LEAN\_AND\_MEAN}{WIN32\_LEAN\_AND\_MEAN}}
+{\footnotesize\ttfamily \#define WIN32\+\_\+\+LEAN\+\_\+\+AND\+\_\+\+MEAN}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00081}{81}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a7b2918d422b3a1fe86a641f74818bb55}\label{imgui__impl__win32_8cpp_a7b2918d422b3a1fe86a641f74818bb55} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!WM\_MOUSEHWHEEL@{WM\_MOUSEHWHEEL}}
+\index{WM\_MOUSEHWHEEL@{WM\_MOUSEHWHEEL}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{WM\_MOUSEHWHEEL}{WM\_MOUSEHWHEEL}}
+{\footnotesize\ttfamily \#define WM\+\_\+\+MOUSEHWHEEL~0x020E}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00556}{556}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{imgui__impl__win32_8cpp_a411247e61a6621babce2d06bb8a434db}\label{imgui__impl__win32_8cpp_a411247e61a6621babce2d06bb8a434db} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!PFN\_GetDpiForMonitor@{PFN\_GetDpiForMonitor}}
+\index{PFN\_GetDpiForMonitor@{PFN\_GetDpiForMonitor}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{PFN\_GetDpiForMonitor}{PFN\_GetDpiForMonitor}}
+{\footnotesize\ttfamily typedef HRESULT(WINAPI \texorpdfstring{$\ast$}{*} PFN\+\_\+\+Get\+Dpi\+For\+Monitor) (HMONITOR, \mbox{\hyperlink{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcf}{MONITOR\+\_\+\+DPI\+\_\+\+TYPE}}, UINT \texorpdfstring{$\ast$}{*}, UINT \texorpdfstring{$\ast$}{*})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00826}{826}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a36d30a5f5f7942a50b272fa13058cf96}\label{imgui__impl__win32_8cpp_a36d30a5f5f7942a50b272fa13058cf96} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!PFN\_SetProcessDpiAwareness@{PFN\_SetProcessDpiAwareness}}
+\index{PFN\_SetProcessDpiAwareness@{PFN\_SetProcessDpiAwareness}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{PFN\_SetProcessDpiAwareness}{PFN\_SetProcessDpiAwareness}}
+{\footnotesize\ttfamily typedef HRESULT(WINAPI \texorpdfstring{$\ast$}{*} PFN\+\_\+\+Set\+Process\+Dpi\+Awareness) (\mbox{\hyperlink{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0}{PROCESS\+\_\+\+DPI\+\_\+\+AWARENESS}})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00825}{825}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_ac4fd09e8ec8568aa443549a1286800b1}\label{imgui__impl__win32_8cpp_ac4fd09e8ec8568aa443549a1286800b1} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!PFN\_SetThreadDpiAwarenessContext@{PFN\_SetThreadDpiAwarenessContext}}
+\index{PFN\_SetThreadDpiAwarenessContext@{PFN\_SetThreadDpiAwarenessContext}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{PFN\_SetThreadDpiAwarenessContext}{PFN\_SetThreadDpiAwarenessContext}}
+{\footnotesize\ttfamily typedef DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT(WINAPI \texorpdfstring{$\ast$}{*} PFN\+\_\+\+Set\+Thread\+Dpi\+Awareness\+Context) (DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT)}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00827}{827}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_ab894020cfaceec8e0a7e24a2b8cf003a}\label{imgui__impl__win32_8cpp_ab894020cfaceec8e0a7e24a2b8cf003a} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!PFN\_XInputGetCapabilities@{PFN\_XInputGetCapabilities}}
+\index{PFN\_XInputGetCapabilities@{PFN\_XInputGetCapabilities}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{PFN\_XInputGetCapabilities}{PFN\_XInputGetCapabilities}}
+{\footnotesize\ttfamily typedef DWORD(WINAPI \texorpdfstring{$\ast$}{*} PFN\+\_\+\+XInput\+Get\+Capabilities) (DWORD, DWORD, XINPUT\+\_\+\+CAPABILITIES \texorpdfstring{$\ast$}{*})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00091}{91}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a0554b333dae0845c369b9d7234c695e9}\label{imgui__impl__win32_8cpp_a0554b333dae0845c369b9d7234c695e9} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!PFN\_XInputGetState@{PFN\_XInputGetState}}
+\index{PFN\_XInputGetState@{PFN\_XInputGetState}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{PFN\_XInputGetState}{PFN\_XInputGetState}}
+{\footnotesize\ttfamily typedef DWORD(WINAPI \texorpdfstring{$\ast$}{*} PFN\+\_\+\+XInput\+Get\+State) (DWORD, XINPUT\+\_\+\+STATE \texorpdfstring{$\ast$}{*})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00092}{92}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcf}\label{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcf} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!MONITOR\_DPI\_TYPE@{MONITOR\_DPI\_TYPE}}
+\index{MONITOR\_DPI\_TYPE@{MONITOR\_DPI\_TYPE}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{MONITOR\_DPI\_TYPE}{MONITOR\_DPI\_TYPE}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcf}{MONITOR\+\_\+\+DPI\+\_\+\+TYPE}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDT\_EFFECTIVE\_DPI@{MDT\_EFFECTIVE\_DPI}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!MDT\_EFFECTIVE\_DPI@{MDT\_EFFECTIVE\_DPI}}}\Hypertarget{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfa75d3ba3b96559377e5cac23d6e380162}\label{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfa75d3ba3b96559377e5cac23d6e380162} 
+MDT\+\_\+\+EFFECTIVE\+\_\+\+DPI&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDT\_ANGULAR\_DPI@{MDT\_ANGULAR\_DPI}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!MDT\_ANGULAR\_DPI@{MDT\_ANGULAR\_DPI}}}\Hypertarget{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfa7c555ba8472b1bcc44a2b8b7da7bc1c3}\label{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfa7c555ba8472b1bcc44a2b8b7da7bc1c3} 
+MDT\+\_\+\+ANGULAR\+\_\+\+DPI&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDT\_RAW\_DPI@{MDT\_RAW\_DPI}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!MDT\_RAW\_DPI@{MDT\_RAW\_DPI}}}\Hypertarget{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfa3a8c01568cf5b17569b53587783e9851}\label{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfa3a8c01568cf5b17569b53587783e9851} 
+MDT\+\_\+\+RAW\+\_\+\+DPI&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MDT\_DEFAULT@{MDT\_DEFAULT}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!MDT\_DEFAULT@{MDT\_DEFAULT}}}\Hypertarget{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfacf96ef9f03d6fbbef385b67cfbe2578f}\label{imgui__impl__win32_8cpp_a6d3b6e6160452fd0315bf529461dadcfacf96ef9f03d6fbbef385b67cfbe2578f} 
+MDT\+\_\+\+DEFAULT&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00816}{816}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0}\label{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!PROCESS\_DPI\_AWARENESS@{PROCESS\_DPI\_AWARENESS}}
+\index{PROCESS\_DPI\_AWARENESS@{PROCESS\_DPI\_AWARENESS}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{PROCESS\_DPI\_AWARENESS}{PROCESS\_DPI\_AWARENESS}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0}{PROCESS\+\_\+\+DPI\+\_\+\+AWARENESS}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PROCESS\_DPI\_UNAWARE@{PROCESS\_DPI\_UNAWARE}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!PROCESS\_DPI\_UNAWARE@{PROCESS\_DPI\_UNAWARE}}}\Hypertarget{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0ab42f9fa8bef80716253ff5732f98d019}\label{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0ab42f9fa8bef80716253ff5732f98d019} 
+PROCESS\+\_\+\+DPI\+\_\+\+UNAWARE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PROCESS\_SYSTEM\_DPI\_AWARE@{PROCESS\_SYSTEM\_DPI\_AWARE}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!PROCESS\_SYSTEM\_DPI\_AWARE@{PROCESS\_SYSTEM\_DPI\_AWARE}}}\Hypertarget{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0a2690b1d0f73cd71a24c38dbccc99be8b}\label{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0a2690b1d0f73cd71a24c38dbccc99be8b} 
+PROCESS\+\_\+\+SYSTEM\+\_\+\+DPI\+\_\+\+AWARE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PROCESS\_PER\_MONITOR\_DPI\_AWARE@{PROCESS\_PER\_MONITOR\_DPI\_AWARE}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!PROCESS\_PER\_MONITOR\_DPI\_AWARE@{PROCESS\_PER\_MONITOR\_DPI\_AWARE}}}\Hypertarget{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0aad0077e9938715939b18fc533eeae097}\label{imgui__impl__win32_8cpp_a0b4072c3e306aab56e4b1f41f66ecfd0aad0077e9938715939b18fc533eeae097} 
+PROCESS\+\_\+\+PER\+\_\+\+MONITOR\+\_\+\+DPI\+\_\+\+AWARE&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00815}{815}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{imgui__impl__win32_8cpp_a3d68bc19ea52dbb5682b42f9a3316189}\label{imgui__impl__win32_8cpp_a3d68bc19ea52dbb5682b42f9a3316189} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!DECLARE\_HANDLE@{DECLARE\_HANDLE}}
+\index{DECLARE\_HANDLE@{DECLARE\_HANDLE}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{DECLARE\_HANDLE()}{DECLARE\_HANDLE()}}
+{\footnotesize\ttfamily DECLARE\+\_\+\+HANDLE (\begin{DoxyParamCaption}\item[{DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{imgui__impl__win32_8cpp_a726a328080634cc7b808de6b7e1cec9e}\label{imgui__impl__win32_8cpp_a726a328080634cc7b808de6b7e1cec9e} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_EnableAlphaCompositing@{ImGui\_ImplWin32\_EnableAlphaCompositing}}
+\index{ImGui\_ImplWin32\_EnableAlphaCompositing@{ImGui\_ImplWin32\_EnableAlphaCompositing}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_EnableAlphaCompositing()}{ImGui\_ImplWin32\_EnableAlphaCompositing()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Enable\+Alpha\+Compositing (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}}]{hwnd }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00902}{902}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00810}{\+\_\+\+Is\+Windows8\+Or\+Greater}}, and \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00809}{\+\_\+\+Is\+Windows\+Vista\+Or\+Greater}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_afda525ac1c8a2b4e357f19488f661014}\label{imgui__impl__win32_8cpp_afda525ac1c8a2b4e357f19488f661014} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_EnableDpiAwareness@{ImGui\_ImplWin32\_EnableDpiAwareness}}
+\index{ImGui\_ImplWin32\_EnableDpiAwareness@{ImGui\_ImplWin32\_EnableDpiAwareness}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_EnableDpiAwareness()}{ImGui\_ImplWin32\_EnableDpiAwareness()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Enable\+Dpi\+Awareness (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00830}{830}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00812}{\+\_\+\+Is\+Windows10\+Or\+Greater}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00811}{\+\_\+\+Is\+Windows8\+Point1\+Or\+Greater}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00823}{DPI\+\_\+\+AWARENESS\+\_\+\+CONTEXT\+\_\+\+PER\+\_\+\+MONITOR\+\_\+\+AWARE\+\_\+\+V2}}, and \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00815}{PROCESS\+\_\+\+PER\+\_\+\+MONITOR\+\_\+\+DPI\+\_\+\+AWARE}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a63408fa92e0f85dcf74b27ba6b81f7f4}\label{imgui__impl__win32_8cpp_a63408fa92e0f85dcf74b27ba6b81f7f4} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_GetDpiScaleForHwnd@{ImGui\_ImplWin32\_GetDpiScaleForHwnd}}
+\index{ImGui\_ImplWin32\_GetDpiScaleForHwnd@{ImGui\_ImplWin32\_GetDpiScaleForHwnd}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_GetDpiScaleForHwnd()}{ImGui\_ImplWin32\_GetDpiScaleForHwnd()}}
+{\footnotesize\ttfamily float Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Get\+Dpi\+Scale\+For\+Hwnd (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}}]{hwnd }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00885}{885}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00859}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Get\+Dpi\+Scale\+For\+Monitor()}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a765356269dc7e4f7f521d5f9c9bc42a5}\label{imgui__impl__win32_8cpp_a765356269dc7e4f7f521d5f9c9bc42a5} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_GetDpiScaleForMonitor@{ImGui\_ImplWin32\_GetDpiScaleForMonitor}}
+\index{ImGui\_ImplWin32\_GetDpiScaleForMonitor@{ImGui\_ImplWin32\_GetDpiScaleForMonitor}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_GetDpiScaleForMonitor()}{ImGui\_ImplWin32\_GetDpiScaleForMonitor()}}
+{\footnotesize\ttfamily float Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Get\+Dpi\+Scale\+For\+Monitor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}}]{monitor }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00859}{859}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00811}{\+\_\+\+Is\+Windows8\+Point1\+Or\+Greater}}, and \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00816}{MDT\+\_\+\+EFFECTIVE\+\_\+\+DPI}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00885}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Get\+Dpi\+Scale\+For\+Hwnd()}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a9f752412a1f6dfdf6fc00dbbd90a8428}\label{imgui__impl__win32_8cpp_a9f752412a1f6dfdf6fc00dbbd90a8428} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_Init@{ImGui\_ImplWin32\_Init}}
+\index{ImGui\_ImplWin32\_Init@{ImGui\_ImplWin32\_Init}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_Init()}{ImGui\_ImplWin32\_Init()}}
+{\footnotesize\ttfamily IMGUI\+\_\+\+IMPL\+\_\+\+API bool Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}}]{hwnd }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00206}{206}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a62c65c5f453046a14119bc62234ac5b7}\label{imgui__impl__win32_8cpp_a62c65c5f453046a14119bc62234ac5b7} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_InitForOpenGL@{ImGui\_ImplWin32\_InitForOpenGL}}
+\index{ImGui\_ImplWin32\_InitForOpenGL@{ImGui\_ImplWin32\_InitForOpenGL}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_InitForOpenGL()}{ImGui\_ImplWin32\_InitForOpenGL()}}
+{\footnotesize\ttfamily IMGUI\+\_\+\+IMPL\+\_\+\+API bool Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Init\+For\+Open\+GL (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}}]{hwnd }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00211}{211}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a2942d25da60c96f3681b4ca43de6b426}\label{imgui__impl__win32_8cpp_a2942d25da60c96f3681b4ca43de6b426} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_KeyEventToImGuiKey@{ImGui\_ImplWin32\_KeyEventToImGuiKey}}
+\index{ImGui\_ImplWin32\_KeyEventToImGuiKey@{ImGui\_ImplWin32\_KeyEventToImGuiKey}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_KeyEventToImGuiKey()}{ImGui\_ImplWin32\_KeyEventToImGuiKey()}}
+{\footnotesize\ttfamily Im\+Gui\+Key Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Key\+Event\+To\+Im\+Gui\+Key (\begin{DoxyParamCaption}\item[{WPARAM}]{w\+Param,  }\item[{LPARAM}]{l\+Param }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00425}{425}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00597}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Wnd\+Proc\+Handler\+Ex()}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_ade4f55b90fdbd75a562d894d33f1909e}\label{imgui__impl__win32_8cpp_ade4f55b90fdbd75a562d894d33f1909e} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_NewFrame@{ImGui\_ImplWin32\_NewFrame}}
+\index{ImGui\_ImplWin32\_NewFrame@{ImGui\_ImplWin32\_NewFrame}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_NewFrame()}{ImGui\_ImplWin32\_NewFrame()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+New\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00387}{387}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00108}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::h\+Wnd}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00114}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::\+Last\+Mouse\+Cursor}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00113}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::\+Ticks\+Per\+Second}}, and \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00112}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::\+Time}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a4eddd1969cc460312197f2df3dbc992a}\label{imgui__impl__win32_8cpp_a4eddd1969cc460312197f2df3dbc992a} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_Shutdown@{ImGui\_ImplWin32\_Shutdown}}
+\index{ImGui\_ImplWin32\_Shutdown@{ImGui\_ImplWin32\_Shutdown}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_Shutdown()}{ImGui\_ImplWin32\_Shutdown()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Shutdown (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00217}{217}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00120}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::\+XInput\+DLL}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a87a3f9652a75339308cf5fd5699ef1fd}\label{imgui__impl__win32_8cpp_a87a3f9652a75339308cf5fd5699ef1fd} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_WndProcHandler@{ImGui\_ImplWin32\_WndProcHandler}}
+\index{ImGui\_ImplWin32\_WndProcHandler@{ImGui\_ImplWin32\_WndProcHandler}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_WndProcHandler()}{ImGui\_ImplWin32\_WndProcHandler()}}
+{\footnotesize\ttfamily IMGUI\+\_\+\+IMPL\+\_\+\+API LRESULT Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Wnd\+Proc\+Handler (\begin{DoxyParamCaption}\item[{HWND}]{h\+Wnd,  }\item[{UINT}]{msg,  }\item[{WPARAM}]{w\+Param,  }\item[{LPARAM}]{l\+Param }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00587}{587}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00597}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Wnd\+Proc\+Handler\+Ex()}}.
+
+\Hypertarget{imgui__impl__win32_8cpp_a7038e1f34a0be8f5b6023a08973f4431}\label{imgui__impl__win32_8cpp_a7038e1f34a0be8f5b6023a08973f4431} 
+\index{imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}!ImGui\_ImplWin32\_WndProcHandlerEx@{ImGui\_ImplWin32\_WndProcHandlerEx}}
+\index{ImGui\_ImplWin32\_WndProcHandlerEx@{ImGui\_ImplWin32\_WndProcHandlerEx}!imgui\_impl\_win32.cpp@{imgui\_impl\_win32.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplWin32\_WndProcHandlerEx()}{ImGui\_ImplWin32\_WndProcHandlerEx()}}
+{\footnotesize\ttfamily IMGUI\+\_\+\+IMPL\+\_\+\+API LRESULT Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Wnd\+Proc\+Handler\+Ex (\begin{DoxyParamCaption}\item[{HWND}]{h\+Wnd,  }\item[{UINT}]{msg,  }\item[{WPARAM}]{w\+Param,  }\item[{LPARAM}]{l\+Param,  }\item[{Im\+Gui\+IO \&}]{io }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00597}{597}} of file \mbox{\hyperlink{imgui__impl__win32_8cpp_source}{imgui\+\_\+impl\+\_\+win32.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00559}{DBT\+\_\+\+DEVNODES\+\_\+\+CHANGED}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00425}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Key\+Event\+To\+Im\+Gui\+Key()}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00115}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::\+Keyboard\+Code\+Page}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00114}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::\+Last\+Mouse\+Cursor}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00111}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::\+Mouse\+Buttons\+Down}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00109}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::\+Mouse\+Hwnd}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00110}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::\+Mouse\+Tracked\+Area}}, \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00119}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Data\+::\+Want\+Update\+Has\+Gamepad}}, and \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00556}{WM\+\_\+\+MOUSEHWHEEL}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__win32_8cpp_source_l00587}{Im\+Gui\+\_\+\+Impl\+Win32\+\_\+\+Wnd\+Proc\+Handler()}}.
+

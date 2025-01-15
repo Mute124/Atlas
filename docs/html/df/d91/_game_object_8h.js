@@ -1,5 +1,4 @@
 var _game_object_8h =
 [
-    [ "Techstorm::abstract< K, D, T >", "d6/d34/class_techstorm_1_1abstract.html", "d6/d34/class_techstorm_1_1abstract" ],
-    [ "Techstorm::GameObject", "d4/de0/class_techstorm_1_1_game_object.html", "d4/de0/class_techstorm_1_1_game_object" ]
+    [ "Atlas::GameObject", "d0/d43/class_atlas_1_1_game_object.html", "d0/d43/class_atlas_1_1_game_object" ]
 ];

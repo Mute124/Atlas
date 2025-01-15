@@ -1,0 +1,93 @@
+\doxysection{Resource aliasing (overlap)}
+\hypertarget{resource_aliasing}{}\label{resource_aliasing}\index{Resource aliasing (overlap)@{Resource aliasing (overlap)}}
+New explicit graphics APIs (Vulkan and Direct3D 12), thanks to manual memory management, give an opportunity to alias (overlap) multiple resources in the same region of memory -\/ a feature not available in the old APIs (Direct3D 11, Open\+GL). It can be useful to save video memory, but it must be used with caution.
+
+For example, if you know the flow of your whole render frame in advance, you are going to use some intermediate textures or buffers only during a small range of render passes, and you know these ranges don\textquotesingle{}t overlap in time, you can bind these resources to the same place in memory, even if they have completely different parameters (width, height, format etc.).
+
+
+
+Such scenario is possible using VMA, but you need to create your images manually. Then you need to calculate parameters of an allocation to be made using formula\+:
+
+
+\begin{DoxyItemize}
+\item allocation size = max(size of each image)
+\item allocation alignment = max(alignment of each image)
+\item allocation memory\+Type\+Bits = bitwise AND(memory\+Type\+Bits of each image)
+\end{DoxyItemize}
+
+Following example shows two different images bound to the same place in memory, allocated to fit largest of them.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ A\ 512x512\ texture\ to\ be\ sampled.}}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_image_create_info}{VkImageCreateInfo}}\ img1CreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a6c3f80c9a0267b7a8fa80ebd3344197c}{VK\_STRUCTURE\_TYPE\_IMAGE\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_aa595c6fabd7b5f39fec5765847bf8525}{imageType}}\ =\ \mbox{\hyperlink{vulkan_8h_aa84985704e226942ee3d767563ed17b2a334b34484fb69a5e28522a5837233737}{VK\_IMAGE\_TYPE\_2D}};}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8987da3bd3f1614dbb69a70fb3539299}{extent}}.\mbox{\hyperlink{struct_vk_extent3_d_a5c0480aba24a58feed8834acdb442823}{width}}\ =\ 512;}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8987da3bd3f1614dbb69a70fb3539299}{extent}}.\mbox{\hyperlink{struct_vk_extent3_d_a46a86cd9c09a22f5c35e0b70fc2808a0}{height}}\ =\ 512;}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8987da3bd3f1614dbb69a70fb3539299}{extent}}.\mbox{\hyperlink{struct_vk_extent3_d_a03dd923b9778c6d1a3117fc22b47ac49}{depth}}\ =\ 1;}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a1ae4d9f8f412291dc7a124b715501d9b}{mipLevels}}\ =\ 10;}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a844cb4fcd6af3b0f1249342a1e603b2a}{arrayLayers}}\ =\ 1;}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a912f0e8e36d47c47e5651656a9b06013}{format}}\ =\ \mbox{\hyperlink{vulkan_8h_ad61b5b94a526d0f9ae0db97072cf6b3fa056fca079f3d5fae655e2537feea8f7e}{VK\_FORMAT\_R8G8B8A8\_SRGB}};}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_aa5f0d81d41a504e01c929179c568936b}{tiling}}\ =\ \mbox{\hyperlink{vulkan_8h_a5456c8cb96f58d566fb71551a93fa8f4a19590de3e4e395ab085b010d99c526b2}{VK\_IMAGE\_TILING\_OPTIMAL}};}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a13d633f87608f9b3c4088a7af56d0670}{initialLayout}}\ =\ \mbox{\hyperlink{vulkan_8h_a10d9a29817e871a926df1834c7ccd88ca8c82f4974a794a28089e82451bd98445}{VK\_IMAGE\_LAYOUT\_UNDEFINED}};}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_ad5d6be080490a60ced3baaa4d4643dea}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_a74802f743a6af41eb139fca85d5e7381a2950958c54e23a7dedfe8c1433425e8c}{VK\_IMAGE\_USAGE\_TRANSFER\_DST\_BIT}}\ |\ \mbox{\hyperlink{vulkan_8h_a74802f743a6af41eb139fca85d5e7381a3a9d5e56e5250dbfae0d5e009d71786a}{VK\_IMAGE\_USAGE\_SAMPLED\_BIT}};}
+\DoxyCodeLine{img1CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8771ce56c0eca0bd7e82327e244da132}{samples}}\ =\ \mbox{\hyperlink{vulkan_8h_a7972fb8a8ec7c225e60ca7c3de159706ae03a6b21b620e2c727076a3215b9f4fc}{VK\_SAMPLE\_COUNT\_1\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ A\ full\ screen\ texture\ to\ be\ used\ as\ color\ attachment.}}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_image_create_info}{VkImageCreateInfo}}\ img2CreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a6c3f80c9a0267b7a8fa80ebd3344197c}{VK\_STRUCTURE\_TYPE\_IMAGE\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_aa595c6fabd7b5f39fec5765847bf8525}{imageType}}\ =\ \mbox{\hyperlink{vulkan_8h_aa84985704e226942ee3d767563ed17b2a334b34484fb69a5e28522a5837233737}{VK\_IMAGE\_TYPE\_2D}};}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8987da3bd3f1614dbb69a70fb3539299}{extent}}.\mbox{\hyperlink{struct_vk_extent3_d_a5c0480aba24a58feed8834acdb442823}{width}}\ =\ 1920;}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8987da3bd3f1614dbb69a70fb3539299}{extent}}.\mbox{\hyperlink{struct_vk_extent3_d_a46a86cd9c09a22f5c35e0b70fc2808a0}{height}}\ =\ 1080;}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8987da3bd3f1614dbb69a70fb3539299}{extent}}.\mbox{\hyperlink{struct_vk_extent3_d_a03dd923b9778c6d1a3117fc22b47ac49}{depth}}\ =\ 1;}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a1ae4d9f8f412291dc7a124b715501d9b}{mipLevels}}\ =\ 1;}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a844cb4fcd6af3b0f1249342a1e603b2a}{arrayLayers}}\ =\ 1;}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a912f0e8e36d47c47e5651656a9b06013}{format}}\ =\ \mbox{\hyperlink{vulkan_8h_ad61b5b94a526d0f9ae0db97072cf6b3fa7a9d563b05a75170dd5a59d0bd123169}{VK\_FORMAT\_R8G8B8A8\_UNORM}};}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_aa5f0d81d41a504e01c929179c568936b}{tiling}}\ =\ \mbox{\hyperlink{vulkan_8h_a5456c8cb96f58d566fb71551a93fa8f4a19590de3e4e395ab085b010d99c526b2}{VK\_IMAGE\_TILING\_OPTIMAL}};}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a13d633f87608f9b3c4088a7af56d0670}{initialLayout}}\ =\ \mbox{\hyperlink{vulkan_8h_a10d9a29817e871a926df1834c7ccd88ca8c82f4974a794a28089e82451bd98445}{VK\_IMAGE\_LAYOUT\_UNDEFINED}};}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_ad5d6be080490a60ced3baaa4d4643dea}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_a74802f743a6af41eb139fca85d5e7381a3a9d5e56e5250dbfae0d5e009d71786a}{VK\_IMAGE\_USAGE\_SAMPLED\_BIT}}\ |\ \mbox{\hyperlink{vulkan_8h_a74802f743a6af41eb139fca85d5e7381a8fb6f8773b9f0ae2e313e19f6a2fbd52}{VK\_IMAGE\_USAGE\_COLOR\_ATTACHMENT\_BIT}};}
+\DoxyCodeLine{img2CreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8771ce56c0eca0bd7e82327e244da132}{samples}}\ =\ \mbox{\hyperlink{vulkan_8h_a7972fb8a8ec7c225e60ca7c3de159706ae03a6b21b620e2c727076a3215b9f4fc}{VK\_SAMPLE\_COUNT\_1\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkImage\ img1;}
+\DoxyCodeLine{res\ =\ \mbox{\hyperlink{vulkan_8h_a87ee6731120b6b0fd65a79127e7f980a}{vkCreateImage}}(device,\ \&img1CreateInfo,\ \textcolor{keyword}{nullptr},\ \&img1);}
+\DoxyCodeLine{VkImage\ img2;}
+\DoxyCodeLine{res\ =\ \mbox{\hyperlink{vulkan_8h_a87ee6731120b6b0fd65a79127e7f980a}{vkCreateImage}}(device,\ \&img2CreateInfo,\ \textcolor{keyword}{nullptr},\ \&img2);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_memory_requirements}{VkMemoryRequirements}}\ img1MemReq;}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_ad46f0177af77b21aedbbab907284cc3a}{vkGetImageMemoryRequirements}}(device,\ img1,\ \&img1MemReq);}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_memory_requirements}{VkMemoryRequirements}}\ img2MemReq;}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_ad46f0177af77b21aedbbab907284cc3a}{vkGetImageMemoryRequirements}}(device,\ img2,\ \&img2MemReq);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_memory_requirements}{VkMemoryRequirements}}\ finalMemReq\ =\ \{\};}
+\DoxyCodeLine{finalMemReq.\mbox{\hyperlink{struct_vk_memory_requirements_acb2a3220318b8988556bb04ae7924057}{size}}\ =\ std::max(img1MemReq.\mbox{\hyperlink{struct_vk_memory_requirements_acb2a3220318b8988556bb04ae7924057}{size}},\ img2MemReq.\mbox{\hyperlink{struct_vk_memory_requirements_acb2a3220318b8988556bb04ae7924057}{size}});}
+\DoxyCodeLine{finalMemReq.\mbox{\hyperlink{struct_vk_memory_requirements_ae62c6de395ea295132c8553d145b04a7}{alignment}}\ =\ std::max(img1MemReq.\mbox{\hyperlink{struct_vk_memory_requirements_ae62c6de395ea295132c8553d145b04a7}{alignment}},\ img2MemReq.\mbox{\hyperlink{struct_vk_memory_requirements_ae62c6de395ea295132c8553d145b04a7}{alignment}});}
+\DoxyCodeLine{finalMemReq.\mbox{\hyperlink{struct_vk_memory_requirements_aacb5108e789b220dd8c406a6c1bb0d1d}{memoryTypeBits}}\ =\ img1MemReq.\mbox{\hyperlink{struct_vk_memory_requirements_aacb5108e789b220dd8c406a6c1bb0d1d}{memoryTypeBits}}\ \&\ img2MemReq.\mbox{\hyperlink{struct_vk_memory_requirements_aacb5108e789b220dd8c406a6c1bb0d1d}{memoryTypeBits}};}
+\DoxyCodeLine{\textcolor{comment}{//\ Validate\ if(finalMemReq.memoryTypeBits\ !=\ 0)}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_a7fe8d81a1ad10b2a2faacacee5b15d6d}{preferredFlags}}\ =\ \mbox{\hyperlink{vulkan_8h_a1afa959bb41f921269625a6372267856a97f56df334787798162f934d956f01f7}{VK\_MEMORY\_PROPERTY\_DEVICE\_LOCAL\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ alloc;}
+\DoxyCodeLine{res\ =\ \mbox{\hyperlink{group__group__alloc_gaf813f55a0667016a8cd68bb4b8b3b30c}{vmaAllocateMemory}}(allocator,\ \&finalMemReq,\ \&allocCreateInfo,\ \&alloc,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{}
+\DoxyCodeLine{res\ =\ \mbox{\hyperlink{group__group__alloc_ga3a5d8d9f2a29b42cf87f0f8dfef591f4}{vmaBindImageMemory}}(allocator,\ alloc,\ img1);}
+\DoxyCodeLine{res\ =\ \mbox{\hyperlink{group__group__alloc_ga3a5d8d9f2a29b42cf87f0f8dfef591f4}{vmaBindImageMemory}}(allocator,\ alloc,\ img2);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ You\ can\ use\ img1,\ img2\ here,\ but\ not\ at\ the\ same\ time!}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_ga5c9baca5124d440046bbe508f61d2839}{vmaFreeMemory}}(allocator,\ alloc);}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_a8dfd39525d9fad568e9e4ccd8f864376}{vkDestroyImage}}(allocator,\ img2,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_a8dfd39525d9fad568e9e4ccd8f864376}{vkDestroyImage}}(allocator,\ img1,\ \textcolor{keyword}{nullptr});}
+
+\end{DoxyCode}
+
+
+Remember that using resources that alias in memory requires proper synchronization. You need to issue a memory barrier to make sure commands that use {\ttfamily img1} and {\ttfamily img2} don\textquotesingle{}t overlap on GPU timeline. You also need to treat a resource after aliasing as uninitialized -\/ containing garbage data. For example, if you use {\ttfamily img1} and then want to use {\ttfamily img2}, you need to issue an image memory barrier for {\ttfamily img2} with {\ttfamily old\+Layout} = {\ttfamily VK\+\_\+\+IMAGE\+\_\+\+LAYOUT\+\_\+\+UNDEFINED}.
+
+Additional considerations\+:
+
+
+\begin{DoxyItemize}
+\item Vulkan also allows to interpret contents of memory between aliasing resources consistently in some cases. See chapter 11.\+8. "{}\+Memory Aliasing"{} of Vulkan specification or {\ttfamily VK\+\_\+\+IMAGE\+\_\+\+CREATE\+\_\+\+ALIAS\+\_\+\+BIT} flag.
+\item You can create more complex layout where different images and buffers are bound at different offsets inside one large allocation. For example, one can imagine a big texture used in some render passes, aliasing with a set of many small buffers used between in some further passes. To bind a resource at non-\/zero offset in an allocation, use \doxylink{group__group__alloc_ga4a71c30e3474a835bdd7fd0507740be7}{vma\+Bind\+Buffer\+Memory2()} / \doxylink{group__group__alloc_ga0216b9225b02a66ac610cb45d4729d00}{vma\+Bind\+Image\+Memory2()}.
+\item Before allocating memory for the resources you want to alias, check {\ttfamily memory\+Type\+Bits} returned in memory requirements of each resource to make sure the bits overlap. Some GPUs may expose multiple memory types suitable e.\+g. only for buffers or images with {\ttfamily COLOR\+\_\+\+ATTACHMENT} usage, so the sets of memory types supported by your resources may be disjoint. Aliasing them is not possible in that case. 
+\end{DoxyItemize}

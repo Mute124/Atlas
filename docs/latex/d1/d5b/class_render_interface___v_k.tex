@@ -1,0 +1,409 @@
+\doxysection{Render\+Interface\+\_\+\+VK Class Reference}
+\hypertarget{class_render_interface___v_k}{}\label{class_render_interface___v_k}\index{RenderInterface\_VK@{RenderInterface\_VK}}
+
+
+{\ttfamily \#include $<$Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+h$>$}
+
+Inheritance diagram for Render\+Interface\+\_\+\+VK\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{d1/d5b/class_render_interface___v_k}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{class_render_interface___v_k_aafdcde7585cd7a3b544aa373471fe492}{Create\+Surface\+Callback}} = bool(\texorpdfstring{$\ast$}{*})(Vk\+Instance instance, Vk\+Surface\+KHR \texorpdfstring{$\ast$}{*}out\+\_\+surface)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_render_interface___v_k_a08e8e502b93af823d928d5663795c3a8}{Render\+Interface\+\_\+\+VK}} ()
+\item 
+\mbox{\hyperlink{class_render_interface___v_k_aeeaa4ad76e131eb4665c26a3eba74666}{\texorpdfstring{$\sim$}{\string~}\+Render\+Interface\+\_\+\+VK}} ()
+\item 
+bool \mbox{\hyperlink{class_render_interface___v_k_aec4e0388baefa69764c997d45e4bef1d}{Initialize}} (Rml\+::\+Vector$<$ const char \texorpdfstring{$\ast$}{*} $>$ required\+\_\+extensions, \mbox{\hyperlink{class_render_interface___v_k_aafdcde7585cd7a3b544aa373471fe492}{Create\+Surface\+Callback}} create\+\_\+surface\+\_\+callback)
+\item 
+void \mbox{\hyperlink{class_render_interface___v_k_ad9997316820b2eee1e207d6c5075d242}{Shutdown}} ()
+\item 
+void \mbox{\hyperlink{class_render_interface___v_k_a1c2388e686ccc5522c71a5ae86dad538}{Begin\+Frame}} ()
+\item 
+void \mbox{\hyperlink{class_render_interface___v_k_acc2be49188a11fe109bf182c9bd5cd3e}{End\+Frame}} ()
+\item 
+void \mbox{\hyperlink{class_render_interface___v_k_a74c87a61ed0b410c33c72b53d1825800}{Set\+Viewport}} (int width, int height)
+\item 
+bool \mbox{\hyperlink{class_render_interface___v_k_aa4f89b8b42e3b5772d62de54ab2f5b3d}{Is\+Swapchain\+Valid}} ()
+\item 
+void \mbox{\hyperlink{class_render_interface___v_k_ad971a7f6f9e99140156f7b928af34dd8}{Recreate\+Swapchain}} ()
+\item 
+Rml\+::\+Compiled\+Geometry\+Handle \mbox{\hyperlink{class_render_interface___v_k_a9a4c956d42066f10c082eb20b08178cd}{Compile\+Geometry}} (Rml\+::\+Span$<$ const Rml\+::\+Vertex $>$ vertices, Rml\+::\+Span$<$ const int $>$ indices) override
+\begin{DoxyCompactList}\small\item\em Called by Rml\+Ui when it wants to compile geometry it believes will be static for the forseeable future. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_render_interface___v_k_a35dd1ee34f9a49bc45d12e5056ada38b}{Render\+Geometry}} (Rml\+::\+Compiled\+Geometry\+Handle handle, Rml\+::\+Vector2f translation, Rml\+::\+Texture\+Handle texture) override
+\begin{DoxyCompactList}\small\item\em Called by Rml\+Ui when it wants to render application-\/compiled geometry. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_render_interface___v_k_a39f99ab1fe33e75b603056d652b2499b}{Release\+Geometry}} (Rml\+::\+Compiled\+Geometry\+Handle geometry) override
+\begin{DoxyCompactList}\small\item\em Called by Rml\+Ui when it wants to release application-\/compiled geometry. \end{DoxyCompactList}\item 
+Rml\+::\+Texture\+Handle \mbox{\hyperlink{class_render_interface___v_k_a039980fc92282dd220fb9e19e0cf6f3a}{Load\+Texture}} (Rml\+::\+Vector2i \&texture\+\_\+dimensions, const Rml\+::\+String \&source) override
+\begin{DoxyCompactList}\small\item\em Called by Rml\+Ui when a texture is required by the library. \end{DoxyCompactList}\item 
+Rml\+::\+Texture\+Handle \mbox{\hyperlink{class_render_interface___v_k_a879e9c51c1a1139d14540636c1ad5fa4}{Generate\+Texture}} (Rml\+::\+Span$<$ const Rml\+::byte $>$ source\+\_\+data, Rml\+::\+Vector2i source\+\_\+dimensions) override
+\begin{DoxyCompactList}\small\item\em Called by Rml\+Ui when a texture is required to be built from an internally-\/generated sequence of pixels. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_render_interface___v_k_af1f0b3f641639257e8d018a417a58212}{Release\+Texture}} (Rml\+::\+Texture\+Handle texture\+\_\+handle) override
+\begin{DoxyCompactList}\small\item\em Called by Rml\+Ui when a loaded texture is no longer required. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_render_interface___v_k_a6a4f6d8529b72e14ecfe31708aadfa48}{Enable\+Scissor\+Region}} (bool enable) override
+\begin{DoxyCompactList}\small\item\em Called by Rml\+Ui when it wants to enable or disable scissoring to clip content. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_render_interface___v_k_a5c0ded9fc6a1f196044d672d72cff7f9}{Set\+Scissor\+Region}} (Rml\+::\+Rectanglei region) override
+\begin{DoxyCompactList}\small\item\em Called by Rml\+Ui when it wants to change the scissor region. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_render_interface___v_k_abe537301d0b37357ffb4b4fb1e904776}{Set\+Transform}} (const Rml\+::\+Matrix4f \texorpdfstring{$\ast$}{*}transform) override
+\begin{DoxyCompactList}\small\item\em Called by Rml\+Ui when it wants to set the current transform matrix to a new matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr uint32\+\_\+t \mbox{\hyperlink{class_render_interface___v_k_a6113d272e5a72c0fcdb95233597dc6ad}{k\+Swapchain\+Back\+Buffer\+Count}} = 3
+\item 
+static constexpr \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} \mbox{\hyperlink{class_render_interface___v_k_ab347f6c59dcb25d5d8ac07818f5dd256}{k\+Video\+Memory\+For\+Allocation}} = 4 \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Vulkan render interface for Rml\+Ui
+
+My aim is to create compact, but easy to use class I understand that it isn\textquotesingle{}t good architectural choice to keep all things in one class But I follow to RMLUI design and for implementing one GAPI backend it just needs one class For user looks cool, but for programmer...
+
+It\textquotesingle{}s better to try operate with very clean \textquotesingle{}one-\/class\textquotesingle{} architecture rather than create own library for Vulkan With many different classes, with not trivial signatures and etc And as a result we should document that library so it\textquotesingle{}s just a headache for all of us
+
+Reminder to users\+: If you want to implement your Vulkan renderer check previous commits of this work, because current system works only with new and delete operations every frame (CPU side), on GPU we implemented the pre-\/allocated buffer with virtual allocs (Vma) so there\textquotesingle{}s no problems and all fine. I wrote all ideas and implementation for that.
+
+\begin{DoxyAuthor}{Author}
+wh1t3lord (\href{https://github.com/wh1t3lord}{\texttt{ https\+://github.\+com/wh1t3lord}}) 
+\end{DoxyAuthor}
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00072}{72}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+h}}.
+
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{class_render_interface___v_k_aafdcde7585cd7a3b544aa373471fe492}\label{class_render_interface___v_k_aafdcde7585cd7a3b544aa373471fe492} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!CreateSurfaceCallback@{CreateSurfaceCallback}}
+\index{CreateSurfaceCallback@{CreateSurfaceCallback}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{CreateSurfaceCallback}{CreateSurfaceCallback}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{class_render_interface___v_k_aafdcde7585cd7a3b544aa373471fe492}{Render\+Interface\+\_\+\+VK\+::\+Create\+Surface\+Callback}} =  bool (\texorpdfstring{$\ast$}{*})(Vk\+Instance instance, Vk\+Surface\+KHR\texorpdfstring{$\ast$}{*} out\+\_\+surface)}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00080}{80}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_render_interface___v_k_a08e8e502b93af823d928d5663795c3a8}\label{class_render_interface___v_k_a08e8e502b93af823d928d5663795c3a8} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!RenderInterface\_VK@{RenderInterface\_VK}}
+\index{RenderInterface\_VK@{RenderInterface\_VK}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{RenderInterface\_VK()}{RenderInterface\_VK()}}
+{\footnotesize\ttfamily Render\+Interface\+\_\+\+VK\+::\+Render\+Interface\+\_\+\+VK (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00088}{88}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+\Hypertarget{class_render_interface___v_k_aeeaa4ad76e131eb4665c26a3eba74666}\label{class_render_interface___v_k_aeeaa4ad76e131eb4665c26a3eba74666} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!````~RenderInterface\_VK@{\texorpdfstring{$\sim$}{\string~}RenderInterface\_VK}}
+\index{````~RenderInterface\_VK@{\texorpdfstring{$\sim$}{\string~}RenderInterface\_VK}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}RenderInterface\_VK()}{\string~RenderInterface\_VK()}}
+{\footnotesize\ttfamily Render\+Interface\+\_\+\+VK\+::\texorpdfstring{$\sim$}{\string~}\+Render\+Interface\+\_\+\+VK (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00103}{103}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_render_interface___v_k_a1c2388e686ccc5522c71a5ae86dad538}\label{class_render_interface___v_k_a1c2388e686ccc5522c71a5ae86dad538} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!BeginFrame@{BeginFrame}}
+\index{BeginFrame@{BeginFrame}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{BeginFrame()}{BeginFrame()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+Begin\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00687}{687}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{vulkan_8h_source_l02365}{Vk\+Render\+Pass\+Begin\+Info\+::clear\+Value\+Count}}, \mbox{\hyperlink{vulkan_8h_source_l01602}{Vk\+Clear\+Value\+::color}}, \mbox{\hyperlink{vulkan_8h_source_l01603}{Vk\+Clear\+Value\+::depth\+Stencil}}, \mbox{\hyperlink{vulkan_8h_source_l01460}{Vk\+Rect2\+D\+::extent}}, \mbox{\hyperlink{vulkan_8h_source_l02355}{Vk\+Command\+Buffer\+Begin\+Info\+::flags}}, \mbox{\hyperlink{vulkan_8h_source_l02363}{Vk\+Render\+Pass\+Begin\+Info\+::framebuffer}}, \mbox{\hyperlink{vulkan_8h_source_l01440}{Vk\+Extent2\+D\+::height}}, \mbox{\hyperlink{vulkan_8h_source_l01459}{Vk\+Rect2\+D\+::offset}}, \mbox{\hyperlink{vulkan_8h_source_l02366}{Vk\+Render\+Pass\+Begin\+Info\+::p\+Clear\+Values}}, \mbox{\hyperlink{vulkan_8h_source_l02356}{Vk\+Command\+Buffer\+Begin\+Info\+::p\+Inheritance\+Info}}, \mbox{\hyperlink{vulkan_8h_source_l02354}{Vk\+Command\+Buffer\+Begin\+Info\+::p\+Next}}, \mbox{\hyperlink{vulkan_8h_source_l02361}{Vk\+Render\+Pass\+Begin\+Info\+::p\+Next}}, \mbox{\hyperlink{vulkan_8h_source_l02364}{Vk\+Render\+Pass\+Begin\+Info\+::render\+Area}}, \mbox{\hyperlink{vulkan_8h_source_l02362}{Vk\+Render\+Pass\+Begin\+Info\+::render\+Pass}}, \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00047}{RMLUI\+\_\+\+VK\+\_\+\+ASSERTMSG}}, \mbox{\hyperlink{vulkan_8h_source_l02353}{Vk\+Command\+Buffer\+Begin\+Info\+::s\+Type}}, \mbox{\hyperlink{vulkan_8h_source_l02360}{Vk\+Render\+Pass\+Begin\+Info\+::s\+Type}}, \mbox{\hyperlink{vulkan_8h_source_l01097}{VK\+\_\+\+STRUCTURE\+\_\+\+TYPE\+\_\+\+COMMAND\+\_\+\+BUFFER\+\_\+\+BEGIN\+\_\+\+INFO}}, \mbox{\hyperlink{vulkan_8h_source_l01098}{VK\+\_\+\+STRUCTURE\+\_\+\+TYPE\+\_\+\+RENDER\+\_\+\+PASS\+\_\+\+BEGIN\+\_\+\+INFO}}, \mbox{\hyperlink{vulkan_8h_source_l03117}{vk\+Begin\+Command\+Buffer}}, \mbox{\hyperlink{vulkan_8h_source_l03127}{vk\+Cmd\+Begin\+Render\+Pass}}, \mbox{\hyperlink{vulkan_8h_source_l03209}{vk\+Cmd\+Set\+Viewport}}, \mbox{\hyperlink{vulkan_8h_source_l01439}{Vk\+Extent2\+D\+::width}}, \mbox{\hyperlink{vulkan_8h_source_l01428}{Vk\+Offset2\+D\+::x}}, and \mbox{\hyperlink{vulkan_8h_source_l01429}{Vk\+Offset2\+D\+::y}}.
+
+\Hypertarget{class_render_interface___v_k_a9a4c956d42066f10c082eb20b08178cd}\label{class_render_interface___v_k_a9a4c956d42066f10c082eb20b08178cd} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!CompileGeometry@{CompileGeometry}}
+\index{CompileGeometry@{CompileGeometry}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{CompileGeometry()}{CompileGeometry()}}
+{\footnotesize\ttfamily Rml\+::\+Compiled\+Geometry\+Handle Render\+Interface\+\_\+\+VK\+::\+Compile\+Geometry (\begin{DoxyParamCaption}\item[{Rml\+::\+Span$<$ const Rml\+::\+Vertex $>$}]{vertices,  }\item[{Rml\+::\+Span$<$ const int $>$}]{indices }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Called by Rml\+Ui when it wants to compile geometry it believes will be static for the forseeable future. 
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00105}{105}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00047}{RMLUI\+\_\+\+VK\+\_\+\+ASSERTMSG}}.
+
+
+
+Referenced by \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00308}{Set\+Scissor\+Region()}}.
+
+\Hypertarget{class_render_interface___v_k_a6a4f6d8529b72e14ecfe31708aadfa48}\label{class_render_interface___v_k_a6a4f6d8529b72e14ecfe31708aadfa48} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!EnableScissorRegion@{EnableScissorRegion}}
+\index{EnableScissorRegion@{EnableScissorRegion}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{EnableScissorRegion()}{EnableScissorRegion()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+Enable\+Scissor\+Region (\begin{DoxyParamCaption}\item[{bool}]{enable }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Called by Rml\+Ui when it wants to enable or disable scissoring to clip content. 
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00289}{289}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{vulkan_8h_source_l03201}{vk\+Cmd\+Set\+Scissor}}.
+
+\Hypertarget{class_render_interface___v_k_acc2be49188a11fe109bf182c9bd5cd3e}\label{class_render_interface___v_k_acc2be49188a11fe109bf182c9bd5cd3e} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!EndFrame@{EndFrame}}
+\index{EndFrame@{EndFrame}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{EndFrame()}{EndFrame()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+End\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00735}{735}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00047}{RMLUI\+\_\+\+VK\+\_\+\+ASSERTMSG}}, \mbox{\hyperlink{vulkan_8h_source_l03171}{vk\+Cmd\+End\+Render\+Pass}}, and \mbox{\hyperlink{vulkan_8h_source_l03327}{vk\+End\+Command\+Buffer}}.
+
+\Hypertarget{class_render_interface___v_k_a879e9c51c1a1139d14540636c1ad5fa4}\label{class_render_interface___v_k_a879e9c51c1a1139d14540636c1ad5fa4} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!GenerateTexture@{GenerateTexture}}
+\index{GenerateTexture@{GenerateTexture}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{GenerateTexture()}{GenerateTexture()}}
+{\footnotesize\ttfamily Rml\+::\+Texture\+Handle Render\+Interface\+\_\+\+VK\+::\+Generate\+Texture (\begin{DoxyParamCaption}\item[{Rml\+::\+Span$<$ const Rml\+::byte $>$}]{source\+\_\+data,  }\item[{Rml\+::\+Vector2i}]{source\+\_\+dimensions }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Called by Rml\+Ui when a texture is required to be built from an internally-\/generated sequence of pixels. 
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00486}{486}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00407}{Load\+Texture()}}.
+
+\Hypertarget{class_render_interface___v_k_aec4e0388baefa69764c997d45e4bef1d}\label{class_render_interface___v_k_aec4e0388baefa69764c997d45e4bef1d} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{Initialize()}{Initialize()}}
+{\footnotesize\ttfamily bool Render\+Interface\+\_\+\+VK\+::\+Initialize (\begin{DoxyParamCaption}\item[{Rml\+::\+Vector$<$ const char \texorpdfstring{$\ast$}{*} $>$}]{required\+\_\+extensions,  }\item[{\mbox{\hyperlink{class_render_interface___v_k_aafdcde7585cd7a3b544aa373471fe492}{Create\+Surface\+Callback}}}]{create\+\_\+surface\+\_\+callback }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00798}{798}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{vulkan_8h_a10c20c70c621acb2f08abcdffb49742b}{glad\+Loader\+Load\+Vulkan()}}, \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00047}{RMLUI\+\_\+\+VK\+\_\+\+ASSERTMSG}}, and \mbox{\hyperlink{vulkan_8h_source_l00367}{VK\+\_\+\+NULL\+\_\+\+HANDLE}}.
+
+\Hypertarget{class_render_interface___v_k_aa4f89b8b42e3b5772d62de54ab2f5b3d}\label{class_render_interface___v_k_aa4f89b8b42e3b5772d62de54ab2f5b3d} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!IsSwapchainValid@{IsSwapchainValid}}
+\index{IsSwapchainValid@{IsSwapchainValid}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{IsSwapchainValid()}{IsSwapchainValid()}}
+{\footnotesize\ttfamily bool Render\+Interface\+\_\+\+VK\+::\+Is\+Swapchain\+Valid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00788}{788}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+\Hypertarget{class_render_interface___v_k_a039980fc92282dd220fb9e19e0cf6f3a}\label{class_render_interface___v_k_a039980fc92282dd220fb9e19e0cf6f3a} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!LoadTexture@{LoadTexture}}
+\index{LoadTexture@{LoadTexture}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{LoadTexture()}{LoadTexture()}}
+{\footnotesize\ttfamily Rml\+::\+Texture\+Handle Render\+Interface\+\_\+\+VK\+::\+Load\+Texture (\begin{DoxyParamCaption}\item[{Rml\+::\+Vector2i \&}]{texture\+\_\+dimensions,  }\item[{const Rml\+::\+String \&}]{source }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Called by Rml\+Ui when a texture is required by the library. 
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00407}{407}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_rml_ui___renderer___backward_compatible___g_l2_8cpp_source_l00199}{TGAHeader\+::bits\+Per\+Pixel}}, \mbox{\hyperlink{_rml_ui___renderer___backward_compatible___g_l2_8cpp_source_l00191}{TGAHeader\+::data\+Type}}, \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00486}{Generate\+Texture()}}, \mbox{\hyperlink{_rml_ui___renderer___backward_compatible___g_l2_8cpp_source_l00198}{TGAHeader\+::height}}, \mbox{\hyperlink{_rml_ui___renderer___backward_compatible___g_l2_8cpp_source_l00200}{TGAHeader\+::image\+Descriptor}}, and \mbox{\hyperlink{_rml_ui___renderer___backward_compatible___g_l2_8cpp_source_l00197}{TGAHeader\+::width}}.
+
+\Hypertarget{class_render_interface___v_k_ad971a7f6f9e99140156f7b928af34dd8}\label{class_render_interface___v_k_ad971a7f6f9e99140156f7b928af34dd8} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!RecreateSwapchain@{RecreateSwapchain}}
+\index{RecreateSwapchain@{RecreateSwapchain}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{RecreateSwapchain()}{RecreateSwapchain()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+Recreate\+Swapchain (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00793}{793}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00752}{Set\+Viewport()}}.
+
+\Hypertarget{class_render_interface___v_k_a39f99ab1fe33e75b603056d652b2499b}\label{class_render_interface___v_k_a39f99ab1fe33e75b603056d652b2499b} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!ReleaseGeometry@{ReleaseGeometry}}
+\index{ReleaseGeometry@{ReleaseGeometry}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{ReleaseGeometry()}{ReleaseGeometry()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+Release\+Geometry (\begin{DoxyParamCaption}\item[{Rml\+::\+Compiled\+Geometry\+Handle}]{geometry }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Called by Rml\+Ui when it wants to release application-\/compiled geometry. 
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00280}{280}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00308}{Set\+Scissor\+Region()}}.
+
+\Hypertarget{class_render_interface___v_k_af1f0b3f641639257e8d018a417a58212}\label{class_render_interface___v_k_af1f0b3f641639257e8d018a417a58212} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!ReleaseTexture@{ReleaseTexture}}
+\index{ReleaseTexture@{ReleaseTexture}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{ReleaseTexture()}{ReleaseTexture()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+Release\+Texture (\begin{DoxyParamCaption}\item[{Rml\+::\+Texture\+Handle}]{texture\+\_\+handle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Called by Rml\+Ui when a loaded texture is no longer required. 
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00671}{671}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+\Hypertarget{class_render_interface___v_k_a35dd1ee34f9a49bc45d12e5056ada38b}\label{class_render_interface___v_k_a35dd1ee34f9a49bc45d12e5056ada38b} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!RenderGeometry@{RenderGeometry}}
+\index{RenderGeometry@{RenderGeometry}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{RenderGeometry()}{RenderGeometry()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+Render\+Geometry (\begin{DoxyParamCaption}\item[{Rml\+::\+Compiled\+Geometry\+Handle}]{handle,  }\item[{Rml\+::\+Vector2f}]{translation,  }\item[{Rml\+::\+Texture\+Handle}]{texture }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Called by Rml\+Ui when it wants to render application-\/compiled geometry. 
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00138}{138}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{vulkan_8h_source_l01900}{Vk\+Write\+Descriptor\+Set\+::descriptor\+Count}}, \mbox{\hyperlink{vulkan_8h_source_l01901}{Vk\+Write\+Descriptor\+Set\+::descriptor\+Type}}, \mbox{\hyperlink{vulkan_8h_source_l01898}{Vk\+Write\+Descriptor\+Set\+::dst\+Binding}}, \mbox{\hyperlink{vulkan_8h_source_l01897}{Vk\+Write\+Descriptor\+Set\+::dst\+Set}}, \mbox{\hyperlink{vulkan_8h_source_l01510}{Vk\+Descriptor\+Image\+Info\+::image\+Layout}}, \mbox{\hyperlink{vulkan_8h_source_l01509}{Vk\+Descriptor\+Image\+Info\+::image\+View}}, \mbox{\hyperlink{vulkan_8h_source_l01902}{Vk\+Write\+Descriptor\+Set\+::p\+Image\+Info}}, \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00047}{RMLUI\+\_\+\+VK\+\_\+\+ASSERTMSG}}, \mbox{\hyperlink{vulkan_8h_source_l01508}{Vk\+Descriptor\+Image\+Info\+::sampler}}, \mbox{\hyperlink{vulkan_8h_source_l01895}{Vk\+Write\+Descriptor\+Set\+::s\+Type}}, \mbox{\hyperlink{vulkan_8h_source_l00554}{VK\+\_\+\+DESCRIPTOR\+\_\+\+TYPE\+\_\+\+COMBINED\+\_\+\+IMAGE\+\_\+\+SAMPLER}}, \mbox{\hyperlink{vulkan_8h_source_l00818}{VK\+\_\+\+IMAGE\+\_\+\+LAYOUT\+\_\+\+SHADER\+\_\+\+READ\+\_\+\+ONLY\+\_\+\+OPTIMAL}}, \mbox{\hyperlink{vulkan_8h_source_l00864}{VK\+\_\+\+INDEX\+\_\+\+TYPE\+\_\+\+UINT32}}, \mbox{\hyperlink{vulkan_8h_source_l00927}{VK\+\_\+\+PIPELINE\+\_\+\+BIND\+\_\+\+POINT\+\_\+\+GRAPHICS}}, \mbox{\hyperlink{vulkan_8h_source_l01090}{VK\+\_\+\+STRUCTURE\+\_\+\+TYPE\+\_\+\+WRITE\+\_\+\+DESCRIPTOR\+\_\+\+SET}}, \mbox{\hyperlink{vulkan_8h_source_l03129}{vk\+Cmd\+Bind\+Descriptor\+Sets}}, \mbox{\hyperlink{vulkan_8h_source_l03131}{vk\+Cmd\+Bind\+Index\+Buffer}}, \mbox{\hyperlink{vulkan_8h_source_l03133}{vk\+Cmd\+Bind\+Pipeline}}, \mbox{\hyperlink{vulkan_8h_source_l03135}{vk\+Cmd\+Bind\+Vertex\+Buffers}}, \mbox{\hyperlink{vulkan_8h_source_l03161}{vk\+Cmd\+Draw\+Indexed}}, and \mbox{\hyperlink{vulkan_8h_source_l03467}{vk\+Update\+Descriptor\+Sets}}.
+
+
+
+Referenced by \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00308}{Set\+Scissor\+Region()}}.
+
+\Hypertarget{class_render_interface___v_k_a5c0ded9fc6a1f196044d672d72cff7f9}\label{class_render_interface___v_k_a5c0ded9fc6a1f196044d672d72cff7f9} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!SetScissorRegion@{SetScissorRegion}}
+\index{SetScissorRegion@{SetScissorRegion}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{SetScissorRegion()}{SetScissorRegion()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+Set\+Scissor\+Region (\begin{DoxyParamCaption}\item[{Rml\+::\+Rectanglei}]{region }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Called by Rml\+Ui when it wants to change the scissor region. 
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00308}{308}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{vulkan_8h_source_l02370}{Vk\+Clear\+Attachment\+::aspect\+Mask}}, \mbox{\hyperlink{vulkan_8h_source_l02372}{Vk\+Clear\+Attachment\+::clear\+Value}}, \mbox{\hyperlink{vulkan_8h_source_l02371}{Vk\+Clear\+Attachment\+::color\+Attachment}}, \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00105}{Compile\+Geometry()}}, \mbox{\hyperlink{vulkan_8h_source_l01597}{Vk\+Clear\+Depth\+Stencil\+Value\+::depth}}, \mbox{\hyperlink{vulkan_8h_source_l01603}{Vk\+Clear\+Value\+::depth\+Stencil}}, \mbox{\hyperlink{vulkan_8h_source_l01460}{Vk\+Rect2\+D\+::extent}}, \mbox{\hyperlink{vulkan_8h_source_l01440}{Vk\+Extent2\+D\+::height}}, \mbox{\hyperlink{vulkan_8h_source_l01466}{Vk\+Clear\+Rect\+::layer\+Count}}, \mbox{\hyperlink{vulkan_8h_source_l01459}{Vk\+Rect2\+D\+::offset}}, \mbox{\hyperlink{vulkan_8h_source_l01464}{Vk\+Clear\+Rect\+::rect}}, \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00280}{Release\+Geometry()}}, \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00138}{Render\+Geometry()}}, \mbox{\hyperlink{vulkan_8h_source_l01707}{Vk\+Debug\+Utils\+Label\+EXT\+::s\+Type}}, \mbox{\hyperlink{vulkan_8h_source_l00799}{VK\+\_\+\+IMAGE\+\_\+\+ASPECT\+\_\+\+DEPTH\+\_\+\+BIT}}, \mbox{\hyperlink{vulkan_8h_source_l00800}{VK\+\_\+\+IMAGE\+\_\+\+ASPECT\+\_\+\+STENCIL\+\_\+\+BIT}}, \mbox{\hyperlink{vulkan_8h_source_l01138}{VK\+\_\+\+STRUCTURE\+\_\+\+TYPE\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+LABEL\+\_\+\+EXT}}, \mbox{\hyperlink{vulkan_8h_source_l03139}{vk\+Cmd\+Clear\+Attachments}}, \mbox{\hyperlink{vulkan_8h_source_l03177}{vk\+Cmd\+Insert\+Debug\+Utils\+Label\+EXT}}, \mbox{\hyperlink{vulkan_8h_source_l03201}{vk\+Cmd\+Set\+Scissor}}, \mbox{\hyperlink{vulkan_8h_source_l01439}{Vk\+Extent2\+D\+::width}}, \mbox{\hyperlink{vulkan_8h_source_l01428}{Vk\+Offset2\+D\+::x}}, and \mbox{\hyperlink{vulkan_8h_source_l01429}{Vk\+Offset2\+D\+::y}}.
+
+\Hypertarget{class_render_interface___v_k_abe537301d0b37357ffb4b4fb1e904776}\label{class_render_interface___v_k_abe537301d0b37357ffb4b4fb1e904776} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!SetTransform@{SetTransform}}
+\index{SetTransform@{SetTransform}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{SetTransform()}{SetTransform()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+Set\+Transform (\begin{DoxyParamCaption}\item[{const Rml\+::\+Matrix4f \texorpdfstring{$\ast$}{*}}]{transform }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+Called by Rml\+Ui when it wants to set the current transform matrix to a new matrix. 
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00681}{681}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+\Hypertarget{class_render_interface___v_k_a74c87a61ed0b410c33c72b53d1825800}\label{class_render_interface___v_k_a74c87a61ed0b410c33c72b53d1825800} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!SetViewport@{SetViewport}}
+\index{SetViewport@{SetViewport}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{SetViewport()}{SetViewport()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+Set\+Viewport (\begin{DoxyParamCaption}\item[{int}]{width,  }\item[{int}]{height }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00752}{752}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{vulkan_8h_source_l01440}{Vk\+Extent2\+D\+::height}}, \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00047}{RMLUI\+\_\+\+VK\+\_\+\+ASSERTMSG}}, \mbox{\hyperlink{vulkan_8h_source_l03325}{vk\+Device\+Wait\+Idle}}, and \mbox{\hyperlink{vulkan_8h_source_l01439}{Vk\+Extent2\+D\+::width}}.
+
+
+
+Referenced by \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00793}{Recreate\+Swapchain()}}.
+
+\Hypertarget{class_render_interface___v_k_ad9997316820b2eee1e207d6c5075d242}\label{class_render_interface___v_k_ad9997316820b2eee1e207d6c5075d242} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!Shutdown@{Shutdown}}
+\index{Shutdown@{Shutdown}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{Shutdown()}{Shutdown()}}
+{\footnotesize\ttfamily void Render\+Interface\+\_\+\+VK\+::\+Shutdown (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source_l00829}{829}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{vulkan_8h_abe98c1fc616694c217b8273b7ba5df85}{glad\+Loader\+Unload\+Vulkan()}}, \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00047}{RMLUI\+\_\+\+VK\+\_\+\+ASSERTMSG}}, and \mbox{\hyperlink{vulkan_8h_source_l03325}{vk\+Device\+Wait\+Idle}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_render_interface___v_k_a6113d272e5a72c0fcdb95233597dc6ad}\label{class_render_interface___v_k_a6113d272e5a72c0fcdb95233597dc6ad} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!kSwapchainBackBufferCount@{kSwapchainBackBufferCount}}
+\index{kSwapchainBackBufferCount@{kSwapchainBackBufferCount}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{kSwapchainBackBufferCount}{kSwapchainBackBufferCount}}
+{\footnotesize\ttfamily constexpr uint32\+\_\+t Render\+Interface\+\_\+\+VK\+::k\+Swapchain\+Back\+Buffer\+Count = 3\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00074}{74}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+h}}.
+
+\Hypertarget{class_render_interface___v_k_ab347f6c59dcb25d5d8ac07818f5dd256}\label{class_render_interface___v_k_ab347f6c59dcb25d5d8ac07818f5dd256} 
+\index{RenderInterface\_VK@{RenderInterface\_VK}!kVideoMemoryForAllocation@{kVideoMemoryForAllocation}}
+\index{kVideoMemoryForAllocation@{kVideoMemoryForAllocation}!RenderInterface\_VK@{RenderInterface\_VK}}
+\doxysubsubsection{\texorpdfstring{kVideoMemoryForAllocation}{kVideoMemoryForAllocation}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} Render\+Interface\+\_\+\+VK\+::k\+Video\+Memory\+For\+Allocation = 4 \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source_l00075}{75}} of file \mbox{\hyperlink{_rml_ui___renderer___v_k_8h_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/backends/\mbox{\hyperlink{_rml_ui___renderer___v_k_8h}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+h}}\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/backends/\mbox{\hyperlink{_rml_ui___renderer___v_k_8cpp}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+VK.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,138 @@
+\doxysection{Vma\+Detailed\+Statistics Struct Reference}
+\hypertarget{struct_vma_detailed_statistics}{}\label{struct_vma_detailed_statistics}\index{VmaDetailedStatistics@{VmaDetailedStatistics}}
+
+
+More detailed statistics than \doxylink{struct_vma_statistics}{Vma\+Statistics}.  
+
+
+
+
+{\ttfamily \#include $<$vk\+\_\+mem\+\_\+alloc.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_vma_statistics}{Vma\+Statistics}} \mbox{\hyperlink{struct_vma_detailed_statistics_a13efbdb35bd1291191d275f43e96d360}{statistics}}
+\begin{DoxyCompactList}\small\item\em Basic statistics. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_vma_detailed_statistics_ab721bf04892e8b67802d4ddb7734638a}{unused\+Range\+Count}}
+\begin{DoxyCompactList}\small\item\em Number of free ranges of memory between allocations. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} \mbox{\hyperlink{struct_vma_detailed_statistics_a6fb397e7487e10f2a52e241577d2a2b8}{allocation\+Size\+Min}}
+\begin{DoxyCompactList}\small\item\em Smallest allocation size. {\ttfamily VK\+\_\+\+WHOLE\+\_\+\+SIZE} if there are 0 allocations. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} \mbox{\hyperlink{struct_vma_detailed_statistics_a06b2add24eed3449a66ff151979a0201}{allocation\+Size\+Max}}
+\begin{DoxyCompactList}\small\item\em Largest allocation size. 0 if there are 0 allocations. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} \mbox{\hyperlink{struct_vma_detailed_statistics_a830eda847ed735d0e91da25cfcf797a4}{unused\+Range\+Size\+Min}}
+\begin{DoxyCompactList}\small\item\em Smallest empty range size. {\ttfamily VK\+\_\+\+WHOLE\+\_\+\+SIZE} if there are 0 empty ranges. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} \mbox{\hyperlink{struct_vma_detailed_statistics_af98943b5da98cf441ffa04b67914c78c}{unused\+Range\+Size\+Max}}
+\begin{DoxyCompactList}\small\item\em Largest empty range size. 0 if there are 0 empty ranges. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+More detailed statistics than \doxylink{struct_vma_statistics}{Vma\+Statistics}. 
+
+These are slower to calculate. Use for debugging purposes. See functions\+: \doxylink{group__group__stats_gad176279c8da8f50399674b2ef03ca866}{vma\+Calculate\+Statistics()}, \doxylink{group__group__stats_ga54b57aa8f511406711f4b918028d8f60}{vma\+Calculate\+Pool\+Statistics()}.
+
+Previous version of the statistics API provided averages, but they have been removed because they can be easily calculated as\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ allocationSizeAvg\ =\ detailedStats.statistics.allocationBytes\ /\ detailedStats.statistics.allocationCount;}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ unusedBytes\ =\ detailedStats.statistics.blockBytes\ -\/\ detailedStats.statistics.allocationBytes;}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{VkDeviceSize}}\ unusedRangeSizeAvg\ =\ unusedBytes\ /\ detailedStats.unusedRangeCount;}
+
+\end{DoxyCode}
+ 
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01150}{1150}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_vma_detailed_statistics_a06b2add24eed3449a66ff151979a0201}\label{struct_vma_detailed_statistics_a06b2add24eed3449a66ff151979a0201} 
+\index{VmaDetailedStatistics@{VmaDetailedStatistics}!allocationSizeMax@{allocationSizeMax}}
+\index{allocationSizeMax@{allocationSizeMax}!VmaDetailedStatistics@{VmaDetailedStatistics}}
+\doxysubsubsection{\texorpdfstring{allocationSizeMax}{allocationSizeMax}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} Vma\+Detailed\+Statistics\+::allocation\+Size\+Max}
+
+
+
+Largest allocation size. 0 if there are 0 allocations. 
+
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01159}{1159}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{struct_vma_detailed_statistics_a6fb397e7487e10f2a52e241577d2a2b8}\label{struct_vma_detailed_statistics_a6fb397e7487e10f2a52e241577d2a2b8} 
+\index{VmaDetailedStatistics@{VmaDetailedStatistics}!allocationSizeMin@{allocationSizeMin}}
+\index{allocationSizeMin@{allocationSizeMin}!VmaDetailedStatistics@{VmaDetailedStatistics}}
+\doxysubsubsection{\texorpdfstring{allocationSizeMin}{allocationSizeMin}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} Vma\+Detailed\+Statistics\+::allocation\+Size\+Min}
+
+
+
+Smallest allocation size. {\ttfamily VK\+\_\+\+WHOLE\+\_\+\+SIZE} if there are 0 allocations. 
+
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01157}{1157}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{struct_vma_detailed_statistics_a13efbdb35bd1291191d275f43e96d360}\label{struct_vma_detailed_statistics_a13efbdb35bd1291191d275f43e96d360} 
+\index{VmaDetailedStatistics@{VmaDetailedStatistics}!statistics@{statistics}}
+\index{statistics@{statistics}!VmaDetailedStatistics@{VmaDetailedStatistics}}
+\doxysubsubsection{\texorpdfstring{statistics}{statistics}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_vma_statistics}{Vma\+Statistics}} Vma\+Detailed\+Statistics\+::statistics}
+
+
+
+Basic statistics. 
+
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01153}{1153}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{struct_vma_detailed_statistics_ab721bf04892e8b67802d4ddb7734638a}\label{struct_vma_detailed_statistics_ab721bf04892e8b67802d4ddb7734638a} 
+\index{VmaDetailedStatistics@{VmaDetailedStatistics}!unusedRangeCount@{unusedRangeCount}}
+\index{unusedRangeCount@{unusedRangeCount}!VmaDetailedStatistics@{VmaDetailedStatistics}}
+\doxysubsubsection{\texorpdfstring{unusedRangeCount}{unusedRangeCount}}
+{\footnotesize\ttfamily uint32\+\_\+t Vma\+Detailed\+Statistics\+::unused\+Range\+Count}
+
+
+
+Number of free ranges of memory between allocations. 
+
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01155}{1155}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{struct_vma_detailed_statistics_af98943b5da98cf441ffa04b67914c78c}\label{struct_vma_detailed_statistics_af98943b5da98cf441ffa04b67914c78c} 
+\index{VmaDetailedStatistics@{VmaDetailedStatistics}!unusedRangeSizeMax@{unusedRangeSizeMax}}
+\index{unusedRangeSizeMax@{unusedRangeSizeMax}!VmaDetailedStatistics@{VmaDetailedStatistics}}
+\doxysubsubsection{\texorpdfstring{unusedRangeSizeMax}{unusedRangeSizeMax}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} Vma\+Detailed\+Statistics\+::unused\+Range\+Size\+Max}
+
+
+
+Largest empty range size. 0 if there are 0 empty ranges. 
+
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01163}{1163}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{struct_vma_detailed_statistics_a830eda847ed735d0e91da25cfcf797a4}\label{struct_vma_detailed_statistics_a830eda847ed735d0e91da25cfcf797a4} 
+\index{VmaDetailedStatistics@{VmaDetailedStatistics}!unusedRangeSizeMin@{unusedRangeSizeMin}}
+\index{unusedRangeSizeMin@{unusedRangeSizeMin}!VmaDetailedStatistics@{VmaDetailedStatistics}}
+\doxysubsubsection{\texorpdfstring{unusedRangeSizeMin}{unusedRangeSizeMin}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} Vma\+Detailed\+Statistics\+::unused\+Range\+Size\+Min}
+
+
+
+Smallest empty range size. {\ttfamily VK\+\_\+\+WHOLE\+\_\+\+SIZE} if there are 0 empty ranges. 
+
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01161}{1161}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/backends/\+Rml\+Ui\+\_\+\+Vulkan/\mbox{\hyperlink{vk__mem__alloc_8h}{vk\+\_\+mem\+\_\+alloc.\+h}}\end{DoxyCompactItemize}

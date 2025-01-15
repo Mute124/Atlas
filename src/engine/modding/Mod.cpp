@@ -1,5 +1,5 @@
 #include "Mod.h"
 
-inline Techstorm::Mod::Mod() {}
+inline Atlas::Mod::Mod() {}
 
-inline Techstorm::Mod::~Mod() {}
+inline Atlas::Mod::~Mod() {}

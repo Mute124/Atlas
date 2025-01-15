@@ -1,0 +1,596 @@
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/backends/\+Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.cpp File Reference}
+\hypertarget{_rml_ui___renderer___g_l3_8cpp}{}\label{_rml_ui___renderer___g_l3_8cpp}\index{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Renderer\_GL3.cpp@{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Renderer\_GL3.cpp}}
+{\ttfamily \#include "{}Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+h"{}}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Core.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Decoration\+Types.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+File\+Interface.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Geometry.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Log.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Mesh\+Utilities.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+Platform.\+h$>$}\newline
+{\ttfamily \#include $<$Rml\+Ui/\+Core/\+System\+Interface.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}Rml\+Ui\+\_\+\+Include\+\_\+\+GL3.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_gfx_1_1_vert_shader_definition}{Gfx\+::\+Vert\+Shader\+Definition}}
+\item 
+struct \mbox{\hyperlink{struct_gfx_1_1_frag_shader_definition}{Gfx\+::\+Frag\+Shader\+Definition}}
+\item 
+struct \mbox{\hyperlink{struct_gfx_1_1_program_definition}{Gfx\+::\+Program\+Definition}}
+\item 
+class \mbox{\hyperlink{class_gfx_1_1_enum_array}{Gfx\+::\+Enum\+Array$<$ T, Enum $>$}}
+\item 
+class \mbox{\hyperlink{class_gfx_1_1_uniforms}{Gfx\+::\+Uniforms}}
+\item 
+struct \mbox{\hyperlink{struct_gfx_1_1_program_data}{Gfx\+::\+Program\+Data}}
+\item 
+struct \mbox{\hyperlink{struct_gfx_1_1_compiled_geometry_data}{Gfx\+::\+Compiled\+Geometry\+Data}}
+\item 
+struct \mbox{\hyperlink{struct_gfx_1_1_framebuffer_data}{Gfx\+::\+Framebuffer\+Data}}
+\item 
+struct \mbox{\hyperlink{struct_t_g_a_header}{TGAHeader}}
+\item 
+struct \mbox{\hyperlink{struct_compiled_filter}{Compiled\+Filter}}
+\item 
+struct \mbox{\hyperlink{struct_compiled_shader}{Compiled\+Shader}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_gfx}{Gfx}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a53818a00780c5bf3cac60b829757903e}{RMLUI\+\_\+\+SHADER\+\_\+\+HEADER\+\_\+\+VERSION}}~"{}\#version 330\textbackslash{}n"{}
+\item 
+\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a09f9c3bf094ecaf707c673924ffd615a}{GLAD\+\_\+\+GL\+\_\+\+IMPLEMENTATION}}
+\item 
+\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ac6a981349cf9115ef9889672213edcf9}{MAX\+\_\+\+NUM\+\_\+\+STOPS}}~16
+\item 
+\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ab28061d09f719155d5323a371c59190c}{BLUR\+\_\+\+SIZE}}~7
+\item 
+\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a32605bf3f0e64919f6a66a44af97268d}{BLUR\+\_\+\+NUM\+\_\+\+WEIGHTS}}~((\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ab28061d09f719155d5323a371c59190c}{BLUR\+\_\+\+SIZE}} + 1) / 2)
+\item 
+\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ae97ff3dcd8f0c429b004ebd728e35932}{RMLUI\+\_\+\+STRINGIFY\+\_\+\+IMPL}}(x)~\#x
+\item 
+\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a8c8c320fa437008df42810d2091c593b}{RMLUI\+\_\+\+STRINGIFY}}(x)~\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ae97ff3dcd8f0c429b004ebd728e35932}{RMLUI\+\_\+\+STRINGIFY\+\_\+\+IMPL}}(x)
+\item 
+\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a49bb28b36c995d984c4403390c998e61}{RMLUI\+\_\+\+SHADER\+\_\+\+HEADER}}~ \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a53818a00780c5bf3cac60b829757903e}{RMLUI\+\_\+\+SHADER\+\_\+\+HEADER\+\_\+\+VERSION}} "{}\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ac6a981349cf9115ef9889672213edcf9}{MAX\+\_\+\+NUM\+\_\+\+STOPS}} "{} RMLUI\+\_\+\+STRINGIFY(\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ac6a981349cf9115ef9889672213edcf9}{MAX\+\_\+\+NUM\+\_\+\+STOPS}}) "{}\textbackslash{}n\#line "{} RMLUI\+\_\+\+STRINGIFY(\+\_\+\+\_\+\+LINE\+\_\+\+\_\+) "{}\textbackslash{}n"{}
+\item 
+\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ada858bba43faa0488673e27513a0fc05}{RMLUI\+\_\+\+SHADER\+\_\+\+BLUR\+\_\+\+HEADER}}~ \mbox{\hyperlink{_rml_ui___renderer___backward_compatible___g_l3_8cpp_a49bb28b36c995d984c4403390c998e61}{RMLUI\+\_\+\+SHADER\+\_\+\+HEADER}} "{}\textbackslash{}n\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ab28061d09f719155d5323a371c59190c}{BLUR\+\_\+\+SIZE}} "{} RMLUI\+\_\+\+STRINGIFY(\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ab28061d09f719155d5323a371c59190c}{BLUR\+\_\+\+SIZE}}) "{}\textbackslash{}n\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a32605bf3f0e64919f6a66a44af97268d}{BLUR\+\_\+\+NUM\+\_\+\+WEIGHTS}} "{} RMLUI\+\_\+\+STRINGIFY(\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a32605bf3f0e64919f6a66a44af97268d}{BLUR\+\_\+\+NUM\+\_\+\+WEIGHTS}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespace_gfx_aaf42526e9f033c8b615671cead0699c6}{Gfx\+::\+Programs}} = \mbox{\hyperlink{class_gfx_1_1_enum_array}{Enum\+Array}}$<$ \mbox{\hyperlink{_rml_ui___include___g_l3_8h_aa311c7f0d6ec4f1a33f9235c3651b86b}{GLuint}}, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70a}{Program\+Id}} $>$
+\item 
+using \mbox{\hyperlink{namespace_gfx_ae4076fe4c166351ac845c6fc8023d151}{Gfx\+::\+Vert\+Shaders}} = \mbox{\hyperlink{class_gfx_1_1_enum_array}{Enum\+Array}}$<$ \mbox{\hyperlink{_rml_ui___include___g_l3_8h_aa311c7f0d6ec4f1a33f9235c3651b86b}{GLuint}}, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018}{Vert\+Shader\+Id}} $>$
+\item 
+using \mbox{\hyperlink{namespace_gfx_a71c6944f200b913e910385cf05449e7a}{Gfx\+::\+Frag\+Shaders}} = \mbox{\hyperlink{class_gfx_1_1_enum_array}{Enum\+Array}}$<$ \mbox{\hyperlink{_rml_ui___include___g_l3_8h_aa311c7f0d6ec4f1a33f9235c3651b86b}{GLuint}}, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6}{Frag\+Shader\+Id}} $>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562f}{Shader\+Gradient\+Function}} \{ \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fa32a843da6ea40ab3b17a3421ccdf671b}{Linear}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fafdc32a55217f1ca054f1f2b51ef4f6ec}{Radial}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fabb51a132161f50b4daf4badef28dfbaa}{Conic}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fabf41704a1aa40de911b54d94776250f1}{Repeating\+Linear}}
+, \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fa951d113268d31084d4df376d7984f8f6}{Repeating\+Radial}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fa2e01265c2eb1cbac114bbf88d1b34d99}{Repeating\+Conic}}
+ \}
+\item 
+enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70a}{Program\+Id}} \{ \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa6adf97f83acf6453d4a6a4b1070f3754}{None}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aacb5feb1b7314637725a2e73bdc9f7295}{Color}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aaa3e8ae43188ae76d38f414b2bdb0077b}{Texture}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa5e59525cb7d1d1cd93be0b9f36e9d09a}{Gradient}}
+, \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa67d5168b4f2b5424a3d118ea9ef99372}{Creation}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aaf6124225f7555a9190621c9886890973}{Passthrough}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aabce05e5ab64f928bdfaf2164ccd4c622}{Color\+Matrix}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aab8e0deafc483b3dbd367e162c774634d}{Blend\+Mask}}
+, \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa8b52de510bc5497ac43abfe566be48ab}{Blur}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa62fb0c043d7459d6590e00540884ea62}{Drop\+Shadow}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aae93f994f01c537c4e2f7d8528c3eb5e9}{Count}}
+ \}
+\item 
+enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018}{Vert\+Shader\+Id}} \{ \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018aa02c83a7dbd96295beaefb72c2bee2de}{Main}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018af6124225f7555a9190621c9886890973}{Passthrough}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018a8b52de510bc5497ac43abfe566be48ab}{Blur}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018ae93f994f01c537c4e2f7d8528c3eb5e9}{Count}}
+ \}
+\item 
+enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6}{Frag\+Shader\+Id}} \{ \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6acb5feb1b7314637725a2e73bdc9f7295}{Color}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6aa3e8ae43188ae76d38f414b2bdb0077b}{Texture}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a5e59525cb7d1d1cd93be0b9f36e9d09a}{Gradient}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a67d5168b4f2b5424a3d118ea9ef99372}{Creation}}
+, \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6af6124225f7555a9190621c9886890973}{Passthrough}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6abce05e5ab64f928bdfaf2164ccd4c622}{Color\+Matrix}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6ab8e0deafc483b3dbd367e162c774634d}{Blend\+Mask}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a8b52de510bc5497ac43abfe566be48ab}{Blur}}
+, \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a62fb0c043d7459d6590e00540884ea62}{Drop\+Shadow}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6ae93f994f01c537c4e2f7d8528c3eb5e9}{Count}}
+ \}
+\item 
+enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5}{Uniform\+Id}} \{ \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5adeccbe4e9083c3b5f7cd2632722765bb}{Translate}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a2ff4148554480a37f85efd299df04850}{Transform}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a2abb5076c9cc0f40b2b6031bcbfb6090}{Tex}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5acb5feb1b7314637725a2e73bdc9f7295}{Color}}
+, \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5abce05e5ab64f928bdfaf2164ccd4c622}{Color\+Matrix}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a33a86208109929ea935347575ec3f632}{Texel\+Offset}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a4353abf26bba1a78952564c8fe1dd198}{Tex\+Coord\+Min}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a34e366c10e72c1db57209883fd76f497}{Tex\+Coord\+Max}}
+, \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a3383f4fd1cacbfa6e01626c2a53afaf0}{Tex\+Mask}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a8831731b52fdc6cb7f162f9767d66e4d}{Weights}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a00d0b4f2d7dcdaaef835b97cf5d1e0df}{Func}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a44c29edb103a2872f519ad0c9a0fdaaa}{P}}
+, \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a5206560a306a2e085a437fd258eb57ce}{V}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5af89a19f620eb34b446045529e3d353b1}{Stop\+Colors}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a4befde37b7a20334ecafba339f512333}{Stop\+Positions}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a29d3027c8135c540ab52081682bca384}{Num\+Stops}}
+, \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a689202409e48743b914713f96d93947c}{Value}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5af4843c1c797abf1a256c8802b6cd9f51}{Dimensions}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5ae93f994f01c537c4e2f7d8528c3eb5e9}{Count}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_gfx_a18823fdafde60692d4eeac379b903b06}{Gfx\+::\+Vertex\+Attribute}} \{ \newline
+\mbox{\hyperlink{namespace_gfx_a18823fdafde60692d4eeac379b903b06a52f5e0bc3859bc5f5e25130b6c7e8881}{Gfx\+::\+Position}}
+, \mbox{\hyperlink{namespace_gfx_a18823fdafde60692d4eeac379b903b06aa0a1f5336d1ce1e6ed36df3ae4ea3a5a}{Gfx\+::\+Color0}}
+, \mbox{\hyperlink{namespace_gfx_a18823fdafde60692d4eeac379b903b06a4ac00b6292b9c8d63d0a11df581bd399}{Gfx\+::\+Tex\+Coord0}}
+, \mbox{\hyperlink{namespace_gfx_a18823fdafde60692d4eeac379b903b06ae93f994f01c537c4e2f7d8528c3eb5e9}{Gfx\+::\+Count}}
+, \newline
+\mbox{\hyperlink{namespace_gfx_a18823fdafde60692d4eeac379b903b06a52f5e0bc3859bc5f5e25130b6c7e8881}{Gfx\+::\+Position}}
+, \mbox{\hyperlink{namespace_gfx_a18823fdafde60692d4eeac379b903b06aa0a1f5336d1ce1e6ed36df3ae4ea3a5a}{Gfx\+::\+Color0}}
+, \mbox{\hyperlink{namespace_gfx_a18823fdafde60692d4eeac379b903b06a4ac00b6292b9c8d63d0a11df581bd399}{Gfx\+::\+Tex\+Coord0}}
+, \mbox{\hyperlink{namespace_gfx_a18823fdafde60692d4eeac379b903b06ae93f994f01c537c4e2f7d8528c3eb5e9}{Gfx\+::\+Count}}
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_gfx_a6a8eacf67f9e951ff855489fe86edb52}{Gfx\+::\+Framebuffer\+Attachment}} \{ \mbox{\hyperlink{namespace_gfx_a6a8eacf67f9e951ff855489fe86edb52a6adf97f83acf6453d4a6a4b1070f3754}{Gfx\+::\+None}}
+, \mbox{\hyperlink{namespace_gfx_a6a8eacf67f9e951ff855489fe86edb52a2fa8076285272883c91e14402975a441}{Gfx\+::\+Depth\+Stencil}}
+ \}
+\item 
+enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}} \{ \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa4bbb8f967da6d1a610596d7257179c2b}{Invalid}} = 0
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94faf6124225f7555a9190621c9886890973}{Passthrough}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa8b52de510bc5497ac43abfe566be48ab}{Blur}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa62fb0c043d7459d6590e00540884ea62}{Drop\+Shadow}}
+, \newline
+\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fabce05e5ab64f928bdfaf2164ccd4c622}{Color\+Matrix}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa5c42fb7d0348160a336d5b66e2c9a233}{Mask\+Image}}
+ \}
+\item 
+enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9}{Compiled\+Shader\+Type}} \{ \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9a4bbb8f967da6d1a610596d7257179c2b}{Invalid}} = 0
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9a5e59525cb7d1d1cd93be0b9f36e9d09a}{Gradient}}
+, \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9a67d5168b4f2b5424a3d118ea9ef99372}{Creation}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a32605bf3f0e64919f6a66a44af97268d}\label{_rml_ui___renderer___g_l3_8cpp_a32605bf3f0e64919f6a66a44af97268d} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!BLUR\_NUM\_WEIGHTS@{BLUR\_NUM\_WEIGHTS}}
+\index{BLUR\_NUM\_WEIGHTS@{BLUR\_NUM\_WEIGHTS}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{BLUR\_NUM\_WEIGHTS}{BLUR\_NUM\_WEIGHTS}}
+{\footnotesize\ttfamily \#define BLUR\+\_\+\+NUM\+\_\+\+WEIGHTS~((\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ab28061d09f719155d5323a371c59190c}{BLUR\+\_\+\+SIZE}} + 1) / 2)}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00064}{64}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_ab28061d09f719155d5323a371c59190c}\label{_rml_ui___renderer___g_l3_8cpp_ab28061d09f719155d5323a371c59190c} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!BLUR\_SIZE@{BLUR\_SIZE}}
+\index{BLUR\_SIZE@{BLUR\_SIZE}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{BLUR\_SIZE}{BLUR\_SIZE}}
+{\footnotesize\ttfamily \#define BLUR\+\_\+\+SIZE~7}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00063}{63}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a09f9c3bf094ecaf707c673924ffd615a}\label{_rml_ui___renderer___g_l3_8cpp_a09f9c3bf094ecaf707c673924ffd615a} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!GLAD\_GL\_IMPLEMENTATION@{GLAD\_GL\_IMPLEMENTATION}}
+\index{GLAD\_GL\_IMPLEMENTATION@{GLAD\_GL\_IMPLEMENTATION}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{GLAD\_GL\_IMPLEMENTATION}{GLAD\_GL\_IMPLEMENTATION}}
+{\footnotesize\ttfamily \#define GLAD\+\_\+\+GL\+\_\+\+IMPLEMENTATION}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00055}{55}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_ac6a981349cf9115ef9889672213edcf9}\label{_rml_ui___renderer___g_l3_8cpp_ac6a981349cf9115ef9889672213edcf9} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!MAX\_NUM\_STOPS@{MAX\_NUM\_STOPS}}
+\index{MAX\_NUM\_STOPS@{MAX\_NUM\_STOPS}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{MAX\_NUM\_STOPS}{MAX\_NUM\_STOPS}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+NUM\+\_\+\+STOPS~16}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00062}{62}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_ada858bba43faa0488673e27513a0fc05}\label{_rml_ui___renderer___g_l3_8cpp_ada858bba43faa0488673e27513a0fc05} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!RMLUI\_SHADER\_BLUR\_HEADER@{RMLUI\_SHADER\_BLUR\_HEADER}}
+\index{RMLUI\_SHADER\_BLUR\_HEADER@{RMLUI\_SHADER\_BLUR\_HEADER}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{RMLUI\_SHADER\_BLUR\_HEADER}{RMLUI\_SHADER\_BLUR\_HEADER}}
+{\footnotesize\ttfamily \#define RMLUI\+\_\+\+SHADER\+\_\+\+BLUR\+\_\+\+HEADER~ \mbox{\hyperlink{_rml_ui___renderer___backward_compatible___g_l3_8cpp_a49bb28b36c995d984c4403390c998e61}{RMLUI\+\_\+\+SHADER\+\_\+\+HEADER}} "{}\textbackslash{}n\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ab28061d09f719155d5323a371c59190c}{BLUR\+\_\+\+SIZE}} "{} RMLUI\+\_\+\+STRINGIFY(\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ab28061d09f719155d5323a371c59190c}{BLUR\+\_\+\+SIZE}}) "{}\textbackslash{}n\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a32605bf3f0e64919f6a66a44af97268d}{BLUR\+\_\+\+NUM\+\_\+\+WEIGHTS}} "{} RMLUI\+\_\+\+STRINGIFY(\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a32605bf3f0e64919f6a66a44af97268d}{BLUR\+\_\+\+NUM\+\_\+\+WEIGHTS}})}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00259}{259}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a49bb28b36c995d984c4403390c998e61}\label{_rml_ui___renderer___g_l3_8cpp_a49bb28b36c995d984c4403390c998e61} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!RMLUI\_SHADER\_HEADER@{RMLUI\_SHADER\_HEADER}}
+\index{RMLUI\_SHADER\_HEADER@{RMLUI\_SHADER\_HEADER}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{RMLUI\_SHADER\_HEADER}{RMLUI\_SHADER\_HEADER}}
+{\footnotesize\ttfamily \#define RMLUI\+\_\+\+SHADER\+\_\+\+HEADER~ \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a53818a00780c5bf3cac60b829757903e}{RMLUI\+\_\+\+SHADER\+\_\+\+HEADER\+\_\+\+VERSION}} "{}\#define \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ac6a981349cf9115ef9889672213edcf9}{MAX\+\_\+\+NUM\+\_\+\+STOPS}} "{} RMLUI\+\_\+\+STRINGIFY(\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ac6a981349cf9115ef9889672213edcf9}{MAX\+\_\+\+NUM\+\_\+\+STOPS}}) "{}\textbackslash{}n\#line "{} RMLUI\+\_\+\+STRINGIFY(\+\_\+\+\_\+\+LINE\+\_\+\+\_\+) "{}\textbackslash{}n"{}}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00069}{69}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a53818a00780c5bf3cac60b829757903e}\label{_rml_ui___renderer___g_l3_8cpp_a53818a00780c5bf3cac60b829757903e} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!RMLUI\_SHADER\_HEADER\_VERSION@{RMLUI\_SHADER\_HEADER\_VERSION}}
+\index{RMLUI\_SHADER\_HEADER\_VERSION@{RMLUI\_SHADER\_HEADER\_VERSION}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{RMLUI\_SHADER\_HEADER\_VERSION}{RMLUI\_SHADER\_HEADER\_VERSION}}
+{\footnotesize\ttfamily \#define RMLUI\+\_\+\+SHADER\+\_\+\+HEADER\+\_\+\+VERSION~"{}\#version 330\textbackslash{}n"{}}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00054}{54}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a8c8c320fa437008df42810d2091c593b}\label{_rml_ui___renderer___g_l3_8cpp_a8c8c320fa437008df42810d2091c593b} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!RMLUI\_STRINGIFY@{RMLUI\_STRINGIFY}}
+\index{RMLUI\_STRINGIFY@{RMLUI\_STRINGIFY}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{RMLUI\_STRINGIFY}{RMLUI\_STRINGIFY}}
+{\footnotesize\ttfamily \#define RMLUI\+\_\+\+STRINGIFY(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~\mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_ae97ff3dcd8f0c429b004ebd728e35932}{RMLUI\+\_\+\+STRINGIFY\+\_\+\+IMPL}}(x)}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00067}{67}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_ae97ff3dcd8f0c429b004ebd728e35932}\label{_rml_ui___renderer___g_l3_8cpp_ae97ff3dcd8f0c429b004ebd728e35932} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!RMLUI\_STRINGIFY\_IMPL@{RMLUI\_STRINGIFY\_IMPL}}
+\index{RMLUI\_STRINGIFY\_IMPL@{RMLUI\_STRINGIFY\_IMPL}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{RMLUI\_STRINGIFY\_IMPL}{RMLUI\_STRINGIFY\_IMPL}}
+{\footnotesize\ttfamily \#define RMLUI\+\_\+\+STRINGIFY\+\_\+\+IMPL(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~\#x}
+
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00066}{66}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9}\label{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!CompiledShaderType@{CompiledShaderType}}
+\index{CompiledShaderType@{CompiledShaderType}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{CompiledShaderType}{CompiledShaderType}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9}{Compiled\+Shader\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Invalid@{Invalid}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Invalid@{Invalid}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9a4bbb8f967da6d1a610596d7257179c2b}\label{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9a4bbb8f967da6d1a610596d7257179c2b} 
+Invalid&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Gradient@{Gradient}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Gradient@{Gradient}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9a5e59525cb7d1d1cd93be0b9f36e9d09a}\label{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9a5e59525cb7d1d1cd93be0b9f36e9d09a} 
+Gradient&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Creation@{Creation}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Creation@{Creation}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9a67d5168b4f2b5424a3d118ea9ef99372}\label{_rml_ui___renderer___g_l3_8cpp_a3435c637c9d9659e2d1561ab2ea9bbd9a67d5168b4f2b5424a3d118ea9ef99372} 
+Creation&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l01621}{1621}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94f}\label{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94f} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!FilterType@{FilterType}}
+\index{FilterType@{FilterType}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{FilterType}{FilterType}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Invalid@{Invalid}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Invalid@{Invalid}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa4bbb8f967da6d1a610596d7257179c2b}\label{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa4bbb8f967da6d1a610596d7257179c2b} 
+Invalid&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Passthrough@{Passthrough}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Passthrough@{Passthrough}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94faf6124225f7555a9190621c9886890973}\label{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94faf6124225f7555a9190621c9886890973} 
+Passthrough&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Blur@{Blur}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Blur@{Blur}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa8b52de510bc5497ac43abfe566be48ab}\label{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa8b52de510bc5497ac43abfe566be48ab} 
+Blur&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DropShadow@{DropShadow}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!DropShadow@{DropShadow}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa62fb0c043d7459d6590e00540884ea62}\label{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa62fb0c043d7459d6590e00540884ea62} 
+Drop\+Shadow&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ColorMatrix@{ColorMatrix}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!ColorMatrix@{ColorMatrix}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fabce05e5ab64f928bdfaf2164ccd4c622}\label{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fabce05e5ab64f928bdfaf2164ccd4c622} 
+Color\+Matrix&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MaskImage@{MaskImage}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!MaskImage@{MaskImage}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa5c42fb7d0348160a336d5b66e2c9a233}\label{_rml_ui___renderer___g_l3_8cpp_a7ef0ab496f57e183b484e62e2053c94fa5c42fb7d0348160a336d5b66e2c9a233} 
+Mask\+Image&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l01486}{1486}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!FragShaderId@{FragShaderId}}
+\index{FragShaderId@{FragShaderId}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{FragShaderId}{FragShaderId}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6}{Frag\+Shader\+Id}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Color@{Color}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Color@{Color}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6acb5feb1b7314637725a2e73bdc9f7295}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6acb5feb1b7314637725a2e73bdc9f7295} 
+Color&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Texture@{Texture}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Texture@{Texture}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6aa3e8ae43188ae76d38f414b2bdb0077b}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6aa3e8ae43188ae76d38f414b2bdb0077b} 
+Texture&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Gradient@{Gradient}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Gradient@{Gradient}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a5e59525cb7d1d1cd93be0b9f36e9d09a}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a5e59525cb7d1d1cd93be0b9f36e9d09a} 
+Gradient&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Creation@{Creation}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Creation@{Creation}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a67d5168b4f2b5424a3d118ea9ef99372}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a67d5168b4f2b5424a3d118ea9ef99372} 
+Creation&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Passthrough@{Passthrough}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Passthrough@{Passthrough}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6af6124225f7555a9190621c9886890973}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6af6124225f7555a9190621c9886890973} 
+Passthrough&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ColorMatrix@{ColorMatrix}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!ColorMatrix@{ColorMatrix}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6abce05e5ab64f928bdfaf2164ccd4c622}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6abce05e5ab64f928bdfaf2164ccd4c622} 
+Color\+Matrix&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BlendMask@{BlendMask}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!BlendMask@{BlendMask}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6ab8e0deafc483b3dbd367e162c774634d}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6ab8e0deafc483b3dbd367e162c774634d} 
+Blend\+Mask&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Blur@{Blur}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Blur@{Blur}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a8b52de510bc5497ac43abfe566be48ab}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a8b52de510bc5497ac43abfe566be48ab} 
+Blur&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DropShadow@{DropShadow}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!DropShadow@{DropShadow}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a62fb0c043d7459d6590e00540884ea62}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6a62fb0c043d7459d6590e00540884ea62} 
+Drop\+Shadow&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Count@{Count}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Count@{Count}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6ae93f994f01c537c4e2f7d8528c3eb5e9}\label{_rml_ui___renderer___g_l3_8cpp_a630a8aba1ff1cb02f04423d6dbe7a0c6ae93f994f01c537c4e2f7d8528c3eb5e9} 
+Count&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00329}{329}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70a}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70a} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!ProgramId@{ProgramId}}
+\index{ProgramId@{ProgramId}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{ProgramId}{ProgramId}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70a}{Program\+Id}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{None@{None}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!None@{None}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa6adf97f83acf6453d4a6a4b1070f3754}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa6adf97f83acf6453d4a6a4b1070f3754} 
+None&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Color@{Color}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Color@{Color}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aacb5feb1b7314637725a2e73bdc9f7295}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aacb5feb1b7314637725a2e73bdc9f7295} 
+Color&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Texture@{Texture}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Texture@{Texture}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aaa3e8ae43188ae76d38f414b2bdb0077b}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aaa3e8ae43188ae76d38f414b2bdb0077b} 
+Texture&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Gradient@{Gradient}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Gradient@{Gradient}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa5e59525cb7d1d1cd93be0b9f36e9d09a}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa5e59525cb7d1d1cd93be0b9f36e9d09a} 
+Gradient&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Creation@{Creation}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Creation@{Creation}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa67d5168b4f2b5424a3d118ea9ef99372}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa67d5168b4f2b5424a3d118ea9ef99372} 
+Creation&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Passthrough@{Passthrough}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Passthrough@{Passthrough}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aaf6124225f7555a9190621c9886890973}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aaf6124225f7555a9190621c9886890973} 
+Passthrough&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ColorMatrix@{ColorMatrix}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!ColorMatrix@{ColorMatrix}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aabce05e5ab64f928bdfaf2164ccd4c622}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aabce05e5ab64f928bdfaf2164ccd4c622} 
+Color\+Matrix&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BlendMask@{BlendMask}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!BlendMask@{BlendMask}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aab8e0deafc483b3dbd367e162c774634d}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aab8e0deafc483b3dbd367e162c774634d} 
+Blend\+Mask&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Blur@{Blur}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Blur@{Blur}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa8b52de510bc5497ac43abfe566be48ab}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa8b52de510bc5497ac43abfe566be48ab} 
+Blur&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DropShadow@{DropShadow}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!DropShadow@{DropShadow}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa62fb0c043d7459d6590e00540884ea62}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aa62fb0c043d7459d6590e00540884ea62} 
+Drop\+Shadow&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Count@{Count}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Count@{Count}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aae93f994f01c537c4e2f7d8528c3eb5e9}\label{_rml_ui___renderer___g_l3_8cpp_aef39ea06ec027f46e65b8280775df70aae93f994f01c537c4e2f7d8528c3eb5e9} 
+Count&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00310}{310}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562f}\label{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562f} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!ShaderGradientFunction@{ShaderGradientFunction}}
+\index{ShaderGradientFunction@{ShaderGradientFunction}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{ShaderGradientFunction}{ShaderGradientFunction}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562f}{Shader\+Gradient\+Function}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Linear@{Linear}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Linear@{Linear}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fa32a843da6ea40ab3b17a3421ccdf671b}\label{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fa32a843da6ea40ab3b17a3421ccdf671b} 
+Linear&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Radial@{Radial}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Radial@{Radial}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fafdc32a55217f1ca054f1f2b51ef4f6ec}\label{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fafdc32a55217f1ca054f1f2b51ef4f6ec} 
+Radial&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Conic@{Conic}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Conic@{Conic}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fabb51a132161f50b4daf4badef28dfbaa}\label{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fabb51a132161f50b4daf4badef28dfbaa} 
+Conic&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RepeatingLinear@{RepeatingLinear}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!RepeatingLinear@{RepeatingLinear}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fabf41704a1aa40de911b54d94776250f1}\label{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fabf41704a1aa40de911b54d94776250f1} 
+Repeating\+Linear&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RepeatingRadial@{RepeatingRadial}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!RepeatingRadial@{RepeatingRadial}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fa951d113268d31084d4df376d7984f8f6}\label{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fa951d113268d31084d4df376d7984f8f6} 
+Repeating\+Radial&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RepeatingConic@{RepeatingConic}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!RepeatingConic@{RepeatingConic}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fa2e01265c2eb1cbac114bbf88d1b34d99}\label{_rml_ui___renderer___g_l3_8cpp_aa027effa605bd6c736904da7510b562fa2e01265c2eb1cbac114bbf88d1b34d99} 
+Repeating\+Conic&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00116}{116}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!UniformId@{UniformId}}
+\index{UniformId@{UniformId}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{UniformId}{UniformId}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5}{Uniform\+Id}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Translate@{Translate}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Translate@{Translate}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5adeccbe4e9083c3b5f7cd2632722765bb}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5adeccbe4e9083c3b5f7cd2632722765bb} 
+Translate&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Transform@{Transform}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Transform@{Transform}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a2ff4148554480a37f85efd299df04850}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a2ff4148554480a37f85efd299df04850} 
+Transform&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Tex@{Tex}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Tex@{Tex}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a2abb5076c9cc0f40b2b6031bcbfb6090}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a2abb5076c9cc0f40b2b6031bcbfb6090} 
+Tex&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Color@{Color}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Color@{Color}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5acb5feb1b7314637725a2e73bdc9f7295}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5acb5feb1b7314637725a2e73bdc9f7295} 
+Color&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ColorMatrix@{ColorMatrix}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!ColorMatrix@{ColorMatrix}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5abce05e5ab64f928bdfaf2164ccd4c622}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5abce05e5ab64f928bdfaf2164ccd4c622} 
+Color\+Matrix&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TexelOffset@{TexelOffset}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!TexelOffset@{TexelOffset}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a33a86208109929ea935347575ec3f632}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a33a86208109929ea935347575ec3f632} 
+Texel\+Offset&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TexCoordMin@{TexCoordMin}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!TexCoordMin@{TexCoordMin}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a4353abf26bba1a78952564c8fe1dd198}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a4353abf26bba1a78952564c8fe1dd198} 
+Tex\+Coord\+Min&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TexCoordMax@{TexCoordMax}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!TexCoordMax@{TexCoordMax}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a34e366c10e72c1db57209883fd76f497}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a34e366c10e72c1db57209883fd76f497} 
+Tex\+Coord\+Max&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TexMask@{TexMask}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!TexMask@{TexMask}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a3383f4fd1cacbfa6e01626c2a53afaf0}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a3383f4fd1cacbfa6e01626c2a53afaf0} 
+Tex\+Mask&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Weights@{Weights}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Weights@{Weights}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a8831731b52fdc6cb7f162f9767d66e4d}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a8831731b52fdc6cb7f162f9767d66e4d} 
+Weights&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Func@{Func}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Func@{Func}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a00d0b4f2d7dcdaaef835b97cf5d1e0df}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a00d0b4f2d7dcdaaef835b97cf5d1e0df} 
+Func&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{P@{P}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!P@{P}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a44c29edb103a2872f519ad0c9a0fdaaa}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a44c29edb103a2872f519ad0c9a0fdaaa} 
+P&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{V@{V}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!V@{V}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a5206560a306a2e085a437fd258eb57ce}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a5206560a306a2e085a437fd258eb57ce} 
+V&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{StopColors@{StopColors}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!StopColors@{StopColors}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5af89a19f620eb34b446045529e3d353b1}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5af89a19f620eb34b446045529e3d353b1} 
+Stop\+Colors&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{StopPositions@{StopPositions}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!StopPositions@{StopPositions}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a4befde37b7a20334ecafba339f512333}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a4befde37b7a20334ecafba339f512333} 
+Stop\+Positions&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NumStops@{NumStops}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!NumStops@{NumStops}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a29d3027c8135c540ab52081682bca384}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a29d3027c8135c540ab52081682bca384} 
+Num\+Stops&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Value@{Value}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Value@{Value}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a689202409e48743b914713f96d93947c}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5a689202409e48743b914713f96d93947c} 
+Value&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Dimensions@{Dimensions}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Dimensions@{Dimensions}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5af4843c1c797abf1a256c8802b6cd9f51}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5af4843c1c797abf1a256c8802b6cd9f51} 
+Dimensions&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Count@{Count}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Count@{Count}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5ae93f994f01c537c4e2f7d8528c3eb5e9}\label{_rml_ui___renderer___g_l3_8cpp_adad77d2c16c419d8ae9cc19e7d849fd5ae93f994f01c537c4e2f7d8528c3eb5e9} 
+Count&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00341}{341}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+
+\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018}\label{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018} 
+\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!VertShaderId@{VertShaderId}}
+\index{VertShaderId@{VertShaderId}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}
+\doxysubsubsection{\texorpdfstring{VertShaderId}{VertShaderId}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018}{Vert\+Shader\+Id}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Main@{Main}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Main@{Main}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018aa02c83a7dbd96295beaefb72c2bee2de}\label{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018aa02c83a7dbd96295beaefb72c2bee2de} 
+Main&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Passthrough@{Passthrough}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Passthrough@{Passthrough}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018af6124225f7555a9190621c9886890973}\label{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018af6124225f7555a9190621c9886890973} 
+Passthrough&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Blur@{Blur}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Blur@{Blur}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018a8b52de510bc5497ac43abfe566be48ab}\label{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018a8b52de510bc5497ac43abfe566be48ab} 
+Blur&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Count@{Count}!RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}}\index{RmlUi\_Renderer\_GL3.cpp@{RmlUi\_Renderer\_GL3.cpp}!Count@{Count}}}\Hypertarget{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018ae93f994f01c537c4e2f7d8528c3eb5e9}\label{_rml_ui___renderer___g_l3_8cpp_a31a58e9ede5df1dcf7c52d5f494e7018ae93f994f01c537c4e2f7d8528c3eb5e9} 
+Count&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source_l00323}{323}} of file \mbox{\hyperlink{_rml_ui___renderer___g_l3_8cpp_source}{Rml\+Ui\+\_\+\+Renderer\+\_\+\+GL3.\+cpp}}.
+

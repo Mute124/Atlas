@@ -6,7 +6,7 @@
 
 #define TS_STRUCT(x, ...) using x = struct { __VA_ARGS__ } x;
 #define TS_STRUCT_V(x, y, ...) using x = struct : y {  __VA_ARGS__ } x;*/
-namespace Techstorm {
+namespace Atlas {
 
 
 	class IEngineComponent abstract {

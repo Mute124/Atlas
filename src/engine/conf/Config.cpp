@@ -4,80 +4,112 @@
 #include <any>
 #include <memory>
 #include <string>
-
-std::any LoadConfigFile(std::shared_ptr<Techstorm::FileMeta> fileMeta) {
-	using namespace Techstorm;
-
-	return std::make_any<uint16_t>(3);
-}
-
-Techstorm::ConfigFileRegistry::ConfigFileRegistry()
-{
+#include "../dbg/Logging.h"
+#include "JSONFile.h"
+#include "XMLFile.h"
 
 
-}
-
-Techstorm::ConfigFileRegistry::~ConfigFileRegistry()
+Atlas::ConfigFileRegistry::ConfigFileRegistry()
 {
 }
 
-void Techstorm::ConfigFileRegistry::init() {
-	AddFileRegistryLoadFunction("cfg", [](std::shared_ptr<FileMeta> fileMeta) {
-		libconfig::Config* conf = new libconfig::Config();
-		conf->readFile(fileMeta->path);
-		return std::make_any<libconfig::Config*>(conf);
-	});
-}
-
-void Techstorm::ConfigFileRegistry::readConfigFiles()
+Atlas::ConfigFileRegistry::~ConfigFileRegistry()
 {
 }
 
-void Techstorm::ConfigFileRegistry::readConfigFile(const std::string& name)
+void Atlas::ConfigFileRegistry::init() {
+	Log("Initializing config registry.");
+
+	// only show this in the log file
+	Log("Setting config file load functions.", ELogLevel::TRACE);
+	
+	AddFileRegistryLoadFunction("cfg", LoadConfigFile);
+
+#ifndef ATLAS_EXCLUDE_JSON
+	AddFileRegistryLoadFunction("json", LoadJSONFile);
+#endif
+
+#ifndef ATLAS_EXCLUDE_XML
+	AddFileRegistryLoadFunction("xml", LoadXMLFile);
+#endif
+}
+
+void Atlas::ConfigFileRegistry::readConfigFiles()
+{
+}
+
+void Atlas::ConfigFileRegistry::readConfigFile(const std::string& name)
 {
 	std::shared_ptr<RegisteredFile> file = GetFile(name);
 }
 
-void Techstorm::ConfigFileRegistry::writeConfigFiles()
+void Atlas::ConfigFileRegistry::writeConfigFiles()
 {
 }
 
-void Techstorm::ConfigFileRegistry::registerConfigFiles(const std::string& searchPath)
+void Atlas::ConfigFileRegistry::registerConfigFiles(const std::string& searchPath)
 {
 }
 
-void Techstorm::ConfigFileRegistry::registerConfigFile(const std::string& name, const std::string& path)
+void Atlas::ConfigFileRegistry::registerConfigFile(const std::string& name, const std::string& path)
+{
+	
+}
+
+void Atlas::ConfigFileRegistry::unregisterConfigFiles()
 {
 }
 
-void Techstorm::ConfigFileRegistry::unregisterConfigFiles()
+void Atlas::ConfigFileRegistry::unregisterConfigFile(const std::string& name)
 {
 }
 
-void Techstorm::ConfigFileRegistry::unregisterConfigFile(const std::string& name)
-{
-}
-
-libconfig::Setting& Techstorm::ConfigFileRegistry::lookup(const std::string& fileName, const std::string& lookupTarget)
+libconfig::Setting& Atlas::ConfigFileRegistry::configLookup(const std::string& fileName, const std::string& lookupTarget)
 {
 	libconfig::Config const* conf = GetFile(fileName).get()->get<libconfig::Config*>();
 	libconfig::Setting& setting = conf->lookup(lookupTarget);
 
+	Log("Looking up value in :" + fileName + " for key: " + lookupTarget + " and found value: " + setting.c_str(), ELogLevel::TRACE);
+	
 	return setting;
 	
 }
 
+std::any Atlas::ConfigFileRegistry::LoadConfigFile(std::shared_ptr<Atlas::FileMeta> fileMeta) {
+	Log("Loading config file: " + fileMeta->path, ELogLevel::TRACE);
+
+	libconfig::Config* conf = new libconfig::Config();
+	conf->readFile(fileMeta->path);
+	return std::make_any<libconfig::Config*>(conf);
+}
+
+std::any Atlas::ConfigFileRegistry::LoadJSONFile(std::shared_ptr<Atlas::FileMeta> fileMeta) {
+	Log("Loading config file: " + fileMeta->path, ELogLevel::TRACE);
+
+	JSONFile* conf = new JSONFile(fileMeta->path);
+
+	return std::make_any<JSONFile*>(conf);
+}
+
+std::any Atlas::ConfigFileRegistry::LoadXMLFile(std::shared_ptr<Atlas::FileMeta> fileMeta)
+{
+	Log("Loading config file: " + fileMeta->path, ELogLevel::TRACE);
+
+	XMLFile* conf = new XMLFile(fileMeta->path);
+	return std::make_any<XMLFile*>(conf);
+}
+
 /*
-libconfig::Config& Techstorm::ConfigFileRegistry::operator[](const std::string& name)
+libconfig::Config& Atlas::ConfigFileRegistry::operator[](const std::string& name)
 {
 	// TODO: insert return statement here
 }
 */
 
-Techstorm::ConfigFileRegistry& Techstorm::GetConfigFileRegistry() { return ConfigFileRegistry::Instance(); }
+Atlas::ConfigFileRegistry& Atlas::GetConfigFileRegistry() { return ConfigFileRegistry::Instance(); }
 
-void Techstorm::InitializeConfigRegistry() { ConfigFileRegistry::Instance().init(); }
+void Atlas::InitializeConfigRegistry() { ConfigFileRegistry::Instance().init(); }
 
-libconfig::Setting& Techstorm::LookupConfig(const std::string& fileName, const std::string& lookupTarget) { return ConfigFileRegistry::Instance().lookup(fileName, lookupTarget); }
+libconfig::Setting& Atlas::LookupConfig(const std::string& fileName, const std::string& lookupTarget) { return ConfigFileRegistry::Instance().configLookup(fileName, lookupTarget); }
 
-const char* Techstorm::GetConfigString(std::string fileName, std::string lookupTarget) { return LookupConfig(fileName, lookupTarget).c_str(); }
+const char* Atlas::GetConfigString(std::string fileName, std::string lookupTarget) { return LookupConfig(fileName, lookupTarget).c_str(); }

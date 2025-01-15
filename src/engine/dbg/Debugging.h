@@ -1,5 +1,5 @@
 #pragma once
 
-namespace Techstorm {
+namespace Atlas {
 	// TODO: Implement debugging and debuggables.
 }

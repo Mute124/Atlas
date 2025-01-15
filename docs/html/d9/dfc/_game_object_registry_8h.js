@@ -1,4 +1,4 @@
 var _game_object_registry_8h =
 [
-    [ "Techstorm::GameObjectRegistry", "de/dc7/class_techstorm_1_1_game_object_registry.html", "de/dc7/class_techstorm_1_1_game_object_registry" ]
+    [ "Atlas::GameObjectRegistry", "d1/d4c/class_atlas_1_1_game_object_registry.html", "d1/d4c/class_atlas_1_1_game_object_registry" ]
 ];

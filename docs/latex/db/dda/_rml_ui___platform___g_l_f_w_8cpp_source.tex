@@ -1,0 +1,363 @@
+\doxysection{Rml\+Ui\+\_\+\+Platform\+\_\+\+GLFW.\+cpp}
+\hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source}{}\label{_rml_ui___platform___g_l_f_w_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Platform\_GLFW.cpp@{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Platform\_GLFW.cpp}}
+\mbox{\hyperlink{_rml_ui___platform___g_l_f_w_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00002}00002\ \textcolor{comment}{\ *\ This\ source\ file\ is\ part\ of\ RmlUi,\ the\ HTML/CSS\ Interface\ Middleware}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00003}00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00004}00004\ \textcolor{comment}{\ *\ For\ the\ latest\ information,\ see\ http://github.com/mikke89/RmlUi}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00005}00005\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00006}00006\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2008-\/2010\ CodePoint\ Ltd,\ Shift\ Technology\ Ltd}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00007}00007\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2019-\/2023\ The\ RmlUi\ Team,\ and\ contributors}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00008}00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00009}00009\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00010}00010\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00011}00011\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00012}00012\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00013}00013\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00014}00014\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00015}00015\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00016}00016\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00019}00019\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00020}00020\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00021}00021\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00022}00022\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00023}00023\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00024}00024\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00025}00025\ \textcolor{comment}{\ *\ THE\ SOFTWARE.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00026}00026\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00027}00027\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rml_ui___platform___g_l_f_w_8h}{RmlUi\_Platform\_GLFW.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Context.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Input.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Math.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00033}00033\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/StringUtilities.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00034}00034\ \textcolor{preprocessor}{\#include\ <GLFW/glfw3.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00036}\mbox{\hyperlink{_rml_ui___platform___g_l_f_w_8cpp_aaf1a10c72512b5605bab83c9f79f8901}{00036}}\ \textcolor{preprocessor}{\#define\ GLFW\_HAS\_EXTRA\_CURSORS\ (GLFW\_VERSION\_MAJOR\ >=\ 3\ \&\&\ GLFW\_VERSION\_MINOR\ >=\ 4)}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00038}\mbox{\hyperlink{class_system_interface___g_l_f_w_a88385ba17d07e81242e21d4d8348f159}{00038}}\ \mbox{\hyperlink{class_system_interface___g_l_f_w_a88385ba17d07e81242e21d4d8348f159}{SystemInterface\_GLFW::SystemInterface\_GLFW}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00039}00039\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00040}00040\ \ \ \ \ cursor\_pointer\ =\ glfwCreateStandardCursor(GLFW\_HAND\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00041}00041\ \ \ \ \ cursor\_cross\ =\ glfwCreateStandardCursor(GLFW\_CROSSHAIR\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00042}00042\ \ \ \ \ cursor\_text\ =\ glfwCreateStandardCursor(GLFW\_IBEAM\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00043}00043\ \textcolor{preprocessor}{\#if\ GLFW\_HAS\_EXTRA\_CURSORS}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00044}00044\ \ \ \ \ cursor\_move\ =\ glfwCreateStandardCursor(GLFW\_RESIZE\_ALL\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00045}00045\ \ \ \ \ cursor\_resize\ =\ glfwCreateStandardCursor(GLFW\_RESIZE\_NWSE\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00046}00046\ \ \ \ \ cursor\_unavailable\ =\ glfwCreateStandardCursor(GLFW\_NOT\_ALLOWED\_CURSOR);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00047}00047\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00048}00048\ \ \ \ \ cursor\_move\ =\ cursor\_pointer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00049}00049\ \ \ \ \ cursor\_resize\ =\ cursor\_pointer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00050}00050\ \ \ \ \ cursor\_unavailable\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00051}00051\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00052}00052\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00054}\mbox{\hyperlink{class_system_interface___g_l_f_w_a8421bc468d32e1c6d1810c0326ef2bda}{00054}}\ \mbox{\hyperlink{class_system_interface___g_l_f_w_a8421bc468d32e1c6d1810c0326ef2bda}{SystemInterface\_GLFW::\string~SystemInterface\_GLFW}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00055}00055\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00056}00056\ \ \ \ \ glfwDestroyCursor(cursor\_pointer);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00057}00057\ \ \ \ \ glfwDestroyCursor(cursor\_cross);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00058}00058\ \ \ \ \ glfwDestroyCursor(cursor\_text);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00059}00059\ \textcolor{preprocessor}{\#if\ GLFW\_HAS\_EXTRA\_CURSORS}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00060}00060\ \ \ \ \ glfwDestroyCursor(cursor\_move);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00061}00061\ \ \ \ \ glfwDestroyCursor(cursor\_resize);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00062}00062\ \ \ \ \ glfwDestroyCursor(cursor\_unavailable);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00063}00063\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00064}00064\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00066}\mbox{\hyperlink{class_system_interface___g_l_f_w_a124c42efc17a2a8b8a571c5686bcfb37}{00066}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_system_interface___g_l_f_w_a124c42efc17a2a8b8a571c5686bcfb37}{SystemInterface\_GLFW::SetWindow}}(GLFWwindow*\ in\_window)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00067}00067\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00068}00068\ \ \ \ \ window\ =\ in\_window;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00069}00069\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00071}\mbox{\hyperlink{class_system_interface___g_l_f_w_a0a8b9edc1f8f8a68def9f3ce5e9be5e0}{00071}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_system_interface___g_l_f_w_a0a8b9edc1f8f8a68def9f3ce5e9be5e0}{SystemInterface\_GLFW::GetElapsedTime}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00072}00072\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00073}00073\ \ \ \ \ \textcolor{keywordflow}{return}\ glfwGetTime();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00074}00074\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00076}\mbox{\hyperlink{class_system_interface___g_l_f_w_a494c0b3506aeba923bfda7e836caa4b9}{00076}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_system_interface___g_l_f_w_a494c0b3506aeba923bfda7e836caa4b9}{SystemInterface\_GLFW::SetMouseCursor}}(\textcolor{keyword}{const}\ Rml::String\&\ cursor\_name)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00077}00077\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00078}00078\ \ \ \ \ GLFWcursor*\ cursor\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00080}00080\ \ \ \ \ \textcolor{keywordflow}{if}\ (cursor\_name.empty()\ ||\ cursor\_name\ ==\ \textcolor{stringliteral}{"{}arrow"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ cursor\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00082}00082\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}move"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ cursor\ =\ cursor\_move;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00084}00084\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}pointer"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ cursor\ =\ cursor\_pointer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}resize"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00087}00087\ \ \ \ \ \ \ \ \ cursor\ =\ cursor\_resize;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}cross"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ cursor\ =\ cursor\_cross;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}text"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ cursor\ =\ cursor\_text;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00092}00092\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}unavailable"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ cursor\ =\ cursor\_unavailable;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00094}00094\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (Rml::StringUtilities::StartsWith(cursor\_name,\ \textcolor{stringliteral}{"{}rmlui-\/scroll"{}}))}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ cursor\ =\ cursor\_move;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00097}00097\ \ \ \ \ \textcolor{keywordflow}{if}\ (window)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00098}00098\ \ \ \ \ \ \ \ \ glfwSetCursor(window,\ cursor);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00099}00099\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00101}\mbox{\hyperlink{class_system_interface___g_l_f_w_a97d14b8403eb4515adb0518587490180}{00101}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_system_interface___g_l_f_w_a97d14b8403eb4515adb0518587490180}{SystemInterface\_GLFW::SetClipboardText}}(\textcolor{keyword}{const}\ Rml::String\&\ text\_utf8)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00102}00102\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{if}\ (window)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ glfwSetClipboardString(window,\ text\_utf8.c\_str());}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00105}00105\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00107}\mbox{\hyperlink{class_system_interface___g_l_f_w_a8204f97ee90783c02a4298eb0cc52884}{00107}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_system_interface___g_l_f_w_a8204f97ee90783c02a4298eb0cc52884}{SystemInterface\_GLFW::GetClipboardText}}(Rml::String\&\ text)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00108}00108\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00109}00109\ \ \ \ \ \textcolor{keywordflow}{if}\ (window)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ text\ =\ Rml::String(glfwGetClipboardString(window));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00111}00111\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00113}00113\ \textcolor{keywordtype}{bool}\ RmlGLFW::ProcessKeyCallback(Rml::Context*\ context,\ \textcolor{keywordtype}{int}\ key,\ \textcolor{keywordtype}{int}\ action,\ \textcolor{keywordtype}{int}\ mods)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00114}00114\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00115}00115\ \ \ \ \ \textcolor{keywordflow}{if}\ (!context)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00120}00120\ \ \ \ \ \textcolor{keywordflow}{switch}\ (action)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00121}00121\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00122}00122\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_PRESS:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00123}00123\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_REPEAT:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ result\ =\ context-\/>ProcessKeyDown(RmlGLFW::ConvertKey(key),\ RmlGLFW::ConvertKeyModifiers(mods));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ ==\ GLFW\_KEY\_ENTER\ ||\ key\ ==\ GLFW\_KEY\_KP\_ENTER)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ result\ \&=\ context-\/>ProcessTextInput(\textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00128}00128\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_RELEASE:\ result\ =\ context-\/>ProcessKeyUp(RmlGLFW::ConvertKey(key),\ RmlGLFW::ConvertKeyModifiers(mods));\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00129}00129\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00131}00131\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00132}00132\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00133}00133\ \textcolor{keywordtype}{bool}\ RmlGLFW::ProcessCharCallback(Rml::Context*\ context,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ codepoint)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00134}00134\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00135}00135\ \ \ \ \ \textcolor{keywordflow}{if}\ (!context)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00138}00138\ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ context-\/>ProcessTextInput((Rml::Character)codepoint);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00139}00139\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00140}00140\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00142}00142\ \textcolor{keywordtype}{bool}\ RmlGLFW::ProcessCursorEnterCallback(Rml::Context*\ context,\ \textcolor{keywordtype}{int}\ entered)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00143}00143\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00144}00144\ \ \ \ \ \textcolor{keywordflow}{if}\ (!context)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00147}00147\ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00148}00148\ \ \ \ \ \textcolor{keywordflow}{if}\ (!entered)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ result\ =\ context-\/>ProcessMouseLeave();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00150}00150\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00151}00151\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00153}00153\ \textcolor{keywordtype}{bool}\ RmlGLFW::ProcessCursorPosCallback(Rml::Context*\ context,\ GLFWwindow*\ window,\ \textcolor{keywordtype}{double}\ xpos,\ \textcolor{keywordtype}{double}\ ypos,\ \textcolor{keywordtype}{int}\ mods)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00154}00154\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00155}00155\ \ \ \ \ \textcolor{keywordflow}{if}\ (!context)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00158}00158\ \ \ \ \ \textcolor{keyword}{using\ }Rml::Vector2i;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00159}00159\ \ \ \ \ \textcolor{keyword}{using\ }Vector2d\ =\ Rml::Vector2<double>;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00161}00161\ \ \ \ \ Vector2i\ window\_size,\ framebuffer\_size;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00162}00162\ \ \ \ \ glfwGetWindowSize(window,\ \&window\_size.x,\ \&window\_size.y);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00163}00163\ \ \ \ \ glfwGetFramebufferSize(window,\ \&framebuffer\_size.x,\ \&framebuffer\_size.y);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00165}00165\ \ \ \ \ \textcolor{comment}{//\ Convert\ from\ mouse\ position\ in\ GLFW\ screen\ coordinates\ to\ framebuffer\ coordinates\ (pixels)\ used\ by\ RmlUi.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00166}00166\ \ \ \ \ \textcolor{keyword}{const}\ Vector2d\ mouse\_pos\ =\ Vector2d(xpos,\ ypos)\ *\ (Vector2d(framebuffer\_size)\ /\ Vector2d(window\_size));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00167}00167\ \ \ \ \ \textcolor{keyword}{const}\ Vector2i\ mouse\_pos\_round\ =\ \{int(Rml::Math::Round(mouse\_pos.x)),\ int(Rml::Math::Round(mouse\_pos.y))\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00169}00169\ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ context-\/>ProcessMouseMove(mouse\_pos\_round.x,\ mouse\_pos\_round.y,\ RmlGLFW::ConvertKeyModifiers(mods));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00170}00170\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00171}00171\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00173}00173\ \textcolor{keywordtype}{bool}\ RmlGLFW::ProcessMouseButtonCallback(Rml::Context*\ context,\ \textcolor{keywordtype}{int}\ button,\ \textcolor{keywordtype}{int}\ action,\ \textcolor{keywordtype}{int}\ mods)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00174}00174\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00175}00175\ \ \ \ \ \textcolor{keywordflow}{if}\ (!context)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00178}00178\ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00180}00180\ \ \ \ \ \textcolor{keywordflow}{switch}\ (action)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00181}00181\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00182}00182\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_PRESS:\ result\ =\ context-\/>ProcessMouseButtonDown(button,\ RmlGLFW::ConvertKeyModifiers(mods));\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00183}00183\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_RELEASE:\ result\ =\ context-\/>ProcessMouseButtonUp(button,\ RmlGLFW::ConvertKeyModifiers(mods));\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00184}00184\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00185}00185\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00186}00186\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00188}00188\ \textcolor{keywordtype}{bool}\ RmlGLFW::ProcessScrollCallback(Rml::Context*\ context,\ \textcolor{keywordtype}{double}\ yoffset,\ \textcolor{keywordtype}{int}\ mods)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00189}00189\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00190}00190\ \ \ \ \ \textcolor{keywordflow}{if}\ (!context)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00193}00193\ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ context-\/>ProcessMouseWheel(-\/\textcolor{keywordtype}{float}(yoffset),\ RmlGLFW::ConvertKeyModifiers(mods));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00194}00194\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00195}00195\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00197}00197\ \textcolor{keywordtype}{void}\ RmlGLFW::ProcessFramebufferSizeCallback(Rml::Context*\ context,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00198}00198\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00199}00199\ \ \ \ \ \textcolor{keywordflow}{if}\ (context)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ context-\/>SetDimensions(Rml::Vector2i(width,\ height));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00201}00201\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00203}00203\ \textcolor{keywordtype}{void}\ RmlGLFW::ProcessContentScaleCallback(Rml::Context*\ context,\ \textcolor{keywordtype}{float}\ xscale)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00204}00204\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00205}00205\ \ \ \ \ \textcolor{keywordflow}{if}\ (context)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ context-\/>SetDensityIndependentPixelRatio(xscale);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00207}00207\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00209}00209\ \textcolor{keywordtype}{int}\ RmlGLFW::ConvertKeyModifiers(\textcolor{keywordtype}{int}\ glfw\_mods)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00210}00210\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00211}00211\ \ \ \ \ \textcolor{keywordtype}{int}\ key\_modifier\_state\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00213}00213\ \ \ \ \ \textcolor{keywordflow}{if}\ (GLFW\_MOD\_SHIFT\ \&\ glfw\_mods)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ key\_modifier\_state\ |=\ Rml::Input::KM\_SHIFT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00216}00216\ \ \ \ \ \textcolor{keywordflow}{if}\ (GLFW\_MOD\_CONTROL\ \&\ glfw\_mods)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ key\_modifier\_state\ |=\ Rml::Input::KM\_CTRL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00219}00219\ \ \ \ \ \textcolor{keywordflow}{if}\ (GLFW\_MOD\_ALT\ \&\ glfw\_mods)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ key\_modifier\_state\ |=\ Rml::Input::KM\_ALT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00222}00222\ \ \ \ \ \textcolor{keywordflow}{if}\ (GLFW\_MOD\_CAPS\_LOCK\ \&\ glfw\_mods)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ key\_modifier\_state\ |=\ Rml::Input::KM\_SCROLLLOCK;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00225}00225\ \ \ \ \ \textcolor{keywordflow}{if}\ (GLFW\_MOD\_NUM\_LOCK\ \&\ glfw\_mods)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ key\_modifier\_state\ |=\ Rml::Input::KM\_NUMLOCK;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00228}00228\ \ \ \ \ \textcolor{keywordflow}{return}\ key\_modifier\_state;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00229}00229\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00231}00231\ Rml::Input::KeyIdentifier\ RmlGLFW::ConvertKey(\textcolor{keywordtype}{int}\ glfw\_key)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00232}00232\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00233}00233\ \ \ \ \ \textcolor{comment}{//\ clang-\/format\ off}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00234}00234\ \ \ \ \ \textcolor{keywordflow}{switch}\ (glfw\_key)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00235}00235\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00236}00236\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_A:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_A;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00237}00237\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_B:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_B;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00238}00238\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_C:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_C;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00239}00239\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_D:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_D;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00240}00240\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_E:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_E;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00241}00241\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00242}00242\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_G:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_G;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00243}00243\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_H:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_H;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00244}00244\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_I:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_I;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00245}00245\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_J:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_J;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00246}00246\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_K:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_K;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00247}00247\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_L:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_L;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00248}00248\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_M:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_M;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00249}00249\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_N:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_N;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00250}00250\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_O:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_O;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00251}00251\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_P:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_P;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00252}00252\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_Q:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_Q;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00253}00253\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_R:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_R;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00254}00254\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_S:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_S;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00255}00255\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_T:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_T;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00256}00256\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_U:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_U;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00257}00257\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_V:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_V;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00258}00258\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_W:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_W;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00259}00259\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_X:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_X;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00260}00260\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_Y:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_Y;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00261}00261\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_Z:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_Z;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00263}00263\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_0:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00264}00264\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_1:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00265}00265\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_2:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_2;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00266}00266\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_3:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_3;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00267}00267\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_4:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_4;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00268}00268\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_5:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_5;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00269}00269\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_6:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_6;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00270}00270\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_7:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_7;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00271}00271\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_8:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_8;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00272}00272\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_9:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_9;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00274}00274\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_BACKSPACE:\ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_BACK;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00275}00275\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_TAB:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_TAB;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00277}00277\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_ENTER:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_RETURN;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00279}00279\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_PAUSE:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_PAUSE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00280}00280\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_CAPS\_LOCK:\ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_CAPITAL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00281}00281\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00282}00282\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_ESCAPE:\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_ESCAPE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00284}00284\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_SPACE:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_SPACE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00285}00285\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_PAGE\_UP:\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_PRIOR;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00286}00286\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_PAGE\_DOWN:\ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NEXT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00287}00287\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_END:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_END;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00288}00288\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_HOME:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_HOME;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00289}00289\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_LEFT:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_LEFT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00290}00290\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_UP:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_UP;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00291}00291\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_RIGHT:\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_RIGHT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00292}00292\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_DOWN:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_DOWN;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00293}00293\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_PRINT\_SCREEN:\ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_SNAPSHOT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00294}00294\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_INSERT:\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_INSERT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00295}00295\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_DELETE:\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_DELETE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00297}00297\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_LEFT\_SUPER:\ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_LWIN;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00298}00298\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_RIGHT\_SUPER:\ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_RWIN;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00300}00300\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_0:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00301}00301\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_1:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00302}00302\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_2:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD2;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00303}00303\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_3:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD3;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00304}00304\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_4:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD4;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00305}00305\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_5:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD5;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00306}00306\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_6:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD6;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00307}00307\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_7:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD7;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00308}00308\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_8:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD8;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00309}00309\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_9:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD9;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00310}00310\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_ENTER:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPADENTER;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00311}00311\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_MULTIPLY:\ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_MULTIPLY;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00312}00312\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_ADD:\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_ADD;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00313}00313\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_SUBTRACT:\ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_SUBTRACT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00314}00314\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_DECIMAL:\ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_DECIMAL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00315}00315\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_DIVIDE:\ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_DIVIDE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00316}00316\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00317}00317\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F1:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00318}00318\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F2:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F2;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00319}00319\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F3:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F3;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00320}00320\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F4:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F4;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00321}00321\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F5:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F5;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00322}00322\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F6:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F6;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00323}00323\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F7:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F7;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00324}00324\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F8:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F8;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00325}00325\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F9:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F9;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00326}00326\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F10:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F10;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00327}00327\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F11:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F11;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00328}00328\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F12:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F12;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00329}00329\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F13:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F13;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00330}00330\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F14:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F14;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00331}00331\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F15:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F15;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00332}00332\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F16:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F16;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00333}00333\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F17:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F17;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00334}00334\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F18:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F18;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00335}00335\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F19:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F19;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00336}00336\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F20:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F20;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00337}00337\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F21:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F21;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00338}00338\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F22:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F22;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00339}00339\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F23:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F23;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00340}00340\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_F24:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F24;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00342}00342\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_NUM\_LOCK:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMLOCK;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00343}00343\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_SCROLL\_LOCK:\ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_SCROLL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00344}00344\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00345}00345\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_LEFT\_SHIFT:\ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_LSHIFT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00346}00346\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_LEFT\_CONTROL:\ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_LCONTROL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00347}00347\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_RIGHT\_SHIFT:\ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_RSHIFT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00348}00348\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_RIGHT\_CONTROL:\ \textcolor{keywordflow}{return}\ Rml::Input::KI\_RCONTROL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00349}00349\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_MENU:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_LMENU;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00351}00351\ \ \ \ \ \textcolor{keywordflow}{case}\ GLFW\_KEY\_KP\_EQUAL:\ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_NEC\_EQUAL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00352}00352\ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00353}00353\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00354}00354\ \ \ \ \ \textcolor{comment}{//\ clang-\/format\ on}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00356}00356\ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___g_l_f_w_8cpp_source_l00357}00357\ \}}
+
+\end{DoxyCode}

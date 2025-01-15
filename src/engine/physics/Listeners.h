@@ -4,7 +4,24 @@
 #include <Jolt/Physics/Collision/ContactListener.h>
 #include <Jolt/Physics/Body/BodyActivationListener.h>
 
-namespace Techstorm {
+#include "../utils/Gate.h"
+
+namespace Atlas {
+	struct ContactListenerGateParams {
+		const JPH::Body* cBody1 = nullptr;
+		const JPH::Body* cBody2 = nullptr;
+		JPH::RVec3Arg baseOffset = JPH::RVec3::sZero();
+		const JPH::CollideShapeResult& cCollisionResult;
+	};
+
+	class ContactListenerGate : public IGate<ContactListenerGateParams> {
+	public:
+		using IGate::IGate;
+
+		void process(ContactListenerGateParams entree) override;
+	};
+
+
 	// An example contact listener
 	class ObjectContactListener : public JPH::ContactListener
 	{

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Techstorm: C:/Dev/Techstorm-v5/src/engine/renderer/GameObject.h Source File</title>
+<title>Atlas: C:/Dev/Techstorm-v5/src/engine/objects/GameObject.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -26,9 +26,9 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Techstorm<span id="projectnumber">&#160;0.0.6</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
    </div>
-   <div id="projectbrief">The 5th iteration of the Techstorm game engine</div>
+   <div id="projectbrief">The Open World Game Engine</div>
   </td>
  </tr>
  </tbody>
@@ -100,71 +100,26 @@ $(document).ready(function(){initNavTree('df/d91/_game_object_8h_source.html','.
 </div><!--header-->
 <div class="contents">
 <a href="../../df/d91/_game_object_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;../math/Vector.h&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="../../da/dfc/_i_game_object_8h.html">IGameObject.h</a>&quot;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;raylib.h&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;raymath.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;../utils/DoublyLinkedList.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;../physics/Physics.h&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d4/d26/namespace_techstorm.html">Techstorm</a> {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">class </span>IGameObject <span class="keyword">abstract</span> {</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="comment">// Defines what layer the object is on to prevent z-fighting</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#a93214f9f4d74e58ff7ed49e089c68213">   30</a></span>        <span class="keywordtype">int</span> depth = 0;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#a55f5f1c35b36dd8266ab3887337e0d0b">   32</a></span>        Model <a class="code hl_variable" href="../../d6/d34/class_techstorm_1_1abstract.html#a55f5f1c35b36dd8266ab3887337e0d0b">model</a>;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="comment">// positional variables that are used to draw the object</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#a376ce35fc2ca9b1088dcaaa36a68cb24">   35</a></span>        Vector3 position = Vector3Zero();</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#aa194976991e491e2a79b438fc9fe39ab">   36</a></span>        Vector3 <a class="code hl_variable" href="../../d6/d34/class_techstorm_1_1abstract.html#aa194976991e491e2a79b438fc9fe39ab">rotationAxis</a>;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#a9b45c16a8ff92b5dede7255391a01d9b">   37</a></span>        Vector3 <a class="code hl_variable" href="../../d6/d34/class_techstorm_1_1abstract.html#a9b45c16a8ff92b5dede7255391a01d9b">scale</a>;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#a4579f8a2409ba917291c4892f784e82d">   39</a></span>        <span class="keywordtype">float</span> <a class="code hl_variable" href="../../d6/d34/class_techstorm_1_1abstract.html#a4579f8a2409ba917291c4892f784e82d">rotationAngle</a>;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#a1e104c5d3299a8c79fff4216a1b26421">   40</a></span>        Color tint = WHITE;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="comment">// constructors/destructors</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#a0ed72fb77264955cbb13e298dcf92051">   43</a></span>        <a class="code hl_function" href="../../d6/d34/class_techstorm_1_1abstract.html#a0ed72fb77264955cbb13e298dcf92051">IGameObject</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#a23a04a87e0f50937d2d9ff899f5cc14b">   44</a></span>        <span class="keyword">virtual</span> <a class="code hl_function" href="../../d6/d34/class_techstorm_1_1abstract.html#a23a04a87e0f50937d2d9ff899f5cc14b">~IGameObject</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#aa9cf38cda2120b17bc25dfa44913102e">   50</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d6/d34/class_techstorm_1_1abstract.html#aa9cf38cda2120b17bc25dfa44913102e">texture</a>() = 0;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#abd76d7ab5c43c2482cede1cbf7044c5a">   55</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d6/d34/class_techstorm_1_1abstract.html#abd76d7ab5c43c2482cede1cbf7044c5a">render</a>() {}</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#aec38bee941f0f8a0cb48880746c2d205">   62</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d6/d34/class_techstorm_1_1abstract.html#aec38bee941f0f8a0cb48880746c2d205">prePhysicsUpdate</a>() = 0;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#ac9ebe837a4fbcec732e81ddf8b38ab2c">   69</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d6/d34/class_techstorm_1_1abstract.html#ac9ebe837a4fbcec732e81ddf8b38ab2c">update</a>() = 0;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#a9bbad12f7eeef8bfcccc6295e3895ee0">   76</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d6/d34/class_techstorm_1_1abstract.html#a9bbad12f7eeef8bfcccc6295e3895ee0">postUpdate</a>() = 0;</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#a1c78ff5c43eb03bbf20e7c58db8e2dd2">   83</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d6/d34/class_techstorm_1_1abstract.html#a1c78ff5c43eb03bbf20e7c58db8e2dd2">destroy</a>() = 0;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="../../d6/d34/class_techstorm_1_1abstract.html#aa46fb3338c2570e22ded414e462582d6">   90</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d6/d34/class_techstorm_1_1abstract.html#aa46fb3338c2570e22ded414e462582d6">cleanup</a>() = 0;</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    };</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
-<div class="foldopen" id="foldopen00098" data-start="{" data-end="};">
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="../../d4/de0/class_techstorm_1_1_game_object.html">   98</a></span>    <span class="keyword">class </span><a class="code hl_class" href="../../d4/de0/class_techstorm_1_1_game_object.html">GameObject</a> : <span class="keyword">public</span> IGameObject {</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="comment">// This is being used to avoid a redundant constructor</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keyword">using </span>IGameObject::IGameObject;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="../../d4/de0/class_techstorm_1_1_game_object.html#ab51e2dc704def766ef026d61558d677d">  107</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d4/de0/class_techstorm_1_1_game_object.html#ab51e2dc704def766ef026d61558d677d">texture</a>() {}</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d4/de0/class_techstorm_1_1_game_object.html#aaca78ab748cdac47a8c9d65084a925be">render</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d4/de0/class_techstorm_1_1_game_object.html#a38bfdc8ae3a6a364341f478773fcba91">update</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="../../d4/de0/class_techstorm_1_1_game_object.html#a824a42b64dbfa8bc05f9765555996db5">  126</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d4/de0/class_techstorm_1_1_game_object.html#a824a42b64dbfa8bc05f9765555996db5">prePhysicsUpdate</a>()<span class="keyword"> override </span>{};</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="../../d4/de0/class_techstorm_1_1_game_object.html#a5712be1bc55365f5a1753ebe2029de27">  134</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d4/de0/class_techstorm_1_1_game_object.html#a5712be1bc55365f5a1753ebe2029de27">postUpdate</a>()<span class="keyword"> override </span>{};</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d4/de0/class_techstorm_1_1_game_object.html#adcc7c7dac445cd30b29624051abb9dad">destroy</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="../../d4/de0/class_techstorm_1_1_game_object.html#a3a403c362f191972ae514a264ae6f39a">  147</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d4/de0/class_techstorm_1_1_game_object.html#a3a403c362f191972ae514a264ae6f39a">cleanup</a>() {};</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    };</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d7/d54/namespace_atlas.html">Atlas</a> {</div>
+<div class="foldopen" id="foldopen00009" data-start="{" data-end="};">
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="../../d0/d43/class_atlas_1_1_game_object.html">    9</a></span>    <span class="keyword">class </span><a class="code hl_class" href="../../d0/d43/class_atlas_1_1_game_object.html">GameObject</a> : <span class="keyword">public</span> IGameObject {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="comment">// This is being used to avoid a redundant constructor</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <span class="keyword">using </span>IGameObject::IGameObject;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../d0/d43/class_atlas_1_1_game_object.html#aeabafc2334b96d3fb2e8bb1704e352f8">   18</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d43/class_atlas_1_1_game_object.html#aeabafc2334b96d3fb2e8bb1704e352f8">texture</a>() {}</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="../../d0/d43/class_atlas_1_1_game_object.html#af9d4ab2f1efb97d808bbdaad76ae2a58">   23</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d43/class_atlas_1_1_game_object.html#af9d4ab2f1efb97d808bbdaad76ae2a58">render</a>()<span class="keyword"> override </span>{}</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="../../d0/d43/class_atlas_1_1_game_object.html#ad86fa0de4eacd9e4829c3f7c1c6c0fb8">   29</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d43/class_atlas_1_1_game_object.html#ad86fa0de4eacd9e4829c3f7c1c6c0fb8">destroy</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            UnloadModel(this-&gt;model);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        }</div>
 </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keyword">class </span>IPhysicsGameObject <span class="keyword">abstract</span> : <span class="keyword">public</span> IGameObject {</div>
@@ -232,17 +187,36 @@ $(document).ready(function(){initNavTree('df/d91/_game_object_8h_source.html','.
 <div class="ttc" id="aclass_techstorm_1_1abstract_html_ae0fdff03123508f69b3451dbb55d666d"><div class="ttname"><a href="../../d6/d34/class_techstorm_1_1abstract.html#ae0fdff03123508f69b3451dbb55d666d">Techstorm::abstract::id</a></div><div class="ttdeci">JPH::BodyID id</div><div class="ttdef"><b>Definition</b> <a href="../../df/d91/_game_object_8h_source.html#l00152">GameObject.h:152</a></div></div>
 <div class="ttc" id="aclass_techstorm_1_1abstract_html_aec38bee941f0f8a0cb48880746c2d205"><div class="ttname"><a href="../../d6/d34/class_techstorm_1_1abstract.html#aec38bee941f0f8a0cb48880746c2d205">Techstorm::abstract::prePhysicsUpdate</a></div><div class="ttdeci">virtual void prePhysicsUpdate()=0</div><div class="ttdoc">Called right before the physics update. Do anything you need to do before the physics update here.</div></div>
 <div class="ttc" id="anamespace_techstorm_html"><div class="ttname"><a href="../../d4/d26/namespace_techstorm.html">Techstorm</a></div><div class="ttdef"><b>Definition</b> <a href="../../dd/d47/_application_utils_8h_source.html#l00014">ApplicationUtils.h:14</a></div></div>
+=======
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="../../d0/d43/class_atlas_1_1_game_object.html#ac78b1edf5ea3a291b3992dc898acf662">   38</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d43/class_atlas_1_1_game_object.html#ac78b1edf5ea3a291b3992dc898acf662">cleanup</a>() {};</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    };</div>
+</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>}</div>
+<div class="ttc" id="a_i_game_object_8h_html"><div class="ttname"><a href="../../da/dfc/_i_game_object_8h.html">IGameObject.h</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_object_html"><div class="ttname"><a href="../../d0/d43/class_atlas_1_1_game_object.html">Atlas::GameObject</a></div><div class="ttdoc">A game object that can be rendered to the screen. Inherits from IGameObject, and already provides the...</div><div class="ttdef"><b>Definition</b> <a href="../../df/d91/_game_object_8h_source.html#l00009">GameObject.h:9</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_object_html_ac78b1edf5ea3a291b3992dc898acf662"><div class="ttname"><a href="../../d0/d43/class_atlas_1_1_game_object.html#ac78b1edf5ea3a291b3992dc898acf662">Atlas::GameObject::cleanup</a></div><div class="ttdeci">virtual void cleanup()</div><div class="ttdoc">Cleanups this instance.</div><div class="ttdef"><b>Definition</b> <a href="../../df/d91/_game_object_8h_source.html#l00038">GameObject.h:38</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_object_html_ad86fa0de4eacd9e4829c3f7c1c6c0fb8"><div class="ttname"><a href="../../d0/d43/class_atlas_1_1_game_object.html#ad86fa0de4eacd9e4829c3f7c1c6c0fb8">Atlas::GameObject::destroy</a></div><div class="ttdeci">virtual void destroy() override</div><div class="ttdoc">Destroys this instance, and is called right before the object is removed from memory....</div><div class="ttdef"><b>Definition</b> <a href="../../df/d91/_game_object_8h_source.html#l00029">GameObject.h:29</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_object_html_aeabafc2334b96d3fb2e8bb1704e352f8"><div class="ttname"><a href="../../d0/d43/class_atlas_1_1_game_object.html#aeabafc2334b96d3fb2e8bb1704e352f8">Atlas::GameObject::texture</a></div><div class="ttdeci">virtual void texture()</div><div class="ttdoc">This is a pure virtual function that is the drawing function for when objects are being textured to t...</div><div class="ttdef"><b>Definition</b> <a href="../../df/d91/_game_object_8h_source.html#l00018">GameObject.h:18</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_object_html_af9d4ab2f1efb97d808bbdaad76ae2a58"><div class="ttname"><a href="../../d0/d43/class_atlas_1_1_game_object.html#af9d4ab2f1efb97d808bbdaad76ae2a58">Atlas::GameObject::render</a></div><div class="ttdeci">virtual void render() override</div><div class="ttdoc">Renders this instance. This is not a pure virtual and is empty because it is up to the user to use th...</div><div class="ttdef"><b>Definition</b> <a href="../../df/d91/_game_object_8h_source.html#l00023">GameObject.h:23</a></div></div>
+<div class="ttc" id="anamespace_atlas_html"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html">Atlas</a></div><div class="ttdef"><b>Definition</b> <a href="../../dd/d47/_application_utils_8h_source.html#l00032">ApplicationUtils.h:32</a></div></div>
+>>>>>>> main
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+<<<<<<< HEAD
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_eedbc0f69b08006c72429a8d2b33a57d.html">renderer</a></li><li class="navelem"><a class="el" href="../../df/d91/_game_object_8h.html">GameObject.h</a></li>
 <<<<<<< HEAD
     <li class="footer">Generated on Sat Nov 30 2024 for Techstorm by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
 =======
     <li class="footer">Generated on Mon Nov 18 2024 for Techstorm by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_e542ca8db7fd71a1414236dde431d8c7.html">objects</a></li><li class="navelem"><a class="el" href="../../df/d91/_game_object_8h.html">GameObject.h</a></li>
+    <li class="footer">Generated on Wed Jan 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+>>>>>>> main
   </ul>
 </div>
 </body>

@@ -3,8 +3,8 @@
 #include <iostream>
 /*
 // unused, but here for a bit
-Camera ConvertCamera(Techstorm::CameraData* data) {
-	using namespace Techstorm;
+Camera ConvertCamera(Atlas::CameraData* data) {
+	using namespace Atlas;
 	Camera cam = Camera();
 
 	// convert vectors in data to raylib vectors
@@ -22,7 +22,21 @@ Camera ConvertCamera(Techstorm::CameraData* data) {
 }
 */
 
-void Techstorm::Renderer::initialize()
+
+/// <summary>
+/// Initializes a new instance of the <see cref="Renderer"/> class.
+/// </summary>
+Atlas::Renderer::Renderer() {
+	//initialize();
+	mCamera = GameCamera();
+	mCamera.setPosition(Vector3{0.0f, 10.0f, 4.0f});
+	mCamera.setTarget(Vector3{0.0f, 2.0f, 0.0f});
+	mCamera.setUp(Vector3{0.0f, 1.0f, 0.0f});
+	mCamera.setFovy(60.0f);
+	mCamera.setProjection(CAMERA_PERSPECTIVE);
+}
+
+void Atlas::Renderer::initialize()
 {
 	std::cout << "Initializing renderer" << std::endl;
 	// TODO: Implement Renderer::initialize
@@ -30,68 +44,73 @@ void Techstorm::Renderer::initialize()
 	this->mScreenBuffer = LoadRenderTexture(size.x, size.y);
 }
 
-void Techstorm::Renderer::render(GameCamera& cam)
+void Atlas::Renderer::render(GameCamera& cam)
 {
-#ifdef TS_RENDERER_2D
+#ifdef ATLAS_RENDERER_2D
 	render2D(cam);
 #else
 	render3D(cam);
 #endif
 }
 
-void Techstorm::Renderer::texture(GameCamera& cam)
+void Atlas::Renderer::texture(GameCamera& cam)
 {
 	BeginTextureMode(this->mScreenBuffer);
 	ClearBackground(this->mBackgroundColor);
-#ifdef TS_RENDERER_2D
+#ifdef ATLAS_RENDERER_2D
 #else
 	BeginMode3D(cam.getCameraData());
 #endif
 
 	mGameObjects.texture();
 	DrawCube(Vector3{ 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f, 1.0f, RED);
-#ifdef TS_RENDERER_2D
+#ifdef ATLAS_RENDERER_2D
 #else
 	EndMode3D();
 #endif
 	EndTextureMode();
 }
 
-void Techstorm::Renderer::update()
+void Atlas::Renderer::update()
 {
 	mCamera.update();
 }
 
-void Techstorm::Renderer::drawFBO() {
+void Atlas::Renderer::drawFBO() {
 	// TODO: Allow FBO shaders
 
 	DrawTextureRec(this->mScreenBuffer.texture, Rectangle{ 0, 0, (float)(this->mScreenBuffer.texture.width), -(float)(this->mScreenBuffer.texture.height) }, Vector2{ 0, 0 }, this->mFBOTint);
 }
 
-void Techstorm::Renderer::addGameObject(GameObject* gameObject)
+ void Atlas::Renderer::addStandaloneDrawCall(std::function<void()> drawCall) { 
+	 mGameObjects.addStandaloneDrawCall(drawCall); 
+	 //this->mDrawCalls.push_back(drawCall); 
+}
+
+void Atlas::Renderer::addGameObject(IGameObject* gameObject)
 {
 	this->mGameObjects.addGameObject(gameObject);
 }
 
-void Techstorm::Renderer::removeGameObject(GameObject* gameObject)
+void Atlas::Renderer::removeGameObject(IGameObject* gameObject)
 {
 	//this->mGameObjects.erase(std::remove(this->mGameObjects.begin(), this->mGameObjects.end(), gameObject), this->mGameObjects.end());
 }
 
-void Techstorm::Renderer::addGameObjectGate(IGameObjectGate* gameObjectGate) {}
+void Atlas::Renderer::addGameObjectGate(IGameObjectGate* gameObjectGate) {}
 
-void Techstorm::Renderer::removeGameObjectGate(IGameObjectGate* gameObjectGate) {}
+void Atlas::Renderer::removeGameObjectGate(IGameObjectGate* gameObjectGate) {}
 
-void Techstorm::Renderer::cleanup()
+void Atlas::Renderer::cleanup()
 {
 }
 
-#ifdef TS_RENDERER_2D
-void Techstorm::Renderer::render2D(GameCamera& cam)
+#ifdef ATLAS_RENDERER_2D
+void Atlas::Renderer::render2D(GameCamera& cam)
 {
 }
 #else
-void Techstorm::Renderer::render3D(GameCamera& cam)
+void Atlas::Renderer::render3D(GameCamera& cam)
 {
 <<<<<<< HEAD
 	//UpdateCamera(&cam.mCameraData, CAMERA_FIRST_PERSON);

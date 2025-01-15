@@ -1,18 +1,14 @@
 var searchData=
 [
-  ['objectupdate_0',['objectUpdate',['../d6/d34/class_techstorm_1_1abstract.html#a83f04019a2f6e4b40ddcfe474a76f980',1,'Techstorm::abstract']]],
-  ['onbodyactivated_1',['onbodyactivated',['../d0/d3a/class_my_body_activation_listener.html#a46ed7c95e370d21f59d6c9119f089773',1,'MyBodyActivationListener::OnBodyActivated()'],['../dd/dd3/class_techstorm_1_1_my_body_activation_listener.html#a20c7c669f8ba510ae8773fa0a5164e49',1,'Techstorm::MyBodyActivationListener::OnBodyActivated()']]],
-  ['onbodydeactivated_2',['onbodydeactivated',['../d0/d3a/class_my_body_activation_listener.html#a3ea990626553ee5ee3fec3922aa46a17',1,'MyBodyActivationListener::OnBodyDeactivated()'],['../dd/dd3/class_techstorm_1_1_my_body_activation_listener.html#a62aa66e6321ce3f5be313a6f99a564ba',1,'Techstorm::MyBodyActivationListener::OnBodyDeactivated()']]],
-  ['oncollisionenter_3',['onCollisionEnter',['../d6/d34/class_techstorm_1_1abstract.html#a8926e5c448241a55a9a2a770e8f85bae',1,'Techstorm::abstract']]],
-  ['oncollisionexit_4',['onCollisionExit',['../d6/d34/class_techstorm_1_1abstract.html#ac045cdc2a81e589df5c621220ca06049',1,'Techstorm::abstract']]],
-  ['oncollisionstay_5',['onCollisionStay',['../d6/d34/class_techstorm_1_1abstract.html#a4a290254b4265e2bb2ca7455eee955e4',1,'Techstorm::abstract']]],
-  ['oncollisionvalidation_6',['onCollisionValidation',['../d6/d34/class_techstorm_1_1abstract.html#a2ccd09df4a03d97b58d232dd82d9c54e',1,'Techstorm::abstract']]],
-  ['oncontactadded_7',['oncontactadded',['../d3/d3f/class_my_contact_listener.html#ac3a87b1625090f702749405e75090b48',1,'MyContactListener::OnContactAdded()'],['../d9/d66/class_techstorm_1_1_object_contact_listener.html#aca598f7b447d960aac85d33a6341f9d0',1,'Techstorm::ObjectContactListener::OnContactAdded()']]],
-  ['oncontactpersisted_8',['oncontactpersisted',['../d3/d3f/class_my_contact_listener.html#ac29c5acd491eac54f112468bc8759683',1,'MyContactListener::OnContactPersisted()'],['../d9/d66/class_techstorm_1_1_object_contact_listener.html#a86bc0e109f69b9f28e4b1e8b9a2cabed',1,'Techstorm::ObjectContactListener::OnContactPersisted()']]],
-  ['oncontactremoved_9',['oncontactremoved',['../d3/d3f/class_my_contact_listener.html#aaec88e07264cd984f15a14ed31f21474',1,'MyContactListener::OnContactRemoved()'],['../d9/d66/class_techstorm_1_1_object_contact_listener.html#a866c234ec41bb6b8de0762fcdaf775ee',1,'Techstorm::ObjectContactListener::OnContactRemoved()']]],
-  ['oncontactvalidate_10',['oncontactvalidate',['../d3/d3f/class_my_contact_listener.html#aa6c8b2f3b0d5e0bd28d683fd6e2391e2',1,'MyContactListener::OnContactValidate()'],['../d9/d66/class_techstorm_1_1_object_contact_listener.html#a4f86b59c5dd8074ce802fbd8511f42c3',1,'Techstorm::ObjectContactListener::OnContactValidate()']]],
-  ['operator_2d_11',['operator-',['../df/d8a/struct_vec3.html#a6f462663ff836de8638c27185eb41b98',1,'Vec3']]],
-  ['operator_3c_12',['operator&lt;',['../d8/dc8/struct_point.html#aa2d6d536fc5b43ec4623eff0e7e2d015',1,'Point::operator&lt;(const Point &amp;rhs) const'],['../d8/dc8/struct_point.html#aa2d6d536fc5b43ec4623eff0e7e2d015',1,'Point::operator&lt;(const Point &amp;rhs) const']]],
-  ['operator_3d_3d_13',['operator==',['../d0/db5/class_techstorm_1_1_game_camera.html#aa43cca88ebc813e9801c26b915624a67',1,'Techstorm::GameCamera']]],
-  ['optimizebroadphase_14',['optimizebroadphase',['../db/db4/class_physics_engine.html#ab07cd90671d6b23946949f920839b6ec',1,'PhysicsEngine::optimizeBroadPhase()'],['../d1/d87/class_techstorm_1_1_physics_engine.html#ab07cd90671d6b23946949f920839b6ec',1,'Techstorm::PhysicsEngine::optimizeBroadPhase()']]]
+  ['launchthreads_0',['launchThreads',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#a5dcb9b664eb2fef13f50d2f3eb80bd17',1,'Atlas::Application::FrameManager']]],
+  ['layerexists_1',['layerexists',['../d6/d34/class_techstorm_1_1abstract.html#a02a6fa8f41288396db2f637d9b424d59',1,'Techstorm::abstract::layerExists()'],['../db/d5d/class_techstorm_1_1_layer_registry.html#a3ccff4d94a207eaadbf58e8eb81accb4',1,'Techstorm::LayerRegistry::layerExists(std::string key)']]],
+  ['layerregistry_2',['LayerRegistry',['../db/d5d/class_techstorm_1_1_layer_registry.html#a7ef84d35555c7efd1e6b012dd4b0ab00',1,'Techstorm::LayerRegistry']]],
+  ['listdirectories_3',['ListDirectories',['../db/d3f/namespace_platform_extensions.html#a2edbf8f5e371125def0fee2e6d8748d3',1,'PlatformExtensions']]],
+  ['listfiles_4',['ListFiles',['../db/d3f/namespace_platform_extensions.html#a34ea380951064b3012bf90fedbc1bf05',1,'PlatformExtensions']]],
+  ['loadfile_5',['loadFile',['../d4/de4/class_atlas_1_1_file_system_registry.html#a54252bda23d0a8c8190f7da6703cd356',1,'Atlas::FileSystemRegistry']]],
+  ['loadfonts_6',['LoadFonts',['../d7/d0d/namespace_shell.html#a18bb395a8b9b61bb52fe53d4935e7745',1,'Shell']]],
+  ['loadmeshes_7',['loadmeshes',['../da/da6/_chunk_testing_8h.html#a563aba938007825acdba52e5c557b0e2',1,'loadMeshes(Vector3 *vertices, Vector3 *normals, Vector2 *texcoords, int numVertices, int *indices, int numTriangles):&#160;ChunkTesting.h'],['../da/d9c/_prototyping_terrain_8h.html#a563aba938007825acdba52e5c557b0e2',1,'loadMeshes(Vector3 *vertices, Vector3 *normals, Vector2 *texcoords, int numVertices, int *indices, int numTriangles):&#160;PrototypingTerrain.h']]],
+  ['loadstyle_8',['LoadStyle',['../d5/d9b/class_atlas_1_1_i_g_u_i_container.html#aab00b6c02c20b1b15953e26013ac411c',1,'Atlas::IGUIContainer']]],
+  ['log_9',['log',['../df/dca/class_atlas_1_1_logger.html#a2b8515898dc56c34780f4b7adbab664e',1,'Atlas::Logger::log()'],['../d7/d54/namespace_atlas.html#a53c9a6db76d92cdd29f74d218596485f',1,'Atlas::Log(std::string message, ELogLevel level=ELogLevel::DEBUG, const std::source_location &amp;location=std::source_location::current())']]],
+  ['lookupconfig_10',['LookupConfig',['../d7/d54/namespace_atlas.html#aea78e3773f79ad0d706edfea919cfc63',1,'Atlas']]]
 ];

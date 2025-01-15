@@ -1,6 +1,6 @@
 #pragma once
 #include "../Common.h"
-namespace Techstorm {
+namespace Atlas {
 
 	class Mod {
 	private:

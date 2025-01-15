@@ -1,0 +1,35 @@
+\doxysection{Statistics}
+\hypertarget{statistics}{}\label{statistics}\index{Statistics@{Statistics}}
+This library contains several functions that return information about its internal state, especially the amount of memory allocated from Vulkan.\hypertarget{statistics_statistics_numeric_statistics}{}\doxysubsection{\texorpdfstring{Numeric statistics}{Numeric statistics}}\label{statistics_statistics_numeric_statistics}
+If you need to obtain basic statistics about memory usage per heap, together with current budget, you can call function \doxylink{group__group__stats_ga620eaa8a9d919860f7deaf4d0148b2a1}{vma\+Get\+Heap\+Budgets()} and inspect structure \doxylink{struct_vma_budget}{Vma\+Budget}. This is useful to keep track of memory usage and stay withing budget (see also \doxylink{staying_within_budget}{Staying within budget}). Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{uint32\_t\ heapIndex\ =\ ...}
+\DoxyCodeLine{}
+\DoxyCodeLine{VmaBudget\ budgets[\mbox{\hyperlink{vulkan_8h_a09211298a8859ab8021d6855ece3dfb8}{VK\_MAX\_MEMORY\_HEAPS}}];}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__stats_ga620eaa8a9d919860f7deaf4d0148b2a1}{vmaGetHeapBudgets}}(allocator,\ budgets);}
+\DoxyCodeLine{}
+\DoxyCodeLine{printf(\textcolor{stringliteral}{"{}My\ heap\ currently\ has\ \%u\ allocations\ taking\ \%llu\ B,\(\backslash\)n"{}},}
+\DoxyCodeLine{\ \ \ \ budgets[heapIndex].statistics.allocationCount,}
+\DoxyCodeLine{\ \ \ \ budgets[heapIndex].statistics.allocationBytes);}
+\DoxyCodeLine{printf(\textcolor{stringliteral}{"{}allocated\ out\ of\ \%u\ Vulkan\ device\ memory\ blocks\ taking\ \%llu\ B,\(\backslash\)n"{}},}
+\DoxyCodeLine{\ \ \ \ budgets[heapIndex].statistics.blockCount,}
+\DoxyCodeLine{\ \ \ \ budgets[heapIndex].statistics.blockBytes);}
+\DoxyCodeLine{printf(\textcolor{stringliteral}{"{}Vulkan\ reports\ total\ usage\ \%llu\ B\ with\ budget\ \%llu\ B.\(\backslash\)n"{}},}
+\DoxyCodeLine{\ \ \ \ budgets[heapIndex].usage,}
+\DoxyCodeLine{\ \ \ \ budgets[heapIndex].budget);}
+
+\end{DoxyCode}
+
+
+You can query for more detailed statistics per memory heap, type, and totals, including minimum and maximum allocation size and unused range size, by calling function \doxylink{group__group__stats_gad176279c8da8f50399674b2ef03ca866}{vma\+Calculate\+Statistics()} and inspecting structure \doxylink{struct_vma_total_statistics}{Vma\+Total\+Statistics}. This function is slower though, as it has to traverse all the internal data structures, so it should be used only for debugging purposes.
+
+You can query for statistics of a custom pool using function \doxylink{group__group__stats_ga7e489a68f893dbefc78a6ac9413c4220}{vma\+Get\+Pool\+Statistics()} or \doxylink{group__group__stats_ga54b57aa8f511406711f4b918028d8f60}{vma\+Calculate\+Pool\+Statistics()}.
+
+You can query for information about a specific allocation using function \doxylink{group__group__alloc_gab9c96ca6bb55ad9069829fe8355bbb79}{vma\+Get\+Allocation\+Info()}. It fill structure \doxylink{struct_vma_allocation_info}{Vma\+Allocation\+Info}.\hypertarget{statistics_statistics_json_dump}{}\doxysubsection{\texorpdfstring{JSON dump}{JSON dump}}\label{statistics_statistics_json_dump}
+You can dump internal state of the allocator to a string in JSON format using function \doxylink{group__group__stats_ga9326cba3c64929b59a15c3ca9cdc8cdb}{vma\+Build\+Stats\+String()}. The result is guaranteed to be correct JSON. It uses ANSI encoding. Any strings provided by user (see \doxysectlink{allocation_annotation_allocation_names}{Allocation names}{1}) are copied as-\/is and properly escaped for JSON, so if they use UTF-\/8, ISO-\/8859-\/2 or any other encoding, this JSON string can be treated as using this encoding. It must be freed using function \doxylink{group__group__stats_gad9b3c6a5dce6aea00719ccb2d3a780f3}{vma\+Free\+Stats\+String()}.
+
+The format of this JSON string is not part of official documentation of the library, but it will not change in backward-\/incompatible way without increasing library major version number and appropriate mention in changelog.
+
+The JSON string contains all the data that can be obtained using \doxylink{group__group__stats_gad176279c8da8f50399674b2ef03ca866}{vma\+Calculate\+Statistics()}. It can also contain detailed map of allocated memory blocks and their regions -\/ free and occupied by allocations. This allows e.\+g. to visualize the memory or assess fragmentation. 

@@ -16,6 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # The version of CPM to install if it is not already installed
 set(CPM_INSTALL_VERSION 0.40.2)
+
 # Output directories
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib") # Static libraries
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin") # Shared libraries (.so/.dll)
@@ -45,16 +46,16 @@ if (WIN32)
         #-S ${{ github.workspace }}
     endif()
 else()
-    execute_process(
-        # Add or remove arguments as needed. Use --debug for debug packages, --release for release packages, and --distribution for distribution packages
-        COMMAND "${CMAKE_SOURCE_DIR}/build-scripts/build-linux.sh" 
-        RESULT_VARIABLE result
-        OUTPUT_VARIABLE output
-        ERROR_VARIABLE error_output
-    )
-	if(NOT ${result} EQUAL 0)
-	    message(FATAL_ERROR "The command failed with error: ${error_output}, ${output}")
-	endif()
+   # execute_process(
+   #     # Add or remove arguments as needed. Use --debug for debug packages, --release for release packages, and --distribution for distribution packages
+   #     COMMAND "${CMAKE_SOURCE_DIR}/build-scripts/build-linux.sh" 
+   #     RESULT_VARIABLE result
+   #     OUTPUT_VARIABLE output
+   #     ERROR_VARIABLE error_output
+   # )
+	#if(NOT ${result} EQUAL 0)
+	#    message(FATAL_ERROR "The command failed with error: ${error_output}, ${output}")
+	#endif()
 endif()
 
 # Platform-specific settings
@@ -67,24 +68,54 @@ elseif(UNIX)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS True)
+
 # Set project name
-project(TechStorm LANGUAGES CXX C)
+project(Atlas LANGUAGES CXX C)
+
+include("cmake/cpm.cmake")
+include("cmake/techstorm.cmake")
+include("CMakeOptions.txt")
+
 
 # Set compilation definitions
 if(CMAKE_BUILD_TYPE STREQUAL "Distribution")
-    add_compile_definitions(TS_ROOT_DIR="../") # Sets the TS_ROOT_DIR macro in a way that prevents the path on a development machine from being used in distribution.
-    add_compile_definitions(TS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
+    add_compile_definitions(ATLAS_ROOT_DIR="../") # Sets the TS_ROOT_DIR macro in a way that prevents the path on a development machine from being used in distribution.
+    add_compile_definitions(ATLAS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
     # Your code for the Distribution configuration
+
 else()
-   add_compile_definitions(TS_ROOT_DIR="${CMAKE_BINARY_DIR}")
-   add_compile_definitions(TS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
+   add_compile_definitions(ATLAS_ROOT_DIR="${CMAKE_BINARY_DIR}")
+   add_compile_definitions(ATLAS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
 
     # Your code for other configurations
 
 endif()
 
+if(${ATLAS_ENABLE_HAPTICS}) 
+    add_compile_definitions(ATLAS_ENABLE_HAPTICS)
+endif()
 
-include("cmake/cpm.cmake")
+if(${ATLAS_ENABLE_EXTENSIONS}) 
+    add_compile_definitions(ATLAS_ENABLE_EXTENSIONS)
+    if(${ATLAS_ENABLE_DISCORD_RPC})
+        add_compile_definitions(ATLAS_ENABLE_DISCORD_RPC)
+    endif()
+endif()
+
+if(${ATLAS_ENABLE_MODDING})
+    add_compile_definitions(ATLAS_ENABLE_MODDING)
+    if(${ATLAS_ENABLE_ANGELSCRIPT})
+        add_compile_definitions(ATLAS_ENABLE_ANGELSCRIPT)
+    endif()
+    
+    if(${ATLAS_ENABLE_LUA})
+        add_compile_definitions(ATLAS_ENABLE_LUA)
+    endif()
+endif()	
+
+add_compile_definitions(ATLAS_ENABLE_TESTING=${ATLAS_ENABLE_TESTING})
+
+
 
 # Absolutely DO NOT remove this. It will break all rendering functionality
 set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE) 
@@ -96,16 +127,43 @@ CPMAddPackage(
         "BUILD_SHARED_LIBS=ON"
 )
 
+<<<<<<< HEAD
+=======
+CPMAddPackage(
+    NAME raylib_nuklear
+    GIT_REPOSITORY https://github.com/RobLoach/raylib-nuklear.git
+    GIT_TAG v5.5.0
+)
+
+CPMAddPackage(
+    NAME spdlog
+    GIT_REPOSITORY https://github.com/gabime/spdlog.git
+    GIT_TAG v1.15.0
+)
+
+>>>>>>> main
 # find_package(ZLIB REQUIRED)
 find_package(joltphysics REQUIRED)
 find_package(libconfig REQUIRED)
-find_package(Angelscript REQUIRED)
-find_package(sol2 REQUIRED)
+
+if(${ATLAS_ENABLE_MODDING})
+    if(${ATLAS_ENABLE_ANGELSCRIPT})
+        find_package(Angelscript REQUIRED)
+    endif()
+    
+    if(${ATLAS_ENABLE_LUA})
+        find_package(sol2 REQUIRED)
+    endif()
+endif()
+
 find_package(eventpp REQUIRED)
 find_package(SDL2 REQUIRED CONFIG)
 find_package(rmlui REQUIRED)
+find_package(fmt REQUIRED)
+find_package(nuklear REQUIRED)
 
-
+find_package(simdjson REQUIRED)
+find_package(tinyxml2 REQUIRED)
 
 set(DOUBLE_PRECISION OFF)
 set(GENERATE_DEBUG_SYMBOLS OFF)
@@ -121,13 +179,17 @@ set(USE_LZCNT ON)
 set(USE_TZCNT ON)
 set(USE_F16C ON)
 set(USE_FMADD ON)
-set(RMLUI_SAMPLES ON CACHE BOOL "" FORCE)
 
-
-# Include subdirectories
 add_subdirectory("src/engine")
 add_subdirectory("src/project")
-add_subdirectory("src/application")
-add_subdirectory("src/tools")
 
+# Currently, Techstorm only supports the default implementation, however, it is on the list of things to do.
+if(${ATLAS_CUSTOM_APPLICATION_HANDLING})
+	message(STATUS "Building application")
+    add_subdirectory("src/application")
+endif()
 
+if(${ATLAS_BUILD_TOOLS})
+    message(STATUS "Building tools")
+    add_subdirectory("src/tools")
+endif()

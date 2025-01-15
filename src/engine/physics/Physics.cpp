@@ -11,16 +11,16 @@
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/RegisterTypes.h>
 
-  Techstorm::AllocatedPhysicsResources::AllocatedPhysicsResources() {}
+  Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources() {}
 
-  Techstorm::AllocatedPhysicsResources::AllocatedPhysicsResources(AllocatedPhysicsResources const& resources) : cMaxBodies(resources.cMaxBodies), cNumBodyMutexes(resources.cNumBodyMutexes), cMaxBodyPairs(resources.cMaxBodyPairs), cMaxContactConstraints(resources.cMaxContactConstraints) {}
+  Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources(AllocatedPhysicsResources const& resources) : cMaxBodies(resources.cMaxBodies), cNumBodyMutexes(resources.cNumBodyMutexes), cMaxBodyPairs(resources.cMaxBodyPairs), cMaxContactConstraints(resources.cMaxContactConstraints) {}
 
-  Techstorm::AllocatedPhysicsResources::AllocatedPhysicsResources(const JPH::uint& cMaxBodies, const JPH::uint& cNumBodyMutexes, const JPH::uint& cMaxBodyPairs, const JPH::uint& cMaxContactConstraints)
+  Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources(const JPH::uint& cMaxBodies, const JPH::uint& cNumBodyMutexes, const JPH::uint& cMaxBodyPairs, const JPH::uint& cMaxContactConstraints)
 	: cMaxBodies(cMaxBodies), cNumBodyMutexes(cNumBodyMutexes), cMaxBodyPairs(cMaxBodyPairs), cMaxContactConstraints(cMaxContactConstraints)
 {
 }
 
-  void Techstorm::PhysicsEngine::init(const AllocatedPhysicsResources resources) {
+  void Atlas::PhysicsEngine::init(const AllocatedPhysicsResources resources) {
 	if (!mIsInitialized) {
 		mResources = resources;
 		JPH::RegisterDefaultAllocator();
@@ -58,16 +58,16 @@
 	}
 }
 
-  void Techstorm::PhysicsEngine::update(const float cDeltaTime) {
+  void Atlas::PhysicsEngine::update(const float cDeltaTime) {
 	mPhysicsSystem->Update(cDeltaTime, mCollisionSteps, 4, mTempAllocator, mJobSystemThreadPool);
 }
 
-  void Techstorm::PhysicsEngine::optimizeBroadPhase() {
+  void Atlas::PhysicsEngine::optimizeBroadPhase() {
 	mPhysicsSystem->OptimizeBroadPhase();
 }
 
-  JPH::BodyInterface& Techstorm::PhysicsEngine::getBodyInterface() const { return mBodyInterfaceHolder->bodyInterface; }
+  JPH::BodyInterface& Atlas::PhysicsEngine::getBodyInterface() const { return mBodyInterfaceHolder->bodyInterface; }
 
-  Techstorm::PhysicsEngine::BodyInterfaceHolder::BodyInterfaceHolder(JPH::BodyInterface& bodyInterface) : bodyInterface(bodyInterface) {}
+  Atlas::PhysicsEngine::BodyInterfaceHolder::BodyInterfaceHolder(JPH::BodyInterface& bodyInterface) : bodyInterface(bodyInterface) {}
 
-  Techstorm::PhysicsEngine::BodyInterfaceHolder::~BodyInterfaceHolder() {}
+  Atlas::PhysicsEngine::BodyInterfaceHolder::~BodyInterfaceHolder() {}

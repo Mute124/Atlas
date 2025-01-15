@@ -1,0 +1,373 @@
+\doxysection{Virtual allocator}
+\hypertarget{group__group__virtual}{}\label{group__group__virtual}\index{Virtual allocator@{Virtual allocator}}
+
+
+API elements related to the mechanism of \doxylink{virtual_allocator}{Virtual allocator} -\/ using the core allocation algorithm for user-\/defined purpose without allocating any real GPU memory.  
+
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_vma_virtual_block_create_info}{Vma\+Virtual\+Block\+Create\+Info}}
+\begin{DoxyCompactList}\small\item\em Parameters of created \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} object to be passed to \doxylink{group__group__virtual_ga869baad02bf3b5fb012d61e1a43f92c5}{vma\+Create\+Virtual\+Block()}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_vma_virtual_allocation_create_info}{Vma\+Virtual\+Allocation\+Create\+Info}}
+\begin{DoxyCompactList}\small\item\em Parameters of created virtual allocation to be passed to \doxylink{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac}{vma\+Virtual\+Allocate()}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_vma_virtual_allocation_info}{Vma\+Virtual\+Allocation\+Info}}
+\begin{DoxyCompactList}\small\item\em Parameters of an existing virtual allocation, returned by \doxylink{group__group__virtual_ga64b8c2939b82f83fbec507f29a43307b}{vma\+Get\+Virtual\+Allocation\+Info()}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}}
+\begin{DoxyCompactList}\small\item\em Represents single memory allocation done inside \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}}
+\begin{DoxyCompactList}\small\item\em Handle to a virtual block object that allows to use core allocation algorithm without allocating any real GPU memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{group__group__virtual_ga88bcf8c1cd3bb1610ff7343811c65bca}{Vma\+Virtual\+Block\+Create\+Flag\+Bits}} \mbox{\hyperlink{group__group__virtual_ga0860ba1c0a67178fae4aecb63a78573e}{Vma\+Virtual\+Block\+Create\+Flag\+Bits}}
+\begin{DoxyCompactList}\small\item\em Flags to be passed as \doxylink{struct_vma_virtual_block_create_info_aaab9bf7e2d228c02ab6d90a72a6e6912}{Vma\+Virtual\+Block\+Create\+Info\+::flags}. \end{DoxyCompactList}\item 
+typedef \mbox{\hyperlink{vulkan_8h_abb605a7700670dd8420cc3841b939444}{Vk\+Flags}} \mbox{\hyperlink{group__group__virtual_ga4e49c2f0ab7f6b4868833e5bac78d91e}{Vma\+Virtual\+Block\+Create\+Flags}}
+\begin{DoxyCompactList}\small\item\em Flags to be passed as \doxylink{struct_vma_virtual_block_create_info_aaab9bf7e2d228c02ab6d90a72a6e6912}{Vma\+Virtual\+Block\+Create\+Info\+::flags}. See \doxylink{group__group__virtual_ga88bcf8c1cd3bb1610ff7343811c65bca}{Vma\+Virtual\+Block\+Create\+Flag\+Bits}. \end{DoxyCompactList}\item 
+typedef enum \mbox{\hyperlink{group__group__virtual_ga2e9c64d405b14156fea7e10c4ad06cb6}{Vma\+Virtual\+Allocation\+Create\+Flag\+Bits}} \mbox{\hyperlink{group__group__virtual_ga936815e64946a6b6d812d08d10184c23}{Vma\+Virtual\+Allocation\+Create\+Flag\+Bits}}
+\begin{DoxyCompactList}\small\item\em Flags to be passed as \doxylink{struct_vma_virtual_allocation_create_info_ab10e16956cc4bf20ced9de77d1129ea4}{Vma\+Virtual\+Allocation\+Create\+Info\+::flags}. \end{DoxyCompactList}\item 
+typedef \mbox{\hyperlink{vulkan_8h_abb605a7700670dd8420cc3841b939444}{Vk\+Flags}} \mbox{\hyperlink{group__group__virtual_gae96ffc099bf898257fb19e9410ed08a7}{Vma\+Virtual\+Allocation\+Create\+Flags}}
+\begin{DoxyCompactList}\small\item\em Flags to be passed as \doxylink{struct_vma_virtual_allocation_create_info_ab10e16956cc4bf20ced9de77d1129ea4}{Vma\+Virtual\+Allocation\+Create\+Info\+::flags}. See \doxylink{group__group__virtual_ga2e9c64d405b14156fea7e10c4ad06cb6}{Vma\+Virtual\+Allocation\+Create\+Flag\+Bits}. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_vma_virtual_block_create_info}{Vma\+Virtual\+Block\+Create\+Info}} \mbox{\hyperlink{group__group__virtual_ga4753d42d40217a3a652a3cdf253ad773}{Vma\+Virtual\+Block\+Create\+Info}}
+\begin{DoxyCompactList}\small\item\em Parameters of created \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} object to be passed to \doxylink{group__group__virtual_ga869baad02bf3b5fb012d61e1a43f92c5}{vma\+Create\+Virtual\+Block()}. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_vma_virtual_allocation_create_info}{Vma\+Virtual\+Allocation\+Create\+Info}} \mbox{\hyperlink{group__group__virtual_gac3c90d80bedc6847a41b82d0e2158c9e}{Vma\+Virtual\+Allocation\+Create\+Info}}
+\begin{DoxyCompactList}\small\item\em Parameters of created virtual allocation to be passed to \doxylink{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac}{vma\+Virtual\+Allocate()}. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{struct_vma_virtual_allocation_info}{Vma\+Virtual\+Allocation\+Info}} \mbox{\hyperlink{group__group__virtual_ga75bc33ff7cf18c98e101f570dc2a5ebc}{Vma\+Virtual\+Allocation\+Info}}
+\begin{DoxyCompactList}\small\item\em Parameters of an existing virtual allocation, returned by \doxylink{group__group__virtual_ga64b8c2939b82f83fbec507f29a43307b}{vma\+Get\+Virtual\+Allocation\+Info()}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{group__group__virtual_ga88bcf8c1cd3bb1610ff7343811c65bca}{Vma\+Virtual\+Block\+Create\+Flag\+Bits}} \{ \mbox{\hyperlink{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaae6423e2fa2f3c9211b21c819e3f10f96}{VMA\+\_\+\+VIRTUAL\+\_\+\+BLOCK\+\_\+\+CREATE\+\_\+\+LINEAR\+\_\+\+ALGORITHM\+\_\+\+BIT}} = 0x00000001
+, \mbox{\hyperlink{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaaf9487467136e1a9e371894dc3a7c4844}{VMA\+\_\+\+VIRTUAL\+\_\+\+BLOCK\+\_\+\+CREATE\+\_\+\+ALGORITHM\+\_\+\+MASK}}
+, \mbox{\hyperlink{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaa5fc0d333c3d5687a8bbf57df9b377a87}{VMA\+\_\+\+VIRTUAL\+\_\+\+BLOCK\+\_\+\+CREATE\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM}} = 0x7\+FFFFFFF
+ \}
+\begin{DoxyCompactList}\small\item\em Flags to be passed as \doxylink{struct_vma_virtual_block_create_info_aaab9bf7e2d228c02ab6d90a72a6e6912}{Vma\+Virtual\+Block\+Create\+Info\+::flags}. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{group__group__virtual_ga2e9c64d405b14156fea7e10c4ad06cb6}{Vma\+Virtual\+Allocation\+Create\+Flag\+Bits}} \{ \newline
+\mbox{\hyperlink{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6a9524a329a55b5ec390d57d90b67ad78e}{VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+UPPER\+\_\+\+ADDRESS\+\_\+\+BIT}} = VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+UPPER\+\_\+\+ADDRESS\+\_\+\+BIT
+, \mbox{\hyperlink{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6ae2a9591a62b5e3b1bdcbc81c6188a1bf}{VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MIN\+\_\+\+MEMORY\+\_\+\+BIT}} = VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MIN\+\_\+\+MEMORY\+\_\+\+BIT
+, \mbox{\hyperlink{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6a562d10a46012719d33167d3dc5dbbf9b}{VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MIN\+\_\+\+TIME\+\_\+\+BIT}} = VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MIN\+\_\+\+TIME\+\_\+\+BIT
+, \mbox{\hyperlink{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6a3bb82d2aedd587a64846a1d7778852e6}{VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MIN\+\_\+\+OFFSET\+\_\+\+BIT}} = VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MIN\+\_\+\+OFFSET\+\_\+\+BIT
+, \newline
+\mbox{\hyperlink{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6ac5b5e45c335368d18df59c9f27df17e3}{VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MASK}} = VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MASK
+, \mbox{\hyperlink{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6ac1163c03ea837fa663462dc286d6a1a9}{VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM}} = 0x7\+FFFFFFF
+ \}
+\begin{DoxyCompactList}\small\item\em Flags to be passed as \doxylink{struct_vma_virtual_allocation_create_info_ab10e16956cc4bf20ced9de77d1129ea4}{Vma\+Virtual\+Allocation\+Create\+Info\+::flags}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__group__virtual_ga565936f8d98d225b536a2d9703bc7676}{VK\+\_\+\+DEFINE\+\_\+\+NON\+\_\+\+DISPATCHABLE\+\_\+\+HANDLE}} (\mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}})
+\item 
+\mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{Vk\+Result}} \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} \mbox{\hyperlink{group__group__virtual_ga869baad02bf3b5fb012d61e1a43f92c5}{vma\+Create\+Virtual\+Block}} (const \mbox{\hyperlink{struct_vma_virtual_block_create_info}{Vma\+Virtual\+Block\+Create\+Info}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} p\+Create\+Info, \mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a3ff043960766509fbba947bc2c68bdb6}{VMA\+\_\+\+NULLABLE}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} p\+Virtual\+Block)
+\begin{DoxyCompactList}\small\item\em Creates new \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} \mbox{\hyperlink{group__group__virtual_ga1a464943809fb27dd3b78d1cd6e3d534}{vma\+Destroy\+Virtual\+Block}} (\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a3ff043960766509fbba947bc2c68bdb6}{VMA\+\_\+\+NULLABLE}} virtual\+Block)
+\begin{DoxyCompactList}\small\item\em Destroys \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} \mbox{\hyperlink{vulkan_8h_ae5d9faf75f583010e32ee49087a15326}{Vk\+Bool32}} \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} \mbox{\hyperlink{group__group__virtual_ga59f870a818a9acf8506aa36760549a48}{vma\+Is\+Virtual\+Block\+Empty}} (\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} virtual\+Block)
+\begin{DoxyCompactList}\small\item\em Returns true of the \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} is empty -\/ contains 0 virtual allocations and has all its space available for new allocations. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} \mbox{\hyperlink{group__group__virtual_ga64b8c2939b82f83fbec507f29a43307b}{vma\+Get\+Virtual\+Allocation\+Info}} (\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} virtual\+Block, \mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}} \mbox{\hyperlink{vk__mem__alloc_8h_af10160f1e2fdeb1e5445ee48f61fd2f2}{VMA\+\_\+\+NOT\+\_\+\+NULL\+\_\+\+NON\+\_\+\+DISPATCHABLE}} allocation, \mbox{\hyperlink{struct_vma_virtual_allocation_info}{Vma\+Virtual\+Allocation\+Info}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} p\+Virtual\+Alloc\+Info)
+\begin{DoxyCompactList}\small\item\em Returns information about a specific virtual allocation within a virtual block, like its size and {\ttfamily p\+User\+Data} pointer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{Vk\+Result}} \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} \mbox{\hyperlink{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac}{vma\+Virtual\+Allocate}} (\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} virtual\+Block, const \mbox{\hyperlink{struct_vma_virtual_allocation_create_info}{Vma\+Virtual\+Allocation\+Create\+Info}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} p\+Create\+Info, \mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}} \mbox{\hyperlink{vk__mem__alloc_8h_ab2073c76e8756145dd9426345e13b57e}{VMA\+\_\+\+NULLABLE\+\_\+\+NON\+\_\+\+DISPATCHABLE}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} p\+Allocation, \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a3ff043960766509fbba947bc2c68bdb6}{VMA\+\_\+\+NULLABLE}} p\+Offset)
+\begin{DoxyCompactList}\small\item\em Allocates new virtual allocation inside given \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} \mbox{\hyperlink{group__group__virtual_ga9f82fb8b8160d10bb469ae06b90134d2}{vma\+Virtual\+Free}} (\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} virtual\+Block, \mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}} \mbox{\hyperlink{vk__mem__alloc_8h_ab2073c76e8756145dd9426345e13b57e}{VMA\+\_\+\+NULLABLE\+\_\+\+NON\+\_\+\+DISPATCHABLE}} allocation)
+\begin{DoxyCompactList}\small\item\em Frees virtual allocation inside given \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} \mbox{\hyperlink{group__group__virtual_ga3114a4b34e1225b3d0a246b219d29d9d}{vma\+Clear\+Virtual\+Block}} (\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} virtual\+Block)
+\begin{DoxyCompactList}\small\item\em Frees all virtual allocations inside given \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} \mbox{\hyperlink{group__group__virtual_ga9e697c001a3750c3bf1a081ee15f6b10}{vma\+Set\+Virtual\+Allocation\+User\+Data}} (\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} virtual\+Block, \mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}} \mbox{\hyperlink{vk__mem__alloc_8h_af10160f1e2fdeb1e5445ee48f61fd2f2}{VMA\+\_\+\+NOT\+\_\+\+NULL\+\_\+\+NON\+\_\+\+DISPATCHABLE}} allocation, void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a3ff043960766509fbba947bc2c68bdb6}{VMA\+\_\+\+NULLABLE}} p\+User\+Data)
+\begin{DoxyCompactList}\small\item\em Changes custom pointer associated with given virtual allocation. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} \mbox{\hyperlink{group__group__virtual_gac63bab2c8ae8e74451a11ef6dab48a5d}{vma\+Get\+Virtual\+Block\+Statistics}} (\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} virtual\+Block, \mbox{\hyperlink{struct_vma_statistics}{Vma\+Statistics}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} p\+Stats)
+\begin{DoxyCompactList}\small\item\em Calculates and returns statistics about virtual allocations and memory usage in given \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} \mbox{\hyperlink{group__group__virtual_ga87017b57fb0e9623573f07c236c37566}{vma\+Calculate\+Virtual\+Block\+Statistics}} (\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} virtual\+Block, \mbox{\hyperlink{struct_vma_detailed_statistics}{Vma\+Detailed\+Statistics}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}} p\+Stats)
+\begin{DoxyCompactList}\small\item\em Calculates and returns detailed statistics about virtual allocations and memory usage in given \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+API elements related to the mechanism of \doxylink{virtual_allocator}{Virtual allocator} -\/ using the core allocation algorithm for user-\/defined purpose without allocating any real GPU memory. 
+
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{group__group__virtual_ga936815e64946a6b6d812d08d10184c23}\label{group__group__virtual_ga936815e64946a6b6d812d08d10184c23} 
+\index{Virtual allocator@{Virtual allocator}!VmaVirtualAllocationCreateFlagBits@{VmaVirtualAllocationCreateFlagBits}}
+\index{VmaVirtualAllocationCreateFlagBits@{VmaVirtualAllocationCreateFlagBits}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{VmaVirtualAllocationCreateFlagBits}{VmaVirtualAllocationCreateFlagBits}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{group__group__virtual_ga2e9c64d405b14156fea7e10c4ad06cb6}{Vma\+Virtual\+Allocation\+Create\+Flag\+Bits}} \mbox{\hyperlink{group__group__virtual_ga2e9c64d405b14156fea7e10c4ad06cb6}{Vma\+Virtual\+Allocation\+Create\+Flag\+Bits}}}
+
+
+
+Flags to be passed as \doxylink{struct_vma_virtual_allocation_create_info_ab10e16956cc4bf20ced9de77d1129ea4}{Vma\+Virtual\+Allocation\+Create\+Info\+::flags}. 
+
+\Hypertarget{group__group__virtual_gae96ffc099bf898257fb19e9410ed08a7}\label{group__group__virtual_gae96ffc099bf898257fb19e9410ed08a7} 
+\index{Virtual allocator@{Virtual allocator}!VmaVirtualAllocationCreateFlags@{VmaVirtualAllocationCreateFlags}}
+\index{VmaVirtualAllocationCreateFlags@{VmaVirtualAllocationCreateFlags}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{VmaVirtualAllocationCreateFlags}{VmaVirtualAllocationCreateFlags}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{vulkan_8h_abb605a7700670dd8420cc3841b939444}{Vk\+Flags}} \mbox{\hyperlink{group__group__virtual_gae96ffc099bf898257fb19e9410ed08a7}{Vma\+Virtual\+Allocation\+Create\+Flags}}}
+
+
+
+Flags to be passed as \doxylink{struct_vma_virtual_allocation_create_info_ab10e16956cc4bf20ced9de77d1129ea4}{Vma\+Virtual\+Allocation\+Create\+Info\+::flags}. See \doxylink{group__group__virtual_ga2e9c64d405b14156fea7e10c4ad06cb6}{Vma\+Virtual\+Allocation\+Create\+Flag\+Bits}. 
+
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l00805}{805}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{group__group__virtual_gac3c90d80bedc6847a41b82d0e2158c9e}\label{group__group__virtual_gac3c90d80bedc6847a41b82d0e2158c9e} 
+\index{Virtual allocator@{Virtual allocator}!VmaVirtualAllocationCreateInfo@{VmaVirtualAllocationCreateInfo}}
+\index{VmaVirtualAllocationCreateInfo@{VmaVirtualAllocationCreateInfo}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{VmaVirtualAllocationCreateInfo}{VmaVirtualAllocationCreateInfo}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_vma_virtual_allocation_create_info}{Vma\+Virtual\+Allocation\+Create\+Info}} \mbox{\hyperlink{struct_vma_virtual_allocation_create_info}{Vma\+Virtual\+Allocation\+Create\+Info}}}
+
+
+
+Parameters of created virtual allocation to be passed to \doxylink{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac}{vma\+Virtual\+Allocate()}. 
+
+\Hypertarget{group__group__virtual_ga75bc33ff7cf18c98e101f570dc2a5ebc}\label{group__group__virtual_ga75bc33ff7cf18c98e101f570dc2a5ebc} 
+\index{Virtual allocator@{Virtual allocator}!VmaVirtualAllocationInfo@{VmaVirtualAllocationInfo}}
+\index{VmaVirtualAllocationInfo@{VmaVirtualAllocationInfo}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{VmaVirtualAllocationInfo}{VmaVirtualAllocationInfo}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_vma_virtual_allocation_info}{Vma\+Virtual\+Allocation\+Info}} \mbox{\hyperlink{struct_vma_virtual_allocation_info}{Vma\+Virtual\+Allocation\+Info}}}
+
+
+
+Parameters of an existing virtual allocation, returned by \doxylink{group__group__virtual_ga64b8c2939b82f83fbec507f29a43307b}{vma\+Get\+Virtual\+Allocation\+Info()}. 
+
+\Hypertarget{group__group__virtual_ga0860ba1c0a67178fae4aecb63a78573e}\label{group__group__virtual_ga0860ba1c0a67178fae4aecb63a78573e} 
+\index{Virtual allocator@{Virtual allocator}!VmaVirtualBlockCreateFlagBits@{VmaVirtualBlockCreateFlagBits}}
+\index{VmaVirtualBlockCreateFlagBits@{VmaVirtualBlockCreateFlagBits}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{VmaVirtualBlockCreateFlagBits}{VmaVirtualBlockCreateFlagBits}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{group__group__virtual_ga88bcf8c1cd3bb1610ff7343811c65bca}{Vma\+Virtual\+Block\+Create\+Flag\+Bits}} \mbox{\hyperlink{group__group__virtual_ga88bcf8c1cd3bb1610ff7343811c65bca}{Vma\+Virtual\+Block\+Create\+Flag\+Bits}}}
+
+
+
+Flags to be passed as \doxylink{struct_vma_virtual_block_create_info_aaab9bf7e2d228c02ab6d90a72a6e6912}{Vma\+Virtual\+Block\+Create\+Info\+::flags}. 
+
+\Hypertarget{group__group__virtual_ga4e49c2f0ab7f6b4868833e5bac78d91e}\label{group__group__virtual_ga4e49c2f0ab7f6b4868833e5bac78d91e} 
+\index{Virtual allocator@{Virtual allocator}!VmaVirtualBlockCreateFlags@{VmaVirtualBlockCreateFlags}}
+\index{VmaVirtualBlockCreateFlags@{VmaVirtualBlockCreateFlags}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{VmaVirtualBlockCreateFlags}{VmaVirtualBlockCreateFlags}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{vulkan_8h_abb605a7700670dd8420cc3841b939444}{Vk\+Flags}} \mbox{\hyperlink{group__group__virtual_ga4e49c2f0ab7f6b4868833e5bac78d91e}{Vma\+Virtual\+Block\+Create\+Flags}}}
+
+
+
+Flags to be passed as \doxylink{struct_vma_virtual_block_create_info_aaab9bf7e2d228c02ab6d90a72a6e6912}{Vma\+Virtual\+Block\+Create\+Info\+::flags}. See \doxylink{group__group__virtual_ga88bcf8c1cd3bb1610ff7343811c65bca}{Vma\+Virtual\+Block\+Create\+Flag\+Bits}. 
+
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l00776}{776}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{group__group__virtual_ga4753d42d40217a3a652a3cdf253ad773}\label{group__group__virtual_ga4753d42d40217a3a652a3cdf253ad773} 
+\index{Virtual allocator@{Virtual allocator}!VmaVirtualBlockCreateInfo@{VmaVirtualBlockCreateInfo}}
+\index{VmaVirtualBlockCreateInfo@{VmaVirtualBlockCreateInfo}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{VmaVirtualBlockCreateInfo}{VmaVirtualBlockCreateInfo}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_vma_virtual_block_create_info}{Vma\+Virtual\+Block\+Create\+Info}} \mbox{\hyperlink{struct_vma_virtual_block_create_info}{Vma\+Virtual\+Block\+Create\+Info}}}
+
+
+
+Parameters of created \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} object to be passed to \doxylink{group__group__virtual_ga869baad02bf3b5fb012d61e1a43f92c5}{vma\+Create\+Virtual\+Block()}. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{group__group__virtual_ga2e9c64d405b14156fea7e10c4ad06cb6}\label{group__group__virtual_ga2e9c64d405b14156fea7e10c4ad06cb6} 
+\index{Virtual allocator@{Virtual allocator}!VmaVirtualAllocationCreateFlagBits@{VmaVirtualAllocationCreateFlagBits}}
+\index{VmaVirtualAllocationCreateFlagBits@{VmaVirtualAllocationCreateFlagBits}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{VmaVirtualAllocationCreateFlagBits}{VmaVirtualAllocationCreateFlagBits}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{group__group__virtual_ga2e9c64d405b14156fea7e10c4ad06cb6}{Vma\+Virtual\+Allocation\+Create\+Flag\+Bits}}}
+
+
+
+Flags to be passed as \doxylink{struct_vma_virtual_allocation_create_info_ab10e16956cc4bf20ced9de77d1129ea4}{Vma\+Virtual\+Allocation\+Create\+Info\+::flags}. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_UPPER\_ADDRESS\_BIT@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_UPPER\_ADDRESS\_BIT}!Virtual allocator@{Virtual allocator}}\index{Virtual allocator@{Virtual allocator}!VMA\_VIRTUAL\_ALLOCATION\_CREATE\_UPPER\_ADDRESS\_BIT@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_UPPER\_ADDRESS\_BIT}}}\Hypertarget{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6a9524a329a55b5ec390d57d90b67ad78e}\label{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6a9524a329a55b5ec390d57d90b67ad78e} 
+VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+UPPER\+\_\+\+ADDRESS\+\_\+\+BIT&Allocation will be created from upper stack in a double stack pool. This flag is only allowed for virtual blocks created with \doxylink{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaae6423e2fa2f3c9211b21c819e3f10f96}{VMA\+\_\+\+VIRTUAL\+\_\+\+BLOCK\+\_\+\+CREATE\+\_\+\+LINEAR\+\_\+\+ALGORITHM\+\_\+\+BIT} flag. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_MEMORY\_BIT@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_MEMORY\_BIT}!Virtual allocator@{Virtual allocator}}\index{Virtual allocator@{Virtual allocator}!VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_MEMORY\_BIT@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_MEMORY\_BIT}}}\Hypertarget{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6ae2a9591a62b5e3b1bdcbc81c6188a1bf}\label{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6ae2a9591a62b5e3b1bdcbc81c6188a1bf} 
+VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MIN\+\_\+\+MEMORY\+\_\+\+BIT&Allocation strategy that tries to minimize memory usage. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_TIME\_BIT@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_TIME\_BIT}!Virtual allocator@{Virtual allocator}}\index{Virtual allocator@{Virtual allocator}!VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_TIME\_BIT@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_TIME\_BIT}}}\Hypertarget{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6a562d10a46012719d33167d3dc5dbbf9b}\label{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6a562d10a46012719d33167d3dc5dbbf9b} 
+VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MIN\+\_\+\+TIME\+\_\+\+BIT&Allocation strategy that tries to minimize allocation time. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_OFFSET\_BIT@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_OFFSET\_BIT}!Virtual allocator@{Virtual allocator}}\index{Virtual allocator@{Virtual allocator}!VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_OFFSET\_BIT@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MIN\_OFFSET\_BIT}}}\Hypertarget{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6a3bb82d2aedd587a64846a1d7778852e6}\label{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6a3bb82d2aedd587a64846a1d7778852e6} 
+VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MIN\+\_\+\+OFFSET\+\_\+\+BIT&Allocation strategy that chooses always the lowest offset in available space. This is not the most efficient strategy but achieves highly packed data. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MASK@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MASK}!Virtual allocator@{Virtual allocator}}\index{Virtual allocator@{Virtual allocator}!VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MASK@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_STRATEGY\_MASK}}}\Hypertarget{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6ac5b5e45c335368d18df59c9f27df17e3}\label{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6ac5b5e45c335368d18df59c9f27df17e3} 
+VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+STRATEGY\+\_\+\+MASK&A bit mask to extract only {\ttfamily STRATEGY} bits from entire set of flags. These strategy flags are binary compatible with equivalent flags in \doxylink{group__group__alloc_gad9889c10c798b040d59c92f257cae597}{Vma\+Allocation\+Create\+Flag\+Bits}. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_FLAG\_BITS\_MAX\_ENUM@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_FLAG\_BITS\_MAX\_ENUM}!Virtual allocator@{Virtual allocator}}\index{Virtual allocator@{Virtual allocator}!VMA\_VIRTUAL\_ALLOCATION\_CREATE\_FLAG\_BITS\_MAX\_ENUM@{VMA\_VIRTUAL\_ALLOCATION\_CREATE\_FLAG\_BITS\_MAX\_ENUM}}}\Hypertarget{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6ac1163c03ea837fa663462dc286d6a1a9}\label{group__group__virtual_gga2e9c64d405b14156fea7e10c4ad06cb6ac1163c03ea837fa663462dc286d6a1a9} 
+VMA\+\_\+\+VIRTUAL\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l00779}{779}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{group__group__virtual_ga88bcf8c1cd3bb1610ff7343811c65bca}\label{group__group__virtual_ga88bcf8c1cd3bb1610ff7343811c65bca} 
+\index{Virtual allocator@{Virtual allocator}!VmaVirtualBlockCreateFlagBits@{VmaVirtualBlockCreateFlagBits}}
+\index{VmaVirtualBlockCreateFlagBits@{VmaVirtualBlockCreateFlagBits}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{VmaVirtualBlockCreateFlagBits}{VmaVirtualBlockCreateFlagBits}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{group__group__virtual_ga88bcf8c1cd3bb1610ff7343811c65bca}{Vma\+Virtual\+Block\+Create\+Flag\+Bits}}}
+
+
+
+Flags to be passed as \doxylink{struct_vma_virtual_block_create_info_aaab9bf7e2d228c02ab6d90a72a6e6912}{Vma\+Virtual\+Block\+Create\+Info\+::flags}. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VMA\_VIRTUAL\_BLOCK\_CREATE\_LINEAR\_ALGORITHM\_BIT@{VMA\_VIRTUAL\_BLOCK\_CREATE\_LINEAR\_ALGORITHM\_BIT}!Virtual allocator@{Virtual allocator}}\index{Virtual allocator@{Virtual allocator}!VMA\_VIRTUAL\_BLOCK\_CREATE\_LINEAR\_ALGORITHM\_BIT@{VMA\_VIRTUAL\_BLOCK\_CREATE\_LINEAR\_ALGORITHM\_BIT}}}\Hypertarget{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaae6423e2fa2f3c9211b21c819e3f10f96}\label{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaae6423e2fa2f3c9211b21c819e3f10f96} 
+VMA\+\_\+\+VIRTUAL\+\_\+\+BLOCK\+\_\+\+CREATE\+\_\+\+LINEAR\+\_\+\+ALGORITHM\+\_\+\+BIT&Enables alternative, linear allocation algorithm in this virtual block. Specify this flag to enable linear allocation algorithm, which always creates new allocations after last one and doesn\textquotesingle{}t reuse space from allocations freed in between. It trades memory consumption for simplified algorithm and data structure, which has better performance and uses less memory for metadata.
+
+By using this flag, you can achieve behavior of free-\/at-\/once, stack, ring buffer, and double stack. For details, see documentation chapter \doxysectlink{custom_memory_pools_linear_algorithm}{Linear allocation algorithm}{1}. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VMA\_VIRTUAL\_BLOCK\_CREATE\_ALGORITHM\_MASK@{VMA\_VIRTUAL\_BLOCK\_CREATE\_ALGORITHM\_MASK}!Virtual allocator@{Virtual allocator}}\index{Virtual allocator@{Virtual allocator}!VMA\_VIRTUAL\_BLOCK\_CREATE\_ALGORITHM\_MASK@{VMA\_VIRTUAL\_BLOCK\_CREATE\_ALGORITHM\_MASK}}}\Hypertarget{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaaf9487467136e1a9e371894dc3a7c4844}\label{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaaf9487467136e1a9e371894dc3a7c4844} 
+VMA\+\_\+\+VIRTUAL\+\_\+\+BLOCK\+\_\+\+CREATE\+\_\+\+ALGORITHM\+\_\+\+MASK&Bit mask to extract only {\ttfamily ALGORITHM} bits from entire set of flags. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VMA\_VIRTUAL\_BLOCK\_CREATE\_FLAG\_BITS\_MAX\_ENUM@{VMA\_VIRTUAL\_BLOCK\_CREATE\_FLAG\_BITS\_MAX\_ENUM}!Virtual allocator@{Virtual allocator}}\index{Virtual allocator@{Virtual allocator}!VMA\_VIRTUAL\_BLOCK\_CREATE\_FLAG\_BITS\_MAX\_ENUM@{VMA\_VIRTUAL\_BLOCK\_CREATE\_FLAG\_BITS\_MAX\_ENUM}}}\Hypertarget{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaa5fc0d333c3d5687a8bbf57df9b377a87}\label{group__group__virtual_gga88bcf8c1cd3bb1610ff7343811c65bcaa5fc0d333c3d5687a8bbf57df9b377a87} 
+VMA\+\_\+\+VIRTUAL\+\_\+\+BLOCK\+\_\+\+CREATE\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l00753}{753}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{group__group__virtual_ga565936f8d98d225b536a2d9703bc7676}\label{group__group__virtual_ga565936f8d98d225b536a2d9703bc7676} 
+\index{Virtual allocator@{Virtual allocator}!VK\_DEFINE\_NON\_DISPATCHABLE\_HANDLE@{VK\_DEFINE\_NON\_DISPATCHABLE\_HANDLE}}
+\index{VK\_DEFINE\_NON\_DISPATCHABLE\_HANDLE@{VK\_DEFINE\_NON\_DISPATCHABLE\_HANDLE}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{VK\_DEFINE\_NON\_DISPATCHABLE\_HANDLE()}{VK\_DEFINE\_NON\_DISPATCHABLE\_HANDLE()}}
+{\footnotesize\ttfamily VK\+\_\+\+DEFINE\+\_\+\+NON\+\_\+\+DISPATCHABLE\+\_\+\+HANDLE (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{group__group__virtual_ga87017b57fb0e9623573f07c236c37566}\label{group__group__virtual_ga87017b57fb0e9623573f07c236c37566} 
+\index{Virtual allocator@{Virtual allocator}!vmaCalculateVirtualBlockStatistics@{vmaCalculateVirtualBlockStatistics}}
+\index{vmaCalculateVirtualBlockStatistics@{vmaCalculateVirtualBlockStatistics}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{vmaCalculateVirtualBlockStatistics()}{vmaCalculateVirtualBlockStatistics()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} vma\+Calculate\+Virtual\+Block\+Statistics (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{virtual\+Block,  }\item[{\mbox{\hyperlink{struct_vma_detailed_statistics}{Vma\+Detailed\+Statistics}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{p\+Stats }\end{DoxyParamCaption})}
+
+
+
+Calculates and returns detailed statistics about virtual allocations and memory usage in given \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. 
+
+This function is slow to call. Use for debugging purposes. For less detailed statistics, see \doxylink{group__group__virtual_gac63bab2c8ae8e74451a11ef6dab48a5d}{vma\+Get\+Virtual\+Block\+Statistics()}. \Hypertarget{group__group__virtual_ga3114a4b34e1225b3d0a246b219d29d9d}\label{group__group__virtual_ga3114a4b34e1225b3d0a246b219d29d9d} 
+\index{Virtual allocator@{Virtual allocator}!vmaClearVirtualBlock@{vmaClearVirtualBlock}}
+\index{vmaClearVirtualBlock@{vmaClearVirtualBlock}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{vmaClearVirtualBlock()}{vmaClearVirtualBlock()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} vma\+Clear\+Virtual\+Block (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{virtual\+Block }\end{DoxyParamCaption})}
+
+
+
+Frees all virtual allocations inside given \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. 
+
+You must either call this function or free each virtual allocation individually with \doxylink{group__group__virtual_ga9f82fb8b8160d10bb469ae06b90134d2}{vma\+Virtual\+Free()} before destroying a virtual block. Otherwise, an assert is called.
+
+If you keep pointer to some additional metadata associated with your virtual allocation in its {\ttfamily p\+User\+Data}, don\textquotesingle{}t forget to free it as well. \Hypertarget{group__group__virtual_ga869baad02bf3b5fb012d61e1a43f92c5}\label{group__group__virtual_ga869baad02bf3b5fb012d61e1a43f92c5} 
+\index{Virtual allocator@{Virtual allocator}!vmaCreateVirtualBlock@{vmaCreateVirtualBlock}}
+\index{vmaCreateVirtualBlock@{vmaCreateVirtualBlock}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{vmaCreateVirtualBlock()}{vmaCreateVirtualBlock()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{Vk\+Result}} \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} vma\+Create\+Virtual\+Block (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_vma_virtual_block_create_info}{Vma\+Virtual\+Block\+Create\+Info}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{p\+Create\+Info,  }\item[{\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a3ff043960766509fbba947bc2c68bdb6}{VMA\+\_\+\+NULLABLE}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{p\+Virtual\+Block }\end{DoxyParamCaption})}
+
+
+
+Creates new \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} object. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em p\+Create\+Info} & Parameters for creation. \\
+\hline
+\mbox{\texttt{ out}}  & {\em p\+Virtual\+Block} & Returned virtual block object or {\ttfamily VMA\+\_\+\+NULL} if creation failed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__group__virtual_ga1a464943809fb27dd3b78d1cd6e3d534}\label{group__group__virtual_ga1a464943809fb27dd3b78d1cd6e3d534} 
+\index{Virtual allocator@{Virtual allocator}!vmaDestroyVirtualBlock@{vmaDestroyVirtualBlock}}
+\index{vmaDestroyVirtualBlock@{vmaDestroyVirtualBlock}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{vmaDestroyVirtualBlock()}{vmaDestroyVirtualBlock()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} vma\+Destroy\+Virtual\+Block (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a3ff043960766509fbba947bc2c68bdb6}{VMA\+\_\+\+NULLABLE}}}]{virtual\+Block }\end{DoxyParamCaption})}
+
+
+
+Destroys \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} object. 
+
+Please note that you should consciously handle virtual allocations that could remain unfreed in the block. You should either free them individually using \doxylink{group__group__virtual_ga9f82fb8b8160d10bb469ae06b90134d2}{vma\+Virtual\+Free()} or call \doxylink{group__group__virtual_ga3114a4b34e1225b3d0a246b219d29d9d}{vma\+Clear\+Virtual\+Block()} if you are sure this is what you want. If you do neither, an assert is called.
+
+If you keep pointers to some additional metadata associated with your virtual allocations in their {\ttfamily p\+User\+Data}, don\textquotesingle{}t forget to free them. \Hypertarget{group__group__virtual_ga64b8c2939b82f83fbec507f29a43307b}\label{group__group__virtual_ga64b8c2939b82f83fbec507f29a43307b} 
+\index{Virtual allocator@{Virtual allocator}!vmaGetVirtualAllocationInfo@{vmaGetVirtualAllocationInfo}}
+\index{vmaGetVirtualAllocationInfo@{vmaGetVirtualAllocationInfo}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{vmaGetVirtualAllocationInfo()}{vmaGetVirtualAllocationInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} vma\+Get\+Virtual\+Allocation\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{virtual\+Block,  }\item[{\mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}} \mbox{\hyperlink{vk__mem__alloc_8h_af10160f1e2fdeb1e5445ee48f61fd2f2}{VMA\+\_\+\+NOT\+\_\+\+NULL\+\_\+\+NON\+\_\+\+DISPATCHABLE}}}]{allocation,  }\item[{\mbox{\hyperlink{struct_vma_virtual_allocation_info}{Vma\+Virtual\+Allocation\+Info}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{p\+Virtual\+Alloc\+Info }\end{DoxyParamCaption})}
+
+
+
+Returns information about a specific virtual allocation within a virtual block, like its size and {\ttfamily p\+User\+Data} pointer. 
+
+\Hypertarget{group__group__virtual_gac63bab2c8ae8e74451a11ef6dab48a5d}\label{group__group__virtual_gac63bab2c8ae8e74451a11ef6dab48a5d} 
+\index{Virtual allocator@{Virtual allocator}!vmaGetVirtualBlockStatistics@{vmaGetVirtualBlockStatistics}}
+\index{vmaGetVirtualBlockStatistics@{vmaGetVirtualBlockStatistics}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{vmaGetVirtualBlockStatistics()}{vmaGetVirtualBlockStatistics()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} vma\+Get\+Virtual\+Block\+Statistics (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{virtual\+Block,  }\item[{\mbox{\hyperlink{struct_vma_statistics}{Vma\+Statistics}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{p\+Stats }\end{DoxyParamCaption})}
+
+
+
+Calculates and returns statistics about virtual allocations and memory usage in given \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. 
+
+This function is fast to call. For more detailed statistics, see \doxylink{group__group__virtual_ga87017b57fb0e9623573f07c236c37566}{vma\+Calculate\+Virtual\+Block\+Statistics()}. \Hypertarget{group__group__virtual_ga59f870a818a9acf8506aa36760549a48}\label{group__group__virtual_ga59f870a818a9acf8506aa36760549a48} 
+\index{Virtual allocator@{Virtual allocator}!vmaIsVirtualBlockEmpty@{vmaIsVirtualBlockEmpty}}
+\index{vmaIsVirtualBlockEmpty@{vmaIsVirtualBlockEmpty}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{vmaIsVirtualBlockEmpty()}{vmaIsVirtualBlockEmpty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} \mbox{\hyperlink{vulkan_8h_ae5d9faf75f583010e32ee49087a15326}{Vk\+Bool32}} \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} vma\+Is\+Virtual\+Block\+Empty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{virtual\+Block }\end{DoxyParamCaption})}
+
+
+
+Returns true of the \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} is empty -\/ contains 0 virtual allocations and has all its space available for new allocations. 
+
+\Hypertarget{group__group__virtual_ga9e697c001a3750c3bf1a081ee15f6b10}\label{group__group__virtual_ga9e697c001a3750c3bf1a081ee15f6b10} 
+\index{Virtual allocator@{Virtual allocator}!vmaSetVirtualAllocationUserData@{vmaSetVirtualAllocationUserData}}
+\index{vmaSetVirtualAllocationUserData@{vmaSetVirtualAllocationUserData}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{vmaSetVirtualAllocationUserData()}{vmaSetVirtualAllocationUserData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} vma\+Set\+Virtual\+Allocation\+User\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{virtual\+Block,  }\item[{\mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}} \mbox{\hyperlink{vk__mem__alloc_8h_af10160f1e2fdeb1e5445ee48f61fd2f2}{VMA\+\_\+\+NOT\+\_\+\+NULL\+\_\+\+NON\+\_\+\+DISPATCHABLE}}}]{allocation,  }\item[{void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a3ff043960766509fbba947bc2c68bdb6}{VMA\+\_\+\+NULLABLE}}}]{p\+User\+Data }\end{DoxyParamCaption})}
+
+
+
+Changes custom pointer associated with given virtual allocation. 
+
+\Hypertarget{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac}\label{group__group__virtual_ga2f6cd8f6b98e754be7016b5860d02dac} 
+\index{Virtual allocator@{Virtual allocator}!vmaVirtualAllocate@{vmaVirtualAllocate}}
+\index{vmaVirtualAllocate@{vmaVirtualAllocate}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{vmaVirtualAllocate()}{vmaVirtualAllocate()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{Vk\+Result}} \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} vma\+Virtual\+Allocate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{virtual\+Block,  }\item[{const \mbox{\hyperlink{struct_vma_virtual_allocation_create_info}{Vma\+Virtual\+Allocation\+Create\+Info}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{p\+Create\+Info,  }\item[{\mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}} \mbox{\hyperlink{vk__mem__alloc_8h_ab2073c76e8756145dd9426345e13b57e}{VMA\+\_\+\+NULLABLE\+\_\+\+NON\+\_\+\+DISPATCHABLE}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{p\+Allocation,  }\item[{\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{vk__mem__alloc_8h_a3ff043960766509fbba947bc2c68bdb6}{VMA\+\_\+\+NULLABLE}}}]{p\+Offset }\end{DoxyParamCaption})}
+
+
+
+Allocates new virtual allocation inside given \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. 
+
+If the allocation fails due to not enough free space available, {\ttfamily VK\+\_\+\+ERROR\+\_\+\+OUT\+\_\+\+OF\+\_\+\+DEVICE\+\_\+\+MEMORY} is returned (despite the function doesn\textquotesingle{}t ever allocate actual GPU memory). {\ttfamily p\+Allocation} is then set to {\ttfamily VK\+\_\+\+NULL\+\_\+\+HANDLE} and {\ttfamily p\+Offset}, if not null, it set to {\ttfamily UINT64\+\_\+\+MAX}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em virtual\+Block} & Virtual block \\
+\hline
+ & {\em p\+Create\+Info} & Parameters for the allocation \\
+\hline
+\mbox{\texttt{ out}}  & {\em p\+Allocation} & Returned handle of the new allocation \\
+\hline
+\mbox{\texttt{ out}}  & {\em p\+Offset} & Returned offset of the new allocation. Optional, can be null. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group__group__virtual_ga9f82fb8b8160d10bb469ae06b90134d2}\label{group__group__virtual_ga9f82fb8b8160d10bb469ae06b90134d2} 
+\index{Virtual allocator@{Virtual allocator}!vmaVirtualFree@{vmaVirtualFree}}
+\index{vmaVirtualFree@{vmaVirtualFree}!Virtual allocator@{Virtual allocator}}
+\doxysubsubsection{\texorpdfstring{vmaVirtualFree()}{vmaVirtualFree()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vk__mem__alloc_8h_a3f0fa870030b4d421bf71e3928d5fe31}{VMA\+\_\+\+CALL\+\_\+\+PRE}} void \mbox{\hyperlink{vk__mem__alloc_8h_aab7d949b3d77783f0ba704ae5e3136e0}{VMA\+\_\+\+CALL\+\_\+\+POST}} vma\+Virtual\+Free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_vma_virtual_block}{Vma\+Virtual\+Block}} \mbox{\hyperlink{vk__mem__alloc_8h_a0366f45516136c073f98582341ecf9de}{VMA\+\_\+\+NOT\+\_\+\+NULL}}}]{virtual\+Block,  }\item[{\mbox{\hyperlink{struct_vma_virtual_allocation}{Vma\+Virtual\+Allocation}} \mbox{\hyperlink{vk__mem__alloc_8h_ab2073c76e8756145dd9426345e13b57e}{VMA\+\_\+\+NULLABLE\+\_\+\+NON\+\_\+\+DISPATCHABLE}}}]{allocation }\end{DoxyParamCaption})}
+
+
+
+Frees virtual allocation inside given \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block}. 
+
+It is correct to call this function with {\ttfamily allocation == VK\+\_\+\+NULL\+\_\+\+HANDLE} -\/ it does nothing. 

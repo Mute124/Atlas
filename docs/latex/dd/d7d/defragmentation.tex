@@ -1,0 +1,129 @@
+\doxysection{Defragmentation}
+\hypertarget{defragmentation}{}\label{defragmentation}\index{Defragmentation@{Defragmentation}}
+Interleaved allocations and deallocations of many objects of varying size can cause fragmentation over time, which can lead to a situation where the library is unable to find a continuous range of free memory for a new allocation despite there is enough free space, just scattered across many small free ranges between existing allocations.
+
+To mitigate this problem, you can use defragmentation feature. It doesn\textquotesingle{}t happen automatically though and needs your cooperation, because VMA is a low level library that only allocates memory. It cannot recreate buffers and images in a new place as it doesn\textquotesingle{}t remember the contents of {\ttfamily \doxylink{struct_vk_buffer_create_info}{Vk\+Buffer\+Create\+Info}} / {\ttfamily \doxylink{struct_vk_image_create_info}{Vk\+Image\+Create\+Info}} structures. It cannot copy their contents as it doesn\textquotesingle{}t record any commands to a command buffer.
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_defragmentation_info}{VmaDefragmentationInfo}}\ defragInfo\ =\ \{\};}
+\DoxyCodeLine{defragInfo.\mbox{\hyperlink{struct_vma_defragmentation_info_a3302955190e6b5f0d8103698753de949}{pool}}\ =\ myPool;}
+\DoxyCodeLine{defragInfo.\mbox{\hyperlink{struct_vma_defragmentation_info_a3e23080c978ecf3abb3180f5b2069da7}{flags}}\ =\ \mbox{\hyperlink{group__group__alloc_gga6552a65b71d16f378c6994b3ceaef50ca2e6469bcf5a094776ceb5d118263f04b}{VMA\_DEFRAGMENTATION\_FLAG\_ALGORITHM\_FAST\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_defragmentation_context}{VmaDefragmentationContext}}\ defragCtx;}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{VkResult}}\ res\ =\ \mbox{\hyperlink{group__group__alloc_ga0cdd7b0b8653745fa95af9e78d919e70}{vmaBeginDefragmentation}}(allocator,\ \&defragInfo,\ \&defragCtx);}
+\DoxyCodeLine{\textcolor{comment}{//\ Check\ res...}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordflow}{for}(;;)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{struct_vma_defragmentation_pass_move_info}{VmaDefragmentationPassMoveInfo}}\ pass;}
+\DoxyCodeLine{\ \ \ \ res\ =\ \mbox{\hyperlink{group__group__alloc_gacbe4a77fdfa7ea29328d2f940d423ab7}{vmaBeginDefragmentationPass}}(allocator,\ defragCtx,\ \&pass);}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(res\ ==\ \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45a3671aecac45b2f102cbe941e2ed4d32a}{VK\_SUCCESS}})}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(res\ !=\ \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45a3003ce38eb816816fdcdafed429fea31}{VK\_INCOMPLETE}})}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Handle\ error...}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{for}(uint32\_t\ i\ =\ 0;\ \mbox{\hyperlink{namespacecompile__shaders_a0a44d71f31a11b5964890f0948d616fd}{i}}\ <\ pass.\mbox{\hyperlink{struct_vma_defragmentation_pass_move_info_a1b3e18c23f9691f35baf183e615c4408}{moveCount}};\ ++\mbox{\hyperlink{namespacecompile__shaders_a0a44d71f31a11b5964890f0948d616fd}{i}})}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inspect\ pass.pMoves[i].srcAllocation,\ identify\ what\ buffer/image\ it\ represents.}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vma_allocation_info}{VmaAllocationInfo}}\ allocInfo;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{group__group__alloc_gab9c96ca6bb55ad9069829fe8355bbb79}{vmaGetAllocationInfo}}(allocator,\ pMoves[i].srcAllocation,\ \&allocInfo);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ MyEngineResourceData*\ resData\ =\ (MyEngineResourceData*)allocInfo.\mbox{\hyperlink{struct_vma_allocation_info_ad0ea9d64dd733ffd7beff7af6d289ad0}{pUserData}};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Recreate\ and\ bind\ this\ buffer/image\ at:\ pass.pMoves[i].dstMemory,\ pass.pMoves[i].dstOffset.}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_vk_image_create_info}{VkImageCreateInfo}}\ imgCreateInfo\ =\ ...}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ VkImage\ newImg;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ res\ =\ \mbox{\hyperlink{vulkan_8h_a87ee6731120b6b0fd65a79127e7f980a}{vkCreateImage}}(device,\ \&imgCreateInfo,\ \textcolor{keyword}{nullptr},\ \&newImg);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ res...}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ res\ =\ \mbox{\hyperlink{group__group__alloc_ga3a5d8d9f2a29b42cf87f0f8dfef591f4}{vmaBindImageMemory}}(allocator,\ pMoves[i].dstTmpAllocation,\ newImg);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ res...}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Issue\ a\ vkCmdCopyBuffer/vkCmdCopyImage\ to\ copy\ its\ content\ to\ the\ new\ place.}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_ab32fd212e80ba65fbfd0c2b61cf844bc}{vkCmdCopyImage}}(cmdBuf,\ resData-\/>img,\ ...,\ newImg,\ ...);}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Make\ sure\ the\ copy\ commands\ finished\ executing.}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{vulkan_8h_a5507b2ce202e4184e8754fd1803f2481}{vkWaitForFences}}(...);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Destroy\ old\ buffers/images\ bound\ with\ pass.pMoves[i].srcAllocation.}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{for}(uint32\_t\ i\ =\ 0;\ \mbox{\hyperlink{namespacecompile__shaders_a0a44d71f31a11b5964890f0948d616fd}{i}}\ <\ pass.\mbox{\hyperlink{struct_vma_defragmentation_pass_move_info_a1b3e18c23f9691f35baf183e615c4408}{moveCount}};\ ++\mbox{\hyperlink{namespacecompile__shaders_a0a44d71f31a11b5964890f0948d616fd}{i}})}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{vulkan_8h_a8dfd39525d9fad568e9e4ccd8f864376}{vkDestroyImage}}(device,\ resData-\/>img,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Update\ appropriate\ descriptors\ to\ point\ to\ the\ new\ places...}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ res\ =\ \mbox{\hyperlink{group__group__alloc_gabbc69db60f82972ddffaceb6653e344a}{vmaEndDefragmentationPass}}(allocator,\ defragCtx,\ \&pass);}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(res\ ==\ \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45a3671aecac45b2f102cbe941e2ed4d32a}{VK\_SUCCESS}})}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(res\ !=\ \mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45a3003ce38eb816816fdcdafed429fea31}{VK\_INCOMPLETE}})}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Handle\ error...}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae419e366d1c015716165bdfd5aafef6f}{vmaEndDefragmentation}}(allocator,\ defragCtx,\ \textcolor{keyword}{nullptr});}
+
+\end{DoxyCode}
+
+
+Although functions like \doxylink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vma\+Create\+Buffer()}, \doxylink{group__group__alloc_gaa76142ae43535c862ad9e194a6e38aaa}{vma\+Create\+Image()}, \doxylink{group__group__alloc_gafcc45e5a6388ab35daa9a46688baee20}{vma\+Destroy\+Buffer()}, \doxylink{group__group__alloc_ga2f6367e612daace5c5ecd7ef9e47c3fd}{vma\+Destroy\+Image()} create/destroy an allocation and a buffer/image at once, these are just a shortcut for creating the resource, allocating memory, and binding them together. Defragmentation works on memory allocations only. You must handle the rest manually. Defragmentation is an iterative process that should repreat "{}passes"{} as long as related functions return {\ttfamily VK\+\_\+\+INCOMPLETE} not {\ttfamily VK\+\_\+\+SUCCESS}. In each pass\+:
+
+
+\begin{DoxyEnumerate}
+\item \doxylink{group__group__alloc_gacbe4a77fdfa7ea29328d2f940d423ab7}{vma\+Begin\+Defragmentation\+Pass()} function call\+:
+\begin{DoxyItemize}
+\item Calculates and returns the list of allocations to be moved in this pass. Note this can be a time-\/consuming process.
+\item Reserves destination memory for them by creating temporary destination allocations that you can query for their {\ttfamily Vk\+Device\+Memory} + offset using \doxylink{group__group__alloc_gab9c96ca6bb55ad9069829fe8355bbb79}{vma\+Get\+Allocation\+Info()}.
+\end{DoxyItemize}
+\item Inside the pass, {\bfseries{you should}}\+:
+\begin{DoxyItemize}
+\item Inspect the returned list of allocations to be moved.
+\item Create new buffers/images and bind them at the returned destination temporary allocations.
+\item Copy data from source to destination resources if necessary.
+\item Destroy the source buffers/images, but NOT their allocations.
+\end{DoxyItemize}
+\item \doxylink{group__group__alloc_gabbc69db60f82972ddffaceb6653e344a}{vma\+End\+Defragmentation\+Pass()} function call\+:
+\begin{DoxyItemize}
+\item Frees the source memory reserved for the allocations that are moved.
+\item Modifies source \doxylink{struct_vma_allocation}{Vma\+Allocation} objects that are moved to point to the destination reserved memory.
+\item Frees {\ttfamily Vk\+Device\+Memory} blocks that became empty.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+Unlike in previous iterations of the defragmentation API, there is no list of "{}movable"{} allocations passed as a parameter. Defragmentation algorithm tries to move all suitable allocations. You can, however, refuse to move some of them inside a defragmentation pass, by setting {\ttfamily pass.\+p\+Moves\mbox{[}i\mbox{]}.operation} to \doxylink{group__group__alloc_ggada9e3861caf96f08894b0bcc160ec257ad25bc6f816b226b4fd5170e845f218d2}{VMA\+\_\+\+DEFRAGMENTATION\+\_\+\+MOVE\+\_\+\+OPERATION\+\_\+\+IGNORE}. This is not recommended and may result in suboptimal packing of the allocations after defragmentation. If you cannot ensure any allocation can be moved, it is better to keep movable allocations separate in a custom pool.
+
+Inside a pass, for each allocation that should be moved\+:
+
+
+\begin{DoxyItemize}
+\item You should copy its data from the source to the destination place by calling e.\+g. {\ttfamily \doxylink{vulkan_8h_ad587652cb54eb8b4db78c5944a9ac6b6}{vk\+Cmd\+Copy\+Buffer()}}, {\ttfamily \doxylink{vulkan_8h_ab32fd212e80ba65fbfd0c2b61cf844bc}{vk\+Cmd\+Copy\+Image()}}.
+\begin{DoxyItemize}
+\item You need to make sure these commands finished executing before destroying the source buffers/images and before calling \doxylink{group__group__alloc_gabbc69db60f82972ddffaceb6653e344a}{vma\+End\+Defragmentation\+Pass()}.
+\end{DoxyItemize}
+\item If a resource doesn\textquotesingle{}t contain any meaningful data, e.\+g. it is a transient color attachment image to be cleared, filled, and used temporarily in each rendering frame, you can just recreate this image without copying its data.
+\item If the resource is in {\ttfamily HOST\+\_\+\+VISIBLE} and {\ttfamily HOST\+\_\+\+CACHED} memory, you can copy its data on the CPU using {\ttfamily memcpy()}.
+\item If you cannot move the allocation, you can set {\ttfamily pass.\+p\+Moves\mbox{[}i\mbox{]}.operation} to \doxylink{group__group__alloc_ggada9e3861caf96f08894b0bcc160ec257ad25bc6f816b226b4fd5170e845f218d2}{VMA\+\_\+\+DEFRAGMENTATION\+\_\+\+MOVE\+\_\+\+OPERATION\+\_\+\+IGNORE}. This will cancel the move.
+\begin{DoxyItemize}
+\item \doxylink{group__group__alloc_gabbc69db60f82972ddffaceb6653e344a}{vma\+End\+Defragmentation\+Pass()} will then free the destination memory not the source memory of the allocation, leaving it unchanged.
+\end{DoxyItemize}
+\item If you decide the allocation is unimportant and can be destroyed instead of moved (e.\+g. it wasn\textquotesingle{}t used for long time), you can set {\ttfamily pass.\+p\+Moves\mbox{[}i\mbox{]}.operation} to \doxylink{group__group__alloc_ggada9e3861caf96f08894b0bcc160ec257a9786f8492a9be2c03bd26395e352ab85}{VMA\+\_\+\+DEFRAGMENTATION\+\_\+\+MOVE\+\_\+\+OPERATION\+\_\+\+DESTROY}.
+\begin{DoxyItemize}
+\item \doxylink{group__group__alloc_gabbc69db60f82972ddffaceb6653e344a}{vma\+End\+Defragmentation\+Pass()} will then free both source and destination memory, and will destroy the source \doxylink{struct_vma_allocation}{Vma\+Allocation} object.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+You can defragment a specific custom pool by setting \doxylink{struct_vma_defragmentation_info_a3302955190e6b5f0d8103698753de949}{Vma\+Defragmentation\+Info\+::pool} (like in the example above) or all the default pools by setting this member to null.
+
+Defragmentation is always performed in each pool separately. Allocations are never moved between different Vulkan memory types. The size of the destination memory reserved for a moved allocation is the same as the original one. Alignment of an allocation as it was determined using {\ttfamily \doxylink{vulkan_8h_ad7f6c99a52c417bb4be8ee1dcbe5383e}{vk\+Get\+Buffer\+Memory\+Requirements()}} etc. is also respected after defragmentation. Buffers/images should be recreated with the same {\ttfamily \doxylink{struct_vk_buffer_create_info}{Vk\+Buffer\+Create\+Info}} / {\ttfamily \doxylink{struct_vk_image_create_info}{Vk\+Image\+Create\+Info}} parameters as the original ones.
+
+You can perform the defragmentation incrementally to limit the number of allocations and bytes to be moved in each pass, e.\+g. to call it in sync with render frames and not to experience too big hitches. See members\+: \doxylink{struct_vma_defragmentation_info_a637ada77b02179a27fa92290000afac4}{Vma\+Defragmentation\+Info\+::max\+Bytes\+Per\+Pass}, \doxylink{struct_vma_defragmentation_info_ac2db29d309bebc4f7d55041416e9694b}{Vma\+Defragmentation\+Info\+::max\+Allocations\+Per\+Pass}.
+
+It is also safe to perform the defragmentation asynchronously to render frames and other Vulkan and VMA usage, possibly from multiple threads, with the exception that allocations returned in Vma\+Defragmentation\+Pass\+Move\+Info\+::p\+Moves shouldn\textquotesingle{}t be destroyed until the defragmentation pass is ended.
+
+{\bfseries{Mapping}} is preserved on allocations that are moved during defragmentation. Whether through \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+MAPPED\+\_\+\+BIT} or \doxylink{group__group__alloc_ga13b93ec0ed38ad7232300cb94931c8d2}{vma\+Map\+Memory()}, the allocations are mapped at their new place. Of course, pointer to the mapped data changes, so it needs to be queried using \doxylink{struct_vma_allocation_info_a17a39eb34201a610347acb91b38eca79}{Vma\+Allocation\+Info\+::p\+Mapped\+Data}.
+
+\begin{DoxyNote}{Note}
+Defragmentation is not supported in custom pools created with \doxylink{group__group__alloc_gga9a7c45f9c863695d98c83fa5ac940fe7a13c8a444197c67866be9cb05599fc726}{VMA\+\_\+\+POOL\+\_\+\+CREATE\+\_\+\+LINEAR\+\_\+\+ALGORITHM\+\_\+\+BIT}. 
+\end{DoxyNote}

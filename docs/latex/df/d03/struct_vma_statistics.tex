@@ -1,0 +1,98 @@
+\doxysection{Vma\+Statistics Struct Reference}
+\hypertarget{struct_vma_statistics}{}\label{struct_vma_statistics}\index{VmaStatistics@{VmaStatistics}}
+
+
+Calculated statistics of memory usage e.\+g. in a specific memory type, heap, custom pool, or total.  
+
+
+
+
+{\ttfamily \#include $<$vk\+\_\+mem\+\_\+alloc.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_vma_statistics_a309179d5853a6a7cd534df497ee43957}{block\+Count}}
+\begin{DoxyCompactList}\small\item\em Number of {\ttfamily Vk\+Device\+Memory} objects -\/ Vulkan memory blocks allocated. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{struct_vma_statistics_ab0ff76e50f58f9f54b6f265e5bf5dde2}{allocation\+Count}}
+\begin{DoxyCompactList}\small\item\em Number of \doxylink{struct_vma_allocation}{Vma\+Allocation} objects allocated. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} \mbox{\hyperlink{struct_vma_statistics_a2afbc1c7aa8ad7bbb8de06215ba7e5c4}{block\+Bytes}}
+\begin{DoxyCompactList}\small\item\em Number of bytes allocated in {\ttfamily Vk\+Device\+Memory} blocks. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} \mbox{\hyperlink{struct_vma_statistics_a21db06eba3422f87a2b4b4703d879c16}{allocation\+Bytes}}
+\begin{DoxyCompactList}\small\item\em Total number of bytes occupied by all \doxylink{struct_vma_allocation}{Vma\+Allocation} objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Calculated statistics of memory usage e.\+g. in a specific memory type, heap, custom pool, or total. 
+
+These are fast to calculate. See functions\+: \doxylink{group__group__stats_ga620eaa8a9d919860f7deaf4d0148b2a1}{vma\+Get\+Heap\+Budgets()}, \doxylink{group__group__stats_ga7e489a68f893dbefc78a6ac9413c4220}{vma\+Get\+Pool\+Statistics()}. 
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01110}{1110}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_vma_statistics_a21db06eba3422f87a2b4b4703d879c16}\label{struct_vma_statistics_a21db06eba3422f87a2b4b4703d879c16} 
+\index{VmaStatistics@{VmaStatistics}!allocationBytes@{allocationBytes}}
+\index{allocationBytes@{allocationBytes}!VmaStatistics@{VmaStatistics}}
+\doxysubsubsection{\texorpdfstring{allocationBytes}{allocationBytes}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} Vma\+Statistics\+::allocation\+Bytes}
+
+
+
+Total number of bytes occupied by all \doxylink{struct_vma_allocation}{Vma\+Allocation} objects. 
+
+Always less or equal than {\ttfamily block\+Bytes}. Difference {\ttfamily (block\+Bytes -\/ allocation\+Bytes)} is the amount of memory allocated from Vulkan but unused by any \doxylink{struct_vma_allocation}{Vma\+Allocation}. 
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01133}{1133}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{struct_vma_statistics_ab0ff76e50f58f9f54b6f265e5bf5dde2}\label{struct_vma_statistics_ab0ff76e50f58f9f54b6f265e5bf5dde2} 
+\index{VmaStatistics@{VmaStatistics}!allocationCount@{allocationCount}}
+\index{allocationCount@{allocationCount}!VmaStatistics@{VmaStatistics}}
+\doxysubsubsection{\texorpdfstring{allocationCount}{allocationCount}}
+{\footnotesize\ttfamily uint32\+\_\+t Vma\+Statistics\+::allocation\+Count}
+
+
+
+Number of \doxylink{struct_vma_allocation}{Vma\+Allocation} objects allocated. 
+
+Dedicated allocations have their own blocks, so each one adds 1 to {\ttfamily allocation\+Count} as well as {\ttfamily block\+Count}. 
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01119}{1119}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{struct_vma_statistics_a2afbc1c7aa8ad7bbb8de06215ba7e5c4}\label{struct_vma_statistics_a2afbc1c7aa8ad7bbb8de06215ba7e5c4} 
+\index{VmaStatistics@{VmaStatistics}!blockBytes@{blockBytes}}
+\index{blockBytes@{blockBytes}!VmaStatistics@{VmaStatistics}}
+\doxysubsubsection{\texorpdfstring{blockBytes}{blockBytes}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vulkan_8h_a459be4b1b89c972b0d6018bc483be9cc}{Vk\+Device\+Size}} Vma\+Statistics\+::block\+Bytes}
+
+
+
+Number of bytes allocated in {\ttfamily Vk\+Device\+Memory} blocks. 
+
+\begin{DoxyNote}{Note}
+To avoid confusion, please be aware that what Vulkan calls an "{}allocation"{} -\/ a whole {\ttfamily Vk\+Device\+Memory} object (e.\+g. as in {\ttfamily \doxylink{struct_vk_physical_device_limits_a89c5f850f54ce4170b0926be986caa9a}{Vk\+Physical\+Device\+Limits\+::max\+Memory\+Allocation\+Count}}) is called a "{}block"{} in VMA, while VMA calls "{}allocation"{} a \doxylink{struct_vma_allocation}{Vma\+Allocation} object that represents a memory region sub-\/allocated from such block, usually for a single buffer or image. 
+\end{DoxyNote}
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01126}{1126}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+\Hypertarget{struct_vma_statistics_a309179d5853a6a7cd534df497ee43957}\label{struct_vma_statistics_a309179d5853a6a7cd534df497ee43957} 
+\index{VmaStatistics@{VmaStatistics}!blockCount@{blockCount}}
+\index{blockCount@{blockCount}!VmaStatistics@{VmaStatistics}}
+\doxysubsubsection{\texorpdfstring{blockCount}{blockCount}}
+{\footnotesize\ttfamily uint32\+\_\+t Vma\+Statistics\+::block\+Count}
+
+
+
+Number of {\ttfamily Vk\+Device\+Memory} objects -\/ Vulkan memory blocks allocated. 
+
+
+
+Definition at line \mbox{\hyperlink{vk__mem__alloc_8h_source_l01114}{1114}} of file \mbox{\hyperlink{vk__mem__alloc_8h_source}{vk\+\_\+mem\+\_\+alloc.\+h}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/backends/\+Rml\+Ui\+\_\+\+Vulkan/\mbox{\hyperlink{vk__mem__alloc_8h}{vk\+\_\+mem\+\_\+alloc.\+h}}\end{DoxyCompactItemize}

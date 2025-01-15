@@ -6,7 +6,7 @@
 #include <any>
 #include "Singleton.h"
 
-namespace Techstorm {
+namespace Atlas {
 	class GlobalsContainer : Singleton<GlobalsContainer> {
 	public:
 

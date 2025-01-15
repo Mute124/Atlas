@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "../utils/DoublyLinkedList.h"
 
-namespace Techstorm {
+namespace Atlas {
 
 	using Depth = int;
 
@@ -10,7 +10,7 @@ namespace Techstorm {
 	/*
 	class GameObjectsList : public DoublyLinkedList<GameObject*> {
 	public:
-		TS_DBL_LNK_LST_FUNC_OVERRIDE_DECL(GameObject*)
+		ATLAS_DBL_LNK_LST_FUNC_OVERRIDE_DECL(GameObject*)
 
 		void draw(GameObject* object);
 	};

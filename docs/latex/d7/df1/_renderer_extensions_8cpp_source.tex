@@ -1,0 +1,103 @@
+\doxysection{Renderer\+Extensions.\+cpp}
+\hypertarget{_renderer_extensions_8cpp_source}{}\label{_renderer_extensions_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/application/prototyping/RendererExtensions.cpp@{C:/Dev/Techstorm-\/v5/src/application/prototyping/RendererExtensions.cpp}}
+\mbox{\hyperlink{_renderer_extensions_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00002}00002\ \textcolor{comment}{\ *\ This\ source\ file\ is\ part\ of\ RmlUi,\ the\ HTML/CSS\ Interface\ Middleware}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00003}00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00004}00004\ \textcolor{comment}{\ *\ For\ the\ latest\ information,\ see\ http://github.com/mikke89/RmlUi}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00005}00005\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00006}00006\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2008-\/2010\ CodePoint\ Ltd,\ Shift\ Technology\ Ltd}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00007}00007\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2019-\/2023\ The\ RmlUi\ Team,\ and\ contributors}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00008}00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00009}00009\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00010}00010\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00011}00011\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00012}00012\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00013}00013\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00014}00014\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00015}00015\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00016}00016\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00019}00019\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00020}00020\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00021}00021\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00022}00022\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00023}00023\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00024}00024\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00025}00025\ \textcolor{comment}{\ *\ THE\ SOFTWARE.}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00026}00026\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00027}00027\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ "{}../include/RendererExtensions.h"{}}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Log.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Platform.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00033}00033\ \textcolor{preprocessor}{\#if\ defined\ RMLUI\_RENDERER\_GL2}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00035}00035\ \textcolor{preprocessor}{\ \ \ \ \#if\ defined\ RMLUI\_PLATFORM\_WIN32}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00036}00036\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <RmlUi\_Include\_Windows.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00037}00037\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <gl/Gl.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00038}00038\ \textcolor{preprocessor}{\ \ \ \ \#elif\ defined\ RMLUI\_PLATFORM\_MACOSX}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00039}00039\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <AGL/agl.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00040}00040\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <OpenGL/gl.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00041}00041\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <OpenGL/glext.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00042}00042\ \textcolor{preprocessor}{\ \ \ \ \#elif\ defined\ RMLUI\_PLATFORM\_UNIX}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00043}00043\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <RmlUi\_Include\_Xlib.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00044}00044\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <GL/gl.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00045}00045\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <GL/glext.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00046}00046\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <GL/glx.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00047}00047\ \textcolor{preprocessor}{\ \ \ \ \#endif}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00049}00049\ \textcolor{preprocessor}{\#elif\ defined\ RMLUI\_RENDERER\_GL3\ \&\&\ !defined\ RMLUI\_PLATFORM\_EMSCRIPTEN}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00051}00051\ \textcolor{preprocessor}{\ \ \ \ \#include\ <RmlUi\_Include\_GL3.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00053}00053\ \textcolor{preprocessor}{\#elif\ defined\ RMLUI\_RENDERER\_GL3\ \&\&\ defined\ RMLUI\_PLATFORM\_EMSCRIPTEN}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00055}00055\ \textcolor{preprocessor}{\ \ \ \ \#include\ <GLES3/gl3.h>}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00057}00057\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00059}\mbox{\hyperlink{namespace_renderer_extensions_a7910f5bd36dac6d6a8652b9d3f7ce083}{00059}}\ \mbox{\hyperlink{struct_renderer_extensions_1_1_image}{RendererExtensions::Image}}\ \mbox{\hyperlink{namespace_renderer_extensions_a7910f5bd36dac6d6a8652b9d3f7ce083}{RendererExtensions::CaptureScreen}}()}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00060}00060\ \{}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00061}00061\ \textcolor{preprocessor}{\#if\ defined\ RMLUI\_RENDERER\_GL2\ ||\ defined\ RMLUI\_RENDERER\_GL3}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{keywordtype}{int}\ viewport[4]\ =\ \{\};\ \textcolor{comment}{//\ x,\ y,\ width,\ height}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00064}00064\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a70ad6a21033347a0478dad517dd2bb83}{glGetIntegerv}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a8195c4c567f9ebe31c8208485f4fbb1b}{GL\_VIEWPORT}},\ viewport);}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00066}00066\ \ \ \ \ \mbox{\hyperlink{struct_renderer_extensions_1_1_image}{Image}}\ image;}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00067}00067\ \ \ \ \ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_aee8ea434c97b86998cd9b328686511b0}{num\_components}}\ =\ 3;}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00068}00068\ \ \ \ \ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_a3f638a7daaca56244c2649ada7efb2fe}{width}}\ =\ viewport[2];}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00069}00069\ \ \ \ \ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_a0138973441442883d07d24c4468a2273}{height}}\ =\ viewport[3];}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00071}00071\ \ \ \ \ \textcolor{keywordflow}{if}\ (image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_a3f638a7daaca56244c2649ada7efb2fe}{width}}\ <\ 1\ ||\ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_a0138973441442883d07d24c4468a2273}{height}}\ <\ 1)}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_renderer_extensions_1_1_image}{Image}}();}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00074}00074\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ byte\_size\ =\ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_a3f638a7daaca56244c2649ada7efb2fe}{width}}\ *\ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_a0138973441442883d07d24c4468a2273}{height}}\ *\ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_aee8ea434c97b86998cd9b328686511b0}{num\_components}};}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00075}00075\ \ \ \ \ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_a733904c59e464d884ebbf14ef6cf2910}{data}}\ =\ Rml::UniquePtr<Rml::byte[]>(\textcolor{keyword}{new}\ Rml::byte[byte\_size]);}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00077}00077\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a62d860a543f5aa5813f5789526b6ad23}{glReadPixels}}(0,\ 0,\ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_a3f638a7daaca56244c2649ada7efb2fe}{width}},\ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_a0138973441442883d07d24c4468a2273}{height}},\ GL\_RGB,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a80a33c79f69417372d65d2a65ca36d49}{GL\_UNSIGNED\_BYTE}},\ image.\mbox{\hyperlink{struct_renderer_extensions_1_1_image_a733904c59e464d884ebbf14ef6cf2910}{data}}.get());}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00079}00079\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa7f56a70231ed8bc64f97aa7c37fcb19}{result}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00080}00080\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a7efd7809e1632cdae75603fd1fee61c0}{GLenum}}\ err;}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{keywordflow}{while}\ ((err\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a0aac05c6a9cb27add42d6e1e4970d9cb}{glGetError}}())\ !=\ GL\_NO\_ERROR)}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00082}00082\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa7f56a70231ed8bc64f97aa7c37fcb19}{result}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ Rml::Log::Message(Rml::Log::LT\_ERROR,\ \textcolor{stringliteral}{"{}Could\ not\ capture\ screenshot,\ got\ GL\ error:\ 0x\%x"{}},\ err);}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00085}00085\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00087}00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_aa7f56a70231ed8bc64f97aa7c37fcb19}{result}})}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_renderer_extensions_1_1_image}{Image}}();}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{return}\ image;}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00092}00092\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00094}00094\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{struct_renderer_extensions_1_1_image}{Image}}();}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00096}00096\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_renderer_extensions_8cpp_source_l00097}00097\ \}}
+
+\end{DoxyCode}

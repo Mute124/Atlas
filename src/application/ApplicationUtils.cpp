@@ -10,7 +10,7 @@ static inline std::unordered_map<int, std::string> CreateThreadPriorityMap() {
 	return map;
 }
 
-Techstorm::Application::GameThreadInfo Techstorm::Application::CalculateGameThreadInfo(GameSettings& gameSettings)
+Atlas::Application::GameThreadInfo Atlas::Application::CalculateGameThreadInfo(GameSettings& gameSettings)
 {
 	GameThreadInfo threadInfo;
 
@@ -23,26 +23,62 @@ Techstorm::Application::GameThreadInfo Techstorm::Application::CalculateGameThre
 	return GameThreadInfo();
 }
 
-int Techstorm::Application::RunUpdateThread()
+void Atlas::Application::DecorateWindow(WindowDecorations& decorations)
 {
-	int exitCode = 0;
+}
+/*
+void Atlas::Application::GameMainThread::run(std::shared_ptr<Project> userProject)
+{
+	/*userProject->preInit();
+	InitializeConfigRegistry();
+	ConfigFileRegistry& configRegistry = GetConfigFileRegistry();
 
-	while(exitCode == 0) {
+	Renderer& renderer = userProject->getRenderer();
+	WindowDecorations& decorations = userProject->getWindowDecorations();
+
+	decorations.title = LookupConfig("Project.cfg", "projectWindowTitle");
+	SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_INTERLACED_HINT);
+	InitWindow(decorations.width, decorations.height, decorations.title);
+
+	const char* iconPath = TextFormat("%s%s", ATLAS_ASSET_DIR.c_str(), decorations.icon);
+
+	Image icon = LoadImage(iconPath);
+	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+
+	SetWindowIcons(&icon, 1);
+
+	this->idleUntilOthersAreReady();
+
+	while(!this->ShouldExit()) {
+		this->SetExit(!WindowShouldClose());
+		// This is here because it reduces CPU consumption
+		std::this_thread::yield();
 	}
-
-	return 0;
 }
 
-int Techstorm::Application::RunPhysicsThread()
+void Atlas::Application::GameWorkThread::run(std::shared_ptr<Project> userProject)
 {
-	return 0;
+	this->idleUntilOthersAreReady();
+	while(!this->ShouldExit()) {
+		// This is here because it reduces CPU consumption
+		std::this_thread::yield();
+	}
 }
 
-int Techstorm::Application::RunWorkerThread()
+void Atlas::Application::GameUpdateThread::run(std::shared_ptr<Project> userProject)
 {
-	return 0;
-}
+	this->idleUntilOthersAreReady();
+	while(!this->ShouldExit()) {
+		userProject->preObjectUpdate();
+		userProject->objectUpdate();
+		userProject->postObjectUpdate();
 
-void Techstorm::Application::DecorateWindow(WindowDecorations& decorations)
-{
+		userProject->prePhysicsUpdate();
+		userProject->physicsUpdate();
+		userProject->postPhysicsUpdate();
+
+		// This is here because it reduces CPU consumption
+		std::this_thread::yield();
+	}
 }
+*/

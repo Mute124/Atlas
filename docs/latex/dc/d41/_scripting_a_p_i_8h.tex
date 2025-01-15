@@ -2,88 +2,28 @@
 \hypertarget{_scripting_a_p_i_8h}{}\label{_scripting_a_p_i_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/modding/ScriptingAPI.h@{C:/Dev/Techstorm-\/v5/src/engine/modding/ScriptingAPI.h}}
 
 
-This is what will handle all of \doxylink{namespace_techstorm}{Techstorm}\textquotesingle{}s scripting. Currently only Lua is supported, but Angel\+Script is planned for a future date. Along with this, the scripting API is responsible for the console, loading/unloading lua libraries, etc.  
+This is what will handle all of \doxylink{namespace_atlas}{Atlas}\textquotesingle{}s scripting. Currently only Lua is supported, but Angel\+Script is planned for a future date. Along with this, the scripting API is responsible for the console, loading/unloading lua libraries, etc.  
 
 
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$filesystem$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
 {\ttfamily \#include $<$vector$>$}\newline
 {\ttfamily \#include $<$string$>$}\newline
 {\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
-{\ttfamily \#include $<$sol/state.\+hpp$>$}\newline
-{\ttfamily \#include $<$sol/state\+\_\+view.\+hpp$>$}\newline
-{\ttfamily \#include $<$sol/types.\+hpp$>$}\newline
-{\ttfamily \#include $<$sol/forward.\+hpp$>$}\newline
+{\ttfamily \#include "{}../dbg/\+Logging.\+h"{}}\newline
 {\ttfamily \#include "{}../utils/\+Singleton.\+h"{}}\newline
-\doxysubsubsection*{Classes}
-\begin{DoxyCompactItemize}
-\item 
-struct \mbox{\hyperlink{struct_techstorm_1_1_exported_function}{Techstorm\+::\+Exported\+Function}}
-\begin{DoxyCompactList}\small\item\em Represents a function that can be exported to lua. The reason for it\textquotesingle{}s existence is because it makes it easier to export functions to lua. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_techstorm_1_1_scripting_a_p_i}{Techstorm\+::\+Scripting\+API}}
-\begin{DoxyCompactList}\small\item\em Everything related to the scripting API, i.\+e loading/unloading libraries, registering functions, etc. As is mentioned at the file\textquotesingle{}s documentation, only lua is supported at the moment. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
-namespace \mbox{\hyperlink{namespace_techstorm}{Techstorm}}
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Macros}
-\begin{DoxyCompactItemize}
-\item 
-\#define \mbox{\hyperlink{_scripting_a_p_i_8h_af2bfaeb231432732b2fdd1c56da8e80d}{TS\+\_\+\+SCRIPTING\+\_\+\+LUA}}
-\item 
-\#define \mbox{\hyperlink{_scripting_a_p_i_8h_a5546a5c8c9f9db4259a42b6256bf5961}{TS\+\_\+\+SCRIPTING\+\_\+\+ANGELSCRIPT}}
-\item 
-\#define \mbox{\hyperlink{_scripting_a_p_i_8h_af49a65454b3af6c3580a532b5f86028e}{SOL\+\_\+\+ALL\+\_\+\+SAFETIES\+\_\+\+ON}}~1
-\begin{DoxyCompactList}\small\item\em Protects against safety issues when using lua because it makes the API more stable. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Typedefs}
-\begin{DoxyCompactItemize}
-\item 
-using \mbox{\hyperlink{namespace_techstorm_af6556c4d563341def4c68414537120ed}{Techstorm\+::\+Lua\+Library\+Registry}} = std\+::vector$<$ sol\+::lib $>$
-\item 
-using \mbox{\hyperlink{namespace_techstorm_aacc8d13353a5459666050b5aa6ed808c}{Techstorm\+::\+Lua\+Function\+Registry}} = std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{struct_techstorm_1_1_exported_function}{Exported\+Function}} $>$
+namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-This is what will handle all of \doxylink{namespace_techstorm}{Techstorm}\textquotesingle{}s scripting. Currently only Lua is supported, but Angel\+Script is planned for a future date. Along with this, the scripting API is responsible for the console, loading/unloading lua libraries, etc. 
+This is what will handle all of \doxylink{namespace_atlas}{Atlas}\textquotesingle{}s scripting. Currently only Lua is supported, but Angel\+Script is planned for a future date. Along with this, the scripting API is responsible for the console, loading/unloading lua libraries, etc. 
 
 
 
 Definition in file \mbox{\hyperlink{_scripting_a_p_i_8h_source}{Scripting\+API.\+h}}.
-
-
-
-\doxysubsection{Macro Definition Documentation}
-\Hypertarget{_scripting_a_p_i_8h_af49a65454b3af6c3580a532b5f86028e}\label{_scripting_a_p_i_8h_af49a65454b3af6c3580a532b5f86028e} 
-\index{ScriptingAPI.h@{ScriptingAPI.h}!SOL\_ALL\_SAFETIES\_ON@{SOL\_ALL\_SAFETIES\_ON}}
-\index{SOL\_ALL\_SAFETIES\_ON@{SOL\_ALL\_SAFETIES\_ON}!ScriptingAPI.h@{ScriptingAPI.h}}
-\doxysubsubsection{\texorpdfstring{SOL\_ALL\_SAFETIES\_ON}{SOL\_ALL\_SAFETIES\_ON}}
-{\footnotesize\ttfamily \#define SOL\+\_\+\+ALL\+\_\+\+SAFETIES\+\_\+\+ON~1}
-
-
-
-Protects against safety issues when using lua because it makes the API more stable. 
-
-
-
-Definition at line \mbox{\hyperlink{_scripting_a_p_i_8h_source_l00014}{14}} of file \mbox{\hyperlink{_scripting_a_p_i_8h_source}{Scripting\+API.\+h}}.
-
-\Hypertarget{_scripting_a_p_i_8h_a5546a5c8c9f9db4259a42b6256bf5961}\label{_scripting_a_p_i_8h_a5546a5c8c9f9db4259a42b6256bf5961} 
-\index{ScriptingAPI.h@{ScriptingAPI.h}!TS\_SCRIPTING\_ANGELSCRIPT@{TS\_SCRIPTING\_ANGELSCRIPT}}
-\index{TS\_SCRIPTING\_ANGELSCRIPT@{TS\_SCRIPTING\_ANGELSCRIPT}!ScriptingAPI.h@{ScriptingAPI.h}}
-\doxysubsubsection{\texorpdfstring{TS\_SCRIPTING\_ANGELSCRIPT}{TS\_SCRIPTING\_ANGELSCRIPT}}
-{\footnotesize\ttfamily \#define TS\+\_\+\+SCRIPTING\+\_\+\+ANGELSCRIPT}
-
-
-
-Definition at line \mbox{\hyperlink{_scripting_a_p_i_8h_source_l00011}{11}} of file \mbox{\hyperlink{_scripting_a_p_i_8h_source}{Scripting\+API.\+h}}.
-
-\Hypertarget{_scripting_a_p_i_8h_af2bfaeb231432732b2fdd1c56da8e80d}\label{_scripting_a_p_i_8h_af2bfaeb231432732b2fdd1c56da8e80d} 
-\index{ScriptingAPI.h@{ScriptingAPI.h}!TS\_SCRIPTING\_LUA@{TS\_SCRIPTING\_LUA}}
-\index{TS\_SCRIPTING\_LUA@{TS\_SCRIPTING\_LUA}!ScriptingAPI.h@{ScriptingAPI.h}}
-\doxysubsubsection{\texorpdfstring{TS\_SCRIPTING\_LUA}{TS\_SCRIPTING\_LUA}}
-{\footnotesize\ttfamily \#define TS\+\_\+\+SCRIPTING\+\_\+\+LUA}
-
-
-
-Definition at line \mbox{\hyperlink{_scripting_a_p_i_8h_source_l00010}{10}} of file \mbox{\hyperlink{_scripting_a_p_i_8h_source}{Scripting\+API.\+h}}.
 

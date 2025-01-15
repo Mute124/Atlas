@@ -1,0 +1,155 @@
+\doxysection{Custom memory pools}
+\hypertarget{custom_memory_pools}{}\label{custom_memory_pools}\index{Custom memory pools@{Custom memory pools}}
+A memory pool contains a number of {\ttfamily Vk\+Device\+Memory} blocks. The library automatically creates and manages default pool for each memory type available on the device. Default memory pool automatically grows in size. Size of allocated blocks is also variable and managed automatically.
+
+You can create custom pool and allocate memory out of it. It can be useful if you want to\+:
+
+
+\begin{DoxyItemize}
+\item Keep certain kind of allocations separate from others.
+\item Enforce particular, fixed size of Vulkan memory blocks.
+\item Limit maximum amount of Vulkan memory allocated for that pool.
+\item Reserve minimum or fixed amount of Vulkan memory always preallocated for that pool.
+\item Use extra parameters for a set of your allocations that are available in \doxylink{struct_vma_pool_create_info}{Vma\+Pool\+Create\+Info} but not in \doxylink{struct_vma_allocation_create_info}{Vma\+Allocation\+Create\+Info} -\/ e.\+g., custom minimum alignment, custom {\ttfamily p\+Next} chain.
+\item Perform defragmentation on a specific subset of your allocations.
+\end{DoxyItemize}
+
+To use custom memory pools\+:
+
+
+\begin{DoxyEnumerate}
+\item Fill \doxylink{struct_vma_pool_create_info}{Vma\+Pool\+Create\+Info} structure.
+\item Call \doxylink{group__group__alloc_ga250d4f6f4c09a6a03b82323f999c9c4e}{vma\+Create\+Pool()} to obtain \doxylink{struct_vma_pool}{Vma\+Pool} handle.
+\item When making an allocation, set \doxylink{struct_vma_allocation_create_info_ad5aa903b9be1fa934abf2dd6c650fca6}{Vma\+Allocation\+Create\+Info\+::pool} to this handle. You don\textquotesingle{}t need to specify any other parameters of this structure, like {\ttfamily usage}.
+\end{DoxyEnumerate}
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ Find\ memoryTypeIndex\ for\ the\ pool.}}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ sampleBufCreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{sampleBufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ 0x10000;\ \textcolor{comment}{//\ Doesn't\ matter.}}
+\DoxyCodeLine{sampleBufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a6d37618aae152245b1ee0ef58e71d6f2}{VK\_BUFFER\_USAGE\_UNIFORM\_BUFFER\_BIT}}\ |\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a2671050fa41ffb988c79ac40e67fa25d}{VK\_BUFFER\_USAGE\_TRANSFER\_DST\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ sampleAllocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{sampleAllocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{uint32\_t\ memTypeIndex;}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_abe3614d1bd40772bc2398a4a86ea4a45}{VkResult}}\ res\ =\ \mbox{\hyperlink{group__group__alloc_ga723f5683b363c306bf860dab1861f299}{vmaFindMemoryTypeIndexForBufferInfo}}(allocator,}
+\DoxyCodeLine{\ \ \ \ \&sampleBufCreateInfo,\ \&sampleAllocCreateInfo,\ \&memTypeIndex);}
+\DoxyCodeLine{\textcolor{comment}{//\ Check\ res...}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Create\ a\ pool\ that\ can\ have\ at\ most\ 2\ blocks,\ 128\ MiB\ each.}}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_pool_create_info}{VmaPoolCreateInfo}}\ poolCreateInfo\ =\ \{\};}
+\DoxyCodeLine{poolCreateInfo.\mbox{\hyperlink{struct_vma_pool_create_info_a596fa76b685d3f1f688f84a709a5b319}{memoryTypeIndex}}\ =\ memTypeIndex;}
+\DoxyCodeLine{poolCreateInfo.\mbox{\hyperlink{struct_vma_pool_create_info_aa4265160536cdb9be821b7686c16c676}{blockSize}}\ =\ 128ull\ *\ 1024\ *\ 1024;}
+\DoxyCodeLine{poolCreateInfo.\mbox{\hyperlink{struct_vma_pool_create_info_ae41142f2834fcdc82baa4883c187b75c}{maxBlockCount}}\ =\ 2;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_pool}{VmaPool}}\ pool;}
+\DoxyCodeLine{res\ =\ \mbox{\hyperlink{group__group__alloc_ga250d4f6f4c09a6a03b82323f999c9c4e}{vmaCreatePool}}(allocator,\ \&poolCreateInfo,\ \&pool);}
+\DoxyCodeLine{\textcolor{comment}{//\ Check\ res...}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ Allocate\ a\ buffer\ out\ of\ it.}}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ bufCreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{bufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ 1024;}
+\DoxyCodeLine{bufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a6d37618aae152245b1ee0ef58e71d6f2}{VK\_BUFFER\_USAGE\_UNIFORM\_BUFFER\_BIT}}\ |\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a2671050fa41ffb988c79ac40e67fa25d}{VK\_BUFFER\_USAGE\_TRANSFER\_DST\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_ad5aa903b9be1fa934abf2dd6c650fca6}{pool}}\ =\ pool;}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkBuffer\ buf;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ alloc;}
+\DoxyCodeLine{res\ =\ \mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&bufCreateInfo,\ \&allocCreateInfo,\ \&buf,\ \&alloc,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\textcolor{comment}{//\ Check\ res...}}
+
+\end{DoxyCode}
+
+
+You have to free all allocations made from this pool before destroying it.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gafcc45e5a6388ab35daa9a46688baee20}{vmaDestroyBuffer}}(allocator,\ buf,\ alloc);}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gad03da7fd4d8b772bc2a299bc34850d98}{vmaDestroyPool}}(allocator,\ pool);}
+
+\end{DoxyCode}
+
+
+New versions of this library support creating dedicated allocations in custom pools. It is supported only when \doxylink{struct_vma_pool_create_info_aa4265160536cdb9be821b7686c16c676}{Vma\+Pool\+Create\+Info\+::block\+Size} = 0. To use this feature, set \doxylink{struct_vma_allocation_create_info_ad5aa903b9be1fa934abf2dd6c650fca6}{Vma\+Allocation\+Create\+Info\+::pool} to the pointer to your custom pool and \doxylink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{Vma\+Allocation\+Create\+Info\+::flags} to \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a3fc311d855c2ff53f1090ef5c722b38f}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+DEDICATED\+\_\+\+MEMORY\+\_\+\+BIT}.
+
+\begin{DoxyNote}{Note}
+Excessive use of custom pools is a common mistake when using this library. Custom pools may be useful for special purposes -\/ when you want to keep certain type of resources separate e.\+g. to reserve minimum amount of memory for them or limit maximum amount of memory they can occupy. For most resources this is not needed and so it is not recommended to create \doxylink{struct_vma_pool}{Vma\+Pool} objects and allocations out of them. Allocating from the default pool is sufficient.
+\end{DoxyNote}
+\hypertarget{custom_memory_pools_custom_memory_pools_MemTypeIndex}{}\doxysubsection{\texorpdfstring{Choosing memory type index}{Choosing memory type index}}\label{custom_memory_pools_custom_memory_pools_MemTypeIndex}
+When creating a pool, you must explicitly specify memory type index. To find the one suitable for your buffers or images, you can use helper functions \doxylink{group__group__alloc_ga723f5683b363c306bf860dab1861f299}{vma\+Find\+Memory\+Type\+Index\+For\+Buffer\+Info()}, \doxylink{group__group__alloc_gaaf05345771a087328949b485ff2da4db}{vma\+Find\+Memory\+Type\+Index\+For\+Image\+Info()}. You need to provide structures with example parameters of buffers or images that you are going to create in that pool.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ exampleBufCreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{exampleBufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ 1024;\ \textcolor{comment}{//\ Doesn't\ matter}}
+\DoxyCodeLine{exampleBufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a6d37618aae152245b1ee0ef58e71d6f2}{VK\_BUFFER\_USAGE\_UNIFORM\_BUFFER\_BIT}}\ |\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a2671050fa41ffb988c79ac40e67fa25d}{VK\_BUFFER\_USAGE\_TRANSFER\_DST\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{uint32\_t\ memTypeIndex;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_ga723f5683b363c306bf860dab1861f299}{vmaFindMemoryTypeIndexForBufferInfo}}(allocator,\ \&exampleBufCreateInfo,\ \&allocCreateInfo,\ \&memTypeIndex);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_pool_create_info}{VmaPoolCreateInfo}}\ poolCreateInfo\ =\ \{\};}
+\DoxyCodeLine{poolCreateInfo.\mbox{\hyperlink{struct_vma_pool_create_info_a596fa76b685d3f1f688f84a709a5b319}{memoryTypeIndex}}\ =\ memTypeIndex;}
+\DoxyCodeLine{\textcolor{comment}{//\ ...}}
+
+\end{DoxyCode}
+
+
+When creating buffers/images allocated in that pool, provide following parameters\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily \doxylink{struct_vk_buffer_create_info}{Vk\+Buffer\+Create\+Info}}\+: Prefer to pass same parameters as above. Otherwise you risk creating resources in a memory type that is not suitable for them, which may result in undefined behavior. Using different {\ttfamily VK\+\_\+\+BUFFER\+\_\+\+USAGE\+\_\+} flags may work, but you shouldn\textquotesingle{}t create images in a pool intended for buffers or the other way around.
+\item \doxylink{struct_vma_allocation_create_info}{Vma\+Allocation\+Create\+Info}\+: You don\textquotesingle{}t need to pass same parameters. Fill only {\ttfamily pool} member. Other members are ignored anyway.
+\end{DoxyItemize}\hypertarget{custom_memory_pools_linear_algorithm}{}\doxysubsection{\texorpdfstring{Linear allocation algorithm}{Linear allocation algorithm}}\label{custom_memory_pools_linear_algorithm}
+Each Vulkan memory block managed by this library has accompanying metadata that keeps track of used and unused regions. By default, the metadata structure and algorithm tries to find best place for new allocations among free regions to optimize memory usage. This way you can allocate and free objects in any order.
+
+
+
+Sometimes there is a need to use simpler, linear allocation algorithm. You can create custom pool that uses such algorithm by adding flag \doxylink{group__group__alloc_gga9a7c45f9c863695d98c83fa5ac940fe7a13c8a444197c67866be9cb05599fc726}{VMA\+\_\+\+POOL\+\_\+\+CREATE\+\_\+\+LINEAR\+\_\+\+ALGORITHM\+\_\+\+BIT} to \doxylink{struct_vma_pool_create_info_a8405139f63d078340ae74513a59f5446}{Vma\+Pool\+Create\+Info\+::flags} while creating \doxylink{struct_vma_pool}{Vma\+Pool} object. Then an alternative metadata management is used. It always creates new allocations after last one and doesn\textquotesingle{}t reuse free regions after allocations freed in the middle. It results in better allocation performance and less memory consumed by metadata.
+
+
+
+With this one flag, you can create a custom pool that can be used in many ways\+: free-\/at-\/once, stack, double stack, and ring buffer. See below for details. You don\textquotesingle{}t need to specify explicitly which of these options you are going to use -\/ it is detected automatically.\hypertarget{custom_memory_pools_linear_algorithm_free_at_once}{}\doxysubsubsection{\texorpdfstring{Free-\/at-\/once}{Free-at-once}}\label{custom_memory_pools_linear_algorithm_free_at_once}
+In a pool that uses linear algorithm, you still need to free all the allocations individually, e.\+g. by using \doxylink{group__group__alloc_ga5c9baca5124d440046bbe508f61d2839}{vma\+Free\+Memory()} or \doxylink{group__group__alloc_gafcc45e5a6388ab35daa9a46688baee20}{vma\+Destroy\+Buffer()}. You can free them in any order. New allocations are always made after last one -\/ free space in the middle is not reused. However, when you release all the allocation and the pool becomes empty, allocation starts from the beginning again. This way you can use linear algorithm to speed up creation of allocations that you are going to release all at once.
+
+
+
+This mode is also available for pools created with \doxylink{struct_vma_pool_create_info_ae41142f2834fcdc82baa4883c187b75c}{Vma\+Pool\+Create\+Info\+::max\+Block\+Count} value that allows multiple memory blocks.\hypertarget{custom_memory_pools_linear_algorithm_stack}{}\doxysubsubsection{\texorpdfstring{Stack}{Stack}}\label{custom_memory_pools_linear_algorithm_stack}
+When you free an allocation that was created last, its space can be reused. Thanks to this, if you always release allocations in the order opposite to their creation (LIFO -\/ Last In First Out), you can achieve behavior of a stack.
+
+
+
+This mode is also available for pools created with \doxylink{struct_vma_pool_create_info_ae41142f2834fcdc82baa4883c187b75c}{Vma\+Pool\+Create\+Info\+::max\+Block\+Count} value that allows multiple memory blocks.\hypertarget{custom_memory_pools_linear_algorithm_double_stack}{}\doxysubsubsection{\texorpdfstring{Double stack}{Double stack}}\label{custom_memory_pools_linear_algorithm_double_stack}
+The space reserved by a custom pool with linear algorithm may be used by two stacks\+:
+
+
+\begin{DoxyItemize}
+\item First, default one, growing up from offset 0.
+\item Second, "{}upper"{} one, growing down from the end towards lower offsets.
+\end{DoxyItemize}
+
+To make allocation from the upper stack, add flag \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a42ba3a2d2c7117953210b7c3ef8da0df}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+UPPER\+\_\+\+ADDRESS\+\_\+\+BIT} to \doxylink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{Vma\+Allocation\+Create\+Info\+::flags}.
+
+
+
+Double stack is available only in pools with one memory block -\/ \doxylink{struct_vma_pool_create_info_ae41142f2834fcdc82baa4883c187b75c}{Vma\+Pool\+Create\+Info\+::max\+Block\+Count} must be 1. Otherwise behavior is undefined.
+
+When the two stacks\textquotesingle{} ends meet so there is not enough space between them for a new allocation, such allocation fails with usual {\ttfamily VK\+\_\+\+ERROR\+\_\+\+OUT\+\_\+\+OF\+\_\+\+DEVICE\+\_\+\+MEMORY} error.\hypertarget{custom_memory_pools_linear_algorithm_ring_buffer}{}\doxysubsubsection{\texorpdfstring{Ring buffer}{Ring buffer}}\label{custom_memory_pools_linear_algorithm_ring_buffer}
+When you free some allocations from the beginning and there is not enough free space for a new one at the end of a pool, allocator\textquotesingle{}s "{}cursor"{} wraps around to the beginning and starts allocation there. Thanks to this, if you always release allocations in the same order as you created them (FIFO -\/ First In First Out), you can achieve behavior of a ring buffer / queue.
+
+
+
+Ring buffer is available only in pools with one memory block -\/ \doxylink{struct_vma_pool_create_info_ae41142f2834fcdc82baa4883c187b75c}{Vma\+Pool\+Create\+Info\+::max\+Block\+Count} must be 1. Otherwise behavior is undefined.
+
+\begin{DoxyNote}{Note}
+\doxylink{defragmentation}{Defragmentation} is not supported in custom pools created with \doxylink{group__group__alloc_gga9a7c45f9c863695d98c83fa5ac940fe7a13c8a444197c67866be9cb05599fc726}{VMA\+\_\+\+POOL\+\_\+\+CREATE\+\_\+\+LINEAR\+\_\+\+ALGORITHM\+\_\+\+BIT}. 
+\end{DoxyNote}

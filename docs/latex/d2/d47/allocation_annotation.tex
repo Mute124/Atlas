@@ -1,0 +1,52 @@
+\doxysection{Allocation names and user data}
+\hypertarget{allocation_annotation}{}\label{allocation_annotation}\index{Allocation names and user data@{Allocation names and user data}}
+\hypertarget{allocation_annotation_allocation_user_data}{}\doxysubsection{\texorpdfstring{Allocation user data}{Allocation user data}}\label{allocation_annotation_allocation_user_data}
+You can annotate allocations with your own information, e.\+g. for debugging purposes. To do that, fill \doxylink{struct_vma_allocation_create_info_a74e2eb74b3772b657c59473ce605058a}{Vma\+Allocation\+Create\+Info\+::p\+User\+Data} field when creating an allocation. It is an opaque {\ttfamily void\texorpdfstring{$\ast$}{*}} pointer. You can use it e.\+g. as a pointer, some handle, index, key, ordinal number or any other value that would associate the allocation with your custom metadata. It it useful to identify appropriate data structures in your engine given \doxylink{struct_vma_allocation}{Vma\+Allocation}, e.\+g. when doing \doxylink{defragmentation}{Defragmentation}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ bufCreateInfo\ =\ ...}
+\DoxyCodeLine{}
+\DoxyCodeLine{MyBufferMetadata*\ pMetadata\ =\ CreateBufferMetadata();}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_a74e2eb74b3772b657c59473ce605058a}{pUserData}}\ =\ pMetadata;}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkBuffer\ buffer;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ allocation;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&bufCreateInfo,\ \&allocCreateInfo,\ \&buffer,\ \&allocation,\ \textcolor{keyword}{nullptr});}
+
+\end{DoxyCode}
+
+
+The pointer may be later retrieved as \doxylink{struct_vma_allocation_info_ad0ea9d64dd733ffd7beff7af6d289ad0}{Vma\+Allocation\+Info\+::p\+User\+Data}\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_info}{VmaAllocationInfo}}\ allocInfo;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gab9c96ca6bb55ad9069829fe8355bbb79}{vmaGetAllocationInfo}}(allocator,\ allocation,\ \&allocInfo);}
+\DoxyCodeLine{MyBufferMetadata*\ pMetadata\ =\ (MyBufferMetadata*)allocInfo.\mbox{\hyperlink{struct_vma_allocation_info_ad0ea9d64dd733ffd7beff7af6d289ad0}{pUserData}};}
+
+\end{DoxyCode}
+
+
+It can also be changed using function \doxylink{group__group__alloc_gac1f392a3c70a647f0c53a9ddaa7a6f14}{vma\+Set\+Allocation\+User\+Data()}.
+
+Values of (non-\/zero) allocations\textquotesingle{} {\ttfamily p\+User\+Data} are printed in JSON report created by \doxylink{group__group__stats_ga9326cba3c64929b59a15c3ca9cdc8cdb}{vma\+Build\+Stats\+String()} in hexadecimal form.\hypertarget{allocation_annotation_allocation_names}{}\doxysubsection{\texorpdfstring{Allocation names}{Allocation names}}\label{allocation_annotation_allocation_names}
+An allocation can also carry a null-\/terminated string, giving a name to the allocation. To set it, call \doxylink{group__group__alloc_ga29b210b1f39e49de844fc7b6944736d7}{vma\+Set\+Allocation\+Name()}. The library creates internal copy of the string, so the pointer you pass doesn\textquotesingle{}t need to be valid for whole lifetime of the allocation. You can free it after the call.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::string\ imageName\ =\ \textcolor{stringliteral}{"{}Texture:\ "{}};}
+\DoxyCodeLine{imageName\ +=\ fileName;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_ga29b210b1f39e49de844fc7b6944736d7}{vmaSetAllocationName}}(allocator,\ allocation,\ imageName.c\_str());}
+
+\end{DoxyCode}
+
+
+The string can be later retrieved by inspecting \doxylink{struct_vma_allocation_info_ad82b9dfb58e5415da0ee8521c1fbf429}{Vma\+Allocation\+Info\+::p\+Name}. It is also printed in JSON report created by \doxylink{group__group__stats_ga9326cba3c64929b59a15c3ca9cdc8cdb}{vma\+Build\+Stats\+String()}.
+
+\begin{DoxyNote}{Note}
+Setting string name to VMA allocation doesn\textquotesingle{}t automatically set it to the Vulkan buffer or image created with it. You must do it manually using an extension like VK\+\_\+\+EXT\+\_\+debug\+\_\+utils, which is independent of this library. 
+\end{DoxyNote}

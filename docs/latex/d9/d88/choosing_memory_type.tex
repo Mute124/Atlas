@@ -1,0 +1,113 @@
+\doxysection{Choosing memory type}
+\hypertarget{choosing_memory_type}{}\label{choosing_memory_type}\index{Choosing memory type@{Choosing memory type}}
+Physical devices in Vulkan support various combinations of memory heaps and types. Help with choosing correct and optimal memory type for your specific resource is one of the key features of this library. You can use it by filling appropriate members of \doxylink{struct_vma_allocation_create_info}{Vma\+Allocation\+Create\+Info} structure, as described below. You can also combine multiple methods.
+
+
+\begin{DoxyEnumerate}
+\item If you just want to find memory type index that meets your requirements, you can use function\+: \doxylink{group__group__alloc_ga723f5683b363c306bf860dab1861f299}{vma\+Find\+Memory\+Type\+Index\+For\+Buffer\+Info()}, \doxylink{group__group__alloc_gaaf05345771a087328949b485ff2da4db}{vma\+Find\+Memory\+Type\+Index\+For\+Image\+Info()}, \doxylink{group__group__alloc_ga03cee2bfc7fef20382fa56f5870f3b2f}{vma\+Find\+Memory\+Type\+Index()}.
+\item If you want to allocate a region of device memory without association with any specific image or buffer, you can use function \doxylink{group__group__alloc_gaf813f55a0667016a8cd68bb4b8b3b30c}{vma\+Allocate\+Memory()}. Usage of this function is not recommended and usually not needed. \doxylink{group__group__alloc_gafe6834626398ff26264a94ab7581e150}{vma\+Allocate\+Memory\+Pages()} function is also provided for creating multiple allocations at once, which may be useful for sparse binding.
+\item If you already have a buffer or an image created, you want to allocate memory for it and then you will bind it yourself, you can use function \doxylink{group__group__alloc_gaf7010aa90a4ccdda56f83db8597b9896}{vma\+Allocate\+Memory\+For\+Buffer()}, \doxylink{group__group__alloc_ga4b7f39281cb383c1496b68f97cb7f4c5}{vma\+Allocate\+Memory\+For\+Image()}. For binding you should use functions\+: \doxylink{group__group__alloc_ga7748e60ccc54e240777a848cb260bb19}{vma\+Bind\+Buffer\+Memory()}, \doxylink{group__group__alloc_ga3a5d8d9f2a29b42cf87f0f8dfef591f4}{vma\+Bind\+Image\+Memory()} or their extended versions\+: \doxylink{group__group__alloc_ga4a71c30e3474a835bdd7fd0507740be7}{vma\+Bind\+Buffer\+Memory2()}, \doxylink{group__group__alloc_ga0216b9225b02a66ac610cb45d4729d00}{vma\+Bind\+Image\+Memory2()}.
+\item {\bfseries{This is the easiest and recommended way to use this library\+:}} If you want to create a buffer or an image, allocate memory for it and bind them together, all in one call, you can use function \doxylink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vma\+Create\+Buffer()}, \doxylink{group__group__alloc_gaa76142ae43535c862ad9e194a6e38aaa}{vma\+Create\+Image()}.
+\end{DoxyEnumerate}
+
+When using 3. or 4., the library internally queries Vulkan for memory types supported for that buffer or image (function {\ttfamily \doxylink{vulkan_8h_ad7f6c99a52c417bb4be8ee1dcbe5383e}{vk\+Get\+Buffer\+Memory\+Requirements()}}) and uses only one of these types.
+
+If no memory type can be found that meets all the requirements, these functions return {\ttfamily VK\+\_\+\+ERROR\+\_\+\+FEATURE\+\_\+\+NOT\+\_\+\+PRESENT}.
+
+You can leave \doxylink{struct_vma_allocation_create_info}{Vma\+Allocation\+Create\+Info} structure completely filled with zeros. It means no requirements are specified for memory type. It is valid, although not very useful.\hypertarget{choosing_memory_type_choosing_memory_type_usage}{}\doxysubsection{\texorpdfstring{Usage}{Usage}}\label{choosing_memory_type_choosing_memory_type_usage}
+The easiest way to specify memory requirements is to fill member \doxylink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{Vma\+Allocation\+Create\+Info\+::usage} using one of the values of enum \doxylink{group__group__alloc_gaa5846affa1e9da3800e3e78fae2305cc}{Vma\+Memory\+Usage}. It defines high level, common usage types. Since version 3 of the library, it is recommended to use \doxylink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO} to let it select best memory type for your resource automatically.
+
+For example, if you want to create a uniform buffer that will be filled using transfer only once or infrequently and then used for rendering every frame as a uniform buffer, you can do it using following code. The buffer will most likely end up in a memory type with {\ttfamily VK\+\_\+\+MEMORY\+\_\+\+PROPERTY\+\_\+\+DEVICE\+\_\+\+LOCAL\+\_\+\+BIT} to be fast to access by the GPU device.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ bufferInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{bufferInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ 65536;}
+\DoxyCodeLine{bufferInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a6d37618aae152245b1ee0ef58e71d6f2}{VK\_BUFFER\_USAGE\_UNIFORM\_BUFFER\_BIT}}\ |\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a2671050fa41ffb988c79ac40e67fa25d}{VK\_BUFFER\_USAGE\_TRANSFER\_DST\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocInfo\ =\ \{\};}
+\DoxyCodeLine{allocInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkBuffer\ buffer;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ allocation;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&bufferInfo,\ \&allocInfo,\ \&buffer,\ \&allocation,\ \textcolor{keyword}{nullptr});}
+
+\end{DoxyCode}
+
+
+If you have a preference for putting the resource in GPU (device) memory or CPU (host) memory on systems with discrete graphics card that have the memories separate, you can use \doxylink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305ccae2adb696d6a73c18bb20c23666661327}{VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO\+\_\+\+PREFER\+\_\+\+DEVICE} or \doxylink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca9b422585242160b8ed3418310ee6664d}{VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO\+\_\+\+PREFER\+\_\+\+HOST}.
+
+When using {\ttfamily VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO\texorpdfstring{$\ast$}{*}} while you want to map the allocated memory, you also need to specify one of the host access flags\+: \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+SEQUENTIAL\+\_\+\+WRITE\+\_\+\+BIT} or \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597add61238d98e20917b9a06c617763f492}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+RANDOM\+\_\+\+BIT}. This will help the library decide about preferred memory type to ensure it has {\ttfamily VK\+\_\+\+MEMORY\+\_\+\+PROPERTY\+\_\+\+HOST\+\_\+\+VISIBLE\+\_\+\+BIT} so you can map it.
+
+For example, a staging buffer that will be filled via mapped pointer and then used as a source of transfer to the buffer decribed previously can be created like this. It will likely and up in a memory type that is {\ttfamily HOST\+\_\+\+VISIBLE} and {\ttfamily HOST\+\_\+\+COHERENT} but not {\ttfamily HOST\+\_\+\+CACHED} (meaning uncached, write-\/combined) and not {\ttfamily DEVICE\+\_\+\+LOCAL} (meaning system RAM).
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ stagingBufferInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{stagingBufferInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ 65536;}
+\DoxyCodeLine{stagingBufferInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a99f8f265d9d6dccbaa85d63807471909}{VK\_BUFFER\_USAGE\_TRANSFER\_SRC\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ stagingAllocInfo\ =\ \{\};}
+\DoxyCodeLine{stagingAllocInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{stagingAllocInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{flags}}\ =\ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\_ALLOCATION\_CREATE\_HOST\_ACCESS\_SEQUENTIAL\_WRITE\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkBuffer\ stagingBuffer;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ stagingAllocation;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&stagingBufferInfo,\ \&stagingAllocInfo,\ \&stagingBuffer,\ \&stagingAllocation,\ \textcolor{keyword}{nullptr});}
+
+\end{DoxyCode}
+
+
+For more examples of creating different kinds of resources, see chapter \doxylink{usage_patterns}{Recommended usage patterns}.
+
+Usage values {\ttfamily VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO\texorpdfstring{$\ast$}{*}} are legal to use only when the library knows about the resource being created by having {\ttfamily \doxylink{struct_vk_buffer_create_info}{Vk\+Buffer\+Create\+Info}} / {\ttfamily \doxylink{struct_vk_image_create_info}{Vk\+Image\+Create\+Info}} passed, so they work with functions like\+: \doxylink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vma\+Create\+Buffer()}, \doxylink{group__group__alloc_gaa76142ae43535c862ad9e194a6e38aaa}{vma\+Create\+Image()}, \doxylink{group__group__alloc_ga723f5683b363c306bf860dab1861f299}{vma\+Find\+Memory\+Type\+Index\+For\+Buffer\+Info()} etc. If you allocate raw memory using function \doxylink{group__group__alloc_gaf813f55a0667016a8cd68bb4b8b3b30c}{vma\+Allocate\+Memory()}, you have to use other means of selecting memory type, as decribed below.
+
+\begin{DoxyNote}{Note}
+Old usage values ({\ttfamily VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+GPU\+\_\+\+ONLY}, {\ttfamily VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+CPU\+\_\+\+ONLY}, {\ttfamily VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+CPU\+\_\+\+TO\+\_\+\+GPU}, {\ttfamily VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+GPU\+\_\+\+TO\+\_\+\+CPU}, {\ttfamily VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+CPU\+\_\+\+COPY}) are still available and work same way as in previous versions of the library for backward compatibility, but they are not recommended.
+\end{DoxyNote}
+\hypertarget{choosing_memory_type_choosing_memory_type_required_preferred_flags}{}\doxysubsection{\texorpdfstring{Required and preferred flags}{Required and preferred flags}}\label{choosing_memory_type_choosing_memory_type_required_preferred_flags}
+You can specify more detailed requirements by filling members \doxylink{struct_vma_allocation_create_info_a9166390303ff42d783305bc31c2b6b90}{Vma\+Allocation\+Create\+Info\+::required\+Flags} and \doxylink{struct_vma_allocation_create_info_a7fe8d81a1ad10b2a2faacacee5b15d6d}{Vma\+Allocation\+Create\+Info\+::preferred\+Flags} with a combination of bits from enum {\ttfamily Vk\+Memory\+Property\+Flags}. For example, if you want to create a buffer that will be persistently mapped on host (so it must be {\ttfamily HOST\+\_\+\+VISIBLE}) and preferably will also be {\ttfamily HOST\+\_\+\+COHERENT} and {\ttfamily HOST\+\_\+\+CACHED}, use following code\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocInfo\ =\ \{\};}
+\DoxyCodeLine{allocInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_a9166390303ff42d783305bc31c2b6b90}{requiredFlags}}\ =\ \mbox{\hyperlink{vulkan_8h_a1afa959bb41f921269625a6372267856ae23c8f86393a2ec9210f7677a41118bf}{VK\_MEMORY\_PROPERTY\_HOST\_VISIBLE\_BIT}};}
+\DoxyCodeLine{allocInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_a7fe8d81a1ad10b2a2faacacee5b15d6d}{preferredFlags}}\ =\ \mbox{\hyperlink{vulkan_8h_a1afa959bb41f921269625a6372267856a58a7c7064f3784a596c8894fe3dd6757}{VK\_MEMORY\_PROPERTY\_HOST\_COHERENT\_BIT}}\ |\ \mbox{\hyperlink{vulkan_8h_a1afa959bb41f921269625a6372267856a9a9af8f2449d2b1b647122b8199decb0}{VK\_MEMORY\_PROPERTY\_HOST\_CACHED\_BIT}};}
+\DoxyCodeLine{allocInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{flags}}\ =\ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597add61238d98e20917b9a06c617763f492}{VMA\_ALLOCATION\_CREATE\_HOST\_ACCESS\_RANDOM\_BIT}}\ |\ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\_ALLOCATION\_CREATE\_MAPPED\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkBuffer\ buffer;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ allocation;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&bufferInfo,\ \&allocInfo,\ \&buffer,\ \&allocation,\ \textcolor{keyword}{nullptr});}
+
+\end{DoxyCode}
+
+
+A memory type is chosen that has all the required flags and as many preferred flags set as possible.
+
+Value passed in \doxylink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{Vma\+Allocation\+Create\+Info\+::usage} is internally converted to a set of required and preferred flags, plus some extra "{}magic"{} (heuristics).\hypertarget{choosing_memory_type_choosing_memory_type_explicit_memory_types}{}\doxysubsection{\texorpdfstring{Explicit memory types}{Explicit memory types}}\label{choosing_memory_type_choosing_memory_type_explicit_memory_types}
+If you inspected memory types available on the physical device and you have a preference for memory types that you want to use, you can fill member \doxylink{struct_vma_allocation_create_info_a3bf940c0271d85d6ba32a4d820075055}{Vma\+Allocation\+Create\+Info\+::memory\+Type\+Bits}. It is a bit mask, where each bit set means that a memory type with that index is allowed to be used for the allocation. Special value 0, just like {\ttfamily UINT32\+\_\+\+MAX}, means there are no restrictions to memory type index.
+
+Please note that this member is NOT just a memory type index. Still you can use it to choose just one, specific memory type. For example, if you already determined that your buffer should be created in memory type 2, use following code\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{uint32\_t\ memoryTypeIndex\ =\ 2;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocInfo\ =\ \{\};}
+\DoxyCodeLine{allocInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_a3bf940c0271d85d6ba32a4d820075055}{memoryTypeBits}}\ =\ 1u\ <<\ memoryTypeIndex;}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkBuffer\ buffer;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ allocation;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&bufferInfo,\ \&allocInfo,\ \&buffer,\ \&allocation,\ \textcolor{keyword}{nullptr});}
+
+\end{DoxyCode}
+\hypertarget{choosing_memory_type_choosing_memory_type_custom_memory_pools}{}\doxysubsection{\texorpdfstring{Custom memory pools}{Custom memory pools}}\label{choosing_memory_type_choosing_memory_type_custom_memory_pools}
+If you allocate from custom memory pool, all the ways of specifying memory requirements described above are not applicable and the aforementioned members of \doxylink{struct_vma_allocation_create_info}{Vma\+Allocation\+Create\+Info} structure are ignored. Memory type is selected explicitly when creating the pool and then used to make all the allocations from that pool. For further details, see \doxylink{custom_memory_pools}{Custom memory pools}.\hypertarget{choosing_memory_type_choosing_memory_type_dedicated_allocations}{}\doxysubsection{\texorpdfstring{Dedicated allocations}{Dedicated allocations}}\label{choosing_memory_type_choosing_memory_type_dedicated_allocations}
+Memory for allocations is reserved out of larger block of {\ttfamily Vk\+Device\+Memory} allocated from Vulkan internally. That is the main feature of this whole library. You can still request a separate memory block to be created for an allocation, just like you would do in a trivial solution without using any allocator. In that case, a buffer or image is always bound to that memory at offset 0. This is called a "{}dedicated allocation"{}. You can explicitly request it by using flag \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a3fc311d855c2ff53f1090ef5c722b38f}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+DEDICATED\+\_\+\+MEMORY\+\_\+\+BIT}. The library can also internally decide to use dedicated allocation in some cases, e.\+g.\+:
+
+
+\begin{DoxyItemize}
+\item When the size of the allocation is large.
+\item When \doxylink{vk_khr_dedicated_allocation}{VK\+\_\+\+KHR\+\_\+dedicated\+\_\+allocation} extension is enabled and it reports that dedicated allocation is required or recommended for the resource.
+\item When allocation of next big memory block fails due to not enough device memory, but allocation with the exact requested size succeeds. 
+\end{DoxyItemize}

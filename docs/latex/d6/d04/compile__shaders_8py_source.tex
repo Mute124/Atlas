@@ -1,0 +1,69 @@
+\doxysection{compile\+\_\+shaders.\+py}
+\hypertarget{compile__shaders_8py_source}{}\label{compile__shaders_8py_source}\index{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Vulkan/compile\_shaders.py@{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Vulkan/compile\_shaders.py}}
+\mbox{\hyperlink{compile__shaders_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00001}\mbox{\hyperlink{namespacecompile__shaders}{00001}}\ \textcolor{comment}{\#\ This\ source\ file\ is\ part\ of\ RmlUi,\ the\ HTML/CSS\ Interface\ Middleware}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00002}00002\ \textcolor{comment}{\#\ }}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00003}00003\ \textcolor{comment}{\#\ For\ the\ latest\ information,\ see\ http://github.com/mikke89/RmlUi}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00004}00004\ \textcolor{comment}{\#\ }}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00005}00005\ \textcolor{comment}{\#\ Copyright\ (c)\ 2008-\/2014\ CodePoint\ Ltd,\ Shift\ Technology\ Ltd,\ and\ contributors}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00006}00006\ \textcolor{comment}{\#\ Copyright\ (c)\ 2019-\/2023\ The\ RmlUi\ Team,\ and\ contributors}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00007}00007\ \textcolor{comment}{\#\ }}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00008}00008\ \textcolor{comment}{\#\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00009}00009\ \textcolor{comment}{\#\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00010}00010\ \textcolor{comment}{\#\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00011}00011\ \textcolor{comment}{\#\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00012}00012\ \textcolor{comment}{\#\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00013}00013\ \textcolor{comment}{\#\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00014}00014\ \textcolor{comment}{\#\ }}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00015}00015\ \textcolor{comment}{\#\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in\ all}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00016}00016\ \textcolor{comment}{\#\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00017}00017\ \textcolor{comment}{\#\ }}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00018}00018\ \textcolor{comment}{\#\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00019}00019\ \textcolor{comment}{\#\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00020}00020\ \textcolor{comment}{\#\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00021}00021\ \textcolor{comment}{\#\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00022}00022\ \textcolor{comment}{\#\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00023}00023\ \textcolor{comment}{\#\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN\ THE}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00024}00024\ \textcolor{comment}{\#\ SOFTWARE.}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00026}00026\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00027}00027\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00028}00028\ \textcolor{keyword}{import}\ subprocess}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00030}00030\ \textcolor{comment}{\#\ Compiles\ all\ .frag\ and\ .vert\ files\ in\ this\ directory\ to\ SPIR-\/V\ binary\ C\ character\ arrays.\ Requires\ 'glslc'\ installed\ and\ available\ system-\/wide.}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00032}\mbox{\hyperlink{namespacecompile__shaders_ad745848164653642a8ca58a87abe799b}{00032}}\ out\_file\ =\ \textcolor{stringliteral}{"{}ShadersCompiledSPV.h"{}}}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00034}\mbox{\hyperlink{namespacecompile__shaders_ae160080a0ac2016b5e163d1fc10c05d7}{00034}}\ current\_dir\ =\ os.path.dirname(os.path.realpath(\_\_file\_\_));}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00036}\mbox{\hyperlink{namespacecompile__shaders_aaafd0fb65da3d833def1a0e2345eb85b}{00036}}\ temp\_spirv\_path\ =\ os.path.join(current\_dir,\ \textcolor{stringliteral}{"{}.temp.spv"{}})}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00037}\mbox{\hyperlink{namespacecompile__shaders_ae230a4421a0fce3474e08be86c7e4842}{00037}}\ out\_path\ =\ os.path.join(current\_dir,\ out\_file)}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00039}00039\ \textcolor{keyword}{with}\ open(out\_path,\textcolor{stringliteral}{'w'})\ \textcolor{keyword}{as}\ result\_file:}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00040}00040\ \ \ \ \ result\_file.write(\textcolor{stringliteral}{'//\ RmlUi\ SPIR-\/V\ Vulkan\ shaders\ compiled\ using\ command:\ \(\backslash\)'python\ compile\_shaders.py\(\backslash\)'.\ Do\ not\ edit\ manually.\(\backslash\)n\(\backslash\)n\#include\ <stdint.h>\(\backslash\)n'})}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00042}00042\ \ \ \ \ \textcolor{keywordflow}{for}\ file\ \textcolor{keywordflow}{in}\ os.listdir(current\_dir):}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ file.endswith(\textcolor{stringliteral}{"{}.vert"{}})\ \textcolor{keywordflow}{or}\ file.endswith(\textcolor{stringliteral}{"{}.frag"{}}):}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00044}\mbox{\hyperlink{namespacecompile__shaders_a1247185c0796d9419e4ced81ed9c414e}{00044}}\ \ \ \ \ \ \ \ \ \ \ \ \ shader\_path\ =\ os.path.join(current\_dir,\ file)}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00045}\mbox{\hyperlink{namespacecompile__shaders_a237f6ea70264debe306d4a4da147db74}{00045}}\ \ \ \ \ \ \ \ \ \ \ \ \ variable\_name\ =\ os.path.splitext(file)[0]}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Compiling\ '\{\}'\ to\ SPIR-\/V\ using\ glslc."{}}.format(file))}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00049}\mbox{\hyperlink{namespacecompile__shaders_a56be2f4b23fb7de83046cc4e1ddcd91a}{00049}}\ \ \ \ \ \ \ \ \ \ \ \ \ subprocess.run([\textcolor{stringliteral}{"{}glslc"{}},\ shader\_path,\ \textcolor{stringliteral}{"{}-\/o"{}},\ temp\_spirv\_path],\ check\ =\ \textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Success,\ writing\ output\ to\ variable\ '\{\}'\ in\ \{\}"{}}.format(variable\_name,\ out\_file))}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00053}\mbox{\hyperlink{namespacecompile__shaders_a0a44d71f31a11b5964890f0948d616fd}{00053}}\ \ \ \ \ \ \ \ \ \ \ \ \ i\ =\ 0}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ result\_file.write(\textcolor{stringliteral}{'\(\backslash\)nalignas(uint32\_t)\ static\ const\ unsigned\ char\ \{\}[]\ =\ \{\{'}.format(variable\_name))}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ b\ \textcolor{keywordflow}{in}\ open(temp\_spirv\_path,\ \textcolor{stringliteral}{'rb'}).read():}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ \%\ 20\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\_file.write(\textcolor{stringliteral}{'\(\backslash\)n\(\backslash\)t'})}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\_file.write(\textcolor{stringliteral}{'0x\%02X,'}\ \%\ b)}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ result\_file.write(\textcolor{stringliteral}{'\(\backslash\)n\};\(\backslash\)n'})}
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{compile__shaders_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ os.remove(temp\_spirv\_path)}
+
+\end{DoxyCode}

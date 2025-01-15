@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['physicsengine_0',['physicsengine',['../db/db4/class_physics_engine.html',1,'PhysicsEngine'],['../d1/d87/class_techstorm_1_1_physics_engine.html',1,'Techstorm::PhysicsEngine']]],
-  ['planeobject_1',['PlaneObject',['../da/d48/class_techstorm_1_1_plane_object.html',1,'Techstorm']]],
-  ['point_2',['Point',['../d8/dc8/struct_point.html',1,'']]],
-  ['project_3',['Project',['../d9/d6e/class_project.html',1,'']]],
-  ['projectreference_4',['ProjectReference',['../db/dc4/class_techstorm_1_1abstract_1_1_project_reference.html',1,'Techstorm::abstract']]]
+  ['language_0',['Language',['../d4/d6b/class_atlas_1_1_language.html',1,'Atlas']]],
+  ['layerregistry_1',['LayerRegistry',['../db/d5d/class_techstorm_1_1_layer_registry.html',1,'Techstorm']]],
+  ['localizationregistry_2',['LocalizationRegistry',['../d7/de3/class_atlas_1_1_localization_registry.html',1,'Atlas']]],
+  ['logger_3',['Logger',['../df/dca/class_atlas_1_1_logger.html',1,'Atlas']]],
+  ['loggerconfig_4',['LoggerConfig',['../d5/d0c/struct_atlas_1_1_logger_config.html',1,'Atlas']]]
 ];

@@ -1,0 +1,358 @@
+\doxysection{Rml\+Ui\+\_\+\+Backend\+\_\+\+SDL\+\_\+\+GL2.\+cpp}
+\hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source}{}\label{_rml_ui___backend___s_d_l___g_l2_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Backend\_SDL\_GL2.cpp@{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Backend\_SDL\_GL2.cpp}}
+\mbox{\hyperlink{_rml_ui___backend___s_d_l___g_l2_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00002}00002\ \textcolor{comment}{\ *\ This\ source\ file\ is\ part\ of\ RmlUi,\ the\ HTML/CSS\ Interface\ Middleware}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00003}00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00004}00004\ \textcolor{comment}{\ *\ For\ the\ latest\ information,\ see\ http://github.com/mikke89/RmlUi}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00005}00005\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00006}00006\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2008-\/2010\ CodePoint\ Ltd,\ Shift\ Technology\ Ltd}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00007}00007\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2019-\/2023\ The\ RmlUi\ Team,\ and\ contributors}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00008}00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00009}00009\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00010}00010\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00011}00011\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00012}00012\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00013}00013\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00014}00014\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00015}00015\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00016}00016\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00019}00019\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00020}00020\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00021}00021\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00022}00022\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00023}00023\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00024}00024\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00025}00025\ \textcolor{comment}{\ *\ THE\ SOFTWARE.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00026}00026\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00027}00027\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rml_ui___backend_8h}{RmlUi\_Backend.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rml_ui___platform___s_d_l_8h}{RmlUi\_Platform\_SDL.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rml_ui___renderer___g_l2_8h}{RmlUi\_Renderer\_GL2.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Context.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00033}00033\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Core.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00034}00034\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/FileInterface.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00035}00035\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Log.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00036}00036\ \textcolor{preprocessor}{\#include\ <GL/glew.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00037}00037\ \textcolor{preprocessor}{\#include\ <SDL.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00038}00038\ \textcolor{preprocessor}{\#include\ <SDL\_image.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00040}00040\ \textcolor{preprocessor}{\#if\ !(SDL\_VIDEO\_RENDER\_OGL)}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00041}00041\ \textcolor{preprocessor}{\ \ \ \ \#error\ "{}Only\ the\ OpenGL\ SDL\ backend\ is\ supported."{}}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00042}00042\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00049}\mbox{\hyperlink{class_render_interface___g_l2___s_d_l}{00049}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_render_interface___g_l2___s_d_l}{RenderInterface\_GL2\_SDL}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_render_interface___g_l2}{RenderInterface\_GL2}}\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00050}00050\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00051}00051\ \ \ \ \ SDL\_Renderer*\ renderer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00053}00053\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00054}\mbox{\hyperlink{class_render_interface___g_l2___s_d_l_abb28ab97513a27f057ab780f49ad93bc}{00054}}\ \ \ \ \ \mbox{\hyperlink{class_render_interface___g_l2___s_d_l_abb28ab97513a27f057ab780f49ad93bc}{RenderInterface\_GL2\_SDL}}(SDL\_Renderer*\ renderer)\ :\ renderer(renderer)\ \{\}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00056}\mbox{\hyperlink{class_render_interface___g_l2___s_d_l_a01336b8821bd9df43ea1169f342ae047}{00056}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___g_l2___s_d_l_a01336b8821bd9df43ea1169f342ae047}{RenderGeometry}}(Rml::CompiledGeometryHandle\ handle,\ Rml::Vector2f\ translation,\ Rml::TextureHandle\ texture)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00057}00057\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ SDL\_Texture*\ sdl\_texture\ =\ (SDL\_Texture*)texture;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sdl\_texture)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_GL\_BindTexture(sdl\_texture,\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ texture\ =\ \mbox{\hyperlink{class_render_interface___g_l2_a9c7ef492c5640dd5ebbb3681ab422e79}{RenderInterface\_GL2::TextureEnableWithoutBinding}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_render_interface___g_l2_a45ed2d4f09e6d9cbd03bc273123ec85b}{RenderInterface\_GL2::RenderGeometry}}(handle,\ translation,\ texture);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sdl\_texture)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_GL\_UnbindTexture(sdl\_texture);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00069}00069\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00071}\mbox{\hyperlink{class_render_interface___g_l2___s_d_l_a81e259de04cc189552832505de466d33}{00071}}\ \ \ \ \ Rml::TextureHandle\ \mbox{\hyperlink{class_render_interface___g_l2___s_d_l_a81e259de04cc189552832505de466d33}{LoadTexture}}(Rml::Vector2i\&\ texture\_dimensions,\ \textcolor{keyword}{const}\ Rml::String\&\ source)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00072}00072\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ Rml::FileInterface*\ file\_interface\ =\ Rml::GetFileInterface();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ Rml::FileHandle\ file\_handle\ =\ file\_interface-\/>Open(source);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_handle)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ file\_interface-\/>Seek(file\_handle,\ 0,\ SEEK\_END);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ buffer\_size\ =\ file\_interface-\/>Tell(file\_handle);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ file\_interface-\/>Seek(file\_handle,\ 0,\ SEEK\_SET);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }Rml::byte;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ Rml::UniquePtr<byte[]>\ buffer(\textcolor{keyword}{new}\ \textcolor{keywordtype}{byte}[buffer\_size]);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ file\_interface-\/>Read(buffer.get(),\ buffer\_size,\ file\_handle);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ file\_interface-\/>Close(file\_handle);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ i\_ext\ =\ source.rfind(\textcolor{charliteral}{'.'});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ Rml::String\ extension\ =\ (i\_ext\ ==\ Rml::String::npos\ ?\ Rml::String()\ :\ source.substr(i\_ext\ +\ 1));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ SDL\_Surface*\ surface\ =\ IMG\_LoadTyped\_RW(SDL\_RWFromMem(buffer.get(),\ \textcolor{keywordtype}{int}(buffer\_size)),\ 1,\ extension.c\_str());}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!surface)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ texture\_dimensions\ =\ \{surface-\/>w,\ surface-\/>h\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (surface-\/>format-\/>format\ !=\ SDL\_PIXELFORMAT\_RGBA32\ \&\&\ surface-\/>format-\/>format\ !=\ SDL\_PIXELFORMAT\_BGRA32)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ensure\ correct\ format\ for\ premultiplied\ alpha\ conversion\ below.\ Additionally,\ fix\ rendering\ images\ with}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ no\ alpha\ channel,\ see\ https://github.com/mikke89/RmlUi/issues/239}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_Surface*\ converted\_surface\ =\ SDL\_ConvertSurfaceFormat(surface,\ SDL\_PixelFormatEnum::SDL\_PIXELFORMAT\_RGBA32,\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_FreeSurface(surface);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!converted\_surface)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ surface\ =\ converted\_surface;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Convert\ colors\ to\ premultiplied\ alpha,\ which\ is\ necessary\ for\ correct\ alpha\ compositing.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}*\ pixels\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{byte}*\textcolor{keyword}{>}(surface-\/>pixels);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ surface-\/>w\ *\ surface-\/>h\ *\ 4;\ i\ +=\ 4)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{byte}\ alpha\ =\ pixels[i\ +\ 3];}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 3;\ ++j)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixels[i\ +\ j]\ =\ \textcolor{keywordtype}{byte}(\textcolor{keywordtype}{int}(pixels[i\ +\ j])\ *\ int(alpha)\ /\ 255);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ SDL\_Texture*\ texture\ =\ SDL\_CreateTextureFromSurface(renderer,\ surface);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ SDL\_FreeSurface(surface);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (Rml::TextureHandle)texture;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00122}00122\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00124}\mbox{\hyperlink{class_render_interface___g_l2___s_d_l_aa9ee2a2b7763249627ab0be69b5b96bb}{00124}}\ \ \ \ \ Rml::TextureHandle\ \mbox{\hyperlink{class_render_interface___g_l2___s_d_l_aa9ee2a2b7763249627ab0be69b5b96bb}{GenerateTexture}}(Rml::Span<const\ Rml::byte>\ source,\ Rml::Vector2i\ source\_dimensions)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00125}00125\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00126}00126\ \textcolor{preprocessor}{\#if\ SDL\_BYTEORDER\ ==\ SDL\_BIG\_ENDIAN}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ Uint32\ rmask\ =\ 0xff000000;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ Uint32\ gmask\ =\ 0x00ff0000;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ Uint32\ bmask\ =\ 0x0000ff00;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ Uint32\ amask\ =\ 0x000000ff;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00131}00131\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ Uint32\ rmask\ =\ 0x000000ff;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ Uint32\ gmask\ =\ 0x0000ff00;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ Uint32\ bmask\ =\ 0x00ff0000;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ Uint32\ amask\ =\ 0xff000000;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00136}00136\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00138}00138\ \ \ \ \ \ \ \ \ SDL\_Surface*\ surface\ =\ SDL\_CreateRGBSurfaceFrom((\textcolor{keywordtype}{void}*)source.data(),\ source\_dimensions.x,\ source\_dimensions.y,\ 32,\ source\_dimensions.x\ *\ 4,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ rmask,\ gmask,\ bmask,\ amask);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00140}00140\ \ \ \ \ \ \ \ \ SDL\_Texture*\ texture\ =\ SDL\_CreateTextureFromSurface(renderer,\ surface);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ SDL\_SetTextureBlendMode(texture,\ SDL\_BLENDMODE\_BLEND);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ SDL\_FreeSurface(surface);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (Rml::TextureHandle)texture;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00144}00144\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00146}\mbox{\hyperlink{class_render_interface___g_l2___s_d_l_ac044298237ead7f8b08dc990b20b4e3f}{00146}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_render_interface___g_l2___s_d_l_ac044298237ead7f8b08dc990b20b4e3f}{ReleaseTexture}}(Rml::TextureHandle\ texture\_handle)\textcolor{keyword}{\ override\ }\{\ SDL\_DestroyTexture((SDL\_Texture*)texture\_handle);\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00147}00147\ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00154}00154\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_backend_data}{BackendData}}\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00155}\mbox{\hyperlink{struct_backend_data_ad6953c1fe20d3af7a2e5b4ddb5f90592}{00155}}\ \ \ \ \ \mbox{\hyperlink{struct_backend_data_ad6953c1fe20d3af7a2e5b4ddb5f90592}{BackendData}}(SDL\_Renderer*\ \mbox{\hyperlink{struct_backend_data_ad20509fa8e85e1a68a064d065dba962d}{renderer}})\ :\ \mbox{\hyperlink{struct_backend_data_a5ddf0c745edc324e046955c8ad1e775c}{render\_interface}}(\mbox{\hyperlink{struct_backend_data_ad20509fa8e85e1a68a064d065dba962d}{renderer}})\ \{\}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00157}\mbox{\hyperlink{struct_backend_data_a3b7c3eb0bfe0c0c7187737b14ca28b13}{00157}}\ \ \ \ \ \mbox{\hyperlink{class_system_interface___s_d_l}{SystemInterface\_SDL}}\ \mbox{\hyperlink{struct_backend_data_a3b7c3eb0bfe0c0c7187737b14ca28b13}{system\_interface}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00158}\mbox{\hyperlink{struct_backend_data_a8e030b5bb12df3ce8f9cab0d0988ee1c}{00158}}\ \ \ \ \ \mbox{\hyperlink{class_render_interface___g_l2___s_d_l}{RenderInterface\_GL2\_SDL}}\ \mbox{\hyperlink{struct_backend_data_a8e030b5bb12df3ce8f9cab0d0988ee1c}{render\_interface}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00160}\mbox{\hyperlink{struct_backend_data_ad7d03341cf5e716403a2a28299cae4dd}{00160}}\ \ \ \ \ SDL\_Window*\ \mbox{\hyperlink{struct_backend_data_ad768a3c79b3fa2521d6c69dcd9cf53a4}{window}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00161}\mbox{\hyperlink{struct_backend_data_ad20509fa8e85e1a68a064d065dba962d}{00161}}\ \ \ \ \ SDL\_Renderer*\ \mbox{\hyperlink{struct_backend_data_ad20509fa8e85e1a68a064d065dba962d}{renderer}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00162}\mbox{\hyperlink{struct_backend_data_a7273da9b0cbbd6dbbd113992d97620f4}{00162}}\ \ \ \ \ SDL\_GLContext\ \mbox{\hyperlink{struct_backend_data_a7273da9b0cbbd6dbbd113992d97620f4}{glcontext}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00164}00164\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_backend_data_a10431090486eea0b0bf68da765eb3d7d}{running}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00165}00165\ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00166}00166\ \textcolor{keyword}{static}\ Rml::UniquePtr<BackendData>\ data;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00168}00168\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespace_backend_a3c8846fad91d184aa3a93d3cbe885100}{Backend::Initialize}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ window\_name,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{bool}\ allow\_resize)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00169}00169\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00170}00170\ \ \ \ \ RMLUI\_ASSERT(!data);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00172}00172\ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_Init(SDL\_INIT\_VIDEO\ |\ SDL\_INIT\_EVENTS\ |\ SDL\_INIT\_TIMER)\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00175}00175\ \ \ \ \ \textcolor{comment}{//\ Submit\ click\ events\ when\ focusing\ the\ window.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00176}00176\ \ \ \ \ SDL\_SetHint(SDL\_HINT\_MOUSE\_FOCUS\_CLICKTHROUGH,\ \textcolor{stringliteral}{"{}1"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00178}00178\ \ \ \ \ \textcolor{comment}{//\ Request\ stencil\ buffer\ of\ at\ least\ 8-\/bit\ size\ to\ supporting\ clipping\ on\ transformed\ elements.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00179}00179\ \ \ \ \ SDL\_GL\_SetAttribute(SDL\_GL\_STENCIL\_SIZE,\ 8);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00180}00180\ \ \ \ \ SDL\_GL\_SetAttribute(SDL\_GL\_DOUBLEBUFFER,\ 1);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00182}00182\ \ \ \ \ \textcolor{comment}{//\ Enable\ linear\ filtering\ and\ MSAA\ for\ better-\/looking\ visuals,\ especially\ when\ transforms\ are\ applied.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00183}00183\ \ \ \ \ SDL\_SetHint(SDL\_HINT\_RENDER\_SCALE\_QUALITY,\ \textcolor{stringliteral}{"{}linear"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00184}00184\ \ \ \ \ SDL\_GL\_SetAttribute(SDL\_GL\_MULTISAMPLEBUFFERS,\ 1);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00185}00185\ \ \ \ \ SDL\_GL\_SetAttribute(SDL\_GL\_MULTISAMPLESAMPLES,\ 2);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00187}00187\ \ \ \ \ \textcolor{keyword}{const}\ Uint32\ window\_flags\ =\ (SDL\_WINDOW\_OPENGL\ |\ (allow\_resize\ ?\ SDL\_WINDOW\_RESIZABLE\ :\ 0));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00189}00189\ \ \ \ \ SDL\_Window*\ window\ =\ SDL\_CreateWindow(window\_name,\ SDL\_WINDOWPOS\_CENTERED,\ SDL\_WINDOWPOS\_CENTERED,\ width,\ height,\ window\_flags);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00190}00190\ \ \ \ \ \textcolor{keywordflow}{if}\ (!window)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00191}00191\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Try\ again\ on\ low-\/quality\ settings.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ SDL\_SetHint(SDL\_HINT\_RENDER\_SCALE\_QUALITY,\ \textcolor{stringliteral}{"{}nearest"{}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ SDL\_GL\_SetAttribute(SDL\_GL\_MULTISAMPLEBUFFERS,\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ SDL\_GL\_SetAttribute(SDL\_GL\_MULTISAMPLESAMPLES,\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ window\ =\ SDL\_CreateWindow(window\_name,\ SDL\_WINDOWPOS\_CENTERED,\ SDL\_WINDOWPOS\_CENTERED,\ width,\ height,\ window\_flags);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!window)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ Rml::Log::Message(Rml::Log::LT\_ERROR,\ \textcolor{stringliteral}{"{}SDL\ error\ on\ create\ window:\ \%s"{}},\ SDL\_GetError());}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00202}00202\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00204}00204\ \ \ \ \ SDL\_GLContext\ glcontext\ =\ SDL\_GL\_CreateContext(window);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00205}00205\ \ \ \ \ \textcolor{keywordtype}{int}\ opengl\_renderer\_index\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00206}00206\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_render\_drivers\ =\ SDL\_GetNumRenderDrivers();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00207}00207\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ \mbox{\hyperlink{namespacecompile__shaders_a0a44d71f31a11b5964890f0948d616fd}{i}}\ <\ num\_render\_drivers;\ \mbox{\hyperlink{namespacecompile__shaders_a0a44d71f31a11b5964890f0948d616fd}{i}}++)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00208}00208\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ SDL\_RendererInfo\ info;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_GetRenderDriverInfo(i,\ \&info)\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strcmp(info.name,\ \textcolor{stringliteral}{"{}opengl"{}})\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ opengl\_renderer\_index\ =\ \mbox{\hyperlink{namespacecompile__shaders_a0a44d71f31a11b5964890f0948d616fd}{i}};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00215}00215\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00217}00217\ \ \ \ \ SDL\_Renderer*\ renderer\ =\ SDL\_CreateRenderer(window,\ opengl\_renderer\_index,\ SDL\_RENDERER\_ACCELERATED\ |\ SDL\_RENDERER\_PRESENTVSYNC);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00218}00218\ \ \ \ \ \textcolor{keywordflow}{if}\ (!renderer)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00220}00220\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00221}00221\ \ \ \ \ \mbox{\hyperlink{_rml_ui___include___g_l3_8h_a7efd7809e1632cdae75603fd1fee61c0}{GLenum}}\ err\ =\ glewInit();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00222}00222\ \ \ \ \ \textcolor{keywordflow}{if}\ (err\ !=\ GLEW\_OK)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00223}00223\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ Rml::Log::Message(Rml::Log::LT\_ERROR,\ \textcolor{stringliteral}{"{}GLEW\ error:\ \%s"{}},\ glewGetErrorString(err));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00226}00226\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00228}00228\ \ \ \ \ data\ =\ Rml::MakeUnique<BackendData>(renderer);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00230}00230\ \ \ \ \ data-\/>window\ =\ window;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00231}00231\ \ \ \ \ data-\/>glcontext\ =\ glcontext;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00232}00232\ \ \ \ \ data-\/>renderer\ =\ renderer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00234}00234\ \ \ \ \ data-\/>system\_interface.SetWindow(window);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00235}00235\ \ \ \ \ data-\/>render\_interface.SetViewport(width,\ height);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00236}00236\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00237}00237\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00238}00238\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00240}00240\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_backend_a7306fe6e3eb644325fc00aad68c41371}{Backend::Shutdown}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00241}00241\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00242}00242\ \ \ \ \ RMLUI\_ASSERT(data);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00244}00244\ \ \ \ \ SDL\_DestroyRenderer(data-\/>renderer);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00245}00245\ \ \ \ \ SDL\_GL\_DeleteContext(data-\/>glcontext);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00246}00246\ \ \ \ \ SDL\_DestroyWindow(data-\/>window);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00248}00248\ \ \ \ \ data.reset();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00250}00250\ \ \ \ \ SDL\_Quit();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00251}00251\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00253}00253\ Rml::SystemInterface*\ \mbox{\hyperlink{namespace_backend_a8338d5f63629a74107e7a2006799882e}{Backend::GetSystemInterface}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00254}00254\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00255}00255\ \ \ \ \ RMLUI\_ASSERT(data);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00256}00256\ \ \ \ \ \textcolor{keywordflow}{return}\ \&data-\/>system\_interface;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00257}00257\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00259}00259\ Rml::RenderInterface*\ \mbox{\hyperlink{namespace_backend_a4ecd6822e0c21598206e2033fb88945f}{Backend::GetRenderInterface}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00260}00260\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00261}00261\ \ \ \ \ RMLUI\_ASSERT(data);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00262}00262\ \ \ \ \ \textcolor{keywordflow}{return}\ \&data-\/>render\_interface;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00263}00263\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00265}00265\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespace_backend_a9f2c2febabb7a5bb87c6d395c10bc4d3}{Backend::ProcessEvents}}(Rml::Context*\ context,\ \mbox{\hyperlink{_rml_ui___backend_8h_ab2fde6e6084e99ad901e963110f4a8ad}{KeyDownCallback}}\ key\_down\_callback,\ \textcolor{keywordtype}{bool}\ power\_save)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00266}00266\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00267}00267\ \ \ \ \ RMLUI\_ASSERT(data\ \&\&\ context);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00269}00269\ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ data-\/>running;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00270}00270\ \ \ \ \ data-\/>running\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00272}00272\ \ \ \ \ SDL\_Event\ ev;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00273}00273\ \ \ \ \ \textcolor{keywordtype}{int}\ has\_event\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00274}00274\ \ \ \ \ \textcolor{keywordflow}{if}\ (power\_save)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ has\_event\ =\ SDL\_WaitEventTimeout(\&ev,\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{int}\textcolor{keyword}{>}(Rml::Math::Min(context-\/>GetNextUpdateDelay(),\ 10.0)\ *\ 1000));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00276}00276\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ has\_event\ =\ SDL\_PollEvent(\&ev);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00278}00278\ \ \ \ \ \textcolor{keywordflow}{while}\ (has\_event)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00279}00279\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (ev.type)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_QUIT:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_KEYDOWN:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Rml::Input::KeyIdentifier\ key\ =\ RmlSDL::ConvertKey(ev.key.keysym.sym);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ key\_modifier\ =\ RmlSDL::GetKeyModifierState();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ native\_dp\_ratio\ =\ 1.f;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ See\ if\ we\ have\ any\ global\ shortcuts\ that\ take\ priority\ over\ the\ context.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_down\_callback\ \&\&\ !key\_down\_callback(context,\ key,\ key\_modifier,\ native\_dp\_ratio,\ \textcolor{keyword}{true}))}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otherwise,\ hand\ the\ event\ over\ to\ the\ context\ by\ calling\ the\ input\ handler\ as\ normal.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!RmlSDL::InputEventHandler(context,\ ev))}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ key\ was\ not\ consumed\ by\ the\ context\ either,\ try\ keyboard\ shortcuts\ of\ lower\ priority.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_down\_callback\ \&\&\ !key\_down\_callback(context,\ key,\ key\_modifier,\ native\_dp\_ratio,\ \textcolor{keyword}{false}))}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_WINDOWEVENT:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00305}00305\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (ev.window.event)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_WINDOWEVENT\_SIZE\_CHANGED:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Rml::Vector2i\ dimensions(ev.window.data1,\ ev.window.data2);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data-\/>render\_interface.SetViewport(dimensions.x,\ dimensions.y);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ RmlSDL::InputEventHandler(context,\ ev);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00316}00316\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00317}00317\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ RmlSDL::InputEventHandler(context,\ ev);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00321}00321\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ has\_event\ =\ SDL\_PollEvent(\&ev);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00325}00325\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00326}00326\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00327}00327\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00328}00328\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00329}00329\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00330}00330\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_backend_a4ef87b0ca8ee4bfaa3ea756ed90cf8a4}{Backend::RequestExit}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00331}00331\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00332}00332\ \ \ \ \ RMLUI\_ASSERT(data);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00334}00334\ \ \ \ \ data-\/>running\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00335}00335\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00337}00337\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_backend_abba325769050fd5b3d4df6c09d446005}{Backend::BeginFrame}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00338}00338\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00339}00339\ \ \ \ \ RMLUI\_ASSERT(data);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00341}00341\ \ \ \ \ SDL\_SetRenderDrawColor(data-\/>renderer,\ 0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00342}00342\ \ \ \ \ SDL\_RenderClear(data-\/>renderer);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00343}00343\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00344}00344\ \ \ \ \ \textcolor{comment}{//\ SDL\ uses\ shaders\ that\ we\ need\ to\ disable\ here.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00345}00345\ \ \ \ \ glUseProgramObjectARB(0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00346}00346\ \ \ \ \ glTexEnvf(GL\_TEXTURE\_ENV,\ GL\_TEXTURE\_ENV\_MODE,\ GL\_MODULATE);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00348}00348\ \ \ \ \ data-\/>render\_interface.BeginFrame();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00349}00349\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00351}00351\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_backend_ae2121e778c7eda78390a8e45321a66d6}{Backend::PresentFrame}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00352}00352\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00353}00353\ \ \ \ \ RMLUI\_ASSERT(data);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00355}00355\ \ \ \ \ data-\/>render\_interface.EndFrame();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00356}00356\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00357}00357\ \ \ \ \ \textcolor{comment}{//\ Draw\ a\ fake\ point\ just\ outside\ the\ screen\ to\ let\ SDL\ know\ that\ it\ needs\ to\ reset\ its\ state\ in\ case\ it\ wants\ to\ render\ a\ texture\ next\ frame.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00358}00358\ \ \ \ \ SDL\_SetRenderDrawBlendMode(data-\/>renderer,\ SDL\_BLENDMODE\_NONE);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00359}00359\ \ \ \ \ SDL\_RenderDrawPoint(data-\/>renderer,\ -\/1,\ -\/1);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00360}00360\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00361}00361\ \ \ \ \ SDL\_RenderPresent(data-\/>renderer);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___backend___s_d_l___g_l2_8cpp_source_l00362}00362\ \}}
+
+\end{DoxyCode}

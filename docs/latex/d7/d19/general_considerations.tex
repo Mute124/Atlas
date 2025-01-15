@@ -1,0 +1,64 @@
+\doxysection{General considerations}
+\hypertarget{general_considerations}{}\label{general_considerations}\index{General considerations@{General considerations}}
+\hypertarget{general_considerations_general_considerations_thread_safety}{}\doxysubsection{\texorpdfstring{Thread safety}{Thread safety}}\label{general_considerations_general_considerations_thread_safety}
+
+\begin{DoxyItemize}
+\item The library has no global state, so separate \doxylink{struct_vma_allocator}{Vma\+Allocator} objects can be used independently. There should be no need to create multiple such objects though -\/ one per {\ttfamily Vk\+Device} is enough.
+\item By default, all calls to functions that take \doxylink{struct_vma_allocator}{Vma\+Allocator} as first parameter are safe to call from multiple threads simultaneously because they are synchronized internally when needed. This includes allocation and deallocation from default memory pool, as well as custom \doxylink{struct_vma_pool}{Vma\+Pool}.
+\item When the allocator is created with \doxylink{group__group__init_gga4f87c9100d154a65a4ad495f7763cf7ca4816ddaed324ba110172ca608a20f29d}{VMA\+\_\+\+ALLOCATOR\+\_\+\+CREATE\+\_\+\+EXTERNALLY\+\_\+\+SYNCHRONIZED\+\_\+\+BIT} flag, calls to functions that take such \doxylink{struct_vma_allocator}{Vma\+Allocator} object must be synchronized externally.
+\item Access to a \doxylink{struct_vma_allocation}{Vma\+Allocation} object must be externally synchronized. For example, you must not call \doxylink{group__group__alloc_gab9c96ca6bb55ad9069829fe8355bbb79}{vma\+Get\+Allocation\+Info()} and \doxylink{group__group__alloc_ga13b93ec0ed38ad7232300cb94931c8d2}{vma\+Map\+Memory()} from different threads at the same time if you pass the same \doxylink{struct_vma_allocation}{Vma\+Allocation} object to these functions.
+\item \doxylink{struct_vma_virtual_block}{Vma\+Virtual\+Block} is not safe to be used from multiple threads simultaneously.
+\end{DoxyItemize}\hypertarget{general_considerations_general_considerations_versioning_and_compatibility}{}\doxysubsection{\texorpdfstring{Versioning and compatibility}{Versioning and compatibility}}\label{general_considerations_general_considerations_versioning_and_compatibility}
+The library uses \href{https://semver.org/}{\texttt{ {\bfseries{Semantic Versioning}}}}, which means version numbers follow convention\+: Major.\+Minor.\+Patch (e.\+g. 2.\+3.\+0), where\+:
+
+
+\begin{DoxyItemize}
+\item Incremented Patch version means a release is backward-\/ and forward-\/compatible, introducing only some internal improvements, bug fixes, optimizations etc. or changes that are out of scope of the official API described in this documentation.
+\item Incremented Minor version means a release is backward-\/compatible, so existing code that uses the library should continue to work, while some new symbols could have been added\+: new structures, functions, new values in existing enums and bit flags, new structure members, but not new function parameters.
+\item Incrementing Major version means a release could break some backward compatibility.
+\end{DoxyItemize}
+
+All changes between official releases are documented in file "{}\+CHANGELOG.\+md"{}.
+
+\begin{DoxyWarning}{Warning}
+Backward compatiblity is considered on the level of C++ source code, not binary linkage. Adding new members to existing structures is treated as backward compatible if initializing the new members to binary zero results in the old behavior. You should always fully initialize all library structures to zeros and not rely on their exact binary size.
+\end{DoxyWarning}
+\hypertarget{general_considerations_general_considerations_validation_layer_warnings}{}\doxysubsection{\texorpdfstring{Validation layer warnings}{Validation layer warnings}}\label{general_considerations_general_considerations_validation_layer_warnings}
+When using this library, you can meet following types of warnings issued by Vulkan validation layer. They don\textquotesingle{}t necessarily indicate a bug, so you may need to just ignore them.
+
+
+\begin{DoxyItemize}
+\item {\itshape \doxylink{vulkan_8h_a65810005c780a55660f1a38eb6b1873c}{vk\+Bind\+Buffer\+Memory()}\+: Binding memory to buffer 0xeb8e4 but \doxylink{vulkan_8h_ad7f6c99a52c417bb4be8ee1dcbe5383e}{vk\+Get\+Buffer\+Memory\+Requirements()} has not been called on that buffer.}
+\begin{DoxyItemize}
+\item It happens when VK\+\_\+\+KHR\+\_\+dedicated\+\_\+allocation extension is enabled. {\ttfamily vk\+Get\+Buffer\+Memory\+Requirements2\+KHR} function is used instead, while validation layer seems to be unaware of it.
+\end{DoxyItemize}
+\item {\itshape Mapping an image with layout VK\+\_\+\+IMAGE\+\_\+\+LAYOUT\+\_\+\+DEPTH\+\_\+\+STENCIL\+\_\+\+ATTACHMENT\+\_\+\+OPTIMAL can result in undefined behavior if this memory is used by the device. Only GENERAL or PREINITIALIZED should be used.}
+\begin{DoxyItemize}
+\item It happens when you map a buffer or image, because the library maps entire {\ttfamily Vk\+Device\+Memory} block, where different types of images and buffers may end up together, especially on GPUs with unified memory like Intel.
+\end{DoxyItemize}
+\item {\itshape Non-\/linear image 0xebc91 is aliased with linear buffer 0xeb8e4 which may indicate a bug.}
+\begin{DoxyItemize}
+\item It may happen when you use \doxylink{defragmentation}{defragmentation}.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{general_considerations_general_considerations_allocation_algorithm}{}\doxysubsection{\texorpdfstring{Allocation algorithm}{Allocation algorithm}}\label{general_considerations_general_considerations_allocation_algorithm}
+The library uses following algorithm for allocation, in order\+:
+
+
+\begin{DoxyEnumerate}
+\item Try to find free range of memory in existing blocks.
+\item If failed, try to create a new block of {\ttfamily Vk\+Device\+Memory}, with preferred block size.
+\item If failed, try to create such block with size / 2, size / 4, size / 8.
+\item If failed, try to allocate separate {\ttfamily Vk\+Device\+Memory} for this allocation, just like when you use \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a3fc311d855c2ff53f1090ef5c722b38f}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+DEDICATED\+\_\+\+MEMORY\+\_\+\+BIT}.
+\item If failed, choose other memory type that meets the requirements specified in \doxylink{struct_vma_allocation_create_info}{Vma\+Allocation\+Create\+Info} and go to point 1.
+\item If failed, return {\ttfamily VK\+\_\+\+ERROR\+\_\+\+OUT\+\_\+\+OF\+\_\+\+DEVICE\+\_\+\+MEMORY}.
+\end{DoxyEnumerate}\hypertarget{general_considerations_general_considerations_features_not_supported}{}\doxysubsection{\texorpdfstring{Features not supported}{Features not supported}}\label{general_considerations_general_considerations_features_not_supported}
+Features deliberately excluded from the scope of this library\+:
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Data transfer.}} Uploading (streaming) and downloading data of buffers and images between CPU and GPU memory and related synchronization is responsibility of the user. Defining some "{}texture"{} object that would automatically stream its data from a staging copy in CPU memory to GPU memory would rather be a feature of another, higher-\/level library implemented on top of VMA. VMA doesn\textquotesingle{}t record any commands to a {\ttfamily Vk\+Command\+Buffer}. It just allocates memory.
+\item {\bfseries{Recreation of buffers and images.}} Although the library has functions for buffer and image creation\+: \doxylink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vma\+Create\+Buffer()}, \doxylink{group__group__alloc_gaa76142ae43535c862ad9e194a6e38aaa}{vma\+Create\+Image()}, you need to recreate these objects yourself after defragmentation. That is because the big structures {\ttfamily \doxylink{struct_vk_buffer_create_info}{Vk\+Buffer\+Create\+Info}}, {\ttfamily \doxylink{struct_vk_image_create_info}{Vk\+Image\+Create\+Info}} are not stored in \doxylink{struct_vma_allocation}{Vma\+Allocation} object.
+\item {\bfseries{Handling CPU memory allocation failures.}} When dynamically creating small C++ objects in CPU memory (not Vulkan memory), allocation failures are not checked and handled gracefully, because that would complicate code significantly and is usually not needed in desktop PC applications anyway. Success of an allocation is just checked with an assert.
+\item {\bfseries{Code free of any compiler warnings.}} Maintaining the library to compile and work correctly on so many different platforms is hard enough. Being free of any warnings, on any version of any compiler, is simply not feasible. There are many preprocessor macros that make some variables unused, function parameters unreferenced, or conditional expressions constant in some configurations. The code of this library should not be bigger or more complicated just to silence these warnings. It is recommended to disable such warnings instead.
+\item This is a C++ library with C interface. {\bfseries{Bindings or ports to any other programming languages}} are welcome as external projects but are not going to be included into this repository. 
+\end{DoxyEnumerate}

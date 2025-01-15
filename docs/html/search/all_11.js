@@ -1,5 +1,6 @@
 var searchData=
 [
+<<<<<<< HEAD
   ['scale_0',['scale',['../d6/d34/class_techstorm_1_1abstract.html#a9b45c16a8ff92b5dede7255391a01d9b',1,'Techstorm::abstract']]],
 <<<<<<< HEAD
   ['scaley_1',['scaleY',['../d1/dee/class_terrain.html#a2f3f1479e2bd7980efe3947bf1fb5dd7',1,'Terrain']]],
@@ -80,4 +81,8 @@ var searchData=
   ['successful_5foperation_5fwith_5fcaught_5fexception_27',['SUCCESSFUL_OPERATION_WITH_CAUGHT_EXCEPTION',['../d4/d26/namespace_techstorm.html#ab0981a062221a3d61fdce049730b3e79aa39792c4fe2be6d4b965945c0e47de5e',1,'Techstorm']]],
   ['successful_5foperation_5fwith_5fwarning_28',['SUCCESSFUL_OPERATION_WITH_WARNING',['../d4/d26/namespace_techstorm.html#ab0981a062221a3d61fdce049730b3e79a580f5f107dba3aaffb9cd457c554977a',1,'Techstorm']]]
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+  ['queue_0',['Queue',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a43144f43d4eeb25a5230a55a1cea2bd4',1,'ImGui_ImplVulkan_InitInfo']]],
+  ['queuefamily_1',['QueueFamily',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a51c934190a99b91180bf95ce56a36407',1,'ImGui_ImplVulkan_InitInfo']]]
+>>>>>>> main
 ];

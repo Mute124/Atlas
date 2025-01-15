@@ -1,0 +1,63 @@
+\doxysection{Debugging incorrect memory usage}
+\hypertarget{debugging_memory_usage}{}\label{debugging_memory_usage}\index{Debugging incorrect memory usage@{Debugging incorrect memory usage}}
+If you suspect a bug with memory usage, like usage of uninitialized memory or memory being overwritten out of bounds of an allocation, you can use debug features of this library to verify this.\hypertarget{debugging_memory_usage_debugging_memory_usage_initialization}{}\doxysubsection{\texorpdfstring{Memory initialization}{Memory initialization}}\label{debugging_memory_usage_debugging_memory_usage_initialization}
+If you experience a bug with incorrect and nondeterministic data in your program and you suspect uninitialized memory to be used, you can enable automatic memory initialization to verify this. To do it, define macro {\ttfamily VMA\+\_\+\+DEBUG\+\_\+\+INITIALIZE\+\_\+\+ALLOCATIONS} to 1.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#define\ VMA\_DEBUG\_INITIALIZE\_ALLOCATIONS\ 1}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{vk__mem__alloc_8h}{vk\_mem\_alloc.h}}"{}}}
+
+\end{DoxyCode}
+
+
+It makes memory of new allocations initialized to bit pattern {\ttfamily 0x\+DCDCDCDC}. Before an allocation is destroyed, its memory is filled with bit pattern {\ttfamily 0x\+EFEFEFEF}. Memory is automatically mapped and unmapped if necessary.
+
+If you find these values while debugging your program, good chances are that you incorrectly read Vulkan memory that is allocated but not initialized, or already freed, respectively.
+
+Memory initialization works only with memory types that are {\ttfamily HOST\+\_\+\+VISIBLE} and with allocations that can be mapped. It works also with dedicated allocations.\hypertarget{debugging_memory_usage_debugging_memory_usage_margins}{}\doxysubsection{\texorpdfstring{Margins}{Margins}}\label{debugging_memory_usage_debugging_memory_usage_margins}
+By default, allocations are laid out in memory blocks next to each other if possible (considering required alignment, {\ttfamily buffer\+Image\+Granularity}, and {\ttfamily non\+Coherent\+Atom\+Size}).
+
+
+
+Define macro {\ttfamily VMA\+\_\+\+DEBUG\+\_\+\+MARGIN} to some non-\/zero value (e.\+g. 16) to enforce specified number of bytes as a margin after every allocation.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#define\ VMA\_DEBUG\_MARGIN\ 16}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{vk__mem__alloc_8h}{vk\_mem\_alloc.h}}"{}}}
+
+\end{DoxyCode}
+
+
+
+
+If your bug goes away after enabling margins, it means it may be caused by memory being overwritten outside of allocation boundaries. It is not 100\% certain though. Change in application behavior may also be caused by different order and distribution of allocations across memory blocks after margins are applied.
+
+Margins work with all types of memory.
+
+Margin is applied only to allocations made out of memory blocks and not to dedicated allocations, which have their own memory block of specific size. It is thus not applied to allocations made using \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a3fc311d855c2ff53f1090ef5c722b38f}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+DEDICATED\+\_\+\+MEMORY\+\_\+\+BIT} flag or those automatically decided to put into dedicated allocations, e.\+g. due to its large size or recommended by VK\+\_\+\+KHR\+\_\+dedicated\+\_\+allocation extension.
+
+Margins appear in \doxysectlink{statistics_statistics_json_dump}{JSON dump}{1} as part of free space.
+
+Note that enabling margins increases memory usage and fragmentation.
+
+Margins do not apply to \doxylink{virtual_allocator}{Virtual allocator}.\hypertarget{debugging_memory_usage_debugging_memory_usage_corruption_detection}{}\doxysubsection{\texorpdfstring{Corruption detection}{Corruption detection}}\label{debugging_memory_usage_debugging_memory_usage_corruption_detection}
+You can additionally define macro {\ttfamily VMA\+\_\+\+DEBUG\+\_\+\+DETECT\+\_\+\+CORRUPTION} to 1 to enable validation of contents of the margins.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#define\ VMA\_DEBUG\_MARGIN\ 16}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#define\ VMA\_DEBUG\_DETECT\_CORRUPTION\ 1}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{vk__mem__alloc_8h}{vk\_mem\_alloc.h}}"{}}}
+
+\end{DoxyCode}
+
+
+When this feature is enabled, number of bytes specified as {\ttfamily VMA\+\_\+\+DEBUG\+\_\+\+MARGIN} (it must be multiply of 4) after every allocation is filled with a magic number. This idea is also know as "{}canary"{}. Memory is automatically mapped and unmapped if necessary.
+
+This number is validated automatically when the allocation is destroyed. If it is not equal to the expected value, {\ttfamily VMA\+\_\+\+ASSERT()} is executed. It clearly means that either CPU or GPU overwritten the memory outside of boundaries of the allocation, which indicates a serious bug.
+
+You can also explicitly request checking margins of all allocations in all memory blocks that belong to specified memory types by using function \doxylink{group__group__alloc_ga0baa58dd12991e7b0fe42dcdf22bb100}{vma\+Check\+Corruption()}, or in memory blocks that belong to specified custom pool, by using function \doxylink{group__group__alloc_ga19e2e174d6acb8abfdeb8c200517a468}{vma\+Check\+Pool\+Corruption()}.
+
+Margin validation (corruption detection) works only for memory types that are {\ttfamily HOST\+\_\+\+VISIBLE} and {\ttfamily HOST\+\_\+\+COHERENT}. 

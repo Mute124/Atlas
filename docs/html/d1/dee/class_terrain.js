@@ -2,10 +2,8 @@ var class_terrain =
 [
     [ "TriangleStruct", "da/d89/struct_terrain_1_1_triangle_struct.html", "da/d89/struct_terrain_1_1_triangle_struct" ],
     [ "Terrain", "d1/dee/class_terrain.html#a7a8878e064ea91eba0266380112e4e2c", null ],
-    [ "Terrain", "d1/dee/class_terrain.html#a2ba9c6979a799e3235a8a6b000117b8b", null ],
     [ "draw", "d1/dee/class_terrain.html#a649267d1a165a521ecf7d92ac520fe9a", null ],
     [ "generate", "d1/dee/class_terrain.html#aaae43785e23c87038d178ada2d51b32a", null ],
-    [ "texture", "d1/dee/class_terrain.html#aa40b6448d4a1c3ba9ff9c3a5f64c3f4e", null ],
     [ "bodyInterface", "d1/dee/class_terrain.html#aedd83648b6e97085792b113e0375da6e", null ],
     [ "camera", "d1/dee/class_terrain.html#aee103207204dd4317c1dd140a9608f76", null ],
     [ "heightMap", "d1/dee/class_terrain.html#a1d5ad9508ec46ccd6caed51ba8011fda", null ],

@@ -1,7 +1,7 @@
 /**
 * \file Project.h
 * 
-* \brief This file contains the IProject interface that is required for Techstorm to run the user's project. The reason for the boilerplate is because it allows the engine to take a Laissez-faire approach and allow the user to do whatever they want.
+* \brief This file contains the IProject interface that is required for Atlas to run the user's project. The reason for the boilerplate is because it allows the engine to take a Laissez-faire approach and allow the user to do whatever they want.
 * with all their code being able to be called from the engine.
 */
 #pragma once
@@ -14,28 +14,35 @@
 #include "fs/FileSystem.h"
 #include "conf/Config.h"
 #include <stdint.h>
+#include "dbg/Debugger.h"
+#include <bitset>
 
-namespace Techstorm {
+namespace Atlas {
 	/// <summary>
 	/// This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
-	/// their project. In terms of functionality, this interface just holds the functions and variables that Techstorm will call (besides some initialization). 
-	/// \note If this boilerplate code is not done, Techstorm will not know what to run.
+	/// their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
+	/// \note If this boilerplate code is not done, Atlas will not know what to run.
 	/// \warning <b>Do not directly call window code in here or your project will crash!</b>
 	/// </summary>
 	class IProject abstract {
 	protected:
 		Renderer mRenderer;
 		WindowDecorations mWindowDecorations;
+<<<<<<< HEAD
 		LuaLibraryRegistry mLuaLibraries;
 		LuaFunctionRegistry mLuaFunctions;
 <<<<<<< HEAD
+=======
+		ScriptingLibraryRegistry mLuaLibraries;
+		ScriptingFunctionRegistry mLuaFunctions;
+>>>>>>> main
 		
 =======
 
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 		/// <summary>
-		/// Represents a polymorphic singleton reference to the user's project instance through a pointer of Techstorm::IProject. This is
-		/// mandatory for Techstorm to run the user's engine.
+		/// Represents a polymorphic singleton reference to the user's project instance through a pointer of Atlas::IProject. This is
+		/// mandatory for Atlas to run the user's engine.
 		/// </summary>
 		class ProjectReference : public Singleton<ProjectReference> {
 		public:
@@ -59,13 +66,13 @@ namespace Techstorm {
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 		/// </summary>
 		/// <returns>A reference to mLuaLibraries</returns>
-		LuaLibraryRegistry& getLuaLibraries() { return mLuaLibraries; }
+		ScriptingLibraryRegistry& getLuaLibraries() { return mLuaLibraries; }
 
 		/// <summary>
 		/// Gets the lua functions.
 		/// </summary>
 		/// <returns>A reference to mLuaFunctions</returns>
-		LuaFunctionRegistry& getLuaFunctions() { return mLuaFunctions; }
+		ScriptingFunctionRegistry& getLuaFunctions() { return mLuaFunctions; }
 
 		/// <summary>
 		/// Gets the window decorations. This includes the window title, icon, size, etc.
@@ -76,7 +83,7 @@ namespace Techstorm {
 		/// <summary>
 		/// Sets the window decorations.
 		/// </summary>
-		/// <seealso cref="Techstorm::WindowDecorations" />
+		/// <seealso cref="Atlas::WindowDecorations" />
 		/// <param name="windowDecorations">The window decorations.</param>
 		void setWindowDecorations(WindowDecorations& windowDecorations);
 
@@ -95,6 +102,7 @@ namespace Techstorm {
 		void setProject(T* project);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		// This should contain what files need to be loaded when registered and the functions to load certain extensions.
 		virtual void setupFileRegistryTargets() {
 			
@@ -107,31 +115,13 @@ namespace Techstorm {
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 		}
 
+=======
+>>>>>>> main
 		/// <summary>
 		/// This is the first function that will be called on startup. 
 		/// </summary>
 		/// <inheritdoc />
-		virtual void preInit() {
-			std::cout << "IProject::preInit" << std::endl;
-			AddFileRegistryLoadFunction("png", [](std::shared_ptr<FileMeta> loadFunc) {
-				return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
-			});
-			
-			AddFileRegistryLoadFunction("jpg", [](std::shared_ptr<FileMeta> loadFunc) {
-				return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
-			});
-
-			AddFileRegistryLoadFunction("jpeg", [](std::shared_ptr<FileMeta> loadFunc) {
-				return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
-			});
-
-
-			InitializeFileRegistry(TS_GAME_DIR.c_str());
-
-
-			this->mLuaLibraries.push_back(sol::lib::base);
-
-		}
+		virtual void preInit();
 
 		/// <summary>
 		/// Initializes your project. This will be called after preInit and window initialization, meaning that this is the earliest point that you can use raylib. <b>THIS MUST BE OVERRIDEN BY YOUR PROJECT CLASS!</b>

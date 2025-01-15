@@ -1,0 +1,820 @@
+\doxysection{imgui\+\_\+impl\+\_\+osx.\+mm}
+\hypertarget{imgui__impl__osx_8mm_source}{}\label{imgui__impl__osx_8mm_source}\index{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_osx.mm@{C:/Dev/Techstorm-\/v5/src/bindings/imgui\_impl\_osx.mm}}
+\mbox{\hyperlink{imgui__impl__osx_8mm}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00001}00001\ \textcolor{comment}{//\ dear\ imgui:\ Platform\ Backend\ for\ OSX\ /\ Cocoa}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00002}00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Renderer\ (e.g.\ OpenGL2,\ OpenGL3,\ Vulkan,\ Metal..)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00003}00003\ \textcolor{comment}{//\ -\/\ Not\ well\ tested.\ If\ you\ want\ a\ portable\ application,\ prefer\ using\ the\ GLFW\ or\ SDL\ platform\ Backends\ on\ Mac.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00004}00004\ \textcolor{comment}{//\ -\/\ Requires\ linking\ with\ the\ GameController\ framework\ ("{}-\/framework\ GameController"{}).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00006}00006\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00007}00007\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ cursor\ shape\ and\ visibility.\ Disable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NoMouseCursorChange'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00008}00008\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ support.\ Can\ discriminate\ Mouse/Pen.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00009}00009\ \textcolor{comment}{//\ \ [X]\ Platform:\ Keyboard\ support.\ Since\ 1.87\ we\ are\ using\ the\ io.AddKeyEvent()\ function.\ Pass\ ImGuiKey\ values\ to\ all\ key\ functions\ e.g.\ ImGui::IsKeyPressed(ImGuiKey\_Space).\ [Legacy\ kVK\_*\ values\ are\ obsolete\ since\ 1.87\ and\ not\ supported\ since\ 1.91.5]}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00010}00010\ \textcolor{comment}{//\ \ [X]\ Platform:\ OSX\ clipboard\ is\ supported\ within\ core\ Dear\ ImGui\ (no\ specific\ code\ in\ this\ backend).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00011}00011\ \textcolor{comment}{//\ \ [X]\ Platform:\ Gamepad\ support.\ Enabled\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NavEnableGamepad'.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00012}00012\ \textcolor{comment}{//\ \ [X]\ Platform:\ IME\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00014}00014\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00015}00015\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00016}00016\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00017}00017\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00018}00018\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00019}00019\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00020}00020\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00022}00022\ \textcolor{preprocessor}{\#import\ "{}imgui.h"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00023}00023\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00024}00024\ \textcolor{preprocessor}{\#import\ "{}\mbox{\hyperlink{imgui__impl__osx_8h}{imgui\_impl\_osx.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00025}00025\ \textcolor{preprocessor}{\#import\ <Cocoa/Cocoa.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00026}00026\ \textcolor{preprocessor}{\#import\ <Carbon/Carbon.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00027}00027\ \textcolor{preprocessor}{\#import\ <GameController/GameController.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00028}00028\ \textcolor{preprocessor}{\#import\ <time.h>}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00030}00030\ \textcolor{comment}{//\ CHANGELOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00031}00031\ \textcolor{comment}{//\ (minor\ and\ older\ changes\ stripped\ away,\ please\ see\ git\ history\ for\ details)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00032}00032\ \textcolor{comment}{//\ \ 2024-\/08-\/22:\ moved\ some\ OS/backend\ related\ function\ pointers\ from\ ImGuiIO\ to\ ImGuiPlatformIO:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00033}00033\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.GetClipboardTextFn\ \ \ \ -\/>\ platform\_io.Platform\_GetClipboardTextFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00034}00034\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.SetClipboardTextFn\ \ \ \ -\/>\ platform\_io.Platform\_SetClipboardTextFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00035}00035\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ io.PlatformSetImeDataFn\ \ -\/>\ platform\_io.Platform\_SetImeDataFn}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00036}00036\ \textcolor{comment}{//\ \ 2024-\/07-\/02:\ Update\ for\ io.SetPlatformImeDataFn()\ -\/>\ io.PlatformSetImeDataFn()\ renaming\ in\ main\ library.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00037}00037\ \textcolor{comment}{//\ \ 2023-\/10-\/05:\ Inputs:\ Added\ support\ for\ extra\ ImGuiKey\ values:\ F13\ to\ F20\ function\ keys.\ Stopped\ mapping\ F13\ into\ PrintScreen.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00038}00038\ \textcolor{comment}{//\ \ 2023-\/04-\/09:\ Inputs:\ Added\ support\ for\ io.AddMouseSourceEvent()\ to\ discriminate\ ImGuiMouseSource\_Mouse/ImGuiMouseSource\_Pen.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00039}00039\ \textcolor{comment}{//\ \ 2023-\/02-\/01:\ Fixed\ scroll\ wheel\ scaling\ for\ devices\ emitting\ events\ with\ hasPreciseScrollingDeltas==false\ (e.g.\ non-\/Apple\ mices).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00040}00040\ \textcolor{comment}{//\ \ 2022-\/11-\/02:\ Fixed\ mouse\ coordinates\ before\ clicking\ the\ host\ window.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00041}00041\ \textcolor{comment}{//\ \ 2022-\/10-\/06:\ Fixed\ mouse\ inputs\ on\ flipped\ views.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00042}00042\ \textcolor{comment}{//\ \ 2022-\/09-\/26:\ Inputs:\ Renamed\ ImGuiKey\_ModXXX\ introduced\ in\ 1.87\ to\ ImGuiMod\_XXX\ (old\ names\ still\ supported).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00043}00043\ \textcolor{comment}{//\ \ 2022-\/05-\/03:\ Inputs:\ Removed\ ImGui\_ImplOSX\_HandleEvent()\ from\ backend\ API\ in\ favor\ of\ backend\ automatically\ handling\ event\ capture.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00044}00044\ \textcolor{comment}{//\ \ 2022-\/04-\/27:\ Misc:\ Store\ backend\ data\ in\ a\ per-\/context\ struct,\ allowing\ to\ use\ this\ backend\ with\ multiple\ contexts.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00045}00045\ \textcolor{comment}{//\ \ 2022-\/03-\/22:\ Inputs:\ Monitor\ NSKeyUp\ events\ to\ catch\ missing\ keyUp\ for\ key\ when\ user\ press\ Cmd\ +\ key}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00046}00046\ \textcolor{comment}{//\ \ 2022-\/02-\/07:\ Inputs:\ Forward\ keyDown/keyUp\ events\ to\ OS\ when\ unused\ by\ dear\ imgui.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00047}00047\ \textcolor{comment}{//\ \ 2022-\/01-\/31:\ Fixed\ building\ with\ old\ Xcode\ versions\ that\ are\ missing\ gamepad\ features.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00048}00048\ \textcolor{comment}{//\ \ 2022-\/01-\/26:\ Inputs:\ replaced\ short-\/lived\ io.AddKeyModsEvent()\ (added\ two\ weeks\ ago)\ with\ io.AddKeyEvent()\ using\ ImGuiKey\_ModXXX\ flags.\ Sorry\ for\ the\ confusion.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00049}00049\ \textcolor{comment}{//\ \ 2021-\/01-\/20:\ Inputs:\ calling\ new\ io.AddKeyAnalogEvent()\ for\ gamepad\ support,\ instead\ of\ writing\ directly\ to\ io.NavInputs[].}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00050}00050\ \textcolor{comment}{//\ \ 2022-\/01-\/17:\ Inputs:\ calling\ new\ io.AddMousePosEvent(),\ io.AddMouseButtonEvent(),\ io.AddMouseWheelEvent()\ API\ (1.87+).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00051}00051\ \textcolor{comment}{//\ \ 2022-\/01-\/12:\ Inputs:\ Added\ basic\ Platform\ IME\ support,\ hooking\ the\ io.SetPlatformImeDataFn()\ function.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00052}00052\ \textcolor{comment}{//\ \ 2022-\/01-\/10:\ Inputs:\ calling\ new\ io.AddKeyEvent(),\ io.AddKeyModsEvent()\ +\ io.SetKeyEventNativeData()\ API\ (1.87+).\ Support\ for\ full\ ImGuiKey\ range.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00053}00053\ \textcolor{comment}{//\ \ 2021-\/12-\/13:\ *BREAKING\ CHANGE*\ Add\ NSView\ parameter\ to\ ImGui\_ImplOSX\_Init().\ Generally\ fix\ keyboard\ support.\ Using\ kVK\_*\ codes\ for\ keyboard\ keys.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00054}00054\ \textcolor{comment}{//\ \ 2021-\/12-\/13:\ Add\ game\ controller\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00055}00055\ \textcolor{comment}{//\ \ 2021-\/09-\/21:\ Use\ mach\_absolute\_time\ as\ CFAbsoluteTimeGetCurrent\ can\ jump\ backwards.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00056}00056\ \textcolor{comment}{//\ \ 2021-\/08-\/17:\ Calling\ io.AddFocusEvent()\ on\ NSApplicationDidBecomeActiveNotification/NSApplicationDidResignActiveNotification\ events.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00057}00057\ \textcolor{comment}{//\ \ 2021-\/06-\/23:\ Inputs:\ Added\ a\ fix\ for\ shortcuts\ using\ CTRL\ key\ instead\ of\ CMD\ key.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00058}00058\ \textcolor{comment}{//\ \ 2021-\/04-\/19:\ Inputs:\ Added\ a\ fix\ for\ keys\ remaining\ stuck\ in\ pressed\ state\ when\ CMD-\/tabbing\ into\ different\ application.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00059}00059\ \textcolor{comment}{//\ \ 2021-\/01-\/27:\ Inputs:\ Added\ a\ fix\ for\ mouse\ position\ not\ being\ reported\ when\ mouse\ buttons\ other\ than\ left\ one\ are\ down.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00060}00060\ \textcolor{comment}{//\ \ 2020-\/10-\/28:\ Inputs:\ Added\ a\ fix\ for\ handling\ keypad-\/enter\ key.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00061}00061\ \textcolor{comment}{//\ \ 2020-\/05-\/25:\ Inputs:\ Added\ a\ fix\ for\ missing\ trackpad\ clicks\ when\ done\ with\ "{}soft\ tap"{}.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00062}00062\ \textcolor{comment}{//\ \ 2019-\/12-\/05:\ Inputs:\ Added\ support\ for\ ImGuiMouseCursor\_NotAllowed\ mouse\ cursor.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00063}00063\ \textcolor{comment}{//\ \ 2019-\/10-\/11:\ Inputs:\ \ Fix\ using\ Backspace\ key.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00064}00064\ \textcolor{comment}{//\ \ 2019-\/07-\/21:\ Re-\/added\ clipboard\ handlers\ as\ they\ are\ not\ enabled\ by\ default\ in\ core\ imgui.cpp\ (reverted\ 2019-\/05-\/18\ change).}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00065}00065\ \textcolor{comment}{//\ \ 2019-\/05-\/28:\ Inputs:\ Added\ mouse\ cursor\ shape\ and\ visibility\ support.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00066}00066\ \textcolor{comment}{//\ \ 2019-\/05-\/18:\ Misc:\ Removed\ clipboard\ handlers\ as\ they\ are\ now\ supported\ by\ core\ imgui.cpp.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00067}00067\ \textcolor{comment}{//\ \ 2019-\/05-\/11:\ Inputs:\ Don't\ filter\ character\ values\ before\ calling\ AddInputCharacter()\ apart\ from\ 0xF700..0xFFFF\ range.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00068}00068\ \textcolor{comment}{//\ \ 2018-\/11-\/30:\ Misc:\ Setting\ up\ io.BackendPlatformName\ so\ it\ can\ be\ displayed\ in\ the\ About\ Window.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00069}00069\ \textcolor{comment}{//\ \ 2018-\/07-\/07:\ Initial\ version.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00071}\mbox{\hyperlink{imgui__impl__osx_8mm_aee91fef8731ea5824c510af7ac26eb14}{00071}}\ \textcolor{preprocessor}{\#define\ APPLE\_HAS\_BUTTON\_OPTIONS\ (\_\_IPHONE\_OS\_VERSION\_MIN\_REQUIRED\ >=\ 130000\ ||\ \_\_MAC\_OS\_X\_VERSION\_MIN\_REQUIRED\ >=\ 101500\ ||\ \_\_TV\_OS\_VERSION\_MIN\_REQUIRED\ >=\ 130000)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00072}\mbox{\hyperlink{imgui__impl__osx_8mm_a9dc71e704b64954e5cc8fa9eb1d7a2f3}{00072}}\ \textcolor{preprocessor}{\#define\ APPLE\_HAS\_CONTROLLER\ \ \ \ \ (\_\_IPHONE\_OS\_VERSION\_MIN\_REQUIRED\ >=\ 140000\ ||\ \_\_MAC\_OS\_X\_VERSION\_MIN\_REQUIRED\ >=\ 110000\ ||\ \_\_TV\_OS\_VERSION\_MIN\_REQUIRED\ >=\ 140000)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00073}\mbox{\hyperlink{imgui__impl__osx_8mm_ae80a0030f0ca50357dff788785862d44}{00073}}\ \textcolor{preprocessor}{\#define\ APPLE\_HAS\_THUMBSTICKS\ \ \ \ (\_\_IPHONE\_OS\_VERSION\_MIN\_REQUIRED\ >=\ 120100\ ||\ \_\_MAC\_OS\_X\_VERSION\_MIN\_REQUIRED\ >=\ 101401\ ||\ \_\_TV\_OS\_VERSION\_MIN\_REQUIRED\ >=\ 120100)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00075}00075\ \textcolor{keyword}{@class}\ \mbox{\hyperlink{interface_im_gui_observer}{ImGuiObserver}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00076}00076\ \textcolor{keyword}{@class}\ \mbox{\hyperlink{interface_key_event_responder}{KeyEventResponder}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00078}00078\ \textcolor{comment}{//\ Data}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00079}\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{00079}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00080}00080\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00081}\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a91e13299ce7b638bc175bd111136ce1e}{00081}}\ \ \ \ \ CFTimeInterval\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a91e13299ce7b638bc175bd111136ce1e}{Time}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00082}\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{00082}}\ \ \ \ \ NSCursor*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_COUNT];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00083}\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a26a6ecc0e3620d629ee501a6e5b8321e}{00083}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a26a6ecc0e3620d629ee501a6e5b8321e}{MouseCursorHidden}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00084}\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a548e9f7d34904c5c68b75ea290123fb5}{00084}}\ \ \ \ \ \mbox{\hyperlink{interface_im_gui_observer}{ImGuiObserver}}*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a548e9f7d34904c5c68b75ea290123fb5}{Observer}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00085}\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_ac16283837c0b187c3cc441b1abaee4f1}{00085}}\ \ \ \ \ \mbox{\hyperlink{interface_key_event_responder}{KeyEventResponder}}*\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_ac16283837c0b187c3cc441b1abaee4f1}{KeyEventResponder}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00086}\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_ae5c9f0f3565a0ce5e2a71a776624fb69}{00086}}\ \ \ \ \ NSTextInputContext*\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_ae5c9f0f3565a0ce5e2a71a776624fb69}{InputContext}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00087}\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a2ab0389fe39ea261a90baa687947abb9}{00087}}\ \ \ \ \ \textcolor{keywordtype}{id}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a2ab0389fe39ea261a90baa687947abb9}{Monitor}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00088}\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a23ca48ebf7477b4171db73aecea0c4c7}{00088}}\ \ \ \ \ NSWindow*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a23ca48ebf7477b4171db73aecea0c4c7}{Window}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00090}\mbox{\hyperlink{category_n_s_cursor_07_08_a508a3aef1a71985a79cc46afc93491c5}{00090}}\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_ad7ecbfd75ab882c52ba4fcdaba0ad7dd}{ImGui\_ImplOSX\_Data}}()\ \ \ \ \ \ \ \ \{\ memset((\textcolor{keywordtype}{void}*)\textcolor{keyword}{this},\ 0,\ \textcolor{keyword}{sizeof}(*\textcolor{keyword}{this}));\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00091}00091\ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00093}00093\ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}}*\ \ \ \ \ \ ImGui\_ImplOSX\_GetBackendData()\ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}}*)ImGui::GetIO().BackendPlatformUserData;\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00094}00094\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ImGui\_ImplOSX\_DestroyBackendData()\ \ \{\ IM\_DELETE(ImGui\_ImplOSX\_GetBackendData());\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00096}00096\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ CFTimeInterval\ \ \ \ GetMachAbsoluteTimeInSeconds()\ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ (CFTimeInterval)(double)(clock\_gettime\_nsec\_np(CLOCK\_UPTIME\_RAW)\ /\ 1e9);\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00098}00098\ \textcolor{comment}{//\ Forward\ Declarations}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00099}00099\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplOSX\_AddTrackingArea(NSView*\ \_Nonnull\ view);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00100}00100\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ ImGui\_ImplOSX\_HandleEvent(NSEvent*\ event,\ NSView*\ view);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00102}00102\ \textcolor{comment}{//\ Undocumented\ methods\ for\ creating\ cursors.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00103}\mbox{\hyperlink{category_n_s_cursor_07_08}{00103}}\ \textcolor{keyword}{@interface\ }NSCursor()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00104}00104\ +\ (id)\_windowResizeNorthWestSouthEastCursor;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00105}00105\ +\ (id)\_windowResizeNorthEastSouthWestCursor;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00106}00106\ +\ (id)\_windowResizeNorthSouthCursor;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00107}00107\ +\ (id)\_windowResizeEastWestCursor;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00108}00108\ \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00122}\mbox{\hyperlink{interface_key_event_responder}{00122}}\ \textcolor{keyword}{@interface\ }\mbox{\hyperlink{interface_key_event_responder}{KeyEventResponder}}:\ NSView<NSTextInputClient>}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00123}00123\ \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00125}00125\ \textcolor{keyword}{@implementation\ }\mbox{\hyperlink{interface_key_event_responder}{KeyEventResponder}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00126}00126\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00127}00127\ \ \ \ \ \textcolor{keywordtype}{float}\ \_posX;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00128}\mbox{\hyperlink{imgui__impl__osx_8mm_aac039e5cfe18e6601b5c82eb5140d7ae}{00128}}\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{imgui__impl__osx_8mm_aac039e5cfe18e6601b5c82eb5140d7ae}{\_posY}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00129}\mbox{\hyperlink{interface_im_gui_observer_ad71d02a5ff6dbf9147d594e95fab72a2}{00129}}\ \ \ \ \ NSRect\ \mbox{\hyperlink{imgui__impl__osx_8mm_acbb5da7ccff4ce29dc47d54084ffbbf6}{\_imeRect}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00130}00130\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00132}00132\ \textcolor{preprocessor}{\#pragma\ mark\ -\/\ Public}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00134}00134\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})setImePosX:(\textcolor{keywordtype}{float})posX\ imePosY:(\textcolor{keywordtype}{float})posY}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00135}00135\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00136}00136\ \ \ \ \ \_posX\ =\ posX;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00137}00137\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_aac039e5cfe18e6601b5c82eb5140d7ae}{\_posY}}\ =\ posY;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00138}00138\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00140}00140\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})updateImePosWithView:(NSView\ *)view}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00141}00141\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00142}00142\ \ \ \ \ NSWindow*\ window\ =\ view.window;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00143}00143\ \ \ \ \ \textcolor{keywordflow}{if}\ (!window)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00145}00145\ \ \ \ \ NSRect\ contentRect\ =\ [window\ contentRectForFrameRect:window.frame];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00146}00146\ \ \ \ \ NSRect\ rect\ =\ NSMakeRect(\_posX,\ contentRect.size.height\ -\/\ \mbox{\hyperlink{imgui__impl__osx_8mm_aac039e5cfe18e6601b5c82eb5140d7ae}{\_posY}},\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00147}00147\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acbb5da7ccff4ce29dc47d54084ffbbf6}{\_imeRect}}\ =\ [window\ convertRectToScreen:rect];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00148}00148\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00150}00150\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})viewDidMoveToWindow}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00151}00151\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00152}00152\ \ \ \ \ \textcolor{comment}{//\ Ensure\ self\ is\ a\ first\ responder\ to\ receive\ the\ input\ events.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00153}00153\ \ \ \ \ [\textcolor{keyword}{self}.window\ makeFirstResponder:self];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00154}00154\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00156}00156\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})keyDown:(NSEvent*)event}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00157}00157\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00158}00158\ \ \ \ \ \textcolor{keywordflow}{if}\ (!ImGui\_ImplOSX\_HandleEvent(event,\ self))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00159}00159\ \ \ \ \ \ \ \ \ [\textcolor{keyword}{super}\ keyDown:event];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00161}00161\ \ \ \ \ \textcolor{comment}{//\ Call\ to\ the\ macOS\ input\ manager\ system.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00162}00162\ \ \ \ \ [\textcolor{keyword}{self}\ interpretKeyEvents:@[event]];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00163}00163\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00165}00165\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})keyUp:(NSEvent*)event}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00166}00166\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00167}00167\ \ \ \ \ \textcolor{keywordflow}{if}\ (!ImGui\_ImplOSX\_HandleEvent(event,\ self))}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00168}00168\ \ \ \ \ \ \ \ \ [\textcolor{keyword}{super}\ keyUp:event];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00169}00169\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00171}00171\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})insertText:(\textcolor{keywordtype}{id})aString\ replacementRange:(NSRange)replacementRange}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00172}00172\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00173}00173\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00175}00175\ \ \ \ \ NSString*\ characters;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00176}00176\ \ \ \ \ \textcolor{keywordflow}{if}\ ([aString\ isKindOfClass:[NSAttributedString\ class]])}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00177}00177\ \ \ \ \ \ \ \ \ characters\ =\ [aString\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac83513893df92266f79a515488701770}{string}}];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00178}00178\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00179}00179\ \ \ \ \ \ \ \ \ characters\ =\ (NSString*)aString;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00181}00181\ \ \ \ \ io.AddInputCharactersUTF8(characters.UTF8String);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00182}00182\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00184}00184\ -\/\ (BOOL)acceptsFirstResponder}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00185}00185\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00186}00186\ \ \ \ \ \textcolor{keywordflow}{return}\ YES;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00187}00187\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00189}00189\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})doCommandBySelector:(\textcolor{keywordtype}{SEL})myselector}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00190}00190\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00191}00191\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00193}00193\ -\/\ (nullable\ NSAttributedString*)attributedSubstringForProposedRange:(NSRange)range\ actualRange:(nullable\ NSRangePointer)actualRange}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00194}00194\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00195}00195\ \ \ \ \ \textcolor{keywordflow}{return}\ nil;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00196}00196\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00198}00198\ -\/\ (NSUInteger)characterIndexForPoint:(NSPoint)point}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00199}00199\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00200}00200\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00201}00201\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00203}00203\ -\/\ (NSRect)firstRectForCharacterRange:(NSRange)range\ actualRange:(nullable\ NSRangePointer)actualRange}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00204}00204\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00205}00205\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{imgui__impl__osx_8mm_acbb5da7ccff4ce29dc47d54084ffbbf6}{\_imeRect}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00206}00206\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00208}00208\ -\/\ (BOOL)hasMarkedText}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00209}00209\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00210}00210\ \ \ \ \ \textcolor{keywordflow}{return}\ NO;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00211}00211\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00213}00213\ -\/\ (NSRange)markedRange}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00214}00214\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00215}00215\ \ \ \ \ \textcolor{keywordflow}{return}\ NSMakeRange(NSNotFound,\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00216}00216\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00218}00218\ -\/\ (NSRange)selectedRange}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00219}00219\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00220}00220\ \ \ \ \ \textcolor{keywordflow}{return}\ NSMakeRange(NSNotFound,\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00221}00221\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00223}00223\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})setMarkedText:(nonnull\ \textcolor{keywordtype}{id})string\ selectedRange:(NSRange)selectedRange\ replacementRange:(NSRange)replacementRange}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00224}00224\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00225}00225\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00227}00227\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})unmarkText}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00228}00228\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00229}00229\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00231}00231\ -\/\ (nonnull\ NSArray<NSAttributedStringKey>*)validAttributesForMarkedText}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00232}00232\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00233}00233\ \ \ \ \ \textcolor{keywordflow}{return}\ @[];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00234}00234\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00236}00236\ \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00238}\mbox{\hyperlink{interface_im_gui_observer}{00238}}\ \textcolor{keyword}{@interface\ }\mbox{\hyperlink{interface_im_gui_observer}{ImGuiObserver}}\ :\ NSObject}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00240}00240\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})onApplicationBecomeActive:(NSNotification*)aNotification;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00241}00241\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})onApplicationBecomeInactive:(NSNotification*)aNotification;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00243}00243\ \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00245}00245\ \textcolor{keyword}{@implementation\ }\mbox{\hyperlink{interface_im_gui_observer}{ImGuiObserver}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00247}00247\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})onApplicationBecomeActive:(NSNotification*)aNotification}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00248}00248\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00249}00249\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00250}00250\ \ \ \ \ io.AddFocusEvent(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00251}00251\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00253}00253\ -\/\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})onApplicationBecomeInactive:(NSNotification*)aNotification}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00254}00254\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00255}00255\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00256}00256\ \ \ \ \ io.AddFocusEvent(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00257}00257\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00259}00259\ \textcolor{keyword}{@end}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00261}00261\ \textcolor{comment}{//\ Functions}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00263}00263\ \textcolor{comment}{//\ Not\ static\ to\ allow\ third-\/party\ code\ to\ use\ that\ if\ they\ want\ to\ (but\ undocumented)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00264}00264\ ImGuiKey\ \mbox{\hyperlink{imgui__impl__osx_8mm_a90495bb2b36b9c03dd276b791ef2f469}{ImGui\_ImplOSX\_KeyCodeToImGuiKey}}(\textcolor{keywordtype}{int}\ key\_code);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00265}\mbox{\hyperlink{imgui__impl__osx_8mm_a90495bb2b36b9c03dd276b791ef2f469}{00265}}\ ImGuiKey\ \mbox{\hyperlink{imgui__impl__osx_8mm_a90495bb2b36b9c03dd276b791ef2f469}{ImGui\_ImplOSX\_KeyCodeToImGuiKey}}(\textcolor{keywordtype}{int}\ key\_code)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00266}00266\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00267}00267\ \ \ \ \ \textcolor{keywordflow}{switch}\ (key\_code)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00268}00268\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_A:\ \textcolor{keywordflow}{return}\ ImGuiKey\_A;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00270}00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_S:\ \textcolor{keywordflow}{return}\ ImGuiKey\_S;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_D:\ \textcolor{keywordflow}{return}\ ImGuiKey\_D;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_F:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_H:\ \textcolor{keywordflow}{return}\ ImGuiKey\_H;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_G:\ \textcolor{keywordflow}{return}\ ImGuiKey\_G;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Z:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Z;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_X:\ \textcolor{keywordflow}{return}\ ImGuiKey\_X;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_C:\ \textcolor{keywordflow}{return}\ ImGuiKey\_C;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00278}00278\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_V:\ \textcolor{keywordflow}{return}\ ImGuiKey\_V;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_B:\ \textcolor{keywordflow}{return}\ ImGuiKey\_B;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Q:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Q;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_W:\ \textcolor{keywordflow}{return}\ ImGuiKey\_W;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00282}00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_E:\ \textcolor{keywordflow}{return}\ ImGuiKey\_E;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_R:\ \textcolor{keywordflow}{return}\ ImGuiKey\_R;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00284}00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Y:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Y;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00285}00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_T:\ \textcolor{keywordflow}{return}\ ImGuiKey\_T;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00288}00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00289}00289\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00290}00290\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Equal:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Equal;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00293}00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00294}00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00295}00295\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Minus:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Minus;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00297}00297\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_0:\ \textcolor{keywordflow}{return}\ ImGuiKey\_0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00298}00298\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_RightBracket:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightBracket;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_O:\ \textcolor{keywordflow}{return}\ ImGuiKey\_O;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_U:\ \textcolor{keywordflow}{return}\ ImGuiKey\_U;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_LeftBracket:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftBracket;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00302}00302\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_I:\ \textcolor{keywordflow}{return}\ ImGuiKey\_I;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00303}00303\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_P:\ \textcolor{keywordflow}{return}\ ImGuiKey\_P;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00304}00304\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_L:\ \textcolor{keywordflow}{return}\ ImGuiKey\_L;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00305}00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_J:\ \textcolor{keywordflow}{return}\ ImGuiKey\_J;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00306}00306\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Quote:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Apostrophe;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00307}00307\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_K:\ \textcolor{keywordflow}{return}\ ImGuiKey\_K;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Semicolon:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Semicolon;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00309}00309\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Backslash:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Backslash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00310}00310\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Comma:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Comma;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00311}00311\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Slash:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Slash;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00312}00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_N:\ \textcolor{keywordflow}{return}\ ImGuiKey\_N;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00313}00313\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_M:\ \textcolor{keywordflow}{return}\ ImGuiKey\_M;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00314}00314\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Period:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Period;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00315}00315\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Grave:\ \textcolor{keywordflow}{return}\ ImGuiKey\_GraveAccent;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00316}00316\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_KeypadDecimal:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadDecimal;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00317}00317\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_KeypadMultiply:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadMultiply;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_KeypadPlus:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadAdd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00319}00319\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_KeypadClear:\ \textcolor{keywordflow}{return}\ ImGuiKey\_NumLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_KeypadDivide:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadDivide;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00321}00321\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_KeypadEnter:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadEnter;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_KeypadMinus:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadSubtract;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00323}00323\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_KeypadEquals:\ \textcolor{keywordflow}{return}\ ImGuiKey\_KeypadEqual;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00324}00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Keypad0:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00325}00325\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Keypad1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00326}00326\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Keypad2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00327}00327\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Keypad3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Keypad4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00329}00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Keypad5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00330}00330\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Keypad6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Keypad7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Keypad8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00333}00333\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ANSI\_Keypad9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Keypad9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Return:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Enter;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Tab:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Tab;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Space:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Space;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Delete:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Backspace;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00338}00338\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Escape:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Escape;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_CapsLock:\ \textcolor{keywordflow}{return}\ ImGuiKey\_CapsLock;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00340}00340\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Control:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftCtrl;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00341}00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Shift:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftShift;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Option:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftAlt;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00343}00343\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Command:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftSuper;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00344}00344\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_RightControl:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightCtrl;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00345}00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_RightShift:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightShift;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00346}00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_RightOption:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightAlt;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00347}00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_RightCommand:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightSuper;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00348}00348\ \textcolor{comment}{//\ \ \ \ \ \ case\ kVK\_Function:\ return\ ImGuiKey\_;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00349}00349\ \textcolor{comment}{//\ \ \ \ \ \ case\ kVK\_VolumeUp:\ return\ ImGuiKey\_;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00350}00350\ \textcolor{comment}{//\ \ \ \ \ \ case\ kVK\_VolumeDown:\ return\ ImGuiKey\_;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00351}00351\ \textcolor{comment}{//\ \ \ \ \ \ case\ kVK\_Mute:\ return\ ImGuiKey\_;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00352}00352\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F1:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00353}00353\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F2:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F2;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00354}00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F3:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F3;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00355}00355\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F4:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F4;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F5:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F5;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F6:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F6;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00358}00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F7:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F7;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00359}00359\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F8:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F8;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F9:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F9;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F10:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F10;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00362}00362\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F11:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F11;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00363}00363\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F12:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F12;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00364}00364\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F13:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F13;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00365}00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F14:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F14;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00366}00366\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F15:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F15;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00367}00367\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F16:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F16;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00368}00368\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F17:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F17;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00369}00369\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F18:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F18;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00370}00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F19:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F19;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00371}00371\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_F20:\ \textcolor{keywordflow}{return}\ ImGuiKey\_F20;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00372}00372\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0x6E:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Menu;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00373}00373\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Help:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Insert;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00374}00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_Home:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Home;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00375}00375\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_PageUp:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PageUp;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00376}00376\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_ForwardDelete:\ \textcolor{keywordflow}{return}\ ImGuiKey\_Delete;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00377}00377\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_End:\ \textcolor{keywordflow}{return}\ ImGuiKey\_End;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00378}00378\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_PageDown:\ \textcolor{keywordflow}{return}\ ImGuiKey\_PageDown;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00379}00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_LeftArrow:\ \textcolor{keywordflow}{return}\ ImGuiKey\_LeftArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00380}00380\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_RightArrow:\ \textcolor{keywordflow}{return}\ ImGuiKey\_RightArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00381}00381\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_DownArrow:\ \textcolor{keywordflow}{return}\ ImGuiKey\_DownArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00382}00382\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ kVK\_UpArrow:\ \textcolor{keywordflow}{return}\ ImGuiKey\_UpArrow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00383}00383\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ ImGuiKey\_None;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00384}00384\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00385}00385\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00386}00386\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00387}00387\ \textcolor{preprocessor}{\#ifdef\ IMGUI\_IMPL\_METAL\_CPP\_EXTENSIONS}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00388}00388\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00389}00389\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__osx_8mm_ac4e94ef001edb88c5c2c0de165a18080}{ImGui\_ImplOSX\_Init}}(\textcolor{keywordtype}{void}*\ \_Nonnull\ view)\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00390}00390\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{imgui__impl__osx_8mm_ac4e94ef001edb88c5c2c0de165a18080}{ImGui\_ImplOSX\_Init}}((\_\_bridge\ NSView*)(view));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00391}00391\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00392}00392\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00393}00393\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__osx_8mm_a5f96863293e2c918e919fe0e372ea141}{ImGui\_ImplOSX\_NewFrame}}(\textcolor{keywordtype}{void}*\ \_Nullable\ view)\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00394}00394\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{imgui__impl__osx_8mm_a5f96863293e2c918e919fe0e372ea141}{ImGui\_ImplOSX\_NewFrame}}((\_\_bridge\ NSView*)(view));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00395}00395\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00396}00396\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00397}00397\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00398}00398\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00399}00399\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00400}\mbox{\hyperlink{imgui__impl__osx_8mm_ac4e94ef001edb88c5c2c0de165a18080}{00400}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{imgui__impl__osx_8mm_ac4e94ef001edb88c5c2c0de165a18080}{ImGui\_ImplOSX\_Init}}(NSView*\ view)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00401}00401\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00402}00402\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00403}00403\ \ \ \ \ ImGuiPlatformIO\&\ platform\_io\ =\ ImGui::GetPlatformIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00404}00404\ \ \ \ \ IMGUI\_CHECKVERSION();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00405}00405\ \ \ \ \ IM\_ASSERT(io.BackendPlatformUserData\ ==\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Already\ initialized\ a\ platform\ backend!"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00406}00406\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00407}00407\ \ \ \ \ \textcolor{comment}{//\ Setup\ backend\ capabilities\ flags}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00408}00408\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}}*\ bd\ =\ IM\_NEW(\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}})();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00409}00409\ \ \ \ \ io.BackendPlatformUserData\ =\ (\textcolor{keywordtype}{void}*)bd;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00410}00410\ \ \ \ \ io.BackendPlatformName\ =\ \textcolor{stringliteral}{"{}imgui\_impl\_osx"{}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00411}00411\ \ \ \ \ io.BackendFlags\ |=\ ImGuiBackendFlags\_HasMouseCursors;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ can\ honor\ GetMouseCursor()\ values\ (optional)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00412}00412\ \ \ \ \ \textcolor{comment}{//io.BackendFlags\ |=\ ImGuiBackendFlags\_HasSetMousePos;\ \ \ \ \ \ \ \ \ \ //\ We\ can\ honor\ io.WantSetMousePos\ requests\ (optional,\ rarely\ used)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00413}00413\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00414}00414\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a548e9f7d34904c5c68b75ea290123fb5}{Observer}}\ =\ [\mbox{\hyperlink{interface_im_gui_observer}{ImGuiObserver}}\ new];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00415}00415\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a23ca48ebf7477b4171db73aecea0c4c7}{Window}}\ =\ view.window\ ?:\ NSApp.orderedWindows.firstObject;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00416}00416\ \ \ \ \ ImGuiViewport*\ main\_viewport\ =\ ImGui::GetMainViewport();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00417}00417\ \ \ \ \ main\_viewport-\/>PlatformHandle\ =\ main\_viewport-\/>PlatformHandleRaw\ =\ (\_\_bridge\_retained\ \textcolor{keywordtype}{void}*)bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a23ca48ebf7477b4171db73aecea0c4c7}{Window}};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00418}00418\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00419}00419\ \ \ \ \ \textcolor{comment}{//\ Load\ cursors.\ Some\ of\ them\ are\ undocumented.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00420}00420\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a26a6ecc0e3620d629ee501a6e5b8321e}{MouseCursorHidden}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00421}00421\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_Arrow]\ =\ [NSCursor\ arrowCursor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00422}00422\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_TextInput]\ =\ [NSCursor\ IBeamCursor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00423}00423\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_ResizeAll]\ =\ [NSCursor\ closedHandCursor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00424}00424\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_Hand]\ =\ [NSCursor\ pointingHandCursor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00425}00425\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_NotAllowed]\ =\ [NSCursor\ operationNotAllowedCursor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00426}00426\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_ResizeNS]\ =\ [NSCursor\ respondsToSelector:@selector(\_windowResizeNorthSouthCursor)]\ ?\ [NSCursor\ \_windowResizeNorthSouthCursor]\ :\ [NSCursor\ resizeUpDownCursor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00427}00427\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_ResizeEW]\ =\ [NSCursor\ respondsToSelector:@selector(\_windowResizeEastWestCursor)]\ ?\ [NSCursor\ \_windowResizeEastWestCursor]\ :\ [NSCursor\ resizeLeftRightCursor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00428}00428\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_ResizeNESW]\ =\ [NSCursor\ respondsToSelector:@selector(\_windowResizeNorthEastSouthWestCursor)]\ ?\ [NSCursor\ \_windowResizeNorthEastSouthWestCursor]\ :\ [NSCursor\ closedHandCursor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00429}00429\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_ResizeNWSE]\ =\ [NSCursor\ respondsToSelector:@selector(\_windowResizeNorthWestSouthEastCursor)]\ ?\ [NSCursor\ \_windowResizeNorthWestSouthEastCursor]\ :\ [NSCursor\ closedHandCursor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00430}00430\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00431}00431\ \ \ \ \ \textcolor{comment}{//\ Note\ that\ imgui.cpp\ also\ include\ default\ OSX\ clipboard\ handlers\ which\ can\ be\ enabled}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00432}00432\ \ \ \ \ \textcolor{comment}{//\ by\ adding\ '\#define\ IMGUI\_ENABLE\_OSX\_DEFAULT\_CLIPBOARD\_FUNCTIONS'\ in\ imconfig.h\ and\ adding\ '-\/framework\ ApplicationServices'\ to\ your\ linker\ command-\/line.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00433}00433\ \ \ \ \ \textcolor{comment}{//\ Since\ we\ are\ already\ in\ ObjC\ land\ here,\ it\ is\ easy\ for\ us\ to\ add\ a\ clipboard\ handler\ using\ the\ NSPasteboard\ api.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00434}00434\ \ \ \ \ platform\_io.Platform\_SetClipboardTextFn\ =\ [](ImGuiContext*,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str)\ -\/>\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00435}00435\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00436}00436\ \ \ \ \ \ \ \ \ NSPasteboard*\ pasteboard\ =\ [NSPasteboard\ generalPasteboard];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00437}00437\ \ \ \ \ \ \ \ \ [pasteboard\ declareTypes:[NSArray\ arrayWithObject:NSPasteboardTypeString]\ owner:nil];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00438}00438\ \ \ \ \ \ \ \ \ [pasteboard\ setString:[NSString\ stringWithUTF8String:str]\ forType:NSPasteboardTypeString];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00439}00439\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00440}00440\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00441}00441\ \ \ \ \ platform\_io.Platform\_GetClipboardTextFn\ =\ [](ImGuiContext*)\ -\/>\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00442}00442\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00443}00443\ \ \ \ \ \ \ \ \ NSPasteboard*\ pasteboard\ =\ [NSPasteboard\ generalPasteboard];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00444}00444\ \ \ \ \ \ \ \ \ NSString*\ available\ =\ [pasteboard\ availableTypeFromArray:\ [NSArray\ arrayWithObject:NSPasteboardTypeString]];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00445}00445\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (![available\ isEqualToString:NSPasteboardTypeString])}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00447}00447\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00448}00448\ \ \ \ \ \ \ \ \ NSString*\ \textcolor{keywordtype}{string}\ =\ [pasteboard\ stringForType:NSPasteboardTypeString];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00449}00449\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}\ ==\ nil)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00451}00451\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00452}00452\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ string\_c\ =\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*)[\textcolor{keywordtype}{string}\ UTF8String];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00453}00453\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ string\_len\ =\ strlen(string\_c);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00454}00454\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ ImVector<char>\ s\_clipboard;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00455}00455\ \ \ \ \ \ \ \ \ s\_clipboard.resize((\textcolor{keywordtype}{int})string\_len\ +\ 1);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00456}00456\ \ \ \ \ \ \ \ \ strcpy(s\_clipboard.Data,\ string\_c);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00457}00457\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ s\_clipboard.Data;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00458}00458\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00459}00459\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00460}00460\ \ \ \ \ [[NSNotificationCenter\ defaultCenter]\ addObserver:bd-\/>Observer}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ selector:@selector(onApplicationBecomeActive:)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name:NSApplicationDidBecomeActiveNotification}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ object:nil];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00464}00464\ \ \ \ \ [[NSNotificationCenter\ defaultCenter]\ addObserver:bd-\/>Observer}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ selector:@selector(onApplicationBecomeInactive:)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name:NSApplicationDidResignActiveNotification}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ object:nil];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00469}00469\ \ \ \ \ \textcolor{comment}{//\ Add\ the\ NSTextInputClient\ to\ the\ view\ hierarchy,}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00470}00470\ \ \ \ \ \textcolor{comment}{//\ to\ receive\ keyboard\ events\ and\ translate\ them\ to\ input\ text.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00471}00471\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_ac16283837c0b187c3cc441b1abaee4f1}{KeyEventResponder}}\ =\ [[\mbox{\hyperlink{interface_key_event_responder}{KeyEventResponder}}\ alloc]\ initWithFrame:NSZeroRect];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00472}00472\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_ae5c9f0f3565a0ce5e2a71a776624fb69}{InputContext}}\ =\ [[NSTextInputContext\ alloc]\ initWithClient:bd-\/>KeyEventResponder];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00473}00473\ \ \ \ \ [view\ addSubview:bd-\/>KeyEventResponder];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00474}00474\ \ \ \ \ ImGui\_ImplOSX\_AddTrackingArea(view);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00475}00475\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00476}00476\ \ \ \ \ platform\_io.Platform\_SetImeDataFn\ =\ [](ImGuiContext*,\ ImGuiViewport*\ viewport,\ ImGuiPlatformImeData*\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}})\ -\/>\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00477}00477\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00478}00478\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}}*\ bd\ =\ ImGui\_ImplOSX\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00479}00479\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}}-\/>WantVisible)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00480}00480\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ [bd-\/>InputContext\ activate];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00482}00482\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00483}00483\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00484}00484\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ [bd-\/>InputContext\ discardMarkedText];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00486}00486\ \ \ \ \ \ \ \ \ \ \ \ \ [bd-\/>InputContext\ invalidateCharacterCoordinates];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00487}00487\ \ \ \ \ \ \ \ \ \ \ \ \ [bd-\/>InputContext\ deactivate];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00488}00488\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00489}00489\ \ \ \ \ \ \ \ \ [bd-\/>KeyEventResponder\ setImePosX:data-\/>InputPos.x\ imePosY:data-\/>InputPos.y\ +\ data-\/>InputLineHeight];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00490}00490\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00491}00491\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00492}00492\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00493}00493\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00494}00494\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00495}\mbox{\hyperlink{imgui__impl__osx_8mm_acc3a2c3d2bc80b8374406e8ca9f3c17e}{00495}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__osx_8mm_acc3a2c3d2bc80b8374406e8ca9f3c17e}{ImGui\_ImplOSX\_Shutdown}}()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00496}00496\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00497}00497\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}}*\ bd\ =\ ImGui\_ImplOSX\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00498}00498\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}No\ platform\ backend\ to\ shutdown,\ or\ already\ shutdown?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00499}00499\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00500}00500\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a548e9f7d34904c5c68b75ea290123fb5}{Observer}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00501}00501\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a2ab0389fe39ea261a90baa687947abb9}{Monitor}}\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00502}00502\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00503}00503\ \ \ \ \ \ \ \ \ [NSEvent\ removeMonitor:bd-\/>Monitor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00504}00504\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a2ab0389fe39ea261a90baa687947abb9}{Monitor}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00505}00505\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00506}00506\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00507}00507\ \ \ \ \ ImGui\_ImplOSX\_DestroyBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00508}00508\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00509}00509\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00510}00510\ \ \ \ \ io.BackendPlatformName\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00511}00511\ \ \ \ \ io.BackendPlatformUserData\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00512}00512\ \ \ \ \ io.BackendFlags\ \&=\ \string~(ImGuiBackendFlags\_HasMouseCursors\ |\ ImGuiBackendFlags\_HasGamepad);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00513}00513\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00514}00514\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00515}00515\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplOSX\_UpdateMouseCursor()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00516}00516\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00517}00517\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}}*\ bd\ =\ ImGui\_ImplOSX\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00518}00518\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00519}00519\ \ \ \ \ \textcolor{keywordflow}{if}\ (io.ConfigFlags\ \&\ ImGuiConfigFlags\_NoMouseCursorChange)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00520}00520\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00521}00521\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00522}00522\ \ \ \ \ ImGuiMouseCursor\ imgui\_cursor\ =\ ImGui::GetMouseCursor();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00523}00523\ \ \ \ \ \textcolor{keywordflow}{if}\ (io.MouseDrawCursor\ ||\ imgui\_cursor\ ==\ ImGuiMouseCursor\_None)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00524}00524\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00525}00525\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Hide\ OS\ mouse\ cursor\ if\ imgui\ is\ drawing\ it\ or\ if\ it\ wants\ no\ cursor}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00526}00526\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a26a6ecc0e3620d629ee501a6e5b8321e}{MouseCursorHidden}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00527}00527\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a26a6ecc0e3620d629ee501a6e5b8321e}{MouseCursorHidden}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ [NSCursor\ hide];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00530}00530\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00531}00531\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00532}00532\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00533}00533\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00534}00534\ \ \ \ \ \ \ \ \ NSCursor*\ desired\ =\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[imgui\_cursor]\ ?:\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a426c1ef78481b1bdff5ec7d65cf26cb5}{MouseCursors}}[ImGuiMouseCursor\_Arrow];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00535}00535\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/[NSCursor\ set]\ generates\ measureable\ overhead\ if\ called\ unconditionally.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00536}00536\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (desired\ !=\ NSCursor.currentCursor)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00537}00537\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ [desired\ set];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00539}00539\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00540}00540\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a26a6ecc0e3620d629ee501a6e5b8321e}{MouseCursorHidden}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00541}00541\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00542}00542\ \ \ \ \ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a26a6ecc0e3620d629ee501a6e5b8321e}{MouseCursorHidden}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ [NSCursor\ unhide];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00544}00544\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00545}00545\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00546}00546\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00547}00547\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00548}00548\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplOSX\_UpdateGamepads()}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00549}00549\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00550}00550\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00551}00551\ \ \ \ \ \textcolor{keywordflow}{if}\ ((io.ConfigFlags\ \&\ ImGuiConfigFlags\_NavEnableGamepad)\ ==\ 0)\ \textcolor{comment}{//\ FIXME:\ Technically\ feeding\ gamepad\ shouldn't\ depend\ on\ this\ now\ that\ they\ are\ regular\ inputs.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00552}00552\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00553}00553\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00554}00554\ \textcolor{preprocessor}{\#if\ APPLE\_HAS\_CONTROLLER}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00555}00555\ \ \ \ \ GCController*\ controller\ =\ GCController.current;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00556}00556\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00557}00557\ \ \ \ \ GCController*\ controller\ =\ GCController.controllers.firstObject;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00558}00558\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00559}00559\ \ \ \ \ \textcolor{keywordflow}{if}\ (controller\ ==\ nil\ ||\ controller.extendedGamepad\ ==\ nil)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00560}00560\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00561}00561\ \ \ \ \ \ \ \ \ io.BackendFlags\ \&=\ \string~ImGuiBackendFlags\_HasGamepad;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00562}00562\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00563}00563\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00564}00564\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00565}00565\ \ \ \ \ GCExtendedGamepad*\ gp\ =\ controller.extendedGamepad;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00566}00566\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00567}00567\ \ \ \ \ \textcolor{comment}{//\ Update\ gamepad\ inputs}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00568}00568\ \textcolor{preprocessor}{\ \ \ \ \#define\ IM\_SATURATE(V)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (V\ <\ 0.0f\ ?\ 0.0f\ :\ V\ >\ 1.0f\ ?\ 1.0f\ :\ V)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00569}00569\ \textcolor{preprocessor}{\ \ \ \ \#define\ MAP\_BUTTON(KEY\_NO,\ BUTTON\_NAME)\ \ \ \ \ \ \ \{\ io.AddKeyEvent(KEY\_NO,\ gp.BUTTON\_NAME.isPressed);\ \}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00570}00570\ \textcolor{preprocessor}{\ \ \ \ \#define\ MAP\_ANALOG(KEY\_NO,\ AXIS\_NAME,\ V0,\ V1)\ \{\ float\ vn\ =\ (float)(gp.AXIS\_NAME.value\ -\/\ V0)\ /\ (float)(V1\ -\/\ V0);\ vn\ =\ IM\_SATURATE(vn);\ io.AddKeyAnalogEvent(KEY\_NO,\ vn\ >\ 0.1f,\ vn);\ \}}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00571}00571\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ thumb\_dead\_zone\ =\ 0.0f;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00572}00572\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00573}00573\ \textcolor{preprocessor}{\#if\ APPLE\_HAS\_BUTTON\_OPTIONS}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00574}00574\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadBack,\ \ \ \ \ \ \ \ \ \ \ \ buttonOptions);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00575}00575\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00576}00576\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadFaceLeft,\ \ \ \ \ \ \ \ buttonX);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Xbox\ X,\ PS\ Square}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00577}00577\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadFaceRight,\ \ \ \ \ \ \ buttonB);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Xbox\ B,\ PS\ Circle}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00578}00578\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadFaceUp,\ \ \ \ \ \ \ \ \ \ buttonY);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Xbox\ Y,\ PS\ Triangle}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00579}00579\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadFaceDown,\ \ \ \ \ \ \ \ buttonA);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Xbox\ A,\ PS\ Cross}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00580}00580\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadDpadLeft,\ \ \ \ \ \ \ \ dpad.left);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00581}00581\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadDpadRight,\ \ \ \ \ \ \ dpad.right);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00582}00582\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadDpadUp,\ \ \ \ \ \ \ \ \ \ dpad.up);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00583}00583\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadDpadDown,\ \ \ \ \ \ \ \ dpad.down);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00584}00584\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadL1,\ \ \ \ \ \ \ \ \ \ \ \ \ \ leftShoulder,\ 0.0f,\ 1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00585}00585\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadR1,\ \ \ \ \ \ \ \ \ \ \ \ \ \ rightShoulder,\ 0.0f,\ 1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00586}00586\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadL2,\ \ \ \ \ \ \ \ \ \ \ \ \ \ leftTrigger,\ \ 0.0f,\ 1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00587}00587\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadR2,\ \ \ \ \ \ \ \ \ \ \ \ \ \ rightTrigger,\ 0.0f,\ 1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00588}00588\ \textcolor{preprocessor}{\#if\ APPLE\_HAS\_THUMBSTICKS}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00589}00589\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadL3,\ \ \ \ \ \ \ \ \ \ \ \ \ \ leftThumbstickButton);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00590}00590\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_acde2e6121f011b1ce1e59afbd6ac34b4}{MAP\_BUTTON}}(ImGuiKey\_GamepadR3,\ \ \ \ \ \ \ \ \ \ \ \ \ \ rightThumbstickButton);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00591}00591\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00592}00592\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadLStickLeft,\ \ \ \ \ \ leftThumbstick.xAxis,\ \ -\/thumb\_dead\_zone,\ -\/1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00593}00593\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadLStickRight,\ \ \ \ \ leftThumbstick.xAxis,\ \ +thumb\_dead\_zone,\ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00594}00594\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadLStickUp,\ \ \ \ \ \ \ \ leftThumbstick.yAxis,\ \ +thumb\_dead\_zone,\ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00595}00595\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadLStickDown,\ \ \ \ \ \ leftThumbstick.yAxis,\ \ -\/thumb\_dead\_zone,\ -\/1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00596}00596\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadRStickLeft,\ \ \ \ \ \ rightThumbstick.xAxis,\ -\/thumb\_dead\_zone,\ -\/1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00597}00597\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadRStickRight,\ \ \ \ \ rightThumbstick.xAxis,\ +thumb\_dead\_zone,\ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00598}00598\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadRStickUp,\ \ \ \ \ \ \ \ rightThumbstick.yAxis,\ +thumb\_dead\_zone,\ +1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00599}00599\ \ \ \ \ \mbox{\hyperlink{imgui__impl__osx_8mm_a3776de756858a336b0e533b764406256}{MAP\_ANALOG}}(ImGuiKey\_GamepadRStickDown,\ \ \ \ \ \ rightThumbstick.yAxis,\ -\/thumb\_dead\_zone,\ -\/1.0f);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00600}00600\ \textcolor{preprocessor}{\ \ \ \ \#undef\ MAP\_BUTTON}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00601}00601\ \textcolor{preprocessor}{\ \ \ \ \#undef\ MAP\_ANALOG}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00602}00602\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00603}00603\ \ \ \ \ io.BackendFlags\ |=\ ImGuiBackendFlags\_HasGamepad;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00604}00604\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00605}00605\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00606}00606\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplOSX\_UpdateImePosWithView(NSView*\ view)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00607}00607\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00608}00608\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}}*\ bd\ =\ ImGui\_ImplOSX\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00609}00609\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00610}00610\ \ \ \ \ \textcolor{keywordflow}{if}\ (io.WantTextInput)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00611}00611\ \ \ \ \ \ \ \ \ [bd-\/>KeyEventResponder\ updateImePosWithView:view];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00612}00612\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00613}00613\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00614}\mbox{\hyperlink{imgui__impl__osx_8mm_a5f96863293e2c918e919fe0e372ea141}{00614}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{imgui__impl__osx_8mm_a5f96863293e2c918e919fe0e372ea141}{ImGui\_ImplOSX\_NewFrame}}(NSView*\ view)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00615}00615\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00616}00616\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}}*\ bd\ =\ ImGui\_ImplOSX\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00617}00617\ \ \ \ \ IM\_ASSERT(bd\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ \textcolor{stringliteral}{"{}Context\ or\ backend\ not\ initialized!\ Did\ you\ call\ ImGui\_ImplOSX\_Init()?"{}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00618}00618\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00619}00619\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00620}00620\ \ \ \ \ \textcolor{comment}{//\ Setup\ display\ size}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00621}00621\ \ \ \ \ \textcolor{keywordflow}{if}\ (view)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00622}00622\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00623}00623\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ dpi\ =\ (float)[view.window\ backingScaleFactor];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00624}00624\ \ \ \ \ \ \ \ \ io.DisplaySize\ =\ ImVec2((\textcolor{keywordtype}{float})view.bounds.size.width,\ (\textcolor{keywordtype}{float})view.bounds.size.height);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00625}00625\ \ \ \ \ \ \ \ \ io.DisplayFramebufferScale\ =\ ImVec2(dpi,\ dpi);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00626}00626\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00627}00627\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00628}00628\ \ \ \ \ \textcolor{comment}{//\ Setup\ time\ step}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00629}00629\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a91e13299ce7b638bc175bd111136ce1e}{Time}}\ ==\ 0.0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00630}00630\ \ \ \ \ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a91e13299ce7b638bc175bd111136ce1e}{Time}}\ =\ GetMachAbsoluteTimeInSeconds();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00631}00631\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00632}00632\ \ \ \ \ \textcolor{keywordtype}{double}\ current\_time\ =\ GetMachAbsoluteTimeInSeconds();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00633}00633\ \ \ \ \ io.DeltaTime\ =\ (float)(current\_time\ -\/\ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a91e13299ce7b638bc175bd111136ce1e}{Time}});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00634}00634\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a91e13299ce7b638bc175bd111136ce1e}{Time}}\ =\ current\_time;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00635}00635\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00636}00636\ \ \ \ \ ImGui\_ImplOSX\_UpdateMouseCursor();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00637}00637\ \ \ \ \ ImGui\_ImplOSX\_UpdateGamepads();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00638}00638\ \ \ \ \ ImGui\_ImplOSX\_UpdateImePosWithView(view);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00639}00639\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00640}00640\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00641}00641\ \textcolor{comment}{//\ Must\ only\ be\ called\ for\ a\ mouse\ event,\ otherwise\ an\ exception\ occurs}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00642}00642\ \textcolor{comment}{//\ (Note\ that\ NSEventTypeScrollWheel\ is\ considered\ "{}other\ input"{}.\ Oddly\ enough\ an\ exception\ does\ not\ occur\ with\ it,\ but\ the\ value\ will\ sometimes\ be\ wrong!)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00643}00643\ \textcolor{keyword}{static}\ ImGuiMouseSource\ GetMouseSource(NSEvent*\ event)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00644}00644\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00645}00645\ \ \ \ \ \textcolor{keywordflow}{switch}\ (event.subtype)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00646}00646\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00647}00647\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ NSEventSubtypeTabletPoint:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00648}00648\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiMouseSource\_Pen;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00649}00649\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ macOS\ considers\ input\ from\ relative\ touch\ devices\ (like\ the\ trackpad\ or\ Apple\ Magic\ Mouse)\ to\ be\ touch\ input.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00650}00650\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ doesn't\ really\ make\ sense\ for\ Dear\ ImGui,\ which\ expects\ absolute\ touch\ devices\ only.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00651}00651\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ There\ does\ not\ seem\ to\ be\ a\ simple\ way\ to\ disambiguate\ things\ here\ so\ we\ consider\ NSEventSubtypeTouch\ events\ to\ always\ come\ from\ mice.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00652}00652\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ See\ https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/EventOverview/HandlingTouchEvents/HandlingTouchEvents.html\#//apple\_ref/doc/uid/10000060i-\/CH13-\/SW24}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00653}00653\ \ \ \ \ \ \ \ \ \textcolor{comment}{//case\ NSEventSubtypeTouch:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00654}00654\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ return\ ImGuiMouseSource\_TouchScreen;}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00655}00655\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ NSEventSubtypeMouseEvent:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00656}00656\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00657}00657\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ImGuiMouseSource\_Mouse;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00658}00658\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00659}00659\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00660}00660\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00661}00661\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ ImGui\_ImplOSX\_HandleEvent(NSEvent*\ event,\ NSView*\ view)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00662}00662\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00663}00663\ \ \ \ \ ImGuiIO\&\ io\ =\ ImGui::GetIO();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00664}00664\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00665}00665\ \ \ \ \ \textcolor{keywordflow}{if}\ (event.type\ ==\ NSEventTypeLeftMouseDown\ ||\ event.type\ ==\ NSEventTypeRightMouseDown\ ||\ event.type\ ==\ NSEventTypeOtherMouseDown)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00666}00666\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00667}00667\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ button\ =\ (int)[event\ buttonNumber];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00668}00668\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (button\ >=\ 0\ \&\&\ button\ <\ ImGuiMouseButton\_COUNT)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00669}00669\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00670}00670\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseSourceEvent(GetMouseSource(event));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00671}00671\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseButtonEvent(button,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00672}00672\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00673}00673\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ io.WantCaptureMouse;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00674}00674\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00675}00675\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00676}00676\ \ \ \ \ \textcolor{keywordflow}{if}\ (event.type\ ==\ NSEventTypeLeftMouseUp\ ||\ event.type\ ==\ NSEventTypeRightMouseUp\ ||\ event.type\ ==\ NSEventTypeOtherMouseUp)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00677}00677\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00678}00678\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ button\ =\ (int)[event\ buttonNumber];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00679}00679\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (button\ >=\ 0\ \&\&\ button\ <\ ImGuiMouseButton\_COUNT)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00680}00680\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00681}00681\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseSourceEvent(GetMouseSource(event));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00682}00682\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseButtonEvent(button,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00683}00683\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00684}00684\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ io.WantCaptureMouse;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00685}00685\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00686}00686\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00687}00687\ \ \ \ \ \textcolor{keywordflow}{if}\ (event.type\ ==\ NSEventTypeMouseMoved\ ||\ event.type\ ==\ NSEventTypeLeftMouseDragged\ ||\ event.type\ ==\ NSEventTypeRightMouseDragged\ ||\ event.type\ ==\ NSEventTypeOtherMouseDragged)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00688}00688\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00689}00689\ \ \ \ \ \ \ \ \ NSPoint\ mousePoint\ =\ \textcolor{keyword}{event}.locationInWindow;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00690}00690\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (event.window\ ==\ nil)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00691}00691\ \ \ \ \ \ \ \ \ \ \ \ \ mousePoint\ =\ [[view\ window]\ convertPointFromScreen:mousePoint];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00692}00692\ \ \ \ \ \ \ \ \ mousePoint\ =\ [view\ convertPoint:mousePoint\ fromView:nil];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00693}00693\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ([view\ isFlipped])}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00694}00694\ \ \ \ \ \ \ \ \ \ \ \ \ mousePoint\ =\ NSMakePoint(mousePoint.x,\ mousePoint.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00695}00695\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00696}00696\ \ \ \ \ \ \ \ \ \ \ \ \ mousePoint\ =\ NSMakePoint(mousePoint.x,\ view.bounds.size.height\ -\/\ mousePoint.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00697}00697\ \ \ \ \ \ \ \ \ io.AddMouseSourceEvent(GetMouseSource(event));}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00698}00698\ \ \ \ \ \ \ \ \ io.AddMousePosEvent((\textcolor{keywordtype}{float})mousePoint.x,\ (\textcolor{keywordtype}{float})mousePoint.y);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00699}00699\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ io.WantCaptureMouse;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00700}00700\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00701}00701\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00702}00702\ \ \ \ \ \textcolor{keywordflow}{if}\ (event.type\ ==\ NSEventTypeScrollWheel)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00703}00703\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00704}00704\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ignore\ canceled\ events.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00705}00705\ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00706}00706\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ From\ macOS\ 12.1,\ scrolling\ with\ two\ fingers\ and\ then\ decelerating}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00707}00707\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ by\ tapping\ two\ fingers\ results\ in\ two\ events\ appearing:}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00708}00708\ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00709}00709\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 1.\ A\ scroll\ wheel\ NSEvent,\ with\ a\ phase\ ==\ NSEventPhaseMayBegin,\ when\ the\ user\ taps}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00710}00710\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ two\ fingers\ to\ decelerate\ or\ stop\ the\ scroll\ events.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00711}00711\ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00712}00712\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 2.\ A\ scroll\ wheel\ NSEvent,\ with\ a\ phase\ ==\ NSEventPhaseCancelled,\ when\ the\ user\ releases\ the}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00713}00713\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ two-\/finger\ tap.\ It\ is\ this\ event\ that\ sometimes\ contains\ large\ values\ for\ scrollingDeltaX\ and}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00714}00714\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ scrollingDeltaY.\ When\ these\ are\ added\ to\ the\ current\ x\ and\ y\ positions\ of\ the\ scrolling\ view,}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00715}00715\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ it\ appears\ to\ jump\ up\ or\ down.\ It\ can\ be\ observed\ in\ Preview,\ various\ JetBrains\ IDEs\ and\ here.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00716}00716\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (event.phase\ ==\ NSEventPhaseCancelled)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00717}00717\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00718}00718\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00719}00719\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ wheel\_dx\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00720}00720\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ wheel\_dy\ =\ 0.0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00721}00721\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00722}00722\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#if\ MAC\_OS\_X\_VERSION\_MAX\_ALLOWED\ >=\ 1070}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00723}00723\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (floor(NSAppKitVersionNumber)\ >\ NSAppKitVersionNumber10\_6)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00724}00724\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00725}00725\ \ \ \ \ \ \ \ \ \ \ \ \ wheel\_dx\ =\ [event\ scrollingDeltaX];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00726}00726\ \ \ \ \ \ \ \ \ \ \ \ \ wheel\_dy\ =\ [event\ scrollingDeltaY];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00727}00727\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ([event\ hasPreciseScrollingDeltas])}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00728}00728\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00729}00729\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wheel\_dx\ *=\ 0.01;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00730}00730\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wheel\_dy\ *=\ 0.01;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00731}00731\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00732}00732\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00733}00733\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00734}00734\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif\ }\textcolor{comment}{//\ MAC\_OS\_X\_VERSION\_MAX\_ALLOWED}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00735}00735\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00736}00736\ \ \ \ \ \ \ \ \ \ \ \ \ wheel\_dx\ =\ [event\ deltaX]\ *\ 0.1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00737}00737\ \ \ \ \ \ \ \ \ \ \ \ \ wheel\_dy\ =\ [event\ deltaY]\ *\ 0.1;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00738}00738\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00739}00739\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (wheel\_dx\ !=\ 0.0\ ||\ wheel\_dy\ !=\ 0.0)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00740}00740\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddMouseWheelEvent((\textcolor{keywordtype}{float})wheel\_dx,\ (\textcolor{keywordtype}{float})wheel\_dy);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00741}00741\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00742}00742\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ io.WantCaptureMouse;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00743}00743\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00744}00744\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00745}00745\ \ \ \ \ \textcolor{keywordflow}{if}\ (event.type\ ==\ NSEventTypeKeyDown\ ||\ event.type\ ==\ NSEventTypeKeyUp)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00746}00746\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00747}00747\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ([event\ isARepeat])}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00748}00748\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ io.WantCaptureKeyboard;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00749}00749\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00750}00750\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ key\_code\ =\ (int)[event\ keyCode];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00751}00751\ \ \ \ \ \ \ \ \ ImGuiKey\ key\ =\ \mbox{\hyperlink{imgui__impl__osx_8mm_a90495bb2b36b9c03dd276b791ef2f469}{ImGui\_ImplOSX\_KeyCodeToImGuiKey}}(key\_code);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00752}00752\ \ \ \ \ \ \ \ \ io.AddKeyEvent(key,\ event.type\ ==\ NSEventTypeKeyDown);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00753}00753\ \ \ \ \ \ \ \ \ io.SetKeyEventNativeData(key,\ key\_code,\ -\/1);\ \textcolor{comment}{//\ To\ support\ legacy\ indexing\ (<1.87\ user\ code)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00754}00754\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00755}00755\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ io.WantCaptureKeyboard;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00756}00756\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00757}00757\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00758}00758\ \ \ \ \ \textcolor{keywordflow}{if}\ (event.type\ ==\ NSEventTypeFlagsChanged)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00759}00759\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00760}00760\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ key\_code\ =\ [event\ keyCode];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00761}00761\ \ \ \ \ \ \ \ \ NSEventModifierFlags\ modifier\_flags\ =\ [event\ modifierFlags];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00762}00762\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00763}00763\ \ \ \ \ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Shift,\ (modifier\_flags\ \&\ NSEventModifierFlagShift)\ \ \ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00764}00764\ \ \ \ \ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Ctrl,\ \ (modifier\_flags\ \&\ NSEventModifierFlagControl)\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00765}00765\ \ \ \ \ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Alt,\ \ \ (modifier\_flags\ \&\ NSEventModifierFlagOption)\ \ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00766}00766\ \ \ \ \ \ \ \ \ io.AddKeyEvent(ImGuiMod\_Super,\ (modifier\_flags\ \&\ NSEventModifierFlagCommand)\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00767}00767\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00768}00768\ \ \ \ \ \ \ \ \ ImGuiKey\ key\ =\ \mbox{\hyperlink{imgui__impl__osx_8mm_a90495bb2b36b9c03dd276b791ef2f469}{ImGui\_ImplOSX\_KeyCodeToImGuiKey}}(key\_code);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00769}00769\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ !=\ ImGuiKey\_None)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00770}00770\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00771}00771\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ macOS\ does\ not\ generate\ down/up\ event\ for\ modifiers.\ We're\ trying}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00772}00772\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ to\ use\ hardware\ dependent\ masks\ to\ extract\ that\ information.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00773}00773\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 'imgui\_mask'\ is\ left\ as\ a\ fallback.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00774}00774\ \ \ \ \ \ \ \ \ \ \ \ \ NSEventModifierFlags\ mask\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00775}00775\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (key)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00776}00776\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00777}00777\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiKey\_LeftCtrl:\ \ \ mask\ =\ 0x0001;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00778}00778\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiKey\_RightCtrl:\ \ mask\ =\ 0x2000;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00779}00779\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiKey\_LeftShift:\ \ mask\ =\ 0x0002;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00780}00780\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiKey\_RightShift:\ mask\ =\ 0x0004;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00781}00781\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiKey\_LeftSuper:\ \ mask\ =\ 0x0008;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00782}00782\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiKey\_RightSuper:\ mask\ =\ 0x0010;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00783}00783\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiKey\_LeftAlt:\ \ \ \ mask\ =\ 0x0020;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00784}00784\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ ImGuiKey\_RightAlt:\ \ \ mask\ =\ 0x0040;\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00785}00785\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00786}00786\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ io.WantCaptureKeyboard;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00787}00787\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00788}00788\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00789}00789\ \ \ \ \ \ \ \ \ \ \ \ \ NSEventModifierFlags\ modifier\_flags\ =\ [event\ modifierFlags];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00790}00790\ \ \ \ \ \ \ \ \ \ \ \ \ io.AddKeyEvent(key,\ (modifier\_flags\ \&\ mask)\ !=\ 0);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00791}00791\ \ \ \ \ \ \ \ \ \ \ \ \ io.SetKeyEventNativeData(key,\ key\_code,\ -\/1);\ \textcolor{comment}{//\ To\ support\ legacy\ indexing\ (<1.87\ user\ code)}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00792}00792\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00793}00793\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00794}00794\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ io.WantCaptureKeyboard;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00795}00795\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00796}00796\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00797}00797\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00798}00798\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00799}00799\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00800}00800\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ImGui\_ImplOSX\_AddTrackingArea(NSView*\ \_Nonnull\ view)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00801}00801\ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00802}00802\ \ \ \ \ \textcolor{comment}{//\ If\ we\ want\ to\ receive\ key\ events,\ we\ either\ need\ to\ be\ in\ the\ responder\ chain\ of\ the\ key\ view,}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00803}00803\ \ \ \ \ \textcolor{comment}{//\ or\ else\ we\ can\ install\ a\ local\ monitor.\ The\ consequence\ of\ this\ heavy-\/handed\ approach\ is\ that}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00804}00804\ \ \ \ \ \textcolor{comment}{//\ we\ receive\ events\ for\ all\ controls,\ not\ just\ Dear\ ImGui\ widgets.\ If\ we\ had\ native\ controls\ in\ our}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00805}00805\ \ \ \ \ \textcolor{comment}{//\ window,\ we'd\ want\ to\ be\ much\ more\ careful\ than\ just\ ingesting\ the\ complete\ event\ stream.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00806}00806\ \ \ \ \ \textcolor{comment}{//\ To\ match\ the\ behavior\ of\ other\ backends,\ we\ pass\ every\ event\ down\ to\ the\ OS.}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00807}00807\ \ \ \ \ \mbox{\hyperlink{struct_im_gui___impl_o_s_x___data}{ImGui\_ImplOSX\_Data}}*\ bd\ =\ ImGui\_ImplOSX\_GetBackendData();}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00808}00808\ \ \ \ \ \textcolor{keywordflow}{if}\ (bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a2ab0389fe39ea261a90baa687947abb9}{Monitor}})}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00809}00809\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00810}00810\ \ \ \ \ NSEventMask\ eventMask\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00811}00811\ \ \ \ \ eventMask\ |=\ NSEventMaskMouseMoved\ |\ NSEventMaskScrollWheel;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00812}00812\ \ \ \ \ eventMask\ |=\ NSEventMaskLeftMouseDown\ |\ NSEventMaskLeftMouseUp\ |\ NSEventMaskLeftMouseDragged;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00813}00813\ \ \ \ \ eventMask\ |=\ NSEventMaskRightMouseDown\ |\ NSEventMaskRightMouseUp\ |\ NSEventMaskRightMouseDragged;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00814}00814\ \ \ \ \ eventMask\ |=\ NSEventMaskOtherMouseDown\ |\ NSEventMaskOtherMouseUp\ |\ NSEventMaskOtherMouseDragged;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00815}00815\ \ \ \ \ eventMask\ |=\ NSEventMaskKeyDown\ |\ NSEventMaskKeyUp\ |\ NSEventMaskFlagsChanged;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00816}00816\ \ \ \ \ bd-\/>\mbox{\hyperlink{struct_im_gui___impl_o_s_x___data_a2ab0389fe39ea261a90baa687947abb9}{Monitor}}\ =\ [NSEvent\ addLocalMonitorForEventsMatchingMask:eventMask}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00817}00817\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ handler:\string^NSEvent*\ \_Nullable(NSEvent*\ event)}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00818}00818\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00819}00819\ \ \ \ \ \ \ \ \ ImGui\_ImplOSX\_HandleEvent(event,\ view);}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00820}00820\ \ \ \ \ \ \ \ \ return\ event;}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00821}00821\ \ \ \ \ \}];}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00822}00822\ \}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00823}00823\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00824}00824\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00825}00825\ }
+\DoxyCodeLine{\Hypertarget{imgui__impl__osx_8mm_source_l00826}00826\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

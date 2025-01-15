@@ -5,15 +5,18 @@
 /// 
 /// \todo Add more haptic features
 /// 
-/// \remarks This file has a few configurations that are based on defines. TS_ENABLE_HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas TS_ENABLE_EXTENSIONS is used
+/// \remarks This file has a few configurations that are based on defines. ATLAS_ENABLE_HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas ATLAS_ENABLE_EXTENSIONS is used
 /// to enable/disable extensions.
 #pragma once
-#define TS_ENABLE_HAPTICS
+
 #include <iostream>
 #include <cstdarg>
 #include <cstdint>
 #include <string>
 #include <thread>
+#include <any>
+#include <unordered_map>
+#include <unordered_set>
 
 <<<<<<< HEAD
 #include "utils/Singleton.h"
@@ -23,11 +26,12 @@
 /// Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these
 /// will be in the build directory rather than the final distribution directory.
 /// </summary>
-const std::string TS_ASSET_DIR = std::string(TS_TOP_LAYER) + "/game/assets/";
-const std::string TS_DATA_DIR = std::string(TS_TOP_LAYER) + "/game/data/";
-const std::string TS_GAME_DIR = std::string(TS_TOP_LAYER) + "/game/";
+const std::string ATLAS_ASSET_DIR = std::string(ATLAS_TOP_LAYER) + "/game/assets/";
+const std::string ATLAS_DATA_DIR = std::string(ATLAS_TOP_LAYER) + "/game/data/";
+const std::string ATLAS_GAME_DIR = std::string(ATLAS_TOP_LAYER) + "/game/";
+const std::string ATLAS_TEMP_DIR = std::string(ATLAS_TOP_LAYER) + "/temp/";
 
-namespace Techstorm {
+namespace Atlas {
 
 	using std::string;
 	using std::cout;
@@ -38,11 +42,14 @@ namespace Techstorm {
 	using std::chrono::seconds;
 	using std::unordered_map;
 
-	/*/// <summary>
+
+	/// <summary>
 	/// Represents a 3D vector. It will wrap raylib's Vector3 and Jolt's RVec3 to allow seamless integration. This also wraps raylib's vector math functions.
 	/// </summary>
-	struct Vec3 {
-		float x, y, z;
+	/*struct Vec3 {
+		float x;
+		float y;
+		float z;
 
 		Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 		explicit Vec3(Vector3 const& v) : x(v.x), y(v.y), z(v.z) {}
@@ -492,25 +499,91 @@ namespace Techstorm {
 			*this = Vector3Invert(operator Vector3());
 			return *this;
 		}
-	};*/
+	};
+*/
+	class Globals : public Singleton<Globals> {
+	public:		
+		/// <summary>
+		/// Sets a value under the specified name in the registry.
+		/// </summary>
+		/// <param name="name">The name to store the value under or what name it is stored as.</param>
+		/// <param name="value">The value that should be stored.</param>
+		void set(const std::string& name, std::any value) {
+			mGlobals[name] = value;
+		}
 
+		/// <summary>
+		/// Gets a global variable and casts it to the specified type. 
+		/// </summary>
+		/// <param name="name">The name of which it is stored under</param>
+		/// <typeparam name="T">What to cast the value to</typeparam>
+		/// <returns>the value that is stored</returns>
+		template<typename T>
+		T get(const std::string& name) {
+			T value;
+			try {
+				value = std::any_cast<T>(mGlobals[name]);
+			}
+			catch (std::bad_any_cast& e) {
+				return T();
+			}
+		}
+
+
+
+	private:
+		std::unordered_map<std::string, std::any> mGlobals;
+	};
+
+	template<typename T>
+	class ReferenceHolder {
+	public:
+
+		explicit ReferenceHolder(T& value) : mValue(value) {}
+
+		void set(T& value) {
+			mValue = value;
+		}
+
+		T& get() {
+			return mValue;
+		}
+
+
+	private:
+		T& mValue;
+	};
+
+	/// <summary>
+	/// Gets a global variable and casts it to the specified type.
+	/// </summary>
+	/// <param name="name">The name of which it is stored under</param>
+	/// <typeparam name="T">What to cast the value to</typeparam>
+	/// <returns>the value that is stored</returns>
+	template<typename T>
+	void GetGlobalValue(const std::string& name)
+	{
+		Globals::Instance().get<T>(name);
+	}
+
+	void SetGlobalValue(const std::string& name, std::any& value);
 
 	/// This is a module for haptic experiences (ie. controller rumble) and helps make more immersive experiences. 
 	/// \todo Add more haptic features, like monitor flashing and such.
-#ifdef TS_ENABLE_HAPTICS
+#ifdef ATLAS_ENABLE_HAPTICS
 
 	/// <summary>
-	/// Initializes the haptics module. Keep in mind this only works if TS_ENABLE_HAPTICS is defined.
+	/// Initializes the haptics module. Keep in mind this only works if ATLAS_ENABLE_HAPTICS is defined.
 	/// </summary>
 	void InitHaptics();
 	
 	/// <summary>
-	/// Sets the controller rumble. Keep in mind this only works if TS_ENABLE_HAPTICS is defined.
+	/// Sets the controller rumble. Keep in mind this only works if ATLAS_ENABLE_HAPTICS is defined.
 	/// </summary>
 	void SetControllerRumble(int controllerIndex, int leftMotorSpeed, int rightMotorSpeed);
 	
 	/// <summary>
-	/// Starts the controller rumble. Keep in mind this only works if TS_ENABLE_HAPTICS is defined.
+	/// Starts the controller rumble. Keep in mind this only works if ATLAS_ENABLE_HAPTICS is defined.
 	/// </summary>
 	void StartRumblingController(int controllerIndex, int leftMotorSpeed, int rightMotorSpeed);
 	
@@ -519,13 +592,17 @@ namespace Techstorm {
 
 	/// \brief This #ifdef is to enable/disable extensions. Currently this is not implemented, but is planned for the future.
 	/// \todo Implement extensions
-#ifdef TS_ENABLE_EXTENSIONS
+#ifdef ATLAS_ENABLE_EXTENSIONS
+
 	// Not yet implemented
-	#ifdef TS_ENABLE_DISCORD_INTEGRATION
-		#ifndef TS_SILENCE_DISCORD_INTEGRATION_WARNING
-		#error "Discord integration is not yet implemented. To silence this warning, define TS_SILENCE_DISCORD_INTEGRATION_WARNING."
-		#endif
-	#endif
+#ifdef ATLAS_ENABLE_DISCORD_INTEGRATION
+
+#ifndef ATLAS_SILENCE_DISCORD_INTEGRATION_WARNING
+#error "Discord integration is not yet implemented. To silence this warning, define ATLAS_SILENCE_DISCORD_INTEGRATION_WARNING."
+#endif
+
+#endif
+
 #endif
 =======
 const std::string TS_ASSET_DIR = std::string(TS_TOP_LAYER) + "/assets/";

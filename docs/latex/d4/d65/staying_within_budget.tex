@@ -1,0 +1,37 @@
+\doxysection{Staying within budget}
+\hypertarget{staying_within_budget}{}\label{staying_within_budget}\index{Staying within budget@{Staying within budget}}
+When developing a graphics-\/intensive game or program, it is important to avoid allocating more GPU memory than it is physically available. When the memory is over-\/committed, various bad things can happen, depending on the specific GPU, graphics driver, and operating system\+:
+
+
+\begin{DoxyItemize}
+\item It may just work without any problems.
+\item The application may slow down because some memory blocks are moved to system RAM and the GPU has to access them through PCI Express bus.
+\item A new allocation may take very long time to complete, even few seconds, and possibly freeze entire system.
+\item The new allocation may fail with {\ttfamily VK\+\_\+\+ERROR\+\_\+\+OUT\+\_\+\+OF\+\_\+\+DEVICE\+\_\+\+MEMORY}.
+\item It may even result in GPU crash (TDR), observed as {\ttfamily VK\+\_\+\+ERROR\+\_\+\+DEVICE\+\_\+\+LOST} returned somewhere later.
+\end{DoxyItemize}\hypertarget{staying_within_budget_staying_within_budget_querying_for_budget}{}\doxysubsection{\texorpdfstring{Querying for budget}{Querying for budget}}\label{staying_within_budget_staying_within_budget_querying_for_budget}
+To query for current memory usage and available budget, use function \doxylink{group__group__stats_ga620eaa8a9d919860f7deaf4d0148b2a1}{vma\+Get\+Heap\+Budgets()}. Returned structure \doxylink{struct_vma_budget}{Vma\+Budget} contains quantities expressed in bytes, per Vulkan memory heap.
+
+Please note that this function returns different information and works faster than \doxylink{group__group__stats_gad176279c8da8f50399674b2ef03ca866}{vma\+Calculate\+Statistics()}. \doxylink{group__group__stats_ga620eaa8a9d919860f7deaf4d0148b2a1}{vma\+Get\+Heap\+Budgets()} can be called every frame or even before every allocation, while \doxylink{group__group__stats_gad176279c8da8f50399674b2ef03ca866}{vma\+Calculate\+Statistics()} is intended to be used rarely, only to obtain statistical information, e.\+g. for debugging purposes.
+
+It is recommended to use {\bfseries{VK\+\_\+\+EXT\+\_\+memory\+\_\+budget}} device extension to obtain information about the budget from Vulkan device. VMA is able to use this extension automatically. When not enabled, the allocator behaves same way, but then it estimates current usage and available budget based on its internal information and Vulkan memory heap sizes, which may be less precise. In order to use this extension\+:
+
+
+\begin{DoxyEnumerate}
+\item Make sure extensions VK\+\_\+\+EXT\+\_\+memory\+\_\+budget and VK\+\_\+\+KHR\+\_\+get\+\_\+physical\+\_\+device\+\_\+properties2 required by it are available and enable them. Please note that the first is a device extension and the second is instance extension!
+\item Use flag \doxylink{group__group__init_gga4f87c9100d154a65a4ad495f7763cf7ca4d4687863f7bd4b418c6006dc04400b0}{VMA\+\_\+\+ALLOCATOR\+\_\+\+CREATE\+\_\+\+EXT\+\_\+\+MEMORY\+\_\+\+BUDGET\+\_\+\+BIT} when creating \doxylink{struct_vma_allocator}{Vma\+Allocator} object.
+\item Make sure to call \doxylink{group__group__init_gab8e037d09b55f13312f792e0cd98cc03}{vma\+Set\+Current\+Frame\+Index()} every frame. Budget is queried from Vulkan inside of it to avoid overhead of querying it with every allocation.
+\end{DoxyEnumerate}\hypertarget{staying_within_budget_staying_within_budget_controlling_memory_usage}{}\doxysubsection{\texorpdfstring{Controlling memory usage}{Controlling memory usage}}\label{staying_within_budget_staying_within_budget_controlling_memory_usage}
+There are many ways in which you can try to stay within the budget.
+
+First, when making new allocation requires allocating a new memory block, the library tries not to exceed the budget automatically. If a block with default recommended size (e.\+g. 256 MB) would go over budget, a smaller block is allocated, possibly even dedicated memory for just this resource.
+
+If the size of the requested resource plus current memory usage is more than the budget, by default the library still tries to create it, leaving it to the Vulkan implementation whether the allocation succeeds or fails. You can change this behavior by using \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597ab8b1764f3e9022368e440c057783b92d}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+WITHIN\+\_\+\+BUDGET\+\_\+\+BIT} flag. With it, the allocation is not made if it would exceed the budget or if the budget is already exceeded. VMA then tries to make the allocation from the next eligible Vulkan memory type. The all of them fail, the call then fails with {\ttfamily VK\+\_\+\+ERROR\+\_\+\+OUT\+\_\+\+OF\+\_\+\+DEVICE\+\_\+\+MEMORY}. Example usage pattern may be to pass the \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597ab8b1764f3e9022368e440c057783b92d}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+WITHIN\+\_\+\+BUDGET\+\_\+\+BIT} flag when creating resources that are not essential for the application (e.\+g. the texture of a specific object) and not to pass it when creating critically important resources (e.\+g. render targets).
+
+On AMD graphics cards there is a custom vendor extension available\+: {\bfseries{VK\+\_\+\+AMD\+\_\+memory\+\_\+overallocation\+\_\+behavior}} that allows to control the behavior of the Vulkan implementation in out-\/of-\/memory cases -\/ whether it should fail with an error code or still allow the allocation. Usage of this extension involves only passing extra structure on Vulkan device creation, so it is out of scope of this library.
+
+Finally, you can also use \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a89759603401014eb325eb22a3839f2ff}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+NEVER\+\_\+\+ALLOCATE\+\_\+\+BIT} flag to make sure a new allocation is created only when it fits inside one of the existing memory blocks. If it would require to allocate a new block, if fails instead with {\ttfamily VK\+\_\+\+ERROR\+\_\+\+OUT\+\_\+\+OF\+\_\+\+DEVICE\+\_\+\+MEMORY}. This also ensures that the function call is very fast because it never goes to Vulkan to obtain a new block.
+
+\begin{DoxyNote}{Note}
+Creating \doxylink{custom_memory_pools}{Custom memory pools} with \doxylink{struct_vma_pool_create_info_ad8006fb803185c0a699d30f3e9a865ae}{Vma\+Pool\+Create\+Info\+::min\+Block\+Count} set to more than 0 will currently try to allocate memory blocks without checking whether they fit within budget. 
+\end{DoxyNote}

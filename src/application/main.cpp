@@ -1,26 +1,30 @@
+#include "ApplicationUtils.h"
+#include <raylib.h>
 #include <Common.h>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+#include <conf/Config.h>
+#include <dbg/Logging.h>
+>>>>>>> main
 #include <modding/ScriptingAPI.h>
 #include <renderer/Renderer.h>
 #include <renderer/WindowDecorations.h>
-#include <conf/Config.h>
-
 #include <project.h>
-#include <raylib.h>
-#include <thread>
 
-/*
-#include <renderer/GameUI.h>
-#include "Shell.h"
-#include <backends/RmlUi_Backend.h>*/
-using namespace Techstorm;
+using namespace Atlas;
 
 void InitWindow(WindowDecorations& decorations) {
+
+	Log("Decorating window...");
 	decorations.title = LookupConfig("Project.cfg", "projectWindowTitle");
 	SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_INTERLACED_HINT);
+
+	Log("Finalizing window initialization...");
 	InitWindow(decorations.width, decorations.height, decorations.title);
 
-	const char* iconPath = TextFormat("%s%s", TS_ASSET_DIR.c_str(), decorations.icon);
+	Log("Loading and setting window icon...");
+	const char* iconPath = TextFormat("%s%s", ATLAS_ASSET_DIR.c_str(), decorations.icon);
 
 	Image icon = LoadImage(iconPath);
 	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
@@ -29,27 +33,20 @@ void InitWindow(WindowDecorations& decorations) {
 }
 
 void InitScripting(ScriptingAPI& scriptingAPI, PROJECT_TYPENAME& project) {
-	scriptingAPI.InitializeScripting(project.getLuaLibraries(), project.getLuaFunctions());
-	scriptingAPI.RegisterLua();
+	scriptingAPI.initializeScripting(project.getLuaLibraries(), project.getLuaFunctions());
+	scriptingAPI.registerLua();
 }
 
 void HandleFrame(PROJECT_TYPENAME& project) {
 	project.getRenderer().update();
 
-	project.preObjectUpdate();
-	project.objectUpdate();
-	project.postObjectUpdate();
-
-	project.prePhysicsUpdate();
-	project.physicsUpdate();
-	project.postPhysicsUpdate();
-
 	project.texture();
 	project.render();
 
 	// This is here because it reduces CPU consumption
-	std::this_thread::yield();
+	ATLAS_THREAD_YIELD;
 }
+
 /*
 class UI : public GameObject {
 public:
@@ -65,6 +62,7 @@ public:
 };*/
 
 int main(int argc, char* argv[]) {
+<<<<<<< HEAD
 =======
 #include <crtdbg.h>
 #include <modding/ScriptingAPI.h>
@@ -82,8 +80,15 @@ int main(int argc, char* argv[]) {
 	using namespace Techstorm;
 
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+	
+	//Log("Pre-Initializing project...");
+>>>>>>> main
 	PROJECT_TYPENAME project = PROJECT_TYPENAME();
 	project.preInit();
+	Log("Project pre-initialized.");
+
+	Log("Finishing Initialization...");
 
 	InitializeConfigRegistry();
 	ConfigFileRegistry& configRegistry = GetConfigFileRegistry();
@@ -91,11 +96,13 @@ int main(int argc, char* argv[]) {
 	Renderer& renderer = project.getRenderer();
 	WindowDecorations& decorations = project.getWindowDecorations();
 	
+	Log("Setting up scripting API...");
 	ScriptingAPI scriptingAPI;
 
 <<<<<<< HEAD
 	InitScripting(scriptingAPI, project);
 
+<<<<<<< HEAD
 	InitWindow(decorations);
 =======
 	ScriptingAPI scriptingAPI;
@@ -112,50 +119,45 @@ int main(int argc, char* argv[]) {
 	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
 
 	SetWindowIcons(&icon, 1);
+=======
+	Log("Done setting up scripting API.");
+>>>>>>> main
 
+	Log("Initializing window...");
+	InitWindow(decorations);
+	
+	Log("Done initializing window.");
+
+	Log("Finishing project's initialization...");
 	project.init(argc, argv);
 	project.postInit();
-	
 
-	/*// Initializes the shell which provides common functionality used by the included samples.
-	if (!Shell::Initialize()) {
-		std::cout << "Failed to initialize shell" << std::endl;
-		return -1;
-	}
+	Log("Done finishing project's initialization.");
 
+	Log("Launching threads.");
 
-
-	Rml::Context* context = Rml::CreateContext("main", Rml::Vector2i(decorations.width, decorations.height));
-	if (!context)
-	{
-		Rml::Shutdown();
-		
-		return -1;
-	}
-	// The RmlUi debugger is optional but very useful. Try it by pressing 'F8' after starting this sample.
-	Rml::Debugger::Initialise(context);
-
-	// Fonts should be loaded before any documents are loaded.
-	Shell::LoadFonts();
-
-	// Load and show the demo document.
-	if (Rml::ElementDocument* document = context->LoadDocument("demo.rml"))
-		document->Show();
-	else 
-		std::cout << "Failed to load demo document" << std::endl;
-
-
-	project.getRenderer().addGameObject(new UI(context));*/
+	Atlas::Application::FrameManager& manager = Atlas::Application::FrameManager::Instance();
 
 	SetTargetFPS(decorations.targetFPS);
 
+	manager.launchThreads(project);
+	
+	Log("Initialization is now finished, starting main loop.");
 	while (!WindowShouldClose()) {
-		//context->Update();
 		HandleFrame(project);
 	}
+	
+	Log("Shutting down...");
 
+	Log("Cleaning up...");
 	project.cleanup(0);
 
+	manager.killThreads();
+
+	Log("Done cleaning up.");
+
 	CloseWindow();
+
+	Log("Done shutting down. Goodbye!");
 	return 0;
 }

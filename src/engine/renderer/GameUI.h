@@ -3,7 +3,7 @@
 #include <string>
 #include <type_traits>
 
-#ifdef TS_ENABLE_HTML_UI
+#ifdef ATLAS_ENABLE_HTML_UI
 
 #include <RmlUi/Config/Config.h>
 #include <RmlUi/Core.h>
@@ -14,10 +14,12 @@
 #include <RmlUi/Core/Vertex.h>
 #include <RmlUi/Debugger.h>
 
-#endif // TS_ENABLE_HTML_UI
+#endif // ATLAS_ENABLE_HTML_UI
 
-namespace Techstorm {
-#ifdef TS_ENABLE_HTML_UI
+#include <raygui.h>
+
+namespace Atlas {
+#ifdef ATLAS_ENABLE_HTML_UI
 	using UIVertex = Rml::Vertex;
 	using FileHandle = Rml::FileHandle;
 	using Rml::TextureHandle;
@@ -97,7 +99,7 @@ namespace Techstorm {
 
 	private:
 		UISystemInterface* mSystemInterface = new UISystemInterface();
-		GameUIFileInterface* mFileInterface = new GameUIFileInterface(TS_ASSET_DIR);
+		GameUIFileInterface* mFileInterface = new GameUIFileInterface(ATLAS_ASSET_DIR);
 	};
 
 	template<FileInterfaceType T>
@@ -108,8 +110,15 @@ namespace Techstorm {
 		Rml::SetRenderInterface(uiRenderer);
 		Rml::Initialise();
 	}
-#endif // TS_ENABLE_HTML_UI
+#endif // ATLAS_ENABLE_HTML_UI
 
-	
+	class IGUIContainer {
+	public:
+
+		virtual void LoadStyle(std::string const& stylesheetFileName) = 0;
+		
+		
+		int a = 0;
+	};
 
 }

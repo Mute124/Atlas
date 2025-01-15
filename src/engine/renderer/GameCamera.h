@@ -4,6 +4,7 @@
 #include <raylib.h>
 #include <cstdint>
 #include <unordered_map>
+<<<<<<< HEAD
 namespace Techstorm {
 =======
 /**
@@ -31,33 +32,30 @@ namespace Techstorm {
 	class Renderer;
 
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+
+namespace Atlas {
+>>>>>>> main
 	/// <summary>
 	/// Represents a camera wherein the world is rendered and viewed from.
 	/// </summary>
 	class GameCamera {
 	public:
 <<<<<<< HEAD
+<<<<<<< HEAD
 		GameCamera() {
 			init();
 
 
 		}
+=======
+		GameCamera();
+>>>>>>> main
 		
 		/// <summary>
 		/// Finalizes an instance of the <see cref="GameCamera"/> class. Please note that if this is the main camera, it will make the camera with ID 0 the main camera.
 		/// </summary>
-		virtual ~GameCamera() {
-			if (isMainCamera()) {
-				sMainCamera = nullptr;
-
-				if (sCameraCount > 0) {
-					sCameras[0]->setAsMainCamera();
-				}
-			}
-
-			sCameras.erase(mCameraID);
-			sCameraCount--;
-		}
+		virtual ~GameCamera();
 
 		/// <summary>
 		/// Initializes this instance.
@@ -177,11 +175,9 @@ namespace Techstorm {
 		static inline uint16_t sCameraCount = 0;
 		static inline std::unordered_map<uint16_t, GameCamera*> sCameras;
 		static inline GameCamera* sMainCamera = nullptr;
+
 		uint16_t mCameraID = 0;
-
-
 		bool mIsMainCamera = false;
-
 
 		static inline void SimpleCameraUpdate(GameCamera const& cam) {}
 		static inline void ComplexCameraUpdate(GameCamera const& cam) {}

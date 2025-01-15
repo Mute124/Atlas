@@ -1,4 +1,26 @@
 var searchData=
 [
-  ['y_0',['y',['../df/d8a/struct_vec3.html#abc1d241232cb04aa98217a942402ae68',1,'Vec3::y'],['../d8/dc8/struct_point.html#a6101960c8d2d4e8ea1d32c9234bbeb8d',1,'Point::y'],['../d9/db6/struct_techstorm_1_1_vec3.html#a93a5e912a62c6bd82f27c2618bde4234',1,'Techstorm::Vec3::y'],['../d4/d88/struct_techstorm_1_1_vec2.html#a93677f3305099dd3e83dc6c16724137f',1,'Techstorm::Vec2::y'],['../dc/d7f/struct_techstorm_1_1_vec4.html#a0570186a279cc62f5ce046cd09609c1a',1,'Techstorm::Vec4::y']]]
+  ['w_0',['w',['../d4/d28/struct_atlas_1_1_vec4.html#a4cba5f220d824ab8c98f694c8d51a79a',1,'Atlas::Vec4']]],
+  ['wantupdategamepadslist_1',['wantupdategamepadslist',['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#abf006800b9e524969fbb76417fd7c4eb',1,'ImGui_ImplSDL2_Data::WantUpdateGamepadsList'],['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#a45708c21d3f0b48340ddd894af611ade',1,'ImGui_ImplSDL3_Data::WantUpdateGamepadsList']]],
+  ['wantupdatehasgamepad_2',['WantUpdateHasGamepad',['../d5/d71/struct_im_gui___impl_win32___data.html#a8ef3569b604731a30016d042121f30e0',1,'ImGui_ImplWin32_Data']]],
+  ['warning_3',['WARNING',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079a059e9861e0400dfbe05c98a841f3f96b',1,'Atlas']]],
+  ['wgpudevice_4',['wgpuDevice',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#abffeb18f864003eb0661716b924159d0',1,'ImGui_ImplWGPU_Data']]],
+  ['what_5',['what',['../d1/d81/class_atlas_1_1_i_exception.html#a1cc4ea93b7ae6bbe5f043cf70c1e874c',1,'Atlas::IException::what()'],['../dc/dba/class_atlas_1_1abstract.html#a753eb678fc32817259531b4bc6664e8c',1,'Atlas::abstract::what()'],['../db/d34/class_atlas_1_1_file_i_o_failure.html#ae0bdc21f7ba5aa6c36919c37a583e7b4',1,'Atlas::FileIOFailure::what()']]],
+  ['what_20is_20techstorm_6',['What is Techstorm',['../index.html',1,'']]],
+  ['width_7',['width',['../df/d67/struct_renderer_extensions_1_1_image.html#a3f638a7daaca56244c2649ada7efb2fe',1,'RendererExtensions::Image::width'],['../da/d6a/struct_atlas_1_1_window_decorations.html#a8f4044b4118ab0fe595e1860aa3a6b88',1,'Atlas::WindowDecorations::width'],['../df/d5f/imgui__impl__opengl3__loader_8h.html#a6879d830f164725df67adeeabca3ea47',1,'width:&#160;imgui_impl_opengl3_loader.h'],['../de/d27/struct_im_gui___impl_vulkan_h___window.html#ad8bc4441fc4c36b110790db262815339',1,'ImGui_ImplVulkanH_Window::Width']]],
+  ['win32_5flean_5fand_5fmean_8',['WIN32_LEAN_AND_MEAN',['../d1/d3f/imgui__impl__win32_8cpp.html#ac7bef5d85e3dcd73eef56ad39ffc84a9',1,'imgui_impl_win32.cpp']]],
+  ['window_9',['window',['../d1/df6/class_atlas_1_1_window.html',1,'Atlas::Window'],['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#ae50aeb95c54eafefcf9cfbd8fa15b956',1,'ImGui_ImplSDL3_Data::Window'],['../d5/d6e/struct_im_gui___impl_glfw___data.html#aad8ecdab1cb486c427254f2032214da7',1,'ImGui_ImplGlfw_Data::Window'],['../d2/d61/struct_im_gui___impl_o_s_x___data.html#a23ca48ebf7477b4171db73aecea0c4c7',1,'ImGui_ImplOSX_Data::Window'],['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#a6f4f0656d6b66265ccae7b913825ce2e',1,'ImGui_ImplSDL2_Data::Window']]],
+  ['window_2ecpp_10',['Window.cpp',['../d3/db8/_window_8cpp.html',1,'']]],
+  ['window_2eh_11',['Window.h',['../de/d42/_window_8h.html',1,'']]],
+  ['windowconfig_12',['windowConfig',['../da/d6a/struct_atlas_1_1_window_decorations.html#a41aa9788c43c51204eb9722b7de093bb',1,'Atlas::WindowDecorations']]],
+  ['windowdecorations_13',['WindowDecorations',['../da/d6a/struct_atlas_1_1_window_decorations.html',1,'Atlas']]],
+  ['windowdecorations_2eh_14',['WindowDecorations.h',['../d3/d19/_window_decorations_8h.html',1,'']]],
+  ['windowid_15',['windowid',['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#a1ee51f9520c62ffe8f117ef361b8422a',1,'ImGui_ImplSDL2_Data::WindowID'],['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#a970654f0a901585cde2090d4f7c04300',1,'ImGui_ImplSDL3_Data::WindowID']]],
+  ['wm_5fmousehwheel_16',['WM_MOUSEHWHEEL',['../d1/d3f/imgui__impl__win32_8cpp.html#a7b2918d422b3a1fe86a641f74818bb55',1,'imgui_impl_win32.cpp']]],
+  ['work_17',['How Cameras Work',['../index.html#how-cameras-work',1,'']]],
+  ['workthread_18',['workThread',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#a9c07046876fd1b3103f8ddd54b18e574',1,'Atlas::Application::FrameManager']]],
+  ['world_2eh_19',['world.h',['../d0/d97/world_8h.html',1,'']]],
+  ['write_5fto_5fply_20',['write_to_ply',['../de/da5/utilities_8cpp.html#a7df65ced688bee29b75448b7befe7c1c',1,'write_to_ply(std::vector&lt; std::vector&lt; Point &gt; &gt; &amp;triangles, const char *path):&#160;utilities.cpp'],['../dc/d5f/utilities_8hpp.html#a7df65ced688bee29b75448b7befe7c1c',1,'write_to_ply(std::vector&lt; std::vector&lt; Point &gt; &gt; &amp;triangles, const char *path):&#160;utilities.cpp']]],
+  ['write_5ftriangles_5fto_5ffile_21',['write_triangles_to_file',['../de/da5/utilities_8cpp.html#a5c5b6c7de37c6284a345717479a327c0',1,'write_triangles_to_file(std::vector&lt; std::vector&lt; Point &gt; &gt; triangles, const char *path):&#160;utilities.cpp'],['../dc/d5f/utilities_8hpp.html#a5c5b6c7de37c6284a345717479a327c0',1,'write_triangles_to_file(std::vector&lt; std::vector&lt; Point &gt; &gt; triangles, const char *path):&#160;utilities.cpp']]],
+  ['writeconfigfiles_22',['writeConfigFiles',['../d3/d1a/class_atlas_1_1_config_file_registry.html#a79c9ca955bb73aa004b77b469a11a847',1,'Atlas::ConfigFileRegistry']]]
 ];

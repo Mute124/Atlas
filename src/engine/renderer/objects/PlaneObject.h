@@ -1,7 +1,7 @@
 #pragma once
 #include "../GameObject.h"
 
-namespace Techstorm {
+namespace Atlas {
 	class PlaneObject : public GameObject {
 	public:
 

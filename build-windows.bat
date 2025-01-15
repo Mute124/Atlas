@@ -12,10 +12,6 @@
 ::cmake .. -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE=build\conan_toolchain.cmake
 ::cmake --build . --config=Debug
 ::cd ../build-scripts
-<<<<<<< HEAD
-python3 TechstormConfigure.py --release --debug
-=======
-python3 TechstormConfigure.py --release
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+python3 configure.py --release --debug
 echo "Generating project"
-python3 TechstormGenerate.py
+python3 generate.py

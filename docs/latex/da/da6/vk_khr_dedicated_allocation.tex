@@ -1,0 +1,44 @@
+\doxysection{VK\+\_\+\+KHR\+\_\+dedicated\+\_\+allocation}
+\hypertarget{vk_khr_dedicated_allocation}{}\label{vk_khr_dedicated_allocation}\index{VK\_KHR\_dedicated\_allocation@{VK\_KHR\_dedicated\_allocation}}
+VK\+\_\+\+KHR\+\_\+dedicated\+\_\+allocation is a Vulkan extension which can be used to improve performance on some GPUs. It augments Vulkan API with possibility to query driver whether it prefers particular buffer or image to have its own, dedicated allocation (separate {\ttfamily Vk\+Device\+Memory} block) for better efficiency -\/ to be able to do some internal optimizations. The extension is supported by this library. It will be used automatically when enabled.
+
+It has been promoted to core Vulkan 1.\+1, so if you use eligible Vulkan version and inform VMA about it by setting \doxylink{struct_vma_allocator_create_info_ae0ffc55139b54520a6bb704b29ffc285}{Vma\+Allocator\+Create\+Info\+::vulkan\+Api\+Version}, you are all set.
+
+Otherwise, if you want to use it as an extension\+:
+
+1 . When creating Vulkan device, check if following 2 device extensions are supported (call {\ttfamily \doxylink{vulkan_8h_a9ca44878f24b527c1e1b284db722ef24}{vk\+Enumerate\+Device\+Extension\+Properties()}}). If yes, enable them (fill {\ttfamily \doxylink{struct_vk_device_create_info_ac24ac5c4da5fdd813bbe1a92d1e24d73}{Vk\+Device\+Create\+Info\+::pp\+Enabled\+Extension\+Names}}).
+
+
+\begin{DoxyItemize}
+\item VK\+\_\+\+KHR\+\_\+get\+\_\+memory\+\_\+requirements2
+\item VK\+\_\+\+KHR\+\_\+dedicated\+\_\+allocation
+\end{DoxyItemize}
+
+If you enabled these extensions\+:
+
+2 . Use \doxylink{group__group__init_gga4f87c9100d154a65a4ad495f7763cf7cace7da7cc6e71a625dfa763c55a597878}{VMA\+\_\+\+ALLOCATOR\+\_\+\+CREATE\+\_\+\+KHR\+\_\+\+DEDICATED\+\_\+\+ALLOCATION\+\_\+\+BIT} flag when creating your \doxylink{struct_vma_allocator}{Vma\+Allocator} to inform the library that you enabled required extensions and you want the library to use them.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{allocatorInfo.flags\ |=\ \mbox{\hyperlink{group__group__init_gga4f87c9100d154a65a4ad495f7763cf7cace7da7cc6e71a625dfa763c55a597878}{VMA\_ALLOCATOR\_CREATE\_KHR\_DEDICATED\_ALLOCATION\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__init_gaf77c946fbecfcc54d02c3d1c1e7e23e7}{vmaCreateAllocator}}(\&allocatorInfo,\ \&allocator);}
+
+\end{DoxyCode}
+
+
+That is all. The extension will be automatically used whenever you create a buffer using \doxylink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vma\+Create\+Buffer()} or image using \doxylink{group__group__alloc_gaa76142ae43535c862ad9e194a6e38aaa}{vma\+Create\+Image()}.
+
+When using the extension together with Vulkan Validation Layer, you will receive warnings like this\+:
+
+{\itshape \doxylink{vulkan_8h_a65810005c780a55660f1a38eb6b1873c}{vk\+Bind\+Buffer\+Memory()}\+: Binding memory to buffer 0x33 but \doxylink{vulkan_8h_ad7f6c99a52c417bb4be8ee1dcbe5383e}{vk\+Get\+Buffer\+Memory\+Requirements()} has not been called on that buffer.}
+
+It is OK, you should just ignore it. It happens because you use function {\ttfamily vk\+Get\+Buffer\+Memory\+Requirements2\+KHR()} instead of standard {\ttfamily \doxylink{vulkan_8h_ad7f6c99a52c417bb4be8ee1dcbe5383e}{vk\+Get\+Buffer\+Memory\+Requirements()}}, while the validation layer seems to be unaware of it.
+
+To learn more about this extension, see\+:
+
+
+\begin{DoxyItemize}
+\item \href{https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/chap50.html\#VK_KHR_dedicated_allocation}{\texttt{ VK\+\_\+\+KHR\+\_\+dedicated\+\_\+allocation in Vulkan specification}}
+\item \href{http://asawicki.info/articles/VK_KHR_dedicated_allocation.php5}{\texttt{ VK\+\_\+\+KHR\+\_\+dedicated\+\_\+allocation unofficial manual}} 
+\end{DoxyItemize}

@@ -1,42 +1,69 @@
 #include "ScriptingAPI.h"
 <<<<<<< HEAD
 #include "../conf/Config.h"
+
+#ifdef ATLAS_ENABLE_MODDING
+
 /// <summary>
 /// Initializes the scripting API.
 /// </summary>
 /// <returns>an integer value that represents the result of the operation.</returns>
-int Techstorm::ScriptingAPI::InitializeScripting(LuaLibraryRegistry const& libraries, LuaFunctionRegistry const& functions)
+int Atlas::ScriptingAPI::initializeScripting(ScriptingLibraryRegistry const& libraries, ScriptingFunctionRegistry const& functions)
 {
+	//Log("Opening scripting API libraries...");
 	this->mLibraries = libraries;
 	return 0;
 }
-// Define a simple function with parameters
-void greet(const std::string& name, int age) {
-	std::cout << "Hello, " << name << "! You are " << age << " years old." << std::endl;
+
+void Atlas::ScriptingAPI::registerConfigFunctions() {
+	this->mLua.set_function("LookupConfigOption", &GetConfigString);
 }
+
+void Atlas::ScriptingAPI::registerFileSystemFunctions()
+{
+}
+
+#ifdef ATLAS_ENABLE_LUA
+
+void Atlas::ScriptingAPI::openLuaLibraries()
+{
+	for (auto it = std::begin(Atlas::ScriptingAPI::mLibraries); it != std::end(Atlas::ScriptingAPI::mLibraries); it++) {
+
+		this->mLua.open_libraries(*it);
+	}
+}
+
 /// <summary>
 /// Registers the scripting API for Lua.
 /// </summary>
 /// <returns>an integer value that represents the result of the operation.</returns>
-int Techstorm::ScriptingAPI::RegisterLua()
+int Atlas::ScriptingAPI::registerLua()
 {
-	for (auto it = std::begin(Techstorm::ScriptingAPI::mLibraries); it != std::end(Techstorm::ScriptingAPI::mLibraries); it++) {
-		this->mLua.open_libraries(*it);
-	}
+	int result = 0; // TODO: Implement this
 
-	mLua.set_function("LookupConfigOption", &GetConfigString);
+	this->openLuaLibraries();
+	this->registerConfigFunctions();
 
-
-	return 0;
+	return result;
 }
 
+#endif
+
+#ifdef ATLAS_ENABLE_ANGELSCRIPT
 /// <summary>
 /// Registers the scripting API for AngelScript. This is just for organization sake and it could be merged with the lua version, but it wont be.
 /// </summary>
 /// <returns>an integer value that represents the result of the operation.</returns>
-int Techstorm::ScriptingAPI::RegisterAngelScript()
+int Atlas::ScriptingAPI::registerAngelScript()
 {
 	return 0;
 }
+<<<<<<< HEAD
 =======
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+
+#endif
+
+#endif
+>>>>>>> main

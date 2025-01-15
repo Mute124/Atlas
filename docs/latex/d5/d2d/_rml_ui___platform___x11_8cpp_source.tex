@@ -1,0 +1,636 @@
+\doxysection{Rml\+Ui\+\_\+\+Platform\+\_\+\+X11.\+cpp}
+\hypertarget{_rml_ui___platform___x11_8cpp_source}{}\label{_rml_ui___platform___x11_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Platform\_X11.cpp@{C:/Dev/Techstorm-\/v5/src/engine/backends/RmlUi\_Platform\_X11.cpp}}
+\mbox{\hyperlink{_rml_ui___platform___x11_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00002}00002\ \textcolor{comment}{\ *\ This\ source\ file\ is\ part\ of\ RmlUi,\ the\ HTML/CSS\ Interface\ Middleware}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00003}00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00004}00004\ \textcolor{comment}{\ *\ For\ the\ latest\ information,\ see\ http://github.com/mikke89/RmlUi}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00005}00005\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00006}00006\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2008-\/2010\ CodePoint\ Ltd,\ Shift\ Technology\ Ltd}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00007}00007\ \textcolor{comment}{\ *\ Copyright\ (c)\ 2019-\/2023\ The\ RmlUi\ Team,\ and\ contributors}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00008}00008\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00009}00009\ \textcolor{comment}{\ *\ Permission\ is\ hereby\ granted,\ free\ of\ charge,\ to\ any\ person\ obtaining\ a\ copy}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00010}00010\ \textcolor{comment}{\ *\ of\ this\ software\ and\ associated\ documentation\ files\ (the\ "{}Software"{}),\ to\ deal}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00011}00011\ \textcolor{comment}{\ *\ in\ the\ Software\ without\ restriction,\ including\ without\ limitation\ the\ rights}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00012}00012\ \textcolor{comment}{\ *\ to\ use,\ copy,\ modify,\ merge,\ publish,\ distribute,\ sublicense,\ and/or\ sell}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00013}00013\ \textcolor{comment}{\ *\ copies\ of\ the\ Software,\ and\ to\ permit\ persons\ to\ whom\ the\ Software\ is}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00014}00014\ \textcolor{comment}{\ *\ furnished\ to\ do\ so,\ subject\ to\ the\ following\ conditions:}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00015}00015\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00016}00016\ \textcolor{comment}{\ *\ The\ above\ copyright\ notice\ and\ this\ permission\ notice\ shall\ be\ included\ in}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00017}00017\ \textcolor{comment}{\ *\ all\ copies\ or\ substantial\ portions\ of\ the\ Software.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00019}00019\ \textcolor{comment}{\ *\ THE\ SOFTWARE\ IS\ PROVIDED\ "{}AS\ IS"{},\ WITHOUT\ WARRANTY\ OF\ ANY\ KIND,\ EXPRESS\ OR}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00020}00020\ \textcolor{comment}{\ *\ IMPLIED,\ INCLUDING\ BUT\ NOT\ LIMITED\ TO\ THE\ WARRANTIES\ OF\ MERCHANTABILITY,}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00021}00021\ \textcolor{comment}{\ *\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE\ AND\ NONINFRINGEMENT.\ IN\ NO\ EVENT\ SHALL\ THE}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00022}00022\ \textcolor{comment}{\ *\ AUTHORS\ OR\ COPYRIGHT\ HOLDERS\ BE\ LIABLE\ FOR\ ANY\ CLAIM,\ DAMAGES\ OR\ OTHER}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00023}00023\ \textcolor{comment}{\ *\ LIABILITY,\ WHETHER\ IN\ AN\ ACTION\ OF\ CONTRACT,\ TORT\ OR\ OTHERWISE,\ ARISING\ FROM,}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00024}00024\ \textcolor{comment}{\ *\ OUT\ OF\ OR\ IN\ CONNECTION\ WITH\ THE\ SOFTWARE\ OR\ THE\ USE\ OR\ OTHER\ DEALINGS\ IN}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00025}00025\ \textcolor{comment}{\ *\ THE\ SOFTWARE.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00026}00026\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00027}00027\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rml_ui___platform___x11_8h}{RmlUi\_Platform\_X11.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Context.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Core.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Input.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00033}00033\ \textcolor{preprocessor}{\#include\ <RmlUi/Core/Types.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00034}00034\ \textcolor{preprocessor}{\#include\ <X11/cursorfont.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00035}00035\ \textcolor{preprocessor}{\#include\ <X11/extensions/xf86vmode.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00036}00036\ \textcolor{preprocessor}{\#include\ <limits.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00037}00037\ \textcolor{preprocessor}{\#include\ <stdarg.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00038}00038\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00039}00039\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00040}00040\ \textcolor{preprocessor}{\#include\ <sys/stat.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00041}00041\ \textcolor{preprocessor}{\#include\ <sys/time.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00042}00042\ \textcolor{preprocessor}{\#include\ <sys/types.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00043}00043\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00044}00044\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00046}00046\ \textcolor{preprocessor}{\#ifdef\ HAS\_X11XKBLIB}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00047}00047\ \textcolor{preprocessor}{\ \ \ \ \#include\ <X11/XKBlib.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00048}00048\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ HAS\_X11XKBLIB}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00049}00049\ \textcolor{preprocessor}{\#include\ <X11/keysym.h>}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00051}00051\ \textcolor{keyword}{static}\ Rml::Character\ GetCharacterCode(Rml::Input::KeyIdentifier\ key\_identifier,\ \textcolor{keywordtype}{int}\ key\_modifier\_state);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00053}\mbox{\hyperlink{class_system_interface___x11_adb9bcfd06fa5f5786024ab0781b20cdb}{00053}}\ \mbox{\hyperlink{class_system_interface___x11_adb9bcfd06fa5f5786024ab0781b20cdb}{SystemInterface\_X11::SystemInterface\_X11}}(Display*\ display)\ :\ display(display)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00054}00054\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{comment}{//\ Create\ cursors}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00056}00056\ \ \ \ \ cursor\_default\ =\ XCreateFontCursor(display,\ XC\_left\_ptr);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00057}00057\ \ \ \ \ cursor\_move\ =\ XCreateFontCursor(display,\ XC\_fleur);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00058}00058\ \ \ \ \ cursor\_pointer\ =\ XCreateFontCursor(display,\ XC\_hand1);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00059}00059\ \ \ \ \ cursor\_resize\ =\ XCreateFontCursor(display,\ XC\_sizing);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00060}00060\ \ \ \ \ cursor\_cross\ =\ XCreateFontCursor(display,\ XC\_crosshair);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00061}00061\ \ \ \ \ cursor\_text\ =\ XCreateFontCursor(display,\ XC\_xterm);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00062}00062\ \ \ \ \ cursor\_unavailable\ =\ XCreateFontCursor(display,\ XC\_X\_cursor);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00064}00064\ \ \ \ \ \textcolor{comment}{//\ For\ copy\ \&\ paste\ functions}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00065}00065\ \ \ \ \ UTF8\_atom\ =\ XInternAtom(display,\ \textcolor{stringliteral}{"{}UTF8\_STRING"{}},\ 1);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00066}00066\ \ \ \ \ XSEL\_DATA\_atom\ =\ XInternAtom(display,\ \textcolor{stringliteral}{"{}XSEL\_DATA"{}},\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00067}00067\ \ \ \ \ CLIPBOARD\_atom\ =\ XInternAtom(display,\ \textcolor{stringliteral}{"{}CLIPBOARD"{}},\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00068}00068\ \ \ \ \ TARGETS\_atom\ =\ XInternAtom(display,\ \textcolor{stringliteral}{"{}TARGETS"{}},\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00069}00069\ \ \ \ \ TEXT\_atom\ =\ XInternAtom(display,\ \textcolor{stringliteral}{"{}TEXT"{}},\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00071}00071\ \ \ \ \ gettimeofday(\&start\_time,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00072}00072\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00074}\mbox{\hyperlink{class_system_interface___x11_aecb04d33e5e29ed2110fccda7d7116ae}{00074}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_system_interface___x11_aecb04d33e5e29ed2110fccda7d7116ae}{SystemInterface\_X11::SetWindow}}(Window\ in\_window)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00075}00075\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00076}00076\ \ \ \ \ window\ =\ in\_window;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00077}00077\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00079}\mbox{\hyperlink{class_system_interface___x11_a4f937513b4eff40d0965bc9f79883639}{00079}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_system_interface___x11_a4f937513b4eff40d0965bc9f79883639}{SystemInterface\_X11::HandleSelectionRequest}}(\textcolor{keyword}{const}\ XEvent\&\ ev)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00080}00080\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{keywordflow}{if}\ (ev.type\ ==\ SelectionRequest\ \&\&\ XGetSelectionOwner(display,\ CLIPBOARD\_atom)\ ==\ window\ \&\&\ ev.xselectionrequest.selection\ ==\ CLIPBOARD\_atom)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00082}00082\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ XCopy(clipboard\_text,\ ev);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00085}00085\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00087}00087\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00089}\mbox{\hyperlink{class_system_interface___x11_a4ad67f7f5ad5dd0967927898324076d2}{00089}}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_system_interface___x11_a4ad67f7f5ad5dd0967927898324076d2}{SystemInterface\_X11::GetElapsedTime}}()}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00090}00090\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00091}00091\ \ \ \ \ \textcolor{keyword}{struct\ }timeval\ now;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00093}00093\ \ \ \ \ gettimeofday(\&now,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00095}00095\ \ \ \ \ \textcolor{keywordtype}{double}\ sec\ =\ now.tv\_sec\ -\/\ start\_time.tv\_sec;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00096}00096\ \ \ \ \ \textcolor{keywordtype}{double}\ usec\ =\ now.tv\_usec\ -\/\ start\_time.tv\_usec;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00097}00097\ \ \ \ \ \textcolor{keywordtype}{double}\ result\ =\ sec\ +\ (usec\ /\ 1000000.0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00100}00100\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00102}\mbox{\hyperlink{class_system_interface___x11_a26ea6eeed380a6711c463a9defd4c876}{00102}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_system_interface___x11_a26ea6eeed380a6711c463a9defd4c876}{SystemInterface\_X11::SetMouseCursor}}(\textcolor{keyword}{const}\ Rml::String\&\ cursor\_name)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00103}00103\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00104}00104\ \ \ \ \ \textcolor{keywordflow}{if}\ (display\ \&\&\ window)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00105}00105\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ Cursor\ cursor\_handle\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cursor\_name.empty()\ ||\ cursor\_name\ ==\ \textcolor{stringliteral}{"{}arrow"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\_handle\ =\ cursor\_default;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}move"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\_handle\ =\ cursor\_move;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}pointer"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\_handle\ =\ cursor\_pointer;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}resize"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\_handle\ =\ cursor\_resize;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}cross"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\_handle\ =\ cursor\_cross;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}text"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\_handle\ =\ cursor\_text;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}rmlui-\/scroll-\/idle"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\_handle\ =\ cursor\_move;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}rmlui-\/scroll-\/up"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\_handle\ =\ cursor\_move;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}rmlui-\/scroll-\/down"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\_handle\ =\ cursor\_move;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (cursor\_name\ ==\ \textcolor{stringliteral}{"{}unavailable"{}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\_handle\ =\ cursor\_unavailable;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cursor\_handle)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ XDefineCursor(display,\ window,\ cursor\_handle);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00132}00132\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00133}00133\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00135}\mbox{\hyperlink{class_system_interface___x11_a0c4eeb82d32dad99194bcfbc6eb62970}{00135}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_system_interface___x11_a0c4eeb82d32dad99194bcfbc6eb62970}{SystemInterface\_X11::SetClipboardText}}(\textcolor{keyword}{const}\ Rml::String\&\ text)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00136}00136\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00137}00137\ \ \ \ \ clipboard\_text\ =\ text;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00138}00138\ \ \ \ \ XSetSelectionOwner(display,\ CLIPBOARD\_atom,\ window,\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00139}00139\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00141}\mbox{\hyperlink{class_system_interface___x11_a40abb4532f5939fa797f69c82c740035}{00141}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_system_interface___x11_a40abb4532f5939fa797f69c82c740035}{SystemInterface\_X11::GetClipboardText}}(Rml::String\&\ text)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00142}00142\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00143}00143\ \ \ \ \ \textcolor{keywordflow}{if}\ (XGetSelectionOwner(display,\ CLIPBOARD\_atom)\ !=\ window)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00144}00144\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!UTF8\_atom\ ||\ !XPaste(UTF8\_atom,\ text))}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ fallback}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ XPaste(XA\_STRING\_atom,\ text);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00150}00150\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00151}00151\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00152}00152\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ text\ =\ clipboard\_text;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00154}00154\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00155}00155\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00157}00157\ \textcolor{keywordtype}{void}\ SystemInterface\_X11::XCopy(\textcolor{keyword}{const}\ Rml::String\&\ clipboard\_data,\ \textcolor{keyword}{const}\ XEvent\&\ event)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00158}00158\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00159}00159\ \ \ \ \ Atom\ format\ =\ (UTF8\_atom\ ?\ UTF8\_atom\ :\ XA\_STRING\_atom);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00161}00161\ \ \ \ \ XSelectionEvent\ ev\ =\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ SelectionNotify,\ \textcolor{comment}{//\ the\ event\ type\ that\ will\ be\ sent\ to\ the\ requestor}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ serial}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ send\_event}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}.xselectionrequest.display,\ \textcolor{keyword}{event}.xselectionrequest.requestor,\ \textcolor{keyword}{event}.xselectionrequest.selection,\ \textcolor{keyword}{event}.xselectionrequest.target,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{keyword}{event}.xselectionrequest.property,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ 0\ \textcolor{comment}{//\ time}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00168}00168\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00170}00170\ \ \ \ \ \textcolor{keywordtype}{int}\ retval\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00171}00171\ \ \ \ \ \textcolor{keywordflow}{if}\ (ev.target\ ==\ TARGETS\_atom)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00172}00172\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ retval\ =\ XChangeProperty(ev.display,\ ev.requestor,\ ev.property,\ XA\_atom,\ 32,\ PropModeReplace,\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*)\&format,\ 1);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00174}00174\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00175}00175\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (ev.target\ ==\ XA\_STRING\_atom\ ||\ ev.target\ ==\ TEXT\_atom)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00176}00176\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ retval\ =\ XChangeProperty(ev.display,\ ev.requestor,\ ev.property,\ XA\_STRING\_atom,\ 8,\ PropModeReplace,\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*)clipboard\_data.c\_str(),}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ clipboard\_data.size());}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00179}00179\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00180}00180\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (ev.target\ ==\ UTF8\_atom)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00181}00181\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ retval\ =\ XChangeProperty(ev.display,\ ev.requestor,\ ev.property,\ UTF8\_atom,\ 8,\ PropModeReplace,\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*)clipboard\_data.c\_str(),}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ clipboard\_data.size());}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00184}00184\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00185}00185\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00186}00186\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ ev.property\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00188}00188\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00189}00189\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00190}00190\ \ \ \ \ \textcolor{keywordflow}{if}\ ((retval\ \&\ 2)\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00191}00191\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Notify\ the\ requestor\ that\ clipboard\ data\ is\ available}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ XSendEvent(display,\ ev.requestor,\ 0,\ 0,\ (XEvent*)\&ev);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00194}00194\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00195}00195\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00197}00197\ \textcolor{keywordtype}{bool}\ SystemInterface\_X11::XPaste(Atom\ target\_atom,\ Rml::String\&\ clipboard\_data)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00198}00198\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00199}00199\ \ \ \ \ XEvent\ ev;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00201}00201\ \ \ \ \ \textcolor{comment}{//\ A\ SelectionRequest\ event\ will\ be\ sent\ to\ the\ clipboard\ owner,\ which\ should\ respond\ with\ SelectionNotify}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00202}00202\ \ \ \ \ XConvertSelection(display,\ CLIPBOARD\_atom,\ target\_atom,\ XSEL\_DATA\_atom,\ window,\ CurrentTime);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00203}00203\ \ \ \ \ XSync(display,\ 0);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00204}00204\ \ \ \ \ XNextEvent(display,\ \&ev);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00206}00206\ \ \ \ \ \textcolor{keywordflow}{if}\ (ev.type\ ==\ SelectionNotify)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00207}00207\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev.xselection.property\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ no\ owner\ for\ the\ specified\ selection\ exists,\ the\ X\ server\ generates}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ a\ SelectionNotify\ event\ with\ property\ None\ (0).}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ev.xselection.selection\ ==\ CLIPBOARD\_atom)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ actual\_format;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ bytes\_after,\ nitems;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ prop\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ Atom\ actual\_type;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ XGetWindowProperty(ev.xselection.display,\ ev.xselection.requestor,\ ev.xselection.property,}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0L,\ \ \ \ \textcolor{comment}{//\ offset}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\string~0L),\ \textcolor{comment}{//\ length}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \textcolor{comment}{//\ delete?}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AnyPropertyType,\ \&actual\_type,\ \&actual\_format,\ \&nitems,\ \&bytes\_after,\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}**)\&prop);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (actual\_type\ ==\ UTF8\_atom\ ||\ actual\_type\ ==\ XA\_STRING\_atom)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clipboard\_data\ =\ Rml::String(prop,\ prop\ +\ nitems);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XFree(prop);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ XDeleteProperty(ev.xselection.display,\ ev.xselection.requestor,\ ev.xselection.property);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00234}00234\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00235}00235\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00236}00236\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00237}00237\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00238}00238\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00240}00240\ \textcolor{keywordtype}{bool}\ RmlX11::HandleInputEvent(Rml::Context*\ context,\ Display*\ display,\ \textcolor{keyword}{const}\ XEvent\&\ ev)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00241}00241\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00242}00242\ \ \ \ \ \textcolor{keywordflow}{switch}\ (ev.type)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00243}00243\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00244}00244\ \ \ \ \ \textcolor{keywordflow}{case}\ ButtonPress:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00245}00245\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00246}00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (ev.xbutton.button)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00247}00247\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00248}00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Button1:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Button2:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Button3:\ \textcolor{keywordflow}{return}\ context-\/>ProcessMouseButtonDown(ConvertMouseButton(ev.xbutton.button),\ RmlX11::GetKeyModifierState(ev.xbutton.state));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Button4:\ \textcolor{keywordflow}{return}\ context-\/>ProcessMouseWheel(-\/1,\ RmlX11::GetKeyModifierState(ev.xbutton.state));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Button5:\ \textcolor{keywordflow}{return}\ context-\/>ProcessMouseWheel(1,\ RmlX11::GetKeyModifierState(ev.xbutton.state));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00255}00255\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00256}00256\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00257}00257\ \ \ \ \ \textcolor{keywordflow}{case}\ ButtonRelease:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00258}00258\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (ev.xbutton.button)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Button1:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Button2:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ Button3:\ \textcolor{keywordflow}{return}\ context-\/>ProcessMouseButtonUp(ConvertMouseButton(ev.xbutton.button),\ RmlX11::GetKeyModifierState(ev.xbutton.state));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00266}00266\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00267}00267\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00268}00268\ \ \ \ \ \textcolor{keywordflow}{case}\ MotionNotify:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00269}00269\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ context-\/>ProcessMouseMove(ev.xmotion.x,\ ev.xmotion.y,\ RmlX11::GetKeyModifierState(ev.xmotion.state));}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00271}00271\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00272}00272\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00273}00273\ \ \ \ \ \textcolor{keywordflow}{case}\ LeaveNotify:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00274}00274\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ context-\/>ProcessMouseLeave();}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00276}00276\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00277}00277\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00278}00278\ \ \ \ \ \textcolor{keywordflow}{case}\ KeyPress:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00279}00279\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ Rml::Input::KeyIdentifier\ key\_identifier\ =\ RmlX11::ConvertKey(display,\ ev.xkey.keycode);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ key\_modifier\_state\ =\ RmlX11::GetKeyModifierState(ev.xkey.state);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ propagates\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00284}00284\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_identifier\ !=\ Rml::Input::KI\_UNKNOWN)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ propagates\ =\ context-\/>ProcessKeyDown(key\_identifier,\ key\_modifier\_state);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ Rml::Character\ character\ =\ GetCharacterCode(key\_identifier,\ key\_modifier\_state);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (character\ !=\ Rml::Character::Null\ \&\&\ !(key\_modifier\_state\ \&\ Rml::Input::KM\_CTRL))}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ propagates\ \&=\ context-\/>ProcessTextInput(character);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ propagates;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00293}00293\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00294}00294\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00295}00295\ \ \ \ \ \textcolor{keywordflow}{case}\ KeyRelease:}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00296}00296\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ Rml::Input::KeyIdentifier\ key\_identifier\ =\ RmlX11::ConvertKey(display,\ ev.xkey.keycode);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00298}00298\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ key\_modifier\_state\ =\ RmlX11::GetKeyModifierState(ev.xkey.state);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ propagates\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_identifier\ !=\ Rml::Input::KI\_UNKNOWN)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ propagates\ =\ context-\/>ProcessKeyUp(key\_identifier,\ key\_modifier\_state);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00305}00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ propagates;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00306}00306\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00307}00307\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00308}00308\ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00309}00309\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00311}00311\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00312}00312\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00314}00314\ \textcolor{keywordtype}{int}\ RmlX11::GetKeyModifierState(\textcolor{keywordtype}{int}\ x11\_state)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00315}00315\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00316}00316\ \ \ \ \ \textcolor{keywordtype}{int}\ key\_modifier\_state\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00318}00318\ \ \ \ \ \textcolor{keywordflow}{if}\ (x11\_state\ \&\ ShiftMask)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ \ key\_modifier\_state\ |=\ Rml::Input::KM\_SHIFT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00321}00321\ \ \ \ \ \textcolor{keywordflow}{if}\ (x11\_state\ \&\ LockMask)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ key\_modifier\_state\ |=\ Rml::Input::KM\_CAPSLOCK;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00324}00324\ \ \ \ \ \textcolor{keywordflow}{if}\ (x11\_state\ \&\ ControlMask)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ key\_modifier\_state\ |=\ Rml::Input::KM\_CTRL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00326}00326\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00327}00327\ \ \ \ \ \textcolor{keywordflow}{if}\ (x11\_state\ \&\ Mod5Mask)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ key\_modifier\_state\ |=\ Rml::Input::KM\_ALT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00329}00329\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00330}00330\ \ \ \ \ \textcolor{keywordflow}{if}\ (x11\_state\ \&\ Mod2Mask)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00331}00331\ \ \ \ \ \ \ \ \ key\_modifier\_state\ |=\ Rml::Input::KM\_NUMLOCK;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00332}00332\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00333}00333\ \ \ \ \ \textcolor{keywordflow}{return}\ key\_modifier\_state;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00334}00334\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00339}\mbox{\hyperlink{struct_x_key_data}{00339}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_x_key_data}{XKeyData}}\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00340}00340\ \textcolor{preprocessor}{\#ifdef\ HAS\_X11XKBLIB}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00341}00341\ \ \ \ \ \textcolor{keywordtype}{bool}\ has\_xkblib\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00342}00342\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ HAS\_X11XKBLIB}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00343}00343\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00344}\mbox{\hyperlink{struct_x_key_data_ace762323dea60b845d309aabaeba2d01}{00344}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_x_key_data_ace762323dea60b845d309aabaeba2d01}{initialized}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00345}\mbox{\hyperlink{struct_x_key_data_a934b9d83785ed7b3a36f30711904fab5}{00345}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_x_key_data_a0862c95e32b4244f2418bd8ec460341b}{min\_keycode}}\ =\ 0,\ \mbox{\hyperlink{struct_x_key_data_aa04a288eca815b0269c97d16eb16cab2}{max\_keycode}}\ =\ 0,\ \mbox{\hyperlink{struct_x_key_data_a934b9d83785ed7b3a36f30711904fab5}{keysyms\_per\_keycode}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00346}\mbox{\hyperlink{struct_x_key_data_a198c5efbbceeee80b1b1adf770f13a5c}{00346}}\ \ \ \ \ KeySym*\ \mbox{\hyperlink{struct_x_key_data_a198c5efbbceeee80b1b1adf770f13a5c}{x11\_key\_mapping}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00347}00347\ \};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00348}00348\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00349}00349\ \textcolor{comment}{//\ Get\ the\ key\ data,\ which\ is\ initialized\ and\ filled\ on\ the\ first\ fetch.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00350}00350\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_x_key_data}{XKeyData}}\&\ GetXKeyData(Display*\ display)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00351}00351\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00352}00352\ \ \ \ \ RMLUI\_ASSERT(display);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00353}00353\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{struct_x_key_data}{XKeyData}}\ data;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00355}00355\ \ \ \ \ \textcolor{keywordflow}{if}\ (!data.\mbox{\hyperlink{struct_x_key_data_ace762323dea60b845d309aabaeba2d01}{initialized}})}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00356}00356\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ data.\mbox{\hyperlink{struct_x_key_data_ace762323dea60b845d309aabaeba2d01}{initialized}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00358}00358\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00359}00359\ \textcolor{preprocessor}{\#ifdef\ HAS\_X11XKBLIB}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ opcode\_rtrn\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ event\_rtrn\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00362}00362\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ error\_rtrn\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00363}00363\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ major\_in\_out\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00364}00364\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ minor\_in\_out\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00365}00365\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Xkb\ extension\ may\ not\ exist\ in\ the\ server.\ This\ checks\ for\ its\ existence\ and\ initializes\ the\ extension\ if\ available.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ data.has\_xkblib\ =\ XkbQueryExtension(display,\ \&opcode\_rtrn,\ \&event\_rtrn,\ \&error\_rtrn,\ \&major\_in\_out,\ \&minor\_in\_out);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ Xkb\ isn't\ available,\ fall\ back\ to\ using\ XGetKeyboardMapping,\ which\ may\ occur\ if\ RmlUi\ is\ compiled\ with\ Xkb\ support\ but\ the\ server}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ doesn't\ support\ it.\ This\ occurs\ with\ older\ X11\ servers\ or\ virtual\ framebuffers\ such\ as\ x11vnc\ server.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00371}00371\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!data.has\_xkblib)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00372}00372\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ HAS\_X11XKBLIB}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00373}00373\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ XDisplayKeycodes(display,\ \&data.\mbox{\hyperlink{struct_x_key_data_a0862c95e32b4244f2418bd8ec460341b}{min\_keycode}},\ \&data.\mbox{\hyperlink{struct_x_key_data_aa04a288eca815b0269c97d16eb16cab2}{max\_keycode}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00375}00375\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ data.\mbox{\hyperlink{struct_x_key_data_a198c5efbbceeee80b1b1adf770f13a5c}{x11\_key\_mapping}}\ =\ XGetKeyboardMapping(display,\ data.\mbox{\hyperlink{struct_x_key_data_a0862c95e32b4244f2418bd8ec460341b}{min\_keycode}},\ data.\mbox{\hyperlink{struct_x_key_data_aa04a288eca815b0269c97d16eb16cab2}{max\_keycode}}\ +\ 1\ -\/\ data.\mbox{\hyperlink{struct_x_key_data_a0862c95e32b4244f2418bd8ec460341b}{min\_keycode}},\ \&data.\mbox{\hyperlink{struct_x_key_data_a934b9d83785ed7b3a36f30711904fab5}{keysyms\_per\_keycode}});}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00377}00377\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00378}00378\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00379}00379\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00380}00380\ \ \ \ \ \textcolor{keywordflow}{return}\ data;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00381}00381\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00383}00383\ Rml::Input::KeyIdentifier\ RmlX11::ConvertKey(Display*\ display,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ x11\_key\_code)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00384}00384\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00385}00385\ \ \ \ \ RMLUI\_ASSERT(display);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00386}00386\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_x_key_data}{XKeyData}}\&\ key\_data\ =\ GetXKeyData(display);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00387}00387\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00388}00388\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ group\_index\ =\ 0;\ \textcolor{comment}{//\ this\ is\ always\ 0\ for\ our\ limited\ example}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00389}00389\ \ \ \ \ KeySym\ sym\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00390}00390\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00391}00391\ \textcolor{preprocessor}{\#ifdef\ HAS\_X11XKBLIB}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00392}00392\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_data.has\_xkblib)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00393}00393\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00394}00394\ \ \ \ \ \ \ \ \ sym\ =\ XkbKeycodeToKeysym(display,\ x11\_key\_code,\ 0,\ group\_index);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00395}00395\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00396}00396\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00397}00397\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ HAS\_X11XKBLIB}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00398}00398\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00399}00399\ \ \ \ \ \ \ \ \ KeySym\ sym\_full\ =\ key\_data.\mbox{\hyperlink{struct_x_key_data_a198c5efbbceeee80b1b1adf770f13a5c}{x11\_key\_mapping}}[(x11\_key\_code\ -\/\ key\_data.\mbox{\hyperlink{struct_x_key_data_a0862c95e32b4244f2418bd8ec460341b}{min\_keycode}})\ *\ key\_data.\mbox{\hyperlink{struct_x_key_data_a934b9d83785ed7b3a36f30711904fab5}{keysyms\_per\_keycode}}\ +\ group\_index];}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00400}00400\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00401}00401\ \ \ \ \ \ \ \ \ KeySym\ lower\_sym,\ upper\_sym;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00402}00402\ \ \ \ \ \ \ \ \ XConvertCase(sym\_full,\ \&lower\_sym,\ \&upper\_sym);}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00403}00403\ \ \ \ \ \ \ \ \ sym\ =\ lower\_sym;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00404}00404\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00405}00405\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00406}00406\ \ \ \ \ \textcolor{comment}{//\ clang-\/format\ off}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00407}00407\ \ \ \ \ \textcolor{keywordflow}{switch}\ (sym\ \&\ 0xFF)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00408}00408\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00409}00409\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_BackSpace\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_BACK;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00410}00410\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Tab\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_TAB;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00411}00411\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Clear\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_CLEAR;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00412}00412\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Return\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_RETURN;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00413}00413\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Pause\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_PAUSE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00414}00414\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Scroll\_Lock\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_SCROLL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00415}00415\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Escape\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_ESCAPE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00416}00416\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Delete\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_DELETE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00418}00418\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Kanji\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_KANJI;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00419}00419\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Muhenkan\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ Cancel\ Conversion\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00420}00420\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Henkan\_Mode\ \&\ 0xFF:\ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ Start/Stop\ Conversion\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00421}00421\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Henkan\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ Alias\ for\ Henkan\_Mode\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00422}00422\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Romaji\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ to\ Romaji\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00423}00423\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Hiragana\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ to\ Hiragana\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00424}00424\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Katakana\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ to\ Katakana\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00425}00425\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Hiragana\_Katakana\ \&\ 0xFF:\ return\ Rml::Input::;\ /*\ Hiragana/Katakana\ toggle\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00426}00426\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Zenkaku\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ to\ Zenkaku\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00427}00427\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Hankaku\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ to\ Hankaku\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00428}00428\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Zenkaku\_Hankaku\ \&\ 0xFF:\ \ \ return\ Rml::Input::;\ /*\ Zenkaku/Hankaku\ toggle\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00429}00429\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Touroku\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_FJ\_TOUROKU;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00430}00430\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Massyo\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ return\ Rml::Input::KI\_OEM\_FJ\_MASSHOU;}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00431}00431\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Kana\_Lock\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ Kana\ Lock\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00432}00432\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Kana\_Shift\ \&\ 0xFF:\ \ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ Kana\ Shift\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00433}00433\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Eisu\_Shift\ \&\ 0xFF:\ \ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ Alphanumeric\ Shift\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00434}00434\ \ \ \ \ \textcolor{comment}{//\ \ case\ XK\_Eisu\_toggle\ \&\ 0xFF:\ \ \ \ \ \ \ return\ Rml::Input::;\ /*\ Alphanumeric\ toggle\ */}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00435}00435\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00436}00436\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Home\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_HOME;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00437}00437\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Left\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_LEFT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00438}00438\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Up\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_UP;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00439}00439\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Right\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_RIGHT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00440}00440\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Down\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_DOWN;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00441}00441\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Prior\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_PRIOR;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00442}00442\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Next\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NEXT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00443}00443\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_End\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_END;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00444}00444\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Begin\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_HOME;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00445}00445\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00446}00446\ \ \ \ \ \textcolor{comment}{//\ case\ XK\_Print\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ Rml::Input::KI\_SNAPSHOT;}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00447}00447\ \ \ \ \ \textcolor{comment}{//\ case\ XK\_Insert\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Rml::Input::KI\_INSERT;}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00448}00448\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Num\_Lock\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMLOCK;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00449}00449\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00450}00450\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Space\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_SPACE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00451}00451\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Tab\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_TAB;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00452}00452\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Enter\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPADENTER;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00453}00453\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_F1\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00454}00454\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_F2\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F2;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00455}00455\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_F3\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F3;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00456}00456\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_F4\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F4;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00457}00457\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Home\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD7;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00458}00458\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Left\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD4;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00459}00459\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Up\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD8;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00460}00460\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Right\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD6;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00461}00461\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Down\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD2;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00462}00462\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Prior\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD9;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00463}00463\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Next\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD3;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00464}00464\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_End\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00465}00465\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Begin\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD5;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00466}00466\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Insert\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_NUMPAD0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00467}00467\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Delete\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_DECIMAL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00468}00468\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Equal\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_NEC\_EQUAL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00469}00469\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Multiply\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_MULTIPLY;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00470}00470\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Add\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_ADD;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00471}00471\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Separator\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_SEPARATOR;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00472}00472\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Subtract\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_SUBTRACT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00473}00473\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Decimal\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_DECIMAL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00474}00474\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_KP\_Divide\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_DIVIDE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00475}00475\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00476}00476\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F1\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00477}00477\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F2\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F2;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00478}00478\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F3\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F3;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00479}00479\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F4\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F4;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00480}00480\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F5\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F5;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00481}00481\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F6\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F6;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00482}00482\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F7\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F7;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00483}00483\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F8\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F8;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00484}00484\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F9\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F9;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00485}00485\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F10\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F10;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00486}00486\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F11\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F11;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00487}00487\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F12\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F12;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00488}00488\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F13\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F13;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00489}00489\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F14\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F14;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00490}00490\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F15\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F15;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00491}00491\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F16\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F16;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00492}00492\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F17\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F17;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00493}00493\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F18\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F18;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00494}00494\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F19\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F19;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00495}00495\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F20\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F20;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00496}00496\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F21\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F21;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00497}00497\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F22\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F22;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00498}00498\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F23\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F23;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00499}00499\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_F24\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F24;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00500}00500\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00501}00501\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Shift\_L\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_LSHIFT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00502}00502\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Shift\_R\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_RSHIFT;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00503}00503\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Control\_L\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_LCONTROL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00504}00504\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Control\_R\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_RCONTROL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00505}00505\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Caps\_Lock\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_CAPITAL;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00506}00506\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00507}00507\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Alt\_L\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_LMENU;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00508}00508\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_Alt\_R\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_RMENU;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00509}00509\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00510}00510\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_space\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_SPACE;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00511}00511\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_apostrophe\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_7;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00512}00512\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_comma\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_COMMA;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00513}00513\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_minus\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_MINUS;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00514}00514\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_period\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_PERIOD;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00515}00515\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_slash\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_2;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00516}00516\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_0\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00517}00517\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_1\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00518}00518\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_2\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_2;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00519}00519\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_3\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_3;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00520}00520\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_4\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_4;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00521}00521\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_5\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_5;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00522}00522\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_6\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_6;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00523}00523\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_7\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_7;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00524}00524\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_8\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_8;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00525}00525\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_9\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_9;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00526}00526\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_semicolon\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00527}00527\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_equal\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_PLUS;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00528}00528\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_bracketleft\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_4;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00529}00529\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_backslash\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_5;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00530}00530\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_bracketright\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_6;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00531}00531\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_grave\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_OEM\_3;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00532}00532\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_a\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_A;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00533}00533\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_b\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_B;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00534}00534\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_c\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_C;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00535}00535\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_d\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_D;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00536}00536\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_e\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_E;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00537}00537\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_f\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_F;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00538}00538\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_g\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_G;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00539}00539\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_h\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_H;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00540}00540\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_i\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_I;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00541}00541\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_j\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_J;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00542}00542\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_k\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_K;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00543}00543\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_l\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_L;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00544}00544\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_m\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_M;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00545}00545\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_n\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_N;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00546}00546\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_o\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_O;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00547}00547\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_p\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_P;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00548}00548\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_q\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_Q;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00549}00549\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_r\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_R;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00550}00550\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_s\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_S;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00551}00551\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_t\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_T;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00552}00552\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_u\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_U;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00553}00553\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_v\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_V;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00554}00554\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_w\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_W;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00555}00555\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_x\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_X;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00556}00556\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_y\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_Y;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00557}00557\ \ \ \ \ \textcolor{keywordflow}{case}\ XK\_z\ \&\ 0xFF:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_Z;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00558}00558\ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00559}00559\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00560}00560\ \ \ \ \ \textcolor{comment}{//\ clang-\/format\ on}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00561}00561\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00562}00562\ \ \ \ \ \textcolor{keywordflow}{return}\ Rml::Input::KI\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00563}00563\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00564}00564\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00565}00565\ \textcolor{keywordtype}{int}\ RmlX11::ConvertMouseButton(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ x11\_mouse\_button)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00566}00566\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00567}00567\ \ \ \ \ \textcolor{keywordflow}{switch}\ (x11\_mouse\_button)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00568}00568\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00569}00569\ \ \ \ \ \textcolor{keywordflow}{case}\ Button1:\ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00570}00570\ \ \ \ \ \textcolor{keywordflow}{case}\ Button2:\ \textcolor{keywordflow}{return}\ 2;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00571}00571\ \ \ \ \ \textcolor{keywordflow}{case}\ Button3:\ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00572}00572\ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00573}00573\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00574}00574\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00575}00575\ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00576}00576\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00582}00582\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char}\ ascii\_map[4][51]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00583}00583\ \ \ \ \ \textcolor{comment}{//\ shift\ off\ and\ capslock\ off}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00584}00584\ \ \ \ \ \{0,\ \textcolor{charliteral}{'\ '},\ \textcolor{charliteral}{'0'},\ \textcolor{charliteral}{'1'},\ \textcolor{charliteral}{'2'},\ \textcolor{charliteral}{'3'},\ \textcolor{charliteral}{'4'},\ \textcolor{charliteral}{'5'},\ \textcolor{charliteral}{'6'},\ \textcolor{charliteral}{'7'},\ \textcolor{charliteral}{'8'},\ \textcolor{charliteral}{'9'},\ \textcolor{charliteral}{'a'},\ \textcolor{charliteral}{'b'},\ \textcolor{charliteral}{'c'},\ \textcolor{charliteral}{'d'},\ \textcolor{charliteral}{'e'},\ \textcolor{charliteral}{'f'},\ \textcolor{charliteral}{'g'},\ \textcolor{charliteral}{'h'},\ \textcolor{charliteral}{'i'},\ \textcolor{charliteral}{'j'},\ \textcolor{charliteral}{'k'},\ \textcolor{charliteral}{'l'},\ \textcolor{charliteral}{'m'},\ \textcolor{charliteral}{'n'},\ \textcolor{charliteral}{'o'},\ \textcolor{charliteral}{'p'},\ \textcolor{charliteral}{'q'},}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00585}00585\ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'r'},\ \textcolor{charliteral}{'s'},\ \textcolor{charliteral}{'t'},\ \textcolor{charliteral}{'u'},\ \textcolor{charliteral}{'v'},\ \textcolor{charliteral}{'w'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'y'},\ \textcolor{charliteral}{'z'},\ \textcolor{charliteral}{';'},\ \textcolor{charliteral}{'='},\ \textcolor{charliteral}{','},\ \textcolor{charliteral}{'-\/'},\ \textcolor{charliteral}{'.'},\ \textcolor{charliteral}{'/'},\ \textcolor{charliteral}{'`'},\ \textcolor{charliteral}{'['},\ \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'},\ \textcolor{charliteral}{']'},\ \textcolor{charliteral}{'\(\backslash\)''},\ 0,\ 0\},}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00586}00586\ \ \ \ \ \textcolor{comment}{//\ shift\ on\ and\ capslock\ off}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00587}00587\ \ \ \ \ \{0,\ \textcolor{charliteral}{'\ '},\ \textcolor{charliteral}{')'},\ \textcolor{charliteral}{'!'},\ \textcolor{charliteral}{'@'},\ \textcolor{charliteral}{'\#'},\ \textcolor{charliteral}{'\$'},\ \textcolor{charliteral}{'\%'},\ \textcolor{charliteral}{'\string^'},\ \textcolor{charliteral}{'\&'},\ \textcolor{charliteral}{'*'},\ \textcolor{charliteral}{'('},\ \textcolor{charliteral}{'A'},\ \textcolor{charliteral}{'B'},\ \textcolor{charliteral}{'C'},\ \textcolor{charliteral}{'D'},\ \textcolor{charliteral}{'E'},\ \textcolor{charliteral}{'F'},\ \textcolor{charliteral}{'G'},\ \textcolor{charliteral}{'H'},\ \textcolor{charliteral}{'I'},\ \textcolor{charliteral}{'J'},\ \textcolor{charliteral}{'K'},\ \textcolor{charliteral}{'L'},\ \textcolor{charliteral}{'M'},\ \textcolor{charliteral}{'N'},\ \textcolor{charliteral}{'O'},\ \textcolor{charliteral}{'P'},\ \textcolor{charliteral}{'Q'},}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00588}00588\ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'R'},\ \textcolor{charliteral}{'S'},\ \textcolor{charliteral}{'T'},\ \textcolor{charliteral}{'U'},\ \textcolor{charliteral}{'V'},\ \textcolor{charliteral}{'W'},\ \textcolor{charliteral}{'X'},\ \textcolor{charliteral}{'Y'},\ \textcolor{charliteral}{'Z'},\ \textcolor{charliteral}{':'},\ \textcolor{charliteral}{'+'},\ \textcolor{charliteral}{'<'},\ \textcolor{charliteral}{'\_'},\ \textcolor{charliteral}{'>'},\ \textcolor{charliteral}{'?'},\ \textcolor{charliteral}{'\string~'},\ \textcolor{charliteral}{'\{'},\ \textcolor{charliteral}{'|'},\ \textcolor{charliteral}{'\}'},\ \textcolor{charliteral}{'"{}'},\ 0,\ 0\},}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00589}00589\ \ \ \ \ \textcolor{comment}{//\ shift\ on\ and\ capslock\ on}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00590}00590\ \ \ \ \ \{0,\ \textcolor{charliteral}{'\ '},\ \textcolor{charliteral}{')'},\ \textcolor{charliteral}{'!'},\ \textcolor{charliteral}{'@'},\ \textcolor{charliteral}{'\#'},\ \textcolor{charliteral}{'\$'},\ \textcolor{charliteral}{'\%'},\ \textcolor{charliteral}{'\string^'},\ \textcolor{charliteral}{'\&'},\ \textcolor{charliteral}{'*'},\ \textcolor{charliteral}{'('},\ \textcolor{charliteral}{'a'},\ \textcolor{charliteral}{'b'},\ \textcolor{charliteral}{'c'},\ \textcolor{charliteral}{'d'},\ \textcolor{charliteral}{'e'},\ \textcolor{charliteral}{'f'},\ \textcolor{charliteral}{'g'},\ \textcolor{charliteral}{'h'},\ \textcolor{charliteral}{'i'},\ \textcolor{charliteral}{'j'},\ \textcolor{charliteral}{'k'},\ \textcolor{charliteral}{'l'},\ \textcolor{charliteral}{'m'},\ \textcolor{charliteral}{'n'},\ \textcolor{charliteral}{'o'},\ \textcolor{charliteral}{'p'},\ \textcolor{charliteral}{'q'},}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00591}00591\ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'r'},\ \textcolor{charliteral}{'s'},\ \textcolor{charliteral}{'t'},\ \textcolor{charliteral}{'u'},\ \textcolor{charliteral}{'v'},\ \textcolor{charliteral}{'w'},\ \textcolor{charliteral}{'x'},\ \textcolor{charliteral}{'y'},\ \textcolor{charliteral}{'z'},\ \textcolor{charliteral}{':'},\ \textcolor{charliteral}{'+'},\ \textcolor{charliteral}{'<'},\ \textcolor{charliteral}{'\_'},\ \textcolor{charliteral}{'>'},\ \textcolor{charliteral}{'?'},\ \textcolor{charliteral}{'\string~'},\ \textcolor{charliteral}{'\{'},\ \textcolor{charliteral}{'|'},\ \textcolor{charliteral}{'\}'},\ \textcolor{charliteral}{'"{}'},\ 0,\ 0\},}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00592}00592\ \ \ \ \ \textcolor{comment}{//\ shift\ off\ and\ capslock\ on}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00593}00593\ \ \ \ \ \{0,\ \textcolor{charliteral}{'\ '},\ \textcolor{charliteral}{'1'},\ \textcolor{charliteral}{'2'},\ \textcolor{charliteral}{'3'},\ \textcolor{charliteral}{'4'},\ \textcolor{charliteral}{'5'},\ \textcolor{charliteral}{'6'},\ \textcolor{charliteral}{'7'},\ \textcolor{charliteral}{'8'},\ \textcolor{charliteral}{'9'},\ \textcolor{charliteral}{'0'},\ \textcolor{charliteral}{'A'},\ \textcolor{charliteral}{'B'},\ \textcolor{charliteral}{'C'},\ \textcolor{charliteral}{'D'},\ \textcolor{charliteral}{'E'},\ \textcolor{charliteral}{'F'},\ \textcolor{charliteral}{'G'},\ \textcolor{charliteral}{'H'},\ \textcolor{charliteral}{'I'},\ \textcolor{charliteral}{'J'},\ \textcolor{charliteral}{'K'},\ \textcolor{charliteral}{'L'},\ \textcolor{charliteral}{'M'},\ \textcolor{charliteral}{'N'},\ \textcolor{charliteral}{'O'},\ \textcolor{charliteral}{'P'},\ \textcolor{charliteral}{'Q'},}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00594}00594\ \ \ \ \ \ \ \ \ \textcolor{charliteral}{'R'},\ \textcolor{charliteral}{'S'},\ \textcolor{charliteral}{'T'},\ \textcolor{charliteral}{'U'},\ \textcolor{charliteral}{'V'},\ \textcolor{charliteral}{'W'},\ \textcolor{charliteral}{'X'},\ \textcolor{charliteral}{'Y'},\ \textcolor{charliteral}{'Z'},\ \textcolor{charliteral}{';'},\ \textcolor{charliteral}{'='},\ \textcolor{charliteral}{','},\ \textcolor{charliteral}{'-\/'},\ \textcolor{charliteral}{'.'},\ \textcolor{charliteral}{'/'},\ \textcolor{charliteral}{'`'},\ \textcolor{charliteral}{'['},\ \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'},\ \textcolor{charliteral}{']'},\ \textcolor{charliteral}{'\(\backslash\)''},\ 0,\ 0\}\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00595}00595\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00596}00596\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char}\ keypad\_map[2][18]\ =\ \{\{\textcolor{charliteral}{'0'},\ \textcolor{charliteral}{'1'},\ \textcolor{charliteral}{'2'},\ \textcolor{charliteral}{'3'},\ \textcolor{charliteral}{'4'},\ \textcolor{charliteral}{'5'},\ \textcolor{charliteral}{'6'},\ \textcolor{charliteral}{'7'},\ \textcolor{charliteral}{'8'},\ \textcolor{charliteral}{'9'},\ \textcolor{charliteral}{'\(\backslash\)n'},\ \textcolor{charliteral}{'*'},\ \textcolor{charliteral}{'+'},\ 0,\ \textcolor{charliteral}{'-\/'},\ \textcolor{charliteral}{'.'},\ \textcolor{charliteral}{'/'},\ \textcolor{charliteral}{'='}\},}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00597}00597\ \ \ \ \ \{0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ 0,\ \textcolor{charliteral}{'\(\backslash\)n'},\ \textcolor{charliteral}{'*'},\ \textcolor{charliteral}{'+'},\ 0,\ \textcolor{charliteral}{'-\/'},\ 0,\ \textcolor{charliteral}{'/'},\ \textcolor{charliteral}{'='}\}\};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00598}00598\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00599}00599\ \textcolor{comment}{//\ Returns\ the\ character\ code\ for\ a\ key\ identifer\ /\ key\ modifier\ combination.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00600}00600\ \textcolor{keyword}{static}\ Rml::Character\ GetCharacterCode(Rml::Input::KeyIdentifier\ key\_identifier,\ \textcolor{keywordtype}{int}\ key\_modifier\_state)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00601}00601\ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00602}00602\ \ \ \ \ \textcolor{keyword}{using\ }Rml::Character;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00603}00603\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00604}00604\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ we\ have\ a\ keycode\ capable\ of\ generating\ characters\ on\ the\ main\ keyboard\ (ie,\ not\ on\ the\ numeric}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00605}00605\ \ \ \ \ \textcolor{comment}{//\ keypad;\ that\ is\ dealt\ with\ below).}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00606}00606\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_identifier\ <=\ Rml::Input::KI\_OEM\_102)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00607}00607\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00608}00608\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ modifier\ states}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00609}00609\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ shift\ =\ (key\_modifier\_state\ \&\ Rml::Input::KM\_SHIFT)\ >\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00610}00610\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ capslock\ =\ (key\_modifier\_state\ \&\ Rml::Input::KM\_CAPSLOCK)\ >\ 0;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00611}00611\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00612}00612\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Return\ character\ code\ based\ on\ identifier\ and\ modifiers}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00613}00613\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shift\ \&\&\ !capslock)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00614}00614\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (Character)ascii\_map[1][key\_identifier];}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00615}00615\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00616}00616\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shift\ \&\&\ capslock)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00617}00617\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (Character)ascii\_map[2][key\_identifier];}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00618}00618\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00619}00619\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!shift\ \&\&\ capslock)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00620}00620\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (Character)ascii\_map[3][key\_identifier];}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00621}00621\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00622}00622\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (Character)ascii\_map[0][key\_identifier];}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00623}00623\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00624}00624\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00625}00625\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ we\ have\ a\ keycode\ from\ the\ numeric\ keypad.}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00626}00626\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (key\_identifier\ <=\ Rml::Input::KI\_OEM\_NEC\_EQUAL)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00627}00627\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00628}00628\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_modifier\_state\ \&\ Rml::Input::KM\_NUMLOCK)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00629}00629\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (Character)keypad\_map[0][key\_identifier\ -\/\ Rml::Input::KI\_NUMPAD0];}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00630}00630\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00631}00631\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (Character)keypad\_map[1][key\_identifier\ -\/\ Rml::Input::KI\_NUMPAD0];}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00632}00632\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00633}00633\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00634}00634\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (key\_identifier\ ==\ Rml::Input::KI\_RETURN)}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00635}00635\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (Character)\textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00636}00636\ }
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00637}00637\ \ \ \ \ \textcolor{keywordflow}{return}\ Character::Null;}
+\DoxyCodeLine{\Hypertarget{_rml_ui___platform___x11_8cpp_source_l00638}00638\ \}}
+
+\end{DoxyCode}

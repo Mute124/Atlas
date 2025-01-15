@@ -1,0 +1,187 @@
+\doxysection{Recommended usage patterns}
+\hypertarget{usage_patterns}{}\label{usage_patterns}\index{Recommended usage patterns@{Recommended usage patterns}}
+Vulkan gives great flexibility in memory allocation. This chapter shows the most common patterns.
+
+See also slides from talk\+: \href{https://www.gdcvault.com/play/1025458/Advanced-Graphics-Techniques-Tutorial-New}{\texttt{ Sawicki, Adam. Advanced Graphics Techniques Tutorial\+: Memory management in Vulkan and DX12. Game Developers Conference, 2018}}\hypertarget{usage_patterns_usage_patterns_gpu_only}{}\doxysubsection{\texorpdfstring{GPU-\/only resource}{GPU-only resource}}\label{usage_patterns_usage_patterns_gpu_only}
+{\bfseries{When\+:}} Any resources that you frequently write and read on GPU, e.\+g. images used as color attachments (aka "{}render targets"{}), depth-\/stencil attachments, images/buffers used as storage image/buffer (aka "{}\+Unordered Access View (\+UAV)"{}).
+
+{\bfseries{What to do\+:}} Let the library select the optimal memory type, which will likely have {\ttfamily VK\+\_\+\+MEMORY\+\_\+\+PROPERTY\+\_\+\+DEVICE\+\_\+\+LOCAL\+\_\+\+BIT}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_image_create_info}{VkImageCreateInfo}}\ imgCreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a6c3f80c9a0267b7a8fa80ebd3344197c}{VK\_STRUCTURE\_TYPE\_IMAGE\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_aa595c6fabd7b5f39fec5765847bf8525}{imageType}}\ =\ \mbox{\hyperlink{vulkan_8h_aa84985704e226942ee3d767563ed17b2a334b34484fb69a5e28522a5837233737}{VK\_IMAGE\_TYPE\_2D}};}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8987da3bd3f1614dbb69a70fb3539299}{extent}}.\mbox{\hyperlink{struct_vk_extent3_d_a5c0480aba24a58feed8834acdb442823}{width}}\ =\ 3840;}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8987da3bd3f1614dbb69a70fb3539299}{extent}}.\mbox{\hyperlink{struct_vk_extent3_d_a46a86cd9c09a22f5c35e0b70fc2808a0}{height}}\ =\ 2160;}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8987da3bd3f1614dbb69a70fb3539299}{extent}}.\mbox{\hyperlink{struct_vk_extent3_d_a03dd923b9778c6d1a3117fc22b47ac49}{depth}}\ =\ 1;}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a1ae4d9f8f412291dc7a124b715501d9b}{mipLevels}}\ =\ 1;}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a844cb4fcd6af3b0f1249342a1e603b2a}{arrayLayers}}\ =\ 1;}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a912f0e8e36d47c47e5651656a9b06013}{format}}\ =\ \mbox{\hyperlink{vulkan_8h_ad61b5b94a526d0f9ae0db97072cf6b3fa7a9d563b05a75170dd5a59d0bd123169}{VK\_FORMAT\_R8G8B8A8\_UNORM}};}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_aa5f0d81d41a504e01c929179c568936b}{tiling}}\ =\ \mbox{\hyperlink{vulkan_8h_a5456c8cb96f58d566fb71551a93fa8f4a19590de3e4e395ab085b010d99c526b2}{VK\_IMAGE\_TILING\_OPTIMAL}};}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a13d633f87608f9b3c4088a7af56d0670}{initialLayout}}\ =\ \mbox{\hyperlink{vulkan_8h_a10d9a29817e871a926df1834c7ccd88ca8c82f4974a794a28089e82451bd98445}{VK\_IMAGE\_LAYOUT\_UNDEFINED}};}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_ad5d6be080490a60ced3baaa4d4643dea}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_a74802f743a6af41eb139fca85d5e7381a3a9d5e56e5250dbfae0d5e009d71786a}{VK\_IMAGE\_USAGE\_SAMPLED\_BIT}}\ |\ \mbox{\hyperlink{vulkan_8h_a74802f743a6af41eb139fca85d5e7381a8fb6f8773b9f0ae2e313e19f6a2fbd52}{VK\_IMAGE\_USAGE\_COLOR\_ATTACHMENT\_BIT}};}
+\DoxyCodeLine{imgCreateInfo.\mbox{\hyperlink{struct_vk_image_create_info_a8771ce56c0eca0bd7e82327e244da132}{samples}}\ =\ \mbox{\hyperlink{vulkan_8h_a7972fb8a8ec7c225e60ca7c3de159706ae03a6b21b620e2c727076a3215b9f4fc}{VK\_SAMPLE\_COUNT\_1\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{flags}}\ =\ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a3fc311d855c2ff53f1090ef5c722b38f}{VMA\_ALLOCATION\_CREATE\_DEDICATED\_MEMORY\_BIT}};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_a983d39e1a2e63649d78a960aa2fdd0f7}{priority}}\ =\ 1.0f;}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkImage\ img;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ alloc;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gaa76142ae43535c862ad9e194a6e38aaa}{vmaCreateImage}}(allocator,\ \&imgCreateInfo,\ \&allocCreateInfo,\ \&img,\ \&alloc,\ \textcolor{keyword}{nullptr});}
+
+\end{DoxyCode}
+
+
+{\bfseries{Also consider\+:}} Consider creating them as dedicated allocations using \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a3fc311d855c2ff53f1090ef5c722b38f}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+DEDICATED\+\_\+\+MEMORY\+\_\+\+BIT}, especially if they are large or if you plan to destroy and recreate them with different sizes e.\+g. when display resolution changes. Prefer to create such resources first and all other GPU resources (like textures and vertex buffers) later. When VK\+\_\+\+EXT\+\_\+memory\+\_\+priority extension is enabled, it is also worth setting high priority to such allocation to decrease chances to be evicted to system memory by the operating system.\hypertarget{usage_patterns_usage_patterns_staging_copy_upload}{}\doxysubsection{\texorpdfstring{Staging copy for upload}{Staging copy for upload}}\label{usage_patterns_usage_patterns_staging_copy_upload}
+{\bfseries{When\+:}} A "{}staging"{} buffer than you want to map and fill from CPU code, then use as a source od transfer to some GPU resource.
+
+{\bfseries{What to do\+:}} Use flag \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+SEQUENTIAL\+\_\+\+WRITE\+\_\+\+BIT}. Let the library select the optimal memory type, which will always have {\ttfamily VK\+\_\+\+MEMORY\+\_\+\+PROPERTY\+\_\+\+HOST\+\_\+\+VISIBLE\+\_\+\+BIT}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ bufCreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{bufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ 65536;}
+\DoxyCodeLine{bufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a99f8f265d9d6dccbaa85d63807471909}{VK\_BUFFER\_USAGE\_TRANSFER\_SRC\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{flags}}\ =\ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\_ALLOCATION\_CREATE\_HOST\_ACCESS\_SEQUENTIAL\_WRITE\_BIT}}\ |}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\_ALLOCATION\_CREATE\_MAPPED\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkBuffer\ buf;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ alloc;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_info}{VmaAllocationInfo}}\ allocInfo;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&bufCreateInfo,\ \&allocCreateInfo,\ \&buf,\ \&alloc,\ \&allocInfo);}
+\DoxyCodeLine{}
+\DoxyCodeLine{...}
+\DoxyCodeLine{}
+\DoxyCodeLine{memcpy(allocInfo.\mbox{\hyperlink{struct_vma_allocation_info_a17a39eb34201a610347acb91b38eca79}{pMappedData}},\ myData,\ myDataSize);}
+
+\end{DoxyCode}
+
+
+{\bfseries{Also consider\+:}} You can map the allocation using \doxylink{group__group__alloc_ga13b93ec0ed38ad7232300cb94931c8d2}{vma\+Map\+Memory()} or you can create it as persistenly mapped using \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+MAPPED\+\_\+\+BIT}, as in the example above.\hypertarget{usage_patterns_usage_patterns_readback}{}\doxysubsection{\texorpdfstring{Readback}{Readback}}\label{usage_patterns_usage_patterns_readback}
+{\bfseries{When\+:}} Buffers for data written by or transferred from the GPU that you want to read back on the CPU, e.\+g. results of some computations.
+
+{\bfseries{What to do\+:}} Use flag \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597add61238d98e20917b9a06c617763f492}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+RANDOM\+\_\+\+BIT}. Let the library select the optimal memory type, which will always have {\ttfamily VK\+\_\+\+MEMORY\+\_\+\+PROPERTY\+\_\+\+HOST\+\_\+\+VISIBLE\+\_\+\+BIT} and {\ttfamily VK\+\_\+\+MEMORY\+\_\+\+PROPERTY\+\_\+\+HOST\+\_\+\+CACHED\+\_\+\+BIT}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ bufCreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{bufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ 65536;}
+\DoxyCodeLine{bufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a2671050fa41ffb988c79ac40e67fa25d}{VK\_BUFFER\_USAGE\_TRANSFER\_DST\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{flags}}\ =\ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597add61238d98e20917b9a06c617763f492}{VMA\_ALLOCATION\_CREATE\_HOST\_ACCESS\_RANDOM\_BIT}}\ |}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\_ALLOCATION\_CREATE\_MAPPED\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{VkBuffer\ buf;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ alloc;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_info}{VmaAllocationInfo}}\ allocInfo;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&bufCreateInfo,\ \&allocCreateInfo,\ \&buf,\ \&alloc,\ \&allocInfo);}
+\DoxyCodeLine{}
+\DoxyCodeLine{...}
+\DoxyCodeLine{}
+\DoxyCodeLine{const\ \textcolor{keywordtype}{float}*\ downloadedData\ =\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{float}*)allocInfo.\mbox{\hyperlink{struct_vma_allocation_info_a17a39eb34201a610347acb91b38eca79}{pMappedData}};}
+
+\end{DoxyCode}
+\hypertarget{usage_patterns_usage_patterns_advanced_data_uploading}{}\doxysubsection{\texorpdfstring{Advanced data uploading}{Advanced data uploading}}\label{usage_patterns_usage_patterns_advanced_data_uploading}
+For resources that you frequently write on CPU via mapped pointer and freqnently read on GPU e.\+g. as a uniform buffer (also called "{}dynamic"{}), multiple options are possible\+:
+
+
+\begin{DoxyEnumerate}
+\item Easiest solution is to have one copy of the resource in {\ttfamily HOST\+\_\+\+VISIBLE} memory, even if it means system RAM (not {\ttfamily DEVICE\+\_\+\+LOCAL}) on systems with a discrete graphics card, and make the device reach out to that resource directly.
+\begin{DoxyItemize}
+\item Reads performed by the device will then go through PCI Express bus. The performace of this access may be limited, but it may be fine depending on the size of this resource (whether it is small enough to quickly end up in GPU cache) and the sparsity of access.
+\end{DoxyItemize}
+\item On systems with unified memory (e.\+g. AMD APU or Intel integrated graphics, mobile chips), a memory type may be available that is both {\ttfamily HOST\+\_\+\+VISIBLE} (available for mapping) and {\ttfamily DEVICE\+\_\+\+LOCAL} (fast to access from the GPU). Then, it is likely the best choice for such type of resource.
+\item Systems with a discrete graphics card and separate video memory may or may not expose a memory type that is both {\ttfamily HOST\+\_\+\+VISIBLE} and {\ttfamily DEVICE\+\_\+\+LOCAL}, also known as Base Address Register (BAR). If they do, it represents a piece of VRAM (or entire VRAM, if Re\+BAR is enabled in the motherboard BIOS) that is available to CPU for mapping.
+\begin{DoxyItemize}
+\item Writes performed by the host to that memory go through PCI Express bus. The performance of these writes may be limited, but it may be fine, especially on PCIe 4.\+0, as long as rules of using uncached and write-\/combined memory are followed -\/ only sequential writes and no reads.
+\end{DoxyItemize}
+\item Finally, you may need or prefer to create a separate copy of the resource in {\ttfamily DEVICE\+\_\+\+LOCAL} memory, a separate "{}staging"{} copy in {\ttfamily HOST\+\_\+\+VISIBLE} memory and perform an explicit transfer command between them.
+\end{DoxyEnumerate}
+
+Thankfully, VMA offers an aid to create and use such resources in the the way optimal for the current Vulkan device. To help the library make the best choice, use flag \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+SEQUENTIAL\+\_\+\+WRITE\+\_\+\+BIT} together with \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11337f96eacf34c1016c339eac165cad}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+ALLOW\+\_\+\+TRANSFER\+\_\+\+INSTEAD\+\_\+\+BIT}. It will then prefer a memory type that is both {\ttfamily DEVICE\+\_\+\+LOCAL} and {\ttfamily HOST\+\_\+\+VISIBLE} (integrated memory or BAR), but if no such memory type is available or allocation from it fails (PC graphics cards have only 256 MB of BAR by default, unless Re\+BAR is supported and enabled in BIOS), it will fall back to {\ttfamily DEVICE\+\_\+\+LOCAL} memory for fast GPU access. It is then up to you to detect that the allocation ended up in a memory type that is not {\ttfamily HOST\+\_\+\+VISIBLE}, so you need to create another "{}staging"{} allocation and perform explicit transfers.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ bufCreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{bufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ 65536;}
+\DoxyCodeLine{bufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a6d37618aae152245b1ee0ef58e71d6f2}{VK\_BUFFER\_USAGE\_UNIFORM\_BUFFER\_BIT}}\ |\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a2671050fa41ffb988c79ac40e67fa25d}{VK\_BUFFER\_USAGE\_TRANSFER\_DST\_BIT}};}
+\DoxyCodeLine{\ }
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ allocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{allocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{flags}}\ =\ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\_ALLOCATION\_CREATE\_HOST\_ACCESS\_SEQUENTIAL\_WRITE\_BIT}}\ |}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11337f96eacf34c1016c339eac165cad}{VMA\_ALLOCATION\_CREATE\_HOST\_ACCESS\_ALLOW\_TRANSFER\_INSTEAD\_BIT}}\ |}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\_ALLOCATION\_CREATE\_MAPPED\_BIT}};}
+\DoxyCodeLine{\ }
+\DoxyCodeLine{VkBuffer\ buf;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ alloc;}
+\DoxyCodeLine{\mbox{\hyperlink{struct_vma_allocation_info}{VmaAllocationInfo}}\ allocInfo;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&bufCreateInfo,\ \&allocCreateInfo,\ \&buf,\ \&alloc,\ \&allocInfo);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\mbox{\hyperlink{vulkan_8h_a06f71178c68bf5712dbec35d6f124122}{VkMemoryPropertyFlags}}\ memPropFlags;}
+\DoxyCodeLine{\mbox{\hyperlink{group__group__alloc_gaf6785483eda8b53561437e05e2177d7b}{vmaGetAllocationMemoryProperties}}(allocator,\ alloc,\ \&memPropFlags);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordflow}{if}(memPropFlags\ \&\ \mbox{\hyperlink{vulkan_8h_a1afa959bb41f921269625a6372267856ae23c8f86393a2ec9210f7677a41118bf}{VK\_MEMORY\_PROPERTY\_HOST\_VISIBLE\_BIT}})}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Allocation\ ended\ up\ in\ a\ mappable\ memory\ and\ is\ already\ mapped\ -\/\ write\ to\ it\ directly.}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ [Executed\ in\ runtime]:}}
+\DoxyCodeLine{\ \ \ \ memcpy(allocInfo.\mbox{\hyperlink{struct_vma_allocation_info_a17a39eb34201a610347acb91b38eca79}{pMappedData}},\ myData,\ myDataSize);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{\textcolor{keywordflow}{else}}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ Allocation\ ended\ up\ in\ a\ non-\/mappable\ memory\ -\/\ need\ to\ transfer.}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{struct_vk_buffer_create_info}{VkBufferCreateInfo}}\ stagingBufCreateInfo\ =\ \{\ \mbox{\hyperlink{vulkan_8h_aff9f2b99398eb80a2b5a146bc5534ce8a5a546cbe030772b33c39ab807a8fb59a}{VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO}}\ \};}
+\DoxyCodeLine{\ \ \ \ stagingBufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_a230f56cdd2cce941ed343cec0756e59f}{size}}\ =\ 65536;}
+\DoxyCodeLine{\ \ \ \ stagingBufCreateInfo.\mbox{\hyperlink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{usage}}\ =\ \mbox{\hyperlink{vulkan_8h_ab2928667b5068a6978859a143e5fc6b6a99f8f265d9d6dccbaa85d63807471909}{VK\_BUFFER\_USAGE\_TRANSFER\_SRC\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{struct_vma_allocation_create_info}{VmaAllocationCreateInfo}}\ stagingAllocCreateInfo\ =\ \{\};}
+\DoxyCodeLine{\ \ \ \ stagingAllocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{usage}}\ =\ \mbox{\hyperlink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\_MEMORY\_USAGE\_AUTO}};}
+\DoxyCodeLine{\ \ \ \ stagingAllocCreateInfo.\mbox{\hyperlink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{flags}}\ =\ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\_ALLOCATION\_CREATE\_HOST\_ACCESS\_SEQUENTIAL\_WRITE\_BIT}}\ |}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a11da372cc3a82931c5e5d6146cd9dd1f}{VMA\_ALLOCATION\_CREATE\_MAPPED\_BIT}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ VkBuffer\ stagingBuf;}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{struct_vma_allocation}{VmaAllocation}}\ stagingAlloc;}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{struct_vma_allocation_info}{VmaAllocationInfo}}\ stagingAllocInfo;}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{group__group__alloc_gae9773fe0ef8582e23136d2d83c336ab9}{vmaCreateBuffer}}(allocator,\ \&stagingBufCreateInfo,\ \&stagingAllocCreateInfo,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \&stagingBuf,\ \&stagingAlloc,\ stagingAllocInfo);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ [Executed\ in\ runtime]:}}
+\DoxyCodeLine{\ \ \ \ memcpy(stagingAllocInfo.\mbox{\hyperlink{struct_vma_allocation_info_a17a39eb34201a610347acb91b38eca79}{pMappedData}},\ myData,\ myDataSize);}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//vkCmdPipelineBarrier:\ VK\_ACCESS\_HOST\_WRITE\_BIT\ -\/-\/>\ VK\_ACCESS\_TRANSFER\_READ\_BIT}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{struct_vk_buffer_copy}{VkBufferCopy}}\ bufCopy\ =\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 0,\ \textcolor{comment}{//\ srcOffset}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ 0,\ \textcolor{comment}{//\ dstOffset,}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ myDataSize);\ \textcolor{comment}{//\ size}}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{vulkan_8h_ad587652cb54eb8b4db78c5944a9ac6b6}{vkCmdCopyBuffer}}(cmdBuf,\ stagingBuf,\ buf,\ 1,\ \&bufCopy);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{usage_patterns_usage_patterns_other_use_cases}{}\doxysubsection{\texorpdfstring{Other use cases}{Other use cases}}\label{usage_patterns_usage_patterns_other_use_cases}
+Here are some other, less obvious use cases and their recommended settings\+:
+
+
+\begin{DoxyItemize}
+\item An image that is used only as transfer source and destination, but it should stay on the device, as it is used to temporarily store a copy of some texture, e.\+g. from the current to the next frame, for temporal antialiasing or other temporal effects.
+\begin{DoxyItemize}
+\item Use {\ttfamily \doxylink{struct_vk_image_create_info_ad5d6be080490a60ced3baaa4d4643dea}{Vk\+Image\+Create\+Info\+::usage} = VK\+\_\+\+IMAGE\+\_\+\+USAGE\+\_\+\+TRANSFER\+\_\+\+SRC\+\_\+\+BIT \texorpdfstring{$\vert$}{|} VK\+\_\+\+IMAGE\+\_\+\+USAGE\+\_\+\+TRANSFER\+\_\+\+DST\+\_\+\+BIT}
+\item Use \doxylink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{Vma\+Allocation\+Create\+Info\+::usage} = \doxylink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca27cde9026a84d34d525777baa41fce6e}{VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO}
+\end{DoxyItemize}
+\item An image that is used only as transfer source and destination, but it should be placed in the system RAM despite it doesn\textquotesingle{}t need to be mapped, because it serves as a "{}swap"{} copy to evict least recently used textures from VRAM.
+\begin{DoxyItemize}
+\item Use {\ttfamily \doxylink{struct_vk_image_create_info_ad5d6be080490a60ced3baaa4d4643dea}{Vk\+Image\+Create\+Info\+::usage} = VK\+\_\+\+IMAGE\+\_\+\+USAGE\+\_\+\+TRANSFER\+\_\+\+SRC\+\_\+\+BIT \texorpdfstring{$\vert$}{|} VK\+\_\+\+IMAGE\+\_\+\+USAGE\+\_\+\+TRANSFER\+\_\+\+DST\+\_\+\+BIT}
+\item Use \doxylink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{Vma\+Allocation\+Create\+Info\+::usage} = \doxylink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca9b422585242160b8ed3418310ee6664d}{VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO\+\_\+\+PREFER\+\_\+\+HOST}, as VMA needs a hint here to differentiate from the previous case.
+\end{DoxyItemize}
+\item A buffer that you want to map and write from the CPU, directly read from the GPU (e.\+g. as a uniform or vertex buffer), but you have a clear preference to place it in device or host memory due to its large size.
+\begin{DoxyItemize}
+\item Use {\ttfamily \doxylink{struct_vk_buffer_create_info_af0a7239bbc17deb173bff21fee13876c}{Vk\+Buffer\+Create\+Info\+::usage} = VK\+\_\+\+BUFFER\+\_\+\+USAGE\+\_\+\+UNIFORM\+\_\+\+BUFFER\+\_\+\+BIT}
+\item Use \doxylink{struct_vma_allocation_create_info_accb8b06b1f677d858cb9af20705fa910}{Vma\+Allocation\+Create\+Info\+::usage} = \doxylink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305ccae2adb696d6a73c18bb20c23666661327}{VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO\+\_\+\+PREFER\+\_\+\+DEVICE} or \doxylink{group__group__alloc_ggaa5846affa1e9da3800e3e78fae2305cca9b422585242160b8ed3418310ee6664d}{VMA\+\_\+\+MEMORY\+\_\+\+USAGE\+\_\+\+AUTO\+\_\+\+PREFER\+\_\+\+HOST}
+\item Use \doxylink{struct_vma_allocation_create_info_add09658ac14fe290ace25470ddd6d41b}{Vma\+Allocation\+Create\+Info\+::flags} = \doxylink{group__group__alloc_ggad9889c10c798b040d59c92f257cae597a9be224df3bfc1cfa06203aed689a30c5}{VMA\+\_\+\+ALLOCATION\+\_\+\+CREATE\+\_\+\+HOST\+\_\+\+ACCESS\+\_\+\+SEQUENTIAL\+\_\+\+WRITE\+\_\+\+BIT} 
+\end{DoxyItemize}
+\end{DoxyItemize}

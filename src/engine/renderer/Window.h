@@ -1,10 +1,10 @@
 #pragma once
-#define TS_RENDERER_RAYLIB
-#ifdef TS_RENDERER_RAYLIB
+#define ATLAS_RENDERER_RAYLIB
+#ifdef ATLAS_RENDERER_RAYLIB
 
 #endif
 
-namespace Techstorm {
+namespace Atlas {
 	/// <summary>
 	///
 	/// </summary>
@@ -27,7 +27,7 @@ namespace Techstorm {
 		/// <param name="windowConfig">The window configuration.</param>
 		/// <returns></returns>
 		/// @deprecated See class deprecation warning
-		int initialize(int width = 600, int height = 800, const char* title = "Untitled Techstorm Project", unsigned int windowConfig = 0);
+		int initialize(int width = 600, int height = 800, const char* title = "Untitled Atlas Project", unsigned int windowConfig = 0);
 
 		/// <summary>
 		/// Should the window close.
@@ -49,7 +49,7 @@ namespace Techstorm {
 
 		int mWidth = 600;
 		int mHeight = 800;
-		const char* mTitle = "Untitled Techstorm Project";
+		const char* mTitle = "Untitled Atlas Project";
 		unsigned int mWindowConfig;
 	};
 }

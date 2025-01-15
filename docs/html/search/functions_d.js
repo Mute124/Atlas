@@ -1,6 +1,7 @@
 var searchData=
 [
 <<<<<<< HEAD
+<<<<<<< HEAD
   ['read_5fgrid_5ffrom_5ffile_0',['read_grid_from_file',['../d0/df5/class_generator.html#a07cf79db4a7837045f12f02eea3bd165',1,'Generator']]],
   ['readconfigfile_1',['readConfigFile',['../d1/dcb/class_techstorm_1_1_config_file_registry.html#a90d2ed7bb44b9c373fab7ee143217d4d',1,'Techstorm::ConfigFileRegistry']]],
   ['readconfigfiles_2',['readConfigFiles',['../d1/dcb/class_techstorm_1_1_config_file_registry.html#af3eb80d5e0c4782f72dadc693612ee51',1,'Techstorm::ConfigFileRegistry']]],
@@ -37,4 +38,9 @@ var searchData=
   ['start_14',['start',['../d6/d34/class_techstorm_1_1abstract.html#ad5427abdf676b8cafbc8892231d609f7',1,'Techstorm::abstract']]],
   ['stop_15',['stop',['../d6/d34/class_techstorm_1_1abstract.html#afdc02bf2b0df014965f798433da7bf82',1,'Techstorm::abstract']]]
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+  ['newlayer_0',['newlayer',['../d6/d34/class_techstorm_1_1abstract.html#aed3709933c4636a1672127aa35a2a0df',1,'Techstorm::abstract::newLayer(T layer, K key)=0'],['../d6/d34/class_techstorm_1_1abstract.html#a7253a8369508acb9d13dfd8b9920b5e1',1,'Techstorm::abstract::newLayer(K key)=0'],['../db/d5d/class_techstorm_1_1_layer_registry.html#abc776e02233516e0494c6dfa252bd390',1,'Techstorm::LayerRegistry::newLayer(T layer, std::string key)'],['../db/d5d/class_techstorm_1_1_layer_registry.html#ad0cd9931bf953cf94b8c2551288420da',1,'Techstorm::LayerRegistry::newLayer(std::string key)']]],
+  ['next_1',['next',['../d0/db8/class_circular_map.html#a6d123a2668e0ebddf1678b9be2935b32',1,'CircularMap']]],
+  ['normalize_2',['normalize',['../df/d8a/struct_vec3.html#af4e3610dbe35306be56ea47aa160b7ca',1,'Vec3']]]
+>>>>>>> main
 ];

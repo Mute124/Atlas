@@ -1,6 +1,7 @@
 var searchData=
 [
 <<<<<<< HEAD
+<<<<<<< HEAD
   ['calculate_5fcube_5findex_0',['calculate_cube_index',['../dc/dbe/class_marching_cubes.html#a715463c7bcba782e078f53cce99a585e',1,'MarchingCubes']]],
   ['calculategamethreadinfo_1',['CalculateGameThreadInfo',['../dc/d3a/namespace_techstorm_1_1_application.html#a759f35ccfa739ce1d7d79802f5f48a65',1,'Techstorm::Application']]],
   ['camera_2',['camera',['../da/d9c/_prototyping_terrain_8h.html#a2008f4ab70b5e4104c2ca43932536ddf',1,'camera:&#160;PrototypingTerrain.h'],['../da/da6/_chunk_testing_8h.html#a2008f4ab70b5e4104c2ca43932536ddf',1,'camera:&#160;ChunkTesting.h'],['../d1/dee/class_terrain.html#aee103207204dd4317c1dd140a9608f76',1,'Terrain::camera']]],
@@ -64,4 +65,39 @@ var searchData=
   ['conventions_16',['Code Conventions',['../index.html#code-conventions',1,'']]],
   ['convertcamera_17',['ConvertCamera',['../da/d84/_renderer_8cpp.html#a51c2703cd34179cc6f38848cf4cfae79',1,'Renderer.cpp']]]
 >>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+  ['backbuffer_0',['Backbuffer',['../d6/df7/struct_im_gui___impl_vulkan_h___frame.html#a9319c32a4da6914a275336f6097f2f23',1,'ImGui_ImplVulkanH_Frame']]],
+  ['backbufferview_1',['BackbufferView',['../d6/df7/struct_im_gui___impl_vulkan_h___frame.html#a6f0c15150471d42253c5873f393cfc57',1,'ImGui_ImplVulkanH_Frame']]],
+  ['baseoffset_2',['baseOffset',['../d9/ddf/struct_atlas_1_1_contact_listener_gate_params.html#a877daa5936c36c3d38709c6210f572d1',1,'Atlas::ContactListenerGateParams']]],
+  ['basevertex_3',['basevertex',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a53196ad01426176a32fb6dbfc0acbc13',1,'imgui_impl_opengl3_loader.h']]],
+  ['basiccore_2eh_4',['BasicCore.h',['../de/d90/_basic_core_8h.html',1,'']]],
+  ['basicsamplegroup_5',['basicsamplegroup',['../d5/d6c/class_basic_sample_group.html',1,'BasicSampleGroup'],['../d5/d6c/class_basic_sample_group.html#ac60e31a277bc9941232f36873a2d5e7c',1,'BasicSampleGroup::BasicSampleGroup()']]],
+  ['basicsamplegroup_2eh_6',['BasicSampleGroup.h',['../db/deb/_basic_sample_group_8h.html',1,'']]],
+  ['bindbuffer_7',['BindBuffer',['../d4/d6c/union_im_g_l3_w_procs.html#a9f109b39a0370d042a263b4a5bc622e6',1,'ImGL3WProcs']]],
+  ['bindsampler_8',['BindSampler',['../d4/d6c/union_im_g_l3_w_procs.html#ae1b4dabb1cb52cb3a127170a78fdce5e',1,'ImGL3WProcs']]],
+  ['bindtexture_9',['BindTexture',['../d4/d6c/union_im_g_l3_w_procs.html#a524cc7f2cf2a47a32cd0ffcb6a62e17d',1,'ImGL3WProcs']]],
+  ['bindvertexarray_10',['BindVertexArray',['../d4/d6c/union_im_g_l3_w_procs.html#a36ec67db1be93e971140d9352cbcf641',1,'ImGL3WProcs']]],
+  ['blendequation_11',['BlendEquation',['../d4/d6c/union_im_g_l3_w_procs.html#aa67f8e7fa99adb51d4af9fdb120720f1',1,'ImGL3WProcs']]],
+  ['blendequationseparate_12',['BlendEquationSeparate',['../d4/d6c/union_im_g_l3_w_procs.html#a987a46d8626b9598d5f9c169dc9ef4c0',1,'ImGL3WProcs']]],
+  ['blendfuncseparate_13',['BlendFuncSeparate',['../d4/d6c/union_im_g_l3_w_procs.html#a198e9efc80ccffb94f8b767374001142',1,'ImGL3WProcs']]],
+  ['blue_14',['blue',['../df/d5f/imgui__impl__opengl3__loader_8h.html#ab4fcc6ff520ae4d9de259c8468a5cd93',1,'imgui_impl_opengl3_loader.h']]],
+  ['bodyactivationlistener_2eh_15',['BodyActivationListener.h',['../df/d62/_body_activation_listener_8h.html',1,'']]],
+  ['bodyinterface_16',['bodyinterface',['../dc/dba/class_atlas_1_1abstract.html#adc60064b8299ee8720c438daabf19cef',1,'Atlas::abstract::bodyInterface'],['../d0/dd1/class_game_object.html#aa209155fe6536456370b680e2e787ed6',1,'GameObject::bodyInterface'],['../d1/dee/class_terrain.html#aedd83648b6e97085792b113e0375da6e',1,'Terrain::bodyInterface']]],
+  ['border_17',['border',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a04bf50a0ceff267d0040a99e545d74e9',1,'imgui_impl_opengl3_loader.h']]],
+  ['bplayerinterface_2eh_18',['BPLayerInterface.h',['../d7/d93/_b_p_layer_interface_8h.html',1,'']]],
+  ['bplayerinterfaceimpl_19',['bplayerinterfaceimpl',['../db/d4d/class_atlas_1_1_b_p_layer_interface_impl.html',1,'Atlas::BPLayerInterfaceImpl'],['../d9/d49/class_b_p_layer_interface_impl.html',1,'BPLayerInterfaceImpl'],['../d9/d49/class_b_p_layer_interface_impl.html#a27ca33deade1ae8681190196b93bc30e',1,'BPLayerInterfaceImpl::BPLayerInterfaceImpl()'],['../db/d4d/class_atlas_1_1_b_p_layer_interface_impl.html#a27ca33deade1ae8681190196b93bc30e',1,'Atlas::BPLayerInterfaceImpl::BPLayerInterfaceImpl()']]],
+  ['broadphaselayerregistry_2eh_20',['BroadPhaseLayerRegistry.h',['../d9/dcc/_broad_phase_layer_registry_8h.html',1,'']]],
+  ['broadphaselayers_21',['BroadPhaseLayers',['../dc/df3/namespace_broad_phase_layers.html',1,'']]],
+  ['buffer_22',['buffer',['../dc/d2d/interface_metal_buffer.html#a75114c0de3a4ed46ed3a4fd817e0202a',1,'MetalBuffer::buffer'],['../df/d5f/imgui__impl__opengl3__loader_8h.html#a3667f558219c90437106b544a3ca00b8',1,'buffer:&#160;imgui_impl_opengl3_loader.h']]],
+  ['buffercache_23',['bufferCache',['../d4/dae/interface_metal_context.html#a92a5cc2011e074c2a665cc58fdc6f586',1,'MetalContext']]],
+  ['bufferdata_24',['BufferData',['../d4/d6c/union_im_g_l3_w_procs.html#a045e3870ea7fb49da845876f996e097f',1,'ImGL3WProcs']]],
+  ['buffermemoryalignment_25',['BufferMemoryAlignment',['../d2/d86/struct_im_gui___impl_vulkan___data.html#a745258fd61dde9326265c2c198272c20',1,'ImGui_ImplVulkan_Data']]],
+  ['buffers_26',['buffers',['../df/d5f/imgui__impl__opengl3__loader_8h.html#acaf3212fc88caa23745613e709a3e869',1,'imgui_impl_opengl3_loader.h']]],
+  ['buffersubdata_27',['BufferSubData',['../d4/d6c/union_im_g_l3_w_procs.html#a6406796e5fd236945c3fc8ea3835c3b0',1,'ImGL3WProcs']]],
+  ['bufindices_28',['BufIndices',['../d4/d33/struct_im_gui___impl_allegro5___data.html#aadcfb048c36f97008498f66085aa4279',1,'ImGui_ImplAllegro5_Data']]],
+  ['bufsize_29',['bufSize',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a09918d77dec487a91825343c8cfb2b2d',1,'imgui_impl_opengl3_loader.h']]],
+  ['bufvertices_30',['BufVertices',['../d4/d33/struct_im_gui___impl_allegro5___data.html#a5bd178f19817b2d3f8165d2278b71e8f',1,'ImGui_ImplAllegro5_Data']]],
+  ['building_31',['building',['../index.html#automatic-building',1,'Automatic Building'],['../dd/da6/md_building.html',1,'building'],['../index.html#building',1,'Building'],['../index.html#autotoc_md4',1,'Manual Building']]],
+  ['building_2emd_32',['building.md',['../d5/de2/building_8md.html',1,'']]]
+>>>>>>> main
 ];

@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-namespace Techstorm {
+namespace Atlas {
 	enum class EReturnCode : int
 	{
 		// Successful codes
