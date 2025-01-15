@@ -1,5 +1,6 @@
 #pragma once
 #include "ApplicationUtils.h"
+#include <optional>
 
 namespace Atlas::Application {
 	class AtlasApp {
@@ -10,7 +11,7 @@ namespace Atlas::Application {
 
 		PROJECT_TYPENAME mProject = PROJECT_TYPENAME();
 		ScriptingAPI* mScriptingAPI = nullptr;
-		
+
 		void prepareProject() {
 			Log("Pre-Initializing project...");
 			mProject.preInit();
@@ -19,7 +20,7 @@ namespace Atlas::Application {
 		}
 
 		void initConfig() {
-
+			
 		}
 
 		void initWindow(WindowDecorations& decorations) {
@@ -40,6 +41,7 @@ namespace Atlas::Application {
 		}
 
 		void initScripting() {
+			this->mScriptingAPI = new ScriptingAPI();
 			mScriptingAPI->initializeScripting(mProject.getLuaLibraries(), mProject.getLuaFunctions());
 			mScriptingAPI->registerLua();
 		}
@@ -54,4 +56,5 @@ namespace Atlas::Application {
 			ATLAS_THREAD_YIELD;
 		}
 	};
+	
 }

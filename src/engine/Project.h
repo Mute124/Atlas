@@ -92,28 +92,7 @@ namespace Atlas {
 		/// This is the first function that will be called on startup. 
 		/// </summary>
 		/// <inheritdoc />
-		virtual void preInit() {
-			Logger::Instance().init(LoggerConfig());
-			//std::cout << "IProject::preInit" << std::endl;
-			Log("Test");
-			AddFileRegistryLoadFunction("png", [](std::shared_ptr<FileMeta> loadFunc) {
-				return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
-			});
-			
-			AddFileRegistryLoadFunction("jpg", [](std::shared_ptr<FileMeta> loadFunc) {
-				return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
-			});
-
-			AddFileRegistryLoadFunction("jpeg", [](std::shared_ptr<FileMeta> loadFunc) {
-				return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
-			});
-
-			std::string gameDir = ATLAS_GAME_DIR;
-			InitializeFileRegistry(gameDir.c_str());
-
-			this->mLuaLibraries.push_back(sol::lib::base);
-
-		}
+		virtual void preInit();
 
 		/// <summary>
 		/// Initializes your project. This will be called after preInit and window initialization, meaning that this is the earliest point that you can use raylib. <b>THIS MUST BE OVERRIDEN BY YOUR PROJECT CLASS!</b>

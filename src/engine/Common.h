@@ -41,6 +41,7 @@ namespace Atlas {
 	using std::chrono::seconds;
 	using std::unordered_map;
 
+
 	/// <summary>
 	/// Represents a 3D vector. It will wrap raylib's Vector3 and Jolt's RVec3 to allow seamless integration. This also wraps raylib's vector math functions.
 	/// </summary>
