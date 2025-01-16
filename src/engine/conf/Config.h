@@ -9,6 +9,7 @@
 #include "../dbg/ELogLevel.h"
 #include "../dbg/Logging.h"
 #include "../fs/FileSystem.h"
+#include "JSONFile.h"
 #include <any>
 #include <memory>
 

@@ -8,7 +8,8 @@ namespace Atlas {
 	using PaddedString = simdjson::padded_string;
 	using JSONDocument = simdjson::ondemand::document;
 	using JSONParser = simdjson::ondemand::parser;
-	
+	using JSONElement = simdjson::dom::element;
+
 	/// <summary>
 	/// Represents a JSON file for Atlas' config system. Since there were issues with simply loading <see cref="simdjson::ondemand::document"/>s, this class was created to solve that. 
 	/// \important This class will be STORED AS A POINTER in the file system.
@@ -19,8 +20,10 @@ namespace Atlas {
 
 		PaddedString mPaddedJSONString;
 		JSONDocument mJSONDocument;
+		JSONElement mElement;
 	public:
-				
+		
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="JSONFile"/> class by loading the file at the specified path. This does not load the file into the file system.	
 		/// </summary>
@@ -33,6 +36,8 @@ namespace Atlas {
 		/// <returns></returns>
 		JSONDocument& GetJSONDocument() { return mJSONDocument; }
 		
+		JSONElement& GetElement() { return mElement; }
+
 		/// <summary>
 		/// Gets the padded json string.
 		/// </summary>

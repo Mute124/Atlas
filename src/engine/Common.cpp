@@ -1,5 +1,4 @@
 #include "Common.h"
-<<<<<<< HEAD
 #include <iostream>
 #ifdef ATLAS_ENABLE_HAPTICS
 #ifdef WIN32
@@ -49,5 +48,3 @@ void Atlas::StopRumblingController(int controllerIndex)
 }
 
 #endif
-=======
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc

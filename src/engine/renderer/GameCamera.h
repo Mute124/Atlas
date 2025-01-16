@@ -1,56 +1,16 @@
-<<<<<<< HEAD
 #pragma once
 #include "../math/Vector.h"
 #include <raylib.h>
 #include <cstdint>
 #include <unordered_map>
-<<<<<<< HEAD
-namespace Techstorm {
-=======
-/**
-* \file GameCamera.h
-* \brief Declares the GameCamera class
-*/
-#pragma once
-#include "../math/Vector.h"
-#include <raylib.h>
-namespace Techstorm {
-#ifdef TS_RENDERER_2D
-	struct CameraData {
-		// TODO: Implement 2D camera
-	};
-#else // TS_RENDERER_3D
-	struct CameraData {
-		Vec3 position;
-		Vec3 target;
-		Vec3 up;
-		float fovy;
-		int projection;
-	};
-#endif
-
-	class Renderer;
-
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-=======
 
 namespace Atlas {
->>>>>>> main
 	/// <summary>
 	/// Represents a camera wherein the world is rendered and viewed from.
 	/// </summary>
 	class GameCamera {
 	public:
-<<<<<<< HEAD
-<<<<<<< HEAD
-		GameCamera() {
-			init();
-
-
-		}
-=======
 		GameCamera();
->>>>>>> main
 		
 		/// <summary>
 		/// Finalizes an instance of the <see cref="GameCamera"/> class. Please note that if this is the main camera, it will make the camera with ID 0 the main camera.
@@ -61,10 +21,6 @@ namespace Atlas {
 		/// Initializes this instance.
 		/// </summary>
 		void init();
-=======
-		GameCamera() = default;
-		~GameCamera() = default;
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 
 		/// <summary>
 		/// Updates this instance in one of two ways, depending on the camera's settings.
@@ -110,12 +66,9 @@ namespace Atlas {
 		/// </summary>
 		/// <returns></returns>
 		int getProjection() const;
-<<<<<<< HEAD
 		
 		static inline GameCamera* GetMainCamera() { return GameCamera::sMainCamera; }
 
-=======
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 
 		/// <summary>
 		/// Sets the camera data.
@@ -152,7 +105,6 @@ namespace Atlas {
 		/// </summary>
 		/// <param name="projection">The projection.</param>
 		void setProjection(int projection);
-<<<<<<< HEAD
 		
 		/// <summary>
 		/// Sets this instance as the main camera.
@@ -181,14 +133,6 @@ namespace Atlas {
 
 		static inline void SimpleCameraUpdate(GameCamera const& cam) {}
 		static inline void ComplexCameraUpdate(GameCamera const& cam) {}
-=======
-
-	private:
-		Camera3D mCameraData;
-
-		static inline void SimpleCameraUpdate(GameCamera& cam) {}
-		static inline void ComplexCameraUpdate(GameCamera& cam) {}
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 
 		friend class Renderer; /// \ref Renderer
 	};

@@ -7,21 +7,6 @@
 * 
 */
 #pragma once
-<<<<<<< HEAD
-#define TS_SCRIPTING_LUA
-#define TS_SCRIPTING_ANGELSCRIPT
-
-<<<<<<< HEAD
-/// \brief Protects against safety issues when using lua because it makes the API more stable.
-=======
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-#define SOL_ALL_SAFETIES_ON 1
-
-#ifdef TS_SCRIPTING_ANGELSCRIPT
-#endif
-
-=======
->>>>>>> main
 
 #include <iostream>
 #include <filesystem>
@@ -49,7 +34,6 @@
 #endif
 
 #include "../utils/Singleton.h"
-<<<<<<< HEAD
 
 namespace Atlas {
 	
@@ -77,17 +61,6 @@ namespace Atlas {
 	/// <summary>
 	/// Represents a function that can be exported to lua. The reason for it's existence is because it makes it easier to export functions to lua.
 	/// </summary>
-=======
-#include <vector>
-#include <sol/state.hpp>
-#include <sol/state_view.hpp>
-#include <sol/types.hpp>
-#include <string>
-#include <unordered_map>
-#include <sol/forward.hpp>
-
-namespace Techstorm {
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 	struct ExportedFunction {
 		const std::string cName; // What the function is called (i.e "Print")
 #ifdef ATLAS_ENABLE_LUA
@@ -95,16 +68,9 @@ namespace Techstorm {
 #endif
 	};
 
-<<<<<<< HEAD
-	using LuaLibraryRegistry = std::vector<sol::lib>;
-	using LuaFunctionRegistry = std::unordered_map<std::string, ExportedFunction>;
-<<<<<<< HEAD
-	
-=======
 	using ScriptingLibraryRegistry = std::vector<sol::lib>;
 	using ScriptingFunctionRegistry = std::unordered_map<std::string, ExportedFunction>;
 
->>>>>>> main
 	/// <summary>
 	/// Everything related to the scripting API, i.e loading/unloading libraries, registering functions, etc. As is mentioned at the file's documentation, only lua is supported at the moment.
 	/// </summary>
@@ -113,30 +79,11 @@ namespace Techstorm {
 	public:
 		ScriptingAPI() = default;
 
-=======
-
-	class ScriptingAPI : public Singleton<ScriptingAPI> {
-	public:
-		ScriptingAPI() = default;
-
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 		/// <summary>
 		/// Initializes the scripting API.
 		/// </summary>
 		/// <returns>an integer value that represents the result of the operation.</returns>
-<<<<<<< HEAD
-<<<<<<< HEAD
-		int InitializeScripting(LuaLibraryRegistry const& libraries, LuaFunctionRegistry const& functions);
-=======
-		int InitializeScripting(LuaLibraryRegistry const& libraries, LuaFunctionRegistry const& functions)
-		{
-			this->mLibraries = libraries;
-			return 0;
-		}
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-=======
 		int initializeScripting(ScriptingLibraryRegistry const& libraries, ScriptingFunctionRegistry const& functions);
->>>>>>> main
 
 /*		template<typename T, typename ...Args>
 		int registerFunction(const std::string& name, T function, Args... args) {
@@ -151,12 +98,7 @@ namespace Techstorm {
 		/// Registers the scripting API for Lua.
 		/// </summary>
 		/// <returns>an integer value that represents the result of the operation.</returns>
-<<<<<<< HEAD
-<<<<<<< HEAD
-		int RegisterLua();
-=======
 		int registerLua();
->>>>>>> main
 
 		/// <summary>
 		/// Returns mLua as a state_view.
@@ -170,38 +112,9 @@ namespace Techstorm {
 		/// Registers the scripting API for AngelScript. This is just for organization sake and it could be merged with the lua version, but it wont be.
 		/// </summary>
 		/// <returns>an integer value that represents the result of the operation.</returns>
-<<<<<<< HEAD
-		int RegisterAngelScript();
-		sol::state mLua;
-	private:
-		
-=======
-		int RegisterLua()
-		{
-			for (auto it = std::begin(Techstorm::ScriptingAPI::mLibraries); it != std::end(Techstorm::ScriptingAPI::mLibraries); it++) {
-				this->mLua.open_libraries(*it);
-			}
-
-			return 0;
-		}
-
-		/// <summary>
-		/// Registers the scripting API for AngelScript.
-		/// </summary>
-		/// <returns>an integer value that represents the result of the operation.</returns>
-		int RegisterAngelScript()
-		{
-			return 0;
-		}
-
-	private:
-		sol::state mLua;
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-=======
 		int registerAngelScript();
 				
 #endif
->>>>>>> main
 
 	private:
 

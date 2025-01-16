@@ -127,8 +127,6 @@ CPMAddPackage(
         "BUILD_SHARED_LIBS=ON"
 )
 
-<<<<<<< HEAD
-=======
 CPMAddPackage(
     NAME raylib_nuklear
     GIT_REPOSITORY https://github.com/RobLoach/raylib-nuklear.git
@@ -141,7 +139,6 @@ CPMAddPackage(
     GIT_TAG v1.15.0
 )
 
->>>>>>> main
 # find_package(ZLIB REQUIRED)
 find_package(joltphysics REQUIRED)
 find_package(libconfig REQUIRED)

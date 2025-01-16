@@ -6,16 +6,10 @@
 
 #include "../objects/GameObjectRegistry.h"
 #include "GameCamera.h"
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-=======
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-
-
-=======
->>>>>>> main
-#include <raylib.h>
+#ifdef ATLAS_RENDERER_RAYLIB
+	#include <raylib.h>
+#endif
 
 namespace Atlas {
 	class GameObject;
@@ -95,19 +89,8 @@ namespace Atlas {
 		RenderTexture2D mScreenBuffer;
 		Color mBackgroundColor = BLACK;
 		Color mFBOTint = WHITE;
-<<<<<<< HEAD
 		
-<<<<<<< HEAD
-		
-=======
-		GameCamera mCamera;
-
-
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-#ifdef TS_RENDERER_2D
-=======
 #ifdef ATLAS_RENDERER_2D
->>>>>>> main
 		/// <summary>
 		/// Renders the 2d scene.
 		/// </summary>

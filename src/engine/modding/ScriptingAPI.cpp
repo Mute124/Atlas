@@ -1,5 +1,4 @@
 #include "ScriptingAPI.h"
-<<<<<<< HEAD
 #include "../conf/Config.h"
 
 #ifdef ATLAS_ENABLE_MODDING
@@ -58,12 +57,7 @@ int Atlas::ScriptingAPI::registerAngelScript()
 {
 	return 0;
 }
-<<<<<<< HEAD
-=======
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-=======
 
 #endif
 
 #endif
->>>>>>> main

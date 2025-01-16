@@ -18,7 +18,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
-<<<<<<< HEAD
 #include "utils/Singleton.h"
 #include "input/Input.h"
 
@@ -604,13 +603,4 @@ namespace Atlas {
 #endif
 
 #endif
-=======
-const std::string TS_ASSET_DIR = std::string(TS_TOP_LAYER) + "/assets/";
- 
-
-namespace Techstorm {
-	//std::string MakeDataPath(std::string const& path);
-
-	//std::string MakeAssetPath(std::string const& path);
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 }

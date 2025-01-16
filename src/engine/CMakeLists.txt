@@ -18,20 +18,6 @@ set(ATLAS_RENDERER_SOURCES
     "renderer/Renderer.cpp"
 
     "renderer/Color.h" 
-<<<<<<< HEAD
-    "renderer/GameObject.h" 
-    "renderer/GameObject.cpp"
-<<<<<<< HEAD
-    "renderer/GameCamera.h" 
-    "renderer/GameCamera.cpp" 
-=======
-    "input/Input.h" 
-    "math/Vector.cpp" 
-    "renderer/GameCamera.h" 
-    "renderer/GameCamera.cpp" 
-    "Common.h" 
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-=======
 
     "renderer/IRenderable.h"
 
@@ -48,7 +34,6 @@ set(ATLAS_RENDERER_SOURCES
     "renderer/GameCamera.h" 
     "renderer/GameCamera.cpp" 
 
->>>>>>> main
     "renderer/RenderLayer.h" 
 
     "objects/GameObjectRegistry.h"

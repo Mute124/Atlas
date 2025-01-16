@@ -10,20 +10,11 @@ add_executable(main_app
 	"main.cpp"
 	"ApplicationUtils.h"
 	"ApplicationUtils.cpp"
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-	${TS_MAIN_APPLICATION_RC}
-=======
 	"AtlasApp.h"
 	${ATLAS_MAIN_APPLICATION_RC}
->>>>>>> main
 	
     #"Shell.h"
     #"Shell.cpp"
-=======
-	${TS_MAIN_APPLICATION_RC}
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 )
 
 # Link to the project shared library
