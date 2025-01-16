@@ -28,7 +28,10 @@ var NAVTREE =
     [ "What is Techstorm", "index.html", "index" ],
     [ "Detailed Analysis Of Dependencies", "dc/dec/detailed-analysis-of-dependencies.html", null ],
     [ "building", "dd/da6/md_building.html", null ],
+<<<<<<< HEAD
     [ "Todo List", "dd/da0/todo.html", null ],
+=======
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
     [ "Deprecated List", "da/d58/deprecated.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -70,6 +73,17 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
+<<<<<<< HEAD
+<<<<<<< HEAD
+"d3/d3f/class_my_contact_listener.html#ac29c5acd491eac54f112468bc8759683",
+"d6/d34/class_techstorm_1_1abstract.html#a9308944fbd7de798a5c8e9e987600db9",
+"da/d6d/class_techstorm_1_1_mod_loader.html",
+"de/d97/class_techstorm_1_1_scripting_a_p_i.html#a59761650d84d71b91554406644e8e326"
+=======
+"d6/d34/class_techstorm_1_1abstract.html#a4a5949bcde32483abd8b15105a2eda10",
+"db/d5d/class_techstorm_1_1_layer_registry.html#af9d0b1f70047143779fd67cd3b66bc8e"
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
 "d1/d81/class_atlas_1_1_i_exception.html",
 "d3/d86/_mod_manager_8h_source.html",
 "d4/de4/class_atlas_1_1_file_system_registry.html#ab6baf9187bfbfacd8c3466b1227dc5f9",
@@ -81,6 +95,7 @@ var NAVTREEINDEX =
 "df/d5f/imgui__impl__opengl3__loader_8h.html#a02ecd5c6098e5a11f5d65e51c40c3939",
 "df/d62/_body_activation_listener_8h_source.html",
 "globals_func_g.html"
+>>>>>>> main
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

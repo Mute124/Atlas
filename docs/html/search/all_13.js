@@ -1,5 +1,21 @@
 var searchData=
 [
+<<<<<<< HEAD
+<<<<<<< HEAD
+  ['unregisteraction_0',['unregisterAction',['../dc/d16/class_techstorm_1_1_input_registry.html#aaf864bfdc99b4ca5806569558c4fe316',1,'Techstorm::InputRegistry']]],
+  ['unregistercallback_1',['unregisterCallback',['../dc/d16/class_techstorm_1_1_input_registry.html#a535be693e06547f3273610283b8f7b59',1,'Techstorm::InputRegistry']]],
+  ['unregisterconfigfile_2',['unregisterConfigFile',['../d1/dcb/class_techstorm_1_1_config_file_registry.html#a3384e539773e08355c18fc01c6169793',1,'Techstorm::ConfigFileRegistry']]],
+  ['unregisterconfigfiles_3',['unregisterConfigFiles',['../d1/dcb/class_techstorm_1_1_config_file_registry.html#a38010277a0e2e9ad384c42269ce19cb1',1,'Techstorm::ConfigFileRegistry']]],
+  ['up_20conan_4',['Installing And Setting Up Conan',['../index.html#installing-and-setting-up-conan',1,'']]],
+  ['update_5',['update',['../db/db4/class_physics_engine.html#a2c36ce16ce3b0908e8d04ddece7c2914',1,'PhysicsEngine::update()'],['../d1/d87/class_techstorm_1_1_physics_engine.html#a2c36ce16ce3b0908e8d04ddece7c2914',1,'Techstorm::PhysicsEngine::update()'],['../d6/d34/class_techstorm_1_1abstract.html#a6fd2a9004046a8a57e321d0ae99951c5',1,'Techstorm::abstract::update()'],['../d0/db5/class_techstorm_1_1_game_camera.html#a81bd0e99bc7e3eb0a3211d8f81d04f85',1,'Techstorm::GameCamera::update()'],['../d6/d34/class_techstorm_1_1abstract.html#ac9ebe837a4fbcec732e81ddf8b38ab2c',1,'Techstorm::abstract::update()'],['../d4/de0/class_techstorm_1_1_game_object.html#a38bfdc8ae3a6a364341f478773fcba91',1,'Techstorm::GameObject::update()'],['../de/dc7/class_techstorm_1_1_game_object_registry.html#ab21c12177d580978c4fec3c11e236629',1,'Techstorm::GameObjectRegistry::update()'],['../d4/d22/class_techstorm_1_1_renderer.html#a8da83a2891cc66fb1f4dcd81dffb6641',1,'Techstorm::Renderer::update()']]],
+  ['use_20cases_6',['Important Convention Use Cases',['../index.html#important-convention-use-cases',1,'']]],
+  ['utilities_2ecpp_7',['utilities.cpp',['../de/da5/utilities_8cpp.html',1,'']]],
+  ['utilities_2ehpp_8',['utilities.hpp',['../dc/d5f/utilities_8hpp.html',1,'']]]
+=======
+  ['up_0',['up',['../dc/d3d/struct_techstorm_1_1_camera_data.html#a3929c520ff1bb4fab9a9ea2f7ed150b5',1,'Techstorm::CameraData']]],
+  ['update_1',['update',['../d7/d74/class_techstorm_1_1_input_dispatcher.html#a5df9c763aafa64dd7ceb1098a8ac846f',1,'Techstorm::InputDispatcher::update()'],['../db/df2/class_techstorm_1_1_game_physics.html#a008fad33152cc1c1546aea04105cae2f',1,'Techstorm::GamePhysics::update()'],['../d0/db5/class_techstorm_1_1_game_camera.html#a81bd0e99bc7e3eb0a3211d8f81d04f85',1,'Techstorm::GameCamera::update()'],['../d6/d34/class_techstorm_1_1abstract.html#ac9ebe837a4fbcec732e81ddf8b38ab2c',1,'Techstorm::abstract::update()'],['../d4/de0/class_techstorm_1_1_game_object.html#af8420126f2adeaa0e1c4bed00c050264',1,'Techstorm::GameObject::update()'],['../de/dc7/class_techstorm_1_1_game_object_registry.html#ab21c12177d580978c4fec3c11e236629',1,'Techstorm::GameObjectRegistry::update()']]]
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
   ['sample_0',['sample',['../d4/d72/class_sample.html',1,'Sample'],['../d4/d72/class_sample.html#a7ae22ce5eb16e55563fb9b2c6a3f395b',1,'Sample::Sample()']]],
   ['sample_2eh_1',['Sample.h',['../dd/d42/_sample_8h.html',1,'']]],
   ['samplecount_2',['sampleCount',['../d6/d1f/interface_framebuffer_descriptor.html#a3f46b81abf97a44fac00c61985b27835',1,'FramebufferDescriptor']]],
@@ -93,4 +109,5 @@ var searchData=
   ['surfaceformat_90',['SurfaceFormat',['../de/d27/struct_im_gui___impl_vulkan_h___window.html#abb7c3f3f92b4ee4dd9e291f4b0a98327',1,'ImGui_ImplVulkanH_Window']]],
   ['swapchain_91',['Swapchain',['../de/d27/struct_im_gui___impl_vulkan_h___window.html#a5ecfc0e4ad6b2f3c216860934ab7bb7b',1,'ImGui_ImplVulkanH_Window']]],
   ['system_20architecture_92',['File System Architecture',['../index.html#file-system-architecture',1,'']]]
+>>>>>>> main
 ];

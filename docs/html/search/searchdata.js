@@ -1,5 +1,31 @@
 var indexSectionsWithContent =
 {
+<<<<<<< HEAD
+  0: "abcdefghijklmnoprstuvwxyz~",
+  1: "abcefgilmoprstvw",
+<<<<<<< HEAD
+  2: "blt",
+  3: "abcdefgilmoprstuvw",
+  4: "abcdfghilmnoprstuvw~",
+  5: "bcdefghiklmnoprstvwxyz",
+  6: "dfgl",
+  7: "e",
+  8: "eis",
+  9: "ir",
+  10: "cgijprstv",
+=======
+  2: "t",
+  3: "abcdefgilmoprstvw",
+  4: "abcdfgilmnoprstu~",
+  5: "cdfhimprstuwxyz",
+  6: "dfgio",
+  7: "e",
+  8: "es",
+  9: "r",
+  10: "ijpt",
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+  11: "abdilotw"
+=======
   0: "_abcdefghijklmnopqrstuvwxyz~",
   1: "abcefghijklmnoprstuvwx",
   2: "ablprst",
@@ -13,6 +39,7 @@ var indexSectionsWithContent =
   10: "cfir",
   11: "_acdgijmprstvw",
   12: "abdilotw"
+>>>>>>> main
 };
 
 var indexSectionNames =

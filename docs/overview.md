@@ -2,14 +2,19 @@
 
 ---
 
+<<<<<<< HEAD
 Techstorm is the response to the lack of a free game engine that is built for large open worlds. While Unity or Unreal can make open world games, there are alot of hoops that must be jumped through first, which is why there is a need for it.  Techstorm aims to be flexible and moldable to suit needs without having to make major changes. It also aims to be easy to work with and a limited number of complex components. 
 
 If you are looking for a hello world application, please see \ref hello-world-example
+=======
+Techstorm is the response to the lack of a free game engine that is built for large open worlds.  
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 
 ## Architecture {#architecture}
 
 ---
 
+<<<<<<< HEAD
 ### Building {#building}
 
 ---
@@ -57,6 +62,8 @@ $ pip install conan
 
 ### Flow {#flow-architecture}
 
+=======
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 Due to the inherent nature of Techstorm, the architecture can be complex. In terms of building, there are a few things that are required to understand how Techstorm works. There are 4 groups that are used to build the engine, as outlined below:
 - Application
 - Engine
@@ -66,6 +73,7 @@ The Application is responsible for loading the engine and handling the project, 
 
 ![Game Engine Application Flow Chart](flowchart.png "Techstorm's high level flow chart")
 
+<<<<<<< HEAD
 ### File System Architecture {#file-system-architecture}
 
 ---
@@ -80,6 +88,8 @@ When it comes to file loading, the **extension matters**. This is because the \r
 std::shared_ptr<RegisteredFile> file = GetFileSystemRegistry().getFile("ExampleFile.txt");
 ```
 
+=======
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 ### Graphics Architecture {#graphics-architecture}
 
 ---
@@ -99,7 +109,10 @@ Despite the fact Techstorm tries to make graphics easier, it can become complex 
 
 ---
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 ## Dependencies {#dependencies}
 
 ---
@@ -186,3 +199,9 @@ Broad cases should only be used as long as there are no other applicable cases. 
 
 Functions are simple, any that are not bound to a specific object will have the first letter lowercase. If it is a static, namespace, or global function, then it will have the first letter capitalized instead. When it comes to Preprocessor functions, it will follow the same rules as Constant Global variables, as seen below:
 
+<<<<<<< HEAD
+=======
+>  | Constant Global     | Cap     | Cap    | For this case, it will follow snake case **in all caps** |
+
+
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc

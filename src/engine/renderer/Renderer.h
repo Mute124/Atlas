@@ -7,7 +7,9 @@
 #include "../objects/GameObjectRegistry.h"
 #include "GameCamera.h"
 
-#include <raylib.h>
+#ifdef ATLAS_RENDERER_RAYLIB
+	#include <raylib.h>
+#endif
 
 namespace Atlas {
 	class GameObject;

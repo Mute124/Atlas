@@ -1,5 +1,12 @@
 var searchData=
 [
+<<<<<<< HEAD
+<<<<<<< HEAD
+  ['filename_0',['filename',['../d2/d71/class_techstorm_1_1_file_meta.html#a697b2ea5fe562c9af31b821f847eff7f',1,'Techstorm::FileMeta']]]
+=======
+  ['icon_0',['icon',['../d2/d61/struct_techstorm_1_1_window_decorations.html#a0d9d9ccf12fa5480c5ac21c28c09accc',1,'Techstorm::WindowDecorations']]]
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
   ['data_0',['data',['../df/d67/struct_renderer_extensions_1_1_image.html#a733904c59e464d884ebbf14ef6cf2910',1,'RendererExtensions::Image']]],
   ['defaultqueue_1',['defaultQueue',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a4281fd4cf419267792c8ba5195517360',1,'ImGui_ImplWGPU_Data']]],
   ['deletebuffers_2',['DeleteBuffers',['../d4/d6c/union_im_g_l3_w_procs.html#a21f8b9b279f9f360c3fea73bd9b806df',1,'ImGL3WProcs']]],
@@ -20,4 +27,5 @@ var searchData=
   ['drawelements_17',['DrawElements',['../d4/d6c/union_im_g_l3_w_procs.html#a520d59c638470205c4b481098e55bc20',1,'ImGL3WProcs']]],
   ['drawelementsbasevertex_18',['DrawElementsBaseVertex',['../d4/d6c/union_im_g_l3_w_procs.html#a0c495e775cdb6058aeacf56c89d3f193',1,'ImGL3WProcs']]],
   ['dummyprompt_19',['dummyPrompt',['../d5/da5/_console_8cpp.html#a99f8a5fc1a7f41e12c3e8570698edb73',1,'Console.cpp']]]
+>>>>>>> main
 ];

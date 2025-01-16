@@ -16,6 +16,7 @@
 #include <stdint.h>
 #include "dbg/Debugger.h"
 #include <bitset>
+#include "renderer/GameModel.h"
 
 namespace Atlas {
 	/// <summary>

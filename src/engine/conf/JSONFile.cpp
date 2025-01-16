@@ -1,8 +1,16 @@
 #include "JSONFile.h"
+#include <iostream>
+#include "../Common.h"
+
+// Just used for testing. 
+#define ATLAS_TEST_PATH static_cast<std::string>("/game/data/assets/TestModel.json")
 
 Atlas::JSONFile::JSONFile(const std::string& path) {
-	JSONParser jsonParser;
+	simdjson::dom::parser parser;
 	
-	this->mPaddedJSONString = PaddedString::load(path);
-	this->mJSONDocument = jsonParser.iterate(mPaddedJSONString);
+	//this->mPaddedJSONString = PaddedString::load(path);
+	//this->mJSONDocument = jsonParser.iterate(mPaddedJSONString);
+	
+
+	this->mElement = parser.load(ATLAS_GAME_DIR + path);
 }

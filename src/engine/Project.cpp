@@ -12,11 +12,11 @@ void Atlas::IProject::setWindowDecorations(WindowDecorations& windowDecorations)
 /// This is the first function that will be called on startup. 
 /// </summary>
 /// <inheritdoc />
-
-inline void Atlas::IProject::preInit() {
+void Atlas::IProject::preInit() {
 	Logger::Instance().init(LoggerConfig());
 	//std::cout << "IProject::preInit" << std::endl;
 	Log("Test");
+
 	AddFileRegistryLoadFunction("png", [](std::shared_ptr<FileMeta> loadFunc) {
 		return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
 		});
@@ -44,7 +44,9 @@ void Atlas::IProject::init(int argc, char* argv[]) {
 
 }
 
-void Atlas::IProject::postInit() {}
+void Atlas::IProject::postInit() {
+	GameModel model = GameModel("TestModel.json");
+}
 
 void Atlas::IProject::initRenderer() {
 }
