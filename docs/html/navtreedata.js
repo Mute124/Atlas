@@ -28,11 +28,7 @@ var NAVTREE =
     [ "What is Techstorm", "index.html", "index" ],
     [ "Detailed Analysis Of Dependencies", "dc/dec/detailed-analysis-of-dependencies.html", null ],
     [ "building", "dd/da6/md_building.html", null ],
-<<<<<<< HEAD
     [ "Todo List", "dd/da0/todo.html", null ],
-=======
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-    [ "Deprecated List", "da/d58/deprecated.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -73,29 +69,17 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-<<<<<<< HEAD
-<<<<<<< HEAD
-"d3/d3f/class_my_contact_listener.html#ac29c5acd491eac54f112468bc8759683",
-"d6/d34/class_techstorm_1_1abstract.html#a9308944fbd7de798a5c8e9e987600db9",
-"da/d6d/class_techstorm_1_1_mod_loader.html",
-"de/d97/class_techstorm_1_1_scripting_a_p_i.html#a59761650d84d71b91554406644e8e326"
-=======
-"d6/d34/class_techstorm_1_1abstract.html#a4a5949bcde32483abd8b15105a2eda10",
-"db/d5d/class_techstorm_1_1_layer_registry.html#af9d0b1f70047143779fd67cd3b66bc8e"
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-=======
-"d1/d81/class_atlas_1_1_i_exception.html",
-"d3/d86/_mod_manager_8h_source.html",
-"d4/de4/class_atlas_1_1_file_system_registry.html#ab6baf9187bfbfacd8c3466b1227dc5f9",
-"d7/d24/class_atlas_1_1_x_m_l_file.html#af4beb67648d62290feab2302efaf9855",
-"d9/d0a/class_atlas_1_1_reference_holder.html#a1c72b6a0bc69ffc5f62d777dcc4eb9a5",
-"da/d9c/_prototyping_terrain_8h.html#a563aba938007825acdba52e5c557b0e2",
-"dc/d71/class_atlas_1_1_renderer.html#ade8b1f2086970ad251510384b8764bef",
-"dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#a9c07046876fd1b3103f8ddd54b18e574",
-"df/d5f/imgui__impl__opengl3__loader_8h.html#a02ecd5c6098e5a11f5d65e51c40c3939",
-"df/d62/_body_activation_listener_8h_source.html",
-"globals_func_g.html"
->>>>>>> main
+"d1/d6d/struct_im_gui___impl_d_x11___data.html#a0063b20fb683e66ce3b5d900d3b8e319",
+"d3/d41/_game_camera_8h_source.html",
+"d4/dc7/_file_meta_8cpp.html",
+"d6/dde/_e_return_code_8h.html#a8db949e6d304e138149d0c697ed389aaa60484987e8a34a4a0c1ffcf7571f492a",
+"d8/d75/class_atlas_1_1_contact_listener_gate.html#a9b0a4eb7711b533b448ccbd472e93320",
+"da/d84/_renderer_8cpp_source.html",
+"dc/d45/struct_im_gui___impl_open_g_l3___data.html#a53b57a562a470fa751e2f8fe78576ebd",
+"dc/dba/class_atlas_1_1abstract.html#addec1f05420c246e42715ab0c3ca227e",
+"de/d42/class_atlas_1_1_transform.html#a16618cfe498031b1b3124bcadbad0d28",
+"df/d5f/imgui__impl__opengl3__loader_8h.html#a80a33c79f69417372d65d2a65ca36d49",
+"dir_48f521a69e2b987097203e4df81e6842.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

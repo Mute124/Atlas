@@ -21,6 +21,7 @@ var hierarchy =
     ] ],
     [ "Atlas::ContactListenerGateParams", "d9/ddf/struct_atlas_1_1_contact_listener_gate_params.html", null ],
     [ "CUSTOMVERTEX", "d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html", null ],
+    [ "Atlas::DrawableHook", "d4/d11/class_atlas_1_1_drawable_hook.html", null ],
     [ "Atlas::EngineConfig", "d7/d1a/struct_atlas_1_1_engine_config.html", null ],
     [ "Atlas::Entity", "d4/d48/class_atlas_1_1_entity.html", null ],
     [ "std::exception", null, [
@@ -35,6 +36,7 @@ var hierarchy =
       [ "ShellFileInterface", "dc/d7b/class_shell_file_interface.html", null ]
     ] ],
     [ "Atlas::FileMeta", "d7/d78/class_atlas_1_1_file_meta.html", null ],
+    [ "Atlas::FilePath", "df/dd5/class_atlas_1_1_file_path.html", null ],
     [ "FrameResources", "da/d55/struct_frame_resources.html", null ],
     [ "Atlas::GameCamera", "d7/dc3/class_atlas_1_1_game_camera.html", null ],
     [ "Atlas::GameModel", "df/dec/class_atlas_1_1_game_model.html", null ],
@@ -105,6 +107,9 @@ var hierarchy =
       [ "Project", "d9/d6e/class_project.html", null ],
       [ "SamplesProject", "dc/dc3/class_samples_project.html", null ]
     ] ],
+    [ "ISandboxer", null, [
+      [ "Atlas::Sandboxer", "da/dc0/class_atlas_1_1_sandboxer.html", null ]
+    ] ],
     [ "ITerminalSink", null, [
       [ "Atlas::TerminalSink", "d9/dbb/class_atlas_1_1_terminal_sink.html", null ]
     ] ],
@@ -140,10 +145,13 @@ var hierarchy =
       [ "Atlas::ObjectVsBroadPhaseLayerFilterImpl", "d2/dcc/class_atlas_1_1_object_vs_broad_phase_layer_filter_impl.html", null ],
       [ "ObjectVsBroadPhaseLayerFilterImpl", "d3/d37/class_object_vs_broad_phase_layer_filter_impl.html", null ]
     ] ],
+    [ "Atlas::OptionalReference< T >", "dc/da2/class_atlas_1_1_optional_reference.html", null ],
     [ "Point", "d8/dc8/struct_point.html", null ],
     [ "Atlas::ReferenceHolder< T >", "d9/d0a/class_atlas_1_1_reference_holder.html", null ],
     [ "Atlas::RegisteredFile", "d5/d07/class_atlas_1_1_registered_file.html", null ],
+    [ "Atlas::RenderArgs", "dc/df9/struct_atlas_1_1_render_args.html", null ],
     [ "Atlas::Renderer", "dc/d71/class_atlas_1_1_renderer.html", null ],
+    [ "Atlas::RenderLayer", "d0/dfd/class_atlas_1_1_render_layer.html", null ],
     [ "RenderResources", "d9/d42/struct_render_resources.html", null ],
     [ "Sample", "d4/d72/class_sample.html", [
       [ "HelloWorldSample", "d1/d0b/class_hello_world_sample.html", null ]
@@ -191,6 +199,8 @@ var hierarchy =
     ] ],
     [ "Terrain", "d1/dee/class_terrain.html", null ],
     [ "TerrainSector", "d4/d42/class_terrain_sector.html", null ],
+    [ "Atlas::TextureArgs", "d1/d00/struct_atlas_1_1_texture_args.html", null ],
+    [ "Atlas::Transform", "de/d42/class_atlas_1_1_transform.html", null ],
     [ "Terrain::TriangleStruct", "da/d89/struct_terrain_1_1_triangle_struct.html", null ],
     [ "Uniforms", "da/d5c/struct_uniforms.html", null ],
     [ "Atlas::Vec2", "d1/dd9/struct_atlas_1_1_vec2.html", null ],

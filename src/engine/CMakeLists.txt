@@ -8,18 +8,33 @@ set(ATLAS_ENGINE_CORE_SOURCES
 
     "Project.h" 
     "Project.cpp" 
+
+    "IEngineComponent.h"
+    "IEngineComponentRegistry.h"
 )
 
 set(ATLAS_RENDERER_SOURCES
-    "renderer/Window.h" 
-    "renderer/Window.cpp" 
+
+    "renderer/RendererCommon.h"
+
+    "renderer/window/Window.h" 
+    "renderer/window/Window.cpp" 
+    "renderer/window/WindowDecorations.h"
+
+    "renderer/drawing/RenderArgs.h"
+    "renderer/drawing/TextureArgs.h"
+
+    "renderer/drawing/DrawableHook.h"
+    "renderer/drawing/DrawableHook.cpp"
+
+    "renderer/IRenderer.h"
 
     "renderer/Renderer.h" 
     "renderer/Renderer.cpp"
 
     "renderer/Color.h" 
 
-    "renderer/IRenderable.h"
+    "renderer/IDrawable.h"
 
     "objects/IGameObject.h" 
     "objects/GameObject.h"
@@ -35,15 +50,13 @@ set(ATLAS_RENDERER_SOURCES
     "renderer/GameCamera.cpp" 
 
     "renderer/RenderLayer.h" 
-
+    
     "objects/GameObjectRegistry.h"
     "objects/GameObjectRegistry.cpp" 
 
     "renderer/objects/PlaneObject.h"
 
     "objects/IGameObjectGate.h"
-
-    "renderer/WindowDecorations.h"
 
     "renderer/GameUI.h"
     "renderer/GameUI.cpp"
@@ -177,6 +190,14 @@ set(ATLAS_LANGUAGE_SOURCES
 	"language/LocalizationRegistry.cpp"
 )
 
+set(ATLAS_PROJECT_SOURCES 
+    "project/IProjectInitializer.h"
+
+	"project/ProjectInitializer.h"
+	"project/ProjectInitializer.cpp"
+    
+)
+
 set(ATLAS_ENGINE_SOURCES 
 	# Engine Core
     ${ATLAS_ENGINE_CORE_SOURCES}
@@ -193,6 +214,7 @@ set(ATLAS_ENGINE_SOURCES
 	${ATLAS_DEBUGGING_SOURCES}
     ${ATLAS_WORLD_SOURCES}
     ${ATLAS_LANGUAGE_SOURCES}
+    ${ATLAS_PROJECT_SOURCES}
 )
 
 

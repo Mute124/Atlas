@@ -8,6 +8,8 @@ namespace \mbox{\hyperlink{namespace_atlas_1_1_application}{Application}}
 namespace \mbox{\hyperlink{namespace_atlas_1_1_broad_phase_layers}{Broad\+Phase\+Layers}}
 \item 
 namespace \mbox{\hyperlink{namespace_atlas_1_1_layers}{Layers}}
+\item 
+namespace \mbox{\hyperlink{namespace_atlas_1_1_tests}{Tests}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
@@ -28,6 +30,8 @@ class \mbox{\hyperlink{class_atlas_1_1_contact_listener_gate}{Contact\+Listener\
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_contact_listener_gate_params}{Contact\+Listener\+Gate\+Params}}
 \item 
+class \mbox{\hyperlink{class_atlas_1_1_drawable_hook}{Drawable\+Hook}}
+\item 
 struct \mbox{\hyperlink{struct_atlas_1_1_engine_config}{Engine\+Config}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_entity}{Entity}}
@@ -35,6 +39,8 @@ class \mbox{\hyperlink{class_atlas_1_1_entity}{Entity}}
 class \mbox{\hyperlink{class_atlas_1_1_file_i_o_failure}{File\+IOFailure}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_path}{File\+Path}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}}
 \item 
@@ -88,6 +94,8 @@ class \mbox{\hyperlink{class_atlas_1_1_object_layer_pair_filter_impl}{Object\+La
 \begin{DoxyCompactList}\small\item\em Class that determines if two object layers can collide. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_object_vs_broad_phase_layer_filter_impl}{Object\+Vs\+Broad\+Phase\+Layer\+Filter\+Impl}}
 \begin{DoxyCompactList}\small\item\em Class that determines if an object layer can collide with a broadphase layer. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_optional_reference}{Optional\+Reference}}
+\item 
 class \mbox{\hyperlink{class_atlas_1_1_physics_engine}{Physics\+Engine}}
 \begin{DoxyCompactList}\small\item\em Handles everything related to \doxylink{namespace_atlas}{Atlas}\textquotesingle{} physics engine. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_plane_object}{Plane\+Object}}
@@ -96,13 +104,23 @@ class \mbox{\hyperlink{class_atlas_1_1_reference_holder}{Reference\+Holder}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}}
 \item 
+struct \mbox{\hyperlink{struct_atlas_1_1_render_args}{Render\+Args}}
+\item 
 class \mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}}
 \begin{DoxyCompactList}\small\item\em Serves as the renderer for the game. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_render_layer}{Render\+Layer}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_sandboxer}{Sandboxer}}
+\begin{DoxyCompactList}\small\item\em This is what is used to determine if a path is safe or not. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_singleton}{Singleton}}
 \begin{DoxyCompactList}\small\item\em A singleton class, it does what singletons do. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_techstorm_engine}{Techstorm\+Engine}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_terminal_sink}{Terminal\+Sink}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_texture_args}{Texture\+Args}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_transform}{Transform}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_vec2}{Vec2}}
 \item 
@@ -124,6 +142,8 @@ using \mbox{\hyperlink{namespace_atlas_ab9064d006a69e0a0da7bb9b2dde7c47c}{Padded
 using \mbox{\hyperlink{namespace_atlas_ad4eb39ae8b8b6a74c0f7135d6559cf9a}{JSONDocument}} = simdjson\+::ondemand\+::document
 \item 
 using \mbox{\hyperlink{namespace_atlas_a30c03ddc598bf8537d152d570a96efbc}{JSONParser}} = simdjson\+::ondemand\+::parser
+\item 
+using \mbox{\hyperlink{namespace_atlas_aa71b3b8bda84ac958038e57ce411cab1}{JSONElement}} = simdjson\+::dom\+::element
 \item 
 using \mbox{\hyperlink{namespace_atlas_a70fa409c8b4e697795350e0cc0bfbbfd}{Default\+Color\+Sink}} = std\+::shared\+\_\+ptr$<$ spdlog\+::sinks\+::stdout\+\_\+color\+\_\+sink\+\_\+mt $>$
 \item 
@@ -182,7 +202,12 @@ enum class \mbox{\hyperlink{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88e}{E
 , \newline
 \mbox{\hyperlink{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88eaecbcb28c1bd554fb19fe98a5c74aaf23}{INPUT\+\_\+\+TRIGGER\+\_\+\+REPEAT}}
  \}
-\begin{DoxyCompactList}\small\item\em What sort of action should trigger the Input\+Action? \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em What sort of action should trigger the Input\+Action? \end{DoxyCompactList}\item 
+enum class \mbox{\hyperlink{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3}{ERender\+Layer\+Draw\+Time}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a696b031073e74bf2cb98e5ef201d4aa3}{UNKNOWN}} = 0
+, \mbox{\hyperlink{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a3f92f542bd9ec48f912b9350e22736ac}{TEXTURE}} = 1
+, \mbox{\hyperlink{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3ac71c45515d9a92759e3cc0046bfdb059}{RENDER}} = 2
+ \}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -204,20 +229,22 @@ spdlog\+::level\+::level\+\_\+enum \mbox{\hyperlink{namespace_atlas_a5b792faf290
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}} (std\+::string message, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}} \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}=\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079adc30ec20708ef7b0f641ef78b7880a15}{ELog\+Level\+::\+DEBUG}}, const std\+::source\+\_\+location \&location=std\+::source\+\_\+location\+::current())
 \item 
+bool \mbox{\hyperlink{namespace_atlas_a254f5a6dc4d6b4838489a9afd1c31709}{Is\+Path\+Sandboxed}} (std\+::string const \&path)
+\begin{DoxyCompactList}\small\item\em Checks if a path is within the sandbox by checking \mbox{[}path\mbox{]} against the current. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{namespace_atlas_af4aee03bf5c452a2b71ee0a1107104e0}{File\+System\+Is\+Properly\+Formatted}} (const char \texorpdfstring{$\ast$}{*}root\+Path, const char \texorpdfstring{$\ast$}{*}directory\+Map\+Path)
-\item 
+\begin{DoxyCompactList}\small\item\em Checks if the file system is properly formatted. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}} \& \mbox{\hyperlink{namespace_atlas_a2cb0cf87e4174aa22214eb99c3b3e9cb}{Get\+File\+System\+Registry}} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the file system registry. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_afa957c3a57e0cd460b645e62eb077137}{Initialize\+File\+Registry}} (const char \texorpdfstring{$\ast$}{*}root\+Path)
-\item 
+\begin{DoxyCompactList}\small\item\em Initializes the file registry. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_adf987d1c7b4c1083d297e28fca47908c}{Add\+File\+Registry\+Load\+Function}} (std\+::string extension, std\+::function$<$ std\+::any(std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta}} $>$)$>$ load\+Func)
-\item 
+\begin{DoxyCompactList}\small\item\em Adds an extension load function to the file registry. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a29a6343014b963b902d0e0afb838dfdd}{Add\+File\+Registry\+Load\+On\+Register\+Extension}} (std\+::string const \&extension)
-\item 
+\begin{DoxyCompactList}\small\item\em Flags an extension as one that should be loaded once it is registered. This only matters and has effects before the file registry is initialized. \end{DoxyCompactList}\item 
 std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta}} $>$ \mbox{\hyperlink{namespace_atlas_adfc00f339f3667f86dfa821fb6a2dd81}{Get\+File\+Meta}} (std\+::string key)
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the file meta. \end{DoxyCompactList}\item 
 std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}} $>$ \mbox{\hyperlink{namespace_atlas_a73f62e52350edd7a0496cba5d674774d}{Get\+File}} (std\+::string key, bool load\+If\+Not\+Loaded=true)
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the file. \end{DoxyCompactList}\item 
 {\footnotesize template$<$typename T $>$ }\\T \& \mbox{\hyperlink{namespace_atlas_ae4147e1ed53261fedf1809ea1fd913ed}{Get\+Global}} (const std\+::string \&key)
 \item 
 {\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a51fdcf67897c4f8a2845255331167e28}{Set\+Global}} (const std\+::string \&key, const T \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})
@@ -280,6 +307,16 @@ Definition at line \mbox{\hyperlink{_game_settings_8h_source_l00009}{9}} of file
 
 
 Definition at line \mbox{\hyperlink{_j_s_o_n_file_8h_source_l00009}{9}} of file \mbox{\hyperlink{_j_s_o_n_file_8h_source}{JSONFile.\+h}}.
+
+\Hypertarget{namespace_atlas_aa71b3b8bda84ac958038e57ce411cab1}\label{namespace_atlas_aa71b3b8bda84ac958038e57ce411cab1} 
+\index{Atlas@{Atlas}!JSONElement@{JSONElement}}
+\index{JSONElement@{JSONElement}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{JSONElement}{JSONElement}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_aa71b3b8bda84ac958038e57ce411cab1}{Atlas\+::\+JSONElement}} = typedef simdjson\+::dom\+::element}
+
+
+
+Definition at line \mbox{\hyperlink{_j_s_o_n_file_8h_source_l00011}{11}} of file \mbox{\hyperlink{_j_s_o_n_file_8h_source}{JSONFile.\+h}}.
 
 \Hypertarget{namespace_atlas_a30c03ddc598bf8537d152d570a96efbc}\label{namespace_atlas_a30c03ddc598bf8537d152d570a96efbc} 
 \index{Atlas@{Atlas}!JSONParser@{JSONParser}}
@@ -462,6 +499,30 @@ NONE&\\
 
 Definition at line \mbox{\hyperlink{_e_log_level_8h_source_l00009}{9}} of file \mbox{\hyperlink{_e_log_level_8h_source}{ELog\+Level.\+h}}.
 
+\Hypertarget{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3}\label{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3} 
+\index{Atlas@{Atlas}!ERenderLayerDrawTime@{ERenderLayerDrawTime}}
+\index{ERenderLayerDrawTime@{ERenderLayerDrawTime}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{ERenderLayerDrawTime}{ERenderLayerDrawTime}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3}{Atlas\+::\+ERender\+Layer\+Draw\+Time}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UNKNOWN@{UNKNOWN}!Atlas@{Atlas}}\index{Atlas@{Atlas}!UNKNOWN@{UNKNOWN}}}\Hypertarget{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a696b031073e74bf2cb98e5ef201d4aa3}\label{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a696b031073e74bf2cb98e5ef201d4aa3} 
+UNKNOWN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TEXTURE@{TEXTURE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!TEXTURE@{TEXTURE}}}\Hypertarget{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a3f92f542bd9ec48f912b9350e22736ac}\label{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a3f92f542bd9ec48f912b9350e22736ac} 
+TEXTURE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RENDER@{RENDER}!Atlas@{Atlas}}\index{Atlas@{Atlas}!RENDER@{RENDER}}}\Hypertarget{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3ac71c45515d9a92759e3cc0046bfdb059}\label{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3ac71c45515d9a92759e3cc0046bfdb059} 
+RENDER&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_e_render_layer_draw_time_8h_source_l00005}{5}} of file \mbox{\hyperlink{_e_render_layer_draw_time_8h_source}{ERender\+Layer\+Draw\+Time.\+h}}.
+
 \Hypertarget{namespace_atlas_a8db949e6d304e138149d0c697ed389aa}\label{namespace_atlas_a8db949e6d304e138149d0c697ed389aa} 
 \index{Atlas@{Atlas}!EReturnCode@{EReturnCode}}
 \index{EReturnCode@{EReturnCode}!Atlas@{Atlas}}
@@ -509,15 +570,26 @@ Definition at line \mbox{\hyperlink{_e_return_code_8h_source_l00004}{4}} of file
 
 
 
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00031}{31}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
+Adds an extension load function to the file registry. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em extension} & The extension.\\
+\hline
+{\em load\+Func} & The load function.\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00034}{34}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_file_system_registry_8h_source_l00071}{Atlas\+::\+File\+System\+Registry\+::add\+Load\+Function()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00021}{Get\+File\+System\+Registry()}}.
+References \mbox{\hyperlink{_file_system_registry_8h_source_l00071}{Atlas\+::\+File\+System\+Registry\+::add\+Load\+Function()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
 
 
 
-Referenced by \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, and \mbox{\hyperlink{engine_2_project_8h_source_l00095}{Atlas\+::abstract$<$ Console\+Sink $>$\+::pre\+Init()}}.
+Referenced by \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}.
 
 \Hypertarget{namespace_atlas_a29a6343014b963b902d0e0afb838dfdd}\label{namespace_atlas_a29a6343014b963b902d0e0afb838dfdd} 
 \index{Atlas@{Atlas}!AddFileRegistryLoadOnRegisterExtension@{AddFileRegistryLoadOnRegisterExtension}}
@@ -527,11 +599,20 @@ Referenced by \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+Fi
 
 
 
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00036}{36}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
+Flags an extension as one that should be loaded once it is registered. This only matters and has effects before the file registry is initialized. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em extension} & The extension.\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00040}{40}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_file_system_registry_8h_source_l00077}{Atlas\+::\+File\+System\+Registry\+::add\+Load\+On\+Register\+Extension()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00021}{Get\+File\+System\+Registry()}}.
+References \mbox{\hyperlink{_file_system_registry_8h_source_l00077}{Atlas\+::\+File\+System\+Registry\+::add\+Load\+On\+Register\+Extension()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
 
 \Hypertarget{namespace_atlas_a4a3774487efaf3fd274897ab22f238be}\label{namespace_atlas_a4a3774487efaf3fd274897ab22f238be} 
 \index{Atlas@{Atlas}!CreateLogFileName@{CreateLogFileName}}
@@ -553,6 +634,20 @@ References \mbox{\hyperlink{_common_8h_source_l00031}{ATLAS\+\_\+\+TEMP\+\_\+\+D
 \doxysubsubsection{\texorpdfstring{FileSystemIsProperlyFormatted()}{FileSystemIsProperlyFormatted()}}
 {\footnotesize\ttfamily bool Atlas\+::\+File\+System\+Is\+Properly\+Formatted (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{root\+Path,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{directory\+Map\+Path }\end{DoxyParamCaption})}
 
+
+
+Checks if the file system is properly formatted. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em root\+Path} & The root path.\\
+\hline
+{\em directory\+Map\+Path} & The directory map path.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean value that denotes whether or not the file system is properly formatted.
+\end{DoxyReturn}
 
 
 Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00016}{16}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
@@ -580,7 +675,7 @@ References \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$
 
 
 
-Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00060}{main()}}.
+Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00062}{main()}}.
 
 \Hypertarget{namespace_atlas_a85dcb3d0c186dbbe3ca7f78845c60a21}\label{namespace_atlas_a85dcb3d0c186dbbe3ca7f78845c60a21} 
 \index{Atlas@{Atlas}!GetConfigString@{GetConfigString}}
@@ -624,15 +719,29 @@ References \mbox{\hyperlink{_config_8cpp_source_l00113}{Lookup\+Config()}}.
 
 
 
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00046}{46}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
+Gets the file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key.\\
+\hline
+{\em load\+If\+Not\+Loaded} & if set to {\ttfamily true} \mbox{[}load if not loaded\mbox{]}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00052}{52}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_file_system_registry_8cpp_source_l00089}{Atlas\+::\+File\+System\+Registry\+::get\+File()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00021}{Get\+File\+System\+Registry()}}.
+References \mbox{\hyperlink{_file_system_registry_8cpp_source_l00091}{Atlas\+::\+File\+System\+Registry\+::get\+File()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
 
 
 
-Referenced by \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\+Registry\+::config\+Lookup()}}, \mbox{\hyperlink{_game_model_8cpp_source_l00004}{Atlas\+::\+Game\+Model\+::\+Game\+Model()}}, \mbox{\hyperlink{_config_8h_source_l00087}{Atlas\+::\+Config\+File\+Registry\+::get\+Json\+File()}}, and \mbox{\hyperlink{_config_8cpp_source_l00041}{Atlas\+::\+Config\+File\+Registry\+::read\+Config\+File()}}.
+Referenced by \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\+Registry\+::config\+Lookup()}}, \mbox{\hyperlink{_game_model_8cpp_source_l00025}{Atlas\+::\+Game\+Model\+::\+Game\+Model()}}, \mbox{\hyperlink{_config_8h_source_l00088}{Atlas\+::\+Config\+File\+Registry\+::get\+Json\+File()}}, and \mbox{\hyperlink{_config_8cpp_source_l00041}{Atlas\+::\+Config\+File\+Registry\+::read\+Config\+File()}}.
 
 \Hypertarget{namespace_atlas_adfc00f339f3667f86dfa821fb6a2dd81}\label{namespace_atlas_adfc00f339f3667f86dfa821fb6a2dd81} 
 \index{Atlas@{Atlas}!GetFileMeta@{GetFileMeta}}
@@ -642,11 +751,23 @@ Referenced by \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+Fi
 
 
 
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00041}{41}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
+Gets the file meta. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A shared pointer to the found file meta 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00046}{46}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_file_system_registry_8cpp_source_l00059}{Atlas\+::\+File\+System\+Registry\+::\+Get\+File\+Meta()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00021}{Get\+File\+System\+Registry()}}.
+References \mbox{\hyperlink{_file_system_registry_8cpp_source_l00061}{Atlas\+::\+File\+System\+Registry\+::\+Get\+File\+Meta()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
 
 \Hypertarget{namespace_atlas_a2cb0cf87e4174aa22214eb99c3b3e9cb}\label{namespace_atlas_a2cb0cf87e4174aa22214eb99c3b3e9cb} 
 \index{Atlas@{Atlas}!GetFileSystemRegistry@{GetFileSystemRegistry}}
@@ -656,11 +777,18 @@ References \mbox{\hyperlink{_file_system_registry_8cpp_source_l00059}{Atlas\+::\
 
 
 
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00021}{21}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
+Gets the file system registry. 
+
+\begin{DoxyReturn}{Returns}
+A reference to the current file system registry singleton
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00022}{22}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{_file_system_8cpp_source_l00031}{Add\+File\+Registry\+Load\+Function()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00036}{Add\+File\+Registry\+Load\+On\+Register\+Extension()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00046}{Get\+File()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00041}{Get\+File\+Meta()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00026}{Initialize\+File\+Registry()}}.
+Referenced by \mbox{\hyperlink{_file_system_8cpp_source_l00034}{Add\+File\+Registry\+Load\+Function()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00040}{Add\+File\+Registry\+Load\+On\+Register\+Extension()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00052}{Get\+File()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00046}{Get\+File\+Meta()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00028}{Initialize\+File\+Registry()}}.
 
 \Hypertarget{namespace_atlas_ae4147e1ed53261fedf1809ea1fd913ed}\label{namespace_atlas_ae4147e1ed53261fedf1809ea1fd913ed} 
 \index{Atlas@{Atlas}!GetGlobal@{GetGlobal}}
@@ -703,11 +831,11 @@ the value that is stored
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00562}{562}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00569}{569}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 
 
-References \mbox{\hyperlink{_common_8h_source_l00520}{Atlas\+::\+Globals\+::get()}}, and \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$ Globals $>$\+::\+Instance()}}.
+References \mbox{\hyperlink{_common_8h_source_l00527}{Atlas\+::\+Globals\+::get()}}, and \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$ Globals $>$\+::\+Instance()}}.
 
 \Hypertarget{namespace_atlas_a5b792faf29085a5da63f88014b79aac5}\label{namespace_atlas_a5b792faf29085a5da63f88014b79aac5} 
 \index{Atlas@{Atlas}!GetSpdlogLevel@{GetSpdlogLevel}}
@@ -717,7 +845,7 @@ References \mbox{\hyperlink{_common_8h_source_l00520}{Atlas\+::\+Globals\+::get(
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00033}{33}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00034}{34}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
 
 \Hypertarget{namespace_atlas_ab59cd60859cde46712ee41f24a093547}\label{namespace_atlas_ab59cd60859cde46712ee41f24a093547} 
 \index{Atlas@{Atlas}!InitializeConfigRegistry@{InitializeConfigRegistry}}
@@ -739,7 +867,7 @@ References \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\
 
 
 
-Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00060}{main()}}.
+Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00062}{main()}}.
 
 \Hypertarget{namespace_atlas_afa957c3a57e0cd460b645e62eb077137}\label{namespace_atlas_afa957c3a57e0cd460b645e62eb077137} 
 \index{Atlas@{Atlas}!InitializeFileRegistry@{InitializeFileRegistry}}
@@ -749,15 +877,42 @@ Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00060}{main()}}.
 
 
 
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00026}{26}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
+Initializes the file registry. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em root\+Path} & The root path.\\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00028}{28}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_file_system_8cpp_source_l00021}{Get\+File\+System\+Registry()}}, and \mbox{\hyperlink{_file_system_registry_8cpp_source_l00015}{Atlas\+::\+File\+System\+Registry\+::init()}}.
+References \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}, and \mbox{\hyperlink{_file_system_registry_8cpp_source_l00016}{Atlas\+::\+File\+System\+Registry\+::init()}}.
+
+\Hypertarget{namespace_atlas_a254f5a6dc4d6b4838489a9afd1c31709}\label{namespace_atlas_a254f5a6dc4d6b4838489a9afd1c31709} 
+\index{Atlas@{Atlas}!IsPathSandboxed@{IsPathSandboxed}}
+\index{IsPathSandboxed@{IsPathSandboxed}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{IsPathSandboxed()}{IsPathSandboxed()}}
+{\footnotesize\ttfamily bool Atlas\+::\+Is\+Path\+Sandboxed (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{path }\end{DoxyParamCaption})}
 
 
 
-Referenced by \mbox{\hyperlink{engine_2_project_8h_source_l00095}{Atlas\+::abstract$<$ Console\+Sink $>$\+::pre\+Init()}}.
+Checks if a path is within the sandbox by checking \mbox{[}path\mbox{]} against the current. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_file_path_8cpp_source_l00004}{4}} of file \mbox{\hyperlink{_file_path_8cpp_source}{File\+Path.\+cpp}}.
 
 \Hypertarget{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}\label{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f} 
 \index{Atlas@{Atlas}!Log@{Log}}
@@ -775,7 +930,7 @@ References \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$
 
 
 
-Referenced by \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\+Registry\+::config\+Lookup()}}, \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00015}{Atlas\+::\+File\+System\+Registry\+::init()}}, \mbox{\hyperlink{application_2main_8cpp_source_l00013}{Init\+Window()}}, \mbox{\hyperlink{_application_utils_8h_source_l00215}{Atlas\+::\+Application\+::\+Frame\+Manager\+::launch\+Threads()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00071}{Atlas\+::\+File\+System\+Registry\+::load\+File()}}, \mbox{\hyperlink{application_2main_8cpp_source_l00060}{main()}}, \mbox{\hyperlink{engine_2_project_8h_source_l00095}{Atlas\+::abstract$<$ Console\+Sink $>$\+::pre\+Init()}}, \mbox{\hyperlink{_application_utils_8h_source_l00167}{Atlas\+::\+Application\+::\+Frame\+Manager\+::\+Run\+Update\+Thread()}}, and \mbox{\hyperlink{_application_utils_8h_source_l00198}{Atlas\+::\+Application\+::\+Frame\+Manager\+::\+Run\+Worker\+Thread()}}.
+Referenced by \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\+Registry\+::config\+Lookup()}}, \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00016}{Atlas\+::\+File\+System\+Registry\+::init()}}, \mbox{\hyperlink{application_2main_8cpp_source_l00013}{Init\+Window()}}, \mbox{\hyperlink{_application_utils_8h_source_l00215}{Atlas\+::\+Application\+::\+Frame\+Manager\+::launch\+Threads()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00073}{Atlas\+::\+File\+System\+Registry\+::load\+File()}}, \mbox{\hyperlink{application_2main_8cpp_source_l00062}{main()}}, \mbox{\hyperlink{_application_utils_8h_source_l00167}{Atlas\+::\+Application\+::\+Frame\+Manager\+::\+Run\+Update\+Thread()}}, and \mbox{\hyperlink{_application_utils_8h_source_l00198}{Atlas\+::\+Application\+::\+Frame\+Manager\+::\+Run\+Worker\+Thread()}}.
 
 \Hypertarget{namespace_atlas_aea78e3773f79ad0d706edfea919cfc63}\label{namespace_atlas_aea78e3773f79ad0d706edfea919cfc63} 
 \index{Atlas@{Atlas}!LookupConfig@{LookupConfig}}

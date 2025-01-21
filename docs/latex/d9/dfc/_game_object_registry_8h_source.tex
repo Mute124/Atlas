@@ -9,33 +9,39 @@
 \DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}../Common.h"{}}}
 \DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_game_object_gate_8h}{IGameObjectGate.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <functional>}}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00008}00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00012}\mbox{\hyperlink{class_atlas_1_1_game_object_registry}{00012}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_game_object_registry}{GameObjectRegistry}}\ \{}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00014}00014\ }
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_ab86454bb5a8d6d03a1b14c790faa4461}{addGameObject}}(IGameObject*\ gameObject);}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00021}00021\ }
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_ac42d70824c78d40f218f17c2af1bebd4}{addGameObjectGate}}(IGameObjectGate*\ gameObjectGate);}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00028}00028\ }
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00029}\mbox{\hyperlink{class_atlas_1_1_game_object_registry_aa6b47da737596652bbdef33635f65064}{00029}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_aa6b47da737596652bbdef33635f65064}{addStandaloneDrawCall}}(std::function<\textcolor{keywordtype}{void}()>\ drawCall)\ \{\ this-\/>mStandaloneDrawCalls.push\_back(drawCall);\ \}}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00030}00030\ }
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_a56d654d4956a09f89f65acb9301ad864}{update}}();}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00035}00035\ }
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_ae8cc62b19166f88ebb0915c9cdcfc7e2}{render}}();}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00040}00040\ }
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00041}\mbox{\hyperlink{class_atlas_1_1_game_object_registry_a71e6660d4083ec4bf04013417f4acd24}{00041}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_a71e6660d4083ec4bf04013417f4acd24}{texture}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ obj\ :\ this-\/>mGameObjectsSink)\ \{}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ obj-\/>texture();}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00011}00011\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00015}\mbox{\hyperlink{class_atlas_1_1_game_object_registry}{00015}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_game_object_registry}{GameObjectRegistry}}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00017}00017\ \ \ \ \ \ \ \ \ std::vector<std::function<\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()>>\ mStandaloneDrawCalls;}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00018}00018\ \ \ \ \ \ \ \ \ std::vector<IGameObject*>\ mGameObjectsSink;}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00019}00019\ \ \ \ \ \ \ \ \ std::vector<IGameObjectGate*>\ mGameObjectsGateSink;}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::map<std::string,\ std::vector<IGameObjectGate*>>\ mGameObjectGates;}}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00023}\mbox{\hyperlink{class_atlas_1_1_game_object_registry_a70538530bc36e033e360880ef311df61}{00023}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}};}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00024}00024\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_ab86454bb5a8d6d03a1b14c790faa4461}{addGameObject}}(IGameObject*\ gameObject);}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_ac42d70824c78d40f218f17c2af1bebd4}{addGameObjectGate}}(IGameObjectGate*\ gameObjectGate);}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00040}\mbox{\hyperlink{class_atlas_1_1_game_object_registry_aa6b47da737596652bbdef33635f65064}{00040}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_aa6b47da737596652bbdef33635f65064}{addStandaloneDrawCall}}(std::function<\textcolor{keywordtype}{void}()>\ drawCall)\ \{\ this-\/>mStandaloneDrawCalls.push\_back(drawCall);\ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_a56d654d4956a09f89f65acb9301ad864}{update}}();}
 \DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00046}00046\ }
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00047}00047\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00048}00048\ \ \ \ \ \ \ \ \ std::vector<std::function<\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()>>\ mStandaloneDrawCalls;}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00049}00049\ \ \ \ \ \ \ \ \ std::vector<IGameObject*>\ mGameObjectsSink;}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ std::vector<IGameObjectGate*>\ mGameObjectsGateSink;}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_ae8cc62b19166f88ebb0915c9cdcfc7e2}{render}}();}
 \DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00051}00051\ }
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00052}\mbox{\hyperlink{class_atlas_1_1_game_object_registry_a70538530bc36e033e360880ef311df61}{00052}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}};}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00053}00053\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00054}00054\ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00052}\mbox{\hyperlink{class_atlas_1_1_game_object_registry_a71e6660d4083ec4bf04013417f4acd24}{00052}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_a71e6660d4083ec4bf04013417f4acd24}{texture}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ obj\ :\ this-\/>mGameObjectsSink)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ obj-\/>texture();}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00056}00056\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00059}00059\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_game_object_registry_8h_source_l00060}00060\ \}}
 
 \end{DoxyCode}

@@ -500,6 +500,12 @@ namespace Atlas {
 		}
 	};
 */
+	
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <seealso cref="Singleton&lt;Globals&gt;" />
 	class Globals : public Singleton<Globals> {
 	public:		
 		/// <summary>

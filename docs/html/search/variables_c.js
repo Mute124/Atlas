@@ -1,12 +1,5 @@
 var searchData=
 [
-<<<<<<< HEAD
-<<<<<<< HEAD
-  ['objectposition_0',['objectPosition',['../d4/d42/class_terrain_sector.html#a1504f94ad768139ddfaaece7a534f3b3',1,'TerrainSector']]]
-=======
-  ['x_0',['x',['../d9/db6/struct_techstorm_1_1_vec3.html#ab7d948636261d85d2cf0a4cc10c3b305',1,'Techstorm::Vec3::x'],['../d4/d88/struct_techstorm_1_1_vec2.html#a0b00367be3790e37867070f197d996a1',1,'Techstorm::Vec2::x'],['../dc/d7f/struct_techstorm_1_1_vec4.html#abd17e07f8588f74b1ab6f8f6bb4e9f66',1,'Techstorm::Vec4::x']]]
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-=======
   ['mainwindowrenderbuffers_0',['MainWindowRenderBuffers',['../d2/d86/struct_im_gui___impl_vulkan___data.html#a4c790f85a664394c49b8a6cd7a302139',1,'ImGui_ImplVulkan_Data']]],
   ['mat_1',['mat',['../d7/d58/class_chunk.html#ab93e7c959b06604d3fa7ecd085006d35',1,'Chunk']]],
   ['mcamera_2',['mCamera',['../dc/d71/class_atlas_1_1_renderer.html#a9b84bf1e5525d9adc2502c3f9a0f5b7a',1,'Atlas::Renderer']]],
@@ -43,7 +36,6 @@ var searchData=
   ['mrenderer_33',['mRenderer',['../dc/dba/class_atlas_1_1abstract.html#ab5265cb2ecc240f5ff38a171bf5ef1fc',1,'Atlas::abstract']]],
   ['msaasamples_34',['MSAASamples',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a07f4dc58914730be73d241dbe3037833',1,'ImGui_ImplVulkan_InitInfo']]],
   ['msink_35',['mSink',['../dc/dba/class_atlas_1_1abstract.html#a695cf07ae0328ce52768272d18a53acc',1,'Atlas::abstract']]],
-  ['mvp_36',['mvp',['../d0/d75/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x10.html#a5b919e7d9d3c0194b05ddd336426aecf',1,'VERTEX_CONSTANT_BUFFER_DX10::mvp'],['../d8/d09/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x11.html#a60d5a5fdfbc0fa9455b591ea77dfb8e7',1,'VERTEX_CONSTANT_BUFFER_DX11::mvp'],['../d2/d16/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12.html#af977128a020d49a3a5478a59e4229274',1,'VERTEX_CONSTANT_BUFFER_DX12::mvp'],['../da/d5c/struct_uniforms.html#abcb95d428e91e58d46b1da202a39159f',1,'Uniforms::MVP']]],
+  ['mvp_36',['mvp',['../da/d5c/struct_uniforms.html#abcb95d428e91e58d46b1da202a39159f',1,'Uniforms::MVP'],['../d0/d75/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x10.html#a5b919e7d9d3c0194b05ddd336426aecf',1,'VERTEX_CONSTANT_BUFFER_DX10::mvp'],['../d8/d09/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x11.html#a60d5a5fdfbc0fa9455b591ea77dfb8e7',1,'VERTEX_CONSTANT_BUFFER_DX11::mvp'],['../d2/d16/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12.html#af977128a020d49a3a5478a59e4229274',1,'VERTEX_CONSTANT_BUFFER_DX12::mvp']]],
   ['mwindowdecorations_37',['mWindowDecorations',['../dc/dba/class_atlas_1_1abstract.html#a4fa4d0c8ac6739c53f23e69f0259b3a4',1,'Atlas::abstract']]]
->>>>>>> main
 ];

@@ -16,6 +16,8 @@ var searchData=
   ['open_13',['Open',['../dc/d7b/class_shell_file_interface.html#a5fa137245fd26a9498cb3254c591859d',1,'ShellFileInterface']]],
   ['operator_2d_14',['operator-',['../df/d8a/struct_vec3.html#a6f462663ff836de8638c27185eb41b98',1,'Vec3']]],
   ['operator_3c_15',['operator&lt;',['../d8/dc8/struct_point.html#aa2d6d536fc5b43ec4623eff0e7e2d015',1,'Point::operator&lt;(const Point &amp;rhs) const'],['../d8/dc8/struct_point.html#aa2d6d536fc5b43ec4623eff0e7e2d015',1,'Point::operator&lt;(const Point &amp;rhs) const']]],
-  ['operator_3d_3d_16',['operator==',['../d7/dc3/class_atlas_1_1_game_camera.html#a69465e83309abb443b9aaebf4d25dca2',1,'Atlas::GameCamera']]],
-  ['optimizebroadphase_17',['optimizebroadphase',['../db/db4/class_physics_engine.html#ab07cd90671d6b23946949f920839b6ec',1,'PhysicsEngine::optimizeBroadPhase()'],['../d2/dec/class_atlas_1_1_physics_engine.html#ab07cd90671d6b23946949f920839b6ec',1,'Atlas::PhysicsEngine::optimizeBroadPhase()']]]
+  ['operator_3d_16',['operator=',['../de/d42/class_atlas_1_1_transform.html#ad707c2a379f247bd266525920a31c78e',1,'Atlas::Transform']]],
+  ['operator_3d_3d_17',['operator==',['../de/d42/class_atlas_1_1_transform.html#a0296364ccc81e79d579a6205de9f4d9b',1,'Atlas::Transform::operator==()'],['../d7/dc3/class_atlas_1_1_game_camera.html#a69465e83309abb443b9aaebf4d25dca2',1,'Atlas::GameCamera::operator==()']]],
+  ['optimizebroadphase_18',['optimizebroadphase',['../db/db4/class_physics_engine.html#ab07cd90671d6b23946949f920839b6ec',1,'PhysicsEngine::optimizeBroadPhase()'],['../d2/dec/class_atlas_1_1_physics_engine.html#ab07cd90671d6b23946949f920839b6ec',1,'Atlas::PhysicsEngine::optimizeBroadPhase()']]],
+  ['optionalreference_19',['OptionalReference',['../dc/da2/class_atlas_1_1_optional_reference.html#ace1936f37d0c9fcb9e8b59b3e8d36391',1,'Atlas::OptionalReference']]]
 ];

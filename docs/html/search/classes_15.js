@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['xmlfile_0',['XMLFile',['../d7/d24/class_atlas_1_1_x_m_l_file.html',1,'Atlas']]]
+  ['window_0',['Window',['../d1/df6/class_atlas_1_1_window.html',1,'Atlas']]],
+  ['windowdecorations_1',['WindowDecorations',['../da/d6a/struct_atlas_1_1_window_decorations.html',1,'Atlas']]]
 ];

@@ -1,6 +1,6 @@
 #pragma once
 #include "BasicCore.h"
-#include "EngineComponent.h"
+//#include "EngineComponent.h"
 #include "utils/Singleton.h"
 #include "renderer/Renderer.h"
 #include "renderer/Window.h"
@@ -10,13 +10,14 @@ namespace Atlas {
 	};
 
 	class TechstormEngine : Singleton<TechstormEngine> {
+	private:
+
 	public:
 		Renderer renderer;
 
 		TechstormEngine() {}
 
-	private:
-		Window* window = nullptr;
+
 	};
 }
 

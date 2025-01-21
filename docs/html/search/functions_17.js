@@ -10,6 +10,5 @@ var searchData=
   ['_7elayerregistry_7',['~LayerRegistry',['../db/d5d/class_techstorm_1_1_layer_registry.html#af9d0b1f70047143779fd67cd3b66bc8e',1,'Techstorm::LayerRegistry']]],
   ['_7emod_8',['~Mod',['../df/d6e/class_atlas_1_1_mod.html#a46e99d24b03c38d2053485ce0ba4835f',1,'Atlas::Mod']]],
   ['_7emodloader_9',['~ModLoader',['../d9/dc9/class_atlas_1_1_mod_loader.html#ad35f872f9a6cf583bdf303007480d5b7',1,'Atlas::ModLoader']]],
-  ['_7eshellfileinterface_10',['~ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#af3a1911ef7d963ac9bc10947b279af52',1,'ShellFileInterface']]],
-  ['_7ewindow_11',['~Window',['../d1/df6/class_atlas_1_1_window.html#a4afa9a32bef0bc15f922f41ddb387b4e',1,'Atlas::Window']]]
+  ['_7eshellfileinterface_10',['~ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#af3a1911ef7d963ac9bc10947b279af52',1,'ShellFileInterface']]]
 ];
