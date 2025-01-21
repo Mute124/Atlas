@@ -17,7 +17,7 @@
 #include <Common.h>
 #include <modding/ScriptingAPI.h>
 #include <renderer/Renderer.h>
-#include <renderer/WindowDecorations.h>
+#include <renderer/window/WindowDecorations.h>
 #include <conf/Config.h>
 
 #include <project.h>

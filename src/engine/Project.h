@@ -6,8 +6,8 @@
 */
 #pragma once
 #include "renderer/Renderer.h"
-#include "renderer/Window.h"
-#include "renderer/WindowDecorations.h"
+#include "renderer/window/Window.h"
+#include "renderer/window/WindowDecorations.h"
 #include "utils/Singleton.h"
 #include "modding/ScriptingAPI.h"
 #include "GameSettings.h"

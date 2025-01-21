@@ -4,7 +4,7 @@
 
 #include "drawing/RenderArgs.h"
 #include "drawing/TextureArgs.h"
-#include "WindowDecorations.h"
+#include "window/WindowDecorations.h"
 namespace Atlas {
 	class IDrawable;
 

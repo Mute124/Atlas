@@ -5,7 +5,7 @@
 #include <dbg/Logging.h>
 #include <modding/ScriptingAPI.h>
 #include <renderer/Renderer.h>
-#include <renderer/WindowDecorations.h>
+#include <renderer/window/WindowDecorations.h>
 #include <project.h>
 
 using namespace Atlas;

@@ -3,7 +3,7 @@
 //#include "EngineComponent.h"
 #include "utils/Singleton.h"
 #include "renderer/Renderer.h"
-#include "renderer/Window.h"
+#include "renderer/window/Window.h"
 
 namespace Atlas {
 	struct EngineConfig {
