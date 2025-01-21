@@ -7,6 +7,7 @@
 
 #include <raylib.h>
 
+#include <iostream>
 #include <cstdint>
 #include <format>
 #include <memory>
@@ -52,6 +53,7 @@ void Atlas::FileSystemRegistry::init(const char* rootPath)
 		std::string output = "";
 
 		output = std::format("File with index[{}], named: {} with an extension of {} was registered", index, filename, path, extension);
+		std::cout << output << std::endl;
 		Log(output, ELogLevel::TRACE);
 	}
 }

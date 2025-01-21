@@ -50,6 +50,10 @@ set(ATLAS_RENDERER_SOURCES
 
     "renderer/GameModel.h"
     "renderer/GameModel.cpp"
+
+    "renderer/ICuller.h"
+
+    "renderer/ERenderLayerDrawTime.h"
 )
 
 set(ATLAS_STATE_SOURCES
@@ -80,6 +84,9 @@ set(ATLAS_UTIL_SOURCES
 set(ATLAS_MATH_SOURCES
     "math/Vector.h" 
     "math/Vector.cpp" 
+
+    "math/Transform.h"
+    "math/Transform.cpp"
 )
 
 set(ATLAS_INPUT_SOURCES
@@ -102,6 +109,10 @@ set(ATLAS_FILESYSTEM_SOURCES
     "fs/FileSystem.h"
     "fs/FileSystem.cpp"
 
+    "fs/ISandboxer.h"
+    "fs/Sandboxer.h"
+    "fs/Sandboxer.cpp"
+
     "fs/RegisteredFile.h"
 	"fs/RegisteredFile.cpp"
 
@@ -110,6 +121,9 @@ set(ATLAS_FILESYSTEM_SOURCES
 
     "fs/FileSystemRegistry.h"
 	"fs/FileSystemRegistry.cpp"
+
+    "fs/FilePath.h"
+    "fs/FilePath.cpp"
 )
 
 set(ATLAS_PHYSICS_SOURCES
@@ -222,9 +236,15 @@ if(${ATLAS_ENABLE_MODDING})
     endif()
 endif()
 
+#if(${ATLAS_ENABLE_TESTING}) 
+    set(ATLAS_ENGINE_DEPENDENCIES 
+		${ATLAS_ENGINE_DEPENDENCIES}
+        gtest::gtest
+    )
+#endif()
+
 add_library(Atlas SHARED 
     ${ATLAS_ENGINE_SOURCES}
-    
 )
 
 # Organize files in Visual Studio
@@ -242,7 +262,7 @@ target_link_libraries(Atlas PUBLIC
 
 # Set output name for Windows/Linux
 if(WIN32)
-    set_target_properties(Atlas PROPERTIES OUTPUT_NAME "Techstorm.dll" )
+    set_target_properties(Atlas PROPERTIES OUTPUT_NAME "Atlas")
 elseif(UNIX)
-    set_target_properties(Atlas PROPERTIES OUTPUT_NAME "Techstorm.so") 
+    set_target_properties(Atlas PROPERTIES OUTPUT_NAME "Atlas") 
 endif()

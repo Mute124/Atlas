@@ -63,9 +63,12 @@ void Atlas::Renderer::texture(GameCamera& cam)
 #endif
 
 	mGameObjects.texture();
-	DrawCube(Vector3{ 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f, 1.0f, RED);
+	
 #ifdef ATLAS_RENDERER_2D
 #else
+
+	DrawCube(Vector3{ 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f, 1.0f, RED);
+
 	EndMode3D();
 #endif
 	EndTextureMode();

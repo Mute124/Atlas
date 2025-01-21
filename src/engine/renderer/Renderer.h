@@ -11,6 +11,8 @@
 	#include <raylib.h>
 #endif
 
+#include <gtest/gtest.h>
+
 namespace Atlas {
 	class GameObject;
 
@@ -103,6 +105,7 @@ namespace Atlas {
 		/// <param name="cam">The active camera.</param>
 		void render3D(GameCamera& cam);
 #endif
-	};
+	}; 
 
 }
+

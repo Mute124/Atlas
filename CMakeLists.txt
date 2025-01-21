@@ -114,7 +114,7 @@ if(${ATLAS_ENABLE_MODDING})
 endif()	
 
 add_compile_definitions(ATLAS_ENABLE_TESTING=${ATLAS_ENABLE_TESTING})
-
+add_compile_definitions(ATLAS_TESTING)
 
 
 # Absolutely DO NOT remove this. It will break all rendering functionality
@@ -162,6 +162,10 @@ find_package(nuklear REQUIRED)
 find_package(simdjson REQUIRED)
 find_package(tinyxml2 REQUIRED)
 
+#if(${ATLAS_ENABLE_TESTING})
+    find_package(GTest REQUIRED)
+#endif()
+
 set(DOUBLE_PRECISION OFF)
 set(GENERATE_DEBUG_SYMBOLS OFF)
 set(CROSS_PLATFORM_DETERMINISTIC ON)
@@ -190,3 +194,11 @@ if(${ATLAS_BUILD_TOOLS})
     message(STATUS "Building tools")
     add_subdirectory("src/tools")
 endif()
+
+#if(${ATLAS_ENABLE_TESTING})
+    
+
+	message(STATUS "Building tests")
+	add_subdirectory("src/tests")
+
+#endif()

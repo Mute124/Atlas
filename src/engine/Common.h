@@ -25,10 +25,10 @@
 /// Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these
 /// will be in the build directory rather than the final distribution directory.
 /// </summary>
-const std::string ATLAS_ASSET_DIR = std::string(ATLAS_TOP_LAYER) + "/game/assets/";
-const std::string ATLAS_DATA_DIR = std::string(ATLAS_TOP_LAYER) + "/game/data/";
-const std::string ATLAS_GAME_DIR = std::string(ATLAS_TOP_LAYER) + "/game/";
-const std::string ATLAS_TEMP_DIR = std::string(ATLAS_TOP_LAYER) + "/temp/";
+#define ATLAS_ASSET_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/assets/");
+#define ATLAS_DATA_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/data/");
+#define ATLAS_GAME_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/");
+#define ATLAS_TEMP_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/temp/");
 
 namespace Atlas {
 

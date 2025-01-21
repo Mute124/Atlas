@@ -1,6 +1,5 @@
 #pragma once
-#include <raylib.h>
-#include <raymath.h>
+#include "../math/Transform.h"
 
 namespace Atlas {
 	
@@ -29,10 +28,7 @@ namespace Atlas {
 		Model model;
 
 		// positional variables that are used to draw the object
-		Vector3 position = Vector3Zero();
-		Vector3 rotationAxis;
-		Vector3 scale;
-		float rotationAngle;
+		Transform transform;
 		Color tint = WHITE;
 				
 		/// <summary>
@@ -70,6 +66,6 @@ namespace Atlas {
 		/// \note This must be implemented by the user.
 		/// </summary>
 		/// <inheritdoc />
-		virtual void cleanup() = 0;
+		virtual void cleanup() = 0;		
 	};
 }

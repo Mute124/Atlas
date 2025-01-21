@@ -20,7 +20,9 @@ void InitWindow(WindowDecorations& decorations) {
 	InitWindow(decorations.width, decorations.height, decorations.title);
 
 	Log("Loading and setting window icon...");
-	const char* iconPath = TextFormat("%s%s", ATLAS_ASSET_DIR.c_str(), decorations.icon);
+
+	const std::string assetDir = ATLAS_ASSET_DIR; // this is done like this because the macro expands to an expression rather than a string.
+	const char* iconPath = TextFormat("%s%s", assetDir.c_str(), decorations.icon);
 
 	Image icon = LoadImage(iconPath);
 	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
@@ -58,7 +60,6 @@ public:
 };*/
 
 int main(int argc, char* argv[]) {
-	
 	//Log("Pre-Initializing project...");
 	PROJECT_TYPENAME project = PROJECT_TYPENAME();
 	project.preInit();

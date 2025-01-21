@@ -18,30 +18,36 @@ bool Atlas::FileSystemIsProperlyFormatted(const char* rootPath, const char* dire
 	return false;
 }
 
+
 Atlas::FileSystemRegistry& Atlas::GetFileSystemRegistry()
 {
 	return FileSystemRegistry::Instance();
 }
+
 
 void Atlas::InitializeFileRegistry(const char* rootPath)
 {
 	GetFileSystemRegistry().init(rootPath);
 }
 
+
 void Atlas::AddFileRegistryLoadFunction(std::string  extension, std::function<std::any(std::shared_ptr<FileMeta>)> loadFunc)
 {
 	GetFileSystemRegistry().addLoadFunction(extension, loadFunc);
 }
+
 
 void Atlas::AddFileRegistryLoadOnRegisterExtension(std::string const& extension)
 {
 	GetFileSystemRegistry().addLoadOnRegisterExtension(extension);
 }
 
+
 std::shared_ptr<Atlas::FileMeta> Atlas::GetFileMeta(std::string  key)
 {
 	return GetFileSystemRegistry().GetFileMeta(key);
 }
+
 
 std::shared_ptr<Atlas::RegisteredFile> Atlas::GetFile(std::string key, bool loadIfNotLoaded)
 {
