@@ -52,6 +52,7 @@ set(ATLAS_RENDERER_SOURCES
     "renderer/GameModel.cpp"
 
     "renderer/ICuller.h"
+    "renderer/BObjectCuller.h"
 
     "renderer/ERenderLayerDrawTime.h"
 )
@@ -76,6 +77,7 @@ set(ATLAS_UTIL_SOURCES
     "Utils/Singleton.h" 
     "utils/DoublyLinkedList.h" 
     "utils/Gate.h" 
+    "utils/GateRegistry.h"
     "utils/Globals.h"
     "utils/MiscUtils.h"
 

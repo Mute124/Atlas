@@ -3,6 +3,12 @@
 
 namespace Atlas {
 	
+	//class IGameObject;
+
+	
+	//template<typename T>
+	//concept GameObjectType = std::is_base_of_v<IGameObject, T>;
+
 	/// <summary>
 	/// Represents an object that can be rendered in the screen. This is an abstract class that contains all the common properties of a game object.
 	/// </summary>
