@@ -1,5 +1,13 @@
 #pragma once
 #include "../math/Transform.h"
+#include <unordered_map>
+#include "../Component.h"
+
+#include <exception>
+
+#include <memory>
+#include <map>
+#include <ranges>
 
 namespace Atlas {
 	
@@ -27,6 +35,19 @@ namespace Atlas {
 	/// </remarks>
 	/// <inheritdoc />
 	class IGameObject abstract {
+	protected:
+		std::map<std::string, std::unique_ptr<Component>> mComponents;
+
+		
+		/// <summary>
+		/// Gets the name of the component.
+		/// </summary>
+		/// <returns></returns>
+		template<typename T>
+		std::string getComponentName() {
+			return typeid(T).name();
+		}
+
 	public:
 		// Defines what layer the object is on to prevent z-fighting
 		/// \todo add support for multiple layers.
@@ -37,6 +58,58 @@ namespace Atlas {
 		Transform transform;
 		Color tint = WHITE;
 				
+		
+		/// <summary>
+		/// Adds a component.
+		/// </summary>
+		/// <typeparam name="T">The type of the component.</typeparam>
+		template<typename T>
+		void addComponent() {
+			std::string componentName = getComponentName<T>();
+			
+			if (componentName.empty()) {
+				throw std::invalid_argument("Component name cannot be empty");
+			}
+
+			mComponents[componentName] = std::make_unique<T>();
+			mComponents[componentName]->setGameObject(std::make_shared<IGameObject>(this));
+		}
+
+		/// <summary>
+		/// Gets a component.
+		/// </summary>
+		/// <typeparam name="T">The type of the component.</typeparam>
+		/// <returns></returns>
+		template<typename T>
+		std::shared_ptr<T> getComponent() {
+			std::string componentName = getComponentName<T>();
+			return std::static_pointer_cast<T>(mComponents[componentName]);
+		}
+
+		/// <summary>
+		/// Removes a component.
+		/// </summary>
+		/// <typeparam name="T">The type of the component.</typeparam>
+		template<typename T>
+		void removeComponent() {
+			std::string componentName = getComponentName<T>();
+			mComponents.erase(componentName);
+		}
+
+		/// <summary>
+		/// Determines whether this instance has a specified component.
+		/// </summary>
+		/// <typeparam name="T">The type of the component.</typeparam>
+		/// <returns>
+		///   <c>true</c> if this instance has component; otherwise, <c>false</c>.
+		/// </returns>
+		template<typename T>
+		bool hasComponent() {
+			std::string componentName = getComponentName<T>();
+			return mComponents.find(componentName) != mComponents.end();
+			
+		}
+		
 		/// <summary>
 		/// Default constructor that initializes a new instance of the <see cref="IGameObject"/> class.
 		/// </summary>
@@ -46,18 +119,62 @@ namespace Atlas {
 		/// Default destructor that finalizes an instance of the <see cref="IGameObject"/> class.
 		/// </summary>
 		virtual ~IGameObject() = default;
+		
+		/// <summary>
+		/// Pres the update.
+		/// </summary>
+		virtual void preUpdate() {
+			for (auto& component : mComponents) {
+				if (component.second != nullptr) {
+					component.second->preUpdate();
+				}
+			}
+		}
+				
+		/// <summary>
+		/// Updates this instance.
+		/// </summary>
+		virtual void update() {
+			for (auto& component : mComponents) {
+				if (component.second != nullptr) {
+					component.second->update();
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Posts the update.
+		/// </summary>
+		virtual void postUpdate() {
+			for (auto& component : mComponents) {
+				if (component.second != nullptr) {
+					component.second->postUpdate();
+				}
+			}
+		}
 
 		/// <summary>
 		/// This is a pure virtual function that is the drawing function for when objects are being textured to the render texture. If you do not have anything different to do here, then you may
 		/// just call <see cref="render()" /> instead, but this must be implemented in order for the object to be rendered.
 		/// </summary>
-		virtual void texture() = 0;
+		virtual void texture() {
+			for (auto& component : mComponents) {
+				if (component.second != nullptr) {
+					component.second->texture();
+				}
+			}
+		}
 
 		/// <summary>
 		/// Renders this instance. This is not a pure virtual and is empty because it is up to the user to use this as they see fit without forcing them to implement it.
 		/// </summary>
 		virtual void render() {
 			// See the function's comments for the reason why this is empty
+			for (auto& component : mComponents) {
+				if (component.second != nullptr) {
+					component.second->render();
+				}
+			}
 		}
 
 		/// <summary>
@@ -65,13 +182,26 @@ namespace Atlas {
 		/// \note This must be implemented by the user.
 		/// </summary>
 		/// <inheritdoc />
-		virtual void destroy() = 0;
+		virtual void destroy() {
+			for (auto& component : mComponents) {
+				if (component.second != nullptr) {
+					component.second->destroy();
+				}
+			}
+		}
 
 		/// <summary>
 		/// Cleanups this instance.
 		/// \note This must be implemented by the user.
 		/// </summary>
 		/// <inheritdoc />
-		virtual void cleanup() = 0;		
+		virtual void cleanup() {
+			for (auto& component : mComponents) {
+				if (component.second != nullptr) {
+					component.second->cleanup();
+					component.second.reset();
+				}
+			}
+		}
 	};
 }

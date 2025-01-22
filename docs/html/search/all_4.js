@@ -20,7 +20,7 @@ var searchData=
   ['dependencies_17',['Detailed Analysis Of Dependencies',['../dc/dec/detailed-analysis-of-dependencies.html',1,'']]],
   ['depth_18',['depth',['../d7/d54/namespace_atlas.html#a2060a2f75d4506be764e1a2e824a3b37',1,'Atlas::Depth'],['../dc/dba/class_atlas_1_1abstract.html#a7f6e5dc79241315ff8753e3ea3fbf3d2',1,'Atlas::abstract::depth']]],
   ['depthpixelformat_19',['depthPixelFormat',['../d6/d1f/interface_framebuffer_descriptor.html#accbdcd4073c5ff554c27955b5227adbc',1,'FramebufferDescriptor']]],
-  ['depthstencilformat_20',['depthstencilformat',['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#a0e63ac323c2f2c0272677d079fe1a6cb',1,'ImGui_ImplWGPU_InitInfo::DepthStencilFormat'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a346d81380745d85c9065283da935c1e2',1,'ImGui_ImplWGPU_Data::depthStencilFormat']]],
+  ['depthstencilformat_20',['depthstencilformat',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a346d81380745d85c9065283da935c1e2',1,'ImGui_ImplWGPU_Data::depthStencilFormat'],['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#a0e63ac323c2f2c0272677d079fe1a6cb',1,'ImGui_ImplWGPU_InitInfo::DepthStencilFormat']]],
   ['depthstencilstate_21',['depthStencilState',['../d4/dae/interface_metal_context.html#ad2d5d25ce4205853bd518bb39629a502',1,'MetalContext']]],
   ['dequeuereusablebufferoflength_3adevice_3a_22',['dequeueReusableBufferOfLength:device:',['../d4/dae/interface_metal_context.html#a0072d0861f0eb6fb3b86f5ef8cdc58a1',1,'MetalContext']]],
   ['descriptorpool_23',['DescriptorPool',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a8062aeaef73fcda522fbb866b312320a',1,'ImGui_ImplVulkan_InitInfo']]],

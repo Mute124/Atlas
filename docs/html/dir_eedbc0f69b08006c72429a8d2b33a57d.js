@@ -2,6 +2,7 @@ var dir_eedbc0f69b08006c72429a8d2b33a57d =
 [
     [ "drawing", "dir_28393a04fe7a40c2d35a6f9d8d4258c8.html", "dir_28393a04fe7a40c2d35a6f9d8d4258c8" ],
     [ "objects", "dir_26e8b83038726c96012623c58c19f668.html", "dir_26e8b83038726c96012623c58c19f668" ],
+    [ "window", "dir_a005a78ed7dc77dd230b2020c8be69bb.html", "dir_a005a78ed7dc77dd230b2020c8be69bb" ],
     [ "BObjectCuller.h", "d3/ded/_b_object_culler_8h.html", null ],
     [ "Camera.cpp", "d1/d33/_camera_8cpp.html", null ],
     [ "Color.h", "d9/df8/_color_8h.html", null ],
@@ -25,8 +26,5 @@ var dir_eedbc0f69b08006c72429a8d2b33a57d =
     [ "Renderer.h", "d3/da0/_renderer_8h.html", "d3/da0/_renderer_8h" ],
     [ "RendererCommon.h", "de/d7b/_renderer_common_8h.html", null ],
     [ "RenderLayer.cpp", "da/d6a/_render_layer_8cpp.html", null ],
-    [ "RenderLayer.h", "da/de1/_render_layer_8h.html", "da/de1/_render_layer_8h" ],
-    [ "Window.cpp", "d3/db8/_window_8cpp.html", null ],
-    [ "Window.h", "de/d42/_window_8h.html", "de/d42/_window_8h" ],
-    [ "WindowDecorations.h", "d3/d19/_window_decorations_8h.html", "d3/d19/_window_decorations_8h" ]
+    [ "RenderLayer.h", "da/de1/_render_layer_8h.html", "da/de1/_render_layer_8h" ]
 ];

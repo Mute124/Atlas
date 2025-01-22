@@ -1,4 +1,10 @@
 ﻿# The sources are seperated into different variables for organization reasons
+
+set(ATLAS_COMPONENT_SOURCES
+    "components/TransformComponent.h"
+	"components/TransformComponent.cpp"
+)
+
 set(ATLAS_ENGINE_CORE_SOURCES
     "Common.h" 
     "Common.cpp"
@@ -11,12 +17,15 @@ set(ATLAS_ENGINE_CORE_SOURCES
 
     "IEngineComponent.h"
     "IEngineComponentRegistry.h"
+
+    "Component.h"
 )
 
 set(ATLAS_RENDERER_SOURCES
 
     "renderer/RendererCommon.h"
 
+    "renderer/window/IWindow.h"
     "renderer/window/Window.h" 
     "renderer/window/Window.cpp" 
     "renderer/window/WindowDecorations.h"
@@ -200,6 +209,7 @@ set(ATLAS_PROJECT_SOURCES
 
 set(ATLAS_ENGINE_SOURCES 
 	# Engine Core
+    ${ATLAS_COMPONENT_SOURCES}
     ${ATLAS_ENGINE_CORE_SOURCES}
     ${ATLAS_RENDERER_SOURCES}
     ${ATLAS_STATE_SOURCES}

@@ -59,6 +59,7 @@ var annotated_dup =
       [ "TerminalSink", "d9/dbb/class_atlas_1_1_terminal_sink.html", "d9/dbb/class_atlas_1_1_terminal_sink" ],
       [ "TextureArgs", "d1/d00/struct_atlas_1_1_texture_args.html", null ],
       [ "Transform", "de/d42/class_atlas_1_1_transform.html", "de/d42/class_atlas_1_1_transform" ],
+      [ "TransformComponent", "dc/d08/class_atlas_1_1_transform_component.html", "dc/d08/class_atlas_1_1_transform_component" ],
       [ "Vec2", "d1/dd9/struct_atlas_1_1_vec2.html", "d1/dd9/struct_atlas_1_1_vec2" ],
       [ "Vec3", "df/dca/struct_atlas_1_1_vec3.html", "df/dca/struct_atlas_1_1_vec3" ],
       [ "Vec4", "d4/d28/struct_atlas_1_1_vec4.html", "d4/d28/struct_atlas_1_1_vec4" ],

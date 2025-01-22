@@ -15,6 +15,9 @@ var hierarchy =
     [ "CircularMap< T >", "d0/db8/class_circular_map.html", null ],
     [ "CircularMap< Color >", "d0/db8/class_circular_map.html", null ],
     [ "Techstorm::DevTools::SetupTool::CMDLineArgumentsHandler", "d0/d85/class_techstorm_1_1_dev_tools_1_1_setup_tool_1_1_c_m_d_line_arguments_handler.html", null ],
+    [ "Component", null, [
+      [ "Atlas::TransformComponent", "dc/d08/class_atlas_1_1_transform_component.html", null ]
+    ] ],
     [ "JPH::ContactListener", null, [
       [ "Atlas::ObjectContactListener", "d1/dda/class_atlas_1_1_object_contact_listener.html", null ],
       [ "MyContactListener", "d3/d3f/class_my_contact_listener.html", null ]

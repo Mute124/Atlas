@@ -8,6 +8,11 @@
 namespace Atlas {
 	class IDrawable;
 
+	
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <typeparam name="T_DRAWABLE_REGISTRY"></typeparam>
 	template<typename T_DRAWABLE_REGISTRY>
 	class IRenderer abstract {
 	public:
