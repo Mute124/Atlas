@@ -1,6 +1,23 @@
 ﻿# The sources are seperated into different variables for organization reasons
 
 set(ATLAS_COMPONENT_SOURCES
+	"components/Component.h"
+    "components/Component.cpp"
+
+    "components/ScriptableComponent.h"
+    "components/ScriptableComponent.cpp"
+    
+    "components/ModularObject.h"
+
+    "components/PreUpdateEventArgs.h"
+    "components/UpdateEventArgs.h"
+	"components/PostUpdateEventArgs.h"
+    "components/RenderEventArgs.h"
+    "components/TextureEventArgs.h"
+    "components/CleanupEventArgs.h"
+    "components/DestroyEventArgs.h"
+
+
     "components/TransformComponent.h"
 	"components/TransformComponent.cpp"
 )
@@ -18,7 +35,6 @@ set(ATLAS_ENGINE_CORE_SOURCES
     "IEngineComponent.h"
     "IEngineComponentRegistry.h"
 
-    "Component.h"
 )
 
 set(ATLAS_RENDERER_SOURCES
@@ -106,8 +122,8 @@ set(ATLAS_UTIL_SOURCES
 )
 
 set(ATLAS_MATH_SOURCES
-    "math/Vector.h" 
-    "math/Vector.cpp" 
+    "math/Vec3.h"
+	"math/Vec3.cpp"
 
     "math/Transform.h"
     "math/Transform.cpp"
@@ -162,6 +178,12 @@ set(ATLAS_PHYSICS_SOURCES
 set(ATLAS_MODDING_SOURCES
     "modding/ScriptingAPI.h"
     "modding/ScriptingAPI.cpp"
+    
+    "modding/IScript.h"
+    
+    "modding/Script.h"
+	"modding/Script.cpp"
+    
     "modding/ModManager.h"
     "modding/ModManager.cpp"
     "modding/Mod.h"

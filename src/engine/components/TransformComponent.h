@@ -1,5 +1,5 @@
 #pragma once
-#include "../Component.h"
+#include "Component.h"
 #include <raylib.h>
 #include <raymath.h>
 
@@ -22,7 +22,7 @@ namespace Atlas {
 		/// <summary>
 		/// Finalizes an instance of the <see cref="TransformComponent"/> class.
 		/// </summary>
-		~TransformComponent();
+		~TransformComponent() final {}
 		
 		/// <summary>
 		/// Translates the specified translation.

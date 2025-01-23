@@ -1,6 +1,9 @@
 set(ATLAS_RENDERER_TESTS
     "renderer/RendererTests.cpp"
 )
+set(ATLAS_COMPONENTS_TESTS
+	"components/ComponentsTests.cpp"
+)
 
 set(ATLAS_CREATE_IF_MISSING TRUE)
 
@@ -12,6 +15,14 @@ if(${ATLAS_CREATE_IF_MISSING})
 		    file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/${source}" "#include <gmock/gmock.h>\n#include <gtest/gtest.h>\n\nnamespace Atlas::Tests {\n\n}\n")
 	    endif()
     endforeach()
+
+    foreach(source IN LISTS ATLAS_RENDERER_TESTS)
+	    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${source}")
+		    message(STATUS "Creating empty file: ${CMAKE_CURRENT_SOURCE_DIR}/${source}")
+		    file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/${source}" "#include <gmock/gmock.h>\n#include <gtest/gtest.h>\n\nnamespace Atlas::Tests {\n\n}\n")
+	    endif()
+    endforeach()
+
 endif()
 
 add_executable(AtlasUnitTests 
