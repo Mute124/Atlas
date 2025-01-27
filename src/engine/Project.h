@@ -22,6 +22,9 @@
 #include "renderer/GameModel.h"
 
 namespace Atlas {
+
+	
+
 	/// <summary>
 	/// This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
 	/// their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
@@ -97,11 +100,6 @@ namespace Atlas {
 		/// </summary>
 		/// <inheritdoc />
 		virtual void preInit();
-		
-		/// <summary>
-		/// As per the documentation (<see cref="embedding-languages"/>) 
-		/// </summary>
-		virtual void initScripting() {}
 
 		/// <summary>
 		/// Initializes your project. This will be called after preInit and window initialization, meaning that this is the earliest point that you can use raylib. <b>THIS MUST BE OVERRIDEN BY YOUR PROJECT CLASS!</b>

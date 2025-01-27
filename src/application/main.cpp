@@ -1,4 +1,4 @@
-/*#include "ApplicationUtils.h"
+#include "ApplicationUtils.h"
 #include <raylib.h>
 #include <Common.h>
 #include <conf/Config.h>
@@ -102,11 +102,8 @@ int main(int argc, char* argv[]) {
 	CloseWindow();
 
 	Log("Done shutting down. Goodbye!");
+
+
+
 	return 0;
-}*/
-
-#include "AngelScriptTest.h"
-
-int main() {
-	return RunAngelScript();
 }

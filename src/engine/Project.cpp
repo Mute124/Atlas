@@ -45,7 +45,9 @@ void Atlas::IProject::init(int argc, char* argv[]) {
 }
 
 void Atlas::IProject::postInit() {
-	GameModel model = GameModel("TestModel.json");
+	GameModel model = GameModel("data\renderer\Layers.json");
+
+
 }
 
 void Atlas::IProject::initRenderer() {

@@ -14,8 +14,12 @@
 #include "../dbg/ELogLevel.h"
 #include "../dbg/Logging.h"
 #include "../utils/Singleton.h"
-
 namespace Atlas {
+	
+	/// <summary>
+	/// The file system registry. 
+	/// </summary>
+	/// <seealso cref="Singleton&lt;FileSystemRegistry&gt;" />
 	class FileSystemRegistry : public Singleton<FileSystemRegistry> {
 	private:
 		static inline uint16_t sFileIndex = 0;
@@ -41,6 +45,12 @@ namespace Atlas {
 		/// </summary>
 		/// <param name="rootPath">The root path.</param>
 		void init(const char* rootPath);
+		
+		/// <summary>
+		/// Registers a file.
+		/// </summary>
+		/// <param name="path">The path.</param>
+		void registerFile(std::string const& path);
 
 		/// <summary>
 		/// Gets the file meta.

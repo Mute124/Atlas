@@ -198,6 +198,9 @@ set(ATLAS_MODDING_SOURCES
     "modding/Script.h"
 	"modding/Script.cpp"
     
+    "modding/DynamicObject.h"
+    "modding/DynamicObject.cpp"
+
     "modding/ModManager.h"
     "modding/ModManager.cpp"
     "modding/Mod.h"

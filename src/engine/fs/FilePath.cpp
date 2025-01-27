@@ -7,3 +7,11 @@ bool Atlas::IsPathSandboxed(std::string const& path)
 
 	return false;
 }
+
+inline std::string Atlas::FilePath::getFullPath() const { return mFullPath; }
+
+inline std::string Atlas::FilePath::getSandboxPath() const { return mSandboxPath; }
+
+inline const std::string Atlas::FilePath::getFullSandboxPath(std::string const& filename) const { return mSandboxPath + "/" + filename; }
+
+inline const std::string Atlas::FilePath::getFullSandboxPath(std::string const& filename, std::string const& extension) const { return mSandboxPath + "/" + filename + extension; }

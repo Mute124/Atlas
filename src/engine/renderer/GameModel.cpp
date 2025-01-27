@@ -31,6 +31,6 @@ Atlas::GameModel::GameModel(std::string const& name) {
 		return;
 	}
 
-	std::string modelName = getModelName(assetData);
-	std::string materialPath = getMaterialPath(assetData);
+	//std::string modelName = getModelName(assetData);
+	//std::string materialPath = getMaterialPath(assetData);
 }

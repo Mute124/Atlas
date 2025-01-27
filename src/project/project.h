@@ -31,5 +31,7 @@ public:
 		// WARNING: This MUST be called before any operations that use the file registry. The only exceptions is if you are adding load functions and adding extensions
 		// that need to be loaded on registration.
 		IProject::preInit();
+
+
 	}
 };

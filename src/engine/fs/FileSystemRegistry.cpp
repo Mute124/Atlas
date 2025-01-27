@@ -23,39 +23,46 @@ void Atlas::FileSystemRegistry::init(const char* rootPath)
 
 
 	for (int i = 0; i < files.count; i++) {
-		std::string path = files.paths[i];
-		std::string filename = path.substr(path.find_last_of("\\") + 1);
-		std::string extension = filename.substr(filename.find_last_of(".") + 1);
-
-		// create file meta
-		FileMeta meta;
-		meta.path = path;
-		meta.filename = filename;
-		meta.extension = extension;
-
-		// Get file index
-		uint16_t index = GetNextFileIndex();
-
-		// add to configLookup table
-		this->mLookupTable[meta.path] = index;
-		this->mLookupTable[meta.filename] = index;
-		this->mLookupTable[meta.extension] = index;
-
-		// Register file
-		this->mFileMetaRegistry[index] = std::make_shared<FileMeta>(meta);
-
-		this->mRegisteredFiles[index] = std::make_shared<RegisteredFile>(std::make_shared<FileMeta>(meta));
-
-		if (this->mLoadOnRegisterExtensionsSet.contains(extension)) {
-			loadFile(this->mRegisteredFiles[index]);
-		}
-
-		std::string output = "";
-
-		output = std::format("File with index[{}], named: {} with an extension of {} was registered", index, filename, path, extension);
-		std::cout << output << std::endl;
-		Log(output, ELogLevel::TRACE);
+		registerFile(files.paths[i]);
 	}
+}
+
+void Atlas::FileSystemRegistry::registerFile(std::string const& path)
+{
+	std::string filename = path.substr(path.find_last_of("\\") + 1);
+	std::string extension = filename.substr(filename.find_last_of(".") + 1);
+
+	// create file meta
+	FileMeta meta(path);
+/*	meta.path = path;
+	meta.filename = filename;
+	meta.extension = extension;
+	meta.sandboxPath = meta.resolveSandboxPath(path);
+	*/
+	
+
+	// Get file index
+	uint16_t index = GetNextFileIndex();
+
+	// add to configLookup table
+	this->mLookupTable[meta.path] = index;
+	this->mLookupTable[meta.filename] = index;
+	this->mLookupTable[meta.extension] = index;
+
+	// Register file
+	this->mFileMetaRegistry[index] = std::make_shared<FileMeta>(meta);
+
+	this->mRegisteredFiles[index] = std::make_shared<RegisteredFile>(std::make_shared<FileMeta>(meta));
+
+	if (this->mLoadOnRegisterExtensionsSet.contains(extension)) {
+		loadFile(this->mRegisteredFiles[index]);
+	}
+
+	std::string output = "";
+
+	output = std::format("File with index[{}], named: {} at {} with an extension of {} was registered. Local path: {}", index, meta.filename, meta.path, meta.extension, meta.sandboxPath);
+	std::cout << output << std::endl;
+	Log(output, ELogLevel::TRACE);
 }
 
 std::shared_ptr<Atlas::FileMeta> Atlas::FileSystemRegistry::GetFileMeta(std::string const& key)
