@@ -20,8 +20,6 @@ var dir_2052808828190f934b76e979ee65af8a =
     [ "BasicCore.h", "de/d90/_basic_core_8h.html", null ],
     [ "Common.cpp", "db/d05/_common_8cpp.html", null ],
     [ "Common.h", "db/d1f/_common_8h.html", "db/d1f/_common_8h" ],
-    [ "Component.cpp", "da/dbb/_component_8cpp.html", null ],
-    [ "Component.h", "dc/d20/_component_8h.html", "dc/d20/_component_8h" ],
     [ "engine.cpp", "da/d5c/engine_8cpp.html", null ],
     [ "engine.h", "d1/d55/engine_8h.html", "d1/d55/engine_8h" ],
     [ "EReturnCode.h", "d6/dde/_e_return_code_8h.html", "d6/dde/_e_return_code_8h" ],

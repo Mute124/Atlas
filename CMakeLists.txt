@@ -142,16 +142,17 @@ CPMAddPackage(
 # find_package(ZLIB REQUIRED)
 find_package(joltphysics REQUIRED)
 find_package(libconfig REQUIRED)
-
+find_package(Angelscript REQUIRED)
 if(${ATLAS_ENABLE_MODDING})
     if(${ATLAS_ENABLE_ANGELSCRIPT})
-        find_package(Angelscript REQUIRED)
+       # find_package(Angelscript REQUIRED)
     endif()
     
     if(${ATLAS_ENABLE_LUA})
         find_package(sol2 REQUIRED)
     endif()
 endif()
+
 
 find_package(eventpp REQUIRED)
 find_package(SDL2 REQUIRED CONFIG)

@@ -9,7 +9,8 @@ var searchData=
   ['rendererextensions_2ecpp_6',['RendererExtensions.cpp',['../d7/df1/_renderer_extensions_8cpp.html',1,'']]],
   ['rendererextensions_2eh_7',['RendererExtensions.h',['../d6/df3/_renderer_extensions_8h.html',1,'']]],
   ['renderertests_2ecpp_8',['RendererTests.cpp',['../d0/d0d/_renderer_tests_8cpp.html',1,'']]],
-  ['renderlayer_2ecpp_9',['RenderLayer.cpp',['../da/d6a/_render_layer_8cpp.html',1,'']]],
-  ['renderlayer_2eh_10',['RenderLayer.h',['../da/de1/_render_layer_8h.html',1,'']]],
-  ['resource_2eh_11',['resource.h',['../d8/d01/resource_8h.html',1,'']]]
+  ['rendereventargs_2eh_9',['RenderEventArgs.h',['../db/d53/_render_event_args_8h.html',1,'']]],
+  ['renderlayer_2ecpp_10',['RenderLayer.cpp',['../da/d6a/_render_layer_8cpp.html',1,'']]],
+  ['renderlayer_2eh_11',['RenderLayer.h',['../da/de1/_render_layer_8h.html',1,'']]],
+  ['resource_2eh_12',['resource.h',['../d8/d01/resource_8h.html',1,'']]]
 ];

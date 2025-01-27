@@ -8,5 +8,7 @@ var searchData=
   ['localizationregistry_2ecpp_5',['LocalizationRegistry.cpp',['../db/d76/_localization_registry_8cpp.html',1,'']]],
   ['localizationregistry_2eh_6',['LocalizationRegistry.h',['../dc/d4d/_localization_registry_8h.html',1,'']]],
   ['logging_2ecpp_7',['Logging.cpp',['../d4/d5e/_logging_8cpp.html',1,'']]],
-  ['logging_2eh_8',['Logging.h',['../da/def/_logging_8h.html',1,'']]]
+  ['logging_2eh_8',['Logging.h',['../da/def/_logging_8h.html',1,'']]],
+  ['luaapi_2ecpp_9',['LuaAPI.cpp',['../d6/da9/_lua_a_p_i_8cpp.html',1,'']]],
+  ['luaapi_2eh_10',['LuaAPI.h',['../df/db8/_lua_a_p_i_8h.html',1,'']]]
 ];

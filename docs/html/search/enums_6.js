@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['shadergradientfunction_0',['ShaderGradientFunction',['../d5/d0b/_rml_ui___renderer___g_l3_8cpp.html#aa027effa605bd6c736904da7510b562f',1,'RmlUi_Renderer_GL3.cpp']]]
+  ['process_5fdpi_5fawareness_0',['PROCESS_DPI_AWARENESS',['../d1/d3f/imgui__impl__win32_8cpp.html#a0b4072c3e306aab56e4b1f41f66ecfd0',1,'imgui_impl_win32.cpp']]]
 ];

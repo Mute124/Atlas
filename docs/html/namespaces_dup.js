@@ -2,6 +2,7 @@ var namespaces_dup =
 [
     [ "Atlas", "d7/d54/namespace_atlas.html", "d7/d54/namespace_atlas" ],
     [ "BroadPhaseLayers", "dc/df3/namespace_broad_phase_layers.html", null ],
+    [ "gw", "db/ddb/namespacegw.html", "db/ddb/namespacegw" ],
     [ "Layers", "df/d0f/namespace_layers.html", null ],
     [ "PlatformExtensions", "db/d3f/namespace_platform_extensions.html", [
       [ "FindSamplesRoot", "db/d3f/namespace_platform_extensions.html#ae4576851d6e573a386a405a4c1f8fa0d", null ],

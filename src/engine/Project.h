@@ -3,6 +3,8 @@
 * 
 * \brief This file contains the IProject interface that is required for Atlas to run the user's project. The reason for the boilerplate is because it allows the engine to take a Laissez-faire approach and allow the user to do whatever they want.
 * with all their code being able to be called from the engine.
+* 
+* \details 
 */
 #pragma once
 #include "renderer/Renderer.h"
@@ -23,7 +25,7 @@ namespace Atlas {
 	/// <summary>
 	/// This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
 	/// their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
-	/// \note If this boilerplate code is not done, Atlas will not know what to run.
+	/// \note If this boilerplate code is not done, Atlas will not know what to run. 
 	/// \warning <b>Do not directly call window code in here or your project will crash!</b>
 	/// </summary>
 	class IProject abstract {
@@ -95,6 +97,11 @@ namespace Atlas {
 		/// </summary>
 		/// <inheritdoc />
 		virtual void preInit();
+		
+		/// <summary>
+		/// As per the documentation (<see cref="embedding-languages"/>) 
+		/// </summary>
+		virtual void initScripting() {}
 
 		/// <summary>
 		/// Initializes your project. This will be called after preInit and window initialization, meaning that this is the earliest point that you can use raylib. <b>THIS MUST BE OVERRIDEN BY YOUR PROJECT CLASS!</b>
@@ -210,4 +217,6 @@ namespace Atlas {
 	inline void IProject::setProject(T* project) {
 		ProjectReference::Instance().setProjectReference(project);
 	}
+
+
 }

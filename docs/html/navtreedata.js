@@ -47,6 +47,9 @@ var NAVTREE =
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", "functions_vars" ],
+        [ "Typedefs", "functions_type.html", null ],
+        [ "Enumerations", "functions_enum.html", null ],
+        [ "Enumerator", "functions_eval.html", null ],
         [ "Properties", "functions_prop.html", null ],
         [ "Related Symbols", "functions_rela.html", null ]
       ] ]
@@ -69,18 +72,25 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d1/d6d/struct_im_gui___impl_d_x11___data.html#a0063b20fb683e66ce3b5d900d3b8e319",
-"d3/d3f/class_my_contact_listener.html",
-"d4/dae/interface_metal_context.html#aaeece5efed908d19d932b0cc4c57043f",
-"d6/dc5/_i_sandboxer_8h_source.html",
-"d8/d72/imgui__impl__allegro5_8h.html#a4e25e584555ced952755047ed7251909",
-"da/d6a/struct_atlas_1_1_window_decorations.html#a8ec2fb6be249b6434ec3af2f00153e2e",
-"dc/d20/_component_8h_source.html",
-"dc/dba/class_atlas_1_1abstract.html#a89d584949adc2a7546a00927079c81c1",
-"de/d02/imgui__impl__glfw_8cpp.html#aef783fc59bbf51dd44c19b3bf3b694af",
-"df/d5f/imgui__impl__opengl3__loader_8h.html#a3667f558219c90437106b544a3ca00b8",
-"df/d96/struct_im_gui___impl_w_g_p_u___data.html#af9800b68c39356eec8a8792ca2f387d0",
-"namespacemembers_type.html"
+"d1/d1d/class_c_script_file.html#a7c52be2a2e1b24cfa2c0864005ec3204",
+"d1/dda/class_atlas_1_1_object_contact_listener.html",
+"d3/d1a/class_atlas_1_1_config_file_registry.html#a79c9ca955bb73aa004b77b469a11a847",
+"d4/d59/struct_complex.html#a7850f100baf8f66b75a154e02690f523",
+"d4/de4/class_atlas_1_1_file_system_registry.html#a1af799b8dcb65914b4cd2bb5720efd7d",
+"d6/d3d/imgui__impl__android_8h_source.html",
+"d7/d54/namespace_atlas.html#a5c20927104cfd9d9b0a6d92b3d55fd65",
+"d8/d01/resource_8h.html#a455fef2a9349aae3af8ef8f24f6fc9d8",
+"d8/dc8/class_atlas_1_1_j_s_o_n_file.html#a945a223ae1fb1a664074bf78b78a9623",
+"da/d46/imgui__impl__win32_8h.html#abfca68b49882f693320d6cbd9ad839b5",
+"da/da6/_chunk_testing_8h.html#af9eab7fa70003e2bd72d5cded28ce1de",
+"db/db7/class_c_debugger.html#ada8f2296bfa993b2264f0838c09a2543",
+"dc/d71/class_atlas_1_1_renderer.html#a940a1f7f175261fbcbf99d33b58e2064",
+"dc/dba/class_atlas_1_1abstract.html#afa81efd6318059032e24797496244ab7",
+"dd/d85/imgui__impl__dx10_8h.html#abb1541feeb69c92b3cdf082369bb6bce",
+"de/d90/_basic_core_8h.html",
+"df/d3c/imgui__impl__vulkan_8cpp.html#a9d0693fad89638629beea97300c8f8f6",
+"df/d5f/imgui__impl__opengl3__loader_8h.html#ad241352c6eee6e79f09942ef0771db47",
+"dir_dab3ef55e2a8c3710761167f965b3066.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

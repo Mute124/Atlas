@@ -176,6 +176,20 @@ set(ATLAS_PHYSICS_SOURCES
 )
 
 set(ATLAS_MODDING_SOURCES
+	"modding/add_on/scriptstdstring/scriptstdstring.h"
+	"modding/add_on/scriptstdstring/scriptstdstring.cpp"
+
+    "modding/angelscript/AngelScriptAPI.h"
+    "modding/angelscript/AngelScriptAPI.cpp"
+
+    "modding/angelscript/AngelScriptRegistry.h"
+    "modding/angelscript/AngelScriptRegistry.cpp"
+
+    "modding/IScriptingLanguageInitializer.h"
+
+    "modding/lua/LuaAPI.h"
+	"modding/lua/LuaAPI.cpp"
+
     "modding/ScriptingAPI.h"
     "modding/ScriptingAPI.cpp"
     
@@ -227,6 +241,8 @@ set(ATLAS_PROJECT_SOURCES
 	"project/ProjectInitializer.h"
 	"project/ProjectInitializer.cpp"
     
+    "project/ProjectManager.h"
+    "project/IProjectManager.h"
 )
 
 set(ATLAS_ENGINE_SOURCES 
@@ -270,6 +286,7 @@ set(ATLAS_ENGINE_DEPENDENCIES
     
     simdjson::simdjson
     tinyxml2::tinyxml2
+    Angelscript::angelscript
 )
 
 include("${CMAKE_SOURCE_DIR}/CMakeOptions.txt")
@@ -279,7 +296,7 @@ if(${ATLAS_ENABLE_MODDING})
     if(${ATLAS_ENABLE_ANGELSCRIPT})
         set(ATLAS_ENGINE_DEPENDENCIES
             ${ATLAS_ENGINE_DEPENDENCIES}
-		    Angelscript::angelscript
+		   # Angelscript::angelscript
         )
         
     endif()

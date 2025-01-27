@@ -1,4 +1,4 @@
-#include "ApplicationUtils.h"
+/*#include "ApplicationUtils.h"
 #include <raylib.h>
 #include <Common.h>
 #include <conf/Config.h>
@@ -44,20 +44,6 @@ void HandleFrame(PROJECT_TYPENAME& project) {
 	// This is here because it reduces CPU consumption
 	ATLAS_THREAD_YIELD;
 }
-
-/*
-class UI : public GameObject {
-public:
-
-
-	Rml::Context* context = nullptr;
-	UI(Rml::Context* context) : context(context), GameObject() {
-	}
-	void render() override {
-		context->Render();
-	}
-
-};*/
 
 int main(int argc, char* argv[]) {
 	//Log("Pre-Initializing project...");
@@ -117,4 +103,10 @@ int main(int argc, char* argv[]) {
 
 	Log("Done shutting down. Goodbye!");
 	return 0;
+}*/
+
+#include "AngelScriptTest.h"
+
+int main() {
+	return RunAngelScript();
 }

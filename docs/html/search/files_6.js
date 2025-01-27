@@ -13,10 +13,11 @@ var searchData=
   ['gameui_2eh_10',['GameUI.h',['../d6/d90/_game_u_i_8h.html',1,'']]],
   ['gate_2eh_11',['Gate.h',['../dc/d7f/_gate_8h.html',1,'']]],
   ['gateregistry_2eh_12',['GateRegistry.h',['../d0/d25/_gate_registry_8h.html',1,'']]],
-  ['generator_2ecpp_13',['generator.cpp',['../d8/d1b/generator_8cpp.html',1,'']]],
-  ['generator_2eh_14',['generator.h',['../d8/df4/generator_8h.html',1,'']]],
-  ['generator_2ehpp_15',['generator.hpp',['../d6/d3c/generator_8hpp.html',1,'']]],
-  ['globals_2eh_16',['Globals.h',['../d8/d4d/_globals_8h.html',1,'']]],
-  ['gui_2ecpp_17',['GUI.cpp',['../d3/d27/_g_u_i_8cpp.html',1,'']]],
-  ['gui_2eh_18',['GUI.h',['../da/d5d/_g_u_i_8h.html',1,'']]]
+  ['generateheader_2ecpp_13',['generateheader.cpp',['../d0/dcb/application_2add__on_2autowrapper_2generator_2generateheader_8cpp.html',1,'(Global Namespace)'],['../dd/d23/engine_2modding_2add__on_2autowrapper_2generator_2generateheader_8cpp.html',1,'(Global Namespace)']]],
+  ['generator_2ecpp_14',['generator.cpp',['../d8/d1b/generator_8cpp.html',1,'']]],
+  ['generator_2eh_15',['generator.h',['../d8/df4/generator_8h.html',1,'']]],
+  ['generator_2ehpp_16',['generator.hpp',['../d6/d3c/generator_8hpp.html',1,'']]],
+  ['globals_2eh_17',['Globals.h',['../d8/d4d/_globals_8h.html',1,'']]],
+  ['gui_2ecpp_18',['GUI.cpp',['../d3/d27/_g_u_i_8cpp.html',1,'']]],
+  ['gui_2eh_19',['GUI.h',['../da/d5d/_g_u_i_8h.html',1,'']]]
 ];

@@ -2,125 +2,117 @@
 \hypertarget{application_2main_8cpp_source}{}\label{application_2main_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/application/main.cpp@{C:/Dev/Techstorm-\/v5/src/application/main.cpp}}
 \mbox{\hyperlink{application_2main_8cpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_application_utils_8h}{ApplicationUtils.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <raylib.h>}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{_common_8h}{Common.h}}>}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{_config_8h}{conf/Config.h}}>}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{_logging_8h}{dbg/Logging.h}}>}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{_scripting_a_p_i_8h}{modding/ScriptingAPI.h}}>}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{_renderer_8h}{renderer/Renderer.h}}>}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{_window_decorations_8h}{renderer/window/WindowDecorations.h}}>}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <project.h>}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00010}00010\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00011}00011\ \textcolor{keyword}{using\ namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}};}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00012}00012\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00013}\mbox{\hyperlink{application_2main_8cpp_aa966620e1cb032bd393c9bf429f7912f}{00013}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{application_2main_8cpp_aa966620e1cb032bd393c9bf429f7912f}{InitWindow}}(\mbox{\hyperlink{struct_atlas_1_1_window_decorations}{WindowDecorations}}\&\ decorations)\ \{}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00014}00014\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00015}00015\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Decorating\ window..."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00016}00016\ \ \ \ \ decorations.\mbox{\hyperlink{struct_atlas_1_1_window_decorations_a9477dc92bd7424e8e2b9d5ede5d388a4}{title}}\ =\ \mbox{\hyperlink{namespace_atlas_aea78e3773f79ad0d706edfea919cfc63}{LookupConfig}}(\textcolor{stringliteral}{"{}Project.cfg"{}},\ \textcolor{stringliteral}{"{}projectWindowTitle"{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00017}00017\ \ \ \ \ SetConfigFlags(FLAG\_MSAA\_4X\_HINT\ |\ FLAG\_INTERLACED\_HINT);}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00018}00018\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00019}00019\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Finalizing\ window\ initialization..."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00020}00020\ \ \ \ \ \mbox{\hyperlink{application_2main_8cpp_aa966620e1cb032bd393c9bf429f7912f}{InitWindow}}(decorations.\mbox{\hyperlink{struct_atlas_1_1_window_decorations_a8f4044b4118ab0fe595e1860aa3a6b88}{width}},\ decorations.\mbox{\hyperlink{struct_atlas_1_1_window_decorations_a47ea7fac6ba4eb6f30170fdadbf202fa}{height}},\ decorations.\mbox{\hyperlink{struct_atlas_1_1_window_decorations_a9477dc92bd7424e8e2b9d5ede5d388a4}{title}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00021}00021\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00022}00022\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Loading\ and\ setting\ window\ icon..."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00023}00023\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00024}00024\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ assetDir\ =\ \mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\_ASSET\_DIR}};\ \textcolor{comment}{//\ this\ is\ done\ like\ this\ because\ the\ macro\ expands\ to\ an\ expression\ rather\ than\ a\ string.}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00025}00025\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ iconPath\ =\ TextFormat(\textcolor{stringliteral}{"{}\%s\%s"{}},\ assetDir.c\_str(),\ decorations.\mbox{\hyperlink{struct_atlas_1_1_window_decorations_a8ec2fb6be249b6434ec3af2f00153e2e}{icon}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00026}00026\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00027}00027\ \ \ \ \ Image\ icon\ =\ LoadImage(iconPath);}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00028}00028\ \ \ \ \ ImageFormat(\&icon,\ PIXELFORMAT\_UNCOMPRESSED\_R8G8B8A8);}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00029}00029\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00030}00030\ \ \ \ \ SetWindowIcons(\&icon,\ 1);}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00031}00031\ \}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00032}00032\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00033}\mbox{\hyperlink{application_2main_8cpp_a06e9af07ffabb99e2fc50c15c43e3993}{00033}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{application_2main_8cpp_a06e9af07ffabb99e2fc50c15c43e3993}{InitScripting}}(ScriptingAPI\&\ scriptingAPI,\ \mbox{\hyperlink{project_2_project_8h_ad07ec4803fb514a35902f4d7b85638df}{PROJECT\_TYPENAME}}\&\ project)\ \{}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00034}00034\ \ \ \ \ scriptingAPI.initializeScripting(project.getLuaLibraries(),\ project.getLuaFunctions());}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00035}00035\ \ \ \ \ scriptingAPI.registerLua();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00036}00036\ \}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00037}00037\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00038}\mbox{\hyperlink{application_2main_8cpp_a383a924c3fb3bd7455a424b2a4e8d969}{00038}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{application_2main_8cpp_a383a924c3fb3bd7455a424b2a4e8d969}{HandleFrame}}(\mbox{\hyperlink{project_2_project_8h_ad07ec4803fb514a35902f4d7b85638df}{PROJECT\_TYPENAME}}\&\ project)\ \{}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00039}00039\ \ \ \ \ project.getRenderer().update();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00040}00040\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00041}00041\ \ \ \ \ project.texture();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00042}00042\ \ \ \ \ project.render();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00043}00043\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00044}00044\ \ \ \ \ \textcolor{comment}{//\ This\ is\ here\ because\ it\ reduces\ CPU\ consumption}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00045}00045\ \ \ \ \ \mbox{\hyperlink{_application_utils_8h_a3711f4a8c8c046e940934d2e00b53c2b}{ATLAS\_THREAD\_YIELD}};}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00046}00046\ \}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00047}00047\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00048}00048\ \textcolor{comment}{/*}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00049}00049\ \textcolor{comment}{class\ UI\ :\ public\ GameObject\ \{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00050}00050\ \textcolor{comment}{public:}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00051}00051\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00052}00052\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00053}00053\ \textcolor{comment}{\ \ \ \ Rml::Context*\ context\ =\ nullptr;}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00054}00054\ \textcolor{comment}{\ \ \ \ UI(Rml::Context*\ context)\ :\ context(context),\ GameObject()\ \{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00055}00055\ \textcolor{comment}{\ \ \ \ \}}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00056}00056\ \textcolor{comment}{\ \ \ \ void\ render()\ override\ \{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00057}00057\ \textcolor{comment}{\ \ \ \ \ \ \ \ context-\/>Render();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00058}00058\ \textcolor{comment}{\ \ \ \ \}}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00059}00059\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00060}00060\ \textcolor{comment}{\};*/}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00061}00061\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00062}\mbox{\hyperlink{application_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{00062}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{application_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}*\ argv[])\ \{}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{comment}{//Log("{}Pre-\/Initializing\ project..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00064}00064\ \ \ \ \ \mbox{\hyperlink{project_2_project_8h_ad07ec4803fb514a35902f4d7b85638df}{PROJECT\_TYPENAME}}\ project\ =\ \mbox{\hyperlink{project_2_project_8h_ad07ec4803fb514a35902f4d7b85638df}{PROJECT\_TYPENAME}}();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00065}00065\ \ \ \ \ project.preInit();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00066}00066\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Project\ pre-\/initialized."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00067}00067\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00068}00068\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Finishing\ Initialization..."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00069}00069\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00070}00070\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ab59cd60859cde46712ee41f24a093547}{InitializeConfigRegistry}}();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00071}00071\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_config_file_registry}{ConfigFileRegistry}}\&\ configRegistry\ =\ \mbox{\hyperlink{namespace_atlas_a19e6b5f5dd610b5bc867d30c3bed251d}{GetConfigFileRegistry}}();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00072}00072\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00073}00073\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}}\&\ renderer\ =\ project.getRenderer();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00074}00074\ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_window_decorations}{WindowDecorations}}\&\ decorations\ =\ project.getWindowDecorations();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00075}00075\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00076}00076\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Setting\ up\ scripting\ API..."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00077}00077\ \ \ \ \ ScriptingAPI\ scriptingAPI;}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00078}00078\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00079}00079\ \ \ \ \ \mbox{\hyperlink{application_2main_8cpp_a06e9af07ffabb99e2fc50c15c43e3993}{InitScripting}}(scriptingAPI,\ project);}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00080}00080\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00081}00081\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Done\ setting\ up\ scripting\ API."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00082}00082\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00083}00083\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Initializing\ window..."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00084}00084\ \ \ \ \ \mbox{\hyperlink{application_2main_8cpp_aa966620e1cb032bd393c9bf429f7912f}{InitWindow}}(decorations);}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00085}00085\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00086}00086\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Done\ initializing\ window."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00087}00087\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00088}00088\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Finishing\ project's\ initialization..."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00089}00089\ \ \ \ \ project.init(argc,\ argv);}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00090}00090\ \ \ \ \ project.postInit();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00091}00091\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00092}00092\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Done\ finishing\ project's\ initialization."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00093}00093\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00094}00094\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Launching\ threads."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00095}00095\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00096}00096\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_application_1_1_frame_manager}{Atlas::Application::FrameManager}}\&\ manager\ =\ \mbox{\hyperlink{class_atlas_1_1_singleton_a035c506193c225c5b60eb7ad9242c245}{Atlas::Application::FrameManager::Instance}}();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00097}00097\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00098}00098\ \ \ \ \ SetTargetFPS(decorations.\mbox{\hyperlink{struct_atlas_1_1_window_decorations_a9bcf44a91b8ac2015451385b56dcc6aa}{targetFPS}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00099}00099\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00100}00100\ \ \ \ \ manager.\mbox{\hyperlink{class_atlas_1_1_application_1_1_frame_manager_a5dcb9b664eb2fef13f50d2f3eb80bd17}{launchThreads}}(project);}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00101}00101\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00102}00102\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Initialization\ is\ now\ finished,\ starting\ main\ loop."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{while}\ (!WindowShouldClose())\ \{}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{application_2main_8cpp_a383a924c3fb3bd7455a424b2a4e8d969}{HandleFrame}}(project);}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00105}00105\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00106}00106\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00107}00107\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Shutting\ down..."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00108}00108\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00109}00109\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Cleaning\ up..."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00110}00110\ \ \ \ \ project.cleanup(0);}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00111}00111\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00112}00112\ \ \ \ \ manager.\mbox{\hyperlink{class_atlas_1_1_application_1_1_frame_manager_aa52d815f855928be48f9aaa031a2dd20}{killThreads}}();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00113}00113\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00114}00114\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Done\ cleaning\ up."{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00115}00115\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00116}00116\ \ \ \ \ CloseWindow();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00117}00117\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00118}00118\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Done\ shutting\ down.\ Goodbye!"{}});}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00119}00119\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00120}00120\ \}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00001}00001\ \textcolor{comment}{/*\#include\ "{}ApplicationUtils.h"{}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00002}00002\ \textcolor{comment}{\#include\ <raylib.h>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00003}00003\ \textcolor{comment}{\#include\ <Common.h>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00004}00004\ \textcolor{comment}{\#include\ <conf/Config.h>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00005}00005\ \textcolor{comment}{\#include\ <dbg/Logging.h>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00006}00006\ \textcolor{comment}{\#include\ <modding/ScriptingAPI.h>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00007}00007\ \textcolor{comment}{\#include\ <renderer/Renderer.h>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00008}00008\ \textcolor{comment}{\#include\ <renderer/window/WindowDecorations.h>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00009}00009\ \textcolor{comment}{\#include\ <project.h>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00010}00010\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00011}00011\ \textcolor{comment}{using\ namespace\ Atlas;}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00012}00012\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00013}00013\ \textcolor{comment}{void\ InitWindow(WindowDecorations\&\ decorations)\ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00014}00014\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00015}00015\ \textcolor{comment}{\ \ \ \ Log("{}Decorating\ window..."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00016}00016\ \textcolor{comment}{\ \ \ \ decorations.title\ =\ LookupConfig("{}Project.cfg"{},\ "{}projectWindowTitle"{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00017}00017\ \textcolor{comment}{\ \ \ \ SetConfigFlags(FLAG\_MSAA\_4X\_HINT\ |\ FLAG\_INTERLACED\_HINT);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00018}00018\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00019}00019\ \textcolor{comment}{\ \ \ \ Log("{}Finalizing\ window\ initialization..."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00020}00020\ \textcolor{comment}{\ \ \ \ InitWindow(decorations.width,\ decorations.height,\ decorations.title);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00021}00021\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00022}00022\ \textcolor{comment}{\ \ \ \ Log("{}Loading\ and\ setting\ window\ icon..."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00023}00023\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00024}00024\ \textcolor{comment}{\ \ \ \ const\ std::string\ assetDir\ =\ ATLAS\_ASSET\_DIR;\ //\ this\ is\ done\ like\ this\ because\ the\ macro\ expands\ to\ an\ expression\ rather\ than\ a\ string.}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00025}00025\ \textcolor{comment}{\ \ \ \ const\ char*\ iconPath\ =\ TextFormat("{}\%s\%s"{},\ assetDir.c\_str(),\ decorations.icon);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00026}00026\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00027}00027\ \textcolor{comment}{\ \ \ \ Image\ icon\ =\ LoadImage(iconPath);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00028}00028\ \textcolor{comment}{\ \ \ \ ImageFormat(\&icon,\ PIXELFORMAT\_UNCOMPRESSED\_R8G8B8A8);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00029}00029\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00030}00030\ \textcolor{comment}{\ \ \ \ SetWindowIcons(\&icon,\ 1);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00031}00031\ \textcolor{comment}{\}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00032}00032\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00033}00033\ \textcolor{comment}{void\ InitScripting(ScriptingAPI\&\ scriptingAPI,\ PROJECT\_TYPENAME\&\ project)\ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00034}00034\ \textcolor{comment}{\ \ \ \ scriptingAPI.initializeScripting(project.getLuaLibraries(),\ project.getLuaFunctions());}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00035}00035\ \textcolor{comment}{\ \ \ \ scriptingAPI.registerLua();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00036}00036\ \textcolor{comment}{\}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00037}00037\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00038}00038\ \textcolor{comment}{void\ HandleFrame(PROJECT\_TYPENAME\&\ project)\ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00039}00039\ \textcolor{comment}{\ \ \ \ project.getRenderer().update();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00040}00040\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00041}00041\ \textcolor{comment}{\ \ \ \ project.texture();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00042}00042\ \textcolor{comment}{\ \ \ \ project.render();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00043}00043\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00044}00044\ \textcolor{comment}{\ \ \ \ //\ This\ is\ here\ because\ it\ reduces\ CPU\ consumption}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00045}00045\ \textcolor{comment}{\ \ \ \ ATLAS\_THREAD\_YIELD;}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00046}00046\ \textcolor{comment}{\}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00047}00047\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00048}00048\ \textcolor{comment}{int\ main(int\ argc,\ char*\ argv[])\ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00049}00049\ \textcolor{comment}{\ \ \ \ //Log("{}Pre-\/Initializing\ project..."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00050}00050\ \textcolor{comment}{\ \ \ \ PROJECT\_TYPENAME\ project\ =\ PROJECT\_TYPENAME();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00051}00051\ \textcolor{comment}{\ \ \ \ project.preInit();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00052}00052\ \textcolor{comment}{\ \ \ \ Log("{}Project\ pre-\/initialized."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00053}00053\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00054}00054\ \textcolor{comment}{\ \ \ \ Log("{}Finishing\ Initialization..."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00055}00055\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00056}00056\ \textcolor{comment}{\ \ \ \ InitializeConfigRegistry();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00057}00057\ \textcolor{comment}{\ \ \ \ ConfigFileRegistry\&\ configRegistry\ =\ GetConfigFileRegistry();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00058}00058\ \textcolor{comment}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00059}00059\ \textcolor{comment}{\ \ \ \ Renderer\&\ renderer\ =\ project.getRenderer();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00060}00060\ \textcolor{comment}{\ \ \ \ WindowDecorations\&\ decorations\ =\ project.getWindowDecorations();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00061}00061\ \textcolor{comment}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00062}00062\ \textcolor{comment}{\ \ \ \ Log("{}Setting\ up\ scripting\ API..."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00063}00063\ \textcolor{comment}{\ \ \ \ ScriptingAPI\ scriptingAPI;}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00064}00064\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00065}00065\ \textcolor{comment}{\ \ \ \ InitScripting(scriptingAPI,\ project);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00066}00066\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00067}00067\ \textcolor{comment}{\ \ \ \ Log("{}Done\ setting\ up\ scripting\ API."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00068}00068\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00069}00069\ \textcolor{comment}{\ \ \ \ Log("{}Initializing\ window..."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00070}00070\ \textcolor{comment}{\ \ \ \ InitWindow(decorations);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00071}00071\ \textcolor{comment}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00072}00072\ \textcolor{comment}{\ \ \ \ Log("{}Done\ initializing\ window."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00073}00073\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00074}00074\ \textcolor{comment}{\ \ \ \ Log("{}Finishing\ project's\ initialization..."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00075}00075\ \textcolor{comment}{\ \ \ \ project.init(argc,\ argv);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00076}00076\ \textcolor{comment}{\ \ \ \ project.postInit();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00077}00077\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00078}00078\ \textcolor{comment}{\ \ \ \ Log("{}Done\ finishing\ project's\ initialization."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00079}00079\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00080}00080\ \textcolor{comment}{\ \ \ \ Log("{}Launching\ threads."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00081}00081\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00082}00082\ \textcolor{comment}{\ \ \ \ Atlas::Application::FrameManager\&\ manager\ =\ Atlas::Application::FrameManager::Instance();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00083}00083\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00084}00084\ \textcolor{comment}{\ \ \ \ SetTargetFPS(decorations.targetFPS);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00085}00085\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00086}00086\ \textcolor{comment}{\ \ \ \ manager.launchThreads(project);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00087}00087\ \textcolor{comment}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00088}00088\ \textcolor{comment}{\ \ \ \ Log("{}Initialization\ is\ now\ finished,\ starting\ main\ loop."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00089}00089\ \textcolor{comment}{\ \ \ \ while\ (!WindowShouldClose())\ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00090}00090\ \textcolor{comment}{\ \ \ \ \ \ \ \ HandleFrame(project);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00091}00091\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00092}00092\ \textcolor{comment}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00093}00093\ \textcolor{comment}{\ \ \ \ Log("{}Shutting\ down..."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00094}00094\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00095}00095\ \textcolor{comment}{\ \ \ \ Log("{}Cleaning\ up..."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00096}00096\ \textcolor{comment}{\ \ \ \ project.cleanup(0);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00097}00097\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00098}00098\ \textcolor{comment}{\ \ \ \ manager.killThreads();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00099}00099\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00100}00100\ \textcolor{comment}{\ \ \ \ Log("{}Done\ cleaning\ up."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00101}00101\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00102}00102\ \textcolor{comment}{\ \ \ \ CloseWindow();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00103}00103\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00104}00104\ \textcolor{comment}{\ \ \ \ Log("{}Done\ shutting\ down.\ Goodbye!"{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00105}00105\ \textcolor{comment}{\ \ \ \ return\ 0;}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00106}00106\ \textcolor{comment}{\}*/}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00108}00108\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_angel_script_test_8h}{AngelScriptTest.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00110}\mbox{\hyperlink{application_2main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{00110}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{application_2main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()\ \{}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00111}00111\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_angel_script_test_8h_a7958fc841aca0ff195edba4b57fedae7}{RunAngelScript}}();}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00112}00112\ \}}
 
 \end{DoxyCode}

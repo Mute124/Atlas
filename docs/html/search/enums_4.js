@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['monitor_5fdpi_5ftype_0',['MONITOR_DPI_TYPE',['../d1/d3f/imgui__impl__win32_8cpp.html#a6d3b6e6160452fd0315bf529461dadcf',1,'imgui_impl_win32.cpp']]]
+  ['listtype_0',['ListType',['../d4/d46/_platform_extensions_8cpp.html#a6e68f6326f0d9c124fc6f54fc2733376',1,'PlatformExtensions.cpp']]]
 ];
