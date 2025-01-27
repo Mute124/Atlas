@@ -55,6 +55,7 @@ var namespace_atlas =
     [ "PlaneObject", "d6/d78/class_atlas_1_1_plane_object.html", "d6/d78/class_atlas_1_1_plane_object" ],
     [ "PostUpdateEventArgs", "de/df4/struct_atlas_1_1_post_update_event_args.html", "de/df4/struct_atlas_1_1_post_update_event_args" ],
     [ "PreUpdateEventArgs", "de/d24/struct_atlas_1_1_pre_update_event_args.html", "de/d24/struct_atlas_1_1_pre_update_event_args" ],
+    [ "ProjectManager", "dc/d5d/class_atlas_1_1_project_manager.html", null ],
     [ "ReferenceHolder", "d9/d0a/class_atlas_1_1_reference_holder.html", "d9/d0a/class_atlas_1_1_reference_holder" ],
     [ "RegisteredFile", "d5/d07/class_atlas_1_1_registered_file.html", "d5/d07/class_atlas_1_1_registered_file" ],
     [ "RenderArgs", "dc/df9/struct_atlas_1_1_render_args.html", null ],

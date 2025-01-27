@@ -25,11 +25,27 @@
 var NAVTREE =
 [
   [ "Atlas", "index.html", [
-    [ "What is Techstorm", "index.html", "index" ],
     [ "Detailed Analysis Of Dependencies", "dc/dec/detailed-analysis-of-dependencies.html", null ],
     [ "building", "dd/da6/md_building.html", null ],
     [ "Todo List", "dd/da0/todo.html", null ],
     [ "Namespaces", "namespaces.html", [
+      [ "What is Atlas", "index.html#what-is-Atlas", null ],
+      [ "Architecture", "index.html#architecture", [
+        [ "Flow", "index.html#flow-architecture", null ],
+        [ "File System Architecture", "index.html#file-system-architecture", null ],
+        [ "Graphics Architecture", "index.html#graphics-architecture", [
+          [ "Graphics Introduction", "index.html#graphics-introduction", null ],
+          [ "Using Models", "index.html#using-models", null ]
+        ] ],
+        [ "Modding Architecture", "index.html#autotoc_md8", null ]
+      ] ],
+      [ "Dependencies", "index.html#dependencies", null ],
+      [ "Design Choices", "index.html#design-choices", null ],
+      [ "Code Conventions", "index.html#code-conventions", [
+        [ "Important Convention Use Cases", "index.html#important-convention-use-cases", null ],
+        [ "Variables", "index.html#variables", null ],
+        [ "Functions", "index.html#functions", null ]
+      ] ],
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
@@ -77,20 +93,20 @@ var NAVTREEINDEX =
 "d3/d1a/class_atlas_1_1_config_file_registry.html#a79c9ca955bb73aa004b77b469a11a847",
 "d4/d59/struct_complex.html#a7850f100baf8f66b75a154e02690f523",
 "d4/de4/class_atlas_1_1_file_system_registry.html#a1af799b8dcb65914b4cd2bb5720efd7d",
-"d6/d3d/imgui__impl__android_8h_source.html",
-"d7/d54/namespace_atlas.html#a5c20927104cfd9d9b0a6d92b3d55fd65",
-"d8/d01/resource_8h.html#a455fef2a9349aae3af8ef8f24f6fc9d8",
-"d8/dc8/class_atlas_1_1_j_s_o_n_file.html#a945a223ae1fb1a664074bf78b78a9623",
-"da/d46/imgui__impl__win32_8h.html#abfca68b49882f693320d6cbd9ad839b5",
-"da/da6/_chunk_testing_8h.html#af9eab7fa70003e2bd72d5cded28ce1de",
-"db/db7/class_c_debugger.html#ada8f2296bfa993b2264f0838c09a2543",
-"dc/d71/class_atlas_1_1_renderer.html#a940a1f7f175261fbcbf99d33b58e2064",
-"dc/dba/class_atlas_1_1abstract.html#afa81efd6318059032e24797496244ab7",
-"dd/d85/imgui__impl__dx10_8h.html#abb1541feeb69c92b3cdf082369bb6bce",
-"de/d90/_basic_core_8h.html",
-"df/d3c/imgui__impl__vulkan_8cpp.html#a9d0693fad89638629beea97300c8f8f6",
-"df/d5f/imgui__impl__opengl3__loader_8h.html#ad241352c6eee6e79f09942ef0771db47",
-"dir_dab3ef55e2a8c3710761167f965b3066.html"
+"d6/d3d/imgui__impl__android_8h.html#abcbf36998ba3567cb0c7866927d03892",
+"d7/d54/namespace_atlas.html#a53c9a6db76d92cdd29f74d218596485f",
+"d7/df1/_renderer_extensions_8cpp_source.html",
+"d8/dc8/class_atlas_1_1_j_s_o_n_file.html#a50d0fef9e8e7be11f1763690dd85ebd0",
+"da/d46/imgui__impl__win32_8h.html#a62c65c5f453046a14119bc62234ac5b7",
+"da/da6/_chunk_testing_8h.html#aaf8fa2fba0e5eb45466c4ebaeafd9a8e",
+"db/db7/class_c_debugger.html#aca0f5cde02a6558a6a83fb1202e553c4",
+"dc/d71/class_atlas_1_1_renderer.html#a4c336e751414fb228bad458a2f420896",
+"dc/dba/class_atlas_1_1abstract.html#af8a59fd0f0cc15edb614f55f75631f5f",
+"dd/d76/structgw_1_1_wrapper_global.html",
+"de/d87/class_atlas_1_1_application_1_1_atlas_app.html#a9ce3bb14040587cc1140a644c24a99ba",
+"df/d3c/imgui__impl__vulkan_8cpp.html#a74aab8119e9e91d8932f955546dcd973",
+"df/d5f/imgui__impl__opengl3__loader_8h.html#acf7a528ef1ef237d2a7676dcb0f22473",
+"dir_cac29e20878d03012f536a1302b19719.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -211,6 +211,7 @@ var hierarchy =
     [ "Point", "d8/dc8/struct_point.html", null ],
     [ "Atlas::PostUpdateEventArgs", "de/df4/struct_atlas_1_1_post_update_event_args.html", null ],
     [ "Atlas::PreUpdateEventArgs", "de/d24/struct_atlas_1_1_pre_update_event_args.html", null ],
+    [ "Atlas::ProjectManager", "dc/d5d/class_atlas_1_1_project_manager.html", null ],
     [ "gw::Proxy< T >", "d6/df0/classgw_1_1_proxy.html", null ],
     [ "Atlas::ReferenceHolder< T >", "d9/d0a/class_atlas_1_1_reference_holder.html", null ],
     [ "Atlas::RegisteredFile", "d5/d07/class_atlas_1_1_registered_file.html", null ],
