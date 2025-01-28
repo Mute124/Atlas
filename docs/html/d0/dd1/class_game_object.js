@@ -16,5 +16,6 @@ var class_game_object =
     [ "mIsCulled", "d0/dd1/class_game_object.html#a39161194ad3eef2d91c2088d8fbb5771", null ],
     [ "model", "d0/dd1/class_game_object.html#a44edc205e9a74dd9459240448049fd5a", null ],
     [ "position", "d0/dd1/class_game_object.html#abdc7864253235aced4171f9a6eeae6e1", null ],
-    [ "rotation", "d0/dd1/class_game_object.html#ae2d2785c50d645a728cee32be422cf85", null ]
+    [ "rotation", "d0/dd1/class_game_object.html#ae2d2785c50d645a728cee32be422cf85", null ],
+    [ "texture", "d0/dd1/class_game_object.html#a3c93087c46c58ccc9c9a6b357821dbf8", null ]
 ];

@@ -6,5 +6,6 @@ var searchData=
   ['angelscriptregistry_3',['AngelScriptRegistry',['../df/da4/class_atlas_1_1_angel_script_registry.html',1,'Atlas']]],
   ['atlasapp_4',['AtlasApp',['../de/d87/class_atlas_1_1_application_1_1_atlas_app.html',1,'Atlas::Application']]],
   ['audiodevice_5',['AudioDevice',['../dc/d5b/class_atlas_1_1_audio_device.html',1,'Atlas']]],
-  ['audiodeviceconfig_6',['AudioDeviceConfig',['../db/d92/class_atlas_1_1_audio_device_config.html',1,'Atlas']]]
+  ['audiodeviceconfig_6',['AudioDeviceConfig',['../db/d92/class_atlas_1_1_audio_device_config.html',1,'Atlas']]],
+  ['audiomanager_7',['AudioManager',['../da/d5f/class_atlas_1_1_audio_manager.html',1,'Atlas']]]
 ];

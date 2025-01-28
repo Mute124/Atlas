@@ -11,10 +11,13 @@ var hierarchy =
     [ "Atlas::Application::AtlasApp", "de/d87/class_atlas_1_1_application_1_1_atlas_app.html", null ],
     [ "Atlas::AudioDevice", "dc/d5b/class_atlas_1_1_audio_device.html", null ],
     [ "Atlas::AudioDeviceConfig", "db/d92/class_atlas_1_1_audio_device_config.html", null ],
+    [ "Atlas::AudioManager", "da/d5f/class_atlas_1_1_audio_manager.html", null ],
     [ "JPH::BodyActivationListener", null, [
       [ "Atlas::MyBodyActivationListener", "d4/d38/class_atlas_1_1_my_body_activation_listener.html", null ],
       [ "MyBodyActivationListener", "d0/d3a/class_my_body_activation_listener.html", null ]
     ] ],
+    [ "Atlas::PhysicsEngine::BodyInterfaceHolder", "d6/d48/class_atlas_1_1_physics_engine_1_1_body_interface_holder.html", null ],
+    [ "PhysicsEngine::BodyInterfaceHolder", "d4/d34/class_physics_engine_1_1_body_interface_holder.html", null ],
     [ "CDebugger::BreakPoint", "d8/dfe/struct_c_debugger_1_1_break_point.html", null ],
     [ "JPH::BroadPhaseLayerInterface", null, [
       [ "Atlas::BPLayerInterfaceImpl", "db/d4d/class_atlas_1_1_b_p_layer_interface_impl.html", null ],

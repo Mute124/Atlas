@@ -2,8 +2,10 @@ var class_atlas_1_1_game_camera =
 [
     [ "GameCamera", "d7/dc3/class_atlas_1_1_game_camera.html#ac10004928a3d0784dbcef7891f5c2dbc", null ],
     [ "~GameCamera", "d7/dc3/class_atlas_1_1_game_camera.html#a8f9c879df4e6283257d1fbeecebd7a9c", null ],
+    [ "ComplexCameraUpdate", "d7/dc3/class_atlas_1_1_game_camera.html#a75faf134f3974e77be7266059c8d301e", null ],
     [ "getCameraData", "d7/dc3/class_atlas_1_1_game_camera.html#a7d4b2c3096e0fc63b11959a48a2106c5", null ],
     [ "getFovy", "d7/dc3/class_atlas_1_1_game_camera.html#a95fef87ac079ef7670d3cf759959bf15", null ],
+    [ "GetMainCamera", "d7/dc3/class_atlas_1_1_game_camera.html#a76ee0e1209e4864447ca5dcba81c7a3b", null ],
     [ "getPosition", "d7/dc3/class_atlas_1_1_game_camera.html#ae1f4227833666ff45bee2969328b1947", null ],
     [ "getProjection", "d7/dc3/class_atlas_1_1_game_camera.html#aa51b9b39b994e146c4995276ae2bfe4a", null ],
     [ "getTarget", "d7/dc3/class_atlas_1_1_game_camera.html#a854d159ceb0349117b1558a1f9e6d38a", null ],
@@ -18,7 +20,13 @@ var class_atlas_1_1_game_camera =
     [ "setProjection", "d7/dc3/class_atlas_1_1_game_camera.html#a1f1ca6e4179f14b18de635f89f395e77", null ],
     [ "setTarget", "d7/dc3/class_atlas_1_1_game_camera.html#ad6ab6c7993ac2f063f9681548688ee7c", null ],
     [ "setUp", "d7/dc3/class_atlas_1_1_game_camera.html#a7b4d3d3a8a862b72dea008b0b1c632f0", null ],
+    [ "SimpleCameraUpdate", "d7/dc3/class_atlas_1_1_game_camera.html#a42fcf702ff86a2ccf44e8ac32ba72623", null ],
     [ "update", "d7/dc3/class_atlas_1_1_game_camera.html#a89cccf5a60f98211a5ff7b918c9790e5", null ],
     [ "Renderer", "d7/dc3/class_atlas_1_1_game_camera.html#a70538530bc36e033e360880ef311df61", null ],
-    [ "mCameraData", "d7/dc3/class_atlas_1_1_game_camera.html#ad1b577908ba6f30d28929b9ed4d17d14", null ]
+    [ "mCameraData", "d7/dc3/class_atlas_1_1_game_camera.html#ad1b577908ba6f30d28929b9ed4d17d14", null ],
+    [ "mCameraID", "d7/dc3/class_atlas_1_1_game_camera.html#a3ce065bcf759a3e2459b0bc55f5fedce", null ],
+    [ "mIsMainCamera", "d7/dc3/class_atlas_1_1_game_camera.html#a75d6940c07b71513ccf9e779f2285d28", null ],
+    [ "sCameraCount", "d7/dc3/class_atlas_1_1_game_camera.html#ab978a3200fe963a56c6816b60549cb1d", null ],
+    [ "sCameras", "d7/dc3/class_atlas_1_1_game_camera.html#a7885ba45c967fa7cf40881fa70519c2b", null ],
+    [ "sMainCamera", "d7/dc3/class_atlas_1_1_game_camera.html#a6f89ea847aac5f4eb559f93e3e122c48", null ]
 ];

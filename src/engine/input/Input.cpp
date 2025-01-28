@@ -18,9 +18,7 @@ void Atlas::InputRegistry::unregisterCallback(InputAction* action, int id) {
 }
 
 void Atlas::InputRegistry::checkAll() {
-	/*
-	* Iterate through all registered actions in mActions (and then through all of it's callbacks)
-	*/
+	// Iterate through all registered actions in mActions (and then through all of it's callbacks)
 	for(auto const& actions : mActions) {
 
 		// Check all registered callbacks

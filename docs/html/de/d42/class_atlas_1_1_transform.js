@@ -14,5 +14,9 @@ var class_atlas_1_1_transform =
     [ "setRotationAngle", "de/d42/class_atlas_1_1_transform.html#a692e8cee5cdfeb47b2a8d20aa0d22beb", null ],
     [ "setRotationAxis", "de/d42/class_atlas_1_1_transform.html#afac9af059bae6fe60fa3e114c8424f6a", null ],
     [ "setScale", "de/d42/class_atlas_1_1_transform.html#a7318d95d40defbc2383ab01ba0b142a9", null ],
-    [ "translate", "de/d42/class_atlas_1_1_transform.html#aea42aacd9c4554e3765e5379a75e5efb", null ]
+    [ "translate", "de/d42/class_atlas_1_1_transform.html#aea42aacd9c4554e3765e5379a75e5efb", null ],
+    [ "mPosition", "de/d42/class_atlas_1_1_transform.html#a9f716b22fa57123faa10fcb6c7217327", null ],
+    [ "mRotationAngle", "de/d42/class_atlas_1_1_transform.html#a67c5d22a4f201e881993c596dc6d2614", null ],
+    [ "mRotationAxis", "de/d42/class_atlas_1_1_transform.html#ad55e0045b83acd4960817c374c302068", null ],
+    [ "mScale", "de/d42/class_atlas_1_1_transform.html#a6425f986dd80c3ed7096b0892933d43d", null ]
 ];

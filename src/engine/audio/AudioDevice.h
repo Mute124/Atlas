@@ -46,6 +46,10 @@ namespace Atlas {
 		std::string mAlias;
 		EAudioDeviceType mDeviceType;
 		unsigned int mDeviceID;
+		friend class AudioManager;
+		ma_device_config mDeviceConfig;
+
+		
 	public:
 
 		/// <summary>

@@ -3,8 +3,6 @@
 * 
 * \brief This file contains the IProject interface that is required for Atlas to run the user's project. The reason for the boilerplate is because it allows the engine to take a Laissez-faire approach and allow the user to do whatever they want.
 * with all their code being able to be called from the engine.
-* 
-* \details 
 */
 #pragma once
 #include "renderer/Renderer.h"
@@ -22,12 +20,16 @@
 #include "renderer/GameModel.h"
 
 namespace Atlas {
+
 	/// <summary>
+	/// This is the interface for the user's project. This is the only interface that Atlas will call.
+	/// </summary>
+	/// <remarks>
 	/// This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
 	/// their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
 	/// \note If this boilerplate code is not done, Atlas will not know what to run. 
 	/// \warning <b>Do not directly call window code in here or your project will crash!</b>
-	/// </summary>
+	/// </remarks>
 	class IProject abstract {
 	protected:
 		Renderer mRenderer;

@@ -4,12 +4,30 @@
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_audio_device_8h}{AudioDevice.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00002}00002\ }
-\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00003}\mbox{\hyperlink{class_atlas_1_1_audio_device_aa8e1365879029b4ddd65e28c8c10e194}{00003}}\ \mbox{\hyperlink{class_atlas_1_1_audio_device_a4881adb946f3f09f45e608a0449a4c49}{Atlas::AudioDevice::AudioDevice}}(\mbox{\hyperlink{class_atlas_1_1_file_path}{FilePath}}\ \textcolor{keyword}{const}\&\ deviceSettingsPath,\ \mbox{\hyperlink{class_atlas_1_1_audio_device_config}{AudioDeviceConfig}}*\ config)}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00003}\mbox{\hyperlink{_audio_device_8cpp_ab6ea2b08ab9f6115bb4fff1dc260a32a}{00003}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_audio_device_8cpp_ab6ea2b08ab9f6115bb4fff1dc260a32a}{data\_callback}}(ma\_device*\ pDevice,\ \textcolor{keywordtype}{void}*\ pOutput,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ pInput,\ ma\_uint32\ frameCount)}
 \DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00004}00004\ \{}
-\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00005}00005\ \}}
-\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00006}00006\ }
-\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00007}\mbox{\hyperlink{class_atlas_1_1_audio_device_a44100ef2688e74b7f2600ac8ea72732a}{00007}}\ \mbox{\hyperlink{class_atlas_1_1_audio_device_a4881adb946f3f09f45e608a0449a4c49}{Atlas::AudioDevice::AudioDevice}}(\mbox{\hyperlink{class_atlas_1_1_file_path}{FilePath}}\ \textcolor{keyword}{const}\&\ deviceSettingsPath)\ \{\}}
-\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00008}00008\ }
-\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00009}\mbox{\hyperlink{class_atlas_1_1_audio_device_a4881adb946f3f09f45e608a0449a4c49}{00009}}\ \mbox{\hyperlink{class_atlas_1_1_audio_device_a4881adb946f3f09f45e608a0449a4c49}{Atlas::AudioDevice::AudioDevice}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00005}00005\ \ \ \ \ \textcolor{comment}{//\ In\ playback\ mode\ copy\ data\ to\ pOutput.\ In\ capture\ mode\ read\ data\ from\ pInput.\ In\ full-\/duplex\ mode,\ both}}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00006}00006\ \ \ \ \ \textcolor{comment}{//\ pOutput\ and\ pInput\ will\ be\ valid\ and\ you\ can\ move\ data\ from\ pInput\ into\ pOutput.\ Never\ process\ more\ than}}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00007}00007\ \ \ \ \ \textcolor{comment}{//\ frameCount\ frames.}}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00008}00008\ \}}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00010}\mbox{\hyperlink{class_atlas_1_1_audio_device_aa8e1365879029b4ddd65e28c8c10e194}{00010}}\ \mbox{\hyperlink{class_atlas_1_1_audio_device_a4881adb946f3f09f45e608a0449a4c49}{Atlas::AudioDevice::AudioDevice}}(\mbox{\hyperlink{class_atlas_1_1_file_path}{FilePath}}\ \textcolor{keyword}{const}\&\ deviceSettingsPath,\ \mbox{\hyperlink{class_atlas_1_1_audio_device_config}{AudioDeviceConfig}}*\ config)}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00011}00011\ \{}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00012}00012\ \}}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00014}\mbox{\hyperlink{class_atlas_1_1_audio_device_a44100ef2688e74b7f2600ac8ea72732a}{00014}}\ \mbox{\hyperlink{class_atlas_1_1_audio_device_a4881adb946f3f09f45e608a0449a4c49}{Atlas::AudioDevice::AudioDevice}}(\mbox{\hyperlink{class_atlas_1_1_file_path}{FilePath}}\ \textcolor{keyword}{const}\&\ deviceSettingsPath)\ \{\}}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00016}\mbox{\hyperlink{class_atlas_1_1_audio_device_a4881adb946f3f09f45e608a0449a4c49}{00016}}\ \mbox{\hyperlink{class_atlas_1_1_audio_device_a4881adb946f3f09f45e608a0449a4c49}{Atlas::AudioDevice::AudioDevice}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00017}00017\ \ \ \ \ this-\/>mDeviceConfig\ =\ ma\_device\_config\_init(ma\_device\_type\_playback);}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00018}00018\ \ \ \ \ this-\/>mDeviceConfig.playback.pDeviceID\ =\ NULL;\ \ \textcolor{comment}{//\ NULL\ for\ the\ default\ playback\ AUDIO.System.device}}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00019}00019\ \ \ \ \ this-\/>mDeviceConfig.playback.format\ =\ \mbox{\hyperlink{_audio_common_8h_a7b6bfd07b4b32f642dae76a01cc3c232}{AUDIO\_DEVICE\_FORMAT}};}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00020}00020\ \ \ \ \ this-\/>mDeviceConfig.playback.channels\ =\ \mbox{\hyperlink{_audio_common_8h_a0401e7125c11d5d91c897dcb94b4158f}{AUDIO\_DEVICE\_CHANNELS}};}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00021}00021\ \ \ \ \ this-\/>mDeviceConfig.capture.pDeviceID\ =\ NULL;\ \ \textcolor{comment}{//\ NULL\ for\ the\ default\ capture\ AUDIO.System.device}}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00022}00022\ \ \ \ \ this-\/>mDeviceConfig.capture.format\ =\ ma\_format\_s16;}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00023}00023\ \ \ \ \ this-\/>mDeviceConfig.capture.channels\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00024}00024\ \ \ \ \ this-\/>mDeviceConfig.sampleRate\ =\ \mbox{\hyperlink{_audio_common_8h_a4c33e99e73eef4c698ab06a7028447a0}{AUDIO\_DEVICE\_SAMPLE\_RATE}};}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00025}00025\ \ \ \ \ this-\/>mDeviceConfig.dataCallback\ =\ \mbox{\hyperlink{_audio_device_8cpp_ab6ea2b08ab9f6115bb4fff1dc260a32a}{data\_callback}};}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00026}00026\ \ \ \ \ this-\/>mDeviceConfig.pUserData\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{_audio_device_8cpp_source_l00027}00027\ \}}
 
 \end{DoxyCode}

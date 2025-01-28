@@ -1,8 +1,17 @@
 var namespace_atlas =
 [
     [ "Application", "d8/d77/namespace_atlas_1_1_application.html", "d8/d77/namespace_atlas_1_1_application" ],
-    [ "BroadPhaseLayers", "d4/d5b/namespace_atlas_1_1_broad_phase_layers.html", null ],
-    [ "Layers", "d3/d0d/namespace_atlas_1_1_layers.html", null ],
+    [ "BroadPhaseLayers", "d4/d5b/namespace_atlas_1_1_broad_phase_layers.html", [
+      [ "MOVING", "d4/d5b/namespace_atlas_1_1_broad_phase_layers.html#ad36e5df38a37371ee6dba727db0da4f7", null ],
+      [ "NON_MOVING", "d4/d5b/namespace_atlas_1_1_broad_phase_layers.html#a36fefd74f0ca27d0246e7c750f30b31e", null ],
+      [ "NUM_LAYERS", "d4/d5b/namespace_atlas_1_1_broad_phase_layers.html#aace929caee67cc72034075ff0675a692", null ]
+    ] ],
+    [ "Layers", "d3/d0d/namespace_atlas_1_1_layers.html", [
+      [ "MOVING", "d3/d0d/namespace_atlas_1_1_layers.html#a63b5462569819af746111dc6aef1b0ee", null ],
+      [ "NON_MOVING", "d3/d0d/namespace_atlas_1_1_layers.html#af856a842acfc5551253f3445c16e588e", null ],
+      [ "NUM_LAYERS", "d3/d0d/namespace_atlas_1_1_layers.html#ab0c643aefe02068fde034feb77937dab", null ],
+      [ "TERRIAN", "d3/d0d/namespace_atlas_1_1_layers.html#a0fc0c6a1e3bdd511cef4c9aa60688540", null ]
+    ] ],
     [ "Tests", "da/da0/namespace_atlas_1_1_tests.html", null ],
     [ "abstract", "dc/dba/class_atlas_1_1abstract.html", "dc/dba/class_atlas_1_1abstract" ],
     [ "AllocatedPhysicsResources", "df/df6/struct_atlas_1_1_allocated_physics_resources.html", "df/df6/struct_atlas_1_1_allocated_physics_resources" ],
@@ -10,6 +19,7 @@ var namespace_atlas =
     [ "AngelScriptRegistry", "df/da4/class_atlas_1_1_angel_script_registry.html", null ],
     [ "AudioDevice", "dc/d5b/class_atlas_1_1_audio_device.html", "dc/d5b/class_atlas_1_1_audio_device" ],
     [ "AudioDeviceConfig", "db/d92/class_atlas_1_1_audio_device_config.html", null ],
+    [ "AudioManager", "da/d5f/class_atlas_1_1_audio_manager.html", "da/d5f/class_atlas_1_1_audio_manager" ],
     [ "BPLayerInterfaceImpl", "db/d4d/class_atlas_1_1_b_p_layer_interface_impl.html", "db/d4d/class_atlas_1_1_b_p_layer_interface_impl" ],
     [ "CleanupEventArgs", "de/dcc/struct_atlas_1_1_cleanup_event_args.html", null ],
     [ "Component", "d6/dfa/class_atlas_1_1_component.html", "d6/dfa/class_atlas_1_1_component" ],
@@ -19,7 +29,7 @@ var namespace_atlas =
     [ "ContactListenerGate", "d8/d75/class_atlas_1_1_contact_listener_gate.html", "d8/d75/class_atlas_1_1_contact_listener_gate" ],
     [ "ContactListenerGateParams", "d9/ddf/struct_atlas_1_1_contact_listener_gate_params.html", "d9/ddf/struct_atlas_1_1_contact_listener_gate_params" ],
     [ "DestroyEventArgs", "d4/d9d/struct_atlas_1_1_destroy_event_args.html", null ],
-    [ "DrawableHook", "d4/d11/class_atlas_1_1_drawable_hook.html", null ],
+    [ "DrawableHook", "d4/d11/class_atlas_1_1_drawable_hook.html", "d4/d11/class_atlas_1_1_drawable_hook" ],
     [ "DynamicObject", "dd/d28/class_atlas_1_1_dynamic_object.html", "dd/d28/class_atlas_1_1_dynamic_object" ],
     [ "Entity", "d4/d48/class_atlas_1_1_entity.html", null ],
     [ "FileIOFailure", "db/d34/class_atlas_1_1_file_i_o_failure.html", "db/d34/class_atlas_1_1_file_i_o_failure" ],
@@ -65,9 +75,9 @@ var namespace_atlas =
     [ "RenderArgs", "dc/df9/struct_atlas_1_1_render_args.html", null ],
     [ "Renderer", "dc/d71/class_atlas_1_1_renderer.html", "dc/d71/class_atlas_1_1_renderer" ],
     [ "RenderEventArgs", "d7/dd6/struct_atlas_1_1_render_event_args.html", "d7/dd6/struct_atlas_1_1_render_event_args" ],
-    [ "RenderLayer", "d0/dfd/class_atlas_1_1_render_layer.html", null ],
+    [ "RenderLayer", "d0/dfd/class_atlas_1_1_render_layer.html", "d0/dfd/class_atlas_1_1_render_layer" ],
     [ "Sandboxer", "da/dc0/class_atlas_1_1_sandboxer.html", "da/dc0/class_atlas_1_1_sandboxer" ],
-    [ "Singleton", "d6/dd4/class_atlas_1_1_singleton.html", null ],
+    [ "Singleton", "d6/dd4/class_atlas_1_1_singleton.html", "d6/dd4/class_atlas_1_1_singleton" ],
     [ "StateMachine", "d7/d30/class_atlas_1_1_state_machine.html", "d7/d30/class_atlas_1_1_state_machine" ],
     [ "TechstormEngine", "d3/db6/class_atlas_1_1_techstorm_engine.html", "d3/db6/class_atlas_1_1_techstorm_engine" ],
     [ "TerminalSink", "d9/dbb/class_atlas_1_1_terminal_sink.html", "d9/dbb/class_atlas_1_1_terminal_sink" ],
@@ -92,6 +102,9 @@ var namespace_atlas =
     [ "JSONElement", "d7/d54/namespace_atlas.html#aa71b3b8bda84ac958038e57ce411cab1", null ],
     [ "JSONParser", "d7/d54/namespace_atlas.html#a30c03ddc598bf8537d152d570a96efbc", null ],
     [ "PaddedString", "d7/d54/namespace_atlas.html#ab9064d006a69e0a0da7bb9b2dde7c47c", null ],
+    [ "EAudioDevicePlatform", "d7/d54/namespace_atlas.html#a20ce4c27b35d28e3da624055478ee816", [
+      [ "UNKNOWN_DEVICE_PLATFORM", "d7/d54/namespace_atlas.html#a20ce4c27b35d28e3da624055478ee816ade3284c746092ac1b48ed4110f596b7b", null ]
+    ] ],
     [ "EAudioDeviceType", "d7/d54/namespace_atlas.html#a9de58d1cced21d88ab117aa07c5f3938", [
       [ "UNKNOWN_DEVICE_TYPE", "d7/d54/namespace_atlas.html#a9de58d1cced21d88ab117aa07c5f3938a0fb00fa57f4752b09c33de0346707734", null ],
       [ "PLAYBACK_DEVICE_TYPE", "d7/d54/namespace_atlas.html#a9de58d1cced21d88ab117aa07c5f3938aca177e787bdf7be1b5ad29086075cf01", null ],
@@ -147,6 +160,7 @@ var namespace_atlas =
     [ "AddFileRegistryLoadFunction", "d7/d54/namespace_atlas.html#adf987d1c7b4c1083d297e28fca47908c", null ],
     [ "AddFileRegistryLoadOnRegisterExtension", "d7/d54/namespace_atlas.html#a29a6343014b963b902d0e0afb838dfdd", null ],
     [ "CreateLogFileName", "d7/d54/namespace_atlas.html#a4a3774487efaf3fd274897ab22f238be", null ],
+    [ "DefaultPhysicsTrace", "d7/d54/namespace_atlas.html#afa2a252b78c0821fed0a608c60cfd2f0", null ],
     [ "FileSystemIsProperlyFormatted", "d7/d54/namespace_atlas.html#af4aee03bf5c452a2b71ee0a1107104e0", null ],
     [ "GetConfigFileRegistry", "d7/d54/namespace_atlas.html#a19e6b5f5dd610b5bc867d30c3bed251d", null ],
     [ "GetConfigString", "d7/d54/namespace_atlas.html#a85dcb3d0c186dbbe3ca7f78845c60a21", null ],

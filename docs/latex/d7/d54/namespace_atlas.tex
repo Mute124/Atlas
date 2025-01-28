@@ -15,7 +15,7 @@ namespace \mbox{\hyperlink{namespace_atlas_1_1_tests}{Tests}}
 \begin{DoxyCompactItemize}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1abstract}{abstract}}
-\begin{DoxyCompactList}\small\item\em Represents a base abstract class for errors. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This is NOT what will print to the terminal, rather this is an interface where the logger will pass logging messages to. Use this for in-\/game consoles or something like that. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{struct_atlas_1_1_allocated_physics_resources}{Allocated\+Physics\+Resources}}
 \begin{DoxyCompactList}\small\item\em This struct contains the allocated resources for the physics engine and is used to initialize the physics engine. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_angel_script_a_p_i}{Angel\+Script\+API}}
@@ -26,12 +26,14 @@ class \mbox{\hyperlink{class_atlas_1_1_audio_device}{Audio\+Device}}
 \begin{DoxyCompactList}\small\item\em An audio device is a physical {\bfseries{OUTPUT}} device that can be used to play audio. If you are looking for a {\bfseries{INPUT}} device, see Audio\+Capture\+Device. If you are looking for documentation on the forms of {\bfseries{OUTPUT}} devices, see this class\textquotesingle{}s details documentation. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_audio_device_config}{Audio\+Device\+Config}}
 \begin{DoxyCompactList}\small\item\em This class represents an audio device\textquotesingle{}s configuration. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_audio_manager}{Audio\+Manager}}
+\item 
 class \mbox{\hyperlink{class_atlas_1_1_b_p_layer_interface_impl}{BPLayer\+Interface\+Impl}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_cleanup_event_args}{Cleanup\+Event\+Args}}
 \begin{DoxyCompactList}\small\item\em Used by the Cleanup event for passing arguments to components to allow developers the ability to polymorph the arguments. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_component}{Component}}
-\begin{DoxyCompactList}\small\item\em A component is used to extend a system, but is mainly used to extend a game object with additional functionality (IGame\+Object). \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em A component is used to extend a system, but is mainly used to extend a game object with additional functionality (\doxylink{class_atlas_1_1_component_a895fdb10618cf395e979f9368ba97ab3}{IGame\+Object}). \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_config_file_registry}{Config\+File\+Registry}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_console}{Console}}
@@ -53,9 +55,10 @@ class \mbox{\hyperlink{class_atlas_1_1_entity}{Entity}}
 class \mbox{\hyperlink{class_atlas_1_1_file_i_o_failure}{File\+IOFailure}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta}}
-\item 
+\begin{DoxyCompactList}\small\item\em File meta is the attributes of a registered/loaded file. This is also used to search for files within the file system. ~\newline
+ \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_file_path}{File\+Path}}
-\item 
+\begin{DoxyCompactList}\small\item\em This class represents a file path. Since the file system is sandboxed, this contains the {\bfseries{full path}} and the {\bfseries{sandboxed path}}. A sandboxed path is a relative to the "{}game"{} dir. For example, if a file was in the "{}game/data"{} folder, the path would be "{}data"{}. This is to make usage of the file system much easier. When constructed, the sandboxed path is automatically resolved. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}}
 \begin{DoxyCompactList}\small\item\em The file system registry. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_game_camera}{Game\+Camera}}
@@ -129,7 +132,7 @@ class \mbox{\hyperlink{class_atlas_1_1_project_manager}{Project\+Manager}}
 class \mbox{\hyperlink{class_atlas_1_1_reference_holder}{Reference\+Holder}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}}
-\item 
+\begin{DoxyCompactList}\small\item\em Represents a file that has been registered with the \doxylink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{struct_atlas_1_1_render_args}{Render\+Args}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}}
@@ -195,6 +198,9 @@ using \mbox{\hyperlink{namespace_atlas_a2060a2f75d4506be764e1a2e824a3b37}{Depth}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespace_atlas_a20ce4c27b35d28e3da624055478ee816}{EAudio\+Device\+Platform}} \+: int8\+\_\+t \{ \mbox{\hyperlink{namespace_atlas_a20ce4c27b35d28e3da624055478ee816ade3284c746092ac1b48ed4110f596b7b}{UNKNOWN\+\_\+\+DEVICE\+\_\+\+PLATFORM}} = -\/1
+ \}
 \item 
 enum class \mbox{\hyperlink{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938}{EAudio\+Device\+Type}} \+: int8\+\_\+t \{ \mbox{\hyperlink{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938a0fb00fa57f4752b09c33de0346707734}{UNKNOWN\+\_\+\+DEVICE\+\_\+\+TYPE}} = -\/1
 , \mbox{\hyperlink{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938aca177e787bdf7be1b5ad29086075cf01}{PLAYBACK\+\_\+\+DEVICE\+\_\+\+TYPE}} = 1
@@ -293,6 +299,8 @@ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta
 \begin{DoxyCompactList}\small\item\em Gets the file meta. \end{DoxyCompactList}\item 
 std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}} $>$ \mbox{\hyperlink{namespace_atlas_a73f62e52350edd7a0496cba5d674774d}{Get\+File}} (std\+::string key, bool load\+If\+Not\+Loaded=true)
 \begin{DoxyCompactList}\small\item\em Gets the file. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_afa2a252b78c0821fed0a608c60cfd2f0}{Default\+Physics\+Trace}} (const char \texorpdfstring{$\ast$}{*}in\+FMT,...)
+\begin{DoxyCompactList}\small\item\em This is the already provided trace function for the physics engine. \end{DoxyCompactList}\item 
 {\footnotesize template$<$typename T $>$ }\\T \& \mbox{\hyperlink{namespace_atlas_ae4147e1ed53261fedf1809ea1fd913ed}{Get\+Global}} (const std\+::string \&key)
 \item 
 {\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a51fdcf67897c4f8a2845255331167e28}{Set\+Global}} (const std\+::string \&key, const T \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})
@@ -365,7 +373,7 @@ Definition at line \mbox{\hyperlink{_game_settings_8h_source_l00009}{9}} of file
 
 
 
-Definition at line \mbox{\hyperlink{_audio_common_8h_source_l00018}{18}} of file \mbox{\hyperlink{_audio_common_8h_source}{Audio\+Common.\+h}}.
+Definition at line \mbox{\hyperlink{_audio_common_8h_source_l00028}{28}} of file \mbox{\hyperlink{_audio_common_8h_source}{Audio\+Common.\+h}}.
 
 \Hypertarget{namespace_atlas_a2f9b80e6cd8cd269ffbede51d81d26b6}\label{namespace_atlas_a2f9b80e6cd8cd269ffbede51d81d26b6} 
 \index{Atlas@{Atlas}!InternalAudioDevice@{InternalAudioDevice}}
@@ -375,7 +383,7 @@ Definition at line \mbox{\hyperlink{_audio_common_8h_source_l00018}{18}} of file
 
 
 
-Definition at line \mbox{\hyperlink{_audio_common_8h_source_l00017}{17}} of file \mbox{\hyperlink{_audio_common_8h_source}{Audio\+Common.\+h}}.
+Definition at line \mbox{\hyperlink{_audio_common_8h_source_l00027}{27}} of file \mbox{\hyperlink{_audio_common_8h_source}{Audio\+Common.\+h}}.
 
 \Hypertarget{namespace_atlas_ad4eb39ae8b8b6a74c0f7135d6559cf9a}\label{namespace_atlas_ad4eb39ae8b8b6a74c0f7135d6559cf9a} 
 \index{Atlas@{Atlas}!JSONDocument@{JSONDocument}}
@@ -420,6 +428,22 @@ Definition at line \mbox{\hyperlink{_j_s_o_n_file_8h_source_l00008}{8}} of file 
 
 
 \doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespace_atlas_a20ce4c27b35d28e3da624055478ee816}\label{namespace_atlas_a20ce4c27b35d28e3da624055478ee816} 
+\index{Atlas@{Atlas}!EAudioDevicePlatform@{EAudioDevicePlatform}}
+\index{EAudioDevicePlatform@{EAudioDevicePlatform}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{EAudioDevicePlatform}{EAudioDevicePlatform}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a20ce4c27b35d28e3da624055478ee816}{Atlas\+::\+EAudio\+Device\+Platform}} \+: int8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UNKNOWN\_DEVICE\_PLATFORM@{UNKNOWN\_DEVICE\_PLATFORM}!Atlas@{Atlas}}\index{Atlas@{Atlas}!UNKNOWN\_DEVICE\_PLATFORM@{UNKNOWN\_DEVICE\_PLATFORM}}}\Hypertarget{namespace_atlas_a20ce4c27b35d28e3da624055478ee816ade3284c746092ac1b48ed4110f596b7b}\label{namespace_atlas_a20ce4c27b35d28e3da624055478ee816ade3284c746092ac1b48ed4110f596b7b} 
+UNKNOWN\+\_\+\+DEVICE\+\_\+\+PLATFORM&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_e_audio_device_platform_8h_source_l00005}{5}} of file \mbox{\hyperlink{_e_audio_device_platform_8h_source}{EAudio\+Device\+Platform.\+h}}.
+
 \Hypertarget{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938}\label{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938} 
 \index{Atlas@{Atlas}!EAudioDeviceType@{EAudioDeviceType}}
 \index{EAudioDeviceType@{EAudioDeviceType}!Atlas@{Atlas}}
@@ -430,13 +454,14 @@ Definition at line \mbox{\hyperlink{_j_s_o_n_file_8h_source_l00008}{8}} of file 
 
 This enum represents the different types of audio devices. It is also used to match the values of the ma\+\_\+device\+\_\+type enum, which is why PLAYBACK\+\_\+\+DEVICE\+\_\+\+TYPE is set to 1. This enum also inherits from int8\+\_\+t because there are only 4 possible values. 
 
-\textbackslash{}important If you are trying to set an audio device as a recording, please note that this is NOT the proper enum to use. 
-
+\begin{DoxyWarning}{Warning}
+If you are trying to set an audio device as a recording, please note that this is NOT the proper enum to use because this only applies to OUTPUT devices. 
+\end{DoxyWarning}
 The values are as follows\+: 
 
 
 \begin{DoxyItemize}
-\item UNKNOWN\+\_\+\+DEVICE\+\_\+\+TYPE\+:  ~\newline
+\item {\bfseries{UNKNOWN\+\_\+\+DEVICE\+\_\+\+TYPE\+: }} ~\newline
    With a value of -\/1, this represents an unknown device type. Typically, this is used when a device is not found, it is not initialized, or it is not available for some other reason. 
 
 
@@ -723,7 +748,7 @@ Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00034}{34}} of fil
 
 
 
-References \mbox{\hyperlink{_file_system_registry_8h_source_l00081}{Atlas\+::\+File\+System\+Registry\+::add\+Load\+Function()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
+References \mbox{\hyperlink{_file_system_registry_8h_source_l00172}{Atlas\+::\+File\+System\+Registry\+::add\+Load\+Function()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
 
 
 
@@ -750,7 +775,7 @@ Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00040}{40}} of fil
 
 
 
-References \mbox{\hyperlink{_file_system_registry_8h_source_l00087}{Atlas\+::\+File\+System\+Registry\+::add\+Load\+On\+Register\+Extension()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
+References \mbox{\hyperlink{_file_system_registry_8h_source_l00178}{Atlas\+::\+File\+System\+Registry\+::add\+Load\+On\+Register\+Extension()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
 
 \Hypertarget{namespace_atlas_a4a3774487efaf3fd274897ab22f238be}\label{namespace_atlas_a4a3774487efaf3fd274897ab22f238be} 
 \index{Atlas@{Atlas}!CreateLogFileName@{CreateLogFileName}}
@@ -765,6 +790,34 @@ Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00017}{17}} of file \m
 
 
 References \mbox{\hyperlink{_common_8h_source_l00031}{ATLAS\+\_\+\+TEMP\+\_\+\+DIR}}.
+
+\Hypertarget{namespace_atlas_afa2a252b78c0821fed0a608c60cfd2f0}\label{namespace_atlas_afa2a252b78c0821fed0a608c60cfd2f0} 
+\index{Atlas@{Atlas}!DefaultPhysicsTrace@{DefaultPhysicsTrace}}
+\index{DefaultPhysicsTrace@{DefaultPhysicsTrace}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{DefaultPhysicsTrace()}{DefaultPhysicsTrace()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Default\+Physics\+Trace (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{in\+FMT,  }\item[{}]{... }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+This is the already provided trace function for the physics engine. 
+
+\begin{DoxyNote}{Note}
+Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
+\end{DoxyNote}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000009}{Todo}}]TODO\+: Implement this more properly \end{DoxyRefDesc}
+
+\begin{DoxyParams}{Parameters}
+{\em in\+FMT} & The format to print.\\
+\hline
+\end{DoxyParams}
+Variable arguments for the trace.
+
+Definition at line \mbox{\hyperlink{_physics_8h_source_l00040}{40}} of file \mbox{\hyperlink{_physics_8h_source}{Physics.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_physics_8cpp_source_l00023}{Atlas\+::\+Physics\+Engine\+::init()}}.
 
 \Hypertarget{namespace_atlas_af4aee03bf5c452a2b71ee0a1107104e0}\label{namespace_atlas_af4aee03bf5c452a2b71ee0a1107104e0} 
 \index{Atlas@{Atlas}!FileSystemIsProperlyFormatted@{FileSystemIsProperlyFormatted}}
@@ -875,7 +928,7 @@ Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00052}{52}} of fil
 
 
 
-References \mbox{\hyperlink{_file_system_registry_8cpp_source_l00098}{Atlas\+::\+File\+System\+Registry\+::get\+File()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
+References \mbox{\hyperlink{_file_system_registry_8cpp_source_l00097}{Atlas\+::\+File\+System\+Registry\+::get\+File()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
 
 
 
@@ -905,7 +958,7 @@ Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00046}{46}} of fil
 
 
 
-References \mbox{\hyperlink{_file_system_registry_8cpp_source_l00068}{Atlas\+::\+File\+System\+Registry\+::\+Get\+File\+Meta()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
+References \mbox{\hyperlink{_file_system_registry_8cpp_source_l00067}{Atlas\+::\+File\+System\+Registry\+::\+Get\+File\+Meta()}}, and \mbox{\hyperlink{_file_system_8cpp_source_l00022}{Get\+File\+System\+Registry()}}.
 
 \Hypertarget{namespace_atlas_a2cb0cf87e4174aa22214eb99c3b3e9cb}\label{namespace_atlas_a2cb0cf87e4174aa22214eb99c3b3e9cb} 
 \index{Atlas@{Atlas}!GetFileSystemRegistry@{GetFileSystemRegistry}}
@@ -984,6 +1037,10 @@ References \mbox{\hyperlink{_common_8h_source_l00527}{Atlas\+::\+Globals\+::get(
 
 
 Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00034}{34}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_logging_8h_source_l00169}{Atlas\+::\+Logger\+::\+Init\+Spdlog()}}.
 
 \Hypertarget{namespace_atlas_ab59cd60859cde46712ee41f24a093547}\label{namespace_atlas_ab59cd60859cde46712ee41f24a093547} 
 \index{Atlas@{Atlas}!InitializeConfigRegistry@{InitializeConfigRegistry}}
@@ -1068,7 +1125,7 @@ References \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$
 
 
 
-Referenced by \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\+Registry\+::config\+Lookup()}}, \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00016}{Atlas\+::\+File\+System\+Registry\+::init()}}, \mbox{\hyperlink{application_2main_8cpp_source_l00013}{Init\+Window()}}, \mbox{\hyperlink{_application_utils_8h_source_l00215}{Atlas\+::\+Application\+::\+Frame\+Manager\+::launch\+Threads()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00080}{Atlas\+::\+File\+System\+Registry\+::load\+File()}}, \mbox{\hyperlink{application_2main_8cpp_source_l00048}{main()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00030}{Atlas\+::\+File\+System\+Registry\+::register\+File()}}, \mbox{\hyperlink{_application_utils_8h_source_l00167}{Atlas\+::\+Application\+::\+Frame\+Manager\+::\+Run\+Update\+Thread()}}, and \mbox{\hyperlink{_application_utils_8h_source_l00198}{Atlas\+::\+Application\+::\+Frame\+Manager\+::\+Run\+Worker\+Thread()}}.
+Referenced by \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\+Registry\+::config\+Lookup()}}, \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00016}{Atlas\+::\+File\+System\+Registry\+::init()}}, \mbox{\hyperlink{_atlas_app_8h_source_l00026}{Atlas\+::\+Application\+::\+Atlas\+App\+::init\+Window()}}, \mbox{\hyperlink{application_2main_8cpp_source_l00013}{Init\+Window()}}, \mbox{\hyperlink{_application_utils_8h_source_l00215}{Atlas\+::\+Application\+::\+Frame\+Manager\+::launch\+Threads()}}, \mbox{\hyperlink{_config_8cpp_source_l00078}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+Config\+File()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00079}{Atlas\+::\+File\+System\+Registry\+::load\+File()}}, \mbox{\hyperlink{_config_8cpp_source_l00086}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+JSONFile()}}, \mbox{\hyperlink{_config_8cpp_source_l00094}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+XMLFile()}}, \mbox{\hyperlink{application_2main_8cpp_source_l00048}{main()}}, \mbox{\hyperlink{_atlas_app_8h_source_l00015}{Atlas\+::\+Application\+::\+Atlas\+App\+::prepare\+Project()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00029}{Atlas\+::\+File\+System\+Registry\+::register\+File()}}, \mbox{\hyperlink{_application_utils_8h_source_l00167}{Atlas\+::\+Application\+::\+Frame\+Manager\+::\+Run\+Update\+Thread()}}, and \mbox{\hyperlink{_application_utils_8h_source_l00198}{Atlas\+::\+Application\+::\+Frame\+Manager\+::\+Run\+Worker\+Thread()}}.
 
 \Hypertarget{namespace_atlas_aea78e3773f79ad0d706edfea919cfc63}\label{namespace_atlas_aea78e3773f79ad0d706edfea919cfc63} 
 \index{Atlas@{Atlas}!LookupConfig@{LookupConfig}}
@@ -1100,7 +1157,7 @@ References \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\
 
 
 
-Referenced by \mbox{\hyperlink{_config_8cpp_source_l00115}{Get\+Config\+String()}}, and \mbox{\hyperlink{application_2main_8cpp_source_l00013}{Init\+Window()}}.
+Referenced by \mbox{\hyperlink{_config_8cpp_source_l00115}{Get\+Config\+String()}}, \mbox{\hyperlink{_atlas_app_8h_source_l00026}{Atlas\+::\+Application\+::\+Atlas\+App\+::init\+Window()}}, and \mbox{\hyperlink{application_2main_8cpp_source_l00013}{Init\+Window()}}.
 
 \Hypertarget{namespace_atlas_a51fdcf67897c4f8a2845255331167e28}\label{namespace_atlas_a51fdcf67897c4f8a2845255331167e28} 
 \index{Atlas@{Atlas}!SetGlobal@{SetGlobal}}

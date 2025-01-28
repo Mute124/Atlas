@@ -96,8 +96,11 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
 <ul><ul><li class="level2"><a href="#what-is-Atlas">What is Atlas</a></li>
-<li class="level2"><a href="#architecture">Architecture</a><ul><li class="level3"><a href="#flow-architecture">Flow</a></li>
-<li class="level3"><a href="#file-system-architecture">File System Architecture</a></li>
+<li class="level2"><a href="#architecture">Architecture</a></li>
+<li class="level2"><a href="#flow-architecture">### Flow</a><ul><li class="level3"><a href="#file-system-architecture">File System Architecture</a><ul><li class="level4"><a href="#file-loading">File Loading</a></li>
+<li class="level4"><a href="#extension-loading">Extension loading</a></li>
+</ul>
+</li>
 <li class="level3"><a href="#graphics-architecture">Graphics Architecture</a><ul><li class="level4"><a href="#graphics-introduction">Graphics Introduction</a></li>
 <li class="level4"><a href="#using-models">Using Models</a></li>
 </ul>
@@ -124,9 +127,9 @@ What is Atlas</h2>
 <h2><a class="anchor" id="architecture"></a>
 Architecture</h2>
 <hr  />
-<h3><a class="anchor" id="flow-architecture"></a>
-Flow</h3>
-<hr  />
+<p>The architecture of <a class="el" href="d7/d54/namespace_atlas.html">Atlas</a> can get complex at some points, but the documentation is extensive to make up for this and reduce the learning curve.</p>
+<h2><a class="anchor" id="flow-architecture"></a>
+### Flow</h2>
 <p>Due to the inherent nature of <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a>, the architecture can be complex. In terms of building, there are a few things that are required to understand how <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> works. There are 4 groups that are used to build the engine, as outlined below:</p><ul>
 <li>Application</li>
 <li>Engine</li>
@@ -142,9 +145,44 @@ File System Architecture</h3>
 <hr  />
 <p>&gt;**The design of the file system will cause errors if it is used improperly. As a result, it is highly encouraged that this is read very carefully. **</p>
 <p>As of now, the file system works by recursively searching the "game" folder in the root directory (Techstorm-v5). The folder will contain the "assets" and "data" sub-directories, wherein you will put assets and data files. Any file that is within the search area will be registered. Another piece of important information is that the <b>filesystem is sandboxed</b>. As of version 0.0.3, the only directory that is accessible is the <em>game</em> directory within the root directory. This is a safety feature that protects against malicious mods. Furthermore, this reduces the need to have long strings that lead to a specific path.</p>
-<p>When it comes to file loading, the <b>extension matters</b>. This is because the FileSystemRegistry loads files based on the loading function assigned to the extension. For this reason, when getting the file, you must have the filename along with the extension or just the extension (highly discouraged, see why-not-extensions). For this example, <code>ExampleFile.txt</code> will be used to represent a file. In order to get a file, please see below:</p>
+<p><a class="el" href="d7/d54/namespace_atlas.html">Atlas</a> provides <b>three</b> methods of searching: by full path, sandboxed path, extension (highly discouraged because it does not account for duplicates), and filename. Sandboxed searching is the most recommended because it will only return those that are within the <code>game</code> directory. It is also much safer in general because it is contained to a single root folder that does not give mods the ability to mess with the user's operating system or the game itself (besides modifying config and assets). </p>
+<h4><a class="anchor" id="file-loading"></a>
+File Loading</h4>
+<hr  />
+<p>When it comes to files, there are two types of files: registered and loaded. During the searching phase, all files found become registered (unless their extension is marked to be immediately loaded). When the file is used for the first time, it immediately becomes loaded. A visual representation of the file loading step is below:</p>
+<div class="image">
+<img src="FileSystemFlowChart.png" alt=""/>
+<div class="caption">
+Atlas's file system high level flow chart</div></div>
+    <p>Next, the topic of immediate loading needs to be discussed. Immediate loading is when the file system loads a file on registration if the extension is marked as such. In order to mark an extension to be immediately loaded, it must be done <b>PRIOR TO THE SEARCHING PHASE</b>. This is done within the <b>pre-initialization step</b>. Below is an example of this in action:</p>
+<div class="fragment"><div class="line">// includes ...</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">// project.h in the project_lib project</div>
+<div class="line">class Project final : public Atlas::IProject {</div>
+<div class="line">public:</div>
+<div class="line">    void preInit() override {</div>
+<div class="line">        IProject::preInit();</div>
+<div class="line">        </div>
+<div class="line">        using namespace std;</div>
+<div class="line">        </div>
+<div class="line">        // the first parameter is the extension that should be immediately loaded</div>
+<div class="line">        AddFileRegistryLoadFunction(&quot;txt&quot;, [](std::shared_ptr&lt;FileMeta&gt; fileMeta) {</div>
+<div class="line">            // any casting is important here!</div>
+<div class="line">            return std::any_cast&lt;string&gt;(LoadFileText(fileMeta-&gt;path.c_str()));</div>
+<div class="line">        });</div>
+<div class="line">    }</div>
+<div class="line">    </div>
+<div class="line">    // ...</div>
+<div class="line">};</div>
+</div><!-- fragment --><p>As can be seen, the <code>AddFileRegistryLoadFunction()</code> is being called, with the extension and the corresponding loading function being passed. The file system is Laissez-faire in that it requires you to bring your own function to load extensions. Keep in mind that the any casting must be done here because RegisteredFile uses an std::any as a container for the data. Other than that, <a class="el" href="d7/d54/namespace_atlas.html">Atlas</a> handles the rest.</p>
+<p>When it comes to file loading, the <b>extension matters</b>. This is because the FileSystemRegistry loads files based on the loading function assigned to the extension. For this reason, when getting the file, you must have the filename along with the extension, just the extension (highly discouraged, see why-not-extensions), the exact path, and the sandboxed path. For this example, <code>ExampleFile.txt</code> will be used to represent a file. In order to get a file, please see below:</p>
 <div class="fragment"><div class="line">std::shared_ptr&lt;RegisteredFile&gt; file = GetFileSystemRegistry().getFile(&quot;ExampleFile.txt&quot;);</div>
-</div><!-- fragment --><h3><a class="anchor" id="graphics-architecture"></a>
+</div><!-- fragment --><h4><a class="anchor" id="extension-loading"></a>
+Extension loading</h4>
+<hr  />
+<p>As of v0.0.7, <a class="el" href="d7/d54/namespace_atlas.html">Atlas</a> has</p>
+<h3><a class="anchor" id="graphics-architecture"></a>
 Graphics Architecture</h3>
 <hr  />
 <h4><a class="anchor" id="graphics-introduction"></a>

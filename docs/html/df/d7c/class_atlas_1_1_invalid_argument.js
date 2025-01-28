@@ -1,4 +1,4 @@
 var class_atlas_1_1_invalid_argument =
 [
-    [ "ATLAS_CHILD_EXCEPTION_CONSTRUCTOR", "df/d7c/class_atlas_1_1_invalid_argument.html#a667fdb9d52ea6d0fedfcdc4fd30d5933", null ]
+    [ "InvalidArgument", "df/d7c/class_atlas_1_1_invalid_argument.html#ad85b73077009d8ddee2f4e2c0db95de8", null ]
 ];

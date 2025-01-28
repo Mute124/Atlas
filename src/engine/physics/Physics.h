@@ -1,7 +1,6 @@
-/// \file Physics.h
-/// \brief This file contains Atlas's physics engine and is built on JoltPhysics. 
-/// \note This is a work in progress, so it is not very extensible. With that being said, it is able to do its job but it is not as flexible as it could be.
-/// \includegraph
+/// @file Physics.h
+/// @brief This file contains Atlas's physics engine and is built on JoltPhysics. 
+/// @note This is a work in progress, so it is not very extensible. With that being said, it is able to do its job but it is not as flexible as it could be.
 #pragma once
 
 #include <Jolt/Jolt.h>
@@ -33,8 +32,8 @@ namespace Atlas {
 
 	/// <summary>
 	/// This is the already provided trace function for the physics engine. 
-	/// \note Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
-	/// \todo TODO: Implement this more properly
+	/// @note Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
+	/// @todo TODO: Implement this more properly
 	/// </summary>
 	/// <param name="inFMT">The format to print.</param>
 	/// <param name="">Variable arguments for the trace.</param>
@@ -56,7 +55,7 @@ namespace Atlas {
 	
 	/// <summary>
 	/// This is the already provided failed assertion function. Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
-	/// \todo Implement this more properly
+	/// @todo Implement this more properly
 	/// </summary>
 	/// <param name="inExpression">The assert expression that failed.</param>
 	/// <param name="inMessage">The assertion message.</param>
@@ -78,12 +77,30 @@ namespace Atlas {
 	/// <summary>
 	/// This struct contains the allocated resources for the physics engine and is used to initialize the physics engine.
 	/// </summary>
-	struct AllocatedPhysicsResources {
+	struct AllocatedPhysicsResources {		
+		/// <summary>
+		/// The c maximum bodies
+		/// </summary>
 		JPH::uint cMaxBodies = 65536;
+		
+		/// <summary>
+		/// The c number body mutexes
+		/// </summary>
 		JPH::uint cNumBodyMutexes = 0;
+		
+		/// <summary>
+		/// The c maximum body pairs
+		/// </summary>
 		JPH::uint cMaxBodyPairs = 65536;
+		
+		/// <summary>
+		/// The c maximum contact constraints
+		/// </summary>
 		JPH::uint cMaxContactConstraints = 1024;
-
+		
+		/// <summary>
+		/// The pre allocated memory
+		/// </summary>
 		int preAllocatedMemory = 20 * 1024 * 1024;
 				
 		/// <summary>
@@ -110,6 +127,7 @@ namespace Atlas {
 	/// <summary>
 	/// Handles everything related to Atlas' physics engine.
 	/// </summary>
+	/// <seealso cref="Atlas::Singleton&lt;PhysicsEngine&gt;" />
 	/// <seealso cref="Atlas::Singleton&lt;PhysicsEngine&gt;" />
 	class PhysicsEngine : public Atlas::Singleton<PhysicsEngine> {
 	public:
@@ -156,24 +174,76 @@ namespace Atlas {
 			explicit BodyInterfaceHolder(JPH::BodyInterface& bodyInterface);
 			~BodyInterfaceHolder();
 		};
-
+		
+		/// <summary>
+		/// The m collision steps
+		/// </summary>
 		int	mCollisionSteps = 1;
-
+		
+		//
 		BodyInterfaceHolder* mBodyInterfaceHolder;
+		
+		/**
+		 * @brief The m physics system
+		 */
 		JPH::PhysicsSystem* mPhysicsSystem = nullptr;
+		
+		/**
+		 * @brief Whether or not the physics engine has been initialized
+		 */
 		bool mIsInitialized = false;
+		
+		/// <summary>
+		/// The m resources
+		/// </summary>
 		AllocatedPhysicsResources mResources;
-
+		
+		/// <summary>
+		/// The m temporary allocator
+		/// </summary>
 		JPH::TempAllocator* mTempAllocator = nullptr;
+		
+		/// <summary>
+		/// The m job system thread pool
+		/// </summary>
 		JPH::JobSystem* mJobSystemThreadPool = nullptr;
+		
+		/// <summary>
+		/// The m broad phase layer interface
+		/// </summary>
 		BPLayerInterfaceImpl mBroadPhaseLayerInterface;
+		
+		/// <summary>
+		/// The m object vs broad phase layer filter
+		/// </summary>
 		ObjectVsBroadPhaseLayerFilterImpl mObjectVsBroadPhaseLayerFilter;
+		
+		/// <summary>
+		/// The m object layer pair filter
+		/// </summary>
 		ObjectLayerPairFilterImpl mObjectLayerPairFilter;
-
+				
+		/// <summary>
+		/// The contact listener
+		/// </summary>
+		/// <remarks>
+		/// This is used to listen in on the contact events. For more information, please refer to Jolt's JPH::ContactListener class.
+		/// </remarks>
 		JPH::ContactListener* mContactListener = nullptr;
+				
+		/// <summary>
+		/// The m physics settings
+		/// </summary>
+		/// <seealso cref="JPH::PhysicsSettings" />
 		JPH::PhysicsSettings  mPhysicsSettings;
+		
+		/// <summary>
+		/// The jolt body activation listener class.
+		/// </summary>
+		/// <remarks>
+		/// This is used to listen in on the activation and deactivation of physics bodies. For more information, please refer to Jolt's JPH::BodyActivationListener class.
+		/// </remarks>
+		/// <seealso cref="JPH::BodyActivationListener" />
 		JPH::BodyActivationListener* mBodyActivationListener = nullptr;
 	};
-
-
 }

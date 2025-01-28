@@ -17,5 +17,7 @@ var searchData=
   ['audiodevice_2eh_14',['AudioDevice.h',['../d4/d20/_audio_device_8h.html',1,'']]],
   ['audiodeviceconfig_2eh_15',['AudioDeviceConfig.h',['../d1/df5/_audio_device_config_8h.html',1,'']]],
   ['audiodeviceregistry_2ecpp_16',['AudioDeviceRegistry.cpp',['../df/df1/_audio_device_registry_8cpp.html',1,'']]],
-  ['audiodeviceregistry_2eh_17',['AudioDeviceRegistry.h',['../d1/d20/_audio_device_registry_8h.html',1,'']]]
+  ['audiodeviceregistry_2eh_17',['AudioDeviceRegistry.h',['../d1/d20/_audio_device_registry_8h.html',1,'']]],
+  ['audiomanager_2ecpp_18',['AudioManager.cpp',['../dc/d69/_audio_manager_8cpp.html',1,'']]],
+  ['audiomanager_2eh_19',['AudioManager.h',['../d8/d45/_audio_manager_8h.html',1,'']]]
 ];

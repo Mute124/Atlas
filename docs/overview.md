@@ -11,9 +11,9 @@ If you are looking for a hello world application, please see \ref hello-world-ex
 
 ---
 
+The architecture of Atlas can get complex at some points, but the documentation is extensive to make up for this and reduce the learning curve.
 
 ### Flow {#flow-architecture}
-
 ---
 
 Due to the inherent nature of Techstorm, the architecture can be complex. In terms of building, there are a few things that are required to understand how Techstorm works. There are 4 groups that are used to build the engine, as outlined below:
@@ -33,12 +33,56 @@ The Application is responsible for loading the engine and handling the project, 
 
 As of now, the file system works by recursively searching the "game" folder in the root directory (Techstorm-v5). The folder will contain the "assets" and "data" sub-directories, wherein you will put assets and data files.  Any file that is within the search area will be registered. Another piece of important information is that the **filesystem is sandboxed**. As of version 0.0.3, the only directory that is accessible is the *game* directory within the root directory. This is a safety feature that protects against malicious mods. Furthermore, this reduces the need to have long strings that lead to a specific path. 
 
-When it comes to file loading, the **extension matters**. This is because the \ref FileSystemRegistry loads files based on the loading function assigned to the extension. For this reason, when getting the file, you must have the filename along with the extension or just the extension (highly discouraged, see \ref why-not-extensions). For this example, \c ExampleFile.txt will be used to represent a file. In order to get a file, please see below:
+Atlas provides **three** methods of searching: by full path, sandboxed path, extension (highly discouraged because it does not account for duplicates), and filename. Sandboxed searching is the most recommended because it will only return those that are within the \c game directory. It is also much safer in general because it is contained to a single root folder that does not give mods the ability to mess with the user's operating system or the game itself (besides modifying config and assets). 
+#### File Loading {#file-loading}
+
+---
+
+When it comes to files, there are two types of files: registered and loaded. During the searching phase, all files found become registered (unless their extension is marked to be immediately loaded). When the file is used for the first time, it immediately becomes loaded. A visual representation of the file loading step is below:
+
+![Game Engine Application Flow Chart](FileSystemFlowChart.png "Atlas's file system high level flow chart")
+
+Next, the topic of immediate loading needs to be discussed. Immediate loading is when the file system loads a file on registration if the extension is marked as such. In order to mark an extension to be immediately loaded, it must be done **PRIOR TO THE SEARCHING PHASE**. This is done within the **pre-initialization step**. Below is an example of this in action:
+
+```
+// includes ...
+
+
+// project.h in the project_lib project
+class Project final : public Atlas::IProject {
+public:
+	void preInit() override {
+		IProject::preInit();
+		
+		using namespace std;
+		
+		// the first parameter is the extension that should be immediately loaded
+		AddFileRegistryLoadFunction("txt", [](std::shared_ptr<FileMeta> fileMeta) {
+			// any casting is important here!
+			return std::any_cast<string>(LoadFileText(fileMeta->path.c_str()));
+		});
+	}
+	
+	// ...
+};
+
+```
+
+As can be seen, the `AddFileRegistryLoadFunction()` is being called, with the extension and the corresponding loading function being passed. The file system is Laissez-faire in that it requires you to bring your own function to load extensions. Keep in mind that the any casting must be done here because RegisteredFile uses an std::any as a container for the data. Other than that, Atlas handles the rest.
+
+When it comes to file loading, the **extension matters**. This is because the \ref FileSystemRegistry loads files based on the loading function assigned to the extension. For this reason, when getting the file, you must have the filename along with the extension, just the extension (highly discouraged, see \ref why-not-extensions), the exact path, and the sandboxed path. For this example, \c ExampleFile.txt will be used to represent a file. In order to get a file, please see below:
  
 ```
 std::shared_ptr<RegisteredFile> file = GetFileSystemRegistry().getFile("ExampleFile.txt");
 ```
 
+
+
+#### Extension loading {#extension-loading}
+
+---
+
+As of v0.0.7, Atlas has 
 
 ### Graphics Architecture {#graphics-architecture}
 

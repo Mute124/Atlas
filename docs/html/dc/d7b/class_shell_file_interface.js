@@ -6,5 +6,6 @@ var class_shell_file_interface =
     [ "Open", "dc/d7b/class_shell_file_interface.html#a5fa137245fd26a9498cb3254c591859d", null ],
     [ "Read", "dc/d7b/class_shell_file_interface.html#ab31fefee930cd3fd221a4afcb3c1afa5", null ],
     [ "Seek", "dc/d7b/class_shell_file_interface.html#a2e084ef01b2146a6a24a0515039281b8", null ],
-    [ "Tell", "dc/d7b/class_shell_file_interface.html#a5f7be9911ef812ef14a87042bbc49d71", null ]
+    [ "Tell", "dc/d7b/class_shell_file_interface.html#a5f7be9911ef812ef14a87042bbc49d71", null ],
+    [ "root", "dc/d7b/class_shell_file_interface.html#af27a78903f18ab2482c59cce56652240", null ]
 ];

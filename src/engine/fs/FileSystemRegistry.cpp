@@ -21,7 +21,6 @@ void Atlas::FileSystemRegistry::init(const char* rootPath)
 	FilePathList files = LoadDirectoryFilesEx(rootPath, nullptr, true);
 	Log("Found " + std::to_string(files.count) + " files.");
 
-
 	for (int i = 0; i < files.count; i++) {
 		registerFile(files.paths[i]);
 	}
@@ -95,7 +94,7 @@ void Atlas::FileSystemRegistry::loadFile(std::shared_ptr<RegisteredFile> file) {
 /// <param name="key">The key.</param>
 /// <param name="loadIfNotLoaded">if set to <c>true</c> [load if not loaded].</param>
 /// <returns></returns>
-std::shared_ptr<Atlas::RegisteredFile> Atlas::FileSystemRegistry::getFile(std::string key, bool loadIfNotLoaded) {
+std::shared_ptr<Atlas::RegisteredFile> Atlas::FileSystemRegistry::getFile(std::string const& key, bool loadIfNotLoaded) {
 	uint16_t index = this->mLookupTable[key];
 	std::shared_ptr<RegisteredFile> file = this->mRegisteredFiles[index];
 

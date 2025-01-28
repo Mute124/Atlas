@@ -7,14 +7,9 @@ WindowDecorations& Atlas::IProject::getWindowDecorations() { return mWindowDecor
 
 void Atlas::IProject::setWindowDecorations(WindowDecorations& windowDecorations) { mWindowDecorations = windowDecorations; }
 
-
-/// <summary>
-/// This is the first function that will be called on startup. 
-/// </summary>
-/// <inheritdoc />
 void Atlas::IProject::preInit() {
 	Logger::Instance().init(LoggerConfig());
-	//std::cout << "IProject::preInit" << std::endl;
+
 	Log("Test");
 
 	AddFileRegistryLoadFunction("png", [](std::shared_ptr<FileMeta> loadFunc) {
@@ -33,7 +28,6 @@ void Atlas::IProject::preInit() {
 	InitializeFileRegistry(gameDir.c_str());
 
 	this->mLuaLibraries.push_back(sol::lib::base);
-
 }
 
 void Atlas::IProject::init(int argc, char* argv[]) {

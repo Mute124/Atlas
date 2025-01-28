@@ -1,5 +1,7 @@
 var engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp =
 [
+    [ "Construct", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#affb178c085bcd685176511f45156e944", null ],
+    [ "Construct", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#a28422ac9eadac8cf6141ed973fa1f41d", null ],
     [ "Construct", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#a3fd241a2dfddeb98fe97625aa25b4d61", null ],
     [ "CScriptHandle_Assign_Generic", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#a18e74734251ca79633eae2c987a64a2e", null ],
     [ "CScriptHandle_AssignVar_Generic", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#a0be436efbb15a98a376520aa00583deb", null ],
@@ -12,6 +14,7 @@ var engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp =
     [ "CScriptHandle_Equals_Generic", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#ae641158133191571c1c91fc1b367d595", null ],
     [ "CScriptHandle_EqualsVar_Generic", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#a11133b4c3067e61627a3731795b6f10d", null ],
     [ "CScriptHandle_ReleaseReferences_Generic", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#a7710b8b39f1e870246f5b41063e7655b", null ],
+    [ "Destruct", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#aa7e247c42652a2ad2fbc06c12e0d0e6e", null ],
     [ "RegisterScriptHandle", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#a565e674cf134c5c5d1b0c15b1233226d", null ],
     [ "RegisterScriptHandle_Generic", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#a4c0eb5911e1d39b40d9ca4bbdfa1e0ee", null ],
     [ "RegisterScriptHandle_Native", "d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#abf65d893951791abc272e367eb035c67", null ]

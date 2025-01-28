@@ -1,7 +1,7 @@
 var imgui__impl__osx_8mm =
 [
     [ "ImGui_ImplOSX_Data", "d2/d61/struct_im_gui___impl_o_s_x___data.html", "d2/d61/struct_im_gui___impl_o_s_x___data" ],
-    [ "NSCursor()", "d7/dd9/category_n_s_cursor_07_08.html", null ],
+    [ "NSCursor()", "d7/dd9/category_n_s_cursor_07_08.html", "d7/dd9/category_n_s_cursor_07_08" ],
     [ "KeyEventResponder", "d9/d62/interface_key_event_responder.html", null ],
     [ "ImGuiObserver", "df/d35/interface_im_gui_observer.html", "df/d35/interface_im_gui_observer" ],
     [ "APPLE_HAS_BUTTON_OPTIONS", "d5/d57/imgui__impl__osx_8mm.html#aee91fef8731ea5824c510af7ac26eb14", null ],
@@ -10,10 +10,19 @@ var imgui__impl__osx_8mm =
     [ "IM_SATURATE", "d5/d57/imgui__impl__osx_8mm.html#abfc205127accf0adc131007017a20442", null ],
     [ "MAP_ANALOG", "d5/d57/imgui__impl__osx_8mm.html#a3776de756858a336b0e533b764406256", null ],
     [ "MAP_BUTTON", "d5/d57/imgui__impl__osx_8mm.html#acde2e6121f011b1ce1e59afbd6ac34b4", null ],
+    [ "GetMachAbsoluteTimeInSeconds", "d5/d57/imgui__impl__osx_8mm.html#a3285c5b29c4da72438f5b1a4ad158e37", null ],
+    [ "GetMouseSource", "d5/d57/imgui__impl__osx_8mm.html#a15bf2d8b0fd7961022a5cba1c73b4d4a", null ],
+    [ "ImGui_ImplOSX_AddTrackingArea", "d5/d57/imgui__impl__osx_8mm.html#a96101a01a34ae90571efa82db1083cb6", null ],
+    [ "ImGui_ImplOSX_DestroyBackendData", "d5/d57/imgui__impl__osx_8mm.html#a74c2801733c0c35914d468eca9643bc2", null ],
+    [ "ImGui_ImplOSX_GetBackendData", "d5/d57/imgui__impl__osx_8mm.html#affa8818676453b1aa697fc5b36b72188", null ],
+    [ "ImGui_ImplOSX_HandleEvent", "d5/d57/imgui__impl__osx_8mm.html#a521f5e0070b626e202b120b6fad59ecb", null ],
     [ "ImGui_ImplOSX_Init", "d5/d57/imgui__impl__osx_8mm.html#ac4e94ef001edb88c5c2c0de165a18080", null ],
     [ "ImGui_ImplOSX_KeyCodeToImGuiKey", "d5/d57/imgui__impl__osx_8mm.html#a90495bb2b36b9c03dd276b791ef2f469", null ],
     [ "ImGui_ImplOSX_NewFrame", "d5/d57/imgui__impl__osx_8mm.html#a5f96863293e2c918e919fe0e372ea141", null ],
     [ "ImGui_ImplOSX_Shutdown", "d5/d57/imgui__impl__osx_8mm.html#acc3a2c3d2bc80b8374406e8ca9f3c17e", null ],
+    [ "ImGui_ImplOSX_UpdateGamepads", "d5/d57/imgui__impl__osx_8mm.html#af0999bba68c30d5d5d5328f4034435d5", null ],
+    [ "ImGui_ImplOSX_UpdateImePosWithView", "d5/d57/imgui__impl__osx_8mm.html#a0520993719eb3022a07d6562a184f190", null ],
+    [ "ImGui_ImplOSX_UpdateMouseCursor", "d5/d57/imgui__impl__osx_8mm.html#a9d8e70f8f970a9eb82cfe00defd945c2", null ],
     [ "_imeRect", "d5/d57/imgui__impl__osx_8mm.html#acbb5da7ccff4ce29dc47d54084ffbbf6", null ],
     [ "_posY", "d5/d57/imgui__impl__osx_8mm.html#aac039e5cfe18e6601b5c82eb5140d7ae", null ]
 ];

@@ -25,6 +25,7 @@ var class_atlas_1_1abstract =
     [ "getFormat", "dc/dba/class_atlas_1_1abstract.html#a3ab0c89038223671ca95d8098055e501", null ],
     [ "getLuaFunctions", "dc/dba/class_atlas_1_1abstract.html#a55c43cbcb8b3bb337b1e474f0697bbaf", null ],
     [ "getLuaLibraries", "dc/dba/class_atlas_1_1abstract.html#aa6deef2fa05076be49b7c7183f5bfa32", null ],
+    [ "GetProject", "dc/dba/class_atlas_1_1abstract.html#ad6a21e654432e9ee665dc6a66f667efc", null ],
     [ "getPrompt", "dc/dba/class_atlas_1_1abstract.html#a04736fe66aa23e675593512155eddc32", null ],
     [ "getRenderer", "dc/dba/class_atlas_1_1abstract.html#a40397c1fca5ba9c0025743041ad92a98", null ],
     [ "getRenderer", "dc/dba/class_atlas_1_1abstract.html#a5604a7cf9497b13d6bd6f2e845941532", null ],

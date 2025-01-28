@@ -2,25 +2,39 @@
 \hypertarget{class_atlas_1_1_file_path}{}\label{class_atlas_1_1_file_path}\index{Atlas::FilePath@{Atlas::FilePath}}
 
 
+This class represents a file path. Since the file system is sandboxed, this contains the {\bfseries{full path}} and the {\bfseries{sandboxed path}}. A sandboxed path is a relative to the "{}game"{} dir. For example, if a file was in the "{}game/data"{} folder, the path would be "{}data"{}. This is to make usage of the file system much easier. When constructed, the sandboxed path is automatically resolved.  
+
+
+
+
 {\ttfamily \#include $<$File\+Path.\+h$>$}
 
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 std\+::string \mbox{\hyperlink{class_atlas_1_1_file_path_a977e18c097efdaa0af2aef282ed1ea81}{get\+Full\+Path}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the full path. \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{class_atlas_1_1_file_path_ac8c500d809eb3b008b1e7ab3808e18d2}{get\+Sandbox\+Path}} () const
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the sandboxed path. A sandboxed path is a path relative to the "{}game"{} dir. For example, if a file was in the "{}game/data"{} folder, the path would be "{}data"{}. \end{DoxyCompactList}\item 
 const std\+::string \mbox{\hyperlink{class_atlas_1_1_file_path_acdd6964acb7f5aa6260126e4b4d2028d}{get\+Full\+Sandbox\+Path}} (std\+::string const \&filename) const
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the full sandbox path. \end{DoxyCompactList}\item 
 const std\+::string \mbox{\hyperlink{class_atlas_1_1_file_path_aca01b1abf94bdec50ad002f2dc27e63e}{get\+Full\+Sandbox\+Path}} (std\+::string const \&filename, std\+::string const \&extension) const
+\begin{DoxyCompactList}\small\item\em Gets the full sandbox path. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{class_atlas_1_1_file_path_a0b01d8ca69478b6bfcdf2ca9a6acc0e5}{m\+Full\+Path}}
+\item 
+std\+::string \mbox{\hyperlink{class_atlas_1_1_file_path_aac594e3379083a6db9618e3e1c63dc6d}{m\+Sandbox\+Path}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
+This class represents a file path. Since the file system is sandboxed, this contains the {\bfseries{full path}} and the {\bfseries{sandboxed path}}. A sandboxed path is a relative to the "{}game"{} dir. For example, if a file was in the "{}game/data"{} folder, the path would be "{}data"{}. This is to make usage of the file system much easier. When constructed, the sandboxed path is automatically resolved. 
 
+A full path is the exact location on the disk. This should NOT be exposed to the modding API as it is extremely dangerous and makes it easy for malicious mods to attack. 
 
-Definition at line \mbox{\hyperlink{_file_path_8h_source_l00008}{8}} of file \mbox{\hyperlink{_file_path_8h_source}{File\+Path.\+h}}.
+Definition at line \mbox{\hyperlink{_file_path_8h_source_l00013}{13}} of file \mbox{\hyperlink{_file_path_8h_source}{File\+Path.\+h}}.
 
 
 
@@ -33,7 +47,18 @@ Definition at line \mbox{\hyperlink{_file_path_8h_source_l00008}{8}} of file \mb
 
 
 
+Gets the full path. 
+
+\begin{DoxyReturn}{Returns}
+The exact location on the disk
+\end{DoxyReturn}
+
+
 Definition at line \mbox{\hyperlink{_file_path_8cpp_source_l00011}{11}} of file \mbox{\hyperlink{_file_path_8cpp_source}{File\+Path.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_file_path_8h_source_l00015}{m\+Full\+Path}}.
 
 \Hypertarget{class_atlas_1_1_file_path_acdd6964acb7f5aa6260126e4b4d2028d}\label{class_atlas_1_1_file_path_acdd6964acb7f5aa6260126e4b4d2028d} 
 \index{Atlas::FilePath@{Atlas::FilePath}!getFullSandboxPath@{getFullSandboxPath}}
@@ -41,6 +66,18 @@ Definition at line \mbox{\hyperlink{_file_path_8cpp_source_l00011}{11}} of file 
 \doxysubsubsection{\texorpdfstring{getFullSandboxPath()}{getFullSandboxPath()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily const std\+::string Atlas\+::\+File\+Path\+::get\+Full\+Sandbox\+Path (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{filename }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
+
+
+Gets the full sandbox path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The filename.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
 
 
 Definition at line \mbox{\hyperlink{_file_path_8cpp_source_l00015}{15}} of file \mbox{\hyperlink{_file_path_8cpp_source}{File\+Path.\+cpp}}.
@@ -53,6 +90,20 @@ Definition at line \mbox{\hyperlink{_file_path_8cpp_source_l00015}{15}} of file 
 
 
 
+Gets the full sandbox path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The filename.\\
+\hline
+{\em extension} & The extension.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
 Definition at line \mbox{\hyperlink{_file_path_8cpp_source_l00017}{17}} of file \mbox{\hyperlink{_file_path_8cpp_source}{File\+Path.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_path_ac8c500d809eb3b008b1e7ab3808e18d2}\label{class_atlas_1_1_file_path_ac8c500d809eb3b008b1e7ab3808e18d2} 
@@ -63,7 +114,41 @@ Definition at line \mbox{\hyperlink{_file_path_8cpp_source_l00017}{17}} of file 
 
 
 
+Gets the sandboxed path. A sandboxed path is a path relative to the "{}game"{} dir. For example, if a file was in the "{}game/data"{} folder, the path would be "{}data"{}. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
 Definition at line \mbox{\hyperlink{_file_path_8cpp_source_l00013}{13}} of file \mbox{\hyperlink{_file_path_8cpp_source}{File\+Path.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_atlas_1_1_file_path_a0b01d8ca69478b6bfcdf2ca9a6acc0e5}\label{class_atlas_1_1_file_path_a0b01d8ca69478b6bfcdf2ca9a6acc0e5} 
+\index{Atlas::FilePath@{Atlas::FilePath}!mFullPath@{mFullPath}}
+\index{mFullPath@{mFullPath}!Atlas::FilePath@{Atlas::FilePath}}
+\doxysubsubsection{\texorpdfstring{mFullPath}{mFullPath}}
+{\footnotesize\ttfamily std\+::string Atlas\+::\+File\+Path\+::m\+Full\+Path\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_file_path_8h_source_l00015}{15}} of file \mbox{\hyperlink{_file_path_8h_source}{File\+Path.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_file_path_8cpp_source_l00011}{get\+Full\+Path()}}.
+
+\Hypertarget{class_atlas_1_1_file_path_aac594e3379083a6db9618e3e1c63dc6d}\label{class_atlas_1_1_file_path_aac594e3379083a6db9618e3e1c63dc6d} 
+\index{Atlas::FilePath@{Atlas::FilePath}!mSandboxPath@{mSandboxPath}}
+\index{mSandboxPath@{mSandboxPath}!Atlas::FilePath@{Atlas::FilePath}}
+\doxysubsubsection{\texorpdfstring{mSandboxPath}{mSandboxPath}}
+{\footnotesize\ttfamily std\+::string Atlas\+::\+File\+Path\+::m\+Sandbox\+Path\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_file_path_8h_source_l00018}{18}} of file \mbox{\hyperlink{_file_path_8h_source}{File\+Path.\+h}}.
 
 
 

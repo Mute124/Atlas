@@ -26,5 +26,8 @@ var searchData=
   ['atlas_5fsingleton_23',['ATLAS_SINGLETON',['../de/dec/_singleton_8h.html#afea294bd126ecd6069465d8ad5a9938b',1,'Singleton.h']]],
   ['atlas_5ftemp_5fdir_24',['ATLAS_TEMP_DIR',['../db/d1f/_common_8h.html#a260c8698617a9ddbcc20044b59b0307b',1,'Common.h']]],
   ['atlas_5ftest_5fpath_25',['ATLAS_TEST_PATH',['../df/d59/_j_s_o_n_file_8cpp.html#a711982cd724cac2a22f52f7dfa323bba',1,'JSONFile.cpp']]],
-  ['atlas_5fthread_5fyield_26',['ATLAS_THREAD_YIELD',['../dd/d47/_application_utils_8h.html#a3711f4a8c8c046e940934d2e00b53c2b',1,'ApplicationUtils.h']]]
+  ['atlas_5fthread_5fyield_26',['ATLAS_THREAD_YIELD',['../dd/d47/_application_utils_8h.html#a3711f4a8c8c046e940934d2e00b53c2b',1,'ApplicationUtils.h']]],
+  ['audio_5fdevice_5fchannels_27',['AUDIO_DEVICE_CHANNELS',['../d9/dd3/_audio_common_8h.html#a0401e7125c11d5d91c897dcb94b4158f',1,'AudioCommon.h']]],
+  ['audio_5fdevice_5fformat_28',['AUDIO_DEVICE_FORMAT',['../d9/dd3/_audio_common_8h.html#a7b6bfd07b4b32f642dae76a01cc3c232',1,'AudioCommon.h']]],
+  ['audio_5fdevice_5fsample_5frate_29',['AUDIO_DEVICE_SAMPLE_RATE',['../d9/dd3/_audio_common_8h.html#a4c33e99e73eef4c698ab06a7028447a0',1,'AudioCommon.h']]]
 ];

@@ -30,9 +30,12 @@ var NAVTREE =
     [ "Todo List", "dd/da0/todo.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "What is Atlas", "index.html#what-is-Atlas", null ],
-      [ "Architecture", "index.html#architecture", [
-        [ "Flow", "index.html#flow-architecture", null ],
-        [ "File System Architecture", "index.html#file-system-architecture", null ],
+      [ "Architecture", "index.html#architecture", null ],
+      [ "### Flow", "index.html#flow-architecture", [
+        [ "File System Architecture", "index.html#file-system-architecture", [
+          [ "File Loading", "index.html#file-loading", null ],
+          [ "Extension loading", "index.html#extension-loading", null ]
+        ] ],
         [ "Graphics Architecture", "index.html#graphics-architecture", [
           [ "Graphics Introduction", "index.html#graphics-introduction", null ],
           [ "Using Models", "index.html#using-models", null ]
@@ -88,26 +91,31 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d1/d1d/class_c_script_file.html#a7c52be2a2e1b24cfa2c0864005ec3204",
-"d1/dce/application_2add__on_2serializer_2serializer_8cpp.html",
-"d3/d1a/class_atlas_1_1_config_file_registry.html#a513c5825b97810730d3da9bf5753683d",
-"d4/d42/class_terrain_sector.html#a1504f94ad768139ddfaaece7a534f3b3",
-"d4/dd9/engine_2modding_2add__on_2autowrapper_2aswrappedcall_8h.html#a2fac43be7be1ceb38affeeb7bd773b4c",
-"d6/d34/class_techstorm_1_1abstract.html#a4a5949bcde32483abd8b15105a2eda10",
-"d7/d4b/class_c_script_dict_value.html",
-"d7/db0/class_c_script_file_system.html#aed0211fece1d5d490fa39806bde6679c",
-"d8/d4d/_globals_8h.html#a51fdcf67897c4f8a2845255331167e28",
-"d9/db9/imgui__impl__opengl3_8cpp_source.html",
-"da/d87/class_atlas_1_1_vec3.html#a842ccdcdb2b4c7ca7cef20e6e786a231",
-"db/d5d/class_techstorm_1_1_layer_registry.html#a7ef84d35555c7efd1e6b012dd4b0ab00",
-"dc/d3b/class_c_script_dictionary.html#a3550837eb3151670085502619b8c67c4",
-"dc/dba/class_atlas_1_1abstract.html#a426a47734501228f84250147b4ee5154",
-"dc/dfa/class_c_date_time.html#a99a7a01419430b8f1f5a26842081f140",
-"de/d02/imgui__impl__glfw_8cpp.html#a260637e5a9303a72f59a33757b3881b3",
-"de/d98/class_c_script_builder.html#aeadc66c9e4f9fadc188f168d198272d4",
-"df/d5f/imgui__impl__opengl3__loader_8h.html#a23a0bc2909cc2f79fe7287aaa044e880",
-"df/d8a/struct_vec3.html",
-"functions_vars_l.html"
+"d1/d00/struct_atlas_1_1_texture_args.html",
+"d1/d4c/class_atlas_1_1_game_object_registry.html#ae8cc62b19166f88ebb0915c9cdcfc7e2",
+"d2/d19/engine_2modding_2add__on_2scriptgrid_2scriptgrid_8h.html#aeccebcd66774abc51c2d95ab98f88e37",
+"d2/dec/class_atlas_1_1_physics_engine.html#a0d91ecb82bfcc2a371fec98d9cd397fb",
+"d3/db6/class_atlas_1_1_techstorm_engine.html#a325b3af70b7c96daa774c71f3c5caa0a",
+"d4/d3b/application_2add__on_2scriptstdstring_2scriptstdstring__utils_8cpp.html#a558ab0fa31f81fe4df4fc2832f09bab5",
+"d4/dc9/class_c_serialized_value.html#abb969febb4adde4cf6f35739379c2220",
+"d5/d8c/_physics_prototype_8h.html",
+"d6/dde/_e_return_code_8h.html",
+"d7/d54/namespace_atlas.html#a9de58d1cced21d88ab117aa07c5f3938a0fb00fa57f4752b09c33de0346707734",
+"d7/dc1/engine_2modding_2add__on_2scripthandle_2scripthandle_8cpp.html#a5116c2fe2f55b311e695ec4980f73a6b",
+"d8/d22/class_c_script_array.html#aad3ec13ab9a83bcec2238b0f5e0da49e",
+"d8/dfe/struct_c_debugger_1_1_break_point.html#ad57c3f188d38de9fed59e9dae9efaf9d",
+"da/d41/_e_log_level_8h.html#a1fcbd080475f59176eb93a9910024079abb1ca97ec761fc37101737ba0aa2e7c5",
+"da/d90/_samples_project_8h.html",
+"db/d8f/application_2add__on_2scriptarray_2scriptarray_8cpp.html#a3f10cc670a493480c2a665a984710480",
+"dc/d2f/class_c_script_any.html#aed0b83568bbe54b9578f1e966e81d6df",
+"dc/dba/class_atlas_1_1abstract.html#a008c60d81aea3e30e6a54ffeca9598fa",
+"dc/de5/struct_im_gui___impl_s_d_l3___data.html#aa0cb944dad2ecf18a37da544e3cd051d",
+"dd/d85/imgui__impl__dx10_8h.html#abb1541feeb69c92b3cdf082369bb6bce",
+"de/d42/class_atlas_1_1_transform.html#a67c5d22a4f201e881993c596dc6d2614",
+"de/df5/class_c_script_grid.html#a409beceaaa43e23d64851a68b6621bf7",
+"df/d5f/imgui__impl__opengl3__loader_8h.html#a4f86c02824a01bb647d89449b9a8eacc",
+"df/d96/struct_im_gui___impl_w_g_p_u___data.html#a6c5df0f3745f9c235ec7349227eeae2a",
+"functions_vars_b.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

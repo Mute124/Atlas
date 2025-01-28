@@ -8,13 +8,25 @@
 \DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00010}00010\ }
 \DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00011}00011\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_AUDIO\_BACKEND\_MINIAUDIO}}
 \DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00012}00012\ \textcolor{preprocessor}{\ \ \ \ \#include\ <miniaudio.h>}}
-\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00013}00013\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00014}00014\ }
-\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00015}00015\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00016}00016\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_AUDIO\_BACKEND\_MINIAUDIO}}
-\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00017}\mbox{\hyperlink{namespace_atlas_a2f9b80e6cd8cd269ffbede51d81d26b6}{00017}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_a2f9b80e6cd8cd269ffbede51d81d26b6}{InternalAudioDevice}}\ =\ ma\_device;}
-\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00018}\mbox{\hyperlink{namespace_atlas_ab3e1b45690b287e486c74fa696caaf10}{00018}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_ab3e1b45690b287e486c74fa696caaf10}{InternalAudioContext}}\ =\ ma\_context;}
-\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00019}00019\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00020}00020\ \}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00014}\mbox{\hyperlink{_audio_common_8h_a4e132cfaa78353e3af1474a86b2dd535}{00014}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ MAX\_DEVICES\ 2}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00015}\mbox{\hyperlink{_audio_common_8h_a7bbdbdcfece918fba0f794f7419cd6ac}{00015}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ MAX\_SOUNDS\ \ 32}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00016}\mbox{\hyperlink{_audio_common_8h_a7b6bfd07b4b32f642dae76a01cc3c232}{00016}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ AUDIO\_DEVICE\_FORMAT\ \ \ \ ma\_format\_f32\ \ \ \ }\textcolor{comment}{//\ Device\ output\ format\ (miniaudio:\ float-\/32bit)}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00017}\mbox{\hyperlink{_audio_common_8h_a0401e7125c11d5d91c897dcb94b4158f}{00017}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ AUDIO\_DEVICE\_CHANNELS\ \ \ \ \ \ \ \ \ \ \ \ \ \ 2\ \ \ \ }\textcolor{comment}{//\ Device\ output\ channels:\ stereo}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00018}\mbox{\hyperlink{_audio_common_8h_a4c33e99e73eef4c698ab06a7028447a0}{00018}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ AUDIO\_DEVICE\_SAMPLE\_RATE\ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ }\textcolor{comment}{//\ Device\ sample\ rate\ (device\ default)}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00020}\mbox{\hyperlink{_audio_common_8h_ac466197758e414eb8ae8b257fe4bb17e}{00020}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ MAX\_AUDIO\_BUFFER\_POOL\_CHANNELS\ \ \ \ 16\ \ \ \ }\textcolor{comment}{//\ Maximum\ number\ of\ audio\ pool\ channels}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00021}00021\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ "{}../dbg/Errors.h"{}}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00025}00025\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00026}00026\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_AUDIO\_BACKEND\_MINIAUDIO}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00027}\mbox{\hyperlink{namespace_atlas_a2f9b80e6cd8cd269ffbede51d81d26b6}{00027}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_a2f9b80e6cd8cd269ffbede51d81d26b6}{InternalAudioDevice}}\ =\ ma\_device;}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00028}\mbox{\hyperlink{namespace_atlas_ab3e1b45690b287e486c74fa696caaf10}{00028}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_ab3e1b45690b287e486c74fa696caaf10}{InternalAudioContext}}\ =\ ma\_context;}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00029}00029\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_audio_common_8h_source_l00032}00032\ \}}
 
 \end{DoxyCode}

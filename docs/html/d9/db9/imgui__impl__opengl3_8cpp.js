@@ -10,12 +10,16 @@ var imgui__impl__opengl3_8cpp =
     [ "IMGUI_IMPL_OPENGL_MAY_HAVE_PRIMITIVE_RESTART", "d9/db9/imgui__impl__opengl3_8cpp.html#ac99ae99b9e3d14f7e0211285a5f0540c", null ],
     [ "IMGUI_IMPL_OPENGL_MAY_HAVE_VTX_OFFSET", "d9/db9/imgui__impl__opengl3_8cpp.html#a2d9c66e1dfb454fdb91f85037e0591e5", null ],
     [ "IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY", "d9/db9/imgui__impl__opengl3_8cpp.html#a7ae930dc349a186d20cfd7ec01cb1f1d", null ],
+    [ "CheckProgram", "d9/db9/imgui__impl__opengl3_8cpp.html#a22f46b7ed68c385f411c4b2dc25c50e8", null ],
+    [ "CheckShader", "d9/db9/imgui__impl__opengl3_8cpp.html#a11601584c987e4aeae774985e1177d74", null ],
     [ "ImGui_ImplOpenGL3_CreateDeviceObjects", "d9/db9/imgui__impl__opengl3_8cpp.html#ab27f12289d6fe9fcd412f92af280b398", null ],
     [ "ImGui_ImplOpenGL3_CreateFontsTexture", "d9/db9/imgui__impl__opengl3_8cpp.html#a3dc4f80532d710de41d4075214eb363e", null ],
     [ "ImGui_ImplOpenGL3_DestroyDeviceObjects", "d9/db9/imgui__impl__opengl3_8cpp.html#a605e340c346791d9c9e927add2392d0e", null ],
     [ "ImGui_ImplOpenGL3_DestroyFontsTexture", "d9/db9/imgui__impl__opengl3_8cpp.html#a539aaad4aa185838297fb13b2409c405", null ],
+    [ "ImGui_ImplOpenGL3_GetBackendData", "d9/db9/imgui__impl__opengl3_8cpp.html#a68f1fea3ba16697f3febf6797cb5c85b", null ],
     [ "ImGui_ImplOpenGL3_Init", "d9/db9/imgui__impl__opengl3_8cpp.html#a0475f257dc97d1daceee89cb4b19744d", null ],
     [ "ImGui_ImplOpenGL3_NewFrame", "d9/db9/imgui__impl__opengl3_8cpp.html#a900e74add4e56e74f97a210eb329aa91", null ],
     [ "ImGui_ImplOpenGL3_RenderDrawData", "d9/db9/imgui__impl__opengl3_8cpp.html#ad215190229f4f300593911aa7b3821de", null ],
+    [ "ImGui_ImplOpenGL3_SetupRenderState", "d9/db9/imgui__impl__opengl3_8cpp.html#a328d27e0d40312d064adbc45c0cf240b", null ],
     [ "ImGui_ImplOpenGL3_Shutdown", "d9/db9/imgui__impl__opengl3_8cpp.html#acbd53376e6135ad71e7bcd9879278e37", null ]
 ];

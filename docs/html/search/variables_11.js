@@ -12,6 +12,7 @@ var searchData=
   ['renderpassencoder_9',['RenderPassEncoder',['../da/d0a/struct_im_gui___impl_w_g_p_u___render_state.html#ad8078c526f71cd7d93cfbdd046debcce',1,'ImGui_ImplWGPU_RenderState']]],
   ['renderresources_10',['renderResources',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#aa917aa3bfe6121ca7775feb83a131fe7',1,'ImGui_ImplWGPU_Data']]],
   ['rendertargetformat_11',['rendertargetformat',['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#ae63cbe11129eea4fc73fef1348ffc974',1,'ImGui_ImplWGPU_InitInfo::RenderTargetFormat'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a7d6a63bad9154eaa895f6e857f6dcebb',1,'ImGui_ImplWGPU_Data::renderTargetFormat']]],
-  ['rotation_12',['rotation',['../d0/dd1/class_game_object.html#ae2d2785c50d645a728cee32be422cf85',1,'GameObject']]],
-  ['rtvformat_13',['RTVFormat',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#ac51215a8aa27a0c0fa095abc87e0a80b',1,'ImGui_ImplDX12_Data']]]
+  ['root_12',['root',['../dc/d7b/class_shell_file_interface.html#af27a78903f18ab2482c59cce56652240',1,'ShellFileInterface']]],
+  ['rotation_13',['rotation',['../d0/dd1/class_game_object.html#ae2d2785c50d645a728cee32be422cf85',1,'GameObject']]],
+  ['rtvformat_14',['RTVFormat',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#ac51215a8aa27a0c0fa095abc87e0a80b',1,'ImGui_ImplDX12_Data']]]
 ];

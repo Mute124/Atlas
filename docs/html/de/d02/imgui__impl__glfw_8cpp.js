@@ -16,6 +16,8 @@ var imgui__impl__glfw_8cpp =
     [ "ImGui_ImplGlfw_CharCallback", "de/d02/imgui__impl__glfw_8cpp.html#afe604d459cc5c4a173ce9e331af6735b", null ],
     [ "ImGui_ImplGlfw_CursorEnterCallback", "de/d02/imgui__impl__glfw_8cpp.html#a36cddf1dc9af69c03ea52450a32d3818", null ],
     [ "ImGui_ImplGlfw_CursorPosCallback", "de/d02/imgui__impl__glfw_8cpp.html#aff2e41a5905ff393a8c6a458809f8c8e", null ],
+    [ "ImGui_ImplGlfw_GetBackendData", "de/d02/imgui__impl__glfw_8cpp.html#a42131482f4e35e879c2d58d5c1c9eb8f", null ],
+    [ "ImGui_ImplGlfw_Init", "de/d02/imgui__impl__glfw_8cpp.html#a637facc7eff897ef4512026ea1afaf0d", null ],
     [ "ImGui_ImplGlfw_InitForOpenGL", "de/d02/imgui__impl__glfw_8cpp.html#a3d472e598f8e218a0bd994e840b865ab", null ],
     [ "ImGui_ImplGlfw_InitForOther", "de/d02/imgui__impl__glfw_8cpp.html#ab1ec1d0dc53754ef893e6ab23ec564e5", null ],
     [ "ImGui_ImplGlfw_InitForVulkan", "de/d02/imgui__impl__glfw_8cpp.html#ac7cab00e5027bccc3b536afb0e07bc8f", null ],
@@ -28,7 +30,14 @@ var imgui__impl__glfw_8cpp =
     [ "ImGui_ImplGlfw_RestoreCallbacks", "de/d02/imgui__impl__glfw_8cpp.html#aa7cddd7ef946da421374a6bea12db744", null ],
     [ "ImGui_ImplGlfw_ScrollCallback", "de/d02/imgui__impl__glfw_8cpp.html#a59c26c674cfd04975ac49c7d83339113", null ],
     [ "ImGui_ImplGlfw_SetCallbacksChainForAllWindows", "de/d02/imgui__impl__glfw_8cpp.html#addd8948824f9bd78b0c8ec4c81213c9e", null ],
+    [ "ImGui_ImplGlfw_ShouldChainCallback", "de/d02/imgui__impl__glfw_8cpp.html#a2afb72066f3e7621bb438b2f19fa74ef", null ],
     [ "ImGui_ImplGlfw_Shutdown", "de/d02/imgui__impl__glfw_8cpp.html#a983c2903ccb938fea5ecdd4d53e54704", null ],
     [ "ImGui_ImplGlfw_Sleep", "de/d02/imgui__impl__glfw_8cpp.html#a76f4eb755b660ac33c672fbed7455c39", null ],
-    [ "ImGui_ImplGlfw_WindowFocusCallback", "de/d02/imgui__impl__glfw_8cpp.html#a64954a853e7f22592743e177b29780d6", null ]
+    [ "ImGui_ImplGlfw_TranslateUntranslatedKey", "de/d02/imgui__impl__glfw_8cpp.html#a3ae7f8f778b832fb94c3863be111b247", null ],
+    [ "ImGui_ImplGlfw_UpdateGamepads", "de/d02/imgui__impl__glfw_8cpp.html#a676d90dabe6acb909f287625118e999d", null ],
+    [ "ImGui_ImplGlfw_UpdateKeyModifiers", "de/d02/imgui__impl__glfw_8cpp.html#ac35e328dce73c896364c102fa5f76bce", null ],
+    [ "ImGui_ImplGlfw_UpdateMouseCursor", "de/d02/imgui__impl__glfw_8cpp.html#a876edf1a44dd8b6358feba912702a860", null ],
+    [ "ImGui_ImplGlfw_UpdateMouseData", "de/d02/imgui__impl__glfw_8cpp.html#ad0da3a1b2955f768fa933dd4edba33b6", null ],
+    [ "ImGui_ImplGlfw_WindowFocusCallback", "de/d02/imgui__impl__glfw_8cpp.html#a64954a853e7f22592743e177b29780d6", null ],
+    [ "Saturate", "de/d02/imgui__impl__glfw_8cpp.html#a741f7497ba921fe9c841162c86a4493d", null ]
 ];

@@ -25,6 +25,7 @@ var class_atlas_1_1_vec3 =
     [ "negate", "da/d87/class_atlas_1_1_vec3.html#a14930d1e95ce50576e73b83b89d8e0d7", null ],
     [ "normalize", "da/d87/class_atlas_1_1_vec3.html#a3b87573167adf154dcdbb2a8d9234962", null ],
     [ "normalizedMoveTowards", "da/d87/class_atlas_1_1_vec3.html#a0fae441c8e3e10036c96e8d7a17ae78a", null ],
+    [ "One", "da/d87/class_atlas_1_1_vec3.html#a8aa16c7906aba051d9994bfa6361341e", null ],
     [ "operator JPH::RVec3", "da/d87/class_atlas_1_1_vec3.html#a54103252540ff0f333c875d8f11da467", null ],
     [ "operator std::string", "da/d87/class_atlas_1_1_vec3.html#ad169292e0f5bd249017546cbe5bd8227", null ],
     [ "operator Vector3", "da/d87/class_atlas_1_1_vec3.html#a25c006feae7e8ababfb98620a1dda811", null ],
@@ -53,5 +54,9 @@ var class_atlas_1_1_vec3 =
     [ "setY", "da/d87/class_atlas_1_1_vec3.html#a1fcc44395e5ad47d864fd0f7591d7615", null ],
     [ "setZ", "da/d87/class_atlas_1_1_vec3.html#a899f6301df50d9a4851a1e64ce384fca", null ],
     [ "transform", "da/d87/class_atlas_1_1_vec3.html#abfc78e99c4b113bd6fb0395011caab54", null ],
-    [ "unproject", "da/d87/class_atlas_1_1_vec3.html#a518392998bcb1971120bb85b7ed9a20c", null ]
+    [ "unproject", "da/d87/class_atlas_1_1_vec3.html#a518392998bcb1971120bb85b7ed9a20c", null ],
+    [ "Zero", "da/d87/class_atlas_1_1_vec3.html#a5b30c8f4db9357386828f18749f27fe9", null ],
+    [ "mX", "da/d87/class_atlas_1_1_vec3.html#a8c1f139826811e2df9319924891e47fd", null ],
+    [ "mY", "da/d87/class_atlas_1_1_vec3.html#a854a4f85d76450ca8dc1957f6ec53885", null ],
+    [ "mZ", "da/d87/class_atlas_1_1_vec3.html#a7866950ed93879b6de473c08407cb7b5", null ]
 ];
