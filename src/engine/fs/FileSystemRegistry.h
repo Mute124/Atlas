@@ -176,7 +176,5 @@ namespace Atlas {
 		/// </summary>
 		/// <param name="extension">The extension.</param>
 		void addLoadOnRegisterExtension(std::string const& extension) { this->mLoadOnRegisterExtensionsSet.insert(extension); }
-
-
 	};
 }

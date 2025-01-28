@@ -40,7 +40,7 @@ var NAVTREE =
           [ "Graphics Introduction", "index.html#graphics-introduction", null ],
           [ "Using Models", "index.html#using-models", null ]
         ] ],
-        [ "Modding Architecture", "index.html#autotoc_md8", null ]
+        [ "Modding Architecture", "index.html#autotoc_md9", null ]
       ] ],
       [ "Dependencies", "index.html#dependencies", null ],
       [ "Design Choices", "index.html#design-choices", null ],
