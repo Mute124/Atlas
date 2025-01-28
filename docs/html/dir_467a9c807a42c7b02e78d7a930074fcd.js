@@ -3,6 +3,8 @@ var dir_467a9c807a42c7b02e78d7a930074fcd =
     [ "add_on", "dir_5e71f0bab073472a69a0b8f8e042fde4.html", "dir_5e71f0bab073472a69a0b8f8e042fde4" ],
     [ "angelscript", "dir_611461dd91dae5b3cfcf453d2af80983.html", "dir_611461dd91dae5b3cfcf453d2af80983" ],
     [ "lua", "dir_753931718e8f4685fd388c715c4042f6.html", "dir_753931718e8f4685fd388c715c4042f6" ],
+    [ "DynamicObject.cpp", "d8/dbb/_dynamic_object_8cpp.html", null ],
+    [ "DynamicObject.h", "d0/db0/_dynamic_object_8h.html", "d0/db0/_dynamic_object_8h" ],
     [ "IScript.h", "d6/d6b/_i_script_8h.html", "d6/d6b/_i_script_8h" ],
     [ "IScriptAPIInitializer.h", "d6/da6/_i_script_a_p_i_initializer_8h.html", null ],
     [ "IScriptingLanguageInitializer.h", "df/d66/_i_scripting_language_initializer_8h.html", "df/d66/_i_scripting_language_initializer_8h" ],

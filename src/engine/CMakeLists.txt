@@ -222,6 +222,7 @@ set(ATLAS_DEBUGGING_SOURCES
 	"dbg/Debugger.cpp"
 
     "dbg/Errors.h"
+    "dbg/Errors.cpp"
 
     "dbg/Console.h"
 	"dbg/Console.cpp"
@@ -249,6 +250,8 @@ set(ATLAS_PROJECT_SOURCES
 )
 
 set(ATLAS_AUDIO_SOURCES
+    "audio/AudioCommon.h"
+
     "audio/AudioDevice.h"
     "audio/AudioDevice.cpp"
 
@@ -256,6 +259,11 @@ set(ATLAS_AUDIO_SOURCES
 	"audio/AudioDeviceRegistry.cpp"
 
     "audio/AudioDeviceConfig.h"
+
+    "audio/EAudioDeviceType.h"
+
+    "audio/AudioManager.h"
+    "audio/AudioManager.cpp"
 )
 
 set(ATLAS_ENGINE_SOURCES 

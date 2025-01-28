@@ -16,5 +16,5 @@ var searchData=
   ['nscursor_28_29_13',['NSCursor()',['../d7/dd9/category_n_s_cursor_07_08.html',1,'']]],
   ['num_5fcomponents_14',['num_components',['../df/d67/struct_renderer_extensions_1_1_image.html#aee8ea434c97b86998cd9b328686511b0',1,'RendererExtensions::Image']]],
   ['numelements_15',['numElements',['../d3/d98/struct_s_array_buffer.html#a3ca99d5f10b6c1f485b4c4edfbd152af',1,'SArrayBuffer']]],
-  ['numframesinflight_16',['numframesinflight',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#a6a541239da42836b2127d1428032cf7d',1,'ImGui_ImplDX12_Data::numFramesInFlight'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a6c5df0f3745f9c235ec7349227eeae2a',1,'ImGui_ImplWGPU_Data::numFramesInFlight'],['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#ada0c7e772195e1466be60c78cf0b52e0',1,'ImGui_ImplWGPU_InitInfo::NumFramesInFlight']]]
+  ['numframesinflight_16',['numframesinflight',['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#ada0c7e772195e1466be60c78cf0b52e0',1,'ImGui_ImplWGPU_InitInfo::NumFramesInFlight'],['../d3/dcd/struct_im_gui___impl_d_x12___data.html#a6a541239da42836b2127d1428032cf7d',1,'ImGui_ImplDX12_Data::numFramesInFlight'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a6c5df0f3745f9c235ec7349227eeae2a',1,'ImGui_ImplWGPU_Data::numFramesInFlight']]]
 ];

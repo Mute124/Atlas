@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['texture_0',['texture',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a0b57774cb59b667df4a205ae0b1a50e2',1,'imgui_impl_opengl3_loader.h']]],
-  ['textures_1',['textures',['../df/d5f/imgui__impl__opengl3__loader_8h.html#acc6ef2e5deceddd0970c990b9eafea99',1,'imgui_impl_opengl3_loader.h']]],
-  ['timefunc_5ft_2',['timefunc_t',['../d1/de0/application_2add__on_2contextmgr_2contextmgr_8h.html#acac0b5dbc80e24893bc9d90c9fac1b88',1,'TIMEFUNC_t:&#160;contextmgr.h'],['../d8/da7/engine_2modding_2add__on_2contextmgr_2contextmgr_8h.html#acac0b5dbc80e24893bc9d90c9fac1b88',1,'TIMEFUNC_t:&#160;contextmgr.h']]],
-  ['tostringcallback_3',['tostringcallback',['../db/db7/class_c_debugger.html#a5d535af4dcfa1f985c1d3cd80a55858c',1,'CDebugger::ToStringCallback'],['../db/db7/class_c_debugger.html#a5d535af4dcfa1f985c1d3cd80a55858c',1,'CDebugger::ToStringCallback']]],
-  ['transpose_4',['transpose',['../df/d5f/imgui__impl__opengl3__loader_8h.html#abddae8e27995e1aa57df4d93edd33803',1,'imgui_impl_opengl3_loader.h']]],
-  ['type_5',['type',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a63267399cd2a2ee217572c11d2e54f07',1,'imgui_impl_opengl3_loader.h']]]
+  ['sampler_0',['sampler',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a4f7acaf0f814147f227f72b9065e8ed0',1,'imgui_impl_opengl3_loader.h']]],
+  ['sdl_5fevent_1',['sdl_event',['../da/d87/imgui__impl__sdl2_8h.html#a33fcc6aa445cb781bfca881e39e5333e',1,'SDL_Event:&#160;imgui_impl_sdl2.h'],['../d2/dd4/imgui__impl__sdl3_8h.html#a33fcc6aa445cb781bfca881e39e5333e',1,'SDL_Event:&#160;imgui_impl_sdl3.h']]],
+  ['sfactoralpha_2',['sfactorAlpha',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a147716336d55f4ee3ec628f7bec7a6b1',1,'imgui_impl_opengl3_loader.h']]],
+  ['shader_3',['shader',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a57b2a96adb1d51204909a82d861e395e',1,'imgui_impl_opengl3_loader.h']]],
+  ['size_4',['size',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a3d1e3edfcf61ca2d831883e1afbad89e',1,'imgui_impl_opengl3_loader.h']]],
+  ['stride_5',['stride',['../df/d5f/imgui__impl__opengl3__loader_8h.html#adec60f1216ca1b900f8d776c5b6190e0',1,'imgui_impl_opengl3_loader.h']]],
+  ['string_6',['string',['../df/d5f/imgui__impl__opengl3__loader_8h.html#ac83513893df92266f79a515488701770',1,'imgui_impl_opengl3_loader.h']]]
 ];

@@ -9,5 +9,7 @@ var searchData=
   ['devsuitecommon_2eh_6',['DevSuiteCommon.h',['../d1/d25/_dev_suite_common_8h.html',1,'']]],
   ['doublylinkedlist_2eh_7',['DoublyLinkedList.h',['../d9/dbe/_doubly_linked_list_8h.html',1,'']]],
   ['drawablehook_2ecpp_8',['DrawableHook.cpp',['../d0/de3/_drawable_hook_8cpp.html',1,'']]],
-  ['drawablehook_2eh_9',['DrawableHook.h',['../d8/d79/_drawable_hook_8h.html',1,'']]]
+  ['drawablehook_2eh_9',['DrawableHook.h',['../d8/d79/_drawable_hook_8h.html',1,'']]],
+  ['dynamicobject_2ecpp_10',['DynamicObject.cpp',['../d8/dbb/_dynamic_object_8cpp.html',1,'']]],
+  ['dynamicobject_2eh_11',['DynamicObject.h',['../d0/db0/_dynamic_object_8h.html',1,'']]]
 ];

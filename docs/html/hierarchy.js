@@ -9,6 +9,8 @@ var hierarchy =
       [ "CStdStringFactory", "dd/d3f/class_c_std_string_factory.html", null ]
     ] ],
     [ "Atlas::Application::AtlasApp", "de/d87/class_atlas_1_1_application_1_1_atlas_app.html", null ],
+    [ "Atlas::AudioDevice", "dc/d5b/class_atlas_1_1_audio_device.html", null ],
+    [ "Atlas::AudioDeviceConfig", "db/d92/class_atlas_1_1_audio_device_config.html", null ],
     [ "JPH::BodyActivationListener", null, [
       [ "Atlas::MyBodyActivationListener", "d4/d38/class_atlas_1_1_my_body_activation_listener.html", null ],
       [ "MyBodyActivationListener", "d0/d3a/class_my_body_activation_listener.html", null ]
@@ -60,7 +62,7 @@ var hierarchy =
     [ "CUSTOMVERTEX", "d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html", null ],
     [ "Atlas::DestroyEventArgs", "d4/d9d/struct_atlas_1_1_destroy_event_args.html", null ],
     [ "Atlas::DrawableHook", "d4/d11/class_atlas_1_1_drawable_hook.html", null ],
-    [ "Atlas::EngineConfig", "d7/d1a/struct_atlas_1_1_engine_config.html", null ],
+    [ "Atlas::DynamicObject", "dd/d28/class_atlas_1_1_dynamic_object.html", null ],
     [ "Atlas::Entity", "d4/d48/class_atlas_1_1_entity.html", null ],
     [ "std::exception", null, [
       [ "Atlas::IException", "d1/d81/class_atlas_1_1_i_exception.html", [
@@ -80,6 +82,7 @@ var hierarchy =
     [ "Atlas::GameModel", "df/dec/class_atlas_1_1_game_model.html", null ],
     [ "GameObject", "d0/dd1/class_game_object.html", null ],
     [ "Atlas::GameObjectRegistry", "d1/d4c/class_atlas_1_1_game_object_registry.html", null ],
+    [ "Atlas::GameState", "d1/daa/class_atlas_1_1_game_state.html", null ],
     [ "Generator", "d0/df5/class_generator.html", null ],
     [ "GridCell", "d4/d3c/struct_grid_cell.html", null ],
     [ "IConsole", null, [
@@ -146,8 +149,12 @@ var hierarchy =
       [ "Project", "d9/d6e/class_project.html", null ],
       [ "SamplesProject", "dc/dc3/class_samples_project.html", null ]
     ] ],
+    [ "Atlas::IProjectSettings", "db/d9d/class_atlas_1_1_i_project_settings.html", null ],
     [ "ISandboxer", null, [
       [ "Atlas::Sandboxer", "da/dc0/class_atlas_1_1_sandboxer.html", null ]
+    ] ],
+    [ "ITechstormEngine", null, [
+      [ "Atlas::TechstormEngine", "d3/db6/class_atlas_1_1_techstorm_engine.html", null ]
     ] ],
     [ "ITerminalSink", null, [
       [ "Atlas::TerminalSink", "d9/dbb/class_atlas_1_1_terminal_sink.html", null ]
@@ -233,7 +240,9 @@ var hierarchy =
     [ "SDictionaryCache", "dd/d49/struct_s_dictionary_cache.html", null ],
     [ "CSerializer::SExtraObject", "d7/d9e/struct_c_serializer_1_1_s_extra_object.html", null ],
     [ "SGridBuffer", "dc/da6/struct_s_grid_buffer.html", null ],
-    [ "Atlas::Singleton< T >", "d6/dd4/class_atlas_1_1_singleton.html", null ],
+    [ "Atlas::Singleton< T >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
+    ] ],
     [ "Techstorm::Singleton", null, [
       [ "PhysicsEngine", "db/db4/class_physics_engine.html", null ],
       [ "Techstorm::abstract< K, D, T >", "d6/d34/class_techstorm_1_1abstract.html", null ]
@@ -268,10 +277,8 @@ var hierarchy =
     [ "Atlas::Singleton< ProjectReference >", "d6/dd4/class_atlas_1_1_singleton.html", [
       [ "Atlas::abstract< ConsoleSink >::ProjectReference", "dd/d11/class_atlas_1_1abstract_1_1_project_reference.html", null ]
     ] ],
-    [ "Atlas::Singleton< TechstormEngine >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::TechstormEngine", "d3/db6/class_atlas_1_1_techstorm_engine.html", null ]
-    ] ],
     [ "CScriptBuilder::SMetadataDecl", "d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html", null ],
+    [ "Atlas::StateMachine", "d7/d30/class_atlas_1_1_state_machine.html", null ],
     [ "Terrain", "d1/dee/class_terrain.html", null ],
     [ "TerrainSector", "d4/d42/class_terrain_sector.html", null ],
     [ "Atlas::TextureArgs", "d1/d00/struct_atlas_1_1_texture_args.html", null ],
@@ -280,6 +287,7 @@ var hierarchy =
     [ "Terrain::TriangleStruct", "da/d89/struct_terrain_1_1_triangle_struct.html", null ],
     [ "Uniforms", "da/d5c/struct_uniforms.html", null ],
     [ "Atlas::UpdateEventArgs", "de/d57/struct_atlas_1_1_update_event_args.html", null ],
+    [ "Atlas::ValidityCheckResult", "d8/db6/struct_atlas_1_1_validity_check_result.html", null ],
     [ "CScriptAny::valueStruct", "d9/de7/struct_c_script_any_1_1value_struct.html", null ],
     [ "Atlas::Vec3", "da/d87/class_atlas_1_1_vec3.html", null ],
     [ "Vec3", "df/d8a/struct_vec3.html", null ],

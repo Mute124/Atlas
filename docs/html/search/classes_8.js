@@ -41,5 +41,6 @@ var searchData=
   ['inputaction_38',['InputAction',['../d6/d5c/class_atlas_1_1_input_action.html',1,'Atlas']]],
   ['inputregistry_39',['InputRegistry',['../d7/d84/class_atlas_1_1_input_registry.html',1,'Atlas']]],
   ['invalidargument_40',['InvalidArgument',['../df/d7c/class_atlas_1_1_invalid_argument.html',1,'Atlas']]],
-  ['invalidvalue_41',['InvalidValue',['../de/df2/class_atlas_1_1_invalid_value.html',1,'Atlas']]]
+  ['invalidvalue_41',['InvalidValue',['../de/df2/class_atlas_1_1_invalid_value.html',1,'Atlas']]],
+  ['iprojectsettings_42',['IProjectSettings',['../db/d9d/class_atlas_1_1_i_project_settings.html',1,'Atlas']]]
 ];
