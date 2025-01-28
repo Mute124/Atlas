@@ -239,13 +239,23 @@ set(ATLAS_LANGUAGE_SOURCES
 )
 
 set(ATLAS_PROJECT_SOURCES 
-    "project/IProjectInitializer.h"
+    "project/IProjectSettings.h"
 
-	"project/ProjectInitializer.h"
-	"project/ProjectInitializer.cpp"
+	"project/ProjectSettings.h"
+	"project/ProjectSettings.cpp"
     
     "project/ProjectManager.h"
     "project/IProjectManager.h"
+)
+
+set(ATLAS_AUDIO_SOURCES
+    "audio/AudioDevice.h"
+    "audio/AudioDevice.cpp"
+
+    "audio/AudioDeviceRegistry.h"
+	"audio/AudioDeviceRegistry.cpp"
+
+    "audio/AudioDeviceConfig.h"
 )
 
 set(ATLAS_ENGINE_SOURCES 
@@ -266,6 +276,7 @@ set(ATLAS_ENGINE_SOURCES
     ${ATLAS_WORLD_SOURCES}
     ${ATLAS_LANGUAGE_SOURCES}
     ${ATLAS_PROJECT_SOURCES}
+    ${ATLAS_AUDIO_SOURCES}
 )
 
 
@@ -290,6 +301,8 @@ set(ATLAS_ENGINE_DEPENDENCIES
     simdjson::simdjson
     tinyxml2::tinyxml2
     Angelscript::angelscript
+
+    miniaudio::miniaudio
 )
 
 include("${CMAKE_SOURCE_DIR}/CMakeOptions.txt")

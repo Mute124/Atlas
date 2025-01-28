@@ -162,6 +162,7 @@ find_package(nuklear REQUIRED)
 
 find_package(simdjson REQUIRED)
 find_package(tinyxml2 REQUIRED)
+find_package(miniaudio REQUIRED)
 
 #if(${ATLAS_ENABLE_TESTING})
     find_package(GTest REQUIRED)

@@ -22,9 +22,6 @@
 #include "renderer/GameModel.h"
 
 namespace Atlas {
-
-	
-
 	/// <summary>
 	/// This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
 	/// their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
