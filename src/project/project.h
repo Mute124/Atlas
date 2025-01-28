@@ -9,8 +9,6 @@
 	#define PROJECT_TYPENAME SamplesProject
 #endif
 
-
-
 /// <summary>
 /// Write your project code here or do what you want with it. However,
 /// you MUST implement the IProject interface somehow and set the project reference!

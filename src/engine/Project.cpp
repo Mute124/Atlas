@@ -50,10 +50,12 @@ void Atlas::IProject::initRenderer() {
 int Atlas::IProject::run(int argc, char* argv[]) {
 	return 0;
 }
+
 int Atlas::IProject::update()
 {
 	return 0;
 }
+
 int Atlas::IProject::prePhysicsUpdate() { return 0; }
 
 int Atlas::IProject::physicsUpdate() {
