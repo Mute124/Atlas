@@ -2,7 +2,6 @@
 #include "../math/Transform.h"
 #include "../components/Component.h"
 
-
 #include <memory>
 #include <unordered_map>
 #include <map>
@@ -56,9 +55,9 @@ namespace Atlas {
 		/// Gets the name of the component.
 		/// </summary>
 		/// <returns></returns>
-		template<typename T>
+		template<typename T_COMPONENT_TYPE>
 		std::string getComponentName() {
-			return typeid(T).name();
+			return typeid(T_COMPONENT_TYPE).name();
 		}
 
 	public:
@@ -85,16 +84,16 @@ namespace Atlas {
 		/// Adds a component.
 		/// </summary>
 		/// <typeparam name="T">The type of the component.</typeparam>
-		template<typename T>
+		template<typename T_COMPONENT_TYPE>
 		void addComponent() {
-			std::string componentName = getComponentName<T>();
+			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
 			
 			if (componentName.empty()) {
 				throw std::invalid_argument("Component name cannot be empty");
 			}
 
-			mComponents[componentName] = std::make_shared<T>();
-			mComponents[componentName]->setGameObject(std::make_shared<IGameObject>(this));
+			mComponents[componentName] = std::make_shared<T_COMPONENT_TYPE>(/*T(std::forward<Args>(args)...)*/);
+			mComponents[componentName]->setOwner(std::make_shared<IGameObject>(this));
 		}
 
 		/// <summary>
@@ -102,19 +101,19 @@ namespace Atlas {
 		/// </summary>
 		/// <typeparam name="T">The type of the component.</typeparam>
 		/// <returns></returns>
-		template<typename T>
-		std::shared_ptr<T> getComponent() {
-			std::string componentName = getComponentName<T>();
-			return std::static_pointer_cast<std::shared_ptr<T>>(mComponents[componentName]);
+		template<typename T_COMPONENT_TYPE>
+		std::shared_ptr<T_COMPONENT_TYPE> getComponent() {
+			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
+			return std::static_pointer_cast<std::shared_ptr<T_COMPONENT_TYPE>>(mComponents[componentName]);
 		}
 
 		/// <summary>
 		/// Removes a component.
 		/// </summary>
 		/// <typeparam name="T">The type of the component.</typeparam>
-		template<typename T>
+		template<typename T_COMPONENT_TYPE>
 		void removeComponent() {
-			std::string componentName = getComponentName<T>();
+			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
 			mComponents.erase(componentName);
 		}
 
@@ -125,114 +124,51 @@ namespace Atlas {
 		/// <returns>
 		///   <c>true</c> if this instance has component; otherwise, <c>false</c>.
 		/// </returns>
-		template<typename T>
+		template<typename T_COMPONENT_TYPE>
 		bool hasComponent() {
-			std::string componentName = getComponentName<T>();
+			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
 			return mComponents.contains(componentName);
 			
 		}
 		
-
-		
 		/// <summary>
 		/// Pres the update.
 		/// </summary>
-		virtual void preUpdate() {
-			for (auto& [key, component] : mComponents) {
-				if (component.get() != nullptr) {
-					component->preUpdate(new PreUpdateEventArgs());
-				}
-			}
-		}
+		virtual void preUpdate() = 0;
 				
 		/// <summary>
 		/// Updates this instance.
 		/// </summary>
-		virtual void update() {
-			for (auto& [key, component] : mComponents) {
-				if (component.get() != nullptr) {
-					component->update(new UpdateEventArgs());
-				}
-				else {
-					throw std::invalid_argument("Component " + key + "cannot be null");
-				}
-			}
-		}
+		virtual void update() = 0;
 		
 		/// <summary>
 		/// Posts the update.
 		/// </summary>
-		virtual void postUpdate() {
-			for (auto& [key, component] : mComponents) {
-				if (component.get() != nullptr) {
-					component->postUpdate(new PostUpdateEventArgs());
-				}
-				else {
-					throw std::invalid_argument("Component " + key + "cannot be null");
-				}
-			}
-		}
+		virtual void postUpdate() = 0;
 
 		/// <summary>
 		/// This is a pure virtual function that is the drawing function for when objects are being textured to the render texture. If you do not have anything different to do here, then you may
 		/// just call <see cref="render()" /> instead, but this must be implemented in order for the object to be rendered.
 		/// </summary>
-		virtual void texture() {
-			for (auto& [key, component] : mComponents) {
-				if (component.get() != nullptr) {
-					component->texture(new TextureEventArgs());
-				}
-				else {
-					throw std::invalid_argument("Component " + key + "cannot be null");
-				}
-			}
-		}
+		virtual void texture() = 0;
 
 		/// <summary>
 		/// Renders this instance. This is not a pure virtual and is empty because it is up to the user to use this as they see fit without forcing them to implement it.
 		/// </summary>
-		virtual void render() {
-			// See the function's comments for the reason why this is empty
-			for (auto& [key, component] : mComponents) {
-				if (component.get() != nullptr) {
-					component->render(new RenderEventArgs());
-				}
-				else {
-					throw std::invalid_argument("Component " + key + "cannot be null");
-				}
-			}
-		}
+		virtual void render() = 0;
 
 		/// <summary>
 		/// Destroys this instance, and is called right before the object is removed from memory. 
 		/// \note This must be implemented by the user.
 		/// </summary>
 		/// <inheritdoc />
-		virtual void destroy() {
-			for (auto& [key, component] : mComponents) {
-				if (component.get() != nullptr) {
-					component->destroy(new DestroyEventArgs());
-				}
-				else {
-					throw std::invalid_argument("Component " + key + "cannot be null");
-				}
-			}
-		}
+		virtual void destroy() = 0;
 
 		/// <summary>
 		/// Cleanups this instance.
 		/// \note This must be implemented by the user.
 		/// </summary>
 		/// <inheritdoc />
-		virtual void cleanup() {
-			for (auto& [key, component] : mComponents) {
-				if (component.get() != nullptr) {
-					component->cleanup(new CleanupEventArgs());
-				}
-				else {
-					throw std::invalid_argument("Component " + key + "cannot be null");
-				}
-			}
-		}
+		virtual void cleanup() = 0;
 	};
 }

@@ -36,9 +36,11 @@ Atlas::Renderer::Renderer() {
 	mCamera.setProjection(CAMERA_PERSPECTIVE);
 }
 
-void Atlas::Renderer::initialize()
+void Atlas::Renderer::init()
 {
 	std::cout << "Initializing renderer" << std::endl;
+
+	
 	// TODO: Implement Renderer::initialize
 	Vector2 size = { GetScreenWidth(), GetScreenHeight() };
 	this->mScreenBuffer = LoadRenderTexture(size.x, size.y);

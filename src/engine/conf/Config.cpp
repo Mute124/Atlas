@@ -7,7 +7,7 @@
 #include "../dbg/Logging.h"
 #include "JSONFile.h"
 #include "XMLFile.h"
-
+#include "../Project.h"
 
 Atlas::ConfigFileRegistry::ConfigFileRegistry()
 {
@@ -66,13 +66,20 @@ void Atlas::ConfigFileRegistry::unregisterConfigFile(const std::string& name)
 
 libconfig::Setting& Atlas::ConfigFileRegistry::configLookup(const std::string& fileName, const std::string& lookupTarget)
 {
-	libconfig::Config const* conf = GetFile(fileName).get()->get<libconfig::Config*>();
-	libconfig::Setting& setting = conf->lookup(lookupTarget);
+	
+	libconfig::Setting& setting = configLookup(GetFile(fileName), lookupTarget);
 
 	Log("Looking up value in :" + fileName + " for key: " + lookupTarget + " and found value: " + setting.c_str(), ELogLevel::TRACE);
 	
 	return setting;
 	
+}
+
+libconfig::Setting& Atlas::ConfigFileRegistry::configLookup(std::shared_ptr<RegisteredFile> file, const std::string& lookupTarget)
+{
+	// TODO: insert return statement here
+
+	return file->get<libconfig::Config*>()->lookup(lookupTarget);
 }
 
 std::any Atlas::ConfigFileRegistry::LoadConfigFile(std::shared_ptr<Atlas::FileMeta> fileMeta) {
@@ -106,10 +113,21 @@ libconfig::Config& Atlas::ConfigFileRegistry::operator[](const std::string& name
 }
 */
 
-Atlas::ConfigFileRegistry& Atlas::GetConfigFileRegistry() { return ConfigFileRegistry::Instance(); }
+Atlas::ConfigFileRegistry& Atlas::GetConfigFileRegistry() { 
+	return ConfigFileRegistry::Instance(); 
+}
 
 void Atlas::InitializeConfigRegistry() { ConfigFileRegistry::Instance().init(); }
 
-libconfig::Setting& Atlas::LookupConfig(const std::string& fileName, const std::string& lookupTarget) { return ConfigFileRegistry::Instance().configLookup(fileName, lookupTarget); }
+libconfig::Setting& Atlas::LookupConfig(const std::string& fileName, const std::string& lookupTarget) { 
+	return GetAtlasEngine()->getConfigFileRegistry()->configLookup(fileName, lookupTarget);
+}
 
-const char* Atlas::GetConfigString(std::string fileName, std::string lookupTarget) { return LookupConfig(fileName, lookupTarget).c_str(); }
+libconfig::Setting& Atlas::LookupConfig(std::shared_ptr<RegisteredFile> file, const std::string& lookupTarget)
+{
+	return GetAtlasEngine()->getConfigFileRegistry()->configLookup(file, lookupTarget);
+}
+
+const char* Atlas::GetConfigString(std::string fileName, std::string lookupTarget) { 
+	return LookupConfig(fileName, lookupTarget).c_str(); 
+}

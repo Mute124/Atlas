@@ -1,16 +1,69 @@
 #include "Project.h"
 #include "physics/Physics.h"
+#include <raylib.h>
+#include "Common.h"
+#include "conf/Config.h"
+#include "dbg/Logging.h"
+#include "fs/FileMeta.h"
+#include "fs/FileSystem.h"
+#include "fs/FileSystemRegistry.h"
+#include "GameSettings.h"
+#include "modding/ScriptingAPI.h"
+#include "renderer/GameModel.h"
+#include "renderer/Renderer.h"
+#include "renderer/window/IWindow.h"
+#include "renderer/window/Window.h"
+#include "renderer/window/WindowDecorations.h"
+#include <any>
+#include <iostream>
+#include <memory>
+#include <ostream>
+#include <string>
+#include <sol/types.hpp>
 
 using namespace Atlas;
 
-WindowDecorations& Atlas::IProject::getWindowDecorations() { return mWindowDecorations; }
+std::shared_ptr<AtlasEngine> Atlas::BProject::setupAtlas()
+{
+	return std::shared_ptr<AtlasEngine>(
+		new AtlasEngine(
+			new ConfigFileRegistry(),
+			new ScriptingAPI(),
+			new Window(),
+			new Renderer(),
+			new GameSettings(),
+			new FileSystemRegistry(),
+			new PhysicsEngine()
+		)
+	);
+}
 
-void Atlas::IProject::setWindowDecorations(WindowDecorations& windowDecorations) { mWindowDecorations = windowDecorations; }
+/*Atlas::BProject::BProject(std::shared_ptr<AtlasEngine> engine) : IProject()
+{
+	if (mAtlas == nullptr) {
+		mAtlas = engine;
+	}
+}*/
 
-void Atlas::IProject::preInit() {
+Atlas::BProject::BProject()  : IProject()
+{
+	if (mAtlas == nullptr) {
+		mAtlas = setupAtlas();
+	}
+
+	mProject = std::shared_ptr<BProject>(this);
+}
+
+WindowDecorations& Atlas::BProject::getWindowDecorations() { 
+	return mWindowDecorations;
+}
+
+void Atlas::BProject::setWindowDecorations(WindowDecorations& windowDecorations) {
+	mWindowDecorations = windowDecorations; 
+}
+
+void Atlas::BProject::preInit() {
 	Logger::Instance().init(LoggerConfig());
-
-	Log("Test");
 
 	AddFileRegistryLoadFunction("png", [](std::shared_ptr<FileMeta> loadFunc) {
 		return std::any_cast<Image>(LoadImage(loadFunc->path.c_str()));
@@ -25,74 +78,201 @@ void Atlas::IProject::preInit() {
 		});
 
 	std::string gameDir = ATLAS_GAME_DIR;
-	InitializeFileRegistry(gameDir.c_str());
 
+	getAtlasEngine()->getFileSystemRegistry()->init(gameDir.c_str());
+	getAtlasEngine()->getConfigFileRegistry()->init();
+
+//#ifdef ATLAS_ENABLE_MODDDING
+//		#ifdef ATLAS_ENABLE_LUA
 	this->mLuaLibraries.push_back(sol::lib::base);
+	getAtlasEngine()->getScriptingAPI()->initializeScripting(this->getLuaLibraries(), this->getLuaFunctions()); // getAtlasEngine()->getLuaLibraries(), getAtlasEngine()->getLuaFunctions()
+	getAtlasEngine()->getScriptingAPI()->registerLua();
+//		#endif
+//#endif
 }
 
-void Atlas::IProject::init(int argc, char* argv[]) {
-	std::cout << "Initializing Project" << std::endl;
-	mRenderer.initialize();
-	auto resources = AllocatedPhysicsResources();
-	PhysicsEngine::Instance().init(resources);
+void Atlas::BProject::init(int argc, char* argv[]) {
 
+
+
+	AllocatedPhysicsResources resources = AllocatedPhysicsResources();
+	getAtlasEngine()->getPhysicsEngine()->init(resources);
 }
 
-void Atlas::IProject::postInit() {
-	GameModel model = GameModel("data\renderer\Layers.json");
-
-
+void Atlas::BProject::postInit() {
+	getAtlasEngine()->getWindow()->init(new WindowDecorations());
+	getAtlasEngine()->getRenderer()->init();
 }
 
-void Atlas::IProject::initRenderer() {
+void Atlas::BProject::initRenderer() {
 }
 
-int Atlas::IProject::run(int argc, char* argv[]) {
-	return 0;
+int Atlas::BProject::run(int argc, char* argv[]) {
+	int code = 0;
+	
+	while (!getAtlasEngine()->getWindow()->shouldClose()) {
+		update();
+		draw();
+	}
+	std::this_thread::yield();
+	return code;
 }
 
-int Atlas::IProject::update()
+
+int Atlas::BProject::update()
 {
 	return 0;
 }
 
-int Atlas::IProject::prePhysicsUpdate() { return 0; }
+int Atlas::BProject::prePhysicsUpdate() {
+	return 0;
+}
 
-int Atlas::IProject::physicsUpdate() {
+int Atlas::BProject::physicsUpdate() {
 	PhysicsEngine::Instance().update(1.0f / 60.0f);
 	return 0; 
 }
 
-int Atlas::IProject::postPhysicsUpdate() { return 0; }
-
-int Atlas::IProject::preObjectUpdate() { return 0; }
-
-int Atlas::IProject::objectUpdate() { return 0; }
-
-int Atlas::IProject::postObjectUpdate() { return 0; }
-
-int Atlas::IProject::texture() { 
-	mRenderer.texture(mRenderer.mCamera);
+int Atlas::BProject::postPhysicsUpdate() { 
 	return 0; 
 }
 
-int Atlas::IProject::render() { 
-	mRenderer.render(mRenderer.mCamera);
+int Atlas::BProject::preObjectUpdate() { 
+	return 0; 
+}
+
+int Atlas::BProject::objectUpdate() { 
+	return 0; 
+}
+
+int Atlas::BProject::postObjectUpdate() { 
+	return 0; 
+}
+
+int Atlas::BProject::texture() {
+	getAtlasEngine()->getRenderer()->texture(getAtlasEngine()->getRenderer()->mCamera);
+	return 0; 
+}
+
+int Atlas::BProject::render() { 
+	getAtlasEngine()->getRenderer()->render(getAtlasEngine()->getRenderer()->mCamera);
 	return 0;
 }
 
-int Atlas::IProject::cleanup(int exitCode) { return exitCode; }
+int Atlas::BProject::draw()
+{
+	getAtlasEngine()->getRenderer()->update();
+	texture();
+	render();
 
-IProject* Atlas::IProject::GetProject() {
-	return ProjectReference::Instance().project;
+	return 0;
 }
 
-/// <summary>
-/// Sets the project reference.
-/// </summary>
-/// <param name="project">The project.</param>
-inline void Atlas::IProject::ProjectReference::setProjectReference(IProject* project) {
+int Atlas::BProject::cleanup(int exitCode) { 
+	return exitCode; 
+}
+
+std::shared_ptr<BProject> Atlas::BProject::GetProject() {
+	return mProject;
+}
+
+std::shared_ptr<AtlasEngine> Atlas::BProject::getAtlasEngine()
+{
+	return mAtlas;
+}
+
+void Atlas::BProject::ProjectReference::setProjectReference(BProject* project) {
 	if (project != nullptr) {
-		this->project = project;
+		this->mProject = std::shared_ptr<BProject>(project);
 	}
+}
+
+//---------------------------------------------------------------------------
+//							AtlasEngine
+//----------------------------------------------------------------------------
+
+
+Atlas::AtlasEngine::AtlasEngine(ConfigFileRegistry* configFileRegistry, ScriptingAPI* scriptingAPI, IWindow* window, Renderer* renderer,
+	GameSettings* gameSettings, FileSystemRegistry* fileSystemRegistry, PhysicsEngine* physicsEngine) {
+	setConfigFileRegistry(configFileRegistry);
+	setScriptingAPI(scriptingAPI);
+	setWindow(window);
+	setRenderer(renderer);
+	setGameSettings(gameSettings);
+	setFileSystemRegistry(fileSystemRegistry);
+	setPhysicsEngine(physicsEngine);
+}
+
+ConfigFileRegistry* Atlas::AtlasEngine::getConfigFileRegistry()
+{
+	return configFileRegistry;
+}
+
+ScriptingAPI* Atlas::AtlasEngine::getScriptingAPI()
+{
+	return scriptingAPI;
+}
+
+IWindow* Atlas::AtlasEngine::getWindow()
+{
+	return window;
+}
+
+Renderer* Atlas::AtlasEngine::getRenderer()
+{
+	return renderer;
+}
+
+GameSettings* Atlas::AtlasEngine::getGameSettings()
+{
+	return gameSettings;
+}
+
+FileSystemRegistry* Atlas::AtlasEngine::getFileSystemRegistry()
+{
+	return fileSystemRegistry;
+}
+
+PhysicsEngine* Atlas::AtlasEngine::getPhysicsEngine()
+{
+	return physicsEngine;
+}
+
+void Atlas::AtlasEngine::setConfigFileRegistry(ConfigFileRegistry* configFileRegistry)
+{
+	this->configFileRegistry = configFileRegistry;
+}
+
+void Atlas::AtlasEngine::setScriptingAPI(ScriptingAPI* scriptingAPI)
+{
+	this->scriptingAPI = scriptingAPI;
+}
+
+void Atlas::AtlasEngine::setWindow(IWindow* window)
+{
+	this->window = window;
+}
+
+void Atlas::AtlasEngine::setRenderer(Renderer* renderer)
+{
+	this->renderer = renderer;
+}
+
+void Atlas::AtlasEngine::setGameSettings(GameSettings* gameSettings)
+{
+	this->gameSettings = gameSettings;
+}
+
+void Atlas::AtlasEngine::setFileSystemRegistry(FileSystemRegistry* fileSystemRegistry)
+{
+	this->fileSystemRegistry = fileSystemRegistry;
+}
+
+void Atlas::AtlasEngine::setPhysicsEngine(PhysicsEngine* physicsEngine)
+{
+	this->physicsEngine = physicsEngine;
+}
+
+std::shared_ptr<AtlasEngine> Atlas::GetAtlasEngine() { 
+	return BProject::GetProject()->getAtlasEngine(); 
 }

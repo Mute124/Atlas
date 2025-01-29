@@ -14,8 +14,8 @@ std::string Atlas::FileMeta::resolveFilename(std::string const& path)
 std::string Atlas::FileMeta::resolveSandboxPath(std::string const& path)
 {
     // truncate the path down to just everything on the right of "/game/"
-
-    return path.substr(path.find("/game/") + 6);
+    std::string newPath = path.substr(path.find("/game/") + 6);
+    return newPath;
 }
 
 Atlas::FileMeta::FileMeta() {

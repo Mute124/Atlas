@@ -1,19 +1,17 @@
 #pragma once
 
-#include <raylib.h>
+// Include the project interface
+#include <Project.h>
 
-class HelloWorldSample  : public Sample {
-public:
-	HelloWorldSample() : Sample("HelloWorld") {}
+#include <string>
+#include <unordered_map>
 
-	void init() override {
-		int a = 0;
-		
-		
-	}
+namespace Atlas {
+
+	namespace Examples {
+		class HelloWorldSample : public BProject {
+		public:
+
+		};
 	
-	void draw() override {
-		// draw a single cube
-		
-	}
-};
+}

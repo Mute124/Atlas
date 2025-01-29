@@ -10,7 +10,7 @@
 #include <any>
 #include <format>
 #include <functional>
-
+#include "../Project.h"
 
 
 bool Atlas::FileSystemIsProperlyFormatted(const char* rootPath, const char* directoryMapPath)
@@ -27,30 +27,30 @@ Atlas::FileSystemRegistry& Atlas::GetFileSystemRegistry()
 
 void Atlas::InitializeFileRegistry(const char* rootPath)
 {
-	GetFileSystemRegistry().init(rootPath);
+	GetAtlasEngine()->getFileSystemRegistry()->init(rootPath);
 }
 
 
 void Atlas::AddFileRegistryLoadFunction(std::string  extension, std::function<std::any(std::shared_ptr<FileMeta>)> loadFunc)
 {
-	GetFileSystemRegistry().addLoadFunction(extension, loadFunc);
+	GetAtlasEngine()->getFileSystemRegistry()->addLoadFunction(extension, loadFunc);
 }
 
 
 void Atlas::AddFileRegistryLoadOnRegisterExtension(std::string const& extension)
 {
-	GetFileSystemRegistry().addLoadOnRegisterExtension(extension);
+	GetAtlasEngine()->getFileSystemRegistry()->addLoadOnRegisterExtension(extension);
 }
 
 
 std::shared_ptr<Atlas::FileMeta> Atlas::GetFileMeta(std::string  key)
 {
-	return GetFileSystemRegistry().GetFileMeta(key);
+	return GetAtlasEngine()->getFileSystemRegistry()->GetFileMeta(key);
 }
 
 
 std::shared_ptr<Atlas::RegisteredFile> Atlas::GetFile(std::string key, bool loadIfNotLoaded)
 {
-	return GetFileSystemRegistry().getFile(key, loadIfNotLoaded);
+	return GetAtlasEngine()->getFileSystemRegistry()->getFile(key, loadIfNotLoaded);
 }
 

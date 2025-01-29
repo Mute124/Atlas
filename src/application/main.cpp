@@ -7,7 +7,21 @@
 #include <renderer/Renderer.h>
 #include <renderer/window/WindowDecorations.h>
 #include <project.h>
-
+/*	ThreadGroup group;
+	group.addThread([] {
+		// task 1
+		std::cout << "threadGroup 1" << std::endl;
+	});
+	group.addThread([] {
+		// task 2
+		std::cout << "threadGroup 2" << std::endl;
+	});
+	group.addThread([] {
+		// task 3
+		std::cout << "threadGroup 3" << std::endl;
+	});
+	group.stopAll();
+	group.waitForAll();*/
 using namespace Atlas;
 
 void InitWindow(WindowDecorations& decorations) {
@@ -36,7 +50,7 @@ void InitScripting(ScriptingAPI& scriptingAPI, PROJECT_TYPENAME& project) {
 }
 
 void HandleFrame(PROJECT_TYPENAME& project) {
-	project.getRenderer().update();
+	//project.getRenderer().update();
 
 	project.texture();
 	project.render();
@@ -47,8 +61,14 @@ void HandleFrame(PROJECT_TYPENAME& project) {
 
 int main(int argc, char* argv[]) {
 	//Log("Pre-Initializing project...");
-	PROJECT_TYPENAME project = PROJECT_TYPENAME();
-	project.preInit();
+	std::shared_ptr<PROJECT_TYPENAME> project = std::make_shared<PROJECT_TYPENAME>();
+
+	Atlas::Application::FrameManager& manager = Atlas::Application::FrameManager::Instance();
+	manager.userProject = project;
+
+	manager.launchThreads();
+
+/*	project.preInit();
 	Log("Project pre-initialized.");
 
 	Log("Finishing Initialization...");
@@ -79,7 +99,7 @@ int main(int argc, char* argv[]) {
 
 	Log("Launching threads.");
 
-	Atlas::Application::FrameManager& manager = Atlas::Application::FrameManager::Instance();
+	
 
 	SetTargetFPS(decorations.targetFPS);
 
@@ -101,7 +121,7 @@ int main(int argc, char* argv[]) {
 
 	CloseWindow();
 
-	Log("Done shutting down. Goodbye!");
+	Log("Done shutting down. Goodbye!");*/
 
 
 

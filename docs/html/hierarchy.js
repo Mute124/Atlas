@@ -34,7 +34,9 @@ var hierarchy =
     [ "Techstorm::DevTools::SetupTool::CMDLineArgumentsHandler", "d0/d85/class_techstorm_1_1_dev_tools_1_1_setup_tool_1_1_c_m_d_line_arguments_handler.html", null ],
     [ "Complex", "d4/d59/struct_complex.html", null ],
     [ "Atlas::Component", "d6/dfa/class_atlas_1_1_component.html", [
+      [ "Atlas::ObjectPhysicsComponent", "d0/dfb/class_atlas_1_1_object_physics_component.html", null ],
       [ "Atlas::TransformComponent", "dc/d08/class_atlas_1_1_transform_component.html", null ],
+      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
     ] ],
     [ "gw::Constructor< T >", "dc/d41/structgw_1_1_constructor.html", null ],
@@ -148,7 +150,7 @@ var hierarchy =
     [ "ImGui_ImplWGPU_RenderState", "da/d0a/struct_im_gui___impl_w_g_p_u___render_state.html", null ],
     [ "ImGui_ImplWin32_Data", "d5/d71/struct_im_gui___impl_win32___data.html", null ],
     [ "Atlas::InputAction", "d6/d5c/class_atlas_1_1_input_action.html", null ],
-    [ "Atlas::IProject", null, [
+    [ "Atlas::IProject", "dd/daa/class_atlas_1_1_i_project.html", [
       [ "Project", "d9/d6e/class_project.html", null ],
       [ "SamplesProject", "dc/dc3/class_samples_project.html", null ]
     ] ],
@@ -230,9 +232,7 @@ var hierarchy =
     [ "Atlas::RenderEventArgs", "d7/dd6/struct_atlas_1_1_render_event_args.html", null ],
     [ "Atlas::RenderLayer", "d0/dfd/class_atlas_1_1_render_layer.html", null ],
     [ "RenderResources", "d9/d42/struct_render_resources.html", null ],
-    [ "Sample", "d4/d72/class_sample.html", [
-      [ "HelloWorldSample", "d1/d0b/class_hello_world_sample.html", null ]
-    ] ],
+    [ "Sample", "d4/d72/class_sample.html", null ],
     [ "SampleGroup", "d4/da6/class_sample_group.html", [
       [ "BasicSampleGroup", "d5/d6c/class_basic_sample_group.html", null ]
     ] ],
@@ -278,7 +278,7 @@ var hierarchy =
       [ "Atlas::PhysicsEngine", "d2/dec/class_atlas_1_1_physics_engine.html", null ]
     ] ],
     [ "Atlas::Singleton< ProjectReference >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::abstract< ConsoleSink >::ProjectReference", "dd/d11/class_atlas_1_1abstract_1_1_project_reference.html", null ]
+      [ "Atlas::IProject::ProjectReference", "d8/d87/class_atlas_1_1_i_project_1_1_project_reference.html", null ]
     ] ],
     [ "CScriptBuilder::SMetadataDecl", "d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html", null ],
     [ "Atlas::StateMachine", "d7/d30/class_atlas_1_1_state_machine.html", null ],

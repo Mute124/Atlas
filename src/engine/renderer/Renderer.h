@@ -30,7 +30,7 @@ namespace Atlas {
 		/// <summary>
 		/// Initializes this instance.
 		/// </summary>
-		void initialize();
+		void init();
 
 		/// <summary>
 		/// Renders the render texture to the screen using the specified camera.

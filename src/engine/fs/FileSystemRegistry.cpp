@@ -24,6 +24,7 @@ void Atlas::FileSystemRegistry::init(const char* rootPath)
 	for (int i = 0; i < files.count; i++) {
 		registerFile(files.paths[i]);
 	}
+	sIsReady = true;
 }
 
 void Atlas::FileSystemRegistry::registerFile(std::string const& path)
@@ -47,6 +48,7 @@ void Atlas::FileSystemRegistry::registerFile(std::string const& path)
 	this->mLookupTable[meta.path] = index;
 	this->mLookupTable[meta.filename] = index;
 	this->mLookupTable[meta.extension] = index;
+	this->mLookupTable[meta.sandboxPath] = index;
 
 	// Register file
 	this->mFileMetaRegistry[index] = std::make_shared<FileMeta>(meta);
@@ -77,10 +79,15 @@ std::shared_ptr<Atlas::FileMeta> Atlas::FileSystemRegistry::GetFileMeta(std::str
 /// <param name="file">The file.</param>
 
 void Atlas::FileSystemRegistry::loadFile(std::shared_ptr<RegisteredFile> file) {
+	if (!sIsReady) {
+		std::cout << "Registry is not ready; cannot load file!" << std::endl;
+		return;
+	}
+
 	std::scoped_lock lock(file->getLoadMutex());
 	std::shared_ptr<FileMeta> fileMeta = file->getFileMeta();
-
-	Log("Loading file: " + fileMeta->filename + " (" + fileMeta->extension + ")", ELogLevel::TRACE);
+	std::cout << "Loading file: " + fileMeta->filename + " (" + fileMeta->extension + ")" << std::endl;
+	//Log("Loading file: " + fileMeta->filename + " (" + fileMeta->extension + ")", ELogLevel::TRACE);
 	std::function<std::any(std::shared_ptr<FileMeta>)> loadFunc = mLoadingFunctions.at(fileMeta->extension);
 
 	file->mFileData = loadFunc(fileMeta);
@@ -95,10 +102,23 @@ void Atlas::FileSystemRegistry::loadFile(std::shared_ptr<RegisteredFile> file) {
 /// <param name="loadIfNotLoaded">if set to <c>true</c> [load if not loaded].</param>
 /// <returns></returns>
 std::shared_ptr<Atlas::RegisteredFile> Atlas::FileSystemRegistry::getFile(std::string const& key, bool loadIfNotLoaded) {
+	
+	if (!sIsReady) {
+		std::cout << "Registry is not ready; cannot get file: " << key << "!" << std::endl;
+		return nullptr;
+	}
+
 	uint16_t index = this->mLookupTable[key];
 	std::shared_ptr<RegisteredFile> file = this->mRegisteredFiles[index];
 
-	if (loadIfNotLoaded && !file->mIsLoaded) this->loadFile(file);
+	if (file == nullptr) {
+		std::cout << "File with key: " + key + " was not found." << std::endl;
+		return nullptr;
+	}
 
+	if (loadIfNotLoaded && !file->mIsLoaded) {
+
+		this->loadFile(file);
+	}
 	return file;
 }

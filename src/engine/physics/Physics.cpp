@@ -58,8 +58,8 @@
 	}
 }
 
-  void Atlas::PhysicsEngine::update(const float cDeltaTime) {
-	mPhysicsSystem->Update(cDeltaTime, mCollisionSteps, 4, mTempAllocator, mJobSystemThreadPool);
+void Atlas::PhysicsEngine::update(const float cDeltaTime) {
+//	mPhysicsSystem->Update(cDeltaTime, mCollisionSteps, 4, mTempAllocator, mJobSystemThreadPool);
 }
 
   void Atlas::PhysicsEngine::optimizeBroadPhase() {

@@ -1,18 +1,28 @@
 #pragma once
 #include "WindowDecorations.h"
 #include "IWindow.h"
+#include <optional>
 namespace Atlas {
-	class Window {
+	class Window : public IWindow {
 	private:
-		const WindowDecorations& mDecorations;
-
-	protected:
+		WindowDecorations mDecorations;
 
 	public:
-		Window(WindowDecorations const& decorations) : mDecorations(decorations) {}
+		
+		~Window();
 
 		WindowDecorations const& GetDecorations() const { return mDecorations; }
 
+
+
+		// Inherited via IWindow
+		void init(WindowDecorations* windowDecorations) override;
+
+		void update() override;
+
+		bool shouldClose() override;
+
+		void close() override;
 
 	};
 }

@@ -52,6 +52,8 @@ namespace Atlas {
 	/// <seealso cref="Singleton&lt;FileSystemRegistry&gt;" />
 	class FileSystemRegistry : public Singleton<FileSystemRegistry> {
 	private:		
+		static inline volatile bool sIsReady = false;
+
 		/// <summary>
 		/// This static uint16_t variable represents the next available file index.
 		/// </summary>
@@ -111,7 +113,7 @@ namespace Atlas {
 		std::unordered_map<std::string, uint16_t> mLookupTable;
 
 		
-		friend class IProject;
+		friend class BProject;
 	public:
 		
 		/// <summary>

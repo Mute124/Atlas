@@ -20,6 +20,11 @@ set(ATLAS_COMPONENT_SOURCES
 
     "components/TransformComponent.h"
 	"components/TransformComponent.cpp"
+
+    "components/ObjectRendererComponent.h"
+
+    "components/ObjectPhysicsComponent.h"
+    "components/ObjectPhysicsComponent.cpp"
 )
 
 set(ATLAS_ENGINE_CORE_SOURCES
@@ -35,6 +40,13 @@ set(ATLAS_ENGINE_CORE_SOURCES
     "IEngineComponent.h"
     "IEngineComponentRegistry.h"
 
+    "core/IFrameManager.h"
+    "core/FrameManager.h"
+    "core/FrameManager.cpp"
+
+    "core/IGameThread.h"
+    "core/GameThread.h"
+    "core/GameThread.cpp"
 )
 
 set(ATLAS_RENDERER_SOURCES

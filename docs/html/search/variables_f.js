@@ -40,7 +40,7 @@ var searchData=
   ['prevusercallbackmousebutton_37',['PrevUserCallbackMousebutton',['../d5/d6e/struct_im_gui___impl_glfw___data.html#a4f072029ab315c801b69849648bd5e86',1,'ImGui_ImplGlfw_Data']]],
   ['prevusercallbackscroll_38',['PrevUserCallbackScroll',['../d5/d6e/struct_im_gui___impl_glfw___data.html#a37a806957eff842793b1010bf55b3a49',1,'ImGui_ImplGlfw_Data']]],
   ['prevusercallbackwindowfocus_39',['PrevUserCallbackWindowFocus',['../d5/d6e/struct_im_gui___impl_glfw___data.html#ab2d6f0997eee54b310ab657e48b50033',1,'ImGui_ImplGlfw_Data']]],
-  ['project_40',['project',['../dd/d11/class_atlas_1_1abstract_1_1_project_reference.html#a1cc1c1dda36d53b9c65556e252f01df3',1,'Atlas::abstract::ProjectReference']]],
+  ['project_40',['project',['../d8/d87/class_atlas_1_1_i_project_1_1_project_reference.html#a5b452e9b5a37917f0c8bbdb46fe3e7dd',1,'Atlas::IProject::ProjectReference']]],
   ['prootsignature_41',['pRootSignature',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#a5ec586be9457edb382e26db52b84bba5',1,'ImGui_ImplDX12_Data']]],
   ['ptr_42',['ptr',['../d4/d6c/union_im_g_l3_w_procs.html#a8cfe525ce16ca502e568e648b673229b',1,'ImGL3WProcs']]],
   ['pvb_43',['pvb',['../dd/d9e/struct_im_gui___impl_d_x10___data.html#a0c847cbb29ac027f738e3d1f84b17a9e',1,'ImGui_ImplDX10_Data::pVB'],['../d1/d6d/struct_im_gui___impl_d_x11___data.html#a2f521cc47128e7820fb503365a22c043',1,'ImGui_ImplDX11_Data::pVB'],['../db/d07/struct_im_gui___impl_d_x9___data.html#a99ad02e11c007c8627cb22ccf81f4736',1,'ImGui_ImplDX9_Data::pVB']]],

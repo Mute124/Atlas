@@ -164,7 +164,7 @@ namespace Atlas::Application {
 		std::jthread updateThread;
 		std::jthread workThread;
 
-		int RunUpdateThread(PROJECT_TYPENAME* userProject)
+		int RunUpdateThread()
 		{
 			isUpdateWaiting = true;
 
@@ -195,8 +195,12 @@ namespace Atlas::Application {
 			return 0;
 		}
 
-		int RunWorkerThread(PROJECT_TYPENAME* userProject)
+		int RunWorkerThread()
 		{
+			this->userProject->preInit();
+			this->userProject->init(0, nullptr);
+			
+
 			isWorkerWaiting = true;
 			while (sIsWaitingForOthers && !sExit) {
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -212,28 +216,25 @@ namespace Atlas::Application {
 			return 0;
 		}
 
-		void launchThreads(PROJECT_TYPENAME& gameSettings)
+		void launchThreads()
 		{
+			
 			sIsWaitingForOthers = true;
 			updateThread = std::jthread([&]() {
-				RunUpdateThread(&gameSettings);
+				RunUpdateThread();
 			});
 
 			updateThread.detach();
 			
-			
 			workThread = std::jthread([&]() {
-				RunWorkerThread(&gameSettings);
+				RunWorkerThread();
 			});
 			
-			//workThread.detach();
+			workThread.detach();
 			while (sIsWaitingForOthers && !sExit) {
-				
 				if (isWorkerWaiting && isUpdateWaiting) {
-
-
 					Log("All threads are ready");
-
+					this->userProject->postInit();
 					sIsWaitingForOthers = false;
 					break;
 				}
@@ -242,13 +243,14 @@ namespace Atlas::Application {
 					std::this_thread::sleep_for(std::chrono::milliseconds(1));
 					
 				}
-
-
 			}
+
+			userProject->run(0, nullptr);
 		}
 
 		void killThreads() {
 			sExit = true;
+			userProject->cleanup(0);
 		}
 	private:
 

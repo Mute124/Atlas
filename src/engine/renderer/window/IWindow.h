@@ -1,9 +1,10 @@
 #pragma once
 #include "WindowDecorations.h"
+
 namespace Atlas {
-	class IWindow abstract {
+	class IWindow {
 	public:
-		virtual void initialize(WindowDecorations* windowDecorations) = 0;
+		virtual void init(WindowDecorations* windowDecorations) = 0;
 
 		virtual void update() = 0;
 

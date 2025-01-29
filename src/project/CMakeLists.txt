@@ -1,5 +1,6 @@
 ﻿include("${CMAKE_SOURCE_DIR}/CMakeOptions.txt")
 
+
 if(${ATLAS_BUILD_EXAMPLES})
    set(BASIC_SAMPLE_SOURCES
         "samples/basic/BasicSampleGroup.h"
@@ -18,6 +19,7 @@ if(${ATLAS_BUILD_EXAMPLES})
     )
 else() 
 	set(SAMPLE_SOURCES
+        #"samples/basic/HellowWorldSample.h"
 	)
 endif()
 

@@ -26,7 +26,24 @@ Due to the inherent nature of \doxylink{namespace_techstorm}{Techstorm}, the arc
 \includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{flowchart.png}
 \doxyfigcaption{Techstorm\textquotesingle{}s high level flow chart}
 \end{DoxyImage}
-   \hypertarget{index_file-system-architecture}{}\doxysubsubsection{\texorpdfstring{File System Architecture}{File System Architecture}}\label{index_file-system-architecture}
+   \hypertarget{index_using-projects}{}\doxyparagraph{\texorpdfstring{Using Projects}{Using Projects}}\label{index_using-projects}
+\DoxyHorRuler{0}
+
+
+\doxylink{namespace_atlas}{Atlas} interacts with your game through the IProject class. More specifically, it interacts through the derived class. Within {\ttfamily project.\+h} in the {\ttfamily project\+\_\+lib} project, you will see this at the top of the file\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#ifndef\ ATLAS\_BUILD\_EXAMPLES}
+\DoxyCodeLine{\ \ \ \ \#define\ PROJECT\_TYPENAME\ Project}
+\DoxyCodeLine{\#else}
+\DoxyCodeLine{\ \ \ \ ...}
+\DoxyCodeLine{\#endif}
+
+\end{DoxyCode}
+
+
+Now what does this mean? This is how \doxylink{namespace_atlas}{Atlas} knows what your derivative class is. If you are using the already provided class, then this does not have to be worried about. However, this is used when you need to have a lower-\/level control of the engine. \doxylink{namespace_atlas}{Atlas} interacts through the various virtual functions that are found within IProject in \doxylink{project_2_project_8h}{Project.\+h}.\hypertarget{index_file-system-architecture}{}\doxysubsubsection{\texorpdfstring{File System Architecture}{File System Architecture}}\label{index_file-system-architecture}
 \DoxyHorRuler{0}
 
 
@@ -101,7 +118,7 @@ First, the mechanics of how \doxylink{namespace_atlas}{Atlas} handles rendering 
 \DoxyHorRuler{0}
 
 
-\doxylink{namespace_atlas}{Atlas} makes models easy because it will automatically handle materials for it. \hypertarget{index_autotoc_md9}{}\doxysubsubsection{\texorpdfstring{Modding Architecture}{Modding Architecture}}\label{index_autotoc_md9}
+\doxylink{namespace_atlas}{Atlas} makes models easy because it will automatically handle materials for it. \hypertarget{index_autotoc_md10}{}\doxysubsubsection{\texorpdfstring{Modding Architecture}{Modding Architecture}}\label{index_autotoc_md10}
 \DoxyHorRuler{0}
 
 

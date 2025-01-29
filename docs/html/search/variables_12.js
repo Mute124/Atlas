@@ -9,7 +9,7 @@ var searchData=
   ['scissor_6',['Scissor',['../d4/d6c/union_im_g_l3_w_procs.html#a48d9715041a3f506e08c84ec244ace32',1,'ImGL3WProcs']]],
   ['semaphorecount_7',['SemaphoreCount',['../de/d27/struct_im_gui___impl_vulkan_h___window.html#a3628c3c3133200ed09ee455790639ce6',1,'ImGui_ImplVulkanH_Window']]],
   ['semaphoreindex_8',['SemaphoreIndex',['../de/d27/struct_im_gui___impl_vulkan_h___window.html#a22de46dc435ae4cc3b198b0416bbb84b',1,'ImGui_ImplVulkanH_Window']]],
-  ['settings_9',['settings',['../dc/dba/class_atlas_1_1abstract.html#a76f1079d5c652100847e576f7a2444ae',1,'Atlas::abstract']]],
+  ['settings_9',['settings',['../dd/daa/class_atlas_1_1_i_project.html#a979d3b68d398c57edd7f79187d15891e',1,'Atlas::IProject']]],
   ['sexit_10',['sExit',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#a57abd4a3a235638d8fa30929501b0167',1,'Atlas::Application::FrameManager']]],
   ['sfileindex_11',['sFileIndex',['../d4/de4/class_atlas_1_1_file_system_registry.html#a031dbdcc6fc7ef3e40588589f24392dd',1,'Atlas::FileSystemRegistry']]],
   ['sframetime_12',['sFrameTime',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#aba930eea7b25ff51e982797e3e6350ec',1,'Atlas::Application::FrameManager']]],
