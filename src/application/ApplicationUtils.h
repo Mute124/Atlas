@@ -160,7 +160,7 @@ namespace Atlas::Application {
 		volatile bool isWorkerWaiting = false;
 		volatile bool isUpdateWaiting = false;
 
-		std::shared_ptr<PROJECT_TYPENAME> userProject;
+		std::shared_ptr<IProject> userProject;
 		std::jthread updateThread;
 		std::jthread workThread;
 
@@ -199,7 +199,6 @@ namespace Atlas::Application {
 		{
 			this->userProject->preInit();
 			this->userProject->init(0, nullptr);
-			
 
 			isWorkerWaiting = true;
 			while (sIsWaitingForOthers && !sExit) {
@@ -208,6 +207,8 @@ namespace Atlas::Application {
 			Log("Worker thread started");
 
 			while (!sExit) {
+				this->userProject->workingUpdate();
+
 				// This is here because it reduces CPU consumption
 				ATLAS_THREAD_YIELD;
 				std::this_thread::sleep_for(std::chrono::milliseconds(16));

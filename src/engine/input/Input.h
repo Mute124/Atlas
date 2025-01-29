@@ -14,7 +14,7 @@
 #include <functional>
 #include <string>
 #include <unordered_map>
-
+#include <optional>
 #include "../utils/Singleton.h"
 
 #define ATLAS_ENABLE_CONTROLLER_SUPPORT
@@ -55,8 +55,35 @@ namespace Atlas {
 	public:
 		std::string name;
 		int key;
+		std::optional<int> controllerID;
 		EInputType type;
 		EInputTrigger trigger;
+
+		InputAction() = default;
+
+		InputAction(const std::string& name, int key, const EInputType& type, const EInputTrigger& trigger);
+	};
+
+	class SelfDeterminingInputAction : public InputAction {
+	public:
+		
+		std::function<bool(const SelfDeterminingInputAction*)> mChecker;
+		std::function<void(const SelfDeterminingInputAction*)> mCallback;
+
+		SelfDeterminingInputAction(
+			std::function<bool(const SelfDeterminingInputAction*)> const& checker, 
+			std::function<void(const SelfDeterminingInputAction*)> const& callback
+		) : mChecker(checker), mCallback(callback) {}
+
+		SelfDeterminingInputAction() = default;
+
+		bool check() const {
+			return mChecker(this);
+		}
+
+		void callback() const {
+			mCallback(this); 
+		}
 	};
 
 	/// <summary>
@@ -66,13 +93,7 @@ namespace Atlas {
 	/// <seealso cref="Singleton&lt;InputRegistry&gt;" />
 	class InputRegistry : public Singleton<InputRegistry> {
 	protected:
-		/// <summary>
-		/// Checks all registered InputActions for callbacks.
-		/// </summary>
-		/// <remarks>
-		/// @note Without this, the callbacks won't be called and the input system is as useful as gloves are to an armless person.
-		/// </remarks>
-		void checkAll();
+
 
 	private:
 
@@ -117,6 +138,19 @@ namespace Atlas {
 
 		std::unordered_map<InputAction*, std::unordered_map<int, std::function<void(InputAction*)>>> mActions;
 
+		std::unordered_map<
+			InputAction*,
+			std::unordered_map<
+				int,
+				SelfDeterminingInputAction*
+			>
+		> mSelfDeterminingActions;
+
+		bool checkPressedAction(InputAction* action);
+		bool checkReleasedAction(InputAction* action);
+		bool checkDownAction(InputAction* action);
+		bool checkUpAction(InputAction* action);
+		bool checkRepeatAction(InputAction* action);
 	public:
 
 		/// <summary>
@@ -131,6 +165,13 @@ namespace Atlas {
 		/// <param name="callback">The callback that will be used to handle the InputAction.</param>
 		/// <returns>The ID <b>of the callback</b>.</returns>
 		int registerActionCallback(InputAction* action, std::function<void(InputAction*)> const& callback);
+
+		int registerSelfDeterminingActionCallback(InputAction* category, SelfDeterminingInputAction* action, 
+			std::function<bool(SelfDeterminingInputAction*)> const& checker,std::function<void(SelfDeterminingInputAction*)> const& callback);
+
+		int registerSelfDeterminingActionCallback(InputAction* category, SelfDeterminingInputAction* action);
+		
+
 				
 		/// <summary>
 		/// Unregisters <b>ALL</b> callbacks for a given InputAction.
@@ -149,7 +190,15 @@ namespace Atlas {
 		/// <param name="id">The callback's (the one being unregistered) identifier.</param>
 		void unregisterCallback(InputAction* action, int id);
 
+		/// <summary>
+		/// Checks all registered InputActions for callbacks.
+		/// </summary>
+		/// <remarks>
+		/// @note Without this, the callbacks won't be called and the input system is as useful as gloves are to an armless person.
+		/// </remarks>
+		void checkAll();	
 
+		std::unordered_map<InputAction*, std::unordered_map<int, std::function<void(InputAction*)>>>& getActions() { return mActions; }
 	};
 
 

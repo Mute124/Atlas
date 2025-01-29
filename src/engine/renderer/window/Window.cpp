@@ -8,8 +8,6 @@
 #include "WindowDecorations.h"
 #include <string>
 
-
-
 Atlas::Window::~Window() { close(); }
 
 void Atlas::Window::init(WindowDecorations* windowDecorations)

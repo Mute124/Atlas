@@ -13,16 +13,13 @@
 #include "modding/ScriptingAPI.h"
 #include "GameSettings.h"
 
-#include "fs/FileSystem.h"
 #include "conf/Config.h"
-#include <stdint.h>
-#include "dbg/Debugger.h"
-#include <bitset>
-#include "renderer/GameModel.h"
 #include "physics/Physics.h"
+#include "input/Input.h"
+#include "fs/FileSystemRegistry.h"
+#include <memory>
 
 namespace Atlas {
-
 	class IAtlas {
 	public:
 
@@ -33,6 +30,7 @@ namespace Atlas {
 		virtual GameSettings* getGameSettings() = 0;
 		virtual FileSystemRegistry* getFileSystemRegistry() = 0;
 		virtual PhysicsEngine* getPhysicsEngine() = 0;
+		virtual InputRegistry* getInputRegistry() = 0;
 
 		virtual void setConfigFileRegistry(ConfigFileRegistry* configFileRegistry) = 0;
 		virtual void setScriptingAPI(ScriptingAPI* scriptingAPI) = 0;
@@ -41,6 +39,7 @@ namespace Atlas {
 		virtual void setGameSettings(GameSettings* gameSettings) = 0;
 		virtual void setFileSystemRegistry(FileSystemRegistry* fileSystemRegistry) = 0;
 		virtual void setPhysicsEngine(PhysicsEngine* physicsEngine) = 0;
+		virtual void setInputRegistry(InputRegistry* inputRegistry) = 0;
 	};
 
 	class AtlasEngine : public IAtlas {
@@ -79,6 +78,8 @@ namespace Atlas {
 		/// The physics engine
 		/// </summary>
 		PhysicsEngine* physicsEngine = nullptr;
+
+		InputRegistry* inputRegistry = nullptr;
 	public:
 		
 		/// <summary>
@@ -92,7 +93,7 @@ namespace Atlas {
 		/// <param name="fileSystemRegistry">The file system registry.</param>
 		/// <param name="physicsEngine">The physics engine.</param>
 		AtlasEngine(ConfigFileRegistry* configFileRegistry, ScriptingAPI* scriptingAPI, IWindow* window, Renderer* renderer,
-					GameSettings* gameSettings, FileSystemRegistry* fileSystemRegistry, PhysicsEngine* physicsEngine);
+					GameSettings* gameSettings, FileSystemRegistry* fileSystemRegistry, PhysicsEngine* physicsEngine, InputRegistry* inputRegistry);
 				
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AtlasEngine"/> class.
@@ -140,6 +141,12 @@ namespace Atlas {
 		/// </summary>
 		/// <returns></returns>
 		virtual PhysicsEngine* getPhysicsEngine() override;
+		
+		/// <summary>
+		/// Gets the input registry.
+		/// </summary>
+		/// <returns></returns>
+		virtual InputRegistry* getInputRegistry() override;
 
 		/// <summary>
 		/// Sets the configuration file registry.
@@ -184,7 +191,12 @@ namespace Atlas {
 		/// </summary>
 		/// <param name="physicsEngine">The physics engine.</param>
 		virtual void setPhysicsEngine(PhysicsEngine* physicsEngine) override;
-		
+				
+		/// <summary>
+		/// Sets the input registry.
+		/// </summary>
+		/// <param name="inputRegistry">The input registry.</param>
+		virtual void setInputRegistry(InputRegistry* inputRegistry) override;
 	};
 
 	class IProject {
@@ -228,6 +240,8 @@ namespace Atlas {
 		/// </summary>
 		/// <returns></returns>
 		virtual int update() = 0;
+
+		virtual int workingUpdate() = 0;
 
 		/// <summary>
 		/// Pre-update step that is called in the physics or update thread (depending on thread count)
@@ -337,7 +351,7 @@ namespace Atlas {
 		//explicit BProject(std::shared_ptr<AtlasEngine> mAtlas);
 	public:
 		GameSettings settings;
-		static inline std::shared_ptr<AtlasEngine> mAtlas;
+		static inline std::shared_ptr<AtlasEngine> mAtlas = nullptr;
 
 		BProject();
 
@@ -422,6 +436,8 @@ namespace Atlas {
 		/// <returns></returns>
 		virtual int update() override;
 
+		virtual int workingUpdate() override;
+
 		/// <summary>
 		/// Pre-update step that is called in the physics or update thread (depending on thread count)
 		/// </summary>
@@ -500,14 +516,6 @@ namespace Atlas {
 		std::shared_ptr<AtlasEngine> getAtlasEngine() override;
 
 	};
-
-	/// <summary>
-	/// This function is used to set the <i>ProjectReference</i> singleton to the project.
-	/// </summary>
-	/// <typeparam name="T">The typename for what the user's project is</typeparam>
-	/// <param name="project">The pointer to the user's project</param>
-
-
 
 	std::shared_ptr<AtlasEngine> GetAtlasEngine();
 }

@@ -7,6 +7,8 @@
 #include <renderer/Renderer.h>
 #include <renderer/window/WindowDecorations.h>
 #include <project.h>
+#include <memory>
+#include <string>
 /*	ThreadGroup group;
 	group.addThread([] {
 		// task 1

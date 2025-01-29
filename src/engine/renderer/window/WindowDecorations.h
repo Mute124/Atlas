@@ -15,7 +15,6 @@ namespace Atlas {
 		unsigned int windowConfig = -1; /// <summary> For available config flags, see <see cref="ConfigFlags"/> in the raylib documentation.</summary>
 		unsigned int targetFPS = 60; /// <summary> The target FPS for the window. </summary>
 		const char* icon = "\\engine\\assets\\engine\\techstorm.png";
-
 	};
 
 	

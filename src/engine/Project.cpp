@@ -9,17 +9,16 @@
 #include "fs/FileSystemRegistry.h"
 #include "GameSettings.h"
 #include "modding/ScriptingAPI.h"
-#include "renderer/GameModel.h"
 #include "renderer/Renderer.h"
 #include "renderer/window/IWindow.h"
 #include "renderer/window/Window.h"
 #include "renderer/window/WindowDecorations.h"
 #include <any>
-#include <iostream>
 #include <memory>
-#include <ostream>
 #include <string>
 #include <sol/types.hpp>
+#include "input/Input.h"
+#include <thread>
 
 using namespace Atlas;
 
@@ -33,7 +32,8 @@ std::shared_ptr<AtlasEngine> Atlas::BProject::setupAtlas()
 			new Renderer(),
 			new GameSettings(),
 			new FileSystemRegistry(),
-			new PhysicsEngine()
+			new PhysicsEngine(),
+			new InputRegistry()
 		)
 	);
 }
@@ -47,11 +47,12 @@ std::shared_ptr<AtlasEngine> Atlas::BProject::setupAtlas()
 
 Atlas::BProject::BProject()  : IProject()
 {
+	mProject = std::shared_ptr<BProject>(this);
 	if (mAtlas == nullptr) {
 		mAtlas = setupAtlas();
 	}
 
-	mProject = std::shared_ptr<BProject>(this);
+	
 }
 
 WindowDecorations& Atlas::BProject::getWindowDecorations() { 
@@ -92,9 +93,6 @@ void Atlas::BProject::preInit() {
 }
 
 void Atlas::BProject::init(int argc, char* argv[]) {
-
-
-
 	AllocatedPhysicsResources resources = AllocatedPhysicsResources();
 	getAtlasEngine()->getPhysicsEngine()->init(resources);
 }
@@ -111,7 +109,7 @@ int Atlas::BProject::run(int argc, char* argv[]) {
 	int code = 0;
 	
 	while (!getAtlasEngine()->getWindow()->shouldClose()) {
-		update();
+		
 		draw();
 	}
 	std::this_thread::yield();
@@ -121,11 +119,24 @@ int Atlas::BProject::run(int argc, char* argv[]) {
 
 int Atlas::BProject::update()
 {
-	return 0;
+	int code = 0;
+
+	return code;
+}
+
+int Atlas::BProject::workingUpdate()
+{
+	int code = 0;
+
+	getAtlasEngine()->getInputRegistry()->checkAll();
+
+	return code;
 }
 
 int Atlas::BProject::prePhysicsUpdate() {
-	return 0;
+	int code = 0;
+
+	return code;
 }
 
 int Atlas::BProject::physicsUpdate() {
@@ -193,7 +204,7 @@ void Atlas::BProject::ProjectReference::setProjectReference(BProject* project) {
 
 
 Atlas::AtlasEngine::AtlasEngine(ConfigFileRegistry* configFileRegistry, ScriptingAPI* scriptingAPI, IWindow* window, Renderer* renderer,
-	GameSettings* gameSettings, FileSystemRegistry* fileSystemRegistry, PhysicsEngine* physicsEngine) {
+	GameSettings* gameSettings, FileSystemRegistry* fileSystemRegistry, PhysicsEngine* physicsEngine, InputRegistry* inputRegistry) {
 	setConfigFileRegistry(configFileRegistry);
 	setScriptingAPI(scriptingAPI);
 	setWindow(window);
@@ -201,6 +212,7 @@ Atlas::AtlasEngine::AtlasEngine(ConfigFileRegistry* configFileRegistry, Scriptin
 	setGameSettings(gameSettings);
 	setFileSystemRegistry(fileSystemRegistry);
 	setPhysicsEngine(physicsEngine);
+	setInputRegistry(inputRegistry);
 }
 
 ConfigFileRegistry* Atlas::AtlasEngine::getConfigFileRegistry()
@@ -238,6 +250,11 @@ PhysicsEngine* Atlas::AtlasEngine::getPhysicsEngine()
 	return physicsEngine;
 }
 
+InputRegistry* Atlas::AtlasEngine::getInputRegistry()
+{
+	return inputRegistry;
+}
+
 void Atlas::AtlasEngine::setConfigFileRegistry(ConfigFileRegistry* configFileRegistry)
 {
 	this->configFileRegistry = configFileRegistry;
@@ -271,6 +288,11 @@ void Atlas::AtlasEngine::setFileSystemRegistry(FileSystemRegistry* fileSystemReg
 void Atlas::AtlasEngine::setPhysicsEngine(PhysicsEngine* physicsEngine)
 {
 	this->physicsEngine = physicsEngine;
+}
+
+void Atlas::AtlasEngine::setInputRegistry(InputRegistry* inputRegistry)
+{
+	this->inputRegistry = inputRegistry;
 }
 
 std::shared_ptr<AtlasEngine> Atlas::GetAtlasEngine() { 
