@@ -66,6 +66,7 @@ var hierarchy =
     [ "CUserType", "da/de0/struct_c_user_type.html", null ],
     [ "CUSTOMVERTEX", "d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html", null ],
     [ "Atlas::DestroyEventArgs", "d4/d9d/struct_atlas_1_1_destroy_event_args.html", null ],
+    [ "Atlas::GameCamera::DirectionalInput", "d0/dd4/class_atlas_1_1_game_camera_1_1_directional_input.html", null ],
     [ "Atlas::DrawableHook", "d4/d11/class_atlas_1_1_drawable_hook.html", null ],
     [ "Atlas::DynamicObject", "dd/d28/class_atlas_1_1_dynamic_object.html", null ],
     [ "Atlas::Entity", "d4/d48/class_atlas_1_1_entity.html", null ],
@@ -90,6 +91,9 @@ var hierarchy =
     [ "Atlas::GameState", "d1/daa/class_atlas_1_1_game_state.html", null ],
     [ "Generator", "d0/df5/class_generator.html", null ],
     [ "GridCell", "d4/d3c/struct_grid_cell.html", null ],
+    [ "Atlas::IAtlas", "d8/dc7/class_atlas_1_1_i_atlas.html", [
+      [ "Atlas::AtlasEngine", "d3/d8d/class_atlas_1_1_atlas_engine.html", null ]
+    ] ],
     [ "IConsole", null, [
       [ "Atlas::Console", "d3/d9f/class_atlas_1_1_console.html", null ]
     ] ],
@@ -107,6 +111,7 @@ var hierarchy =
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
     ] ],
+    [ "Atlas::IGameThread< T_USER_PROJECT >", "dd/dca/class_atlas_1_1_i_game_thread.html", null ],
     [ "IGate", null, [
       [ "Atlas::ContactListenerGate", "d8/d75/class_atlas_1_1_contact_listener_gate.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
@@ -149,10 +154,15 @@ var hierarchy =
     [ "ImGui_ImplWGPU_InitInfo", "dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html", null ],
     [ "ImGui_ImplWGPU_RenderState", "da/d0a/struct_im_gui___impl_w_g_p_u___render_state.html", null ],
     [ "ImGui_ImplWin32_Data", "d5/d71/struct_im_gui___impl_win32___data.html", null ],
-    [ "Atlas::InputAction", "d6/d5c/class_atlas_1_1_input_action.html", null ],
+    [ "Atlas::InputAction", "d6/d5c/class_atlas_1_1_input_action.html", [
+      [ "Atlas::GameCamera::CameraInputAction", "de/d72/class_atlas_1_1_game_camera_1_1_camera_input_action.html", null ],
+      [ "Atlas::SelfDeterminingInputAction", "d2/d1b/class_atlas_1_1_self_determining_input_action.html", null ]
+    ] ],
     [ "Atlas::IProject", "dd/daa/class_atlas_1_1_i_project.html", [
-      [ "Project", "d9/d6e/class_project.html", null ],
-      [ "SamplesProject", "dc/dc3/class_samples_project.html", null ]
+      [ "Atlas::BProject", "d5/d37/class_atlas_1_1_b_project.html", [
+        [ "Project", "d9/d6e/class_project.html", null ],
+        [ "SamplesProject", "dc/dc3/class_samples_project.html", null ]
+      ] ]
     ] ],
     [ "Atlas::IProjectSettings", "db/d9d/class_atlas_1_1_i_project_settings.html", null ],
     [ "ISandboxer", null, [
@@ -163,6 +173,9 @@ var hierarchy =
     ] ],
     [ "ITerminalSink", null, [
       [ "Atlas::TerminalSink", "d9/dbb/class_atlas_1_1_terminal_sink.html", null ]
+    ] ],
+    [ "Atlas::IWindow", "d8/d18/class_atlas_1_1_i_window.html", [
+      [ "Atlas::Window", "d1/df6/class_atlas_1_1_window.html", null ]
     ] ],
     [ "Atlas::JSONFile", "d8/dc8/class_atlas_1_1_j_s_o_n_file.html", null ],
     [ "Atlas::Language", "d4/d6b/class_atlas_1_1_language.html", null ],
@@ -244,6 +257,7 @@ var hierarchy =
     [ "CSerializer::SExtraObject", "d7/d9e/struct_c_serializer_1_1_s_extra_object.html", null ],
     [ "SGridBuffer", "dc/da6/struct_s_grid_buffer.html", null ],
     [ "Atlas::Singleton< T >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::IFrameManager< T >", "db/db8/class_atlas_1_1_i_frame_manager.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
     ] ],
     [ "Techstorm::Singleton", null, [
@@ -278,7 +292,7 @@ var hierarchy =
       [ "Atlas::PhysicsEngine", "d2/dec/class_atlas_1_1_physics_engine.html", null ]
     ] ],
     [ "Atlas::Singleton< ProjectReference >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::IProject::ProjectReference", "d8/d87/class_atlas_1_1_i_project_1_1_project_reference.html", null ]
+      [ "Atlas::BProject::ProjectReference", "da/d52/class_atlas_1_1_b_project_1_1_project_reference.html", null ]
     ] ],
     [ "CScriptBuilder::SMetadataDecl", "d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html", null ],
     [ "Atlas::StateMachine", "d7/d30/class_atlas_1_1_state_machine.html", null ],
@@ -286,6 +300,7 @@ var hierarchy =
     [ "TerrainSector", "d4/d42/class_terrain_sector.html", null ],
     [ "Atlas::TextureArgs", "d1/d00/struct_atlas_1_1_texture_args.html", null ],
     [ "Atlas::TextureEventArgs", "d4/da5/struct_atlas_1_1_texture_event_args.html", null ],
+    [ "Atlas::ThreadGroup", "de/d4b/class_atlas_1_1_thread_group.html", null ],
     [ "Atlas::Transform", "de/d42/class_atlas_1_1_transform.html", null ],
     [ "Terrain::TriangleStruct", "da/d89/struct_terrain_1_1_triangle_struct.html", null ],
     [ "Uniforms", "da/d5c/struct_uniforms.html", null ],
@@ -298,8 +313,7 @@ var hierarchy =
     [ "VERTEX_CONSTANT_BUFFER_DX11", "d8/d09/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x11.html", null ],
     [ "VERTEX_CONSTANT_BUFFER_DX12", "d2/d16/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12.html", null ],
     [ "VertexContainer", "d0/dbd/struct_vertex_container.html", null ],
-    [ "Atlas::Window", "d1/df6/class_atlas_1_1_window.html", null ],
-    [ "Atlas::WindowDecorations", "da/d6a/struct_atlas_1_1_window_decorations.html", null ],
+    [ "Atlas::WindowDecorations", "d4/d08/class_atlas_1_1_window_decorations.html", null ],
     [ "gw::Wrapper< T >", "dd/d92/structgw_1_1_wrapper.html", null ],
     [ "gw::Wrapper< R(*)(A0)>", "d8/ddb/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_08_4.html", null ],
     [ "gw::Wrapper< R(*)(A0, A1)>", "d2/da4/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_00_01_a1_08_4.html", null ],

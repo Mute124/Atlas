@@ -52,6 +52,11 @@ namespace Atlas {
 	/// </para>
 	/// </summary>
 	enum class EAudioDeviceType : int8_t {
+
+		/**
+		 * @brief An unknown device type.
+		 * @remarks This is typically used when a device is not found, it is not initialized, or it is not available for some other reason.
+		 */
 		UNKNOWN_DEVICE_TYPE = -1,
 		PLAYBACK_DEVICE_TYPE = 1,
 		DUPLEX_DEVICE_TYPE = 3,

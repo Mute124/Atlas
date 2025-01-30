@@ -3,6 +3,7 @@ var class_atlas_1_1_config_file_registry =
     [ "ConfigFileRegistry", "d3/d1a/class_atlas_1_1_config_file_registry.html#a6041b4b0728b6da2bbb6f344e6fcb3ac", null ],
     [ "~ConfigFileRegistry", "d3/d1a/class_atlas_1_1_config_file_registry.html#a67d76ffcc4e76092267937d9a839d8d2", null ],
     [ "configLookup", "d3/d1a/class_atlas_1_1_config_file_registry.html#a4d7acc01e4e5231bcd94de35ea7ad870", null ],
+    [ "configLookup", "d3/d1a/class_atlas_1_1_config_file_registry.html#ae7c9e8b868633f7b447e6a2132680db8", null ],
     [ "getJsonFile", "d3/d1a/class_atlas_1_1_config_file_registry.html#a513c5825b97810730d3da9bf5753683d", null ],
     [ "init", "d3/d1a/class_atlas_1_1_config_file_registry.html#a45d3ef589af1f2e24cc0c073403f4e38", null ],
     [ "LoadConfigFile", "d3/d1a/class_atlas_1_1_config_file_registry.html#ad42657410f39870c52877befb3063d7c", null ],

@@ -10,36 +10,39 @@
 #include "../fs/FilePath.h"
 
 namespace Atlas {	
-	/// <summary>
-	/// An audio device is a physical <b>OUTPUT</b> device that can be used to play audio. If you are looking for a <b>INPUT</b> device, see <see cref="AudioCaptureDevice" />. If you
-	/// are looking for documentation on the forms of <b>OUTPUT</b> devices, see this class's details documentation. 
-	/// <para>
-	/// \note Please also note that this class's device type defaults to <see cref="EAudioDeviceType::Playback" />. 
-	/// </para>
-	/// </summary>
-	/// <details>
-	/// Audio devices come in a few forms:
-	///		<list type="bullet">
-	/// 		<item>
-	/// 			<term>Playback: </term>
-	///		 		<description>
-	///		 			An audio device that can be used to play audio.
-	/// 			</description>
-	/// 		</item>
-	/// 		<item>
-	/// 			<term>Duplex: </term>
-	///				<description>
-	/// 				An audio device that can be used to both play and record audio.
-	/// 			</description>
-	/// 		</item>
-	///			<item>
-	/// 			<term>Loopback: </term>
-	/// 			<description>
-	/// 				An audio device that can be used to record audio from another device.
-	/// 			</description>
-	/// 		</item>
-	///		</list>
-	/// </details>
+
+
+#ifndef ATLAS_RAYLIB_AUDIO
+
+	/**
+	 * @brief An audio device is a physical @b OUTPUT device that can be used to play audio.
+	 * If you are looking for a @b INPUT device, see AudioCaptureDevice. If you are looking for documentation
+	 * on the forms of @b OUTPUT devices, see this class's details documentation. 
+
+	 * @remarks An audio device comes in a few forms: 
+	 * 		<list type="bullet">
+	 * 			<item>
+	 * 				<term>@ref EAudioDeviceType::PLAYBACK_DEVICE_TYPE: </term>
+	 *		 			<description>
+	 *			 			is the default and is an audio device that can be used to play audio.
+	 *	 			</description>
+	 *	 		</item>
+	 *	 		<item>
+	 *	 			<term>@ref EAudioDeviceType::DUPLEX_DEVICE_TYPE: </term>
+	 *					<description>
+	 *	 				is an audio device that can be used to both play and record audio.
+	 *	 			</description>
+	 *	 		</item>
+	 *			<item>
+	 *	 			<term>@ref EAudioDeviceType::LOOPBACK_DEVICE_TYPE: </term>
+	 *	 			<description>
+	 *	 				is an audio device that can be used to record audio from another device.
+	 *	 			</description>
+	 *	 		</item>
+	 *		</list>
+	 * @note Please also note that this class's device type defaults to @ref EAudioDeviceType::PLAYBACK_DEVICE_TYPE
+	 * @since v0.0.9
+	 */
 	class AudioDevice {
 	private:
 		InternalAudioDevice mDevice;
@@ -71,4 +74,6 @@ namespace Atlas {
 		AudioDevice();
 		
 	};
+
+#endif
 }

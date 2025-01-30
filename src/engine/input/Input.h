@@ -171,8 +171,6 @@ namespace Atlas {
 
 		int registerSelfDeterminingActionCallback(InputAction* category, SelfDeterminingInputAction* action);
 		
-
-				
 		/// <summary>
 		/// Unregisters <b>ALL</b> callbacks for a given InputAction.
 		/// </summary>

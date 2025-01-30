@@ -1,7 +1,7 @@
 var searchData=
 [
   ['i_0',['i',['../d4/d59/struct_complex.html#ad64f4aa1d5e37061c106f6d739a2dd7b',1,'Complex']]],
-  ['icon_1',['icon',['../da/d6a/struct_atlas_1_1_window_decorations.html#a8ec2fb6be249b6434ec3af2f00153e2e',1,'Atlas::WindowDecorations']]],
+  ['icon_1',['icon',['../d4/d08/class_atlas_1_1_window_decorations.html#a8ec2fb6be249b6434ec3af2f00153e2e',1,'Atlas::WindowDecorations']]],
   ['id_2',['id',['../d0/dd1/class_game_object.html#a6e70aa2531bbd8cb00d98dccb103fe22',1,'GameObject::id'],['../d1/dee/class_terrain.html#ab4cc282c14ff2a5bf05629906f6d0969',1,'Terrain::id'],['../dc/dba/class_atlas_1_1abstract.html#aa1eeb8231c39966224c080c2fa390d3c',1,'Atlas::abstract::id']]],
   ['igameobject_3',['IGameObject',['../d6/dfa/class_atlas_1_1_component.html#a895fdb10618cf395e979f9368ba97ab3',1,'Atlas::Component']]],
   ['imageacquiredsemaphore_4',['ImageAcquiredSemaphore',['../d5/d82/struct_im_gui___impl_vulkan_h___frame_semaphores.html#ad396afd28149848364513e2015c992d1',1,'ImGui_ImplVulkanH_FrameSemaphores']]],
@@ -18,16 +18,17 @@ var searchData=
   ['indexbuffer_15',['indexbuffer',['../d4/dc1/struct_im_gui___impl_d_x12___render_buffers.html#adea8d9622af0a5c6376f4b98840b0812',1,'ImGui_ImplDX12_RenderBuffers::IndexBuffer'],['../d4/d27/struct_im_gui___impl_vulkan___frame_render_buffers.html#a278783f96b729fcb2d7800c69001aa1e',1,'ImGui_ImplVulkan_FrameRenderBuffers::IndexBuffer'],['../da/d55/struct_frame_resources.html#adb51b091a1d65761a46efdb28a57460d',1,'FrameResources::IndexBuffer']]],
   ['indexbufferhost_16',['IndexBufferHost',['../da/d55/struct_frame_resources.html#afc67af1e5b7695064cfc88fa4800a65f',1,'FrameResources']]],
   ['indexbuffermemory_17',['IndexBufferMemory',['../d4/d27/struct_im_gui___impl_vulkan___frame_render_buffers.html#af89d68d85a89683a7a17308365a745cf',1,'ImGui_ImplVulkan_FrameRenderBuffers']]],
-  ['indexbuffersize_18',['indexbuffersize',['../dd/d9e/struct_im_gui___impl_d_x10___data.html#accb1853d64e6eb1a496078f60aebe866',1,'ImGui_ImplDX10_Data::IndexBufferSize'],['../d1/d6d/struct_im_gui___impl_d_x11___data.html#ac7d5bcde5f9906da4cad27bf17b43777',1,'ImGui_ImplDX11_Data::IndexBufferSize'],['../d4/dc1/struct_im_gui___impl_d_x12___render_buffers.html#a29214b15eceea549928373591e877640',1,'ImGui_ImplDX12_RenderBuffers::IndexBufferSize'],['../db/d07/struct_im_gui___impl_d_x9___data.html#a772496c7d1e14eca1973b9ed8ea84b9b',1,'ImGui_ImplDX9_Data::IndexBufferSize'],['../dc/d45/struct_im_gui___impl_open_g_l3___data.html#a4fff755aff6cc130aab106a8b20e3041',1,'ImGui_ImplOpenGL3_Data::IndexBufferSize'],['../d4/d27/struct_im_gui___impl_vulkan___frame_render_buffers.html#ae4a8742879545acadf2123203152b4d8',1,'ImGui_ImplVulkan_FrameRenderBuffers::IndexBufferSize'],['../da/d55/struct_frame_resources.html#a40399cf0ff9d5b63ec4b5a0ee57a9689',1,'FrameResources::IndexBufferSize']]],
+  ['indexbuffersize_18',['indexbuffersize',['../d1/d6d/struct_im_gui___impl_d_x11___data.html#ac7d5bcde5f9906da4cad27bf17b43777',1,'ImGui_ImplDX11_Data::IndexBufferSize'],['../d4/dc1/struct_im_gui___impl_d_x12___render_buffers.html#a29214b15eceea549928373591e877640',1,'ImGui_ImplDX12_RenderBuffers::IndexBufferSize'],['../db/d07/struct_im_gui___impl_d_x9___data.html#a772496c7d1e14eca1973b9ed8ea84b9b',1,'ImGui_ImplDX9_Data::IndexBufferSize'],['../dc/d45/struct_im_gui___impl_open_g_l3___data.html#a4fff755aff6cc130aab106a8b20e3041',1,'ImGui_ImplOpenGL3_Data::IndexBufferSize'],['../d4/d27/struct_im_gui___impl_vulkan___frame_render_buffers.html#ae4a8742879545acadf2123203152b4d8',1,'ImGui_ImplVulkan_FrameRenderBuffers::IndexBufferSize'],['../da/d55/struct_frame_resources.html#a40399cf0ff9d5b63ec4b5a0ee57a9689',1,'FrameResources::IndexBufferSize'],['../dd/d9e/struct_im_gui___impl_d_x10___data.html#accb1853d64e6eb1a496078f60aebe866',1,'ImGui_ImplDX10_Data::IndexBufferSize']]],
   ['indices_19',['indices',['../d7/d58/class_chunk.html#a232cc7d6d7a2a83c3404cf278e3eeffe',1,'Chunk']]],
   ['initcode_20',['initCode',['../da/d5f/class_atlas_1_1_audio_manager.html#a486ffb63fbbf24bc1884b96057c1f804',1,'Atlas::AudioManager']]],
   ['initinfo_21',['initInfo',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#ad34cc23f50bbb127be2db2196f05f601',1,'ImGui_ImplWGPU_Data']]],
   ['inputcontext_22',['InputContext',['../d2/d61/struct_im_gui___impl_o_s_x___data.html#ae5c9f0f3565a0ce5e2a71a776624fb69',1,'ImGui_ImplOSX_Data']]],
-  ['installedcallbacks_23',['InstalledCallbacks',['../d5/d6e/struct_im_gui___impl_glfw___data.html#a2cd25c9a1afd831a20c9ec5a6dc52b91',1,'ImGui_ImplGlfw_Data']]],
-  ['instance_24',['Instance',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a7b876fe4c1aa7d3e974eeb1292973a7c',1,'ImGui_ImplVulkan_InitInfo']]],
-  ['isenabled_25',['IsEnabled',['../d4/d6c/union_im_g_l3_w_procs.html#aac7ad0f2970978d316941601bddaa906',1,'ImGL3WProcs']]],
-  ['isinit_26',['isInit',['../d1/dee/class_terrain.html#a462071b619861733cc9873104d276fe9',1,'Terrain']]],
-  ['isprogram_27',['IsProgram',['../d4/d6c/union_im_g_l3_w_procs.html#ad38a8b3eda897e9b93115a054f43989a',1,'ImGL3WProcs']]],
-  ['isupdatewaiting_28',['isUpdateWaiting',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#afd20c807332826370e6b78b0fc0207d0',1,'Atlas::Application::FrameManager']]],
-  ['isworkerwaiting_29',['isWorkerWaiting',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#a51643a5ed38c3e23d4445d3471f449cf',1,'Atlas::Application::FrameManager']]]
+  ['inputregistry_23',['inputRegistry',['../d3/d8d/class_atlas_1_1_atlas_engine.html#a87a38a5ab44407fc034d2a6ebd33a27b',1,'Atlas::AtlasEngine']]],
+  ['installedcallbacks_24',['InstalledCallbacks',['../d5/d6e/struct_im_gui___impl_glfw___data.html#a2cd25c9a1afd831a20c9ec5a6dc52b91',1,'ImGui_ImplGlfw_Data']]],
+  ['instance_25',['Instance',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a7b876fe4c1aa7d3e974eeb1292973a7c',1,'ImGui_ImplVulkan_InitInfo']]],
+  ['isenabled_26',['IsEnabled',['../d4/d6c/union_im_g_l3_w_procs.html#aac7ad0f2970978d316941601bddaa906',1,'ImGL3WProcs']]],
+  ['isinit_27',['isInit',['../d1/dee/class_terrain.html#a462071b619861733cc9873104d276fe9',1,'Terrain']]],
+  ['isprogram_28',['IsProgram',['../d4/d6c/union_im_g_l3_w_procs.html#ad38a8b3eda897e9b93115a054f43989a',1,'ImGL3WProcs']]],
+  ['isupdatewaiting_29',['isUpdateWaiting',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#afd20c807332826370e6b78b0fc0207d0',1,'Atlas::Application::FrameManager']]],
+  ['isworkerwaiting_30',['isWorkerWaiting',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#a51643a5ed38c3e23d4445d3471f449cf',1,'Atlas::Application::FrameManager']]]
 ];

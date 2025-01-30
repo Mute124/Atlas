@@ -8,5 +8,7 @@ var searchData=
   ['filesystem_2ecpp_5',['FileSystem.cpp',['../d1/d4c/_file_system_8cpp.html',1,'']]],
   ['filesystem_2eh_6',['FileSystem.h',['../d2/d58/_file_system_8h.html',1,'']]],
   ['filesystemregistry_2ecpp_7',['FileSystemRegistry.cpp',['../de/df6/_file_system_registry_8cpp.html',1,'']]],
-  ['filesystemregistry_2eh_8',['FileSystemRegistry.h',['../df/dc8/_file_system_registry_8h.html',1,'']]]
+  ['filesystemregistry_2eh_8',['FileSystemRegistry.h',['../df/dc8/_file_system_registry_8h.html',1,'']]],
+  ['framemanager_2ecpp_9',['FrameManager.cpp',['../d6/d38/_frame_manager_8cpp.html',1,'']]],
+  ['framemanager_2eh_10',['FrameManager.h',['../dd/d10/_frame_manager_8h.html',1,'']]]
 ];

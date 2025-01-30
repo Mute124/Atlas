@@ -6,7 +6,7 @@ var class_atlas_1_1_renderer =
     [ "addStandaloneDrawCall", "dc/d71/class_atlas_1_1_renderer.html#a7c6e747ccf1187ad51299779f82f68db", null ],
     [ "cleanup", "dc/d71/class_atlas_1_1_renderer.html#a971fea43b91b30cb3567e9a7ca4a6920", null ],
     [ "drawFBO", "dc/d71/class_atlas_1_1_renderer.html#a23b9e5f673f716ebdffdcbde23e2fd79", null ],
-    [ "initialize", "dc/d71/class_atlas_1_1_renderer.html#a4c336e751414fb228bad458a2f420896", null ],
+    [ "init", "dc/d71/class_atlas_1_1_renderer.html#a3e136cc21a8132d5a94287f07e8b1f85", null ],
     [ "removeGameObject", "dc/d71/class_atlas_1_1_renderer.html#af5374ec4da3b6ad8d03c045e38553f50", null ],
     [ "removeGameObjectGate", "dc/d71/class_atlas_1_1_renderer.html#ac02e9382439306b154cc0d923ce21c07", null ],
     [ "render", "dc/d71/class_atlas_1_1_renderer.html#ade8b1f2086970ad251510384b8764bef", null ],

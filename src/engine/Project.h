@@ -19,6 +19,7 @@
 #include "fs/FileSystemRegistry.h"
 #include <memory>
 
+
 namespace Atlas {
 	class IAtlas {
 	public:

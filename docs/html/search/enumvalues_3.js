@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['error_0',['ERROR',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079abb1ca97ec761fc37101737ba0aa2e7c5',1,'Atlas']]],
-  ['error_5ffailed_5fto_5finitialize_5fsystem_1',['ERROR_FAILED_TO_INITIALIZE_SYSTEM',['../d7/d54/namespace_atlas.html#a8db949e6d304e138149d0c697ed389aaaa46683e297f0b59b2275eafd1c61293b',1,'Atlas']]],
-  ['error_5finvalid_5fargs_2',['ERROR_INVALID_ARGS',['../d7/d54/namespace_atlas.html#a8db949e6d304e138149d0c697ed389aaa4ac1b581e08caf741cabcce7dec6e4a4',1,'Atlas']]],
-  ['error_5finvalid_5fvalue_3',['ERROR_INVALID_VALUE',['../d7/d54/namespace_atlas.html#a8db949e6d304e138149d0c697ed389aaa60484987e8a34a4a0c1ffcf7571f492a',1,'Atlas']]],
-  ['error_5fnullptr_5finitialization_5ffailure_4',['ERROR_NULLPTR_INITIALIZATION_FAILURE',['../d7/d54/namespace_atlas.html#a8db949e6d304e138149d0c697ed389aaa805129dcffec94474c766ecc531db6d0',1,'Atlas']]],
-  ['error_5funknown_5',['ERROR_UNKNOWN',['../d7/d54/namespace_atlas.html#a8db949e6d304e138149d0c697ed389aaa0a306e577f7923ac78d86a60bee66966',1,'Atlas']]]
+  ['debug_0',['DEBUG',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079adc30ec20708ef7b0f641ef78b7880a15',1,'Atlas']]],
+  ['directories_1',['Directories',['../d4/d46/_platform_extensions_8cpp.html#a6e68f6326f0d9c124fc6f54fc2733376af60bce136c62f7ab3c73aa4f0d5fcae9',1,'PlatformExtensions.cpp']]],
+  ['down_5fdirection_2',['DOWN_DIRECTION',['../d7/dc3/class_atlas_1_1_game_camera.html#a67dda24b981f7e800d77bfb134d7bea7a87eedfec05554e57b88eb6e4a1f4fed8',1,'Atlas::GameCamera']]],
+  ['duplex_5fdevice_5ftype_3',['DUPLEX_DEVICE_TYPE',['../d7/d54/namespace_atlas.html#a9de58d1cced21d88ab117aa07c5f3938a46c7b16b9518c387a8d23044258dc0d4',1,'Atlas']]]
 ];

@@ -22,12 +22,15 @@ var searchData=
   ['_7egamecamera_19',['~GameCamera',['../d7/dc3/class_atlas_1_1_game_camera.html#a8f9c879df4e6283257d1fbeecebd7a9c',1,'Atlas::GameCamera']]],
   ['_7eierror_20',['~IError',['../dc/dba/class_atlas_1_1abstract.html#a487b02a839fda302606663b21caafb44',1,'Atlas::abstract']]],
   ['_7eiexception_21',['~IException',['../d1/d81/class_atlas_1_1_i_exception.html#af1e0403c4163a2f25226c916739ce172',1,'Atlas::IException']]],
-  ['_7eigameobject_22',['~IGameObject',['../dc/dba/class_atlas_1_1abstract.html#a051dc07adc5d3358048b89fe82e90423',1,'Atlas::abstract']]],
-  ['_7eilayerregistry_23',['~ILayerRegistry',['../d6/d34/class_techstorm_1_1abstract.html#a4a5949bcde32483abd8b15105a2eda10',1,'Techstorm::abstract']]],
-  ['_7eiphysicsgameobject_24',['~IPhysicsGameObject',['../dc/dba/class_atlas_1_1abstract.html#a45c2807c34141e65d6b0d8c9026b679a',1,'Atlas::abstract']]],
-  ['_7elayerregistry_25',['~LayerRegistry',['../db/d5d/class_techstorm_1_1_layer_registry.html#af9d0b1f70047143779fd67cd3b66bc8e',1,'Techstorm::LayerRegistry']]],
-  ['_7emod_26',['~Mod',['../df/d6e/class_atlas_1_1_mod.html#a46e99d24b03c38d2053485ce0ba4835f',1,'Atlas::Mod']]],
-  ['_7emodloader_27',['~ModLoader',['../d9/dc9/class_atlas_1_1_mod_loader.html#ad35f872f9a6cf583bdf303007480d5b7',1,'Atlas::ModLoader']]],
-  ['_7eshellfileinterface_28',['~ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#af3a1911ef7d963ac9bc10947b279af52',1,'ShellFileInterface']]],
-  ['_7etransformcomponent_29',['~TransformComponent',['../dc/d08/class_atlas_1_1_transform_component.html#a7a29728e4eb536e07f70d4ed58eddc98',1,'Atlas::TransformComponent']]]
+  ['_7eiframemanager_22',['~IFrameManager',['../db/db8/class_atlas_1_1_i_frame_manager.html#aa9040518db979de2b81a1b6e7810deb0',1,'Atlas::IFrameManager']]],
+  ['_7eigameobject_23',['~IGameObject',['../dc/dba/class_atlas_1_1abstract.html#a051dc07adc5d3358048b89fe82e90423',1,'Atlas::abstract']]],
+  ['_7eilayerregistry_24',['~ILayerRegistry',['../d6/d34/class_techstorm_1_1abstract.html#a4a5949bcde32483abd8b15105a2eda10',1,'Techstorm::abstract']]],
+  ['_7eiphysicsgameobject_25',['~IPhysicsGameObject',['../dc/dba/class_atlas_1_1abstract.html#a45c2807c34141e65d6b0d8c9026b679a',1,'Atlas::abstract']]],
+  ['_7elayerregistry_26',['~LayerRegistry',['../db/d5d/class_techstorm_1_1_layer_registry.html#af9d0b1f70047143779fd67cd3b66bc8e',1,'Techstorm::LayerRegistry']]],
+  ['_7emod_27',['~Mod',['../df/d6e/class_atlas_1_1_mod.html#a46e99d24b03c38d2053485ce0ba4835f',1,'Atlas::Mod']]],
+  ['_7emodloader_28',['~ModLoader',['../d9/dc9/class_atlas_1_1_mod_loader.html#ad35f872f9a6cf583bdf303007480d5b7',1,'Atlas::ModLoader']]],
+  ['_7eshellfileinterface_29',['~ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#af3a1911ef7d963ac9bc10947b279af52',1,'ShellFileInterface']]],
+  ['_7ethreadgroup_30',['~ThreadGroup',['../de/d4b/class_atlas_1_1_thread_group.html#a283bf5c5b7e11bd661bd202720b5b4cf',1,'Atlas::ThreadGroup']]],
+  ['_7etransformcomponent_31',['~TransformComponent',['../dc/d08/class_atlas_1_1_transform_component.html#a7a29728e4eb536e07f70d4ed58eddc98',1,'Atlas::TransformComponent']]],
+  ['_7ewindow_32',['~Window',['../d1/df6/class_atlas_1_1_window.html#a4afa9a32bef0bc15f922f41ddb387b4e',1,'Atlas::Window']]]
 ];
