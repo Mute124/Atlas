@@ -27,19 +27,25 @@ var indexSectionsWithContent =
   11: "abdilotw"
 =======
   0: "_abcdefghijklmnopqrstuvwxyz~",
-  1: "abcefghijklmnoprstuvwx",
-  2: "ablprst",
+  1: "abcdefgijklmnoprstuvwx",
+  2: "abglprst",
   3: "abcdefghijlmoprstuvwx",
-  4: "_abcdfghijklmnoprstuvwx~",
+  4: "_abcdefghijklmnoprstuvwxz~",
   5: "_abcdefghiklmnopqrstuvwxyz",
-  6: "abcdfghijklmnoprstuvwy",
-  7: "egilmp",
-  8: "acdefgimnpstuw",
+  6: "abcdefghijklmnoprstuvwy",
+  7: "degilmp",
+  8: "abcdefgilmnprstuw",
   9: "bcdflrs",
+<<<<<<< HEAD
+  10: "abcfor",
+  11: "_acdgijmprstuvw",
+  12: "abdlot"
+=======
   10: "cfir",
   11: "_acdgijmprstvw",
   12: "abdilotw"
 >>>>>>> main
+>>>>>>> master
 };
 
 var indexSectionNames =

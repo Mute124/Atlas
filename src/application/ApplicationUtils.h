@@ -17,7 +17,7 @@
 #include <Common.h>
 #include <modding/ScriptingAPI.h>
 #include <renderer/Renderer.h>
-#include <renderer/WindowDecorations.h>
+#include <renderer/window/WindowDecorations.h>
 #include <conf/Config.h>
 
 #include <project.h>
@@ -160,19 +160,17 @@ namespace Atlas::Application {
 		volatile bool isWorkerWaiting = false;
 		volatile bool isUpdateWaiting = false;
 
-		std::shared_ptr<PROJECT_TYPENAME> userProject;
+		std::shared_ptr<IProject> userProject;
 		std::jthread updateThread;
 		std::jthread workThread;
 
-		int RunUpdateThread(PROJECT_TYPENAME* userProject)
+		int RunUpdateThread()
 		{
 			isUpdateWaiting = true;
 
 			while (sIsWaitingForOthers && !sExit) {
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}
-
-			Log("Update thread started");
 
 			while (!sExit) {
 				
@@ -195,15 +193,18 @@ namespace Atlas::Application {
 			return 0;
 		}
 
-		int RunWorkerThread(PROJECT_TYPENAME* userProject)
+		int RunWorkerThread()
 		{
+			this->userProject->preInit();
+			this->userProject->init(0, nullptr);
+
 			isWorkerWaiting = true;
 			while (sIsWaitingForOthers && !sExit) {
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}
-			Log("Worker thread started");
-
 			while (!sExit) {
+				this->userProject->workingUpdate();
+
 				// This is here because it reduces CPU consumption
 				ATLAS_THREAD_YIELD;
 				std::this_thread::sleep_for(std::chrono::milliseconds(16));
@@ -212,43 +213,48 @@ namespace Atlas::Application {
 			return 0;
 		}
 
-		void launchThreads(PROJECT_TYPENAME& gameSettings)
+		void launchThreads()
 		{
+			
+			Log("Test");
+
 			sIsWaitingForOthers = true;
 			updateThread = std::jthread([&]() {
-				RunUpdateThread(&gameSettings);
+				
+				RunUpdateThread();
 			});
 
 			updateThread.detach();
 			
-			
 			workThread = std::jthread([&]() {
-				RunWorkerThread(&gameSettings);
+				
+				RunWorkerThread();
 			});
 			
-			//workThread.detach();
+			workThread.detach();
 			while (sIsWaitingForOthers && !sExit) {
-				
 				if (isWorkerWaiting && isUpdateWaiting) {
-
-
 					Log("All threads are ready");
-
+					this->userProject->postInit();
 					sIsWaitingForOthers = false;
 					break;
 				}
 				else {
-					Log("Waiting for threads...", ELogLevel::TRACE);
+				
 					std::this_thread::sleep_for(std::chrono::milliseconds(1));
 					
 				}
-
-
 			}
+
+			userProject->run(0, nullptr);
 		}
 
 		void killThreads() {
 			sExit = true;
+			userProject->cleanup(0);
+
+			updateThread.join();
+			workThread.join();
 		}
 	private:
 

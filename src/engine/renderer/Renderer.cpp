@@ -34,14 +34,18 @@ Atlas::Renderer::Renderer() {
 	mCamera.setUp(Vector3{0.0f, 1.0f, 0.0f});
 	mCamera.setFovy(60.0f);
 	mCamera.setProjection(CAMERA_PERSPECTIVE);
+
 }
 
-void Atlas::Renderer::initialize()
+void Atlas::Renderer::init()
 {
 	std::cout << "Initializing renderer" << std::endl;
+
+	
 	// TODO: Implement Renderer::initialize
 	Vector2 size = { GetScreenWidth(), GetScreenHeight() };
 	this->mScreenBuffer = LoadRenderTexture(size.x, size.y);
+	mCamera.init();
 }
 
 void Atlas::Renderer::render(GameCamera& cam)
@@ -63,9 +67,12 @@ void Atlas::Renderer::texture(GameCamera& cam)
 #endif
 
 	mGameObjects.texture();
-	DrawCube(Vector3{ 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f, 1.0f, RED);
+	
 #ifdef ATLAS_RENDERER_2D
 #else
+
+	DrawCube(Vector3{ 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f, 1.0f, RED);
+
 	EndMode3D();
 #endif
 	EndTextureMode();

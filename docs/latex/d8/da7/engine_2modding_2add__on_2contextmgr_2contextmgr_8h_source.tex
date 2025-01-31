@@ -1,0 +1,105 @@
+\doxysection{contextmgr.\+h}
+\hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source}{}\label{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/modding/add\_on/contextmgr/contextmgr.h@{C:/Dev/Techstorm-\/v5/src/engine/modding/add\_on/contextmgr/contextmgr.h}}
+\mbox{\hyperlink{engine_2modding_2add__on_2contextmgr_2contextmgr_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ CONTEXTMGR\_H}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ CONTEXTMGR\_H}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00004}00004\ \textcolor{comment}{//\ The\ context\ manager\ simplifies\ the\ management\ of\ multiple\ concurrent\ scripts}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00006}00006\ \textcolor{comment}{//\ More\ than\ one\ context\ manager\ can\ be\ used,\ if\ you\ wish\ to\ control\ different}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00007}00007\ \textcolor{comment}{//\ groups\ of\ scripts\ separately,\ e.g.\ game\ object\ scripts,\ and\ GUI\ scripts.}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00009}00009\ \textcolor{comment}{//\ OBSERVATION:\ This\ class\ is\ currently\ not\ thread\ safe.}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00011}00011\ \textcolor{preprocessor}{\#ifndef\ ANGELSCRIPT\_H}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00012}00012\ \textcolor{comment}{//\ Avoid\ having\ to\ inform\ include\ path\ if\ header\ is\ already\ include\ before}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <angelscript.h>}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00014}00014\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00018}00018\ BEGIN\_AS\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00020}00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}};}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00022}00022\ \textcolor{comment}{//\ The\ internal\ structure\ for\ holding\ contexts}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00023}00023\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_s_context_info}{SContextInfo}};}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00025}00025\ \textcolor{comment}{//\ The\ signature\ of\ the\ get\ time\ callback\ function}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00026}\mbox{\hyperlink{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_acac0b5dbc80e24893bc9d90c9fac1b88}{00026}}\ \textcolor{keyword}{typedef}\ asUINT\ (*\mbox{\hyperlink{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_acac0b5dbc80e24893bc9d90c9fac1b88}{TIMEFUNC\_t}})();}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00028}00028\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_context_mgr}{CContextMgr}}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00029}00029\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00030}00030\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00031}\mbox{\hyperlink{class_c_context_mgr_a9e4a8c11eae521933d9a925ca60ab82c}{00031}}\ \ \ \ \ \mbox{\hyperlink{class_c_context_mgr_a9e4a8c11eae521933d9a925ca60ab82c}{CContextMgr}}();}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00032}\mbox{\hyperlink{class_c_context_mgr_a57d18c8521ee867198aa81e0d3e744f6}{00032}}\ \ \ \ \ \mbox{\hyperlink{class_c_context_mgr_a57d18c8521ee867198aa81e0d3e744f6}{\string~CContextMgr}}();}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00034}00034\ \ \ \ \ \textcolor{comment}{//\ Set\ the\ function\ that\ the\ manager\ will\ use\ to\ obtain\ the\ time\ in\ milliseconds}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00035}\mbox{\hyperlink{class_c_context_mgr_a82ba59c637df2c9d116eb93e718d85ed}{00035}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_context_mgr_a82ba59c637df2c9d116eb93e718d85ed}{SetGetTimeCallback}}(\mbox{\hyperlink{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_acac0b5dbc80e24893bc9d90c9fac1b88}{TIMEFUNC\_t}}\ func);}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00037}00037\ \ \ \ \ \textcolor{comment}{//\ Registers\ the\ following:}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00038}00038\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00039}00039\ \ \ \ \ \textcolor{comment}{//\ \ void\ sleep(uint\ milliseconds)}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00040}00040\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00041}00041\ \ \ \ \ \textcolor{comment}{//\ The\ application\ must\ set\ the\ get\ time\ callback\ for\ this\ to\ work}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00042}\mbox{\hyperlink{class_c_context_mgr_ac91a72b51c29e19ad638891d672036bc}{00042}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_context_mgr_ac91a72b51c29e19ad638891d672036bc}{RegisterThreadSupport}}(asIScriptEngine\ *engine);}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00044}00044\ \ \ \ \ \textcolor{comment}{//\ Registers\ the\ following:}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00045}00045\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00046}00046\ \ \ \ \ \textcolor{comment}{//\ \ funcdef\ void\ coroutine(dictionary@)}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00047}00047\ \ \ \ \ \textcolor{comment}{//\ \ void\ createCoRoutine(coroutine\ @func,\ dictionary\ @args)}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//\ \ void\ yield()}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00049}\mbox{\hyperlink{class_c_context_mgr_a1679b3b77f2e4b089747cc0b9af6ed1b}{00049}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_context_mgr_a1679b3b77f2e4b089747cc0b9af6ed1b}{RegisterCoRoutineSupport}}(asIScriptEngine\ *engine);}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ Create\ a\ new\ context,\ prepare\ it\ with\ the\ function\ id,\ then\ return}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ it\ so\ that\ the\ application\ can\ pass\ the\ argument\ values.\ The\ context}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00053}00053\ \ \ \ \ \textcolor{comment}{//\ will\ be\ released\ by\ the\ manager\ after\ the\ execution\ has\ completed.}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00054}00054\ \ \ \ \ \textcolor{comment}{//\ Set\ keepCtxAfterExecution\ to\ true\ if\ the\ application\ needs\ to\ retrieve}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00055}00055\ \ \ \ \ \textcolor{comment}{//\ information\ from\ the\ context\ after\ it\ the\ script\ has\ finished.}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00056}\mbox{\hyperlink{class_c_context_mgr_aa26cfe615834fe5fd6474d62dc80e80e}{00056}}\ \ \ \ \ asIScriptContext\ *\mbox{\hyperlink{class_c_context_mgr_aa26cfe615834fe5fd6474d62dc80e80e}{AddContext}}(asIScriptEngine\ *engine,\ asIScriptFunction\ *func,\ \textcolor{keywordtype}{bool}\ keepCtxAfterExecution\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00058}00058\ \ \ \ \ \textcolor{comment}{//\ If\ the\ context\ was\ kept\ after\ the\ execution,\ this\ method\ must\ be}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00059}00059\ \ \ \ \ \textcolor{comment}{//\ called\ when\ the\ application\ is\ done\ with\ the\ context\ so\ it\ can\ be}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00060}00060\ \ \ \ \ \textcolor{comment}{//\ returned\ to\ the\ pool\ for\ reuse.}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00061}\mbox{\hyperlink{class_c_context_mgr_a45359048da04e5bb86210487e687bd24}{00061}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_context_mgr_a45359048da04e5bb86210487e687bd24}{DoneWithContext}}(asIScriptContext\ *ctx);}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00063}00063\ \ \ \ \ \textcolor{comment}{//\ Create\ a\ new\ context,\ prepare\ it\ with\ the\ function\ id,\ then\ return}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00064}00064\ \ \ \ \ \textcolor{comment}{//\ it\ so\ that\ the\ application\ can\ pass\ the\ argument\ values.\ The\ context}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00065}00065\ \ \ \ \ \textcolor{comment}{//\ will\ be\ added\ as\ a\ co-\/routine\ in\ the\ same\ thread\ as\ the\ currCtx.}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00066}\mbox{\hyperlink{class_c_context_mgr_a9e3b09fd61c99746bb23621db9274f77}{00066}}\ \ \ \ \ asIScriptContext\ *\mbox{\hyperlink{class_c_context_mgr_a9e3b09fd61c99746bb23621db9274f77}{AddContextForCoRoutine}}(asIScriptContext\ *currCtx,\ asIScriptFunction\ *func);}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00068}00068\ \ \ \ \ \textcolor{comment}{//\ Execute\ each\ script\ that\ is\ not\ currently\ sleeping.\ The\ function\ returns\ after}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00069}00069\ \ \ \ \ \textcolor{comment}{//\ each\ script\ has\ been\ executed\ once.\ The\ application\ should\ call\ this\ function}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00070}00070\ \ \ \ \ \textcolor{comment}{//\ for\ each\ iteration\ of\ the\ message\ pump,\ or\ game\ loop,\ or\ whatever.}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00071}00071\ \ \ \ \ \textcolor{comment}{//\ Returns\ the\ number\ of\ scripts\ still\ in\ execution.}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00072}\mbox{\hyperlink{class_c_context_mgr_a9c71fab7edb0bd8463be063443b79744}{00072}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_context_mgr_a9c71fab7edb0bd8463be063443b79744}{ExecuteScripts}}();}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00074}00074\ \ \ \ \ \textcolor{comment}{//\ Put\ a\ script\ to\ sleep\ for\ a\ while}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00075}\mbox{\hyperlink{class_c_context_mgr_afbcc78d87f1afa9f78a43c8af1a9930b}{00075}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_context_mgr_afbcc78d87f1afa9f78a43c8af1a9930b}{SetSleeping}}(asIScriptContext\ *ctx,\ asUINT\ milliSeconds);}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00077}00077\ \ \ \ \ \textcolor{comment}{//\ Switch\ the\ execution\ to\ the\ next\ co-\/routine\ in\ the\ group.}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00078}00078\ \ \ \ \ \textcolor{comment}{//\ Returns\ true\ if\ the\ switch\ was\ successful.}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00079}\mbox{\hyperlink{class_c_context_mgr_a9a5e673b981843c24a8dbfae0daf6075}{00079}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_context_mgr_a9a5e673b981843c24a8dbfae0daf6075}{NextCoRoutine}}();}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00081}00081\ \ \ \ \ \textcolor{comment}{//\ Abort\ all\ scripts}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00082}\mbox{\hyperlink{class_c_context_mgr_a6752771b658fa0bae554a1bbae620ab0}{00082}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_context_mgr_a6752771b658fa0bae554a1bbae620ab0}{AbortAll}}();}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00084}00084\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00085}00085\ \ \ \ \ std::vector<SContextInfo*>\ \mbox{\hyperlink{class_c_context_mgr_a05b74ff5e2438d5970abbecbd78005e9}{m\_threads}};}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00086}00086\ \ \ \ \ std::vector<SContextInfo*>\ \mbox{\hyperlink{class_c_context_mgr_a467f791e436e66785db2eace12c214a5}{m\_freeThreads}};}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00087}00087\ \ \ \ \ asUINT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_context_mgr_a4e762de0aeba1abe7fb30e836c040a2d}{m\_currentThread}};}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00088}00088\ \ \ \ \ \mbox{\hyperlink{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_acac0b5dbc80e24893bc9d90c9fac1b88}{TIMEFUNC\_t}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_context_mgr_a933de05675d90c686a2118988659da61}{m\_getTimeFunc}};}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00090}00090\ \ \ \ \ \textcolor{comment}{//\ Statistics\ for\ Garbage\ Collection}}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00091}00091\ \ \ \ \ asUINT\ \ \ \mbox{\hyperlink{class_c_context_mgr_afffaa1a1786ad98255e58c9632c4574b}{m\_numExecutions}};}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00092}00092\ \ \ \ \ asUINT\ \ \ \mbox{\hyperlink{class_c_context_mgr_a07fa6afa007449344bb6a61166cf9f83}{m\_numGCObjectsCreated}};}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00093}00093\ \ \ \ \ asUINT\ \ \ \mbox{\hyperlink{class_c_context_mgr_ae4485a798ddfb8f4a1cb44c2676d5825}{m\_numGCObjectsDestroyed}};}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00094}00094\ \};}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00097}00097\ END\_AS\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{engine_2modding_2add__on_2contextmgr_2contextmgr_8h_source_l00099}00099\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

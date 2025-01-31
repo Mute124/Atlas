@@ -11,17 +11,17 @@
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/RegisterTypes.h>
 
-  Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources() {}
+Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources() {}
 
-  Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources(AllocatedPhysicsResources const& resources) : cMaxBodies(resources.cMaxBodies), cNumBodyMutexes(resources.cNumBodyMutexes), cMaxBodyPairs(resources.cMaxBodyPairs), cMaxContactConstraints(resources.cMaxContactConstraints) {}
+Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources(AllocatedPhysicsResources const& resources) : cMaxBodies(resources.cMaxBodies), cNumBodyMutexes(resources.cNumBodyMutexes), cMaxBodyPairs(resources.cMaxBodyPairs), cMaxContactConstraints(resources.cMaxContactConstraints) {}
 
-  Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources(const JPH::uint& cMaxBodies, const JPH::uint& cNumBodyMutexes, const JPH::uint& cMaxBodyPairs, const JPH::uint& cMaxContactConstraints)
+Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources(const JPH::uint& cMaxBodies, const JPH::uint& cNumBodyMutexes, const JPH::uint& cMaxBodyPairs, const JPH::uint& cMaxContactConstraints)
 	: cMaxBodies(cMaxBodies), cNumBodyMutexes(cNumBodyMutexes), cMaxBodyPairs(cMaxBodyPairs), cMaxContactConstraints(cMaxContactConstraints)
 {
 }
 
-  void Atlas::PhysicsEngine::init(const AllocatedPhysicsResources resources) {
-	if (!mIsInitialized) {
+void Atlas::PhysicsEngine::init(const AllocatedPhysicsResources resources) {
+	if(!mIsInitialized) {
 		mResources = resources;
 		JPH::RegisterDefaultAllocator();
 
@@ -36,7 +36,6 @@
 		mTempAllocator = new JPH::TempAllocatorImpl(mResources.preAllocatedMemory);
 
 		mJobSystemThreadPool = new JPH::JobSystemThreadPool(JPH::cMaxPhysicsJobs, JPH::cMaxPhysicsBarriers, thread::hardware_concurrency() - 1);
-
 
 		mPhysicsSystem = new JPH::PhysicsSystem();
 		// Now we can create the actual physics system. This is not nullptr.
@@ -54,20 +53,47 @@
 		mPhysicsSystem->SetContactListener(mContactListener);
 
 		mBodyInterfaceHolder = new BodyInterfaceHolder(mPhysicsSystem->GetBodyInterface());
-
 	}
 }
 
-  void Atlas::PhysicsEngine::update(const float cDeltaTime) {
+void Atlas::PhysicsEngine::update(const float cDeltaTime) {
 	mPhysicsSystem->Update(cDeltaTime, mCollisionSteps, 4, mTempAllocator, mJobSystemThreadPool);
 }
 
-  void Atlas::PhysicsEngine::optimizeBroadPhase() {
+void Atlas::PhysicsEngine::optimizeBroadPhase() {
 	mPhysicsSystem->OptimizeBroadPhase();
 }
 
-  JPH::BodyInterface& Atlas::PhysicsEngine::getBodyInterface() const { return mBodyInterfaceHolder->bodyInterface; }
+JPH::BodyInterface& Atlas::PhysicsEngine::getBodyInterface() const {
+	return mBodyInterfaceHolder->bodyInterface;
+}
 
-  Atlas::PhysicsEngine::BodyInterfaceHolder::BodyInterfaceHolder(JPH::BodyInterface& bodyInterface) : bodyInterface(bodyInterface) {}
+Atlas::PhysicsEngine::BodyInterfaceHolder::BodyInterfaceHolder(JPH::BodyInterface& bodyInterface) : bodyInterface(bodyInterface) {
+}
 
-  Atlas::PhysicsEngine::BodyInterfaceHolder::~BodyInterfaceHolder() {}
+Atlas::PhysicsEngine::BodyInterfaceHolder::~BodyInterfaceHolder() {
+}
+
+void Atlas::DefaultPhysicsTrace(const char* inFMT, ...)
+{
+	// TODO: See above documentation
+	// Format the message
+	va_list list;
+	va_start(list, inFMT);
+	char buffer[1024];
+	vsnprintf(buffer, sizeof(buffer), inFMT, list);
+	va_end(list);
+
+	// Print to the TTY
+	cout << buffer << endl;
+}
+
+bool Atlas::DefaultPhysicsAssertFailed(const char* inExpression, const char* inMessage, const char* inFile, JPH::uint inLine)
+{
+	// TODO: See above documentation
+	// Print to the TTY
+	cout << inFile << ":" << inLine << ": (" << inExpression << ") " << (inMessage != nullptr ? inMessage : "") << endl;
+
+	// Breakpoint
+	return true;
+}

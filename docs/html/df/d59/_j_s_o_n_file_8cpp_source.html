@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -100,25 +100,36 @@ $(document).ready(function(){initNavTree('df/d59/_j_s_o_n_file_8cpp_source.html'
 </div><!--header-->
 <div class="contents">
 <a href="../../df/d59/_j_s_o_n_file_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="../../de/de4/_j_s_o_n_file_8h.html">JSONFile.h</a>&quot;</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="foldopen" id="foldopen00003" data-start="{" data-end="}">
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno"><a class="line" href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html#aa6f75ceabda0fd0a2e0e839f9efd850b">    3</a></span><a class="code hl_function" href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html#aa6f75ceabda0fd0a2e0e839f9efd850b">Atlas::JSONFile::JSONFile</a>(<span class="keyword">const</span> std::string&amp; path) {</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>    <a class="code hl_typedef" href="../../d7/d54/namespace_atlas.html#a30c03ddc598bf8537d152d570a96efbc">JSONParser</a> jsonParser;</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>    </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    this-&gt;mPaddedJSONString = PaddedString::load(path);</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    this-&gt;mJSONDocument = jsonParser.iterate(mPaddedJSONString);</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>}</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;../Common.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// Just used for testing. </span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="../../df/d59/_j_s_o_n_file_8cpp.html#a711982cd724cac2a22f52f7dfa323bba">    6</a></span><span class="preprocessor">#define ATLAS_TEST_PATH static_cast&lt;std::string&gt;(&quot;/game/data/assets/TestModel.json&quot;)</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="foldopen" id="foldopen00008" data-start="{" data-end="}">
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html#aa6f75ceabda0fd0a2e0e839f9efd850b">    8</a></span><a class="code hl_function" href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html#aa6f75ceabda0fd0a2e0e839f9efd850b">Atlas::JSONFile::JSONFile</a>(<span class="keyword">const</span> std::string&amp; path) {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    simdjson::dom::parser parser;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="comment">//this-&gt;mPaddedJSONString = PaddedString::load(path);</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="comment">//this-&gt;mJSONDocument = jsonParser.iterate(mPaddedJSONString);</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    std::string filePath = <a class="code hl_define" href="../../db/d1f/_common_8h.html#a22bf313ce6cdc640a1feaf76dfc2897e">ATLAS_GAME_DIR</a>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    filePath += path;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    this-&gt;<a class="code hl_variable" href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html#a6e879085577e1bbce900c7b6f035a138">mElement</a> = parser.load(filePath);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>}</div>
 </div>
+<div class="ttc" id="a_common_8h_html_a22bf313ce6cdc640a1feaf76dfc2897e"><div class="ttname"><a href="../../db/d1f/_common_8h.html#a22bf313ce6cdc640a1feaf76dfc2897e">ATLAS_GAME_DIR</a></div><div class="ttdeci">#define ATLAS_GAME_DIR</div><div class="ttdef"><b>Definition</b> <a href="../../db/d1f/_common_8h_source.html#l00089">Common.h:89</a></div></div>
 <div class="ttc" id="a_j_s_o_n_file_8h_html"><div class="ttname"><a href="../../de/de4/_j_s_o_n_file_8h.html">JSONFile.h</a></div></div>
-<div class="ttc" id="aclass_atlas_1_1_j_s_o_n_file_html_aa6f75ceabda0fd0a2e0e839f9efd850b"><div class="ttname"><a href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html#aa6f75ceabda0fd0a2e0e839f9efd850b">Atlas::JSONFile::JSONFile</a></div><div class="ttdeci">JSONFile(const std::string &amp;path)</div><div class="ttdoc">Initializes a new instance of the JSONFile class by loading the file at the specified path....</div><div class="ttdef"><b>Definition</b> <a href="../../df/d59/_j_s_o_n_file_8cpp_source.html#l00003">JSONFile.cpp:3</a></div></div>
-<div class="ttc" id="anamespace_atlas_html_a30c03ddc598bf8537d152d570a96efbc"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#a30c03ddc598bf8537d152d570a96efbc">Atlas::JSONParser</a></div><div class="ttdeci">simdjson::ondemand::parser JSONParser</div><div class="ttdef"><b>Definition</b> <a href="../../de/de4/_j_s_o_n_file_8h_source.html#l00010">JSONFile.h:10</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_j_s_o_n_file_html_a6e879085577e1bbce900c7b6f035a138"><div class="ttname"><a href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html#a6e879085577e1bbce900c7b6f035a138">Atlas::JSONFile::mElement</a></div><div class="ttdeci">JSONElement mElement</div><div class="ttdef"><b>Definition</b> <a href="../../de/de4/_j_s_o_n_file_8h_source.html#l00023">JSONFile.h:23</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_j_s_o_n_file_html_aa6f75ceabda0fd0a2e0e839f9efd850b"><div class="ttname"><a href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html#aa6f75ceabda0fd0a2e0e839f9efd850b">Atlas::JSONFile::JSONFile</a></div><div class="ttdeci">JSONFile(const std::string &amp;path)</div><div class="ttdoc">Initializes a new instance of the JSONFile class by loading the file at the specified path....</div><div class="ttdef"><b>Definition</b> <a href="../../df/d59/_j_s_o_n_file_8cpp_source.html#l00008">JSONFile.cpp:8</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_f2c5e5c6e4e4e0c9b0f6d7afea7d8b67.html">conf</a></li><li class="navelem"><a class="el" href="../../df/d59/_j_s_o_n_file_8cpp.html">JSONFile.cpp</a></li>
-    <li class="footer">Generated on Wed Jan 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri Jan 31 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

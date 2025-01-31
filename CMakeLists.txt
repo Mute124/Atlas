@@ -114,7 +114,7 @@ if(${ATLAS_ENABLE_MODDING})
 endif()	
 
 add_compile_definitions(ATLAS_ENABLE_TESTING=${ATLAS_ENABLE_TESTING})
-
+add_compile_definitions(ATLAS_TESTING)
 
 
 # Absolutely DO NOT remove this. It will break all rendering functionality
@@ -142,16 +142,17 @@ CPMAddPackage(
 # find_package(ZLIB REQUIRED)
 find_package(joltphysics REQUIRED)
 find_package(libconfig REQUIRED)
-
+find_package(Angelscript REQUIRED)
 if(${ATLAS_ENABLE_MODDING})
     if(${ATLAS_ENABLE_ANGELSCRIPT})
-        find_package(Angelscript REQUIRED)
+       # find_package(Angelscript REQUIRED)
     endif()
     
     if(${ATLAS_ENABLE_LUA})
         find_package(sol2 REQUIRED)
     endif()
 endif()
+
 
 find_package(eventpp REQUIRED)
 find_package(SDL2 REQUIRED CONFIG)
@@ -161,6 +162,11 @@ find_package(nuklear REQUIRED)
 
 find_package(simdjson REQUIRED)
 find_package(tinyxml2 REQUIRED)
+find_package(miniaudio REQUIRED)
+
+#if(${ATLAS_ENABLE_TESTING})
+    find_package(GTest REQUIRED)
+#endif()
 
 set(DOUBLE_PRECISION OFF)
 set(GENERATE_DEBUG_SYMBOLS OFF)
@@ -190,3 +196,11 @@ if(${ATLAS_BUILD_TOOLS})
     message(STATUS "Building tools")
     add_subdirectory("src/tools")
 endif()
+
+#if(${ATLAS_ENABLE_TESTING})
+    
+
+	message(STATUS "Building tests")
+	add_subdirectory("src/tests")
+
+#endif()

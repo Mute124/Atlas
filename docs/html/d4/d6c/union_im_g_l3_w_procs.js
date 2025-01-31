@@ -44,7 +44,7 @@ var union_im_g_l3_w_procs =
     [ "GetUniformLocation", "d4/d6c/union_im_g_l3_w_procs.html#a35f965ba92a706c98e891cf36a55d906", null ],
     [ "GetVertexAttribiv", "d4/d6c/union_im_g_l3_w_procs.html#a3ad0430760e672ea731fc04b63c2c9d4", null ],
     [ "GetVertexAttribPointerv", "d4/d6c/union_im_g_l3_w_procs.html#abeffb19d607a5ea47725379599a4a7e9", null ],
-    [ "gl", "d4/d6c/union_im_g_l3_w_procs.html#a71abd9a5f298e14a3408fa49bfffc754", null ],
+    [ "gl", "d4/d6c/union_im_g_l3_w_procs.html#a8c8bc3aaadd14e2b840906b3887d1c72", null ],
     [ "IsEnabled", "d4/d6c/union_im_g_l3_w_procs.html#aac7ad0f2970978d316941601bddaa906", null ],
     [ "IsProgram", "d4/d6c/union_im_g_l3_w_procs.html#ad38a8b3eda897e9b93115a054f43989a", null ],
     [ "LinkProgram", "d4/d6c/union_im_g_l3_w_procs.html#af79251d573cca52e1977a304f8acb0f6", null ],

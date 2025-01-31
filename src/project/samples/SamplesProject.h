@@ -7,14 +7,10 @@
 #include <string>
 #include <unordered_map>
 
-
-
-
-
-class SamplesProject final : public IProject
+class SamplesProject final : public BProject
 {
 public:
-	SamplesProject() : IProject() {}
+	SamplesProject() : BProject() {}
 
 	void postInit() override {
 		addSampleGroup(new BasicSampleGroup());

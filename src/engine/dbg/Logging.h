@@ -1,23 +1,19 @@
 #pragma once
-#include "../utils/Singleton.h"
 #include "ELoggingMode.h"
 #include "ELogLevel.h"
 
-#include <cstdarg>
 #include <memory>
 #include <source_location>
-#include <stdio.h>
 #include <string>
 #include <vadefs.h>
 #include <vector>
-
-#include <raylib.h>
+#include <queue>
+#include <mutex>
 
 #include <spdlog/common.h>
 #include <spdlog/logger.h>
-#include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
-
+#include "../utils/Singleton.h"
 
 #define ATLAS_DEFAULT_LOG_LEVEL Atlas::ELogLevel::TRACE
 
@@ -63,139 +59,68 @@ namespace Atlas {
 		ELoggingMode mode = ELoggingMode::UNKNOWN;
 		ELogLevel terminalLogLevel = ELogLevel::WARNING;
 		ELogLevel fileLogLevel = ELogLevel::TRACE;
-		ELogLevel loggerLevel = ELogLevel::DEBUG;
+		ELogLevel loggerLevel = ELogLevel::TRACE;
 		
 		std::string format = "[Atlas] [%^%l%$] %v";
 		std::string logFile =  CreateLogFileName();
 	};
 
-	spdlog::level::level_enum GetSpdlogLevel(ELogLevel level);
-	
+
 	class Logger : public Singleton<Logger> {
-	public:
-
-		void init(LoggerConfig config) {
-			this->mConfig = config;
-			InitSpdlog();
-			log("Logger initialized");
-		}
-
-		void log(std::string message, ELogLevel level = ELogLevel::DEBUG, const std::source_location& location = std::source_location::current())
-		{
-			std::string locFileName = location.file_name();
-
-			// shorten the filename to only the last part of it
-			locFileName = locFileName.substr(locFileName.find_last_of("/\\") + 1);
-
-
-			int locLine = location.line();
-
-			std::string finalMessage = "[" + locFileName + ":" + std::to_string(locLine) + "] " + message;
-
-			try
-			{
-/*
-				switch (level)
-				{
-				case Atlas::ELogLevel::TRACE:
-					mLogger->trace(finalMessage);
-					break;
-				case Atlas::ELogLevel::DEBUG:
-					mLogger->debug(finalMessage);
-					break;
-				case Atlas::ELogLevel::INFO:
-					mLogger->info(finalMessage);
-					break;
-				case Atlas::ELogLevel::WARNING:
-					mLogger->warn(finalMessage);
-					break;
-				case Atlas::ELogLevel::ERROR:
-					mLogger->error(finalMessage);
-					break;
-				case Atlas::ELogLevel::FATAL:
-					mLogger->critical(finalMessage);
-					break;
-				case Atlas::ELogLevel::NONE:
-					break;
-				default:
-#ifdef RELEASE
-					// if on release, log this as an error
-					std::string failMsg = "Failed to log the message: " + finalMessage;
-					failMsg << "Because the log level " << level << " is not supported!";
-					mLogger->error(failMsg);
-
-#else
-					mLogger->trace(finalMessage);
-#endif
-					break;
-				}
-*/
-			}
-			catch (const std::exception& e)
-			{
-				//std::cout << "Failed to log the message: " << finalMessage << " because: " << e.what() << std::endl;
-			}
-		}
-
-		static inline void RaylibLogCallback(int logLevel, const char* message, va_list args) {
-			
-			// Determine the length of the formatted string
-			va_list argsCopy;
-			va_copy(argsCopy, args);
-			int length = vsnprintf(nullptr, 0, message, argsCopy);
-			va_end(argsCopy);
-
-			if (length < 0) {
-				// Error handling if formatting fails
-				
-			}
-
-			// Allocate a buffer of the required size (+1 for null terminator)
-			std::string formattedString(length, '\0');
-
-			// Format the string into the allocated buffer
-			vsnprintf(&formattedString[0], length + 1, message, args);
-
-			// -1 is being done here because we do not have the same number of levels as raylib.
-			Logger::Instance().log(formattedString, static_cast<ELogLevel>(logLevel -1), std::source_location::current());
-		}
 	private:
+		struct TemporaryMessage {
+			std::string message;
+			ELogLevel level;
+			std::source_location location;
+
+			TemporaryMessage(const std::string& message, const ELogLevel& level, const std::source_location& location)
+				: message(message), level(level), location(location)
+			{
+			}
+
+			TemporaryMessage() = default;
+		};
+
+		class MessageBuffer {
+		private:
+			std::queue<TemporaryMessage> mBuffer;
+		public:
+			void push(TemporaryMessage message) { 
+				mBuffer.push(message); 
+			}
+
+			TemporaryMessage pop() { 
+				TemporaryMessage temp = mBuffer.front();
+				mBuffer.pop();
+				return temp; 
+			}
+
+			bool isEmpty() { return mBuffer.empty(); }
+		};
+
 		LoggerConfig mConfig;
+		std::shared_ptr<spdlog::logger> mLogger;
 
-		spdlog::logger* mLogger;
+		// 
 
+		/**
+		 * @brief This is a buffer of logs that will be printed when the logger is initialized.
+		 * @remarks This is used when the logger is used but is not initialized. This is also a ptr because it will be deleted after the logs are printed.
+		 * @version v0.0.9
+		 */
 
-
-		void InitSpdlog()
-		{
-			std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-			console_sink->set_level(GetSpdlogLevel(mConfig.terminalLogLevel));
-			console_sink->set_pattern(mConfig.format);
-
-
-
-			std::shared_ptr<spdlog::sinks::basic_file_sink_mt> file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(mConfig.logFile, true);
-			file_sink->set_level(GetSpdlogLevel(mConfig.fileLogLevel));
-			
-			std::string loggerName = typeid(*this).name();
-
-			// shorten down the name to just the typename. In this case, "Atlas::Logger"
-			loggerName = loggerName.substr(loggerName.find_last_of("::") + 1);
-
-			// remove anything to the right of the typename, so it looks like "Atlas::Logger"
-			loggerName = loggerName.substr(0, loggerName.find_last_of("::"));
+		void InitSpdlog();
 	
+	public:
+		~Logger();
+		void init(LoggerConfig config);
 
-			mLogger = new spdlog::logger("multi_sink", {console_sink, file_sink});
-			mLogger->set_level(GetSpdlogLevel(mConfig.loggerLevel));
-			mLogger->warn("this should appear in both console and file");
-			mLogger->info("this message should not appear in the console, only in the file");
-			
-			//SetTraceLogCallback(&RaylibLogCallback);
-		}
+		void log(std::string message, ELogLevel level = ELogLevel::DEBUG, const std::source_location& location = std::source_location::current());
+
+		static inline void RaylibLogCallback(int logLevel, const char* message, va_list args);
+
 	};
-
-	inline void Log(std::string message, ELogLevel level = ELogLevel::DEBUG, const std::source_location& location = std::source_location::current()) {
-		Logger::Instance().log(message, level, location);
-	}
+	
+	spdlog::level::level_enum GetSpdlogLevel(ELogLevel level);
+	void Log(std::string message, ELogLevel level = ELogLevel::DEBUG, const std::source_location& location = std::source_location::current());
 }

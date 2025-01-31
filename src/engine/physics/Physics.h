@@ -1,7 +1,6 @@
-/// \file Physics.h
-/// \brief This file contains Atlas's physics engine and is built on JoltPhysics. 
-/// \note This is a work in progress, so it is not very extensible. With that being said, it is able to do its job but it is not as flexible as it could be.
-/// \includegraph
+/// @file Physics.h
+/// @brief This file contains Atlas's physics engine and is built on JoltPhysics. 
+/// @note This is a work in progress, so it is not very extensible. With that being said, it is able to do its job but it is not as flexible as it could be.
 #pragma once
 
 #include <Jolt/Jolt.h>
@@ -31,85 +30,59 @@ using namespace JPH::literals;
 
 namespace Atlas {
 
-	/// <summary>
-	/// This is the already provided trace function for the physics engine. 
-	/// \note Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
-	/// \todo TODO: Implement this more properly
-	/// </summary>
-	/// <param name="inFMT">The format to print.</param>
-	/// <param name="">Variable arguments for the trace.</param>
-	static void DefaultPhysicsTrace(const char* inFMT, ...)
-	{
-		// TODO: See above documentation
-		// Format the message
-		va_list list;
-		va_start(list, inFMT);
-		char buffer[1024];
-		vsnprintf(buffer, sizeof(buffer), inFMT, list);
-		va_end(list);
 
-		// Print to the TTY
-		cout << buffer << endl;
-	}
+	
+	/**
+	 * @brief This is the already provided trace function for the physics engine. 
+	 * @note Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
+	 * @todo TODO: Implement this more properly
+	 * @param inFMT The format string
+	 * @param vaArgs Variable arguments for the trace. This is declared as "...", which means it is a variable number of arguments.
+	 */
+	static void DefaultPhysicsTrace(const char* inFMT, ...);
 
 #ifdef JPH_ENABLE_ASSERTS
-	
-	/// <summary>
-	/// This is the already provided failed assertion function. Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
-	/// \todo Implement this more properly
-	/// </summary>
-	/// <param name="inExpression">The assert expression that failed.</param>
-	/// <param name="inMessage">The assertion message.</param>
-	/// <param name="inFile">The file that the assert was in.</param>
-	/// <param name="inLine">The line that the assert was on.</param>
-	/// <returns></returns>
-	static bool DefaultPhysicsAssertFailed(const char* inExpression, const char* inMessage, const char* inFile, JPH::uint inLine)
-	{
-		// TODO: See above documentation
-		// Print to the TTY
-		cout << inFile << ":" << inLine << ": (" << inExpression << ") " << (inMessage != nullptr ? inMessage : "") << endl;
 
-		// Breakpoint
-		return true;
-	};
+	/**
+	 * @brief This is the already provided failed assertion function. 
+	 * @remarks Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
+	 * @todo Implement this more properly
+	 * @param inExpression The assert expression that failed.
+	 * @param inMessage The assertion message.
+	 * @param inFile The file that the assert was in.
+	 * @param inLine The line that the assert was on.
+	 * @return 
+	 */
+	static bool DefaultPhysicsAssertFailed(const char* inExpression, const char* inMessage, const char* inFile, JPH::uint inLine);
 
 #endif // JPH_ENABLE_ASSERTS
 	
 	/// <summary>
 	/// This struct contains the allocated resources for the physics engine and is used to initialize the physics engine.
 	/// </summary>
-	struct AllocatedPhysicsResources {
+	struct AllocatedPhysicsResources {		
+
 		JPH::uint cMaxBodies = 65536;
+
 		JPH::uint cNumBodyMutexes = 0;
+
 		JPH::uint cMaxBodyPairs = 65536;
+
 		JPH::uint cMaxContactConstraints = 1024;
 
 		int preAllocatedMemory = 20 * 1024 * 1024;
-				
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AllocatedPhysicsResources"/> struct.
-		/// </summary>
+
 		AllocatedPhysicsResources();
 		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AllocatedPhysicsResources"/> struct.
-		/// </summary>
-		/// <param name="resources">A constant reference to an instance of the <see cref="AllocatedPhysicsResources"/> struct.</param>
 		AllocatedPhysicsResources(AllocatedPhysicsResources const& resources);
 				
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AllocatedPhysicsResources"/> struct.
-		/// </summary>
-		/// <param name="cMaxBodies">A constant that specifies the maximum bodies.</param>
-		/// <param name="cNumBodyMutexes">A constant that specifies the number body mutexes.</param>
-		/// <param name="cMaxBodyPairs">A constant that specifies the maximum body pairs.</param>
-		/// <param name="cMaxContactConstraints">A constant that specifies the maximum contact constraints.</param>
 		AllocatedPhysicsResources(const JPH::uint& cMaxBodies, const JPH::uint& cNumBodyMutexes, const JPH::uint& cMaxBodyPairs, const JPH::uint& cMaxContactConstraints);
 	};
 	
 	/// <summary>
 	/// Handles everything related to Atlas' physics engine.
 	/// </summary>
+	/// <seealso cref="Atlas::Singleton&lt;PhysicsEngine&gt;" />
 	/// <seealso cref="Atlas::Singleton&lt;PhysicsEngine&gt;" />
 	class PhysicsEngine : public Atlas::Singleton<PhysicsEngine> {
 	public:
@@ -156,24 +129,76 @@ namespace Atlas {
 			explicit BodyInterfaceHolder(JPH::BodyInterface& bodyInterface);
 			~BodyInterfaceHolder();
 		};
-
+		
+		/// <summary>
+		/// The m collision steps
+		/// </summary>
 		int	mCollisionSteps = 1;
-
+		
+		//
 		BodyInterfaceHolder* mBodyInterfaceHolder;
+		
+		/**
+		 * @brief The m physics system
+		 */
 		JPH::PhysicsSystem* mPhysicsSystem = nullptr;
+		
+		/**
+		 * @brief Whether or not the physics engine has been initialized
+		 */
 		bool mIsInitialized = false;
+		
+		/// <summary>
+		/// The m resources
+		/// </summary>
 		AllocatedPhysicsResources mResources;
-
+		
+		/// <summary>
+		/// The m temporary allocator
+		/// </summary>
 		JPH::TempAllocator* mTempAllocator = nullptr;
+		
+		/// <summary>
+		/// The m job system thread pool
+		/// </summary>
 		JPH::JobSystem* mJobSystemThreadPool = nullptr;
+		
+		/// <summary>
+		/// The m broad phase layer interface
+		/// </summary>
 		BPLayerInterfaceImpl mBroadPhaseLayerInterface;
+		
+		/// <summary>
+		/// The m object vs broad phase layer filter
+		/// </summary>
 		ObjectVsBroadPhaseLayerFilterImpl mObjectVsBroadPhaseLayerFilter;
+		
+		/// <summary>
+		/// The m object layer pair filter
+		/// </summary>
 		ObjectLayerPairFilterImpl mObjectLayerPairFilter;
-
+				
+		/// <summary>
+		/// The contact listener
+		/// </summary>
+		/// <remarks>
+		/// This is used to listen in on the contact events. For more information, please refer to Jolt's JPH::ContactListener class.
+		/// </remarks>
 		JPH::ContactListener* mContactListener = nullptr;
+				
+		/// <summary>
+		/// The m physics settings
+		/// </summary>
+		/// <seealso cref="JPH::PhysicsSettings" />
 		JPH::PhysicsSettings  mPhysicsSettings;
+		
+		/// <summary>
+		/// The jolt body activation listener class.
+		/// </summary>
+		/// <remarks>
+		/// This is used to listen in on the activation and deactivation of physics bodies. For more information, please refer to Jolt's JPH::BodyActivationListener class.
+		/// </remarks>
+		/// <seealso cref="JPH::BodyActivationListener" />
 		JPH::BodyActivationListener* mBodyActivationListener = nullptr;
 	};
-
-
 }

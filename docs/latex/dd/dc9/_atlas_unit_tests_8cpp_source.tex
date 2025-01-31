@@ -1,0 +1,59 @@
+\doxysection{Atlas\+Unit\+Tests.\+cpp}
+\hypertarget{_atlas_unit_tests_8cpp_source}{}\label{_atlas_unit_tests_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/tests/AtlasUnitTests.cpp@{C:/Dev/Techstorm-\/v5/src/tests/AtlasUnitTests.cpp}}
+\mbox{\hyperlink{_atlas_unit_tests_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <gmock/gmock.h>}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <gtest/gtest.h>}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00003}00003\ \textcolor{comment}{/*\#include\ "{}engine"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00004}00004\ \textcolor{comment}{TEST\_CASE("{}getComponent"{})\ \{}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00005}00005\ \textcolor{comment}{\ \ \ \ //\ Test\ that\ getComponent\ returns\ a\ valid\ component\ when\ it\ exists}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00006}00006\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00007}00007\ \textcolor{comment}{\ \ \ \ \ \ \ \ Atlas::Component\ component;}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00008}00008\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::shared\_ptr<Atlas::IGameObject>\ owner\ =\ std::make\_shared<Atlas::IGameObject>();}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00009}00009\ \textcolor{comment}{\ \ \ \ \ \ \ \ component.mOwner\ =\ owner;}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00010}00010\ \textcolor{comment}{\ \ \ \ \ \ \ \ component.mComponents["{}TestComponent"{}]\ =\ std::make\_shared<TestComponent>();}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00011}00011\ \textcolor{comment}{\ \ \ \ \ \ \ \ auto\ result\ =\ component.getComponent<TestComponent>();}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00012}00012\ \textcolor{comment}{\ \ \ \ \ \ \ \ REQUIRE(result\ !=\ nullptr);}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00013}00013\ \textcolor{comment}{\ \ \ \ \ \ \ \ REQUIRE(std::dynamic\_pointer\_cast<TestComponent>(result)\ !=\ nullptr);}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00014}00014\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00015}00015\ \textcolor{comment}{\ \ \ \ //\ Test\ that\ getComponent\ returns\ nullptr\ when\ the\ component\ does\ not\ exist}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00016}00016\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00017}00017\ \textcolor{comment}{\ \ \ \ \ \ \ \ Atlas::Component\ component;}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00018}00018\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::shared\_ptr<Atlas::IGameObject>\ owner\ =\ std::make\_shared<Atlas::IGameObject>();}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00019}00019\ \textcolor{comment}{\ \ \ \ \ \ \ \ component.mOwner\ =\ owner;}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00020}00020\ \textcolor{comment}{\ \ \ \ \ \ \ \ auto\ result\ =\ component.getComponent<TestComponent>();}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00021}00021\ \textcolor{comment}{\ \ \ \ \ \ \ \ REQUIRE(result\ ==\ nullptr);}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00022}00022\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00023}00023\ \textcolor{comment}{\ \ \ \ //\ Test\ that\ getComponent\ throws\ an\ exception\ when\ the\ component\ type\ is\ not\ registered}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00024}00024\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00025}00025\ \textcolor{comment}{\ \ \ \ \ \ \ \ Atlas::Component\ component;}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00026}00026\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::shared\_ptr<Atlas::IGameObject>\ owner\ =\ std::make\_shared<Atlas::IGameObject>();}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00027}00027\ \textcolor{comment}{\ \ \ \ \ \ \ \ component.mOwner\ =\ owner;}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00028}00028\ \textcolor{comment}{\ \ \ \ \ \ \ \ REQUIRE\_THROWS\_AS(component.getComponent<UnregisteredComponent>(),\ std::runtime\_error);}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00029}00029\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00030}00030\ \textcolor{comment}{\ \ \ \ //\ Test\ that\ getComponent\ returns\ the\ correct\ component\ type}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00031}00031\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00032}00032\ \textcolor{comment}{\ \ \ \ \ \ \ \ Atlas::Component\ component;}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00033}00033\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::shared\_ptr<Atlas::IGameObject>\ owner\ =\ std::make\_shared<Atlas::IGameObject>();}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00034}00034\ \textcolor{comment}{\ \ \ \ \ \ \ \ component.mOwner\ =\ owner;}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00035}00035\ \textcolor{comment}{\ \ \ \ \ \ \ \ component.mComponents["{}TestComponent"{}]\ =\ std::make\_shared<TestComponent>();}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00036}00036\ \textcolor{comment}{\ \ \ \ \ \ \ \ auto\ result\ =\ component.getComponent<TestComponent>();}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00037}00037\ \textcolor{comment}{\ \ \ \ \ \ \ \ REQUIRE(std::dynamic\_pointer\_cast<TestComponent>(result)\ !=\ nullptr);}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00038}00038\ \textcolor{comment}{\ \ \ \ \ \ \ \ REQUIRE(std::dynamic\_pointer\_cast<OtherComponent>(result)\ ==\ nullptr);}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00039}00039\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00040}00040\ \textcolor{comment}{\}}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00041}00041\ \textcolor{comment}{class\ TestComponent\ :\ public\ Atlas::Component\ \{}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00042}00042\ \textcolor{comment}{\};}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00043}00043\ \textcolor{comment}{class\ OtherComponent\ :\ public\ Atlas::Component\ \{}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00044}00044\ \textcolor{comment}{\};}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00045}00045\ \textcolor{comment}{class\ UnregisteredComponent\ :\ public\ Atlas::Component\ \{}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00046}00046\ \textcolor{comment}{\};}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00047}00047\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00049}\mbox{\hyperlink{_atlas_unit_tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{00049}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{application_2add__on_2autowrapper_2generator_2generateheader_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}**\ argv)}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00050}00050\ \{}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00051}00051\ \ \ \ \ ::testing::InitGoogleTest(\&argc,\ argv);}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00052}00052\ \ \ \ \ \textcolor{keywordflow}{return}\ RUN\_ALL\_TESTS();}
+\DoxyCodeLine{\Hypertarget{_atlas_unit_tests_8cpp_source_l00053}00053\ \}}
+
+\end{DoxyCode}

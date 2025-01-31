@@ -1,22 +1,67 @@
 #pragma once
 #include "BasicCore.h"
-#include "EngineComponent.h"
+//#include "EngineComponent.h"
 #include "utils/Singleton.h"
 #include "renderer/Renderer.h"
-#include "renderer/Window.h"
+#include "renderer/window/Window.h"
+#include "EReturnCode.h"
+#include "renderer/Renderer.h"
+#include "renderer/ICuller.h"
+#include "renderer/window/WindowDecorations.h"
+#include "conf/Config.h"
+#include "modding/ScriptingAPI.h"
+#include "fs/FileSystem.h"
+
+#include <memory>
+
 
 namespace Atlas {
-	struct EngineConfig {
+
+	template<typename T>
+	using EngineComp = std::shared_ptr<T>;
+
+	template<typename T>
+	class ITechstormEngine abstract : public Singleton<T> {
+	public:
+
+		virtual EngineComp<Renderer> getRenderer() = 0;
+		virtual EngineComp<ConfigFileRegistry> getConfigFileRegistry() = 0;
+		virtual EngineComp<WindowDecorations> getWindowDecorations() = 0;
+		virtual EngineComp<ScriptingAPI> getScriptingAPI() = 0;
+		virtual EngineComp<FileSystemRegistry> getFileSystemRegistry() = 0;
+
+		virtual void preInit() = 0;
+		virtual void init(int argc, char* argv[]) = 0;
+		virtual void postInit() = 0;
 	};
 
-	class TechstormEngine : Singleton<TechstormEngine> {
-	public:
-		Renderer renderer;
-
-		TechstormEngine() {}
-
+	class TechstormEngine : ITechstormEngine<TechstormEngine> {
 	private:
-		Window* window = nullptr;
+		EngineComp<Renderer> mRenderer = nullptr;
+		EngineComp<ConfigFileRegistry> mConfigFileRegistry = nullptr;
+		EngineComp<WindowDecorations> mWindowDecorations = nullptr;
+		EngineComp<ScriptingAPI> mScriptingAPI = nullptr;
+		EngineComp<FileSystemRegistry> mFileSystemRegistry = nullptr;
+	public:
+		
+
+		// Inherited via ITechstormEngine
+		EngineComp<Renderer> getRenderer() override;
+
+		EngineComp<ConfigFileRegistry> getConfigFileRegistry() override;
+
+		EngineComp<WindowDecorations> getWindowDecorations() override;
+
+		EngineComp<ScriptingAPI> getScriptingAPI() override;
+
+		EngineComp<FileSystemRegistry> getFileSystemRegistry() override;
+
+		void preInit() override;
+
+		void init(int argc, char* argv[]) override;
+
+		void postInit() override;
+
 	};
 }
 

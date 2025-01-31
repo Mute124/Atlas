@@ -5,11 +5,22 @@
 #include "../Common.h"
 #include "IGameObjectGate.h"
 #include <functional>
+#include <map>
+#include <string>
+
 namespace Atlas {
 	/// <summary>
 	/// Game object registry, it stores all game objects in the world and manages their updating, rendering, destruction, creation, etc.
 	/// </summary>
 	class GameObjectRegistry {
+	private:
+		std::vector<std::function<void()>> mStandaloneDrawCalls;
+		std::vector<IGameObject*> mGameObjectsSink;
+		std::vector<IGameObjectGate*> mGameObjectsGateSink;
+
+		//std::map<std::string, std::vector<IGameObjectGate*>> mGameObjectGates;
+
+		friend class Renderer;
 	public:
 
 		/// <summary>
@@ -44,11 +55,6 @@ namespace Atlas {
 			}
 		}
 
-	private:
-		std::vector<std::function<void()>> mStandaloneDrawCalls;
-		std::vector<IGameObject*> mGameObjectsSink;
-		std::vector<IGameObjectGate*> mGameObjectsGateSink;
 
-		friend class Renderer;
 	};
 }

@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -101,23 +101,64 @@ $(document).ready(function(){initNavTree('dd/d9e/_game_model_8cpp_source.html','
 <div class="contents">
 <a href="../../dd/d9e/_game_model_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="../../d3/d6e/_game_model_8h.html">GameModel.h</a>&quot;</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;../fs/FileSystem.h&quot;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include </span></div>
-<div class="foldopen" id="foldopen00004" data-start="{" data-end="}">
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno"><a class="line" href="../../df/dec/class_atlas_1_1_game_model.html#aac19bab07909e6463afcc99b10d0b4cc">    4</a></span><a class="code hl_function" href="../../df/dec/class_atlas_1_1_game_model.html#aac19bab07909e6463afcc99b10d0b4cc">Atlas::GameModel::GameModel</a>(std::string <span class="keyword">const</span>&amp; <a class="code hl_typedef" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a5c4947d4516dd7cfa3505ce3a648a4ef">name</a>) {</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>    std::shared_ptr&lt;RegisteredFile&gt; assetDataFile = <a class="code hl_function" href="../../d7/d54/namespace_atlas.html#a73f62e52350edd7a0496cba5d674774d">GetFile</a>(<span class="stringliteral">&quot;TestModel.json&quot;</span>);</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>}</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;../conf/JSONFile.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;simdjson.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="foldopen" id="foldopen00007" data-start="{" data-end="}">
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../df/dec/class_atlas_1_1_game_model.html#ac86ac633f8c4d051187d00d604b44beb">    7</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/dec/class_atlas_1_1_game_model.html#ac86ac633f8c4d051187d00d604b44beb">Atlas::GameModel::load</a>(std::string <span class="keyword">const</span>&amp; <a class="code hl_typedef" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a5c4947d4516dd7cfa3505ce3a648a4ef">name</a>)</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>}</div>
+</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="}">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../df/dec/class_atlas_1_1_game_model.html#a05037f27f85e20ce37512f97cabc33a0">   12</a></span>std::string <a class="code hl_function" href="../../df/dec/class_atlas_1_1_game_model.html#a05037f27f85e20ce37512f97cabc33a0">Atlas::GameModel::getModelName</a>(<a class="code hl_class" href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html">JSONFile</a>* <a class="code hl_typedef" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#abd87654504355b4c1bb002dcb1d4d16a">data</a>)</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>{</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    std::string_view modelNameStrView = <a class="code hl_typedef" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#abd87654504355b4c1bb002dcb1d4d16a">data</a>-&gt;GetElement()[<span class="stringliteral">&quot;model&quot;</span>];</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    std::string modelName = <span class="keyword">static_cast&lt;</span>std::string<span class="keyword">&gt;</span>(modelNameStrView);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordflow">return</span> modelName;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>}</div>
+</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="../../df/dec/class_atlas_1_1_game_model.html#a3b9e6a94f8172eb2e4591ec345fa9a3e">   20</a></span>std::string <a class="code hl_function" href="../../df/dec/class_atlas_1_1_game_model.html#a3b9e6a94f8172eb2e4591ec345fa9a3e">Atlas::GameModel::getMaterialPath</a>(<a class="code hl_class" href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html">JSONFile</a>* <a class="code hl_typedef" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#abd87654504355b4c1bb002dcb1d4d16a">data</a>)</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>{</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordflow">return</span> std::string();</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>}</div>
+</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="../../df/dec/class_atlas_1_1_game_model.html#aac19bab07909e6463afcc99b10d0b4cc">   25</a></span><a class="code hl_function" href="../../df/dec/class_atlas_1_1_game_model.html#aac19bab07909e6463afcc99b10d0b4cc">Atlas::GameModel::GameModel</a>(std::string <span class="keyword">const</span>&amp; <a class="code hl_typedef" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a5c4947d4516dd7cfa3505ce3a648a4ef">name</a>) {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    std::shared_ptr&lt;RegisteredFile&gt; assetDataFile = <a class="code hl_function" href="../../d7/d54/namespace_atlas.html#a73f62e52350edd7a0496cba5d674774d">GetFile</a>(<a class="code hl_typedef" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a5c4947d4516dd7cfa3505ce3a648a4ef">name</a>);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <a class="code hl_class" href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html">JSONFile</a>* assetData = assetDataFile-&gt;get&lt;<a class="code hl_class" href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html">JSONFile</a>*&gt;();</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordflow">if</span> (assetData == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    }</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="comment">//std::string modelName = getModelName(assetData);</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="comment">//std::string materialPath = getMaterialPath(assetData);</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}</div>
 </div>
 <div class="ttc" id="a_game_model_8h_html"><div class="ttname"><a href="../../d3/d6e/_game_model_8h.html">GameModel.h</a></div></div>
-<div class="ttc" id="aclass_atlas_1_1_game_model_html_aac19bab07909e6463afcc99b10d0b4cc"><div class="ttname"><a href="../../df/dec/class_atlas_1_1_game_model.html#aac19bab07909e6463afcc99b10d0b4cc">Atlas::GameModel::GameModel</a></div><div class="ttdeci">GameModel(std::string const &amp;name)</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d9e/_game_model_8cpp_source.html#l00004">GameModel.cpp:4</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_model_html_a05037f27f85e20ce37512f97cabc33a0"><div class="ttname"><a href="../../df/dec/class_atlas_1_1_game_model.html#a05037f27f85e20ce37512f97cabc33a0">Atlas::GameModel::getModelName</a></div><div class="ttdeci">std::string getModelName(JSONFile *data)</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d9e/_game_model_8cpp_source.html#l00012">GameModel.cpp:12</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_model_html_a3b9e6a94f8172eb2e4591ec345fa9a3e"><div class="ttname"><a href="../../df/dec/class_atlas_1_1_game_model.html#a3b9e6a94f8172eb2e4591ec345fa9a3e">Atlas::GameModel::getMaterialPath</a></div><div class="ttdeci">std::string getMaterialPath(JSONFile *data)</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d9e/_game_model_8cpp_source.html#l00020">GameModel.cpp:20</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_model_html_aac19bab07909e6463afcc99b10d0b4cc"><div class="ttname"><a href="../../df/dec/class_atlas_1_1_game_model.html#aac19bab07909e6463afcc99b10d0b4cc">Atlas::GameModel::GameModel</a></div><div class="ttdeci">GameModel(std::string const &amp;name)</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d9e/_game_model_8cpp_source.html#l00025">GameModel.cpp:25</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_model_html_ac86ac633f8c4d051187d00d604b44beb"><div class="ttname"><a href="../../df/dec/class_atlas_1_1_game_model.html#ac86ac633f8c4d051187d00d604b44beb">Atlas::GameModel::load</a></div><div class="ttdeci">void load(std::string const &amp;name)</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d9e/_game_model_8cpp_source.html#l00007">GameModel.cpp:7</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_j_s_o_n_file_html"><div class="ttname"><a href="../../d8/dc8/class_atlas_1_1_j_s_o_n_file.html">Atlas::JSONFile</a></div><div class="ttdoc">Represents a JSON file for Atlas' config system. Since there were issues with simply loading simdjson...</div><div class="ttdef"><b>Definition</b> <a href="../../de/de4/_j_s_o_n_file_8h_source.html#l00017">JSONFile.h:17</a></div></div>
 <div class="ttc" id="aimgui__impl__opengl3__loader_8h_html_a5c4947d4516dd7cfa3505ce3a648a4ef"><div class="ttname"><a href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a5c4947d4516dd7cfa3505ce3a648a4ef">name</a></div><div class="ttdeci">const GLchar * name</div><div class="ttdef"><b>Definition</b> <a href="../../df/d5f/imgui__impl__opengl3__loader_8h_source.html#l00312">imgui_impl_opengl3_loader.h:312</a></div></div>
-<div class="ttc" id="anamespace_atlas_html_a73f62e52350edd7a0496cba5d674774d"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#a73f62e52350edd7a0496cba5d674774d">Atlas::GetFile</a></div><div class="ttdeci">std::shared_ptr&lt; RegisteredFile &gt; GetFile(std::string key, bool loadIfNotLoaded=true)</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d4c/_file_system_8cpp_source.html#l00046">FileSystem.cpp:46</a></div></div>
+<div class="ttc" id="aimgui__impl__opengl3__loader_8h_html_abd87654504355b4c1bb002dcb1d4d16a"><div class="ttname"><a href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#abd87654504355b4c1bb002dcb1d4d16a">data</a></div><div class="ttdeci">GLint * data</div><div class="ttdef"><b>Definition</b> <a href="../../df/d5f/imgui__impl__opengl3__loader_8h_source.html#l00199">imgui_impl_opengl3_loader.h:199</a></div></div>
+<div class="ttc" id="anamespace_atlas_html_a73f62e52350edd7a0496cba5d674774d"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#a73f62e52350edd7a0496cba5d674774d">Atlas::GetFile</a></div><div class="ttdeci">std::shared_ptr&lt; RegisteredFile &gt; GetFile(std::string key, bool loadIfNotLoaded=true)</div><div class="ttdoc">Gets the file.</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d4c/_file_system_8cpp_source.html#l00052">FileSystem.cpp:52</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_eedbc0f69b08006c72429a8d2b33a57d.html">renderer</a></li><li class="navelem"><a class="el" href="../../dd/d9e/_game_model_8cpp.html">GameModel.cpp</a></li>
-    <li class="footer">Generated on Wed Jan 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri Jan 31 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

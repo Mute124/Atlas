@@ -4,6 +4,97 @@
 \begin{DoxyCode}{0}
 <<<<<<< HEAD
 \DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_game_object_8h}{GameObject.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}../components/TransformComponent.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}../components/CleanupEventArgs.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}../components/DestroyEventArgs.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}../components/PostUpdateEventArgs.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}../components/PreUpdateEventArgs.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}../components/RenderEventArgs.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}../components/TextureEventArgs.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}../components/UpdateEventArgs.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_game_object_8h}{IGameObject.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00013}\mbox{\hyperlink{class_atlas_1_1_game_object_a0348e3ee2e83d56eafca7a3547f432c4}{00013}}\ \mbox{\hyperlink{class_atlas_1_1_game_object_a0348e3ee2e83d56eafca7a3547f432c4}{Atlas::GameObject::GameObject}}()\ :\ IGameObject()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00014}00014\ \ \ \ \ \textcolor{comment}{//addComponent<TransformComponent>();}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00015}00015\ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00017}\mbox{\hyperlink{class_atlas_1_1_game_object_aecca3e03426081912265e8dd4b841f0b}{00017}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_aecca3e03426081912265e8dd4b841f0b}{Atlas::GameObject::preUpdate}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00018}00018\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [key,\ component]\ :\ mComponents)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>preUpdate(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_pre_update_event_args}{PreUpdateEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00021}00021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00022}00022\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00023}00023\ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00025}\mbox{\hyperlink{class_atlas_1_1_game_object_a38bfdc8ae3a6a364341f478773fcba91}{00025}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_a38bfdc8ae3a6a364341f478773fcba91}{Atlas::GameObject::update}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00026}00026\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [key,\ component]\ :\ mComponents)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>update(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_update_event_args}{UpdateEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00033}00033\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00034}00034\ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00036}\mbox{\hyperlink{class_atlas_1_1_game_object_a9a42af009e8d070502dc30a9e52e64db}{00036}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_a9a42af009e8d070502dc30a9e52e64db}{Atlas::GameObject::postUpdate}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [key,\ component]\ :\ mComponents)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>postUpdate(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_post_update_event_args}{PostUpdateEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00044}00044\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00045}00045\ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00047}\mbox{\hyperlink{class_atlas_1_1_game_object_adbe7d73fad7b93443e73cfb16f41f3d5}{00047}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_adbe7d73fad7b93443e73cfb16f41f3d5}{Atlas::GameObject::texture}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [key,\ component]\ :\ mComponents)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>texture(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_texture_event_args}{TextureEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00055}00055\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00056}00056\ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00058}\mbox{\hyperlink{class_atlas_1_1_game_object_aaca78ab748cdac47a8c9d65084a925be}{00058}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_aaca78ab748cdac47a8c9d65084a925be}{Atlas::GameObject::render}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00059}00059\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [key,\ component]\ :\ mComponents)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>render(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_render_event_args}{RenderEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00066}00066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00067}00067\ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00069}\mbox{\hyperlink{class_atlas_1_1_game_object_adcc7c7dac445cd30b29624051abb9dad}{00069}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_adcc7c7dac445cd30b29624051abb9dad}{Atlas::GameObject::destroy}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00070}00070\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [key,\ component]\ :\ mComponents)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>destroy(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_destroy_event_args}{DestroyEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00077}00077\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00078}00078\ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00080}\mbox{\hyperlink{class_atlas_1_1_game_object_ace64bb0de0155de2749acd9287402f27}{00080}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_object_ace64bb0de0155de2749acd9287402f27}{Atlas::GameObject::cleanup}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [key,\ component]\ :\ mComponents)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>cleanup(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_cleanup_event_args}{CleanupEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00087}00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00088}00088\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00089}00089\ \}}
+=======
+<<<<<<< HEAD
+\DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_game_object_8h}{GameObject.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00002}00002\ }
 <<<<<<< HEAD
 \DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00003}\mbox{\hyperlink{class_techstorm_1_1_game_object_aaca78ab748cdac47a8c9d65084a925be}{00003}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_techstorm_1_1_game_object_aaca78ab748cdac47a8c9d65084a925be}{Techstorm::GameObject::render}}()\ \{}
@@ -26,5 +117,6 @@
 \DoxyCodeLine{\Hypertarget{_game_object_8cpp_source_l00011}00011\ \}}
 =======
 >>>>>>> main
+>>>>>>> master
 
 \end{DoxyCode}

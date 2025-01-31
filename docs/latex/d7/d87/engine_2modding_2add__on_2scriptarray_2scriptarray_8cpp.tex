@@ -1,0 +1,891 @@
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/modding/add\+\_\+on/scriptarray/scriptarray.cpp File Reference}
+\hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp}{}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp}\index{C:/Dev/Techstorm-\/v5/src/engine/modding/add\_on/scriptarray/scriptarray.cpp@{C:/Dev/Techstorm-\/v5/src/engine/modding/add\_on/scriptarray/scriptarray.cpp}}
+{\ttfamily \#include $<$new$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include "{}scriptarray.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_s_array_buffer}{SArray\+Buffer}}
+\item 
+struct \mbox{\hyperlink{struct_s_array_cache}{SArray\+Cache}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a6e61b3a07893501c121343edf3bfcbd8}{UNUSED\+\_\+\+VAR}}(x)~(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})(x)
+\item 
+\#define \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a28160b2b9e92f4930a19106eec88bc2f}{COMPARE}}(T)~\texorpdfstring{$\ast$}{*}((const T\texorpdfstring{$\ast$}{*})a) $<$ \texorpdfstring{$\ast$}{*}((const T\texorpdfstring{$\ast$}{*})b)
+\item 
+\#define \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a28160b2b9e92f4930a19106eec88bc2f}{COMPARE}}(T)~\texorpdfstring{$\ast$}{*}((const T\texorpdfstring{$\ast$}{*})a) == \texorpdfstring{$\ast$}{*}((const T\texorpdfstring{$\ast$}{*})b)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_af6d3517f646ed2ac73e8460382c09726}{Register\+Script\+Array\+\_\+\+Native}} (as\+IScript\+Engine \texorpdfstring{$\ast$}{*}engine)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a3f10cc670a493480c2a665a984710480}{Register\+Script\+Array\+\_\+\+Generic}} (as\+IScript\+Engine \texorpdfstring{$\ast$}{*}engine)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a4cb0042373e01146f296fa3152e03ec8}{Cleanup\+Type\+Info\+Array\+Cache}} (as\+IType\+Info \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}})
+\item 
+static bool \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ab005a2f1c75afe6a348ccee9c0ae0c04}{Script\+Array\+Template\+Callback}} (as\+IType\+Info \texorpdfstring{$\ast$}{*}ti, bool \&dont\+Garbage\+Collect)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ac97e4fe44bf13c876d66eadb481369da}{Register\+Script\+Array}} (as\+IScript\+Engine \texorpdfstring{$\ast$}{*}engine, bool default\+Array)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a27a3917fe7724a9bac077df4725e3d04}{Script\+Array\+Factory\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae46a7f27a9d20785c72eae92082920e1}{Script\+Array\+Factory2\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a50471c53965cc3cf836177636476b852}{Script\+Array\+List\+Factory\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae63d3e8f404088125462fcbcb4f6bf45}{Script\+Array\+Factory\+Def\+Val\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a4ac10996d6d7a1ed529978224d1a0d5e}{Script\+Array\+Template\+Callback\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a59511c1989152a39bf4533901c387317}{Script\+Array\+Assignment\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_afa629d85ba6e12ea61e1ad0eba96bbf7}{Script\+Array\+Equals\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a008f054aa51620ba1c60b318f9dec58a}{Script\+Array\+Find\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a70b78e669c6e8582c272b07f0f1f441d}{Script\+Array\+Find2\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ab03c0853e33eda24a87a316ff0e833ba}{Script\+Array\+Find\+By\+Ref\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a3fc9f350c43d5ffea28e74d95561f172}{Script\+Array\+Find\+By\+Ref2\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a806d4eafe64fcb46542a459ce439f145}{Script\+Array\+At\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a489f278644090ef4f22e0386c4aed2be}{Script\+Array\+Insert\+At\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a1d3647529ebf79bce5ee4b74a5687eca}{Script\+Array\+Insert\+At\+Array\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a727f2a943f738945c93d8e2ed31c1bc1}{Script\+Array\+Remove\+At\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_aaa5bcbfbad33f5d3b5fca478b3be9543}{Script\+Array\+Remove\+Range\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a1e4da28798381bc153435726cee338e6}{Script\+Array\+Insert\+Last\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae930f0d14b05b963b23a27cfea9a9003}{Script\+Array\+Remove\+Last\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a54a58d6ad64af15a0cbb8c7f113e4439}{Script\+Array\+Length\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a9c67ddc04618b6a331cfc237eb714db9}{Script\+Array\+Resize\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a7a93faf50913ac3d8d2d5c44b676fc8e}{Script\+Array\+Reserve\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae383804e97c67978ca510058ed84c6bd}{Script\+Array\+Sort\+Asc\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a03e83a93b8d53219a5b0363b834c5473}{Script\+Array\+Reverse\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a852f6971c58927e016513d07bb43d171}{Script\+Array\+Is\+Empty\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae21b37869b7bb452caa5c8a5455cbddc}{Script\+Array\+Sort\+Asc2\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae6300f3b81a6f371c3d1027b38e3e9f8}{Script\+Array\+Sort\+Desc\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a17405d800db4bc2eb050ee2f0f79efb7}{Script\+Array\+Sort\+Desc2\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_abcae66b59a943bdb9514d593187a3b44}{Script\+Array\+Sort\+Callback\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a401960f38cb92bb78fd6df79a2bf5fb2}{Script\+Array\+Add\+Ref\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ab5a0bd5bbd505bbaea5ed10febd481ed}{Script\+Array\+Release\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a7e6d21662907c5980a1c066e9925725b}{Script\+Array\+Get\+Ref\+Count\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a41d18d8f9ee56a92a37234faab6b5b6b}{Script\+Array\+Set\+Flag\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a4a38763d1d5f7bac4069e33ec105cb8d}{Script\+Array\+Get\+Flag\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_af91dcd8a248fb548a6ac2bbadba75810}{Script\+Array\+Enum\+References\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a46e30461188d9773eeef37ae6987a40f}{Script\+Array\+Release\+All\+Handles\+\_\+\+Generic}} (as\+IScript\+Generic \texorpdfstring{$\ast$}{*}gen)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static as\+ALLOCFUNC\+\_\+t \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_aec6254edd03c21867a5ddb4f6953b105}{user\+Alloc}} = as\+Alloc\+Mem
+\item 
+static as\+FREEFUNC\+\_\+t \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_aee2ff988e046cce0dbec0e9ddd36618b}{user\+Free}} = as\+Free\+Mem
+\item 
+const as\+PWORD \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a93b4c67509069295a2bfad17d34b07f0}{ARRAY\+\_\+\+CACHE}} = 1000
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a28160b2b9e92f4930a19106eec88bc2f}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a28160b2b9e92f4930a19106eec88bc2f} 
+\index{scriptarray.cpp@{scriptarray.cpp}!COMPARE@{COMPARE}}
+\index{COMPARE@{COMPARE}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{COMPARE}{COMPARE}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \#define COMPARE(\begin{DoxyParamCaption}\item[{}]{T }\end{DoxyParamCaption})~\texorpdfstring{$\ast$}{*}((const T\texorpdfstring{$\ast$}{*})a) $<$ \texorpdfstring{$\ast$}{*}((const T\texorpdfstring{$\ast$}{*})b)}
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a28160b2b9e92f4930a19106eec88bc2f}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a28160b2b9e92f4930a19106eec88bc2f} 
+\index{scriptarray.cpp@{scriptarray.cpp}!COMPARE@{COMPARE}}
+\index{COMPARE@{COMPARE}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{COMPARE}{COMPARE}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \#define COMPARE(\begin{DoxyParamCaption}\item[{}]{T }\end{DoxyParamCaption})~\texorpdfstring{$\ast$}{*}((const T\texorpdfstring{$\ast$}{*})a) == \texorpdfstring{$\ast$}{*}((const T\texorpdfstring{$\ast$}{*})b)}
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a6e61b3a07893501c121343edf3bfcbd8}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a6e61b3a07893501c121343edf3bfcbd8} 
+\index{scriptarray.cpp@{scriptarray.cpp}!UNUSED\_VAR@{UNUSED\_VAR}}
+\index{UNUSED\_VAR@{UNUSED\_VAR}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{UNUSED\_VAR}{UNUSED\_VAR}}
+{\footnotesize\ttfamily \#define UNUSED\+\_\+\+VAR(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}})(x)}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00017}{17}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a4cb0042373e01146f296fa3152e03ec8}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a4cb0042373e01146f296fa3152e03ec8} 
+\index{scriptarray.cpp@{scriptarray.cpp}!CleanupTypeInfoArrayCache@{CleanupTypeInfoArrayCache}}
+\index{CleanupTypeInfoArrayCache@{CleanupTypeInfoArrayCache}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{CleanupTypeInfoArrayCache()}{CleanupTypeInfoArrayCache()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Cleanup\+Type\+Info\+Array\+Cache (\begin{DoxyParamCaption}\item[{as\+IType\+Info \texorpdfstring{$\ast$}{*}}]{type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00054}{54}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00052}{ARRAY\+\_\+\+CACHE}}, and \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00022}{user\+Free}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}, and \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00262}{Register\+Script\+Array\+\_\+\+Native()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ac97e4fe44bf13c876d66eadb481369da}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ac97e4fe44bf13c876d66eadb481369da} 
+\index{scriptarray.cpp@{scriptarray.cpp}!RegisterScriptArray@{RegisterScriptArray}}
+\index{RegisterScriptArray@{RegisterScriptArray}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{RegisterScriptArray()}{RegisterScriptArray()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Register\+Script\+Array (\begin{DoxyParamCaption}\item[{as\+IScript\+Engine \texorpdfstring{$\ast$}{*}}]{engine,  }\item[{bool}]{default\+Array }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00248}{248}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00262}{Register\+Script\+Array\+\_\+\+Native()}}, and \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00017}{UNUSED\+\_\+\+VAR}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a3f10cc670a493480c2a665a984710480}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a3f10cc670a493480c2a665a984710480} 
+\index{scriptarray.cpp@{scriptarray.cpp}!RegisterScriptArray\_Generic@{RegisterScriptArray\_Generic}}
+\index{RegisterScriptArray\_Generic@{RegisterScriptArray\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{RegisterScriptArray\_Generic()}{RegisterScriptArray\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Register\+Script\+Array\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Engine \texorpdfstring{$\ast$}{*}}]{engine }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{2206}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00052}{ARRAY\+\_\+\+CACHE}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00054}{Cleanup\+Type\+Info\+Array\+Cache()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02162}{Script\+Array\+Add\+Ref\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01994}{Script\+Array\+Assignment\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02039}{Script\+Array\+At\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02192}{Script\+Array\+Enum\+References\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02002}{Script\+Array\+Equals\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01962}{Script\+Array\+Factory2\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01955}{Script\+Array\+Factory\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01978}{Script\+Array\+Factory\+Def\+Val\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02016}{Script\+Array\+Find2\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02009}{Script\+Array\+Find\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02031}{Script\+Array\+Find\+By\+Ref2\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02024}{Script\+Array\+Find\+By\+Ref\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02186}{Script\+Array\+Get\+Flag\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02174}{Script\+Array\+Get\+Ref\+Count\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02047}{Script\+Array\+Insert\+At\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02055}{Script\+Array\+Insert\+At\+Array\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02078}{Script\+Array\+Insert\+Last\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02125}{Script\+Array\+Is\+Empty\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02091}{Script\+Array\+Length\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01970}{Script\+Array\+List\+Factory\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02168}{Script\+Array\+Release\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02199}{Script\+Array\+Release\+All\+Handles\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02063}{Script\+Array\+Remove\+At\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02085}{Script\+Array\+Remove\+Last\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02070}{Script\+Array\+Remove\+Range\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02106}{Script\+Array\+Reserve\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02098}{Script\+Array\+Resize\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02119}{Script\+Array\+Reverse\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02180}{Script\+Array\+Set\+Flag\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02131}{Script\+Array\+Sort\+Asc2\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02113}{Script\+Array\+Sort\+Asc\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02153}{Script\+Array\+Sort\+Callback\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02145}{Script\+Array\+Sort\+Desc2\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02139}{Script\+Array\+Sort\+Desc\+\_\+\+Generic()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01987}{Script\+Array\+Template\+Callback\+\_\+\+Generic()}}, and \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00017}{UNUSED\+\_\+\+VAR}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00248}{Register\+Script\+Array()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_af6d3517f646ed2ac73e8460382c09726}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_af6d3517f646ed2ac73e8460382c09726} 
+\index{scriptarray.cpp@{scriptarray.cpp}!RegisterScriptArray\_Native@{RegisterScriptArray\_Native}}
+\index{RegisterScriptArray\_Native@{RegisterScriptArray\_Native}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{RegisterScriptArray\_Native()}{RegisterScriptArray\_Native()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Register\+Script\+Array\+\_\+\+Native (\begin{DoxyParamCaption}\item[{as\+IScript\+Engine \texorpdfstring{$\ast$}{*}}]{engine }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00262}{262}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00052}{ARRAY\+\_\+\+CACHE}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00054}{Cleanup\+Type\+Info\+Array\+Cache()}}, \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00121}{CScript\+Array\+::\+Create()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00131}{Script\+Array\+Template\+Callback()}}, and \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00017}{UNUSED\+\_\+\+VAR}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00248}{Register\+Script\+Array()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a401960f38cb92bb78fd6df79a2bf5fb2}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a401960f38cb92bb78fd6df79a2bf5fb2} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayAddRef\_Generic@{ScriptArrayAddRef\_Generic}}
+\index{ScriptArrayAddRef\_Generic@{ScriptArrayAddRef\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayAddRef\_Generic()}{ScriptArrayAddRef\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Add\+Ref\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02162}{2162}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01914}{CScript\+Array\+::\+Add\+Ref()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a59511c1989152a39bf4533901c387317}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a59511c1989152a39bf4533901c387317} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayAssignment\_Generic@{ScriptArrayAssignment\_Generic}}
+\index{ScriptArrayAssignment\_Generic@{ScriptArrayAssignment\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayAssignment\_Generic()}{ScriptArrayAssignment\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Assignment\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01994}{1994}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a806d4eafe64fcb46542a459ce439f145}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a806d4eafe64fcb46542a459ce439f145} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayAt\_Generic@{ScriptArrayAt\_Generic}}
+\index{ScriptArrayAt\_Generic@{ScriptArrayAt\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayAt\_Generic()}{ScriptArrayAt\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+At\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02039}{2039}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00937}{CScript\+Array\+::\+At()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_af91dcd8a248fb548a6ac2bbadba75810}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_af91dcd8a248fb548a6ac2bbadba75810} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayEnumReferences\_Generic@{ScriptArrayEnumReferences\_Generic}}
+\index{ScriptArrayEnumReferences\_Generic@{ScriptArrayEnumReferences\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayEnumReferences\_Generic()}{ScriptArrayEnumReferences\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Enum\+References\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02192}{2192}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01874}{CScript\+Array\+::\+Enum\+References()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_afa629d85ba6e12ea61e1ad0eba96bbf7}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_afa629d85ba6e12ea61e1ad0eba96bbf7} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayEquals\_Generic@{ScriptArrayEquals\_Generic}}
+\index{ScriptArrayEquals\_Generic@{ScriptArrayEquals\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayEquals\_Generic()}{ScriptArrayEquals\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Equals\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02002}{2002}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae46a7f27a9d20785c72eae92082920e1}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae46a7f27a9d20785c72eae92082920e1} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayFactory2\_Generic@{ScriptArrayFactory2\_Generic}}
+\index{ScriptArrayFactory2\_Generic@{ScriptArrayFactory2\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayFactory2\_Generic()}{ScriptArrayFactory2\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Factory2\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01962}{1962}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00121}{CScript\+Array\+::\+Create()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a27a3917fe7724a9bac077df4725e3d04}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a27a3917fe7724a9bac077df4725e3d04} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayFactory\_Generic@{ScriptArrayFactory\_Generic}}
+\index{ScriptArrayFactory\_Generic@{ScriptArrayFactory\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayFactory\_Generic()}{ScriptArrayFactory\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Factory\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01955}{1955}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00121}{CScript\+Array\+::\+Create()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae63d3e8f404088125462fcbcb4f6bf45}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae63d3e8f404088125462fcbcb4f6bf45} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayFactoryDefVal\_Generic@{ScriptArrayFactoryDefVal\_Generic}}
+\index{ScriptArrayFactoryDefVal\_Generic@{ScriptArrayFactoryDefVal\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayFactoryDefVal\_Generic()}{ScriptArrayFactoryDefVal\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Factory\+Def\+Val\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01978}{1978}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00121}{CScript\+Array\+::\+Create()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a70b78e669c6e8582c272b07f0f1f441d}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a70b78e669c6e8582c272b07f0f1f441d} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayFind2\_Generic@{ScriptArrayFind2\_Generic}}
+\index{ScriptArrayFind2\_Generic@{ScriptArrayFind2\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayFind2\_Generic()}{ScriptArrayFind2\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Find2\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02016}{2016}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01261}{CScript\+Array\+::\+Find()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a008f054aa51620ba1c60b318f9dec58a}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a008f054aa51620ba1c60b318f9dec58a} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayFind\_Generic@{ScriptArrayFind\_Generic}}
+\index{ScriptArrayFind\_Generic@{ScriptArrayFind\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayFind\_Generic()}{ScriptArrayFind\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Find\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02009}{2009}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01261}{CScript\+Array\+::\+Find()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a3fc9f350c43d5ffea28e74d95561f172}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a3fc9f350c43d5ffea28e74d95561f172} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayFindByRef2\_Generic@{ScriptArrayFindByRef2\_Generic}}
+\index{ScriptArrayFindByRef2\_Generic@{ScriptArrayFindByRef2\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayFindByRef2\_Generic()}{ScriptArrayFindByRef2\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Find\+By\+Ref2\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02031}{2031}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01229}{CScript\+Array\+::\+Find\+By\+Ref()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ab03c0853e33eda24a87a316ff0e833ba}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ab03c0853e33eda24a87a316ff0e833ba} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayFindByRef\_Generic@{ScriptArrayFindByRef\_Generic}}
+\index{ScriptArrayFindByRef\_Generic@{ScriptArrayFindByRef\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayFindByRef\_Generic()}{ScriptArrayFindByRef\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Find\+By\+Ref\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02024}{2024}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01229}{CScript\+Array\+::\+Find\+By\+Ref()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a4a38763d1d5f7bac4069e33ec105cb8d}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a4a38763d1d5f7bac4069e33ec105cb8d} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayGetFlag\_Generic@{ScriptArrayGetFlag\_Generic}}
+\index{ScriptArrayGetFlag\_Generic@{ScriptArrayGetFlag\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayGetFlag\_Generic()}{ScriptArrayGetFlag\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Get\+Flag\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02186}{2186}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01947}{CScript\+Array\+::\+Get\+Flag()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a7e6d21662907c5980a1c066e9925725b}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a7e6d21662907c5980a1c066e9925725b} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayGetRefCount\_Generic@{ScriptArrayGetRefCount\_Generic}}
+\index{ScriptArrayGetRefCount\_Generic@{ScriptArrayGetRefCount\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayGetRefCount\_Generic()}{ScriptArrayGetRefCount\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Get\+Ref\+Count\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02174}{2174}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01935}{CScript\+Array\+::\+Get\+Ref\+Count()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a489f278644090ef4f22e0386c4aed2be}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a489f278644090ef4f22e0386c4aed2be} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayInsertAt\_Generic@{ScriptArrayInsertAt\_Generic}}
+\index{ScriptArrayInsertAt\_Generic@{ScriptArrayInsertAt\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayInsertAt\_Generic()}{ScriptArrayInsertAt\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Insert\+At\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02047}{2047}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00822}{CScript\+Array\+::\+Insert\+At()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a1d3647529ebf79bce5ee4b74a5687eca}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a1d3647529ebf79bce5ee4b74a5687eca} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayInsertAtArray\_Generic@{ScriptArrayInsertAtArray\_Generic}}
+\index{ScriptArrayInsertAtArray\_Generic@{ScriptArrayInsertAtArray\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayInsertAtArray\_Generic()}{ScriptArrayInsertAtArray\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Insert\+At\+Array\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02055}{2055}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00822}{CScript\+Array\+::\+Insert\+At()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a1e4da28798381bc153435726cee338e6}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a1e4da28798381bc153435726cee338e6} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayInsertLast\_Generic@{ScriptArrayInsertLast\_Generic}}
+\index{ScriptArrayInsertLast\_Generic@{ScriptArrayInsertLast\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayInsertLast\_Generic()}{ScriptArrayInsertLast\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Insert\+Last\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02078}{2078}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00895}{CScript\+Array\+::\+Insert\+Last()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a852f6971c58927e016513d07bb43d171}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a852f6971c58927e016513d07bb43d171} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayIsEmpty\_Generic@{ScriptArrayIsEmpty\_Generic}}
+\index{ScriptArrayIsEmpty\_Generic@{ScriptArrayIsEmpty\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayIsEmpty\_Generic()}{ScriptArrayIsEmpty\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Is\+Empty\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02125}{2125}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00637}{CScript\+Array\+::\+Is\+Empty()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a54a58d6ad64af15a0cbb8c7f113e4439}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a54a58d6ad64af15a0cbb8c7f113e4439} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayLength\_Generic@{ScriptArrayLength\_Generic}}
+\index{ScriptArrayLength\_Generic@{ScriptArrayLength\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayLength\_Generic()}{ScriptArrayLength\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Length\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02091}{2091}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00632}{CScript\+Array\+::\+Get\+Size()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a50471c53965cc3cf836177636476b852}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a50471c53965cc3cf836177636476b852} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayListFactory\_Generic@{ScriptArrayListFactory\_Generic}}
+\index{ScriptArrayListFactory\_Generic@{ScriptArrayListFactory\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayListFactory\_Generic()}{ScriptArrayListFactory\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+List\+Factory\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01970}{1970}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00121}{CScript\+Array\+::\+Create()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ab5a0bd5bbd505bbaea5ed10febd481ed}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ab5a0bd5bbd505bbaea5ed10febd481ed} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayRelease\_Generic@{ScriptArrayRelease\_Generic}}
+\index{ScriptArrayRelease\_Generic@{ScriptArrayRelease\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayRelease\_Generic()}{ScriptArrayRelease\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Release\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02168}{2168}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01921}{CScript\+Array\+::\+Release()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a46e30461188d9773eeef37ae6987a40f}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a46e30461188d9773eeef37ae6987a40f} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayReleaseAllHandles\_Generic@{ScriptArrayReleaseAllHandles\_Generic}}
+\index{ScriptArrayReleaseAllHandles\_Generic@{ScriptArrayReleaseAllHandles\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayReleaseAllHandles\_Generic()}{ScriptArrayReleaseAllHandles\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Release\+All\+Handles\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02199}{2199}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01908}{CScript\+Array\+::\+Release\+All\+Handles()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a727f2a943f738945c93d8e2ed31c1bc1}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a727f2a943f738945c93d8e2ed31c1bc1} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayRemoveAt\_Generic@{ScriptArrayRemoveAt\_Generic}}
+\index{ScriptArrayRemoveAt\_Generic@{ScriptArrayRemoveAt\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayRemoveAt\_Generic()}{ScriptArrayRemoveAt\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Remove\+At\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02063}{2063}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00900}{CScript\+Array\+::\+Remove\+At()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae930f0d14b05b963b23a27cfea9a9003}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae930f0d14b05b963b23a27cfea9a9003} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayRemoveLast\_Generic@{ScriptArrayRemoveLast\_Generic}}
+\index{ScriptArrayRemoveLast\_Generic@{ScriptArrayRemoveLast\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayRemoveLast\_Generic()}{ScriptArrayRemoveLast\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Remove\+Last\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02085}{2085}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00915}{CScript\+Array\+::\+Remove\+Last()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_aaa5bcbfbad33f5d3b5fca478b3be9543}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_aaa5bcbfbad33f5d3b5fca478b3be9543} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayRemoveRange\_Generic@{ScriptArrayRemoveRange\_Generic}}
+\index{ScriptArrayRemoveRange\_Generic@{ScriptArrayRemoveRange\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayRemoveRange\_Generic()}{ScriptArrayRemoveRange\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Remove\+Range\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02070}{2070}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00684}{CScript\+Array\+::\+Remove\+Range()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a7a93faf50913ac3d8d2d5c44b676fc8e}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a7a93faf50913ac3d8d2d5c44b676fc8e} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayReserve\_Generic@{ScriptArrayReserve\_Generic}}
+\index{ScriptArrayReserve\_Generic@{ScriptArrayReserve\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayReserve\_Generic()}{ScriptArrayReserve\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Reserve\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02106}{2106}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00642}{CScript\+Array\+::\+Reserve()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a9c67ddc04618b6a331cfc237eb714db9}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a9c67ddc04618b6a331cfc237eb714db9} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayResize\_Generic@{ScriptArrayResize\_Generic}}
+\index{ScriptArrayResize\_Generic@{ScriptArrayResize\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayResize\_Generic()}{ScriptArrayResize\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Resize\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02098}{2098}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l00676}{CScript\+Array\+::\+Resize()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a03e83a93b8d53219a5b0363b834c5473}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a03e83a93b8d53219a5b0363b834c5473} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayReverse\_Generic@{ScriptArrayReverse\_Generic}}
+\index{ScriptArrayReverse\_Generic@{ScriptArrayReverse\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayReverse\_Generic()}{ScriptArrayReverse\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Reverse\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02119}{2119}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01067}{CScript\+Array\+::\+Reverse()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a41d18d8f9ee56a92a37234faab6b5b6b}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a41d18d8f9ee56a92a37234faab6b5b6b} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArraySetFlag\_Generic@{ScriptArraySetFlag\_Generic}}
+\index{ScriptArraySetFlag\_Generic@{ScriptArraySetFlag\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArraySetFlag\_Generic()}{ScriptArraySetFlag\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Set\+Flag\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02180}{2180}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01941}{CScript\+Array\+::\+Set\+Flag()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae21b37869b7bb452caa5c8a5455cbddc}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae21b37869b7bb452caa5c8a5455cbddc} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArraySortAsc2\_Generic@{ScriptArraySortAsc2\_Generic}}
+\index{ScriptArraySortAsc2\_Generic@{ScriptArraySortAsc2\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArraySortAsc2\_Generic()}{ScriptArraySortAsc2\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Sort\+Asc2\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02131}{2131}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01406}{CScript\+Array\+::\+Sort\+Asc()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae383804e97c67978ca510058ed84c6bd}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae383804e97c67978ca510058ed84c6bd} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArraySortAsc\_Generic@{ScriptArraySortAsc\_Generic}}
+\index{ScriptArraySortAsc\_Generic@{ScriptArraySortAsc\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArraySortAsc\_Generic()}{ScriptArraySortAsc\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Sort\+Asc\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02113}{2113}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01406}{CScript\+Array\+::\+Sort\+Asc()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_abcae66b59a943bdb9514d593187a3b44}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_abcae66b59a943bdb9514d593187a3b44} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArraySortCallback\_Generic@{ScriptArraySortCallback\_Generic}}
+\index{ScriptArraySortCallback\_Generic@{ScriptArraySortCallback\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArraySortCallback\_Generic()}{ScriptArraySortCallback\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Sort\+Callback\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02153}{2153}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01431}{CScript\+Array\+::\+Sort()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a17405d800db4bc2eb050ee2f0f79efb7}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a17405d800db4bc2eb050ee2f0f79efb7} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArraySortDesc2\_Generic@{ScriptArraySortDesc2\_Generic}}
+\index{ScriptArraySortDesc2\_Generic@{ScriptArraySortDesc2\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArraySortDesc2\_Generic()}{ScriptArraySortDesc2\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Sort\+Desc2\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02145}{2145}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01418}{CScript\+Array\+::\+Sort\+Desc()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae6300f3b81a6f371c3d1027b38e3e9f8}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ae6300f3b81a6f371c3d1027b38e3e9f8} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArraySortDesc\_Generic@{ScriptArraySortDesc\_Generic}}
+\index{ScriptArraySortDesc\_Generic@{ScriptArraySortDesc\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArraySortDesc\_Generic()}{ScriptArraySortDesc\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Sort\+Desc\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02139}{2139}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{application_2add__on_2scriptarray_2scriptarray_8cpp_source_l01418}{CScript\+Array\+::\+Sort\+Desc()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ab005a2f1c75afe6a348ccee9c0ae0c04}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_ab005a2f1c75afe6a348ccee9c0ae0c04} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayTemplateCallback@{ScriptArrayTemplateCallback}}
+\index{ScriptArrayTemplateCallback@{ScriptArrayTemplateCallback}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayTemplateCallback()}{ScriptArrayTemplateCallback()}}
+{\footnotesize\ttfamily static bool Script\+Array\+Template\+Callback (\begin{DoxyParamCaption}\item[{as\+IType\+Info \texorpdfstring{$\ast$}{*}}]{ti,  }\item[{bool \&}]{dont\+Garbage\+Collect }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00131}{131}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00262}{Register\+Script\+Array\+\_\+\+Native()}}, and \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01987}{Script\+Array\+Template\+Callback\+\_\+\+Generic()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a4ac10996d6d7a1ed529978224d1a0d5e}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a4ac10996d6d7a1ed529978224d1a0d5e} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ScriptArrayTemplateCallback\_Generic@{ScriptArrayTemplateCallback\_Generic}}
+\index{ScriptArrayTemplateCallback\_Generic@{ScriptArrayTemplateCallback\_Generic}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ScriptArrayTemplateCallback\_Generic()}{ScriptArrayTemplateCallback\_Generic()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Script\+Array\+Template\+Callback\+\_\+\+Generic (\begin{DoxyParamCaption}\item[{as\+IScript\+Generic \texorpdfstring{$\ast$}{*}}]{gen }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l01987}{1987}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00131}{Script\+Array\+Template\+Callback()}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a93b4c67509069295a2bfad17d34b07f0}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_a93b4c67509069295a2bfad17d34b07f0} 
+\index{scriptarray.cpp@{scriptarray.cpp}!ARRAY\_CACHE@{ARRAY\_CACHE}}
+\index{ARRAY\_CACHE@{ARRAY\_CACHE}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{ARRAY\_CACHE}{ARRAY\_CACHE}}
+{\footnotesize\ttfamily const as\+PWORD ARRAY\+\_\+\+CACHE = 1000}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00052}{52}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00054}{Cleanup\+Type\+Info\+Array\+Cache()}}, \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l02206}{Register\+Script\+Array\+\_\+\+Generic()}}, and \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00262}{Register\+Script\+Array\+\_\+\+Native()}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_aec6254edd03c21867a5ddb4f6953b105}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_aec6254edd03c21867a5ddb4f6953b105} 
+\index{scriptarray.cpp@{scriptarray.cpp}!userAlloc@{userAlloc}}
+\index{userAlloc@{userAlloc}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{userAlloc}{userAlloc}}
+{\footnotesize\ttfamily as\+ALLOCFUNC\+\_\+t user\+Alloc = as\+Alloc\+Mem\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00021}{21}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+\Hypertarget{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_aee2ff988e046cce0dbec0e9ddd36618b}\label{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_aee2ff988e046cce0dbec0e9ddd36618b} 
+\index{scriptarray.cpp@{scriptarray.cpp}!userFree@{userFree}}
+\index{userFree@{userFree}!scriptarray.cpp@{scriptarray.cpp}}
+\doxysubsubsection{\texorpdfstring{userFree}{userFree}}
+{\footnotesize\ttfamily as\+FREEFUNC\+\_\+t user\+Free = as\+Free\+Mem\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00022}{22}} of file \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source}{scriptarray.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{engine_2modding_2add__on_2scriptarray_2scriptarray_8cpp_source_l00054}{Cleanup\+Type\+Info\+Array\+Cache()}}.
+

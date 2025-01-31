@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['filesystemregistry_0',['FileSystemRegistry',['../d5/d07/class_atlas_1_1_registered_file.html#a252ce492f4891703ba0a8f80ce3e7111',1,'Atlas::RegisteredFile']]]
+  ['bproject_0',['BProject',['../d4/de4/class_atlas_1_1_file_system_registry.html#a4976610ac1cd43ef0692c979723eac8a',1,'Atlas::FileSystemRegistry']]]
 ];

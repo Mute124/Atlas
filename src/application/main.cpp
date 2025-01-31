@@ -5,9 +5,25 @@
 #include <dbg/Logging.h>
 #include <modding/ScriptingAPI.h>
 #include <renderer/Renderer.h>
-#include <renderer/WindowDecorations.h>
+#include <renderer/window/WindowDecorations.h>
 #include <project.h>
-
+#include <memory>
+#include <string>
+/*	ThreadGroup group;
+	group.addThread([] {
+		// task 1
+		std::cout << "threadGroup 1" << std::endl;
+	});
+	group.addThread([] {
+		// task 2
+		std::cout << "threadGroup 2" << std::endl;
+	});
+	group.addThread([] {
+		// task 3
+		std::cout << "threadGroup 3" << std::endl;
+	});
+	group.stopAll();
+	group.waitForAll();*/
 using namespace Atlas;
 
 void InitWindow(WindowDecorations& decorations) {
@@ -20,7 +36,9 @@ void InitWindow(WindowDecorations& decorations) {
 	InitWindow(decorations.width, decorations.height, decorations.title);
 
 	Log("Loading and setting window icon...");
-	const char* iconPath = TextFormat("%s%s", ATLAS_ASSET_DIR.c_str(), decorations.icon);
+
+	const std::string assetDir = ATLAS_ASSET_DIR; // this is done like this because the macro expands to an expression rather than a string.
+	const char* iconPath = TextFormat("%s%s", assetDir.c_str(), decorations.icon);
 
 	Image icon = LoadImage(iconPath);
 	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
@@ -34,7 +52,7 @@ void InitScripting(ScriptingAPI& scriptingAPI, PROJECT_TYPENAME& project) {
 }
 
 void HandleFrame(PROJECT_TYPENAME& project) {
-	project.getRenderer().update();
+	//project.getRenderer().update();
 
 	project.texture();
 	project.render();
@@ -43,25 +61,16 @@ void HandleFrame(PROJECT_TYPENAME& project) {
 	ATLAS_THREAD_YIELD;
 }
 
-/*
-class UI : public GameObject {
-public:
-
-
-	Rml::Context* context = nullptr;
-	UI(Rml::Context* context) : context(context), GameObject() {
-	}
-	void render() override {
-		context->Render();
-	}
-
-};*/
-
 int main(int argc, char* argv[]) {
-	
 	//Log("Pre-Initializing project...");
-	PROJECT_TYPENAME project = PROJECT_TYPENAME();
-	project.preInit();
+	std::shared_ptr<PROJECT_TYPENAME> project = std::make_shared<PROJECT_TYPENAME>();
+
+	Atlas::Application::FrameManager& manager = Atlas::Application::FrameManager::Instance();
+	manager.userProject = project;
+
+	manager.launchThreads();
+
+/*	project.preInit();
 	Log("Project pre-initialized.");
 
 	Log("Finishing Initialization...");
@@ -92,7 +101,7 @@ int main(int argc, char* argv[]) {
 
 	Log("Launching threads.");
 
-	Atlas::Application::FrameManager& manager = Atlas::Application::FrameManager::Instance();
+	
 
 	SetTargetFPS(decorations.targetFPS);
 
@@ -114,6 +123,9 @@ int main(int argc, char* argv[]) {
 
 	CloseWindow();
 
-	Log("Done shutting down. Goodbye!");
+	Log("Done shutting down. Goodbye!");*/
+
+
+
 	return 0;
 }

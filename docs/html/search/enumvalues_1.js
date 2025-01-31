@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['console_5fand_5fterminal_0',['CONSOLE_AND_TERMINAL',['../d7/d54/namespace_atlas.html#a338b5c7a4a376755ccfacbebc8fe3427a6c8bf8333e55fb880c317d03378cf684',1,'Atlas']]],
-  ['console_5fonly_1',['CONSOLE_ONLY',['../d7/d54/namespace_atlas.html#a338b5c7a4a376755ccfacbebc8fe3427aaf87e944ac35c8c1296b3b366029c5b6',1,'Atlas']]]
+  ['backward_5fdirection_0',['BACKWARD_DIRECTION',['../d7/dc3/class_atlas_1_1_game_camera.html#a67dda24b981f7e800d77bfb134d7bea7adc4a5a1405550f779935cf73560c33e7',1,'Atlas::GameCamera']]]
 ];

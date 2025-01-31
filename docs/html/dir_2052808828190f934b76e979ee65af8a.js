@@ -1,6 +1,9 @@
 var dir_2052808828190f934b76e979ee65af8a =
 [
+    [ "audio", "dir_4fe8ccee3eb27515a7d94c329d7794e3.html", "dir_4fe8ccee3eb27515a7d94c329d7794e3" ],
+    [ "components", "dir_27d56d4d668b9ec6eee12920be23be3d.html", "dir_27d56d4d668b9ec6eee12920be23be3d" ],
     [ "conf", "dir_f2c5e5c6e4e4e0c9b0f6d7afea7d8b67.html", "dir_f2c5e5c6e4e4e0c9b0f6d7afea7d8b67" ],
+    [ "core", "dir_fdbc7b4b5b4c04d598adc44afc34d9a5.html", "dir_fdbc7b4b5b4c04d598adc44afc34d9a5" ],
     [ "dbg", "dir_95000645af4f697fd74c2878fe19712e.html", "dir_95000645af4f697fd74c2878fe19712e" ],
     [ "fs", "dir_61e8c4930a2b0e7b78d347ba3b13742a.html", "dir_61e8c4930a2b0e7b78d347ba3b13742a" ],
     [ "input", "dir_551ad5bdf126dfe6830e1af9f390776b.html", "dir_551ad5bdf126dfe6830e1af9f390776b" ],
@@ -9,6 +12,7 @@ var dir_2052808828190f934b76e979ee65af8a =
     [ "modding", "dir_467a9c807a42c7b02e78d7a930074fcd.html", "dir_467a9c807a42c7b02e78d7a930074fcd" ],
     [ "objects", "dir_e542ca8db7fd71a1414236dde431d8c7.html", "dir_e542ca8db7fd71a1414236dde431d8c7" ],
     [ "physics", "dir_def8a6fa26fd21ac3ee8ed00050a517f.html", "dir_def8a6fa26fd21ac3ee8ed00050a517f" ],
+    [ "project", "dir_67e9299239fa6c622fd49ae3f578b073.html", "dir_67e9299239fa6c622fd49ae3f578b073" ],
     [ "renderer", "dir_eedbc0f69b08006c72429a8d2b33a57d.html", "dir_eedbc0f69b08006c72429a8d2b33a57d" ],
     [ "states", "dir_010894d937d1a3235f59683482878ac9.html", "dir_010894d937d1a3235f59683482878ac9" ],
     [ "system", "dir_48f521a69e2b987097203e4df81e6842.html", "dir_48f521a69e2b987097203e4df81e6842" ],
@@ -19,9 +23,10 @@ var dir_2052808828190f934b76e979ee65af8a =
     [ "Common.h", "db/d1f/_common_8h.html", "db/d1f/_common_8h" ],
     [ "engine.cpp", "da/d5c/engine_8cpp.html", null ],
     [ "engine.h", "d1/d55/engine_8h.html", "d1/d55/engine_8h" ],
-    [ "EngineComponent.h", "d4/da9/_engine_component_8h.html", "d4/da9/_engine_component_8h" ],
     [ "EReturnCode.h", "d6/dde/_e_return_code_8h.html", "d6/dde/_e_return_code_8h" ],
     [ "GameSettings.h", "d1/d49/_game_settings_8h.html", "d1/d49/_game_settings_8h" ],
+    [ "IEngineComponent.h", "d0/da5/_i_engine_component_8h.html", "d0/da5/_i_engine_component_8h" ],
+    [ "IEngineComponentRegistry.h", "d3/d2e/_i_engine_component_registry_8h.html", null ],
     [ "Project.cpp", "d8/d0f/engine_2_project_8cpp.html", null ],
     [ "Project.h", "d8/d7d/engine_2_project_8h.html", "d8/d7d/engine_2_project_8h" ]
 ];

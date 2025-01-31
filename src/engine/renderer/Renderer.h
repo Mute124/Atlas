@@ -11,6 +11,8 @@
 	#include <raylib.h>
 #endif
 
+#include <gtest/gtest.h>
+
 namespace Atlas {
 	class GameObject;
 
@@ -28,7 +30,7 @@ namespace Atlas {
 		/// <summary>
 		/// Initializes this instance.
 		/// </summary>
-		void initialize();
+		void init();
 
 		/// <summary>
 		/// Renders the render texture to the screen using the specified camera.
@@ -50,7 +52,6 @@ namespace Atlas {
 		void drawFBO();
 
 		void addStandaloneDrawCall(std::function<void()> drawCall);
-
 
 		/// <summary>
 		/// Adds the game object.
@@ -103,6 +104,7 @@ namespace Atlas {
 		/// <param name="cam">The active camera.</param>
 		void render3D(GameCamera& cam);
 #endif
-	};
+	}; 
 
 }
+

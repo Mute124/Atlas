@@ -24,7 +24,7 @@ struct \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{Im\+Gui\+\_\+\+Impl\+G
 \item 
 \#define \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\+\_\+\+BUTTON}}(KEY\+\_\+\+NO,  \+\_\+\+UNUSED,  BUTTON\+\_\+\+NO)~do \{ io.\+Add\+Key\+Event(KEY\+\_\+\+NO, (buttons\+\_\+count $>$ BUTTON\+\_\+\+NO \&\& buttons\mbox{[}BUTTON\+\_\+\+NO\mbox{]} == GLFW\+\_\+\+PRESS)); \} while (0)
 \item 
-\#define \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\+\_\+\+ANALOG}}(KEY\+\_\+\+NO,  \+\_\+\+UNUSED,  AXIS\+\_\+\+NO,  V0,  V1)~do \{ float v = (axes\+\_\+count $>$ AXIS\+\_\+\+NO) ? axes\mbox{[}AXIS\+\_\+\+NO\mbox{]} \+: V0; v = (v -\/ V0) / (V1 -\/ V0); io.\+Add\+Key\+Analog\+Event(KEY\+\_\+\+NO, v $>$ 0.\+10f, Saturate(v)); \} while (0)
+\#define \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\+\_\+\+ANALOG}}(KEY\+\_\+\+NO,  \+\_\+\+UNUSED,  AXIS\+\_\+\+NO,  V0,  V1)~do \{ float v = (axes\+\_\+count $>$ AXIS\+\_\+\+NO) ? axes\mbox{[}AXIS\+\_\+\+NO\mbox{]} \+: V0; v = (v -\/ V0) / (V1 -\/ V0); io.\+Add\+Key\+Analog\+Event(KEY\+\_\+\+NO, v $>$ 0.\+10f, \mbox{\hyperlink{imgui__impl__glfw_8cpp_a741f7497ba921fe9c841162c86a4493d}{Saturate}}(v)); \} while (0)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
@@ -37,11 +37,19 @@ enum \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+static \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{imgui__impl__glfw_8cpp_a42131482f4e35e879c2d58d5c1c9eb8f}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data}} ()
+\item 
 Im\+Gui\+Key \mbox{\hyperlink{imgui__impl__glfw_8cpp_a758c933a543b8670f1c96cba13f80636}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+To\+Im\+Gui\+Key}} (int keycode, int scancode)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_ac35e328dce73c896364c102fa5f76bce}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Key\+Modifiers}} (GLFWwindow \texorpdfstring{$\ast$}{*}window)
+\item 
+static bool \mbox{\hyperlink{imgui__impl__glfw_8cpp_a2afb72066f3e7621bb438b2f19fa74ef}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Should\+Chain\+Callback}} (GLFWwindow \texorpdfstring{$\ast$}{*}window)
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_a075e351f00b5c13086cacb05b5b6ee08}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback}} (GLFWwindow \texorpdfstring{$\ast$}{*}window, int button, int action, int mods)
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_a59c26c674cfd04975ac49c7d83339113}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback}} (GLFWwindow \texorpdfstring{$\ast$}{*}window, double xoffset, double yoffset)
+\item 
+static int \mbox{\hyperlink{imgui__impl__glfw_8cpp_a3ae7f8f778b832fb94c3863be111b247}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Translate\+Untranslated\+Key}} (int key, int scancode)
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_a66afe6468f3645befeb50a75f82b5efc}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback}} (GLFWwindow \texorpdfstring{$\ast$}{*}window, int keycode, int scancode, int action, int mods)
 \item 
@@ -61,6 +69,8 @@ Im\+Gui\+Key \mbox{\hyperlink{imgui__impl__glfw_8cpp_a758c933a543b8670f1c96cba13
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_addd8948824f9bd78b0c8ec4c81213c9e}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Set\+Callbacks\+Chain\+For\+All\+Windows}} (bool chain\+\_\+for\+\_\+all\+\_\+windows)
 \item 
+static bool \mbox{\hyperlink{imgui__impl__glfw_8cpp_a637facc7eff897ef4512026ea1afaf0d}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init}} (GLFWwindow \texorpdfstring{$\ast$}{*}window, bool install\+\_\+callbacks, \mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{Glfw\+Client\+Api}} client\+\_\+api)
+\item 
 bool \mbox{\hyperlink{imgui__impl__glfw_8cpp_a3d472e598f8e218a0bd994e840b865ab}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Open\+GL}} (GLFWwindow \texorpdfstring{$\ast$}{*}window, bool install\+\_\+callbacks)
 \item 
 bool \mbox{\hyperlink{imgui__impl__glfw_8cpp_ac7cab00e5027bccc3b536afb0e07bc8f}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Vulkan}} (GLFWwindow \texorpdfstring{$\ast$}{*}window, bool install\+\_\+callbacks)
@@ -68,6 +78,14 @@ bool \mbox{\hyperlink{imgui__impl__glfw_8cpp_ac7cab00e5027bccc3b536afb0e07bc8f}{
 bool \mbox{\hyperlink{imgui__impl__glfw_8cpp_ab1ec1d0dc53754ef893e6ab23ec564e5}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Other}} (GLFWwindow \texorpdfstring{$\ast$}{*}window, bool install\+\_\+callbacks)
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_a983c2903ccb938fea5ecdd4d53e54704}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Shutdown}} ()
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_ad0da3a1b2955f768fa933dd4edba33b6}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Data}} ()
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_a876edf1a44dd8b6358feba912702a860}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor}} ()
+\item 
+static float \mbox{\hyperlink{imgui__impl__glfw_8cpp_a741f7497ba921fe9c841162c86a4493d}{Saturate}} (float v)
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_a676d90dabe6acb909f287625118e999d}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Gamepads}} ()
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{imgui__impl__glfw_8cpp_a206e99434f63c4b8e24e8a4208c11b65}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame}} ()
 \item 
@@ -130,7 +148,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00127}{127}} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!MAP\_ANALOG@{MAP\_ANALOG}}
 \index{MAP\_ANALOG@{MAP\_ANALOG}!imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}}
 \doxysubsubsection{\texorpdfstring{MAP\_ANALOG}{MAP\_ANALOG}}
-{\footnotesize\ttfamily \#define MAP\+\_\+\+ANALOG(\begin{DoxyParamCaption}\item[{}]{KEY\+\_\+\+NO,  }\item[{}]{\+\_\+\+UNUSED,  }\item[{}]{AXIS\+\_\+\+NO,  }\item[{}]{V0,  }\item[{}]{V1 }\end{DoxyParamCaption})~do \{ float v = (axes\+\_\+count $>$ AXIS\+\_\+\+NO) ? axes\mbox{[}AXIS\+\_\+\+NO\mbox{]} \+: V0; v = (v -\/ V0) / (V1 -\/ V0); io.\+Add\+Key\+Analog\+Event(KEY\+\_\+\+NO, v $>$ 0.\+10f, Saturate(v)); \} while (0)}
+{\footnotesize\ttfamily \#define MAP\+\_\+\+ANALOG(\begin{DoxyParamCaption}\item[{}]{KEY\+\_\+\+NO,  }\item[{}]{\+\_\+\+UNUSED,  }\item[{}]{AXIS\+\_\+\+NO,  }\item[{}]{V0,  }\item[{}]{V1 }\end{DoxyParamCaption})~do \{ float v = (axes\+\_\+count $>$ AXIS\+\_\+\+NO) ? axes\mbox{[}AXIS\+\_\+\+NO\mbox{]} \+: V0; v = (v -\/ V0) / (V1 -\/ V0); io.\+Add\+Key\+Analog\+Event(KEY\+\_\+\+NO, v $>$ 0.\+10f, \mbox{\hyperlink{imgui__impl__glfw_8cpp_a741f7497ba921fe9c841162c86a4493d}{Saturate}}(v)); \} while (0)}
 
 \Hypertarget{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}\label{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!MAP\_BUTTON@{MAP\_BUTTON}}
@@ -180,7 +198,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00458}{458}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00166}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Char}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00328}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Should\+Chain\+Callback()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00166}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Char}}.
 
 
 
@@ -198,7 +216,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00438}{438}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00152}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Last\+Valid\+Mouse\+Pos}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00150}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Mouse\+Window}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00162}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Enter}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00328}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Should\+Chain\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00152}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Last\+Valid\+Mouse\+Pos}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00150}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Mouse\+Window}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00162}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Enter}}.
 
 
 
@@ -216,11 +234,43 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00425}{425}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00152}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Last\+Valid\+Mouse\+Pos}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00161}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Pos}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00328}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Should\+Chain\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00152}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Last\+Valid\+Mouse\+Pos}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00161}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Pos}}.
 
 
 
 Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00520}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Install\+Callbacks()}}.
+
+\Hypertarget{imgui__impl__glfw_8cpp_a42131482f4e35e879c2d58d5c1c9eb8f}\label{imgui__impl__glfw_8cpp_a42131482f4e35e879c2d58d5c1c9eb8f} 
+\index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_GetBackendData@{ImGui\_ImplGlfw\_GetBackendData}}
+\index{ImGui\_ImplGlfw\_GetBackendData@{ImGui\_ImplGlfw\_GetBackendData}!imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplGlfw\_GetBackendData()}{ImGui\_ImplGlfw\_GetBackendData()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{struct_im_gui___impl_glfw___data}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data}} \texorpdfstring{$\ast$}{*} Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{182}} of file \mbox{\hyperlink{imgui__impl__glfw_8cpp_source}{imgui\+\_\+impl\+\_\+glfw.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00458}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00438}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Cursor\+Enter\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00425}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Cursor\+Pos\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00520}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Install\+Callbacks()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00396}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00334}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00827}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00537}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Restore\+Callbacks()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00347}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00566}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Set\+Callbacks\+Chain\+For\+All\+Windows()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00328}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Should\+Chain\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00688}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Shutdown()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00748}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00717}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Data()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00415}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Window\+Focus\+Callback()}}.
+
+\Hypertarget{imgui__impl__glfw_8cpp_a637facc7eff897ef4512026ea1afaf0d}\label{imgui__impl__glfw_8cpp_a637facc7eff897ef4512026ea1afaf0d} 
+\index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_Init@{ImGui\_ImplGlfw\_Init}}
+\index{ImGui\_ImplGlfw\_Init@{ImGui\_ImplGlfw\_Init}!imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplGlfw\_Init()}{ImGui\_ImplGlfw\_Init()}}
+{\footnotesize\ttfamily static bool Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init (\begin{DoxyParamCaption}\item[{GLFWwindow \texorpdfstring{$\ast$}{*}}]{window,  }\item[{bool}]{install\+\_\+callbacks,  }\item[{\mbox{\hyperlink{imgui__impl__glfw_8cpp_abfd5392e93ee3c4e7f86cc5515e2d413}{Glfw\+Client\+Api}}}]{client\+\_\+api }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00580}{580}} of file \mbox{\hyperlink{imgui__impl__glfw_8cpp_source}{imgui\+\_\+impl\+\_\+glfw.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00148}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Client\+Api}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00520}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Install\+Callbacks()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00151}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Mouse\+Cursors}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00149}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Time}}, \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00673}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Open\+GL()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00683}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Other()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00678}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init\+For\+Vulkan()}}.
 
 \Hypertarget{imgui__impl__glfw_8cpp_a3d472e598f8e218a0bd994e840b865ab}\label{imgui__impl__glfw_8cpp_a3d472e598f8e218a0bd994e840b865ab} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_InitForOpenGL@{ImGui\_ImplGlfw\_InitForOpenGL}}
@@ -234,7 +284,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00673}{673}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00141}{Glfw\+Client\+Api\+\_\+\+Open\+GL}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00141}{Glfw\+Client\+Api\+\_\+\+Open\+GL}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00580}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init()}}.
 
 \Hypertarget{imgui__impl__glfw_8cpp_ab1ec1d0dc53754ef893e6ab23ec564e5}\label{imgui__impl__glfw_8cpp_ab1ec1d0dc53754ef893e6ab23ec564e5} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_InitForOther@{ImGui\_ImplGlfw\_InitForOther}}
@@ -248,7 +298,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00683}{683}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00140}{Glfw\+Client\+Api\+\_\+\+Unknown}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00140}{Glfw\+Client\+Api\+\_\+\+Unknown}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00580}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init()}}.
 
 \Hypertarget{imgui__impl__glfw_8cpp_ac7cab00e5027bccc3b536afb0e07bc8f}\label{imgui__impl__glfw_8cpp_ac7cab00e5027bccc3b536afb0e07bc8f} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_InitForVulkan@{ImGui\_ImplGlfw\_InitForVulkan}}
@@ -262,7 +312,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00678}{678}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00142}{Glfw\+Client\+Api\+\_\+\+Vulkan}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00142}{Glfw\+Client\+Api\+\_\+\+Vulkan}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00580}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init()}}.
 
 \Hypertarget{imgui__impl__glfw_8cpp_a6fe1ba0e49c2da76f4f28856bc8511fb}\label{imgui__impl__glfw_8cpp_a6fe1ba0e49c2da76f4f28856bc8511fb} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_InstallCallbacks@{ImGui\_ImplGlfw\_InstallCallbacks}}
@@ -276,7 +326,11 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00520}{520}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00458}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00438}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Cursor\+Enter\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00425}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Cursor\+Pos\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00396}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00468}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Monitor\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00334}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00347}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00415}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Window\+Focus\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00153}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Installed\+Callbacks}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00166}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Char}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00162}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Enter}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00161}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Pos}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00165}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Key}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00167}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Monitor}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00163}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Mousebutton}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00164}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Scroll}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00160}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Window\+Focus}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00458}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00438}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Cursor\+Enter\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00425}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Cursor\+Pos\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00396}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00468}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Monitor\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00334}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00347}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00415}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Window\+Focus\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00153}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Installed\+Callbacks}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00166}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Char}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00162}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Enter}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00161}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Pos}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00165}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Key}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00167}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Monitor}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00163}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Mousebutton}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00164}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Scroll}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00160}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Window\+Focus}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00580}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Init()}}.
 
 \Hypertarget{imgui__impl__glfw_8cpp_a66afe6468f3645befeb50a75f82b5efc}\label{imgui__impl__glfw_8cpp_a66afe6468f3645befeb50a75f82b5efc} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_KeyCallback@{ImGui\_ImplGlfw\_KeyCallback}}
@@ -290,7 +344,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00396}{396}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00191}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+To\+Im\+Gui\+Key()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00165}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Key}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00191}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+To\+Im\+Gui\+Key()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00328}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Should\+Chain\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00363}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Translate\+Untranslated\+Key()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00319}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Key\+Modifiers()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00165}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Key}}.
 
 
 
@@ -336,7 +390,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00334}{334}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00163}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Mousebutton}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00328}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Should\+Chain\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00319}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Key\+Modifiers()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00163}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Mousebutton}}.
 
 
 
@@ -354,7 +408,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00827}{827}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00149}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Time}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00776}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Gamepads()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00748}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00717}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00149}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Time}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
 
 \Hypertarget{imgui__impl__glfw_8cpp_aa7cddd7ef946da421374a6bea12db744}\label{imgui__impl__glfw_8cpp_aa7cddd7ef946da421374a6bea12db744} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_RestoreCallbacks@{ImGui\_ImplGlfw\_RestoreCallbacks}}
@@ -368,7 +422,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00537}{537}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00153}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Installed\+Callbacks}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00166}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Char}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00162}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Enter}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00161}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Pos}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00165}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Key}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00167}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Monitor}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00163}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Mousebutton}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00164}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Scroll}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00160}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Window\+Focus}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00153}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Installed\+Callbacks}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00166}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Char}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00162}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Enter}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00161}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Cursor\+Pos}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00165}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Key}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00167}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Monitor}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00163}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Mousebutton}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00164}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Scroll}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00160}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Window\+Focus}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
 
 
 
@@ -386,7 +440,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00347}{347}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00164}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Scroll}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00328}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Should\+Chain\+Callback()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00164}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Scroll}}.
 
 
 
@@ -404,7 +458,25 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00566}{566}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00154}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Callbacks\+Chain\+For\+All\+Windows}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00154}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Callbacks\+Chain\+For\+All\+Windows}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}.
+
+\Hypertarget{imgui__impl__glfw_8cpp_a2afb72066f3e7621bb438b2f19fa74ef}\label{imgui__impl__glfw_8cpp_a2afb72066f3e7621bb438b2f19fa74ef} 
+\index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_ShouldChainCallback@{ImGui\_ImplGlfw\_ShouldChainCallback}}
+\index{ImGui\_ImplGlfw\_ShouldChainCallback@{ImGui\_ImplGlfw\_ShouldChainCallback}!imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplGlfw\_ShouldChainCallback()}{ImGui\_ImplGlfw\_ShouldChainCallback()}}
+{\footnotesize\ttfamily static bool Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Should\+Chain\+Callback (\begin{DoxyParamCaption}\item[{GLFWwindow \texorpdfstring{$\ast$}{*}}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00328}{328}} of file \mbox{\hyperlink{imgui__impl__glfw_8cpp_source}{imgui\+\_\+impl\+\_\+glfw.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00154}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Callbacks\+Chain\+For\+All\+Windows}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00458}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Char\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00438}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Cursor\+Enter\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00425}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Cursor\+Pos\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00396}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00334}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00347}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Scroll\+Callback()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00415}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Window\+Focus\+Callback()}}.
 
 \Hypertarget{imgui__impl__glfw_8cpp_a983c2903ccb938fea5ecdd4d53e54704}\label{imgui__impl__glfw_8cpp_a983c2903ccb938fea5ecdd4d53e54704} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_Shutdown@{ImGui\_ImplGlfw\_Shutdown}}
@@ -418,7 +490,7 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00688}{688}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00537}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Restore\+Callbacks()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00153}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Installed\+Callbacks}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00151}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Mouse\+Cursors}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00537}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Restore\+Callbacks()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00153}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Installed\+Callbacks}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00151}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Mouse\+Cursors}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
 
 \Hypertarget{imgui__impl__glfw_8cpp_a76f4eb755b660ac33c672fbed7455c39}\label{imgui__impl__glfw_8cpp_a76f4eb755b660ac33c672fbed7455c39} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_Sleep@{ImGui\_ImplGlfw\_Sleep}}
@@ -429,6 +501,92 @@ References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00537}{Im\+Gui\+\_\+\
 
 
 Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00858}{858}} of file \mbox{\hyperlink{imgui__impl__glfw_8cpp_source}{imgui\+\_\+impl\+\_\+glfw.\+cpp}}.
+
+\Hypertarget{imgui__impl__glfw_8cpp_a3ae7f8f778b832fb94c3863be111b247}\label{imgui__impl__glfw_8cpp_a3ae7f8f778b832fb94c3863be111b247} 
+\index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_TranslateUntranslatedKey@{ImGui\_ImplGlfw\_TranslateUntranslatedKey}}
+\index{ImGui\_ImplGlfw\_TranslateUntranslatedKey@{ImGui\_ImplGlfw\_TranslateUntranslatedKey}!imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplGlfw\_TranslateUntranslatedKey()}{ImGui\_ImplGlfw\_TranslateUntranslatedKey()}}
+{\footnotesize\ttfamily static int Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Translate\+Untranslated\+Key (\begin{DoxyParamCaption}\item[{int}]{key,  }\item[{int}]{scancode }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00363}{363}} of file \mbox{\hyperlink{imgui__impl__glfw_8cpp_source}{imgui\+\_\+impl\+\_\+glfw.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void()}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00396}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback()}}.
+
+\Hypertarget{imgui__impl__glfw_8cpp_a676d90dabe6acb909f287625118e999d}\label{imgui__impl__glfw_8cpp_a676d90dabe6acb909f287625118e999d} 
+\index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_UpdateGamepads@{ImGui\_ImplGlfw\_UpdateGamepads}}
+\index{ImGui\_ImplGlfw\_UpdateGamepads@{ImGui\_ImplGlfw\_UpdateGamepads}!imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplGlfw\_UpdateGamepads()}{ImGui\_ImplGlfw\_UpdateGamepads()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Gamepads (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00776}{776}} of file \mbox{\hyperlink{imgui__impl__glfw_8cpp_source}{imgui\+\_\+impl\+\_\+glfw.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_a9f278ea488f471a9c1ad2ed71488f8fd}{MAP\+\_\+\+ANALOG}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_a260637e5a9303a72f59a33757b3881b3}{MAP\+\_\+\+BUTTON}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00827}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame()}}.
+
+\Hypertarget{imgui__impl__glfw_8cpp_ac35e328dce73c896364c102fa5f76bce}\label{imgui__impl__glfw_8cpp_ac35e328dce73c896364c102fa5f76bce} 
+\index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_UpdateKeyModifiers@{ImGui\_ImplGlfw\_UpdateKeyModifiers}}
+\index{ImGui\_ImplGlfw\_UpdateKeyModifiers@{ImGui\_ImplGlfw\_UpdateKeyModifiers}!imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplGlfw\_UpdateKeyModifiers()}{ImGui\_ImplGlfw\_UpdateKeyModifiers()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Key\+Modifiers (\begin{DoxyParamCaption}\item[{GLFWwindow \texorpdfstring{$\ast$}{*}}]{window }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00319}{319}} of file \mbox{\hyperlink{imgui__impl__glfw_8cpp_source}{imgui\+\_\+impl\+\_\+glfw.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00396}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Key\+Callback()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00334}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Mouse\+Button\+Callback()}}.
+
+\Hypertarget{imgui__impl__glfw_8cpp_a876edf1a44dd8b6358feba912702a860}\label{imgui__impl__glfw_8cpp_a876edf1a44dd8b6358feba912702a860} 
+\index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_UpdateMouseCursor@{ImGui\_ImplGlfw\_UpdateMouseCursor}}
+\index{ImGui\_ImplGlfw\_UpdateMouseCursor@{ImGui\_ImplGlfw\_UpdateMouseCursor}!imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplGlfw\_UpdateMouseCursor()}{ImGui\_ImplGlfw\_UpdateMouseCursor()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Cursor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00748}{748}} of file \mbox{\hyperlink{imgui__impl__glfw_8cpp_source}{imgui\+\_\+impl\+\_\+glfw.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00151}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Mouse\+Cursors}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00827}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame()}}.
+
+\Hypertarget{imgui__impl__glfw_8cpp_ad0da3a1b2955f768fa933dd4edba33b6}\label{imgui__impl__glfw_8cpp_ad0da3a1b2955f768fa933dd4edba33b6} 
+\index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_UpdateMouseData@{ImGui\_ImplGlfw\_UpdateMouseData}}
+\index{ImGui\_ImplGlfw\_UpdateMouseData@{ImGui\_ImplGlfw\_UpdateMouseData}!imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}}
+\doxysubsubsection{\texorpdfstring{ImGui\_ImplGlfw\_UpdateMouseData()}{ImGui\_ImplGlfw\_UpdateMouseData()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Update\+Mouse\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00717}{717}} of file \mbox{\hyperlink{imgui__impl__glfw_8cpp_source}{imgui\+\_\+impl\+\_\+glfw.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00152}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Last\+Valid\+Mouse\+Pos}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00150}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Mouse\+Window}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00147}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Window}}.
+
+
+
+Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00827}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+New\+Frame()}}.
 
 \Hypertarget{imgui__impl__glfw_8cpp_a64954a853e7f22592743e177b29780d6}\label{imgui__impl__glfw_8cpp_a64954a853e7f22592743e177b29780d6} 
 \index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!ImGui\_ImplGlfw\_WindowFocusCallback@{ImGui\_ImplGlfw\_WindowFocusCallback}}
@@ -442,9 +600,19 @@ Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00415}{415}} 
 
 
 
-References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00160}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Window\+Focus}}.
+References \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00182}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Get\+Backend\+Data()}}, \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00328}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Should\+Chain\+Callback()}}, and \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00160}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Data\+::\+Prev\+User\+Callback\+Window\+Focus}}.
 
 
 
 Referenced by \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00520}{Im\+Gui\+\_\+\+Impl\+Glfw\+\_\+\+Install\+Callbacks()}}.
+
+\Hypertarget{imgui__impl__glfw_8cpp_a741f7497ba921fe9c841162c86a4493d}\label{imgui__impl__glfw_8cpp_a741f7497ba921fe9c841162c86a4493d} 
+\index{imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}!Saturate@{Saturate}}
+\index{Saturate@{Saturate}!imgui\_impl\_glfw.cpp@{imgui\_impl\_glfw.cpp}}
+\doxysubsubsection{\texorpdfstring{Saturate()}{Saturate()}}
+{\footnotesize\ttfamily static float Saturate (\begin{DoxyParamCaption}\item[{float}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{imgui__impl__glfw_8cpp_source_l00775}{775}} of file \mbox{\hyperlink{imgui__impl__glfw_8cpp_source}{imgui\+\_\+impl\+\_\+glfw.\+cpp}}.
 

@@ -1,4 +1,32 @@
 ﻿# The sources are seperated into different variables for organization reasons
+
+set(ATLAS_COMPONENT_SOURCES
+	"components/Component.h"
+    "components/Component.cpp"
+
+    "components/ScriptableComponent.h"
+    "components/ScriptableComponent.cpp"
+    
+    "components/ModularObject.h"
+
+    "components/PreUpdateEventArgs.h"
+    "components/UpdateEventArgs.h"
+	"components/PostUpdateEventArgs.h"
+    "components/RenderEventArgs.h"
+    "components/TextureEventArgs.h"
+    "components/CleanupEventArgs.h"
+    "components/DestroyEventArgs.h"
+
+
+    "components/TransformComponent.h"
+	"components/TransformComponent.cpp"
+
+    "components/ObjectRendererComponent.h"
+
+    "components/ObjectPhysicsComponent.h"
+    "components/ObjectPhysicsComponent.cpp"
+)
+
 set(ATLAS_ENGINE_CORE_SOURCES
     "Common.h" 
     "Common.cpp"
@@ -8,18 +36,42 @@ set(ATLAS_ENGINE_CORE_SOURCES
 
     "Project.h" 
     "Project.cpp" 
+
+    "IEngineComponent.h"
+    "IEngineComponentRegistry.h"
+
+    "core/IFrameManager.h"
+    "core/FrameManager.h"
+    "core/FrameManager.cpp"
+
+    "core/IGameThread.h"
+    "core/GameThread.h"
+    "core/GameThread.cpp"
 )
 
 set(ATLAS_RENDERER_SOURCES
-    "renderer/Window.h" 
-    "renderer/Window.cpp" 
+
+    "renderer/RendererCommon.h"
+
+    "renderer/window/IWindow.h"
+    "renderer/window/Window.h" 
+    "renderer/window/Window.cpp" 
+    "renderer/window/WindowDecorations.h"
+
+    "renderer/drawing/RenderArgs.h"
+    "renderer/drawing/TextureArgs.h"
+
+    "renderer/drawing/DrawableHook.h"
+    "renderer/drawing/DrawableHook.cpp"
+
+    "renderer/IRenderer.h"
 
     "renderer/Renderer.h" 
     "renderer/Renderer.cpp"
 
     "renderer/Color.h" 
 
-    "renderer/IRenderable.h"
+    "renderer/IDrawable.h"
 
     "objects/IGameObject.h" 
     "objects/GameObject.h"
@@ -35,7 +87,7 @@ set(ATLAS_RENDERER_SOURCES
     "renderer/GameCamera.cpp" 
 
     "renderer/RenderLayer.h" 
-
+    
     "objects/GameObjectRegistry.h"
     "objects/GameObjectRegistry.cpp" 
 
@@ -43,13 +95,16 @@ set(ATLAS_RENDERER_SOURCES
 
     "objects/IGameObjectGate.h"
 
-    "renderer/WindowDecorations.h"
-
     "renderer/GameUI.h"
     "renderer/GameUI.cpp"
 
     "renderer/GameModel.h"
     "renderer/GameModel.cpp"
+
+    "renderer/ICuller.h"
+    "renderer/BObjectCuller.h"
+
+    "renderer/ERenderLayerDrawTime.h"
 )
 
 set(ATLAS_STATE_SOURCES
@@ -72,14 +127,18 @@ set(ATLAS_UTIL_SOURCES
     "Utils/Singleton.h" 
     "utils/DoublyLinkedList.h" 
     "utils/Gate.h" 
+    "utils/GateRegistry.h"
     "utils/Globals.h"
     "utils/MiscUtils.h"
 
 )
 
 set(ATLAS_MATH_SOURCES
-    "math/Vector.h" 
-    "math/Vector.cpp" 
+    "math/Vec3.h"
+	"math/Vec3.cpp"
+
+    "math/Transform.h"
+    "math/Transform.cpp"
 )
 
 set(ATLAS_INPUT_SOURCES
@@ -102,6 +161,10 @@ set(ATLAS_FILESYSTEM_SOURCES
     "fs/FileSystem.h"
     "fs/FileSystem.cpp"
 
+    "fs/ISandboxer.h"
+    "fs/Sandboxer.h"
+    "fs/Sandboxer.cpp"
+
     "fs/RegisteredFile.h"
 	"fs/RegisteredFile.cpp"
 
@@ -110,6 +173,9 @@ set(ATLAS_FILESYSTEM_SOURCES
 
     "fs/FileSystemRegistry.h"
 	"fs/FileSystemRegistry.cpp"
+
+    "fs/FilePath.h"
+    "fs/FilePath.cpp"
 )
 
 set(ATLAS_PHYSICS_SOURCES
@@ -122,8 +188,31 @@ set(ATLAS_PHYSICS_SOURCES
 )
 
 set(ATLAS_MODDING_SOURCES
+	"modding/add_on/scriptstdstring/scriptstdstring.h"
+	"modding/add_on/scriptstdstring/scriptstdstring.cpp"
+
+    "modding/angelscript/AngelScriptAPI.h"
+    "modding/angelscript/AngelScriptAPI.cpp"
+
+    "modding/angelscript/AngelScriptRegistry.h"
+    "modding/angelscript/AngelScriptRegistry.cpp"
+
+    "modding/IScriptingLanguageInitializer.h"
+
+    "modding/lua/LuaAPI.h"
+	"modding/lua/LuaAPI.cpp"
+
     "modding/ScriptingAPI.h"
     "modding/ScriptingAPI.cpp"
+    
+    "modding/IScript.h"
+    
+    "modding/Script.h"
+	"modding/Script.cpp"
+    
+    "modding/DynamicObject.h"
+    "modding/DynamicObject.cpp"
+
     "modding/ModManager.h"
     "modding/ModManager.cpp"
     "modding/Mod.h"
@@ -145,6 +234,7 @@ set(ATLAS_DEBUGGING_SOURCES
 	"dbg/Debugger.cpp"
 
     "dbg/Errors.h"
+    "dbg/Errors.cpp"
 
     "dbg/Console.h"
 	"dbg/Console.cpp"
@@ -161,8 +251,36 @@ set(ATLAS_LANGUAGE_SOURCES
 	"language/LocalizationRegistry.cpp"
 )
 
+set(ATLAS_PROJECT_SOURCES 
+    "project/IProjectSettings.h"
+
+	"project/ProjectSettings.h"
+	"project/ProjectSettings.cpp"
+    
+    "project/ProjectManager.h"
+    "project/IProjectManager.h"
+)
+
+set(ATLAS_AUDIO_SOURCES
+    "audio/AudioCommon.h"
+
+    "audio/AudioDevice.h"
+    "audio/AudioDevice.cpp"
+
+    "audio/AudioDeviceRegistry.h"
+	"audio/AudioDeviceRegistry.cpp"
+
+    "audio/AudioDeviceConfig.h"
+
+    "audio/EAudioDeviceType.h"
+
+    "audio/AudioManager.h"
+    "audio/AudioManager.cpp"
+)
+
 set(ATLAS_ENGINE_SOURCES 
 	# Engine Core
+    ${ATLAS_COMPONENT_SOURCES}
     ${ATLAS_ENGINE_CORE_SOURCES}
     ${ATLAS_RENDERER_SOURCES}
     ${ATLAS_STATE_SOURCES}
@@ -177,6 +295,8 @@ set(ATLAS_ENGINE_SOURCES
 	${ATLAS_DEBUGGING_SOURCES}
     ${ATLAS_WORLD_SOURCES}
     ${ATLAS_LANGUAGE_SOURCES}
+    ${ATLAS_PROJECT_SOURCES}
+    ${ATLAS_AUDIO_SOURCES}
 )
 
 
@@ -200,6 +320,9 @@ set(ATLAS_ENGINE_DEPENDENCIES
     
     simdjson::simdjson
     tinyxml2::tinyxml2
+    Angelscript::angelscript
+
+    miniaudio::miniaudio
 )
 
 include("${CMAKE_SOURCE_DIR}/CMakeOptions.txt")
@@ -209,7 +332,7 @@ if(${ATLAS_ENABLE_MODDING})
     if(${ATLAS_ENABLE_ANGELSCRIPT})
         set(ATLAS_ENGINE_DEPENDENCIES
             ${ATLAS_ENGINE_DEPENDENCIES}
-		    Angelscript::angelscript
+		   # Angelscript::angelscript
         )
         
     endif()
@@ -222,9 +345,15 @@ if(${ATLAS_ENABLE_MODDING})
     endif()
 endif()
 
+#if(${ATLAS_ENABLE_TESTING}) 
+    set(ATLAS_ENGINE_DEPENDENCIES 
+		${ATLAS_ENGINE_DEPENDENCIES}
+        gtest::gtest
+    )
+#endif()
+
 add_library(Atlas SHARED 
     ${ATLAS_ENGINE_SOURCES}
-    
 )
 
 # Organize files in Visual Studio
@@ -242,7 +371,7 @@ target_link_libraries(Atlas PUBLIC
 
 # Set output name for Windows/Linux
 if(WIN32)
-    set_target_properties(Atlas PROPERTIES OUTPUT_NAME "Techstorm.dll" )
+    set_target_properties(Atlas PROPERTIES OUTPUT_NAME "Atlas")
 elseif(UNIX)
-    set_target_properties(Atlas PROPERTIES OUTPUT_NAME "Techstorm.so") 
+    set_target_properties(Atlas PROPERTIES OUTPUT_NAME "Atlas") 
 endif()

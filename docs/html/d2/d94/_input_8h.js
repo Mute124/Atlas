@@ -1,6 +1,7 @@
 var _input_8h =
 [
     [ "Atlas::InputAction", "d6/d5c/class_atlas_1_1_input_action.html", "d6/d5c/class_atlas_1_1_input_action" ],
+    [ "Atlas::SelfDeterminingInputAction", "d2/d1b/class_atlas_1_1_self_determining_input_action.html", "d2/d1b/class_atlas_1_1_self_determining_input_action" ],
     [ "Atlas::InputRegistry", "d7/d84/class_atlas_1_1_input_registry.html", "d7/d84/class_atlas_1_1_input_registry" ],
     [ "ATLAS_ENABLE_CONTROLLER_SUPPORT", "d2/d94/_input_8h.html#a7e0b1fe09db16c1fd4a411d85d8aa13f", null ],
     [ "EInputTrigger", "d2/d94/_input_8h.html#a3de63d593b09a1492bb3d240f65ef88e", [

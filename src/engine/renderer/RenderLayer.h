@@ -1,7 +1,7 @@
 #pragma once
-#include "GameObject.h"
-#include "../utils/DoublyLinkedList.h"
-
+#include "ERenderLayerDrawTime.h"
+#include "../objects/GameObjectRegistry.h"
+#include <string>
 namespace Atlas {
 
 	using Depth = int;
@@ -35,4 +35,15 @@ namespace Atlas {
 		DoublyLinkedList<GameObject*> mGameObjects;
 	};
 	*/
+
+	class RenderLayer {
+	private:
+		const Depth mDepth;
+		const float mCullDistance;
+		const std::string mLayerName;
+
+	public:
+
+		
+	};
 }

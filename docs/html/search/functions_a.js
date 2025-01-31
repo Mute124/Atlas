@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['killthreads_0',['killThreads',['../dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html#aa52d815f855928be48f9aaa031a2dd20',1,'Atlas::Application::FrameManager']]]
+  ['jsonfile_0',['JSONFile',['../d8/dc8/class_atlas_1_1_j_s_o_n_file.html#aa6f75ceabda0fd0a2e0e839f9efd850b',1,'Atlas::JSONFile']]]
 ];

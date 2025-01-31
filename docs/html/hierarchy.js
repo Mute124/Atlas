@@ -2,26 +2,73 @@ var hierarchy =
 [
     [ "AllocatedPhysicsResources", "dc/d25/struct_allocated_physics_resources.html", null ],
     [ "Atlas::AllocatedPhysicsResources", "df/df6/struct_atlas_1_1_allocated_physics_resources.html", null ],
+    [ "Atlas::AngelScriptAPI", "dc/dd0/class_atlas_1_1_angel_script_a_p_i.html", null ],
+    [ "Atlas::AngelScriptRegistry", "df/da4/class_atlas_1_1_angel_script_registry.html", null ],
+    [ "asIStringFactory", null, [
+      [ "CStdStringFactory", "dd/d3f/class_c_std_string_factory.html", null ],
+      [ "CStdStringFactory", "dd/d3f/class_c_std_string_factory.html", null ]
+    ] ],
     [ "Atlas::Application::AtlasApp", "de/d87/class_atlas_1_1_application_1_1_atlas_app.html", null ],
+    [ "Atlas::AudioDevice", "dc/d5b/class_atlas_1_1_audio_device.html", null ],
+    [ "Atlas::AudioDeviceConfig", "db/d92/class_atlas_1_1_audio_device_config.html", null ],
+    [ "Atlas::AudioManager", "da/d5f/class_atlas_1_1_audio_manager.html", null ],
     [ "JPH::BodyActivationListener", null, [
       [ "Atlas::MyBodyActivationListener", "d4/d38/class_atlas_1_1_my_body_activation_listener.html", null ],
       [ "MyBodyActivationListener", "d0/d3a/class_my_body_activation_listener.html", null ]
     ] ],
+    [ "Atlas::PhysicsEngine::BodyInterfaceHolder", "d6/d48/class_atlas_1_1_physics_engine_1_1_body_interface_holder.html", null ],
+    [ "PhysicsEngine::BodyInterfaceHolder", "d4/d34/class_physics_engine_1_1_body_interface_holder.html", null ],
+    [ "CDebugger::BreakPoint", "d8/dfe/struct_c_debugger_1_1_break_point.html", null ],
     [ "JPH::BroadPhaseLayerInterface", null, [
       [ "Atlas::BPLayerInterfaceImpl", "db/d4d/class_atlas_1_1_b_p_layer_interface_impl.html", null ],
       [ "BPLayerInterfaceImpl", "d9/d49/class_b_p_layer_interface_impl.html", null ]
     ] ],
+    [ "CContextMgr", "dd/dbc/class_c_context_mgr.html", null ],
+    [ "CDateTime", "dc/dfa/class_c_date_time.html", null ],
+    [ "CDebugger", "db/db7/class_c_debugger.html", null ],
     [ "Chunk", "d7/d58/class_chunk.html", null ],
     [ "CircularMap< T >", "d0/db8/class_circular_map.html", null ],
     [ "CircularMap< Color >", "d0/db8/class_circular_map.html", null ],
+    [ "CScriptDictionary::CIterator", "d5/dd4/class_c_script_dictionary_1_1_c_iterator.html", null ],
+    [ "Atlas::CleanupEventArgs", "de/dcc/struct_atlas_1_1_cleanup_event_args.html", null ],
     [ "Techstorm::DevTools::SetupTool::CMDLineArgumentsHandler", "d0/d85/class_techstorm_1_1_dev_tools_1_1_setup_tool_1_1_c_m_d_line_arguments_handler.html", null ],
+    [ "Complex", "d4/d59/struct_complex.html", null ],
+    [ "Atlas::Component", "d6/dfa/class_atlas_1_1_component.html", [
+      [ "Atlas::ObjectPhysicsComponent", "d0/dfb/class_atlas_1_1_object_physics_component.html", null ],
+      [ "Atlas::TransformComponent", "dc/d08/class_atlas_1_1_transform_component.html", null ],
+      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
+      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
+    ] ],
+    [ "gw::Constructor< T >", "dc/d41/structgw_1_1_constructor.html", null ],
+    [ "gw::Constructor< T()>", "df/d75/structgw_1_1_constructor_3_01_t_07_08_4.html", null ],
+    [ "gw::Constructor< T(A0)>", "d0/dfe/structgw_1_1_constructor_3_01_t_07_a0_08_4.html", null ],
+    [ "gw::Constructor< T(A0, A1)>", "de/dce/structgw_1_1_constructor_3_01_t_07_a0_00_01_a1_08_4.html", null ],
+    [ "gw::Constructor< T(A0, A1, A2)>", "df/d43/structgw_1_1_constructor_3_01_t_07_a0_00_01_a1_00_01_a2_08_4.html", null ],
+    [ "gw::Constructor< T(A0, A1, A2, A3)>", "d4/d00/structgw_1_1_constructor_3_01_t_07_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
     [ "JPH::ContactListener", null, [
       [ "Atlas::ObjectContactListener", "d1/dda/class_atlas_1_1_object_contact_listener.html", null ],
       [ "MyContactListener", "d3/d3f/class_my_contact_listener.html", null ]
     ] ],
     [ "Atlas::ContactListenerGateParams", "d9/ddf/struct_atlas_1_1_contact_listener_gate_params.html", null ],
+    [ "CScriptAny", "dc/d2f/class_c_script_any.html", null ],
+    [ "CScriptArray", "d8/d22/class_c_script_array.html", null ],
+    [ "CScriptBuilder", "de/d98/class_c_script_builder.html", null ],
+    [ "CScriptDictionary", "dc/d3b/class_c_script_dictionary.html", null ],
+    [ "CScriptDictValue", "d7/d4b/class_c_script_dict_value.html", null ],
+    [ "CScriptFile", "d1/d1d/class_c_script_file.html", null ],
+    [ "CScriptFileSystem", "d7/db0/class_c_script_file_system.html", null ],
+    [ "CScriptGrid", "de/df5/class_c_script_grid.html", null ],
+    [ "CScriptHandle", "d8/da7/class_c_script_handle.html", null ],
+    [ "CScriptWeakRef", "df/d4b/class_c_script_weak_ref.html", null ],
+    [ "CSerializedValue", "d4/dc9/class_c_serialized_value.html", null ],
+    [ "CSerializer", "d1/d54/class_c_serializer.html", null ],
+    [ "CStdStringFactoryCleaner", "d2/ddb/class_c_std_string_factory_cleaner.html", null ],
+    [ "CUserType", "da/de0/struct_c_user_type.html", null ],
     [ "CUSTOMVERTEX", "d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html", null ],
-    [ "Atlas::EngineConfig", "d7/d1a/struct_atlas_1_1_engine_config.html", null ],
+    [ "Atlas::DestroyEventArgs", "d4/d9d/struct_atlas_1_1_destroy_event_args.html", null ],
+    [ "Atlas::GameCamera::DirectionalInput", "d0/dd4/class_atlas_1_1_game_camera_1_1_directional_input.html", null ],
+    [ "Atlas::DrawableHook", "d4/d11/class_atlas_1_1_drawable_hook.html", null ],
+    [ "Atlas::DynamicObject", "dd/d28/class_atlas_1_1_dynamic_object.html", null ],
     [ "Atlas::Entity", "d4/d48/class_atlas_1_1_entity.html", null ],
     [ "std::exception", null, [
       [ "Atlas::IException", "d1/d81/class_atlas_1_1_i_exception.html", [
@@ -35,19 +82,25 @@ var hierarchy =
       [ "ShellFileInterface", "dc/d7b/class_shell_file_interface.html", null ]
     ] ],
     [ "Atlas::FileMeta", "d7/d78/class_atlas_1_1_file_meta.html", null ],
+    [ "Atlas::FilePath", "df/dd5/class_atlas_1_1_file_path.html", null ],
     [ "FrameResources", "da/d55/struct_frame_resources.html", null ],
     [ "Atlas::GameCamera", "d7/dc3/class_atlas_1_1_game_camera.html", null ],
     [ "Atlas::GameModel", "df/dec/class_atlas_1_1_game_model.html", null ],
     [ "GameObject", "d0/dd1/class_game_object.html", null ],
     [ "Atlas::GameObjectRegistry", "d1/d4c/class_atlas_1_1_game_object_registry.html", null ],
+    [ "Atlas::GameState", "d1/daa/class_atlas_1_1_game_state.html", null ],
     [ "Generator", "d0/df5/class_generator.html", null ],
     [ "GridCell", "d4/d3c/struct_grid_cell.html", null ],
+    [ "Atlas::IAtlas", "d8/dc7/class_atlas_1_1_i_atlas.html", [
+      [ "Atlas::AtlasEngine", "d3/d8d/class_atlas_1_1_atlas_engine.html", null ]
+    ] ],
     [ "IConsole", null, [
       [ "Atlas::Console", "d3/d9f/class_atlas_1_1_console.html", null ]
     ] ],
     [ "IConsoleSink", null, [
       [ "Atlas::ConsoleSink", "d7/dd2/class_atlas_1_1_console_sink.html", null ]
     ] ],
+    [ "gw::Id< T >", "d0/d4c/structgw_1_1_id.html", null ],
     [ "IError", null, [
       [ "Atlas::FileIOFailure", "db/d34/class_atlas_1_1_file_i_o_failure.html", null ]
     ] ],
@@ -58,6 +111,7 @@ var hierarchy =
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
     ] ],
+    [ "Atlas::IGameThread< T_USER_PROJECT >", "dd/dca/class_atlas_1_1_i_game_thread.html", null ],
     [ "IGate", null, [
       [ "Atlas::ContactListenerGate", "d8/d75/class_atlas_1_1_contact_listener_gate.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
@@ -100,22 +154,39 @@ var hierarchy =
     [ "ImGui_ImplWGPU_InitInfo", "dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html", null ],
     [ "ImGui_ImplWGPU_RenderState", "da/d0a/struct_im_gui___impl_w_g_p_u___render_state.html", null ],
     [ "ImGui_ImplWin32_Data", "d5/d71/struct_im_gui___impl_win32___data.html", null ],
-    [ "Atlas::InputAction", "d6/d5c/class_atlas_1_1_input_action.html", null ],
-    [ "Atlas::IProject", null, [
-      [ "Project", "d9/d6e/class_project.html", null ],
-      [ "SamplesProject", "dc/dc3/class_samples_project.html", null ]
+    [ "Atlas::InputAction", "d6/d5c/class_atlas_1_1_input_action.html", [
+      [ "Atlas::GameCamera::CameraInputAction", "de/d72/class_atlas_1_1_game_camera_1_1_camera_input_action.html", null ],
+      [ "Atlas::SelfDeterminingInputAction", "d2/d1b/class_atlas_1_1_self_determining_input_action.html", null ]
+    ] ],
+    [ "Atlas::IProject", "dd/daa/class_atlas_1_1_i_project.html", [
+      [ "Atlas::BProject", "d5/d37/class_atlas_1_1_b_project.html", [
+        [ "Project", "d9/d6e/class_project.html", null ],
+        [ "SamplesProject", "dc/dc3/class_samples_project.html", null ]
+      ] ]
+    ] ],
+    [ "Atlas::IProjectSettings", "db/d9d/class_atlas_1_1_i_project_settings.html", null ],
+    [ "ISandboxer", null, [
+      [ "Atlas::Sandboxer", "da/dc0/class_atlas_1_1_sandboxer.html", null ]
+    ] ],
+    [ "ITechstormEngine", null, [
+      [ "Atlas::TechstormEngine", "d3/db6/class_atlas_1_1_techstorm_engine.html", null ]
     ] ],
     [ "ITerminalSink", null, [
       [ "Atlas::TerminalSink", "d9/dbb/class_atlas_1_1_terminal_sink.html", null ]
+    ] ],
+    [ "Atlas::IWindow", "d8/d18/class_atlas_1_1_i_window.html", [
+      [ "Atlas::Window", "d1/df6/class_atlas_1_1_window.html", null ]
     ] ],
     [ "Atlas::JSONFile", "d8/dc8/class_atlas_1_1_j_s_o_n_file.html", null ],
     [ "Atlas::Language", "d4/d6b/class_atlas_1_1_language.html", null ],
     [ "Atlas::LoggerConfig", "d5/d0c/struct_atlas_1_1_logger_config.html", null ],
     [ "MarchingCubes", "dc/dbe/class_marching_cubes.html", null ],
     [ "Atlas::MemoryStatus", "dc/da5/class_atlas_1_1_memory_status.html", null ],
+    [ "Atlas::Logger::MessageBuffer", "d5/d1a/class_atlas_1_1_logger_1_1_message_buffer.html", null ],
     [ "Atlas::Mod", "df/d6e/class_atlas_1_1_mod.html", null ],
     [ "Atlas::ModLoader", "d9/dc9/class_atlas_1_1_mod_loader.html", null ],
     [ "Atlas::ModManager", "d8/d41/class_atlas_1_1_mod_manager.html", null ],
+    [ "Atlas::ModularObject", "d0/d68/class_atlas_1_1_modular_object.html", null ],
     [ "<NSCopying>", null, [
       [ "FramebufferDescriptor", "d6/d1f/interface_framebuffer_descriptor.html", null ]
     ] ],
@@ -140,18 +211,56 @@ var hierarchy =
       [ "Atlas::ObjectVsBroadPhaseLayerFilterImpl", "d2/dcc/class_atlas_1_1_object_vs_broad_phase_layer_filter_impl.html", null ],
       [ "ObjectVsBroadPhaseLayerFilterImpl", "d3/d37/class_object_vs_broad_phase_layer_filter_impl.html", null ]
     ] ],
+    [ "gw::ObjFirst< T >", "dd/d63/structgw_1_1_obj_first.html", null ],
+    [ "gw::ObjFirst< R(*)(T)>", "dd/dc5/structgw_1_1_obj_first_3_01_r_07_5_08_07_t_08_4.html", null ],
+    [ "gw::ObjFirst< R(*)(T, A0)>", "d1/dd3/structgw_1_1_obj_first_3_01_r_07_5_08_07_t_00_01_a0_08_4.html", null ],
+    [ "gw::ObjFirst< R(*)(T, A0, A1)>", "d5/d91/structgw_1_1_obj_first_3_01_r_07_5_08_07_t_00_01_a0_00_01_a1_08_4.html", null ],
+    [ "gw::ObjFirst< R(*)(T, A0, A1, A2)>", "d3/dfe/structgw_1_1_obj_first_3_01_r_07_5_08_07_t_00_01_a0_00_01_a1_00_01_a2_08_4.html", null ],
+    [ "gw::ObjFirst< R(*)(T, A0, A1, A2, A3)>", "d6/d3a/structgw_1_1_obj_first_3_01_r_07_5_08_07_t_00_01_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
+    [ "gw::ObjFirst< void(*)(T)>", "d7/ddd/structgw_1_1_obj_first_3_01void_07_5_08_07_t_08_4.html", null ],
+    [ "gw::ObjFirst< void(*)(T, A0)>", "db/d0c/structgw_1_1_obj_first_3_01void_07_5_08_07_t_00_01_a0_08_4.html", null ],
+    [ "gw::ObjFirst< void(*)(T, A0, A1)>", "de/d19/structgw_1_1_obj_first_3_01void_07_5_08_07_t_00_01_a0_00_01_a1_08_4.html", null ],
+    [ "gw::ObjFirst< void(*)(T, A0, A1, A2)>", "dd/d45/structgw_1_1_obj_first_3_01void_07_5_08_07_t_00_01_a0_00_01_a1_00_01_a2_08_4.html", null ],
+    [ "gw::ObjFirst< void(*)(T, A0, A1, A2, A3)>", "dd/d95/structgw_1_1_obj_first_3_01void_07_5_08_07_t_00_01_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
+    [ "gw::ObjLast< T >", "df/dbf/structgw_1_1_obj_last.html", null ],
+    [ "gw::ObjLast< R(*)(A0, A1, A2, A3, T)>", "dc/d26/structgw_1_1_obj_last_3_01_r_07_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_00_01_t_08_4.html", null ],
+    [ "gw::ObjLast< R(*)(A0, A1, A2, T)>", "da/d1a/structgw_1_1_obj_last_3_01_r_07_5_08_07_a0_00_01_a1_00_01_a2_00_01_t_08_4.html", null ],
+    [ "gw::ObjLast< R(*)(A0, A1, T)>", "db/d82/structgw_1_1_obj_last_3_01_r_07_5_08_07_a0_00_01_a1_00_01_t_08_4.html", null ],
+    [ "gw::ObjLast< R(*)(A0, T)>", "d1/d50/structgw_1_1_obj_last_3_01_r_07_5_08_07_a0_00_01_t_08_4.html", null ],
+    [ "gw::ObjLast< R(*)(T)>", "d8/d78/structgw_1_1_obj_last_3_01_r_07_5_08_07_t_08_4.html", null ],
+    [ "gw::ObjLast< void(*)(A0, A1, A2, A3, T)>", "db/d6f/structgw_1_1_obj_last_3_01void_07_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_00_01_t_08_4.html", null ],
+    [ "gw::ObjLast< void(*)(A0, A1, A2, T)>", "d7/d32/structgw_1_1_obj_last_3_01void_07_5_08_07_a0_00_01_a1_00_01_a2_00_01_t_08_4.html", null ],
+    [ "gw::ObjLast< void(*)(A0, A1, T)>", "da/d9b/structgw_1_1_obj_last_3_01void_07_5_08_07_a0_00_01_a1_00_01_t_08_4.html", null ],
+    [ "gw::ObjLast< void(*)(A0, T)>", "d8/dd7/structgw_1_1_obj_last_3_01void_07_5_08_07_a0_00_01_t_08_4.html", null ],
+    [ "gw::ObjLast< void(*)(T)>", "da/d20/structgw_1_1_obj_last_3_01void_07_5_08_07_t_08_4.html", null ],
+    [ "Atlas::OptionalReference< T >", "dc/da2/class_atlas_1_1_optional_reference.html", null ],
     [ "Point", "d8/dc8/struct_point.html", null ],
+    [ "Atlas::PostUpdateEventArgs", "de/df4/struct_atlas_1_1_post_update_event_args.html", null ],
+    [ "Atlas::PreUpdateEventArgs", "de/d24/struct_atlas_1_1_pre_update_event_args.html", null ],
+    [ "Atlas::ProjectManager", "dc/d5d/class_atlas_1_1_project_manager.html", null ],
+    [ "gw::Proxy< T >", "d6/df0/classgw_1_1_proxy.html", null ],
     [ "Atlas::ReferenceHolder< T >", "d9/d0a/class_atlas_1_1_reference_holder.html", null ],
     [ "Atlas::RegisteredFile", "d5/d07/class_atlas_1_1_registered_file.html", null ],
+    [ "Atlas::RenderArgs", "dc/df9/struct_atlas_1_1_render_args.html", null ],
     [ "Atlas::Renderer", "dc/d71/class_atlas_1_1_renderer.html", null ],
+    [ "Atlas::RenderEventArgs", "d7/dd6/struct_atlas_1_1_render_event_args.html", null ],
+    [ "Atlas::RenderLayer", "d0/dfd/class_atlas_1_1_render_layer.html", null ],
     [ "RenderResources", "d9/d42/struct_render_resources.html", null ],
-    [ "Sample", "d4/d72/class_sample.html", [
-      [ "HelloWorldSample", "d1/d0b/class_hello_world_sample.html", null ]
-    ] ],
+    [ "Sample", "d4/d72/class_sample.html", null ],
     [ "SampleGroup", "d4/da6/class_sample_group.html", [
       [ "BasicSampleGroup", "d5/d6c/class_basic_sample_group.html", null ]
     ] ],
-    [ "Atlas::Singleton< T >", "d6/dd4/class_atlas_1_1_singleton.html", null ],
+    [ "SArrayBuffer", "d3/d98/struct_s_array_buffer.html", null ],
+    [ "SArrayCache", "d1/dcb/struct_s_array_cache.html", null ],
+    [ "CScriptBuilder::SClassMetadata", "df/d3a/struct_c_script_builder_1_1_s_class_metadata.html", null ],
+    [ "SContextInfo", "d3/d89/struct_s_context_info.html", null ],
+    [ "SDictionaryCache", "dd/d49/struct_s_dictionary_cache.html", null ],
+    [ "CSerializer::SExtraObject", "d7/d9e/struct_c_serializer_1_1_s_extra_object.html", null ],
+    [ "SGridBuffer", "dc/da6/struct_s_grid_buffer.html", null ],
+    [ "Atlas::Singleton< T >", "d6/dd4/class_atlas_1_1_singleton.html", [
+      [ "Atlas::IFrameManager< T >", "db/db8/class_atlas_1_1_i_frame_manager.html", null ],
+      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
+    ] ],
     [ "Techstorm::Singleton", null, [
       [ "PhysicsEngine", "db/db4/class_physics_engine.html", null ],
       [ "Techstorm::abstract< K, D, T >", "d6/d34/class_techstorm_1_1abstract.html", null ]
@@ -184,24 +293,80 @@ var hierarchy =
       [ "Atlas::PhysicsEngine", "d2/dec/class_atlas_1_1_physics_engine.html", null ]
     ] ],
     [ "Atlas::Singleton< ProjectReference >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::abstract< ConsoleSink >::ProjectReference", "dd/d11/class_atlas_1_1abstract_1_1_project_reference.html", null ]
+      [ "Atlas::BProject::ProjectReference", "da/d52/class_atlas_1_1_b_project_1_1_project_reference.html", null ]
     ] ],
-    [ "Atlas::Singleton< TechstormEngine >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::TechstormEngine", "d3/db6/class_atlas_1_1_techstorm_engine.html", null ]
-    ] ],
+    [ "CScriptBuilder::SMetadataDecl", "d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html", null ],
+    [ "Atlas::StateMachine", "d7/d30/class_atlas_1_1_state_machine.html", null ],
+    [ "Atlas::Logger::TemporaryMessage", "df/d3f/struct_atlas_1_1_logger_1_1_temporary_message.html", null ],
     [ "Terrain", "d1/dee/class_terrain.html", null ],
     [ "TerrainSector", "d4/d42/class_terrain_sector.html", null ],
+    [ "Atlas::TextureArgs", "d1/d00/struct_atlas_1_1_texture_args.html", null ],
+    [ "Atlas::TextureEventArgs", "d4/da5/struct_atlas_1_1_texture_event_args.html", null ],
+    [ "Atlas::ThreadGroup", "de/d4b/class_atlas_1_1_thread_group.html", null ],
+    [ "Atlas::Transform", "de/d42/class_atlas_1_1_transform.html", null ],
     [ "Terrain::TriangleStruct", "da/d89/struct_terrain_1_1_triangle_struct.html", null ],
     [ "Uniforms", "da/d5c/struct_uniforms.html", null ],
-    [ "Atlas::Vec2", "d1/dd9/struct_atlas_1_1_vec2.html", null ],
-    [ "Atlas::Vec3", "df/dca/struct_atlas_1_1_vec3.html", null ],
+    [ "Atlas::UpdateEventArgs", "de/d57/struct_atlas_1_1_update_event_args.html", null ],
+    [ "Atlas::ValidityCheckResult", "d8/db6/struct_atlas_1_1_validity_check_result.html", null ],
+    [ "CScriptAny::valueStruct", "d9/de7/struct_c_script_any_1_1value_struct.html", null ],
+    [ "Atlas::Vec3", "da/d87/class_atlas_1_1_vec3.html", null ],
     [ "Vec3", "df/d8a/struct_vec3.html", null ],
-    [ "Atlas::Vec4", "d4/d28/struct_atlas_1_1_vec4.html", null ],
     [ "VERTEX_CONSTANT_BUFFER_DX10", "d0/d75/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x10.html", null ],
     [ "VERTEX_CONSTANT_BUFFER_DX11", "d8/d09/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x11.html", null ],
     [ "VERTEX_CONSTANT_BUFFER_DX12", "d2/d16/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12.html", null ],
     [ "VertexContainer", "d0/dbd/struct_vertex_container.html", null ],
-    [ "Atlas::Window", "d1/df6/class_atlas_1_1_window.html", null ],
-    [ "Atlas::WindowDecorations", "da/d6a/struct_atlas_1_1_window_decorations.html", null ],
+    [ "Atlas::WindowDecorations", "d4/d08/class_atlas_1_1_window_decorations.html", null ],
+    [ "gw::Wrapper< T >", "dd/d92/structgw_1_1_wrapper.html", null ],
+    [ "gw::Wrapper< R(*)(A0)>", "d8/ddb/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_08_4.html", null ],
+    [ "gw::Wrapper< R(*)(A0, A1)>", "d2/da4/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_00_01_a1_08_4.html", null ],
+    [ "gw::Wrapper< R(*)(A0, A1, A2)>", "d8/d26/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_00_01_a1_00_01_a2_08_4.html", null ],
+    [ "gw::Wrapper< R(*)(A0, A1, A2, A3)>", "dc/d4c/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
+    [ "gw::Wrapper< R(*)(void)>", "d4/d57/structgw_1_1_wrapper_3_01_r_07_5_08_07void_08_4.html", null ],
+    [ "gw::Wrapper< R(T::*)(A0) const >", "d2/df9/structgw_1_1_wrapper_3_01_r_07_t_1_1_5_08_07_a0_08_01const_01_4.html", null ],
+    [ "gw::Wrapper< R(T::*)(A0)>", "d2/d8c/structgw_1_1_wrapper_3_01_r_07_t_1_1_5_08_07_a0_08_4.html", null ],
+    [ "gw::Wrapper< R(T::*)(A0, A1) const >", "d5/dce/structgw_1_1_wrapper_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_08_01const_01_4.html", null ],
+    [ "gw::Wrapper< R(T::*)(A0, A1)>", "dd/dbc/structgw_1_1_wrapper_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_08_4.html", null ],
+    [ "gw::Wrapper< R(T::*)(A0, A1, A2) const >", "d8/d1d/structgw_1_1_wrapper_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_08_01const_01_4.html", null ],
+    [ "gw::Wrapper< R(T::*)(A0, A1, A2)>", "dc/dec/structgw_1_1_wrapper_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_08_4.html", null ],
+    [ "gw::Wrapper< R(T::*)(A0, A1, A2, A3) const >", "d4/dc0/structgw_1_1_wrapper_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_01const_01_4.html", null ],
+    [ "gw::Wrapper< R(T::*)(A0, A1, A2, A3)>", "dd/d2a/structgw_1_1_wrapper_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
+    [ "gw::Wrapper< R(T::*)(void) const >", "d1/dce/structgw_1_1_wrapper_3_01_r_07_t_1_1_5_08_07void_08_01const_01_4.html", null ],
+    [ "gw::Wrapper< R(T::*)(void)>", "d4/d0a/structgw_1_1_wrapper_3_01_r_07_t_1_1_5_08_07void_08_4.html", null ],
+    [ "gw::Wrapper< void(*)(A0)>", "d3/d13/structgw_1_1_wrapper_3_01void_07_5_08_07_a0_08_4.html", null ],
+    [ "gw::Wrapper< void(*)(A0, A1)>", "d9/d52/structgw_1_1_wrapper_3_01void_07_5_08_07_a0_00_01_a1_08_4.html", null ],
+    [ "gw::Wrapper< void(*)(A0, A1, A2)>", "d9/de4/structgw_1_1_wrapper_3_01void_07_5_08_07_a0_00_01_a1_00_01_a2_08_4.html", null ],
+    [ "gw::Wrapper< void(*)(A0, A1, A2, A3)>", "d7/d7c/structgw_1_1_wrapper_3_01void_07_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
+    [ "gw::Wrapper< void(*)(void)>", "dc/d21/structgw_1_1_wrapper_3_01void_07_5_08_07void_08_4.html", null ],
+    [ "gw::Wrapper< void(T::*)(A0) const >", "d6/d6e/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07_a0_08_01const_01_4.html", null ],
+    [ "gw::Wrapper< void(T::*)(A0)>", "d4/da7/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07_a0_08_4.html", null ],
+    [ "gw::Wrapper< void(T::*)(A0, A1) const >", "dd/d06/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_08_01const_01_4.html", null ],
+    [ "gw::Wrapper< void(T::*)(A0, A1)>", "dc/d03/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_08_4.html", null ],
+    [ "gw::Wrapper< void(T::*)(A0, A1, A2) const >", "d8/d93/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_08_01const_01_4.html", null ],
+    [ "gw::Wrapper< void(T::*)(A0, A1, A2)>", "da/d77/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_08_4.html", null ],
+    [ "gw::Wrapper< void(T::*)(A0, A1, A2, A3) const >", "d2/d53/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_01const_01_4.html", null ],
+    [ "gw::Wrapper< void(T::*)(A0, A1, A2, A3)>", "d9/d48/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
+    [ "gw::Wrapper< void(T::*)(void) const >", "d3/d34/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07void_08_01const_01_4.html", null ],
+    [ "gw::Wrapper< void(T::*)(void)>", "da/d0d/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07void_08_4.html", null ],
+    [ "gw::WrapperGlobal< T >", "dd/d76/structgw_1_1_wrapper_global.html", null ],
+    [ "gw::WrapperGlobal< R(T::*)(A0) const >", "d5/d04/structgw_1_1_wrapper_global_3_01_r_07_t_1_1_5_08_07_a0_08_01const_01_4.html", null ],
+    [ "gw::WrapperGlobal< R(T::*)(A0)>", "d8/d85/structgw_1_1_wrapper_global_3_01_r_07_t_1_1_5_08_07_a0_08_4.html", null ],
+    [ "gw::WrapperGlobal< R(T::*)(A0, A1) const >", "d1/d2c/structgw_1_1_wrapper_global_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_08_01const_01_4.html", null ],
+    [ "gw::WrapperGlobal< R(T::*)(A0, A1)>", "d9/d51/structgw_1_1_wrapper_global_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_08_4.html", null ],
+    [ "gw::WrapperGlobal< R(T::*)(A0, A1, A2) const >", "df/de9/structgw_1_1_wrapper_global_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_08_01const_01_4.html", null ],
+    [ "gw::WrapperGlobal< R(T::*)(A0, A1, A2)>", "d6/d85/structgw_1_1_wrapper_global_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_08_4.html", null ],
+    [ "gw::WrapperGlobal< R(T::*)(A0, A1, A2, A3) const >", "df/dbf/structgw_1_1_wrapper_global_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_01const_01_4.html", null ],
+    [ "gw::WrapperGlobal< R(T::*)(A0, A1, A2, A3)>", "d8/d4d/structgw_1_1_wrapper_global_3_01_r_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
+    [ "gw::WrapperGlobal< R(T::*)(void) const >", "d2/d76/structgw_1_1_wrapper_global_3_01_r_07_t_1_1_5_08_07void_08_01const_01_4.html", null ],
+    [ "gw::WrapperGlobal< R(T::*)(void)>", "d2/dae/structgw_1_1_wrapper_global_3_01_r_07_t_1_1_5_08_07void_08_4.html", null ],
+    [ "gw::WrapperGlobal< void(T::*)(A0) const >", "d4/de0/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07_a0_08_01const_01_4.html", null ],
+    [ "gw::WrapperGlobal< void(T::*)(A0)>", "d8/dc8/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07_a0_08_4.html", null ],
+    [ "gw::WrapperGlobal< void(T::*)(A0, A1) const >", "d5/dd2/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_08_01const_01_4.html", null ],
+    [ "gw::WrapperGlobal< void(T::*)(A0, A1)>", "d0/d4f/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_08_4.html", null ],
+    [ "gw::WrapperGlobal< void(T::*)(A0, A1, A2) const >", "d7/d13/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_08_01const_01_4.html", null ],
+    [ "gw::WrapperGlobal< void(T::*)(A0, A1, A2)>", "d5/d6e/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_08_4.html", null ],
+    [ "gw::WrapperGlobal< void(T::*)(A0, A1, A2, A3) const >", "df/d6e/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_01const_01_4.html", null ],
+    [ "gw::WrapperGlobal< void(T::*)(A0, A1, A2, A3)>", "d3/d50/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
+    [ "gw::WrapperGlobal< void(T::*)(void) const >", "d8/dbf/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07void_08_01const_01_4.html", null ],
+    [ "gw::WrapperGlobal< void(T::*)(void)>", "d7/de4/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07void_08_4.html", null ],
     [ "Atlas::XMLFile", "d7/d24/class_atlas_1_1_x_m_l_file.html", null ]
 ];

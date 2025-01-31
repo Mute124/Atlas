@@ -1,0 +1,131 @@
+\doxysection{Modular\+Object.\+h}
+\hypertarget{components_2_modular_object_8h_source}{}\label{components_2_modular_object_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/components/ModularObject.h@{C:/Dev/Techstorm-\/v5/src/engine/components/ModularObject.h}}
+\mbox{\hyperlink{components_2_modular_object_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_component_8h}{Component.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00013}00013\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00014}\mbox{\hyperlink{class_atlas_1_1_modular_object}{00014}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_modular_object}{ModularObject}}\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00016}\mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{00016}}\ \ \ \ \ \ \ \ \ std::map<std::string,\ std::shared\_ptr<Component>,\ std::less<>>\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}};}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00018}00018\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00024}\mbox{\hyperlink{class_atlas_1_1_modular_object_ab3fa6b344f0e96be9a5bb7a0857d599c}{00024}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_ab3fa6b344f0e96be9a5bb7a0857d599c}{addComponent}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ componentName\ =\ getComponentName<T>();}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (componentName.empty())\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ name\ cannot\ be\ empty"{}});}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}}[componentName]\ =\ std::make\_shared<T>();}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}}[componentName]-\/>setGameObject(std::make\_shared<IGameObject>(\textcolor{keyword}{this}));}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00033}00033\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00041}\mbox{\hyperlink{class_atlas_1_1_modular_object_a6e95c56f813aba6b5e1802da62d2afaf}{00041}}\ \ \ \ \ \ \ \ \ std::shared\_ptr<T>\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a6e95c56f813aba6b5e1802da62d2afaf}{getComponent}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ componentName\ =\ getComponentName<T>();}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::static\_pointer\_cast<std::shared\_ptr<T>>(\mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}}[componentName]);}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00051}\mbox{\hyperlink{class_atlas_1_1_modular_object_a3f8df02057697722107d444924c70606}{00051}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a3f8df02057697722107d444924c70606}{removeComponent}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ componentName\ =\ getComponentName<T>();}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}}.erase(componentName);}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00054}00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00064}\mbox{\hyperlink{class_atlas_1_1_modular_object_aa165ffd23753d882fdb47e994480bf56}{00064}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_aa165ffd23753d882fdb47e994480bf56}{hasComponent}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ componentName\ =\ getComponentName<T>();}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}}.contains(componentName);}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00068}00068\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00073}\mbox{\hyperlink{class_atlas_1_1_modular_object_a3e141abb2764b038ab903b69f264f6da}{00073}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a3e141abb2764b038ab903b69f264f6da}{preUpdate}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ [key,\ component]\ :\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>preUpdate(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_pre_update_event_args}{PreUpdateEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00079}00079\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00084}\mbox{\hyperlink{class_atlas_1_1_modular_object_a734c59bb91753b444853e5dec1c73356}{00084}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a734c59bb91753b444853e5dec1c73356}{update}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ [key,\ component]\ :\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>update(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_update_event_args}{UpdateEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00093}00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00098}\mbox{\hyperlink{class_atlas_1_1_modular_object_a215fec9269049becfe3d59ab2c9e5704}{00098}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a215fec9269049becfe3d59ab2c9e5704}{postUpdate}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ [key,\ component]\ :\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>postUpdate(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_post_update_event_args}{PostUpdateEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00107}00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00113}\mbox{\hyperlink{class_atlas_1_1_modular_object_a54b7aee985da11d3fc3f973f08c352ca}{00113}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a54b7aee985da11d3fc3f973f08c352ca}{texture}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ [key,\ component]\ :\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>texture(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_texture_event_args}{TextureEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00122}00122\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00127}\mbox{\hyperlink{class_atlas_1_1_modular_object_a8fffe6f6f0b6f39838bfef3df59df137}{00127}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8fffe6f6f0b6f39838bfef3df59df137}{render}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ See\ the\ function's\ comments\ for\ the\ reason\ why\ this\ is\ empty}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ [key,\ component]\ :\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>render(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_render_event_args}{RenderEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00137}00137\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00144}\mbox{\hyperlink{class_atlas_1_1_modular_object_af8408afc6e43b57e9d25bc71affbb7b8}{00144}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_af8408afc6e43b57e9d25bc71affbb7b8}{destroy}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ [key,\ component]\ :\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>destroy(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_destroy_event_args}{DestroyEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00153}00153\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00160}\mbox{\hyperlink{class_atlas_1_1_modular_object_a84e23d62eee11b8a65f24c2eacd27fea}{00160}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a84e23d62eee11b8a65f24c2eacd27fea}{cleanup}}()\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ [key,\ component]\ :\ \mbox{\hyperlink{class_atlas_1_1_modular_object_a8dbe82b62230fe7e33704e862ee65ebd}{mComponents}})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component.get()\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ component-\/>cleanup(\textcolor{keyword}{new}\ \mbox{\hyperlink{struct_atlas_1_1_cleanup_event_args}{CleanupEventArgs}}());}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Component\ "{}}\ +\ key\ +\ \textcolor{stringliteral}{"{}cannot\ be\ null"{}});}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00169}00169\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00170}00170\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{components_2_modular_object_8h_source_l00171}00171\ \}}
+
+\end{DoxyCode}

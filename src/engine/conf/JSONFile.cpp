@@ -11,6 +11,8 @@ Atlas::JSONFile::JSONFile(const std::string& path) {
 	//this->mPaddedJSONString = PaddedString::load(path);
 	//this->mJSONDocument = jsonParser.iterate(mPaddedJSONString);
 	
+	std::string filePath = ATLAS_GAME_DIR;
+	filePath += path;
 
-	this->mElement = parser.load(ATLAS_GAME_DIR + path);
+	this->mElement = parser.load(filePath);
 }

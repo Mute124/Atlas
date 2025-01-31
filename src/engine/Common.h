@@ -1,11 +1,11 @@
-/// \file Common.h
+/// @file Common.h
 /// 
-/// \brief Common includes and definitions that are used throughout the engine. There are going to be very limited amounts of actual engine includes, so this is not a replacement for that. 
+/// @brief Common includes and definitions that are used throughout the engine. There are going to be very limited amounts of actual engine includes, so this is not a replacement for that. 
 /// Instead, this is a way to centralize the includes and definitions that are used throughout the engine.
 /// 
-/// \todo Add more haptic features
+/// @todo Add more haptic features
 /// 
-/// \remarks This file has a few configurations that are based on defines. ATLAS_ENABLE_HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas ATLAS_ENABLE_EXTENSIONS is used
+/// @remarks This file has a few configurations that are based on defines. ATLAS_ENABLE_HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas ATLAS_ENABLE_EXTENSIONS is used
 /// to enable/disable extensions.
 #pragma once
 
@@ -15,20 +15,84 @@
 #include <string>
 #include <thread>
 #include <any>
+#include <memory>
 #include <unordered_map>
 #include <unordered_set>
 
 #include "utils/Singleton.h"
 #include "input/Input.h"
 
+// ---------------------------------------------------------------
+// Platform definitions
+// ---------------------------------------------------------------
+
+// find out what platform we are on
+#ifdef _WIN32
+	#define ATLAS_PLATFORM_WINDOWS
+
+#elif __APPLE__
+	#define ATLAS_PLATFORM_MAC
+	#error "Mac support is not yet implemented."
+#elif __linux__
+	#define ATLAS_PLATFORM_LINUX
+
+#else
+	#define ATLAS_PLATFORM_UNKNOWN
+	#error "Unknown platform."
+
+#endif
+
+// find out processor type
+#ifdef __x86_64__
+	#define ATLAS_PROCESSOR_X86_64
+#elif __i386__
+	#define ATLAS_PROCESSOR_X86
+
+#endif
+
+// find out compiler type
+#ifdef _MSC_VER
+	#define ATLAS_COMPILER_MSVC
+#elif __clang__
+	#define ATLAS_COMPILER_CLANG
+#elif __GNUC__
+	#define ATLAS_COMPILER_GCC
+#endif
+
+// ---------------------------------------------------------------
+// Macro definitions (helpers)
+// ---------------------------------------------------------------
+
+#ifndef ATLAS_GENERATED_NULL_CHECK
+	/**
+	* @brief Macro to check if a pointer is null and return if it is. This is used to catch null pointer exceptions.
+	* @since v0.0.9
+	*/
+	#define ATLAS_GENERATED_NULL_CHECK(ptr) if(ptr == nullptr) { return; }
+#endif
+
+#ifndef ATLAS_GENERATED_NULL_CHECK_RETURN
+	/**
+	* @brief Macro to check if a pointer is null and return a null pointer if it is. This is used to catch null pointer exceptions.
+	* @since v0.0.9
+	*/
+	#define ATLAS_GENERATED_NULL_CHECK_RETURN(ptr) if(ptr == nullptr) { return nullptr; }
+#endif
+
 /// <summary>
 /// Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these
 /// will be in the build directory rather than the final distribution directory.
 /// </summary>
-const std::string ATLAS_ASSET_DIR = std::string(ATLAS_TOP_LAYER) + "/game/assets/";
-const std::string ATLAS_DATA_DIR = std::string(ATLAS_TOP_LAYER) + "/game/data/";
-const std::string ATLAS_GAME_DIR = std::string(ATLAS_TOP_LAYER) + "/game/";
-const std::string ATLAS_TEMP_DIR = std::string(ATLAS_TOP_LAYER) + "/temp/";
+#define ATLAS_TOP_LAYER_DIR static_cast<std::string>(ATLAS_TOP_LAYER)
+#define ATLAS_ASSET_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/assets/");
+#define ATLAS_DATA_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/data/");
+#define ATLAS_GAME_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/");
+#define ATLAS_TEMP_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/temp/");
+
+#define ATLAS_NULL_PNG ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.png")
+#define ATLAS_NULL_JPG ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.jpg")
+#define ATLAS_NULL_JPEG static_cast<std::string>(ATLAS_ASSET_DIR) + static_cast<std::string>("/engine/null.jpeg")
+#define ATLAS_NULL_GIF ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.gif")
 
 namespace Atlas {
 
@@ -500,6 +564,12 @@ namespace Atlas {
 		}
 	};
 */
+	
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <seealso cref="Singleton&lt;Globals&gt;" />
 	class Globals : public Singleton<Globals> {
 	public:		
 		/// <summary>

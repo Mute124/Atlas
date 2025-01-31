@@ -84,6 +84,8 @@ namespace Atlas {
 		/// <returns></returns>
 		libconfig::Setting& configLookup(const std::string& fileName, const std::string& lookupTarget);
 
+		libconfig::Setting& configLookup(std::shared_ptr<RegisteredFile> file, const std::string& lookupTarget);
+
 
 		JSONFile* getJsonFile(std::string const& fileName)
 		{
@@ -131,6 +133,8 @@ namespace Atlas {
 	/// <param name="lookupTarget">The lookup target.</param>
 	/// <returns></returns>
 	libconfig::Setting& LookupConfig(const std::string& fileName, const std::string& lookupTarget);
+
+	libconfig::Setting& LookupConfig(std::shared_ptr<RegisteredFile> file, const std::string& lookupTarget);
 
 	/// <summary>
 	/// Gets the config string.
