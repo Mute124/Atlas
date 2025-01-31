@@ -30,47 +30,30 @@ using namespace JPH::literals;
 
 namespace Atlas {
 
-	/// <summary>
-	/// This is the already provided trace function for the physics engine. 
-	/// @note Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
-	/// @todo TODO: Implement this more properly
-	/// </summary>
-	/// <param name="inFMT">The format to print.</param>
-	/// <param name="">Variable arguments for the trace.</param>
-	static void DefaultPhysicsTrace(const char* inFMT, ...)
-	{
-		// TODO: See above documentation
-		// Format the message
-		va_list list;
-		va_start(list, inFMT);
-		char buffer[1024];
-		vsnprintf(buffer, sizeof(buffer), inFMT, list);
-		va_end(list);
 
-		// Print to the TTY
-		cout << buffer << endl;
-	}
+	
+	/**
+	 * @brief This is the already provided trace function for the physics engine. 
+	 * @note Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
+	 * @todo TODO: Implement this more properly
+	 * @param inFMT The format string
+	 * @param vaArgs Variable arguments for the trace. This is declared as "...", which means it is a variable number of arguments.
+	 */
+	static void DefaultPhysicsTrace(const char* inFMT, ...);
 
 #ifdef JPH_ENABLE_ASSERTS
-	
-	/// <summary>
-	/// This is the already provided failed assertion function. Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
-	/// @todo Implement this more properly
-	/// </summary>
-	/// <param name="inExpression">The assert expression that failed.</param>
-	/// <param name="inMessage">The assertion message.</param>
-	/// <param name="inFile">The file that the assert was in.</param>
-	/// <param name="inLine">The line that the assert was on.</param>
-	/// <returns></returns>
-	static bool DefaultPhysicsAssertFailed(const char* inExpression, const char* inMessage, const char* inFile, JPH::uint inLine)
-	{
-		// TODO: See above documentation
-		// Print to the TTY
-		cout << inFile << ":" << inLine << ": (" << inExpression << ") " << (inMessage != nullptr ? inMessage : "") << endl;
 
-		// Breakpoint
-		return true;
-	};
+	/**
+	 * @brief This is the already provided failed assertion function. 
+	 * @remarks Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
+	 * @todo Implement this more properly
+	 * @param inExpression The assert expression that failed.
+	 * @param inMessage The assertion message.
+	 * @param inFile The file that the assert was in.
+	 * @param inLine The line that the assert was on.
+	 * @return 
+	 */
+	static bool DefaultPhysicsAssertFailed(const char* inExpression, const char* inMessage, const char* inFile, JPH::uint inLine);
 
 #endif // JPH_ENABLE_ASSERTS
 	
@@ -78,49 +61,21 @@ namespace Atlas {
 	/// This struct contains the allocated resources for the physics engine and is used to initialize the physics engine.
 	/// </summary>
 	struct AllocatedPhysicsResources {		
-		/// <summary>
-		/// The c maximum bodies
-		/// </summary>
+
 		JPH::uint cMaxBodies = 65536;
-		
-		/// <summary>
-		/// The c number body mutexes
-		/// </summary>
+
 		JPH::uint cNumBodyMutexes = 0;
-		
-		/// <summary>
-		/// The c maximum body pairs
-		/// </summary>
+
 		JPH::uint cMaxBodyPairs = 65536;
-		
-		/// <summary>
-		/// The c maximum contact constraints
-		/// </summary>
+
 		JPH::uint cMaxContactConstraints = 1024;
-		
-		/// <summary>
-		/// The pre allocated memory
-		/// </summary>
+
 		int preAllocatedMemory = 20 * 1024 * 1024;
-				
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AllocatedPhysicsResources"/> struct.
-		/// </summary>
+
 		AllocatedPhysicsResources();
 		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AllocatedPhysicsResources"/> struct.
-		/// </summary>
-		/// <param name="resources">A constant reference to an instance of the <see cref="AllocatedPhysicsResources"/> struct.</param>
 		AllocatedPhysicsResources(AllocatedPhysicsResources const& resources);
 				
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AllocatedPhysicsResources"/> struct.
-		/// </summary>
-		/// <param name="cMaxBodies">A constant that specifies the maximum bodies.</param>
-		/// <param name="cNumBodyMutexes">A constant that specifies the number body mutexes.</param>
-		/// <param name="cMaxBodyPairs">A constant that specifies the maximum body pairs.</param>
-		/// <param name="cMaxContactConstraints">A constant that specifies the maximum contact constraints.</param>
 		AllocatedPhysicsResources(const JPH::uint& cMaxBodies, const JPH::uint& cNumBodyMutexes, const JPH::uint& cMaxBodyPairs, const JPH::uint& cMaxContactConstraints);
 	};
 	
