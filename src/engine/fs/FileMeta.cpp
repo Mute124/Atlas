@@ -1,5 +1,5 @@
 #include "FileMeta.h"
-
+#include <format>
 std::string Atlas::FileMeta::resolveExtension(std::string const& filename)
 {
     return filename.substr(filename.find_last_of(".") + 1);
@@ -42,4 +42,9 @@ Atlas::FilePath Atlas::FileMeta::getSandboxPath()
 Atlas::FilePath Atlas::FileMeta::getFullSandboxPath()
 {
     return FilePath();
+}
+
+std::string Atlas::FileMeta::format()
+{
+    return std::format("{} ({}) at {} sandboxed at: {}", filename, extension, path, sandboxPath);
 }

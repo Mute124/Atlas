@@ -8,8 +8,11 @@
 #include "FileMeta.h"
 #include "RegisteredFile.h"
 #include "FileSystemRegistry.h"
+#include "../EReturnCode.h"
 
 namespace Atlas {
+
+
 	using DirectoryFiles = std::vector<std::string>;
 
 	/// <summary>
@@ -37,7 +40,7 @@ namespace Atlas {
 	/// </summary>
 	/// <param name="extension">The extension.</param>
 	/// <param name="loadFunc">The load function.</param>
-	void AddFileRegistryLoadFunction(std::string extension, std::function<std::any(std::shared_ptr<FileMeta>)> loadFunc);
+	void AddFileRegistryLoadFunction(std::string extension, FileLoadFuncType loadFunc);
 
 	/// <summary>
 	/// Flags an extension as one that should be loaded once it is registered. This only matters and has effects before the file registry is initialized. 
@@ -59,4 +62,6 @@ namespace Atlas {
 	/// <param name="loadIfNotLoaded">if set to <c>true</c> [load if not loaded].</param>
 	/// <returns></returns>
 	std::shared_ptr<RegisteredFile> GetFile(std::string key, bool loadIfNotLoaded = true);
+
+	std::string GetFilePath(std::string key);
 }

@@ -172,8 +172,6 @@ namespace Atlas::Application {
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}
 
-			Log("Update thread started");
-
 			while (!sExit) {
 				
 				userProject->update();
@@ -204,8 +202,6 @@ namespace Atlas::Application {
 			while (sIsWaitingForOthers && !sExit) {
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}
-			Log("Worker thread started");
-
 			while (!sExit) {
 				this->userProject->workingUpdate();
 
@@ -220,14 +216,18 @@ namespace Atlas::Application {
 		void launchThreads()
 		{
 			
+			Log("Test");
+
 			sIsWaitingForOthers = true;
 			updateThread = std::jthread([&]() {
+				
 				RunUpdateThread();
 			});
 
 			updateThread.detach();
 			
 			workThread = std::jthread([&]() {
+				
 				RunWorkerThread();
 			});
 			
@@ -240,7 +240,7 @@ namespace Atlas::Application {
 					break;
 				}
 				else {
-					Log("Waiting for threads...", ELogLevel::TRACE);
+				
 					std::this_thread::sleep_for(std::chrono::milliseconds(1));
 					
 				}
@@ -252,6 +252,9 @@ namespace Atlas::Application {
 		void killThreads() {
 			sExit = true;
 			userProject->cleanup(0);
+
+			updateThread.join();
+			workThread.join();
 		}
 	private:
 

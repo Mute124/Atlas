@@ -11,7 +11,9 @@
 #include "FileMeta.h"
 
 namespace Atlas {
-		
+	
+	
+
 	/// <summary>
 	/// Represents a file that has been registered with the FileSystemRegistry
 	/// </summary>

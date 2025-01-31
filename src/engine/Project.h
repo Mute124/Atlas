@@ -19,7 +19,6 @@
 #include "fs/FileSystemRegistry.h"
 #include <memory>
 
-
 namespace Atlas {
 	class IAtlas {
 	public:
@@ -32,6 +31,7 @@ namespace Atlas {
 		virtual FileSystemRegistry* getFileSystemRegistry() = 0;
 		virtual PhysicsEngine* getPhysicsEngine() = 0;
 		virtual InputRegistry* getInputRegistry() = 0;
+		virtual Logger* getLogger() = 0;
 
 		virtual void setConfigFileRegistry(ConfigFileRegistry* configFileRegistry) = 0;
 		virtual void setScriptingAPI(ScriptingAPI* scriptingAPI) = 0;
@@ -41,163 +41,171 @@ namespace Atlas {
 		virtual void setFileSystemRegistry(FileSystemRegistry* fileSystemRegistry) = 0;
 		virtual void setPhysicsEngine(PhysicsEngine* physicsEngine) = 0;
 		virtual void setInputRegistry(InputRegistry* inputRegistry) = 0;
+		virtual void setLogger(Logger* logger) = 0;
 	};
 
 	class AtlasEngine : public IAtlas {
 	private:		
-		/// <summary>
-		/// The configuration file registry
-		/// </summary>
+		/**
+		 * @brief A pointer to the config file registry. This is used to allow the user to register their own config files if they so choose.
+		 * @note This starts as a nullptr
+		 * @version v0.0.8
+		 */
 		ConfigFileRegistry* configFileRegistry = nullptr;
-		
-		/// <summary>
-		/// The scripting API
-		/// </summary>
+		/**
+		 * @brief A pointer to the scripting API. This is used to allow the user to register their own API if they so choose.
+		 * @note This starts as a nullptr
+		 * @version v0.0.8
+		 */
 		ScriptingAPI* scriptingAPI = nullptr;
 		
-		/// <summary>
-		/// The window
-		/// </summary>
+		/**
+		 * @brief A pointer to the window. This is used to allow the user to register their own window if they so choose.
+		 * @note This starts as a nullptr
+		 * @version v0.0.8
+		 */
 		IWindow* window = nullptr;
 		
-		/// <summary>
-		/// The renderer
-		/// </summary>
+		/**
+		 * @brief A pointer to the renderer. This is used to allow the user to register their own renderer if they so choose.
+		 * @note This starts as a nullptr
+		 * @version v0.0.8
+		 */
 		Renderer* renderer = nullptr;
 		
-		/// <summary>
-		/// The game settings
-		/// </summary>
+		/**
+		 * @brief A pointer to the game settings. This is used to allow the user to register their own game settings if they so choose.
+		 * @note This starts as a nullptr
+		 * @warning This is not currently implemented nor used at the moment.
+		 * @version v0.0.8
+		 */
 		GameSettings* gameSettings = nullptr;
 		
-		/// <summary>
-		/// The file system registry
-		/// </summary>
+		/**
+		 * @brief A pointer to the file system registry. This is used to allow the user to register their own file system if they so choose.
+		 * @note This starts as a nullptr
+		 * @warning This is not currently implemented nor used at the moment.
+		 * @version v0.0.8
+		 */
 		FileSystemRegistry* fileSystemRegistry = nullptr;
 		
-		/// <summary>
-		/// The physics engine
-		/// </summary>
+		/**
+		 * @brief A pointer to the physics engine. This is used to allow the user to register their own physics engine if they so choose.
+		 * @note This starts as a nullptr
+		 * @version v0.0.8
+		 */
 		PhysicsEngine* physicsEngine = nullptr;
 
+		/**
+		 * @brief A pointer to the input registry. This is used to allow the user to register their own input registry if they so choose.
+		 * @note This starts as a nullptr
+		 * @version v0.0.8
+		 */
 		InputRegistry* inputRegistry = nullptr;
+
+		/**
+		 * @brief A pointer to the logger. This is used to allow the user to register their own logger if they so choose.
+		 * @note This starts as a nullptr
+		 * @version v0.0.8
+		 */
+		Logger* logger = nullptr;
 	public:
 		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AtlasEngine"/> class.
-		/// </summary>
-		/// <param name="configFileRegistry">The configuration file registry.</param>
-		/// <param name="scriptingAPI">The scripting API.</param>
-		/// <param name="window">The window.</param>
-		/// <param name="renderer">The renderer.</param>
-		/// <param name="gameSettings">The game settings.</param>
-		/// <param name="fileSystemRegistry">The file system registry.</param>
-		/// <param name="physicsEngine">The physics engine.</param>
+		/**
+		 * @brief Constructs a new AtlasEngine object.
+		 * @param configFileRegistry A pointer to the config file registry object that Atlas will use
+		 * @param scriptingAPI A pointer to the scripting API object that Atlas will use
+		 * @param window A pointer to the window object that Atlas will use
+		 * @param renderer A pointer to the renderer object that Atlas will use
+		 * @param gameSettings A pointer to the game settings object that Atlas will use
+		 * @param fileSystemRegistry A pointer to the file system registry object that Atlas will use
+		 * @param physicsEngine A pointer to the physics engine object that Atlas will use
+		 * @param inputRegistry A pointer to the input registry object that Atlas will use
+		 * @param logger A pointer to the logger object that Atlas will use
+		 * @version v0.0.8
+		 */
 		AtlasEngine(ConfigFileRegistry* configFileRegistry, ScriptingAPI* scriptingAPI, IWindow* window, Renderer* renderer,
-					GameSettings* gameSettings, FileSystemRegistry* fileSystemRegistry, PhysicsEngine* physicsEngine, InputRegistry* inputRegistry);
+					GameSettings* gameSettings, FileSystemRegistry* fileSystemRegistry, PhysicsEngine* physicsEngine, 
+					InputRegistry* inputRegistry, Logger* logger);
 				
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AtlasEngine"/> class.
-		/// </summary>
+		/**
+		 * @brief The default constructor.
+		 */
 		AtlasEngine() = default;
 		
-		/// <summary>
-		/// Gets the configuration file registry.
-		/// </summary>
-		/// <returns></returns>
+		/**
+		 * @brief Gets the config file registry. 
+		 * @remarks This is a virtual function.
+		 * @note This will return a nullptr if the config file registry is not set. This is done through the @ref ATLAS_GENERATED_NULL_CHECK macro
+		 * @return A pointer to the config file registry
+		 * @version v0.0.8
+		 */
 		virtual ConfigFileRegistry* getConfigFileRegistry() override;
-		
-		/// <summary>
-		/// Gets the scripting API.
-		/// </summary>
-		/// <returns></returns>
+
+		/**
+		* @brief Gets the scripting API.
+		* @remarks This is a virtual function.
+		* @note This will return a nullptr if the scripting API is not set. This is done through the @ref ATLAS_GENERATED_NULL_CHECK macro
+		* @return A pointer to the scripting API
+		* @version v0.0.8
+		*/
 		virtual ScriptingAPI* getScriptingAPI() override;
 		
-		/// <summary>
-		/// Gets the window.
-		/// </summary>
-		/// <returns></returns>
+		/**
+		* @brief Gets the window.
+		* @remarks This is a virtual function.
+		* @note This will return a nullptr if the window is not set. This is done through the @ref ATLAS_GENERATED_NULL_CHECK macro
+		* @return A pointer to the window
+		* @version v0.0.8
+		* */
 		virtual IWindow* getWindow() override;
-		
-		/// <summary>
-		/// Gets the renderer.
-		/// </summary>
-		/// <returns></returns>
+
+		/**
+		 * @brief Gets the renderer.
+		 * @remarks This is a virtual function.
+		 * @note This will return a nullptr if the renderer is not set. This is done through the @ref ATLAS_GENERATED_NULL_CHECK macro
+		 * @return A pointer to the renderer
+		 * @version v0.0.8
+		 */
 		virtual Renderer* getRenderer() override;
 		
-		/// <summary>
-		/// Gets the game settings.
-		/// </summary>
-		/// <returns></returns>
+
 		virtual GameSettings* getGameSettings() override;
 		
-		/// <summary>
-		/// Gets the file system registry.
-		/// </summary>
-		/// <returns></returns>
+
 		virtual FileSystemRegistry* getFileSystemRegistry() override;
 		
-		/// <summary>
-		/// Gets the physics engine.
-		/// </summary>
-		/// <returns></returns>
+
 		virtual PhysicsEngine* getPhysicsEngine() override;
 		
-		/// <summary>
-		/// Gets the input registry.
-		/// </summary>
-		/// <returns></returns>
+
 		virtual InputRegistry* getInputRegistry() override;
 
-		/// <summary>
-		/// Sets the configuration file registry.
-		/// </summary>
-		/// <param name="configFileRegistry">The configuration file registry.</param>
+		virtual Logger* getLogger() override;
+
 		virtual void setConfigFileRegistry(ConfigFileRegistry* configFileRegistry) override;
 
-		/// <summary>
-		/// Sets the scripting API.
-		/// </summary>
-		/// <param name="scriptingAPI">The scripting API.</param>
+
 		virtual void setScriptingAPI(ScriptingAPI* scriptingAPI) override;
 
-		/// <summary>
-		/// Sets the window.
-		/// </summary>
-		/// <param name="window">The window.</param>
+
 		virtual void setWindow(IWindow* window) override;
 
-		/// <summary>
-		/// Sets the renderer.
-		/// </summary>
-		/// <param name="renderer">The renderer.</param>
+
 		virtual void setRenderer(Renderer* renderer) override;
 
-		/// <summary>
-		/// Sets the game settings.
-		/// </summary>
-		/// <param name="gameSettings">The game settings.</param>
+
 		virtual void setGameSettings(GameSettings* gameSettings) override;
 
 
-		/// <summary>
-		/// Sets the file system registry.
-		/// </summary>
-		/// <param name="fileSystemRegistry">The file system registry.</param>
 		virtual void setFileSystemRegistry(FileSystemRegistry* fileSystemRegistry) override;
 
-
-		/// <summary>
-		/// Sets the physics engine.
-		/// </summary>
-		/// <param name="physicsEngine">The physics engine.</param>
 		virtual void setPhysicsEngine(PhysicsEngine* physicsEngine) override;
 				
-		/// <summary>
-		/// Sets the input registry.
-		/// </summary>
-		/// <param name="inputRegistry">The input registry.</param>
+
 		virtual void setInputRegistry(InputRegistry* inputRegistry) override;
+
+		virtual void setLogger(Logger* logger) override;
 	};
 
 	class IProject {
@@ -308,7 +316,7 @@ namespace Atlas {
 	};
 
 	/// <summary>
-	/// This is the interface for the user's project. This is the only interface that Atlas will call.
+	/// 
 	/// </summary>
 	/// <remarks>
 	/// This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
@@ -316,8 +324,18 @@ namespace Atlas {
 	/// \note If this boilerplate code is not done, Atlas will not know what to run. 
 	/// \warning <b>Do not directly call window code in here or your project will crash!</b>
 	/// </remarks>
+	
+	/**
+	 * @brief This is the interface for the user's project. This is the only interface that Atlas will call.
+	 * @remarks This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
+	 * their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
+	 * @note If this boilerplate code is not done, Atlas will not know what to run. 
+	 * @warning <b>Do not directly call window code in here or your project will crash!</b>
+	 * @version 0.0.1
+	 */
 	class BProject : public IProject {
 	protected:
+		bool mHasCleanedUp = false;
 		Renderer mRenderer;
 		WindowDecorations mWindowDecorations;
 		ScriptingLibraryRegistry mLuaLibraries;
@@ -355,7 +373,6 @@ namespace Atlas {
 		static inline std::shared_ptr<AtlasEngine> mAtlas = nullptr;
 
 		BProject();
-
 
 
 		/// <summary>
@@ -508,15 +525,22 @@ namespace Atlas {
 		/// <inheritdoc />
 		virtual int cleanup(int exitCode) override;
 
-		/// <summary>
-		/// Gets the current project instance.
-		/// </summary>
-		/// <returns>An BProject pointer of the current project reference instance</returns>
+		/**
+		 * @brief Get the Project object
+		 * 
+		 * @return std::shared_ptr<BProject> 
+		 */
 		static inline std::shared_ptr<BProject> GetProject();
 
+		/**
+		 * @brief Get the Atlas Engine object
+		 * 
+		 * @return std::shared_ptr<AtlasEngine> 
+		 */
 		std::shared_ptr<AtlasEngine> getAtlasEngine() override;
 
 	};
+
 
 	std::shared_ptr<AtlasEngine> GetAtlasEngine();
 }

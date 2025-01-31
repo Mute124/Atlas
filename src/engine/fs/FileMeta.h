@@ -81,5 +81,7 @@ namespace Atlas {
 		/// </summary>
 		/// <returns></returns>
 		FilePath getFullSandboxPath();
+
+		std::string format();
 	};
 }

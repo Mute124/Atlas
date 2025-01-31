@@ -21,9 +21,12 @@
 #include "../dbg/Logging.h"
 #include "../utils/Singleton.h"
 
-
 namespace Atlas {
-	
+
+
+	using FileLoadFuncType = std::function<std::any(std::shared_ptr<FileMeta>)>;
+
+
 	/// <summary>
 	/// The file system registry. 
 	/// </summary>
@@ -78,7 +81,7 @@ namespace Atlas {
 		/// When a file is loaded, the respective load function will be called. The string key is the file extension, and the function is the load function. As is documented in the
 		/// <see cref="file-loading" />, each extension has its own load function or else Atlas does not know how to load the file. 
 		/// </remarks>
-		std::unordered_map<std::string, std::function<std::any(std::shared_ptr<FileMeta>)>> mLoadingFunctions;
+		std::unordered_map<std::string, FileLoadFuncType> mLoadingFunctions;
 		
 		/// <summary>
 		/// Tells the registry which extensions should be loaded on register. If it exists in the set, it will be loaded
@@ -171,12 +174,14 @@ namespace Atlas {
 		/// </summary>
 		/// <param name="extension">The extension.</param>
 		/// <param name="loadFunc">The load function.</param>
-		void addLoadFunction(std::string const& extension, std::function<std::any(std::shared_ptr<FileMeta>)> loadFunc) { this->mLoadingFunctions[extension] = loadFunc; }
+		void addLoadFunction(std::string const& extension, FileLoadFuncType loadFunc) { this->mLoadingFunctions[extension] = loadFunc; }
 
 		/// <summary>
 		/// Adds the load on register extension.
 		/// </summary>
 		/// <param name="extension">The extension.</param>
 		void addLoadOnRegisterExtension(std::string const& extension) { this->mLoadOnRegisterExtensionsSet.insert(extension); }
+
+		std::string getFilePath(std::string const& key);
 	};
 }
