@@ -1,11 +1,11 @@
-/// \file Common.h
+/// @file Common.h
 /// 
-/// \brief Common includes and definitions that are used throughout the engine. There are going to be very limited amounts of actual engine includes, so this is not a replacement for that. 
+/// @brief Common includes and definitions that are used throughout the engine. There are going to be very limited amounts of actual engine includes, so this is not a replacement for that. 
 /// Instead, this is a way to centralize the includes and definitions that are used throughout the engine.
 /// 
-/// \todo Add more haptic features
+/// @todo Add more haptic features
 /// 
-/// \remarks This file has a few configurations that are based on defines. ATLAS_ENABLE_HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas ATLAS_ENABLE_EXTENSIONS is used
+/// @remarks This file has a few configurations that are based on defines. ATLAS_ENABLE_HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas ATLAS_ENABLE_EXTENSIONS is used
 /// to enable/disable extensions.
 #pragma once
 
