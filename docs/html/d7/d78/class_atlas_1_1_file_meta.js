@@ -2,6 +2,7 @@ var class_atlas_1_1_file_meta =
 [
     [ "FileMeta", "d7/d78/class_atlas_1_1_file_meta.html#a77382c994b34658b65c31aee61649eda", null ],
     [ "FileMeta", "d7/d78/class_atlas_1_1_file_meta.html#acd4a94768862d27278589bbe38ba3246", null ],
+    [ "format", "d7/d78/class_atlas_1_1_file_meta.html#acaf5c94f4d0ec54dd3084e77cec4e759", null ],
     [ "getFullPath", "d7/d78/class_atlas_1_1_file_meta.html#a4e96d7dae6861018544fbc554f93d78a", null ],
     [ "getFullSandboxPath", "d7/d78/class_atlas_1_1_file_meta.html#aef79dabc89e9fc4965f590333c52b31d", null ],
     [ "getSandboxPath", "d7/d78/class_atlas_1_1_file_meta.html#aa63346d5e23a2cdf20793dc14e942932", null ],

@@ -1,7 +1,7 @@
 /**
-* \file Project.h
+* @file Project.h
 * 
-* \brief This file contains the BProject interface that is required for Atlas to run the user's project. The reason for the boilerplate is because it allows the engine to take a Laissez-faire approach and allow the user to do whatever they want.
+* @brief This file contains the BProject interface that is required for Atlas to run the user's project. The reason for the boilerplate is because it allows the engine to take a Laissez-faire approach and allow the user to do whatever they want.
 * with all their code being able to be called from the engine.
 * 
 */
@@ -312,26 +312,17 @@ namespace Atlas {
 		/// <returns>The cleanup exit code.</returns>
 		virtual int cleanup(int exitCode) = 0;
 
+
 		virtual std::shared_ptr<AtlasEngine> getAtlasEngine() = 0;
 	};
 
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <remarks>
-	/// This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
-	/// their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
-	/// \note If this boilerplate code is not done, Atlas will not know what to run. 
-	/// \warning <b>Do not directly call window code in here or your project will crash!</b>
-	/// </remarks>
-	
 	/**
 	 * @brief This is the interface for the user's project. This is the only interface that Atlas will call.
 	 * @remarks This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
 	 * their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
 	 * @note If this boilerplate code is not done, Atlas will not know what to run. 
 	 * @warning <b>Do not directly call window code in here or your project will crash!</b>
-	 * @version 0.0.1
+	 * @version Added in v0.0.1
 	 */
 	class BProject : public IProject {
 	protected:

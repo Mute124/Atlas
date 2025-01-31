@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['rayliblogcallback_0',['RaylibLogCallback',['../df/dca/class_atlas_1_1_logger.html#a398af7c047e4381962d12b1a44c9fbc4',1,'Atlas::Logger']]],
+  ['rayliblogcallback_0',['RaylibLogCallback',['../df/dca/class_atlas_1_1_logger.html#a92ca3690d016f52c563bd0c37122a363',1,'Atlas::Logger']]],
   ['read_1',['Read',['../dc/d7b/class_shell_file_interface.html#ab31fefee930cd3fd221a4afcb3c1afa5',1,'ShellFileInterface']]],
   ['read_5fgrid_5ffrom_5ffile_2',['read_grid_from_file',['../d0/df5/class_generator.html#a07cf79db4a7837045f12f02eea3bd165',1,'Generator']]],
   ['readconfigfile_3',['readConfigFile',['../d3/d1a/class_atlas_1_1_config_file_registry.html#af1abaa13cf6ea9d22f773bbc54cb0b46',1,'Atlas::ConfigFileRegistry']]],

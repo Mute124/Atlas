@@ -11,6 +11,7 @@ Common includes and definitions that are used throughout the engine. There are g
 {\ttfamily \#include $<$string$>$}\newline
 {\ttfamily \#include $<$thread$>$}\newline
 {\ttfamily \#include $<$any$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
 {\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
 {\ttfamily \#include $<$unordered\+\_\+set$>$}\newline
 {\ttfamily \#include "{}utils/\+Singleton.\+h"{}}\newline
@@ -30,13 +31,29 @@ namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\#define \mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}}~static\+\_\+cast$<$std\+::string$>$(ATLAS\+\_\+\+TOP\+\_\+\+LAYER) + static\+\_\+cast$<$std\+::string$>$("{}/game/assets/"{});
+\#define \mbox{\hyperlink{_common_8h_ac7ecceb6a0eb822735497653d42ac408}{ATLAS\+\_\+\+PLATFORM\+\_\+\+UNKNOWN}}
+\item 
+\#define \mbox{\hyperlink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK}}(ptr)~if(ptr == nullptr) \{ return; \}
+\begin{DoxyCompactList}\small\item\em Macro to check if a pointer is null and return if it is. This is used to catch null pointer exceptions. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_common_8h_a7e257ceb33faf65903288cf016bb7d87}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK\+\_\+\+RETURN}}(ptr)~if(ptr == nullptr) \{ return nullptr; \}
+\begin{DoxyCompactList}\small\item\em Macro to check if a pointer is null and return a null pointer if it is. This is used to catch null pointer exceptions. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_common_8h_a2409aa2a1a2ed9a03d428b3aa8c0c4c3}{ATLAS\+\_\+\+TOP\+\_\+\+LAYER\+\_\+\+DIR}}~static\+\_\+cast$<$std\+::string$>$(ATLAS\+\_\+\+TOP\+\_\+\+LAYER)
 \begin{DoxyCompactList}\small\item\em Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these will be in the build directory rather than the final distribution directory. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}}~static\+\_\+cast$<$std\+::string$>$(ATLAS\+\_\+\+TOP\+\_\+\+LAYER) + static\+\_\+cast$<$std\+::string$>$("{}/game/assets/"{});
+\item 
 \#define \mbox{\hyperlink{_common_8h_a3d7c2521ee61f3b347f0c56560ef58c7}{ATLAS\+\_\+\+DATA\+\_\+\+DIR}}~static\+\_\+cast$<$std\+::string$>$(ATLAS\+\_\+\+TOP\+\_\+\+LAYER) + static\+\_\+cast$<$std\+::string$>$("{}/game/\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}}/"{});
 \item 
 \#define \mbox{\hyperlink{_common_8h_a22bf313ce6cdc640a1feaf76dfc2897e}{ATLAS\+\_\+\+GAME\+\_\+\+DIR}}~static\+\_\+cast$<$std\+::string$>$(ATLAS\+\_\+\+TOP\+\_\+\+LAYER) + static\+\_\+cast$<$std\+::string$>$("{}/game/"{});
 \item 
 \#define \mbox{\hyperlink{_common_8h_a260c8698617a9ddbcc20044b59b0307b}{ATLAS\+\_\+\+TEMP\+\_\+\+DIR}}~static\+\_\+cast$<$std\+::string$>$(ATLAS\+\_\+\+TOP\+\_\+\+LAYER) + static\+\_\+cast$<$std\+::string$>$("{}/temp/"{});
+\item 
+\#define \mbox{\hyperlink{_common_8h_a0dc48dcd23c8eaa1849c023442491089}{ATLAS\+\_\+\+NULL\+\_\+\+PNG}}~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+png"{})
+\item 
+\#define \mbox{\hyperlink{_common_8h_adf75ba6fb29a4f5b02330c8732e65865}{ATLAS\+\_\+\+NULL\+\_\+\+JPG}}~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+jpg"{})
+\item 
+\#define \mbox{\hyperlink{_common_8h_a05798e0231584e6e6cdcabd194d95317}{ATLAS\+\_\+\+NULL\+\_\+\+JPEG}}~static\+\_\+cast$<$std\+::string$>$(\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}}) + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+jpeg"{})
+\item 
+\#define \mbox{\hyperlink{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb}{ATLAS\+\_\+\+NULL\+\_\+\+GIF}}~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+gif"{})
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
@@ -72,11 +89,7 @@ Definition in file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 
 
-Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these will be in the build directory rather than the final distribution directory. 
-
-
-
-Definition at line \mbox{\hyperlink{_common_8h_source_l00028}{28}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00087}{87}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a3d7c2521ee61f3b347f0c56560ef58c7}\label{_common_8h_a3d7c2521ee61f3b347f0c56560ef58c7} 
 \index{Common.h@{Common.h}!ATLAS\_DATA\_DIR@{ATLAS\_DATA\_DIR}}
@@ -86,7 +99,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00028}{28}} of file \mbox
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00029}{29}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00088}{88}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a22bf313ce6cdc640a1feaf76dfc2897e}\label{_common_8h_a22bf313ce6cdc640a1feaf76dfc2897e} 
 \index{Common.h@{Common.h}!ATLAS\_GAME\_DIR@{ATLAS\_GAME\_DIR}}
@@ -96,7 +109,91 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00029}{29}} of file \mbox
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00030}{30}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00089}{89}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}\label{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7} 
+\index{Common.h@{Common.h}!ATLAS\_GENERATED\_NULL\_CHECK@{ATLAS\_GENERATED\_NULL\_CHECK}}
+\index{ATLAS\_GENERATED\_NULL\_CHECK@{ATLAS\_GENERATED\_NULL\_CHECK}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_GENERATED\_NULL\_CHECK}{ATLAS\_GENERATED\_NULL\_CHECK}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK(\begin{DoxyParamCaption}\item[{}]{ptr }\end{DoxyParamCaption})~if(ptr == nullptr) \{ return; \}}
+
+
+
+Macro to check if a pointer is null and return if it is. This is used to catch null pointer exceptions. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+9 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00071}{71}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_a7e257ceb33faf65903288cf016bb7d87}\label{_common_8h_a7e257ceb33faf65903288cf016bb7d87} 
+\index{Common.h@{Common.h}!ATLAS\_GENERATED\_NULL\_CHECK\_RETURN@{ATLAS\_GENERATED\_NULL\_CHECK\_RETURN}}
+\index{ATLAS\_GENERATED\_NULL\_CHECK\_RETURN@{ATLAS\_GENERATED\_NULL\_CHECK\_RETURN}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_GENERATED\_NULL\_CHECK\_RETURN}{ATLAS\_GENERATED\_NULL\_CHECK\_RETURN}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK\+\_\+\+RETURN(\begin{DoxyParamCaption}\item[{}]{ptr }\end{DoxyParamCaption})~if(ptr == nullptr) \{ return nullptr; \}}
+
+
+
+Macro to check if a pointer is null and return a null pointer if it is. This is used to catch null pointer exceptions. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+9 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00079}{79}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb}\label{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb} 
+\index{Common.h@{Common.h}!ATLAS\_NULL\_GIF@{ATLAS\_NULL\_GIF}}
+\index{ATLAS\_NULL\_GIF@{ATLAS\_NULL\_GIF}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_NULL\_GIF}{ATLAS\_NULL\_GIF}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+NULL\+\_\+\+GIF~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+gif"{})}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00095}{95}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_a05798e0231584e6e6cdcabd194d95317}\label{_common_8h_a05798e0231584e6e6cdcabd194d95317} 
+\index{Common.h@{Common.h}!ATLAS\_NULL\_JPEG@{ATLAS\_NULL\_JPEG}}
+\index{ATLAS\_NULL\_JPEG@{ATLAS\_NULL\_JPEG}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_NULL\_JPEG}{ATLAS\_NULL\_JPEG}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+NULL\+\_\+\+JPEG~static\+\_\+cast$<$std\+::string$>$(\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}}) + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+jpeg"{})}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00094}{94}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_adf75ba6fb29a4f5b02330c8732e65865}\label{_common_8h_adf75ba6fb29a4f5b02330c8732e65865} 
+\index{Common.h@{Common.h}!ATLAS\_NULL\_JPG@{ATLAS\_NULL\_JPG}}
+\index{ATLAS\_NULL\_JPG@{ATLAS\_NULL\_JPG}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_NULL\_JPG}{ATLAS\_NULL\_JPG}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+NULL\+\_\+\+JPG~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+jpg"{})}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00093}{93}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_a0dc48dcd23c8eaa1849c023442491089}\label{_common_8h_a0dc48dcd23c8eaa1849c023442491089} 
+\index{Common.h@{Common.h}!ATLAS\_NULL\_PNG@{ATLAS\_NULL\_PNG}}
+\index{ATLAS\_NULL\_PNG@{ATLAS\_NULL\_PNG}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_NULL\_PNG}{ATLAS\_NULL\_PNG}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+NULL\+\_\+\+PNG~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+png"{})}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00092}{92}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_ac7ecceb6a0eb822735497653d42ac408}\label{_common_8h_ac7ecceb6a0eb822735497653d42ac408} 
+\index{Common.h@{Common.h}!ATLAS\_PLATFORM\_UNKNOWN@{ATLAS\_PLATFORM\_UNKNOWN}}
+\index{ATLAS\_PLATFORM\_UNKNOWN@{ATLAS\_PLATFORM\_UNKNOWN}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_PLATFORM\_UNKNOWN}{ATLAS\_PLATFORM\_UNKNOWN}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+PLATFORM\+\_\+\+UNKNOWN}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00040}{40}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a260c8698617a9ddbcc20044b59b0307b}\label{_common_8h_a260c8698617a9ddbcc20044b59b0307b} 
 \index{Common.h@{Common.h}!ATLAS\_TEMP\_DIR@{ATLAS\_TEMP\_DIR}}
@@ -106,5 +203,19 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00030}{30}} of file \mbox
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00031}{31}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00090}{90}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_a2409aa2a1a2ed9a03d428b3aa8c0c4c3}\label{_common_8h_a2409aa2a1a2ed9a03d428b3aa8c0c4c3} 
+\index{Common.h@{Common.h}!ATLAS\_TOP\_LAYER\_DIR@{ATLAS\_TOP\_LAYER\_DIR}}
+\index{ATLAS\_TOP\_LAYER\_DIR@{ATLAS\_TOP\_LAYER\_DIR}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_TOP\_LAYER\_DIR}{ATLAS\_TOP\_LAYER\_DIR}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+TOP\+\_\+\+LAYER\+\_\+\+DIR~static\+\_\+cast$<$std\+::string$>$(ATLAS\+\_\+\+TOP\+\_\+\+LAYER)}
+
+
+
+Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these will be in the build directory rather than the final distribution directory. 
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00086}{86}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 

@@ -70,12 +70,12 @@ virtual int \mbox{\hyperlink{class_atlas_1_1_b_project_af83f0a4c17342789d3c5f927
 virtual int \mbox{\hyperlink{class_atlas_1_1_b_project_ab86049db835569b5fe30825eddf0d2e5}{cleanup}} (int exit\+Code) override
 \begin{DoxyCompactList}\small\item\em Cleans up anything that may need to be cleaned up. \end{DoxyCompactList}\item 
 std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+Engine}} $>$ \mbox{\hyperlink{class_atlas_1_1_b_project_afb592fb10434b93d4a4b1e19718023ce}{get\+Atlas\+Engine}} () override
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get the \doxylink{namespace_atlas}{Atlas} Engine object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_b_project}{BProject}} $>$ \mbox{\hyperlink{class_atlas_1_1_b_project_ad5e30e33026b8cd13e918f8a19027494}{Get\+Project}} ()
-\begin{DoxyCompactList}\small\item\em Gets the current project instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get the \doxylink{class_project}{Project} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -93,6 +93,8 @@ virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_atlas_1_1_b_project_aa0ec11b253e3965d37146a1cbee987ff}{m\+Has\+Cleaned\+Up}} = false
 \item 
 \mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}} \mbox{\hyperlink{class_atlas_1_1_b_project_adfe028afd0d057f7f0e386685e3b4bdf}{m\+Renderer}}
 \item 
@@ -112,15 +114,21 @@ static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_b_project}{BPr
 \doxysubsection{Detailed Description}
 This is the interface for the user\textquotesingle{}s project. This is the only interface that \doxylink{namespace_atlas}{Atlas} will call. 
 
-This is an {\bfseries{abstract interface singleton}} that all projects must implement and set the {\itshape \doxylink{class_atlas_1_1_b_project_1_1_project_reference}{Project\+Reference}} singleton to their project. In terms of functionality, this interface just holds the functions and variables that \doxylink{namespace_atlas}{Atlas} will call (besides some initialization). \begin{DoxyNote}{Note}
+\begin{DoxyRemark}{Remarks}
+This is an {\bfseries{abstract interface singleton}} that all projects must implement and set the {\itshape \doxylink{class_atlas_1_1_b_project_1_1_project_reference}{Project\+Reference}} singleton to their project. In terms of functionality, this interface just holds the functions and variables that \doxylink{namespace_atlas}{Atlas} will call (besides some initialization). 
+\end{DoxyRemark}
+\begin{DoxyNote}{Note}
 If this boilerplate code is not done, \doxylink{namespace_atlas}{Atlas} will not know what to run. 
 \end{DoxyNote}
 \begin{DoxyWarning}{Warning}
 {\bfseries{Do not directly call window code in here or your project will crash!}} 
 \end{DoxyWarning}
+\begin{DoxyVersion}{Version}
+v0.\+0.\+1 
+\end{DoxyVersion}
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00318}{318}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00326}{326}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 
 
@@ -133,11 +141,11 @@ Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00318}{318}} of 
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00048}{48}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00049}{49}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{engine_2_project_8h_source_l00354}{m\+Atlas}}, \mbox{\hyperlink{engine_2_project_8h_source_l00347}{m\+Project}}, and \mbox{\hyperlink{engine_2_project_8cpp_source_l00025}{setup\+Atlas()}}.
+References \mbox{\hyperlink{engine_2_project_8h_source_l00363}{m\+Atlas}}, \mbox{\hyperlink{engine_2_project_8h_source_l00356}{m\+Project}}, and \mbox{\hyperlink{engine_2_project_8cpp_source_l00025}{setup\+Atlas()}}.
 
 
 
@@ -176,7 +184,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_aa8ed61779742babe40c341493
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00182}{182}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00253}{253}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_af83f0a4c17342789d3c5f9278f6a358a}\label{class_atlas_1_1_b_project_af83f0a4c17342789d3c5f9278f6a358a} 
 \index{Atlas::BProject@{Atlas::BProject}!draw@{draw}}
@@ -190,7 +198,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_a3b9750cd9320bf8af80a64514
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00173}{173}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00244}{244}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_afb592fb10434b93d4a4b1e19718023ce}\label{class_atlas_1_1_b_project_afb592fb10434b93d4a4b1e19718023ce} 
 \index{Atlas::BProject@{Atlas::BProject}!getAtlasEngine@{getAtlasEngine}}
@@ -200,11 +208,18 @@ Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00173}{173}} o
 
 
 
+Get the \doxylink{namespace_atlas}{Atlas} Engine object. 
+
+\begin{DoxyReturn}{Returns}
+std\+::shared\+\_\+ptr$<$\+Atlas\+Engine$>$ 
+\end{DoxyReturn}
+
+
 Implements \mbox{\hyperlink{class_atlas_1_1_i_project_af0ee211e90049d474d71b3e86c0ebfbe}{Atlas\+::\+IProject}}.
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00190}{190}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00269}{269}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_aba593e8fcff8f8e7bd8e3709ffa04531}\label{class_atlas_1_1_b_project_aba593e8fcff8f8e7bd8e3709ffa04531} 
 \index{Atlas::BProject@{Atlas::BProject}!getLuaFunctions@{getLuaFunctions}}
@@ -221,11 +236,11 @@ A reference to m\+Lua\+Functions
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00370}{370}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00378}{378}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 
 
-References \mbox{\hyperlink{engine_2_project_8h_source_l00323}{m\+Lua\+Functions}}.
+References \mbox{\hyperlink{engine_2_project_8h_source_l00332}{m\+Lua\+Functions}}.
 
 \Hypertarget{class_atlas_1_1_b_project_aa6b94e1f9f30c1b1960597ed2737c1fa}\label{class_atlas_1_1_b_project_aa6b94e1f9f30c1b1960597ed2737c1fa} 
 \index{Atlas::BProject@{Atlas::BProject}!getLuaLibraries@{getLuaLibraries}}
@@ -242,11 +257,11 @@ A reference to m\+Lua\+Libraries
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00364}{364}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00372}{372}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 
 
-References \mbox{\hyperlink{engine_2_project_8h_source_l00322}{m\+Lua\+Libraries}}.
+References \mbox{\hyperlink{engine_2_project_8h_source_l00331}{m\+Lua\+Libraries}}.
 
 \Hypertarget{class_atlas_1_1_b_project_ad5e30e33026b8cd13e918f8a19027494}\label{class_atlas_1_1_b_project_ad5e30e33026b8cd13e918f8a19027494} 
 \index{Atlas::BProject@{Atlas::BProject}!GetProject@{GetProject}}
@@ -256,18 +271,18 @@ References \mbox{\hyperlink{engine_2_project_8h_source_l00322}{m\+Lua\+Libraries
 
 
 
-Gets the current project instance. 
+Get the \doxylink{class_project}{Project} object. 
 
 \begin{DoxyReturn}{Returns}
-An \doxylink{class_atlas_1_1_b_project}{BProject} pointer of the current project reference instance
+std\+::shared\+\_\+ptr$<$\+BProject$>$ 
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00186}{186}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00264}{264}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00298}{Atlas\+::\+Get\+Atlas\+Engine()}}.
+Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00396}{Atlas\+::\+Get\+Atlas\+Engine()}}.
 
 \Hypertarget{class_atlas_1_1_b_project_ae721d18e16a8e5d6a3f720524943a445}\label{class_atlas_1_1_b_project_ae721d18e16a8e5d6a3f720524943a445} 
 \index{Atlas::BProject@{Atlas::BProject}!getWindowDecorations@{getWindowDecorations}}
@@ -284,7 +299,7 @@ A reference to m\+Window\+Decorations
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00058}{58}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00060}{60}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_aac1f0dd52983809c9226170c740e483c}\label{class_atlas_1_1_b_project_aac1f0dd52983809c9226170c740e483c} 
 \index{Atlas::BProject@{Atlas::BProject}!init@{init}}
@@ -318,7 +333,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_a9618a590abb067a211ef8ca42
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00095}{95}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00157}{157}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_af967ae1489dbc794cac9e5c0cbdad33f}\label{class_atlas_1_1_b_project_af967ae1489dbc794cac9e5c0cbdad33f} 
 \index{Atlas::BProject@{Atlas::BProject}!initRenderer@{initRenderer}}
@@ -336,7 +351,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_a7f1eed16a0f489a644da4930e
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00105}{105}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00170}{170}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_acef3fb6458d9046f2ca5975086dc8d31}\label{class_atlas_1_1_b_project_acef3fb6458d9046f2ca5975086dc8d31} 
 \index{Atlas::BProject@{Atlas::BProject}!objectUpdate@{objectUpdate}}
@@ -362,7 +377,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_a6c03cbf2934c2db77d780f5e7
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00155}{155}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00226}{226}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_abf0c5a0fd54ebc7cea03d2a6cee6e8fd}\label{class_atlas_1_1_b_project_abf0c5a0fd54ebc7cea03d2a6cee6e8fd} 
 \index{Atlas::BProject@{Atlas::BProject}!physicsUpdate@{physicsUpdate}}
@@ -388,11 +403,11 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_afdaa63d78cbe1cbc3345fe84d
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00142}{142}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00210}{210}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$ Physics\+Engine $>$\+::\+Instance()}}, and \mbox{\hyperlink{_physics_8cpp_source_l00061}{Atlas\+::\+Physics\+Engine\+::update()}}.
+References \mbox{\hyperlink{_physics_8cpp_source_l00061}{Atlas\+::\+Physics\+Engine\+::update()}}.
 
 \Hypertarget{class_atlas_1_1_b_project_af4778c2d0f23847f9534c8272195b478}\label{class_atlas_1_1_b_project_af4778c2d0f23847f9534c8272195b478} 
 \index{Atlas::BProject@{Atlas::BProject}!postInit@{postInit}}
@@ -414,7 +429,11 @@ Reimplemented in \mbox{\hyperlink{class_samples_project_a5c41bc4810b738f49f11569
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00100}{100}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00162}{162}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_renderer_8cpp_source_l00040}{Atlas\+::\+Renderer\+::init()}}, and \mbox{\hyperlink{class_atlas_1_1_i_window_a392bc2e9396409db88f2880a323affab}{Atlas\+::\+IWindow\+::init()}}.
 
 \Hypertarget{class_atlas_1_1_b_project_abf0e30b0773da5eb34f873d811afb7da}\label{class_atlas_1_1_b_project_abf0e30b0773da5eb34f873d811afb7da} 
 \index{Atlas::BProject@{Atlas::BProject}!postObjectUpdate@{postObjectUpdate}}
@@ -440,7 +459,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_aeb0f00d83f2805e9362694814
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00159}{159}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00230}{230}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_ab66dae5469e90e12d88f4ae216dd8d9d}\label{class_atlas_1_1_b_project_ab66dae5469e90e12d88f4ae216dd8d9d} 
 \index{Atlas::BProject@{Atlas::BProject}!postPhysicsUpdate@{postPhysicsUpdate}}
@@ -466,7 +485,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_a8f460b49aab9cee95b14d5aa0
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00147}{147}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00218}{218}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_aad34c51d30d235f25db8df4e3064ca2d}\label{class_atlas_1_1_b_project_aad34c51d30d235f25db8df4e3064ca2d} 
 \index{Atlas::BProject@{Atlas::BProject}!preInit@{preInit}}
@@ -488,11 +507,11 @@ Reimplemented in \mbox{\hyperlink{class_project_a1e991793d957d6693f169cce1792cdd
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00066}{66}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00068}{68}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_file_system_8cpp_source_l00034}{Atlas\+::\+Add\+File\+Registry\+Load\+Function()}}, \mbox{\hyperlink{_common_8h_source_l00030}{ATLAS\+\_\+\+GAME\+\_\+\+DIR}}, \mbox{\hyperlink{_logging_8h_source_l00077}{Atlas\+::\+Logger\+::init()}}, and \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$ Logger $>$\+::\+Instance()}}.
+References \mbox{\hyperlink{_file_system_8cpp_source_l00034}{Atlas\+::\+Add\+File\+Registry\+Load\+Function()}}, \mbox{\hyperlink{_common_8h_source_l00089}{ATLAS\+\_\+\+GAME\+\_\+\+DIR}}, \mbox{\hyperlink{_file_system_8cpp_source_l00057}{Atlas\+::\+Get\+File\+Path()}}, \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00017}{Atlas\+::\+File\+System\+Registry\+::init()}}, and \mbox{\hyperlink{_logging_8cpp_source_l00059}{Atlas\+::\+Log()}}.
 
 \Hypertarget{class_atlas_1_1_b_project_a6bc4c4c61d58ac27b19dfd01233df65a}\label{class_atlas_1_1_b_project_a6bc4c4c61d58ac27b19dfd01233df65a} 
 \index{Atlas::BProject@{Atlas::BProject}!preObjectUpdate@{preObjectUpdate}}
@@ -518,7 +537,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_a5712a34e767e718900cdfba41
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00151}{151}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00222}{222}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_a13bff372e93aa380399bad3af077f04c}\label{class_atlas_1_1_b_project_a13bff372e93aa380399bad3af077f04c} 
 \index{Atlas::BProject@{Atlas::BProject}!prePhysicsUpdate@{prePhysicsUpdate}}
@@ -544,7 +563,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_a646aa02c71b91b265033bda5b
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00136}{136}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00204}{204}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_a7a073586af21d8bcbd93db9b8c99ba88}\label{class_atlas_1_1_b_project_a7a073586af21d8bcbd93db9b8c99ba88} 
 \index{Atlas::BProject@{Atlas::BProject}!render@{render}}
@@ -570,7 +589,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_a3137047ecab4c2fb8ba3114c0
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00168}{168}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00239}{239}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_a2363b6b01ff3246ac0115f1e0ad2dd5a}\label{class_atlas_1_1_b_project_a2363b6b01ff3246ac0115f1e0ad2dd5a} 
 \index{Atlas::BProject@{Atlas::BProject}!run@{run}}
@@ -610,7 +629,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_a31c4b28b1e561d39f19694710
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00108}{108}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00173}{173}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_a13a957d99cba8bdc34fba39b04305f39}\label{class_atlas_1_1_b_project_a13a957d99cba8bdc34fba39b04305f39} 
 \index{Atlas::BProject@{Atlas::BProject}!setProject@{setProject}}
@@ -649,7 +668,7 @@ Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00025}{25}} of
 
 
 
-Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00048}{BProject()}}.
+Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00049}{BProject()}}.
 
 \Hypertarget{class_atlas_1_1_b_project_ab6f64d7b52542b74286ac7946db36b02}\label{class_atlas_1_1_b_project_ab6f64d7b52542b74286ac7946db36b02} 
 \index{Atlas::BProject@{Atlas::BProject}!setWindowDecorations@{setWindowDecorations}}
@@ -673,7 +692,7 @@ Sets the window decorations.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00062}{62}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00064}{64}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_ac6363bf95c9db9974a7f7e65339f0e05}\label{class_atlas_1_1_b_project_ac6363bf95c9db9974a7f7e65339f0e05} 
 \index{Atlas::BProject@{Atlas::BProject}!texture@{texture}}
@@ -699,7 +718,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_ac31651bf7361a1ea035a6bc6c
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00163}{163}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00234}{234}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_aa587dcff45c5a516381aabbf5a821619}\label{class_atlas_1_1_b_project_aa587dcff45c5a516381aabbf5a821619} 
 \index{Atlas::BProject@{Atlas::BProject}!update@{update}}
@@ -724,7 +743,7 @@ Reimplemented in \mbox{\hyperlink{class_samples_project_a3a9189c6edfac995a25b9e6
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00120}{120}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00188}{188}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_b_project_af7b15a4ce93501c82febfeb8919b481f}\label{class_atlas_1_1_b_project_af7b15a4ce93501c82febfeb8919b481f} 
 \index{Atlas::BProject@{Atlas::BProject}!workingUpdate@{workingUpdate}}
@@ -738,7 +757,7 @@ Implements \mbox{\hyperlink{class_atlas_1_1_i_project_a4307027a84a15993c77d65e3c
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00127}{127}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00195}{195}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 
 
@@ -751,11 +770,21 @@ Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00127}{127}} o
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00354}{354}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00363}{363}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00048}{BProject()}}.
+Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00049}{BProject()}}.
+
+\Hypertarget{class_atlas_1_1_b_project_aa0ec11b253e3965d37146a1cbee987ff}\label{class_atlas_1_1_b_project_aa0ec11b253e3965d37146a1cbee987ff} 
+\index{Atlas::BProject@{Atlas::BProject}!mHasCleanedUp@{mHasCleanedUp}}
+\index{mHasCleanedUp@{mHasCleanedUp}!Atlas::BProject@{Atlas::BProject}}
+\doxysubsubsection{\texorpdfstring{mHasCleanedUp}{mHasCleanedUp}}
+{\footnotesize\ttfamily bool Atlas\+::\+BProject\+::m\+Has\+Cleaned\+Up = false\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00328}{328}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 \Hypertarget{class_atlas_1_1_b_project_a03d956bb895e2639dd749f5601e4e849}\label{class_atlas_1_1_b_project_a03d956bb895e2639dd749f5601e4e849} 
 \index{Atlas::BProject@{Atlas::BProject}!mLuaFunctions@{mLuaFunctions}}
@@ -765,11 +794,11 @@ Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00048}{BProject()}}
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00323}{323}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00332}{332}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{engine_2_project_8h_source_l00370}{get\+Lua\+Functions()}}.
+Referenced by \mbox{\hyperlink{engine_2_project_8h_source_l00378}{get\+Lua\+Functions()}}.
 
 \Hypertarget{class_atlas_1_1_b_project_a1e3e05595c1e0e6b5811841f56a8f73c}\label{class_atlas_1_1_b_project_a1e3e05595c1e0e6b5811841f56a8f73c} 
 \index{Atlas::BProject@{Atlas::BProject}!mLuaLibraries@{mLuaLibraries}}
@@ -779,11 +808,11 @@ Referenced by \mbox{\hyperlink{engine_2_project_8h_source_l00370}{get\+Lua\+Func
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00322}{322}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00331}{331}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{engine_2_project_8h_source_l00364}{get\+Lua\+Libraries()}}.
+Referenced by \mbox{\hyperlink{engine_2_project_8h_source_l00372}{get\+Lua\+Libraries()}}.
 
 \Hypertarget{class_atlas_1_1_b_project_ae713b95d98f2d21f0b6c58637fab54e4}\label{class_atlas_1_1_b_project_ae713b95d98f2d21f0b6c58637fab54e4} 
 \index{Atlas::BProject@{Atlas::BProject}!mProject@{mProject}}
@@ -793,11 +822,11 @@ Referenced by \mbox{\hyperlink{engine_2_project_8h_source_l00364}{get\+Lua\+Libr
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00347}{347}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00356}{356}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00048}{BProject()}}.
+Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00049}{BProject()}}.
 
 \Hypertarget{class_atlas_1_1_b_project_adfe028afd0d057f7f0e386685e3b4bdf}\label{class_atlas_1_1_b_project_adfe028afd0d057f7f0e386685e3b4bdf} 
 \index{Atlas::BProject@{Atlas::BProject}!mRenderer@{mRenderer}}
@@ -807,7 +836,7 @@ Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00048}{BProject()}}
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00320}{320}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00329}{329}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 \Hypertarget{class_atlas_1_1_b_project_a12ccc84d7d0d3f574176186e04fd5622}\label{class_atlas_1_1_b_project_a12ccc84d7d0d3f574176186e04fd5622} 
 \index{Atlas::BProject@{Atlas::BProject}!mWindowDecorations@{mWindowDecorations}}
@@ -817,7 +846,7 @@ Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00320}{320}} of 
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00321}{321}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00330}{330}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 \Hypertarget{class_atlas_1_1_b_project_a1e49e5cf6135154f76a3d647d2c125d6}\label{class_atlas_1_1_b_project_a1e49e5cf6135154f76a3d647d2c125d6} 
 \index{Atlas::BProject@{Atlas::BProject}!settings@{settings}}
@@ -827,7 +856,7 @@ Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00321}{321}} of 
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00353}{353}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8h_source_l00362}{362}} of file \mbox{\hyperlink{engine_2_project_8h_source}{Project.\+h}}.
 
 
 

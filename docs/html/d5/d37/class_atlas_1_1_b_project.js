@@ -28,6 +28,7 @@ var class_atlas_1_1_b_project =
     [ "update", "d5/d37/class_atlas_1_1_b_project.html#aa587dcff45c5a516381aabbf5a821619", null ],
     [ "workingUpdate", "d5/d37/class_atlas_1_1_b_project.html#af7b15a4ce93501c82febfeb8919b481f", null ],
     [ "mAtlas", "d5/d37/class_atlas_1_1_b_project.html#a79af6d7b1548f0ddbaeacce1214dbe42", null ],
+    [ "mHasCleanedUp", "d5/d37/class_atlas_1_1_b_project.html#aa0ec11b253e3965d37146a1cbee987ff", null ],
     [ "mLuaFunctions", "d5/d37/class_atlas_1_1_b_project.html#a03d956bb895e2639dd749f5601e4e849", null ],
     [ "mLuaLibraries", "d5/d37/class_atlas_1_1_b_project.html#a1e3e05595c1e0e6b5811841f56a8f73c", null ],
     [ "mProject", "d5/d37/class_atlas_1_1_b_project.html#ae713b95d98f2d21f0b6c58637fab54e4", null ],

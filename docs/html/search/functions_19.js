@@ -27,10 +27,11 @@ var searchData=
   ['_7eilayerregistry_24',['~ILayerRegistry',['../d6/d34/class_techstorm_1_1abstract.html#a4a5949bcde32483abd8b15105a2eda10',1,'Techstorm::abstract']]],
   ['_7eiphysicsgameobject_25',['~IPhysicsGameObject',['../dc/dba/class_atlas_1_1abstract.html#a45c2807c34141e65d6b0d8c9026b679a',1,'Atlas::abstract']]],
   ['_7elayerregistry_26',['~LayerRegistry',['../db/d5d/class_techstorm_1_1_layer_registry.html#af9d0b1f70047143779fd67cd3b66bc8e',1,'Techstorm::LayerRegistry']]],
-  ['_7emod_27',['~Mod',['../df/d6e/class_atlas_1_1_mod.html#a46e99d24b03c38d2053485ce0ba4835f',1,'Atlas::Mod']]],
-  ['_7emodloader_28',['~ModLoader',['../d9/dc9/class_atlas_1_1_mod_loader.html#ad35f872f9a6cf583bdf303007480d5b7',1,'Atlas::ModLoader']]],
-  ['_7eshellfileinterface_29',['~ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#af3a1911ef7d963ac9bc10947b279af52',1,'ShellFileInterface']]],
-  ['_7ethreadgroup_30',['~ThreadGroup',['../de/d4b/class_atlas_1_1_thread_group.html#a283bf5c5b7e11bd661bd202720b5b4cf',1,'Atlas::ThreadGroup']]],
-  ['_7etransformcomponent_31',['~TransformComponent',['../dc/d08/class_atlas_1_1_transform_component.html#a7a29728e4eb536e07f70d4ed58eddc98',1,'Atlas::TransformComponent']]],
-  ['_7ewindow_32',['~Window',['../d1/df6/class_atlas_1_1_window.html#a4afa9a32bef0bc15f922f41ddb387b4e',1,'Atlas::Window']]]
+  ['_7elogger_27',['~Logger',['../df/dca/class_atlas_1_1_logger.html#acda967f299ad40a73dc26942387f4211',1,'Atlas::Logger']]],
+  ['_7emod_28',['~Mod',['../df/d6e/class_atlas_1_1_mod.html#a46e99d24b03c38d2053485ce0ba4835f',1,'Atlas::Mod']]],
+  ['_7emodloader_29',['~ModLoader',['../d9/dc9/class_atlas_1_1_mod_loader.html#ad35f872f9a6cf583bdf303007480d5b7',1,'Atlas::ModLoader']]],
+  ['_7eshellfileinterface_30',['~ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#af3a1911ef7d963ac9bc10947b279af52',1,'ShellFileInterface']]],
+  ['_7ethreadgroup_31',['~ThreadGroup',['../de/d4b/class_atlas_1_1_thread_group.html#a283bf5c5b7e11bd661bd202720b5b4cf',1,'Atlas::ThreadGroup']]],
+  ['_7etransformcomponent_32',['~TransformComponent',['../dc/d08/class_atlas_1_1_transform_component.html#a7a29728e4eb536e07f70d4ed58eddc98',1,'Atlas::TransformComponent']]],
+  ['_7ewindow_33',['~Window',['../d1/df6/class_atlas_1_1_window.html#a4afa9a32bef0bc15f922f41ddb387b4e',1,'Atlas::Window']]]
 ];
