@@ -94,6 +94,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
   <div class="headertitle"><div class="title"><a class="el" href="d7/d54/namespace_atlas.html">Atlas</a> </div></div>
 </div><!--header-->
 <div class="contents">
+<<<<<<< HEAD
 <div class="toc"><h3>Table of Contents</h3>
 <ul><ul><li class="level2"><a href="#what-is-Atlas">What is Atlas</a></li>
 <li class="level2"><a href="#architecture">Architecture</a></li>
@@ -101,6 +102,25 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </ul>
 <li class="level3"><a href="#file-system-architecture">File System Architecture</a><ul><li class="level4"><a href="#file-loading">File Loading</a></li>
 <li class="level4"><a href="#extension-loading">Extension loading</a></li>
+=======
+<div class="textblock"><p><a class="anchor" id="what-is-techstorm"></a> </p><hr  />
+<<<<<<< HEAD
+<p><a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> is the response to the lack of a free game engine that is built for large open worlds. While Unity or Unreal can make open world games, there are alot of hoops that must be jumped through first, which is why there is a need for it. <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> aims to be flexible and moldable to suit needs without having to make major changes. It also aims to be easy to work with and a limited number of complex components.</p>
+<p>If you are looking for a hello world application, please see hello-world-example</p>
+<h1><a class="anchor" id="architecture"></a>
+Architecture</h1>
+<hr  />
+<h2><a class="anchor" id="building"></a>
+Building</h2>
+<hr  />
+<h3><a class="anchor" id="automatic-building"></a>
+Automatic Building</h3>
+<p>The building process of <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> is simple because of a provided Python script. To run said script, go to the directory where you cloned the repository in a command line application. Once there, simply run: </p><div class="fragment"><div class="line">$ python3 Build.py</div>
+</div><!-- fragment --><p> This is all you will need to do because it will do the following:</p><ul>
+<li>Install &amp; setup Conan if not already done</li>
+<li>Install &amp; build packages<ul>
+<li>For both Debug and Release</li>
+>>>>>>> master
 </ul>
 </li>
 <li class="level3"><a href="#graphics-architecture">Graphics Architecture</a><ul><li class="level4"><a href="#graphics-introduction">Graphics Introduction</a></li>
@@ -131,13 +151,25 @@ Architecture</h2>
 <hr  />
 <p>The architecture of <a class="el" href="d7/d54/namespace_atlas.html">Atlas</a> can get complex at some points, but the documentation is extensive to make up for this and reduce the learning curve.</p>
 <h2><a class="anchor" id="flow-architecture"></a>
+<<<<<<< HEAD
 ### Flow</h2>
+=======
+Flow</h2>
+=======
+<p><a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> is the response to the lack of a free game engine that is built for large open worlds. <br  />
+</p>
+<h1><a class="anchor" id="architecture"></a>
+Architecture</h1>
+<hr  />
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+>>>>>>> master
 <p>Due to the inherent nature of <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a>, the architecture can be complex. In terms of building, there are a few things that are required to understand how <a class="el" href="d4/d26/namespace_techstorm.html">Techstorm</a> works. There are 4 groups that are used to build the engine, as outlined below:</p><ul>
 <li>Application</li>
 <li>Engine</li>
 <li><a class="el" href="d9/d6e/class_project.html" title="Write your project code here or do what you want with it. However, you MUST implement the BProject in...">Project</a></li>
 <li>Tools The Application is responsible for loading the engine and handling the project, as seen below.</li>
 </ul>
+<<<<<<< HEAD
 <div class="image">
 <img src="flowchart.png" alt=""/>
 <div class="caption">
@@ -160,6 +192,22 @@ File System Architecture</h3>
 <p><a class="el" href="d7/d54/namespace_atlas.html">Atlas</a> provides <b>three</b> methods of searching: by full path, sandboxed path, extension (highly discouraged because it does not account for duplicates), and filename. Sandboxed searching is the most recommended because it will only return those that are within the <code>game</code> directory. It is also much safer in general because it is contained to a single root folder that does not give mods the ability to mess with the user's operating system or the game itself (besides modifying config and assets). </p>
 <h4><a class="anchor" id="file-loading"></a>
 File Loading</h4>
+=======
+<p><img src="flowchart.png" alt="Game Engine Application Flow Chart" title="Techstorm&apos;s high level flow chart" class="inline"/></p>
+<<<<<<< HEAD
+<h2><a class="anchor" id="file-system-architecture"></a>
+File System Architecture</h2>
+<hr  />
+<p>&gt;**The design of the file system will cause errors if it is used improperly. As a result, it is highly encouraged that this is read very carefully. **</p>
+<p>As of now, the file system works by recursively searching the "game" folder in the root directory (Techstorm-v5). The folder will contain the "assets" and "data" sub-directories, wherein you will put assets and data files. Any file that is within the search area will be registered. For a detailed analysis of how it works, please see detailed-file-registry.</p>
+<p>When it comes to file loading, the <b>extension matters</b>. This is because the FileSystemRegistry loads files based on the loading function assigned to the extension. For this reason, when getting the file, you must have the filename along with the extension or just the extension (highly discouraged, see why-not-extensions). For this example, <code>ExampleFile.txt</code> will be used to represent a file. In order to get a file, please see below:</p>
+<div class="fragment"><div class="line">std::shared_ptr&lt;RegisteredFile&gt; file = GetFileSystemRegistry().getFile(&quot;ExampleFile.txt&quot;);</div>
+</div><!-- fragment --><h2><a class="anchor" id="graphics-architecture"></a>
+=======
+<h2><a class="anchor" id="graphics-architecture"></a>
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+Graphics Architecture</h2>
+>>>>>>> master
 <hr  />
 <p>When it comes to files, there are two types of files: registered and loaded. During the searching phase, all files found become registered (unless their extension is marked to be immediately loaded). When the file is used for the first time, it immediately becomes loaded. A visual representation of the file loading step is below:</p>
 <div class="image">
@@ -328,7 +376,19 @@ Functions</h3>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+<<<<<<< HEAD
     <li class="footer">Generated on Fri Jan 31 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <li class="footer">Generated on Sat Nov 30 2024 for Techstorm by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+=======
+    <li class="footer">Generated on Mon Nov 18 2024 for Techstorm by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+    <li class="footer">Generated on Wed Jan 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+>>>>>>> main
+>>>>>>> master
   </ul>
 </div>
 </body>

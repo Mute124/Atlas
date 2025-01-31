@@ -1,5 +1,6 @@
 var searchData=
 [
+<<<<<<< HEAD
   ['m_5faction_0',['m_action',['../db/db7/class_c_debugger.html#a66c358fac0d668984a7ca11c8948040d',1,'CDebugger']]],
   ['m_5fbreakpoints_1',['m_breakPoints',['../db/db7/class_c_debugger.html#a769e2b09f7f4245164a3b10423931577',1,'CDebugger']]],
   ['m_5fchildren_2',['m_children',['../d4/dc9/class_c_serialized_value.html#a360feb40611e67e830b47efd3220c806',1,'CSerializedValue']]],
@@ -184,4 +185,52 @@ var searchData=
   ['mxmldoc_181',['mXMLDoc',['../d7/d24/class_atlas_1_1_x_m_l_file.html#ab0e2991b25b70dad5f5ac7791de9eab6',1,'Atlas::XMLFile']]],
   ['my_182',['mY',['../da/d87/class_atlas_1_1_vec3.html#a854a4f85d76450ca8dc1957f6ec53885',1,'Atlas::Vec3']]],
   ['mz_183',['mZ',['../da/d87/class_atlas_1_1_vec3.html#a7866950ed93879b6de473c08407cb7b5',1,'Atlas::Vec3']]]
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+  ['objectposition_0',['objectPosition',['../d4/d42/class_terrain_sector.html#a1504f94ad768139ddfaaece7a534f3b3',1,'TerrainSector']]]
+=======
+  ['x_0',['x',['../d9/db6/struct_techstorm_1_1_vec3.html#ab7d948636261d85d2cf0a4cc10c3b305',1,'Techstorm::Vec3::x'],['../d4/d88/struct_techstorm_1_1_vec2.html#a0b00367be3790e37867070f197d996a1',1,'Techstorm::Vec2::x'],['../dc/d7f/struct_techstorm_1_1_vec4.html#abd17e07f8588f74b1ab6f8f6bb4e9f66',1,'Techstorm::Vec4::x']]]
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
+  ['mainwindowrenderbuffers_0',['MainWindowRenderBuffers',['../d2/d86/struct_im_gui___impl_vulkan___data.html#a4c790f85a664394c49b8a6cd7a302139',1,'ImGui_ImplVulkan_Data']]],
+  ['mat_1',['mat',['../d7/d58/class_chunk.html#ab93e7c959b06604d3fa7ecd085006d35',1,'Chunk']]],
+  ['mcamera_2',['mCamera',['../dc/d71/class_atlas_1_1_renderer.html#a9b84bf1e5525d9adc2502c3f9a0f5b7a',1,'Atlas::Renderer']]],
+  ['mcameradata_3',['mCameraData',['../d7/dc3/class_atlas_1_1_game_camera.html#ad1b577908ba6f30d28929b9ed4d17d14',1,'Atlas::GameCamera']]],
+  ['mcolorsink_4',['mColorSink',['../dc/dba/class_atlas_1_1abstract.html#a68b521eda70797cda7656686c777ebcb',1,'Atlas::abstract']]],
+  ['mdl_5',['mdl',['../d7/d58/class_chunk.html#a684f7eb49d81480a6495bdfb3d2f73bf',1,'Chunk::mdl'],['../d1/dee/class_terrain.html#aa16660a26bc09e0fefbcd60b8a96491c',1,'Terrain::mdl']]],
+  ['mesh_6',['mesh',['../d7/d58/class_chunk.html#a225a167e8ae96651762bdaadd55773eb',1,'Chunk']]],
+  ['meshcolor_7',['meshColor',['../d1/dee/class_terrain.html#a9b60514c0da5353d54b490228fd30c98',1,'Terrain']]],
+  ['minallocationsize_8',['MinAllocationSize',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a2293c3129c2b5e2dd2fe3ea7f61016fa',1,'ImGui_ImplVulkan_InitInfo']]],
+  ['minimagecount_9',['MinImageCount',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#afd70c96b923e8af179013387e896b1b7',1,'ImGui_ImplVulkan_InitInfo']]],
+  ['misculled_10',['mIsCulled',['../d0/dd1/class_game_object.html#a39161194ad3eef2d91c2088d8fbb5771',1,'GameObject']]],
+  ['mlayercount_11',['mLayerCount',['../d6/d34/class_techstorm_1_1abstract.html#a0a341d59f8fedff00417ed8ae9d4fc40',1,'Techstorm::abstract']]],
+  ['mlayermap_12',['mLayerMap',['../d6/d34/class_techstorm_1_1abstract.html#a63a7d7602ba0baa0754d58fba2ec56ef',1,'Techstorm::abstract']]],
+  ['mlayermapreverse_13',['mLayerMapReverse',['../d6/d34/class_techstorm_1_1abstract.html#a5ffaf50160cf875987e8d989f326578d',1,'Techstorm::abstract']]],
+  ['mluafunctions_14',['mLuaFunctions',['../dc/dba/class_atlas_1_1abstract.html#a572a84ac4e5376fb1d0fd7ea0a139222',1,'Atlas::abstract']]],
+  ['mlualibraries_15',['mLuaLibraries',['../dc/dba/class_atlas_1_1abstract.html#a9d8eae1049234e30c49cc5319bd0c762',1,'Atlas::abstract']]],
+  ['mmessage_16',['mMessage',['../d1/d81/class_atlas_1_1_i_exception.html#ab98901eb69eb0be0de37f06f5b270654',1,'Atlas::IException']]],
+  ['mode_17',['mode',['../d5/d0c/struct_atlas_1_1_logger_config.html#a4047a7f8ef91d734ece35fbf9fa84c0a',1,'Atlas::LoggerConfig']]],
+  ['model_18',['model',['../d0/dd1/class_game_object.html#a44edc205e9a74dd9459240448049fd5a',1,'GameObject::model'],['../dc/dba/class_atlas_1_1abstract.html#a7abb962d1e68119ada6c128a576427f6',1,'Atlas::abstract::model']]],
+  ['monitor_19',['Monitor',['../d2/d61/struct_im_gui___impl_o_s_x___data.html#a2ab0389fe39ea261a90baa687947abb9',1,'ImGui_ImplOSX_Data']]],
+  ['mousebuttonsdown_20',['mousebuttonsdown',['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#a0f7c2a0e17ec2ed68be2dacd8e431790',1,'ImGui_ImplSDL2_Data::MouseButtonsDown'],['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#a2e8936be362fc88fccba677a7e7c4c27',1,'ImGui_ImplSDL3_Data::MouseButtonsDown'],['../d5/d71/struct_im_gui___impl_win32___data.html#a56520b5fef030910fe4fe9af03a31bf8',1,'ImGui_ImplWin32_Data::MouseButtonsDown']]],
+  ['mousecanuseglobalstate_21',['mousecanuseglobalstate',['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#aa7127458193faeab085833c4e2d8a34b',1,'ImGui_ImplSDL2_Data::MouseCanUseGlobalState'],['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#a6d94eb5f6fca2c72f4a2e597862d8a8e',1,'ImGui_ImplSDL3_Data::MouseCanUseGlobalState']]],
+  ['mousecursorhidden_22',['MouseCursorHidden',['../d2/d61/struct_im_gui___impl_o_s_x___data.html#a26a6ecc0e3620d629ee501a6e5b8321e',1,'ImGui_ImplOSX_Data']]],
+  ['mousecursorinvisible_23',['MouseCursorInvisible',['../d4/d33/struct_im_gui___impl_allegro5___data.html#a5d2290227b9958f5f8b9ff2b09961e0c',1,'ImGui_ImplAllegro5_Data']]],
+  ['mousecursors_24',['mousecursors',['../d5/d6e/struct_im_gui___impl_glfw___data.html#ad7072d22c235f2e6d53e1a5a0e54cc0c',1,'ImGui_ImplGlfw_Data::MouseCursors'],['../d2/d61/struct_im_gui___impl_o_s_x___data.html#a426c1ef78481b1bdff5ec7d65cf26cb5',1,'ImGui_ImplOSX_Data::MouseCursors'],['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#a8f132f7bae2e8988eef79a5f6f8ea0da',1,'ImGui_ImplSDL2_Data::MouseCursors'],['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#acdc327a53f1157fd71c2f948a39dc137',1,'ImGui_ImplSDL3_Data::MouseCursors']]],
+  ['mousehwnd_25',['MouseHwnd',['../d5/d71/struct_im_gui___impl_win32___data.html#adb9a1c9aec249e376290c7ae37ebca8a',1,'ImGui_ImplWin32_Data']]],
+  ['mouselastcursor_26',['mouselastcursor',['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#a7df90273d85abf80ecbfd2a38a6f1704',1,'ImGui_ImplSDL2_Data::MouseLastCursor'],['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#a6952a0069b70808ee58ff65152cc401c',1,'ImGui_ImplSDL3_Data::MouseLastCursor']]],
+  ['mouselastleaveframe_27',['MouseLastLeaveFrame',['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#a960a85da33579d0d59c634b0b9afcaa8',1,'ImGui_ImplSDL2_Data']]],
+  ['mousependingleaveframe_28',['MousePendingLeaveFrame',['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#a9db5414c6cdec9b8a447d5b6f9516f5b',1,'ImGui_ImplSDL3_Data']]],
+  ['mousetrackedarea_29',['MouseTrackedArea',['../d5/d71/struct_im_gui___impl_win32___data.html#a8e4cc11ebc1b86988195fab10dff3c38',1,'ImGui_ImplWin32_Data']]],
+  ['mousewindow_30',['MouseWindow',['../d5/d6e/struct_im_gui___impl_glfw___data.html#a0cd83054e5f18b548ad7030e56e44fa7',1,'ImGui_ImplGlfw_Data']]],
+  ['mousewindowid_31',['mousewindowid',['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#a8553fa986f6fb621fe7f2279e50542e4',1,'ImGui_ImplSDL2_Data::MouseWindowID'],['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#aed284c05802b6443567ed3c1646b9a03',1,'ImGui_ImplSDL3_Data::MouseWindowID']]],
+  ['mphysicssystem_32',['mPhysicsSystem',['../db/db4/class_physics_engine.html#a7ff9b3b709ca5b8012dd9631646cff63',1,'PhysicsEngine']]],
+  ['mrenderer_33',['mRenderer',['../dc/dba/class_atlas_1_1abstract.html#ab5265cb2ecc240f5ff38a171bf5ef1fc',1,'Atlas::abstract']]],
+  ['msaasamples_34',['MSAASamples',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a07f4dc58914730be73d241dbe3037833',1,'ImGui_ImplVulkan_InitInfo']]],
+  ['msink_35',['mSink',['../dc/dba/class_atlas_1_1abstract.html#a695cf07ae0328ce52768272d18a53acc',1,'Atlas::abstract']]],
+  ['mvp_36',['mvp',['../d0/d75/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x10.html#a5b919e7d9d3c0194b05ddd336426aecf',1,'VERTEX_CONSTANT_BUFFER_DX10::mvp'],['../d8/d09/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x11.html#a60d5a5fdfbc0fa9455b591ea77dfb8e7',1,'VERTEX_CONSTANT_BUFFER_DX11::mvp'],['../d2/d16/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12.html#af977128a020d49a3a5478a59e4229274',1,'VERTEX_CONSTANT_BUFFER_DX12::mvp'],['../da/d5c/struct_uniforms.html#abcb95d428e91e58d46b1da202a39159f',1,'Uniforms::MVP']]],
+  ['mwindowdecorations_37',['mWindowDecorations',['../dc/dba/class_atlas_1_1abstract.html#a4fa4d0c8ac6739c53f23e69f0259b3a4',1,'Atlas::abstract']]]
+>>>>>>> main
+>>>>>>> master
 ];

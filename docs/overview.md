@@ -3,19 +3,73 @@
 
 ---
 
+<<<<<<< HEAD
 Techstorm is the response to the lack of a free game engine that is built for large open worlds. While Unity or Unreal can make open world games, there are alot of hoops that must be jumped through first, which is why there is a need for it.  Techstorm aims to be flexible and moldable to suit needs without having to make major changes. It also aims to be easy to work with and a limited number of complex components. 
 
 If you are looking for a hello world application, please see \ref hello-world-example
+=======
+Techstorm is the response to the lack of a free game engine that is built for large open worlds.  
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 
 ## Architecture {#architecture}
 
 ---
 
+<<<<<<< HEAD
 The architecture of Atlas can get complex at some points, but the documentation is extensive to make up for this and reduce the learning curve.
+=======
+<<<<<<< HEAD
+### Building {#building}
+
+---
+
+#### Automatic Building {#automatic-building}
+
+The building process of Techstorm is simple because of a provided Python script. To run said script, go to the directory where you cloned the repository in a command line application. Once there, simply run:
+```
+$ python3 Build.py
+```
+This is all you will need to do because it will do the following:
+* Install & setup Conan if not already done
+* Install & build packages
+	* For both Debug and Release
+* Configure, build, and generate the CMake project
+* Open VS2022 solution
+
+Keep in mind this **will** take a while for the first time, so go drink water (We know that you have not done this yet today), go for a quick walk, or go to the bathroom. Once this is done, that is it! Pretty easy, right?
+
+#### Manual Building
+
+---
+
+> The following instructions are **NOT YET COMPLETE**. For now, please see \ref automatic-building
+
+In the event that you would like to build directly, start at what ever point you would like.
+
+##### Installing And Setting Up Conan {#installing-and-setting-up-conan}
+
+---
+
+The following instructions are based on Conan 2.9's documentation. If you would like to use their documentation to install Conan, please see [their installation tutorial](https://docs.conan.io/2/tutorial/consuming_packages/build_simple_cmake_project.html). With that said, first make sure that you have python by using:
+
+```
+$ python3 --version
+```
+
+If you got an error, congrats! You do not have python. If it worked and you have a version greater than or equal to 3.6, please run:
+
+```
+$ pip install conan
+```
+
+> According to their documentation, ensure your **pip version** matches your **python version**. 
+>>>>>>> master
 
 ### Flow {#flow-architecture}
 ---
 
+=======
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 Due to the inherent nature of Techstorm, the architecture can be complex. In terms of building, there are a few things that are required to understand how Techstorm works. There are 4 groups that are used to build the engine, as outlined below:
 - Application
 - Engine
@@ -25,6 +79,7 @@ The Application is responsible for loading the engine and handling the project, 
 
 ![Game Engine Application Flow Chart](flowchart.png "Techstorm's high level flow chart")
 
+<<<<<<< HEAD
 #### Using Projects {#using-projects}
 
 ---
@@ -41,6 +96,9 @@ Atlas interacts with your game through the IProject class. More specifically, it
 
 Now what does this mean? This is how Atlas knows what your derivative class is. If you are using the already provided class, then this does not have to be worried about. However, this is used when you need to have a lower-level control of the engine. Atlas interacts through the various virtual functions that are found within IProject in \ref Project.h.
 
+=======
+<<<<<<< HEAD
+>>>>>>> master
 ### File System Architecture {#file-system-architecture}
 
 ---
@@ -92,6 +150,7 @@ When it comes to file loading, the **extension matters**. This is because the \r
 std::shared_ptr<RegisteredFile> file = GetFileSystemRegistry().getFile("ExampleFile.txt");
 ```
 
+<<<<<<< HEAD
 
 
 #### Extension loading {#extension-loading}
@@ -100,6 +159,10 @@ std::shared_ptr<RegisteredFile> file = GetFileSystemRegistry().getFile("ExampleF
 
 As of v0.0.7, Atlas has 
 
+=======
+=======
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+>>>>>>> master
 ### Graphics Architecture {#graphics-architecture}
 
 ---
@@ -121,7 +184,14 @@ Atlas makes models easy because it will automatically handle materials for it.
 
 ---
 
+<<<<<<< HEAD
 Since TechStorm comes with modding capability out of the box, there is less that has to be worried about. However, it is up to you to ensure that it is used properly. As of version 0.0.7, AngelScript is NOT yet implemented and there is no functionality for it yet. 
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+>>>>>>> master
 ## Dependencies {#dependencies}
 
 ---
@@ -216,4 +286,13 @@ Broad cases should only be used as long as there are no other applicable cases. 
 
 Functions are simple, any that are not bound to a specific object will have the first letter lowercase. If it is a static, namespace, or global function, then it will have the first letter capitalized instead. When it comes to Preprocessor functions, it will follow the same rules as Constant Global variables, as seen below:
 
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+=======
+>  | Constant Global     | Cap     | Cap    | For this case, it will follow snake case **in all caps** |
+
+
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+>>>>>>> master

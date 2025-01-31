@@ -1,6 +1,24 @@
 var searchData=
 [
+<<<<<<< HEAD
+  ['basiccore_2eh_0',['BasicCore.h',['../de/d90/_basic_core_8h.html',1,'']]],
+  ['bodyactivationlistener_2eh_1',['BodyActivationListener.h',['../df/d62/_body_activation_listener_8h.html',1,'']]],
+  ['bodyinterface_2',['bodyinterface',['../d0/dd1/class_game_object.html#aa209155fe6536456370b680e2e787ed6',1,'GameObject::bodyInterface'],['../d1/dee/class_terrain.html#aedd83648b6e97085792b113e0375da6e',1,'Terrain::bodyInterface'],['../d6/d34/class_techstorm_1_1abstract.html#a80c55b2bc8896523e105601392a2475f',1,'Techstorm::abstract::bodyInterface']]],
+  ['bplayerinterface_2eh_3',['BPLayerInterface.h',['../d7/d93/_b_p_layer_interface_8h.html',1,'']]],
+<<<<<<< HEAD
+  ['bplayerinterfaceimpl_4',['bplayerinterfaceimpl',['../d9/d49/class_b_p_layer_interface_impl.html',1,'BPLayerInterfaceImpl'],['../d8/d8c/class_techstorm_1_1_b_p_layer_interface_impl.html',1,'Techstorm::BPLayerInterfaceImpl'],['../d9/d49/class_b_p_layer_interface_impl.html#a27ca33deade1ae8681190196b93bc30e',1,'BPLayerInterfaceImpl::BPLayerInterfaceImpl()'],['../d8/d8c/class_techstorm_1_1_b_p_layer_interface_impl.html#a27ca33deade1ae8681190196b93bc30e',1,'Techstorm::BPLayerInterfaceImpl::BPLayerInterfaceImpl()']]],
+  ['broadphaselayerregistry_2eh_5',['BroadPhaseLayerRegistry.h',['../d9/dcc/_broad_phase_layer_registry_8h.html',1,'']]],
+  ['broadphaselayers_6',['BroadPhaseLayers',['../dc/df3/namespace_broad_phase_layers.html',1,'']]],
+  ['building_7',['building',['../index.html#automatic-building',1,'Automatic Building'],['../dd/da6/md_building.html',1,'building'],['../index.html#building',1,'Building'],['../index.html#autotoc_md4',1,'Manual Building']]],
+  ['building_2emd_8',['building.md',['../d5/de2/building_8md.html',1,'']]]
+=======
+  ['broadphaselayerregistry_2eh_4',['BroadPhaseLayerRegistry.h',['../d9/dcc/_broad_phase_layer_registry_8h.html',1,'']]],
+  ['building_5',['building',['../dd/da6/md_building.html',1,'']]],
+  ['building_2emd_6',['building.md',['../d5/de2/building_8md.html',1,'']]]
+>>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
+=======
   ['a_0',['a',['../d5/d9b/class_atlas_1_1_i_g_u_i_container.html#a5a9224180469575775a40e158e33d57b',1,'Atlas::IGUIContainer']]],
+<<<<<<< HEAD
   ['abortall_1',['abortall',['../dd/dbc/class_c_context_mgr.html#a6752771b658fa0bae554a1bbae620ab0',1,'CContextMgr::AbortAll()'],['../dd/dbc/class_c_context_mgr.html#a6752771b658fa0bae554a1bbae620ab0',1,'CContextMgr::AbortAll()']]],
   ['abstract_2',['abstract',['../dc/dba/class_atlas_1_1abstract.html',1,'Atlas::abstract&lt; ConsoleSink &gt;'],['../d6/d34/class_techstorm_1_1abstract.html',1,'Techstorm::abstract&lt; K, D, T &gt;']]],
   ['activate_3',['activate',['../d0/dd1/class_game_object.html#a1b0eacb99cbbb27e87e12ec54d36a9d7',1,'GameObject']]],
@@ -165,4 +183,65 @@ var searchData=
   ['audiomanager_162',['audiomanager',['../dc/d5b/class_atlas_1_1_audio_device.html#a85edaa7e5c3ae68dabadd5373890591e',1,'Atlas::AudioDevice::AudioManager'],['../da/d5f/class_atlas_1_1_audio_manager.html',1,'Atlas::AudioManager'],['../da/d5f/class_atlas_1_1_audio_manager.html#a3a5afaa2ae536577a309a35a70f5cb1a',1,'Atlas::AudioManager::AudioManager()']]],
   ['audiomanager_2ecpp_163',['AudioManager.cpp',['../dc/d69/_audio_manager_8cpp.html',1,'']]],
   ['audiomanager_2eh_164',['AudioManager.h',['../d8/d45/_audio_manager_8h.html',1,'']]]
+=======
+  ['abstract_1',['abstract',['../dc/dba/class_atlas_1_1abstract.html',1,'Atlas::abstract&lt; ConsoleSink &gt;'],['../d6/d34/class_techstorm_1_1abstract.html',1,'Techstorm::abstract&lt; K, D, T &gt;']]],
+  ['activate_2',['activate',['../d0/dd1/class_game_object.html#a1b0eacb99cbbb27e87e12ec54d36a9d7',1,'GameObject']]],
+  ['activetexture_3',['ActiveTexture',['../d4/d6c/union_im_g_l3_w_procs.html#a8de6d13ae8fc9381bd058eaeec875e46',1,'ImGL3WProcs']]],
+  ['adddefaultlayers_4',['adddefaultlayers',['../d6/d34/class_techstorm_1_1abstract.html#a71dda8d7dafdd4786d1d17b536475221',1,'Techstorm::abstract::addDefaultLayers()'],['../db/d5d/class_techstorm_1_1_layer_registry.html#ae45a298600c585ee9395f6a1255e39f1',1,'Techstorm::LayerRegistry::addDefaultLayers()']]],
+  ['addfileregistryloadfunction_5',['AddFileRegistryLoadFunction',['../d7/d54/namespace_atlas.html#adf987d1c7b4c1083d297e28fca47908c',1,'Atlas']]],
+  ['addfileregistryloadonregisterextension_6',['AddFileRegistryLoadOnRegisterExtension',['../d7/d54/namespace_atlas.html#a29a6343014b963b902d0e0afb838dfdd',1,'Atlas']]],
+  ['addgameobject_7',['addgameobject',['../d1/d4c/class_atlas_1_1_game_object_registry.html#ab86454bb5a8d6d03a1b14c790faa4461',1,'Atlas::GameObjectRegistry::addGameObject()'],['../dc/d71/class_atlas_1_1_renderer.html#a940a1f7f175261fbcbf99d33b58e2064',1,'Atlas::Renderer::addGameObject()']]],
+  ['addgameobjectgate_8',['addgameobjectgate',['../d1/d4c/class_atlas_1_1_game_object_registry.html#ac42d70824c78d40f218f17c2af1bebd4',1,'Atlas::GameObjectRegistry::addGameObjectGate()'],['../dc/d71/class_atlas_1_1_renderer.html#a8de52d4c83ff3bf786a2c9c25a882a01',1,'Atlas::Renderer::addGameObjectGate()']]],
+  ['addloadfunction_9',['addLoadFunction',['../d4/de4/class_atlas_1_1_file_system_registry.html#a6822838d8d49bf92bd687d70394a6996',1,'Atlas::FileSystemRegistry']]],
+  ['addloadonregisterextension_10',['addLoadOnRegisterExtension',['../d4/de4/class_atlas_1_1_file_system_registry.html#a1af799b8dcb65914b4cd2bb5720efd7d',1,'Atlas::FileSystemRegistry']]],
+  ['addsample_11',['addSample',['../d4/da6/class_sample_group.html#a882cd8a800ad4d33e00c0b7c1eb400bc',1,'SampleGroup']]],
+  ['addsamplegroup_12',['addSampleGroup',['../dc/dc3/class_samples_project.html#a7812a3e0f0a46ba60e83d69cd0912dc0',1,'SamplesProject']]],
+  ['addstandalonedrawcall_13',['addstandalonedrawcall',['../d1/d4c/class_atlas_1_1_game_object_registry.html#aa6b47da737596652bbdef33635f65064',1,'Atlas::GameObjectRegistry::addStandaloneDrawCall()'],['../dc/d71/class_atlas_1_1_renderer.html#a7c6e747ccf1187ad51299779f82f68db',1,'Atlas::Renderer::addStandaloneDrawCall()']]],
+  ['addtoverticies_14',['addToVerticies',['../d7/d58/class_chunk.html#a5fed97aebc6dade7e5311ba20b933247',1,'Chunk']]],
+  ['all_15',['ALL',['../d7/d54/namespace_atlas.html#a338b5c7a4a376755ccfacbebc8fe3427a5fb1f955b45e38e31789286a1790398d',1,'Atlas']]],
+  ['allegro_5fhas_5fclipboard_16',['ALLEGRO_HAS_CLIPBOARD',['../d3/d54/imgui__impl__allegro5_8cpp.html#a3075d26d56db9747d99d8e2229e11543',1,'imgui_impl_allegro5.cpp']]],
+  ['allegro_5fhas_5fdraw_5findexed_5fprim_17',['ALLEGRO_HAS_DRAW_INDEXED_PRIM',['../d3/d54/imgui__impl__allegro5_8cpp.html#a529dc68f5fcf2c043c073e3e38783e00',1,'imgui_impl_allegro5.cpp']]],
+  ['allocatedphysicsresources_18',['allocatedphysicsresources',['../dc/d25/struct_allocated_physics_resources.html',1,'AllocatedPhysicsResources'],['../df/df6/struct_atlas_1_1_allocated_physics_resources.html',1,'Atlas::AllocatedPhysicsResources'],['../df/df6/struct_atlas_1_1_allocated_physics_resources.html#aa502f9e7001a563361c0a5f1ac4cbde4',1,'Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources()'],['../dc/d25/struct_allocated_physics_resources.html#a600b81112798d31deb945a5a8d92cca7',1,'AllocatedPhysicsResources::AllocatedPhysicsResources()'],['../dc/d25/struct_allocated_physics_resources.html#af5809840be160867bffea6ec5317f71c',1,'AllocatedPhysicsResources::AllocatedPhysicsResources(AllocatedPhysicsResources const &amp;resources)'],['../dc/d25/struct_allocated_physics_resources.html#aa502f9e7001a563361c0a5f1ac4cbde4',1,'AllocatedPhysicsResources::AllocatedPhysicsResources(const JPH::uint &amp;cMaxBodies, const JPH::uint &amp;cNumBodyMutexes, const JPH::uint &amp;cMaxBodyPairs, const JPH::uint &amp;cMaxContactConstraints)'],['../df/df6/struct_atlas_1_1_allocated_physics_resources.html#a600b81112798d31deb945a5a8d92cca7',1,'Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources()'],['../df/df6/struct_atlas_1_1_allocated_physics_resources.html#af5809840be160867bffea6ec5317f71c',1,'Atlas::AllocatedPhysicsResources::AllocatedPhysicsResources(AllocatedPhysicsResources const &amp;resources)']]],
+  ['allocator_19',['Allocator',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a2200c0dc31e49210eea3e381f9c0a4aa',1,'ImGui_ImplVulkan_InitInfo']]],
+  ['alpha_20',['alpha',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a090ebe65994a3ee4bb60ae3472abffc5',1,'imgui_impl_opengl3_loader.h']]],
+  ['analysis_20of_20dependencies_21',['Detailed Analysis Of Dependencies',['../dc/dec/detailed-analysis-of-dependencies.html',1,'']]],
+  ['analysis_2ddependencies_2emd_22',['analysis-dependencies.md',['../d2/d09/analysis-dependencies_8md.html',1,'']]],
+  ['and_20setting_20up_20conan_23',['Installing And Setting Up Conan',['../index.html#installing-and-setting-up-conan',1,'']]],
+  ['apientry_24',['APIENTRY',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a428a91acf2c2439dc1a257708ee1f805',1,'imgui_impl_opengl3_loader.h']]],
+  ['apientryp_25',['APIENTRYP',['../df/d5f/imgui__impl__opengl3__loader_8h.html#aef0d9e5e275e1b7becf54b6aa9ce3911',1,'imgui_impl_opengl3_loader.h']]],
+  ['apple_5fhas_5fbutton_5foptions_26',['APPLE_HAS_BUTTON_OPTIONS',['../d5/d57/imgui__impl__osx_8mm.html#aee91fef8731ea5824c510af7ac26eb14',1,'imgui_impl_osx.mm']]],
+  ['apple_5fhas_5fcontroller_27',['APPLE_HAS_CONTROLLER',['../d5/d57/imgui__impl__osx_8mm.html#a9dc71e704b64954e5cc8fa9eb1d7a2f3',1,'imgui_impl_osx.mm']]],
+  ['apple_5fhas_5fthumbsticks_28',['APPLE_HAS_THUMBSTICKS',['../d5/d57/imgui__impl__osx_8mm.html#ae80a0030f0ca50357dff788785862d44',1,'imgui_impl_osx.mm']]],
+  ['applicationutils_2ecpp_29',['ApplicationUtils.cpp',['../df/d02/_application_utils_8cpp.html',1,'']]],
+  ['applicationutils_2eh_30',['ApplicationUtils.h',['../dd/d47/_application_utils_8h.html',1,'']]],
+  ['architecture_31',['architecture',['../index.html#architecture',1,'Architecture'],['../index.html#file-system-architecture',1,'File System Architecture'],['../index.html#graphics-architecture',1,'Graphics Architecture']]],
+  ['arrays_32',['arrays',['../df/d5f/imgui__impl__opengl3__loader_8h.html#ab90b6192ffc82d4cdd7c3ca3bfa0754a',1,'imgui_impl_opengl3_loader.h']]],
+  ['atlas_33',['Atlas',['../d7/d54/namespace_atlas.html',1,'']]],
+  ['atlas_3a_3aapplication_34',['Application',['../d8/d77/namespace_atlas_1_1_application.html',1,'Atlas']]],
+  ['atlas_3a_3abroadphaselayers_35',['BroadPhaseLayers',['../d4/d5b/namespace_atlas_1_1_broad_phase_layers.html',1,'Atlas']]],
+  ['atlas_3a_3alayers_36',['Layers',['../d3/d0d/namespace_atlas_1_1_layers.html',1,'Atlas']]],
+  ['atlas_5fasset_5fdir_37',['ATLAS_ASSET_DIR',['../db/d1f/_common_8h.html#ad5c261ec194c040a611ec9882854e4c3',1,'Common.h']]],
+  ['atlas_5fchild_5fexception_5fconstructor_38',['atlas_child_exception_constructor',['../db/d16/_errors_8h.html#ab5d89f95636e7973e05279f614f38085',1,'ATLAS_CHILD_EXCEPTION_CONSTRUCTOR:&#160;Errors.h'],['../df/d7c/class_atlas_1_1_invalid_argument.html#a667fdb9d52ea6d0fedfcdc4fd30d5933',1,'Atlas::InvalidArgument::ATLAS_CHILD_EXCEPTION_CONSTRUCTOR()']]],
+  ['atlas_5fdata_5fdir_39',['ATLAS_DATA_DIR',['../db/d1f/_common_8h.html#a8e5470571cffaef96005e80409981914',1,'Common.h']]],
+  ['atlas_5fdbl_5flnk_5flst_5ffunc_5foverride_5fdecl_40',['ATLAS_DBL_LNK_LST_FUNC_OVERRIDE_DECL',['../d9/dbe/_doubly_linked_list_8h.html#a43ea97736e27489c2c0cf916ae736b32',1,'DoublyLinkedList.h']]],
+  ['atlas_5fdefault_5fexception_5fbody_41',['atlas_default_exception_body',['../db/d16/_errors_8h.html#a7932c37ac7d99b2c1291062b5b9bd663',1,'ATLAS_DEFAULT_EXCEPTION_BODY:&#160;Errors.h'],['../de/df2/class_atlas_1_1_invalid_value.html#ab64242e8917143997c315da7e2f7a346',1,'Atlas::InvalidValue::ATLAS_DEFAULT_EXCEPTION_BODY()']]],
+  ['atlas_5fdefault_5fexception_5fconstructor_42',['ATLAS_DEFAULT_EXCEPTION_CONSTRUCTOR',['../db/d16/_errors_8h.html#a94e83f953b01de09fc08847da4e4a76e',1,'Errors.h']]],
+  ['atlas_5fdefault_5flog_5flevel_43',['ATLAS_DEFAULT_LOG_LEVEL',['../da/def/_logging_8h.html#af1a3fef733f40f7726503b1be888287e',1,'Logging.h']]],
+  ['atlas_5fenable_5fcontroller_5fsupport_44',['ATLAS_ENABLE_CONTROLLER_SUPPORT',['../d2/d94/_input_8h.html#a7e0b1fe09db16c1fd4a411d85d8aa13f',1,'Input.h']]],
+  ['atlas_5fgame_5fdir_45',['ATLAS_GAME_DIR',['../db/d1f/_common_8h.html#a0029ffcb0c61e8490f5babd9eb9a3207',1,'Common.h']]],
+  ['atlas_5frenderer_5fraylib_46',['ATLAS_RENDERER_RAYLIB',['../de/d42/_window_8h.html#a0754a131d6ba36c76f1c2091567806e0',1,'Window.h']]],
+  ['atlas_5fsingleton_47',['ATLAS_SINGLETON',['../de/dec/_singleton_8h.html#afea294bd126ecd6069465d8ad5a9938b',1,'Singleton.h']]],
+  ['atlas_5ftemp_5fdir_48',['ATLAS_TEMP_DIR',['../db/d1f/_common_8h.html#ac1a044350ec7bb4ad609b66d462575aa',1,'Common.h']]],
+  ['atlas_5fthread_5fyield_49',['ATLAS_THREAD_YIELD',['../dd/d47/_application_utils_8h.html#a3711f4a8c8c046e940934d2e00b53c2b',1,'ApplicationUtils.h']]],
+  ['atlasapp_50',['atlasapp',['../de/d87/class_atlas_1_1_application_1_1_atlas_app.html#a9ce3bb14040587cc1140a644c24a99ba',1,'Atlas::Application::AtlasApp::AtlasApp()'],['../de/d87/class_atlas_1_1_application_1_1_atlas_app.html',1,'Atlas::Application::AtlasApp']]],
+  ['atlasapp_2eh_51',['AtlasApp.h',['../dc/d76/_atlas_app_8h.html',1,'']]],
+  ['attachshader_52',['AttachShader',['../d4/d6c/union_im_g_l3_w_procs.html#ab0f8a1c6d263bb17d757eece35a8e690',1,'ImGL3WProcs']]],
+  ['attriblocationprojmtx_53',['AttribLocationProjMtx',['../dc/d45/struct_im_gui___impl_open_g_l3___data.html#a0fe508e011d4b62e6a27883c1fc0b19a',1,'ImGui_ImplOpenGL3_Data']]],
+  ['attriblocationtex_54',['AttribLocationTex',['../dc/d45/struct_im_gui___impl_open_g_l3___data.html#af2b8d0074411d6ddc4a8b33e092aa297',1,'ImGui_ImplOpenGL3_Data']]],
+  ['attriblocationvtxcolor_55',['AttribLocationVtxColor',['../dc/d45/struct_im_gui___impl_open_g_l3___data.html#abf21e94d95a5faec538d101f0cd941de',1,'ImGui_ImplOpenGL3_Data']]],
+  ['attriblocationvtxpos_56',['AttribLocationVtxPos',['../dc/d45/struct_im_gui___impl_open_g_l3___data.html#a9b6dcb44ef2b2bcfaa1415973b8bbe0b',1,'ImGui_ImplOpenGL3_Data']]],
+  ['attriblocationvtxuv_57',['AttribLocationVtxUV',['../dc/d45/struct_im_gui___impl_open_g_l3___data.html#ab02168ff54e9054e1dcc662861ac20ab',1,'ImGui_ImplOpenGL3_Data']]],
+  ['automatic_20building_58',['Automatic Building',['../index.html#automatic-building',1,'']]]
+>>>>>>> main
+>>>>>>> master
 ];
