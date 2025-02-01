@@ -12,6 +12,7 @@
 
 Atlas::GameObject::GameObject() : IGameObject() {
 	//addComponent<TransformComponent>();
+
 }
 
 void Atlas::GameObject::preUpdate() {

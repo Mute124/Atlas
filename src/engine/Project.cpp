@@ -188,7 +188,9 @@ int Atlas::BProject::run(int argc, char* argv[]) {
 int Atlas::BProject::update()
 {
 	int code = 0;
-
+	
+	getAtlasEngine()->getRenderer()->updateObjects();
+	
 	return code;
 }
 

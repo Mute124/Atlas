@@ -3,74 +3,20 @@
 
 ---
 
-<<<<<<< HEAD
-Techstorm is the response to the lack of a free game engine that is built for large open worlds. While Unity or Unreal can make open world games, there are alot of hoops that must be jumped through first, which is why there is a need for it.  Techstorm aims to be flexible and moldable to suit needs without having to make major changes. It also aims to be easy to work with and a limited number of complex components. 
+Atlas is the response to the lack of a free game engine that is built for large open worlds. While Unity or Unreal can make open world games, there are alot of hoops that must be jumped through first, which is why there is a need for it.  Atlas aims to be flexible and moldable to suit needs without having to make major changes. It also aims to be easy to work with and a limited number of complex components. 
 
 If you are looking for a hello world application, please see \ref hello-world-example
-=======
-Techstorm is the response to the lack of a free game engine that is built for large open worlds.  
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
 
 ## Architecture {#architecture}
 
 ---
 
-<<<<<<< HEAD
 The architecture of Atlas can get complex at some points, but the documentation is extensive to make up for this and reduce the learning curve.
-=======
-<<<<<<< HEAD
-### Building {#building}
-
----
-
-#### Automatic Building {#automatic-building}
-
-The building process of Techstorm is simple because of a provided Python script. To run said script, go to the directory where you cloned the repository in a command line application. Once there, simply run:
-```
-$ python3 Build.py
-```
-This is all you will need to do because it will do the following:
-* Install & setup Conan if not already done
-* Install & build packages
-	* For both Debug and Release
-* Configure, build, and generate the CMake project
-* Open VS2022 solution
-
-Keep in mind this **will** take a while for the first time, so go drink water (We know that you have not done this yet today), go for a quick walk, or go to the bathroom. Once this is done, that is it! Pretty easy, right?
-
-#### Manual Building
-
----
-
-> The following instructions are **NOT YET COMPLETE**. For now, please see \ref automatic-building
-
-In the event that you would like to build directly, start at what ever point you would like.
-
-##### Installing And Setting Up Conan {#installing-and-setting-up-conan}
-
----
-
-The following instructions are based on Conan 2.9's documentation. If you would like to use their documentation to install Conan, please see [their installation tutorial](https://docs.conan.io/2/tutorial/consuming_packages/build_simple_cmake_project.html). With that said, first make sure that you have python by using:
-
-```
-$ python3 --version
-```
-
-If you got an error, congrats! You do not have python. If it worked and you have a version greater than or equal to 3.6, please run:
-
-```
-$ pip install conan
-```
-
-> According to their documentation, ensure your **pip version** matches your **python version**. 
->>>>>>> master
 
 ### Flow {#flow-architecture}
 ---
 
-=======
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-Due to the inherent nature of Techstorm, the architecture can be complex. In terms of building, there are a few things that are required to understand how Techstorm works. There are 4 groups that are used to build the engine, as outlined below:
+Due to the inherent nature of Atlas, the architecture can be complex. In terms of building, there are a few things that are required to understand how Atlas works. There are 4 groups that are used to build the engine, as outlined below:
 - Application
 - Engine
 - Project
@@ -79,7 +25,6 @@ The Application is responsible for loading the engine and handling the project, 
 
 ![Game Engine Application Flow Chart](flowchart.png "Techstorm's high level flow chart")
 
-<<<<<<< HEAD
 #### Using Projects {#using-projects}
 
 ---
@@ -94,11 +39,8 @@ Atlas interacts with your game through the IProject class. More specifically, it
 #endif
 ```
 
-Now what does this mean? This is how Atlas knows what your derivative class is. If you are using the already provided class, then this does not have to be worried about. However, this is used when you need to have a lower-level control of the engine. Atlas interacts through the various virtual functions that are found within IProject in \ref Project.h.
+Now what does this mean? This is how Atlas knows what your derivative class is. If you are using the already provided class, then this does not have to be worried about. However, this is used when you need to have a lower-level control of the engine. Atlas interacts through the various virtual functions that are found within \ref IProject in \ref Project.h. If you have questions about these events, please refer to \ref IProject.
 
-=======
-<<<<<<< HEAD
->>>>>>> master
 ### File System Architecture {#file-system-architecture}
 
 ---
@@ -116,17 +58,28 @@ When it comes to files, there are two types of files: registered and loaded. Dur
 
 ![Game Engine Application Flow Chart](FileSystemFlowChart.png "Atlas's file system high level flow chart")
 
+There are two ways to load a file:
+	1. Call `GetFile("\\example\\path");`
+	2. Call `LoadFile("\\example\\path);"`
+
+However, just calling `GetFile()` is perfectly fine in itself. 
+
+>Notice how "\\" was used in the path, **this must** be used as the directory divider 
+##### Immediate File Loading {#immediate-file-loading}
+
+---
+
 Next, the topic of immediate loading needs to be discussed. Immediate loading is when the file system loads a file on registration if the extension is marked as such. In order to mark an extension to be immediately loaded, it must be done **PRIOR TO THE SEARCHING PHASE**. This is done within the **pre-initialization step**. Below is an example of this in action:
 
 ```
-// includes ...
+...
 
 
 // project.h in the project_lib project
 class Project final : public Atlas::IProject {
 public:
 	void preInit() override {
-		IProject::preInit();
+		IProject::preInit(); // this should always be here!
 		
 		using namespace std;
 		
@@ -137,7 +90,7 @@ public:
 		});
 	}
 	
-	// ...
+	...
 };
 
 ```
@@ -150,7 +103,6 @@ When it comes to file loading, the **extension matters**. This is because the \r
 std::shared_ptr<RegisteredFile> file = GetFileSystemRegistry().getFile("ExampleFile.txt");
 ```
 
-<<<<<<< HEAD
 
 
 #### Extension loading {#extension-loading}
@@ -159,10 +111,6 @@ std::shared_ptr<RegisteredFile> file = GetFileSystemRegistry().getFile("ExampleF
 
 As of v0.0.7, Atlas has 
 
-=======
-=======
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
->>>>>>> master
 ### Graphics Architecture {#graphics-architecture}
 
 ---
@@ -180,23 +128,16 @@ First, the mechanics of how Atlas handles rendering must be discussed. Atlas is 
 ---
 
 Atlas makes models easy because it will automatically handle materials for it. 
-### Modding Architecture
+### Modding Architecture {#modding-architecture}
 
 ---
 
-<<<<<<< HEAD
-Since TechStorm comes with modding capability out of the box, there is less that has to be worried about. However, it is up to you to ensure that it is used properly. As of version 0.0.7, AngelScript is NOT yet implemented and there is no functionality for it yet. 
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
->>>>>>> master
+Since Atlas comes with modding capability out of the box, there is less that has to be worried about. However, it is up to you to ensure that it is used properly. As of version 0.0.7, AngelScript is NOT yet implemented and there is no functionality for it yet. 
 ## Dependencies {#dependencies}
 
 ---
 
-As it is a game engine, Techstorm has alot of dependencies and can be found within the conanfile.txt in the same folder as the main CMakeLists.txt file. In addition to this, the current dependencies are listed as listed below with it's basic purpose. 
+As it is a game engine, Atlas has alot of dependencies and can be found within the conanfile.txt in the same folder as the main CMakeLists.txt file. In addition to this, the current dependencies are listed as listed below with it's basic purpose. 
 
 * Jolt Physics
 	* Handle Techstorm's physics. 
@@ -238,7 +179,7 @@ If you want an indepth explanation of these dependencies and their implementatio
 
 ---
 
-This section serves as an insight into why things are the way they are. Usually, documentation just describes the whats, wheres, and whos, but Techstorm is extensively documented! This section will try to be as clear and thorough as possible in explaining the logic behind the design. The hope is that if you know the thinking, then you are able to know how it works and how to exploit it. 
+This section serves as an insight into why things are the way they are. Usually, documentation just describes the whats, wheres, and whos, but Atlas is extensively documented! This section will try to be as clear and thorough as possible in explaining the logic behind the design. The hope is that if you know the thinking, then you are able to know how it works and how to exploit it. 
 
 ## Code Conventions {#code-conventions}
 
@@ -284,15 +225,17 @@ Broad cases should only be used as long as there are no other applicable cases. 
 
 ---
 
-Functions are simple, any that are not bound to a specific object will have the first letter lowercase. If it is a static, namespace, or global function, then it will have the first letter capitalized instead. When it comes to Preprocessor functions, it will follow the same rules as Constant Global variables, as seen below:
+Functions are simple, any that are not bound to a specific object will have the first letter lowercase. If it is a static, namespace, or global function, then it will have the first letter capitalized instead. The below chart shows how functions are named and used:
 
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-=======
->  | Constant Global     | Cap     | Cap    | For this case, it will follow snake case **in all caps** |
-
-
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
->>>>>>> master
+| Case                             | Format                               | Example                                                                                                      | Notes                                         |
+| -------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------- |
+| Macro                            | ATLAS_MACRO_FUNCTION(macroParameter) | ```<br>#ifndef ATLAS_MACRO_FUNCTION<br><br>#define ATLAS_MACRO_FUNCTION(macroVariable) <br><br>#endif<br>``` | The function is prefixed with ATLAS_          |
+| Static Functions                 |                                      |                                                                                                              | Same rules apply for classes                  |
+| Static Inline Functions          | ^                                    |                                                                                                              | ^                                             |
+| Namespace functions              | ^                                    |                                                                                                              |                                               |
+| Global Functions                 | ^                                    |                                                                                                              |                                               |
+| Class Public Member Functions    |                                      |                                                                                                              |                                               |
+| Class Private Member Functions   |                                      |                                                                                                              |                                               |
+| Class Protected Member Functions |                                      |                                                                                                              |                                               |
+| Template Functions               |                                      |                                                                                                              | Follows the same rules of where it is located |
+|                                  |                                      |                                                                                                              |                                               |

@@ -1,6 +1,6 @@
 #pragma once
-#include "../math/Transform.h"
 #include "../components/Component.h"
+#include "../components/TransformComponent.h"
 
 #include <memory>
 #include <unordered_map>
@@ -25,6 +25,7 @@ namespace Atlas {
 	
 	//class IGameObject;
 
+
 	
 	//template<typename T>
 	//concept GameObjectType = std::is_base_of_v<IGameObject, T>;
@@ -46,9 +47,9 @@ namespace Atlas {
 	/// </para>
 	/// </remarks>
 	/// <inheritdoc />
-	class IGameObject abstract {
+	class IGameObject {
 	protected:
-		std::map<std::string, std::shared_ptr<Component>, std::less<>> mComponents;
+		std::map<std::string, std::shared_ptr<Component>> mComponents;
 
 		
 		/// <summary>
@@ -65,15 +66,16 @@ namespace Atlas {
 		/// \todo add support for multiple layers.
 		int depth = 0;
 		Model model;
-
+		Vector3 position;
 		// positional variables that are used to draw the object
 		Transform transform;
 		Color tint = WHITE;
 				
-		/// <summary>
-		/// Default constructor that initializes a new instance of the <see cref="IGameObject"/> class.
-		/// </summary>
-		IGameObject() = default;
+
+		IGameObject() {
+			addComponent<TransformComponent>();
+			//addComponent<RenderComponent>();
+		}
 
 		/// <summary>
 		/// Default destructor that finalizes an instance of the <see cref="IGameObject"/> class.
@@ -93,7 +95,7 @@ namespace Atlas {
 			}
 
 			mComponents[componentName] = std::make_shared<T_COMPONENT_TYPE>(/*T(std::forward<Args>(args)...)*/);
-			mComponents[componentName]->setOwner(std::make_shared<IGameObject>(this));
+			mComponents[componentName]->setOwner(this);
 		}
 
 		/// <summary>
@@ -104,7 +106,8 @@ namespace Atlas {
 		template<typename T_COMPONENT_TYPE>
 		std::shared_ptr<T_COMPONENT_TYPE> getComponent() {
 			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
-			return std::static_pointer_cast<std::shared_ptr<T_COMPONENT_TYPE>>(mComponents[componentName]);
+			auto component = mComponents[componentName];
+			return std::dynamic_pointer_cast<T_COMPONENT_TYPE>(component);
 		}
 
 		/// <summary>

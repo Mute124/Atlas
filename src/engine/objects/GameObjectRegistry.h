@@ -8,6 +8,11 @@
 #include <map>
 #include <string>
 
+#ifndef ATLAS_MACRO_FUNCTION
+
+#define ATLAS_MACRO_FUNCTION(macroVariable) 
+
+#endif
 namespace Atlas {
 	/// <summary>
 	/// Game object registry, it stores all game objects in the world and manages their updating, rendering, destruction, creation, etc.
@@ -50,7 +55,8 @@ namespace Atlas {
 		void render();
 
 		void texture() {
-			for (auto& obj : this->mGameObjectsSink) {
+			std::vector<IGameObject*> gameObjects = this->mGameObjectsSink; // copy for thread safety
+			for (auto& obj : gameObjects) {
 				obj->texture();
 			}
 		}

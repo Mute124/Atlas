@@ -1,7 +1,7 @@
 #include "Component.h"
 #include "../objects/IGameObject.h"
 
-Atlas::Component::Component(const std::shared_ptr<IGameObject>& mOwner)
+Atlas::Component::Component(IGameObject* mOwner)
 	: mOwner(mOwner)
 {
 }
@@ -44,10 +44,12 @@ void Atlas::Component::cleanup(CleanupEventArgs* args)
 {
 	// Empty because this is a base class and the user is supposed to override these if they need.
 }
-std::shared_ptr<Atlas::IGameObject> Atlas::Component::getOwner() {
+
+std::shared_ptr<Atlas::ObjectHolder> Atlas::Component::getOwner() {
 	if (mOwner == nullptr) {
 		return nullptr;
 	}
+
 	
-	return mOwner;
+	return std::make_shared<Atlas::ObjectHolder>(mOwner);
 }

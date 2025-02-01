@@ -23,18 +23,21 @@ void Atlas::GameObjectRegistry::addGameObjectGate(IGameObjectGate* gameObjectGat
 
 void Atlas::GameObjectRegistry::update()
 {
-	for (auto& obj : this->mGameObjectsSink) {
-		//obj->update();
+	std::vector<IGameObject*> gameObjects = this->mGameObjectsSink; // copy for thread safety
+	for (auto& obj : gameObjects) {
+		obj->update();
 	}
 }
 
 void Atlas::GameObjectRegistry::render()
 {
+	std::vector<IGameObject*> gameObjects = this->mGameObjectsSink; // copy for thread safety
+
 	for (auto& drawCall : this->mStandaloneDrawCalls) {
 		drawCall();
 	}
 
-	for (auto& obj : this->mGameObjectsSink) {
+	for (auto& obj : gameObjects) {
 
 		obj->render();
 	}

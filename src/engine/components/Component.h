@@ -17,13 +17,21 @@
 namespace Atlas {
 	class IGameObject;
 
-	
+	class ObjectHolder {
+	public:
+		IGameObject* obj;
+
+		ObjectHolder(IGameObject* obj) : obj(obj) {}
+	};
 	/// <summary>
 	/// A component is used to extend a system, but is mainly used to extend a game object with additional functionality (<see cref="IGameObject"/>).
 	/// </summary>
 	class Component {
 	private:
-		std::shared_ptr<IGameObject> mOwner;
+		
+
+
+		IGameObject* mOwner;
 
 		friend IGameObject;
 	protected:
@@ -33,7 +41,7 @@ namespace Atlas {
 		/// </summary>
 		/// <param name="owner">The new owner of this component.</param>
 		/// <returns>Whether or not the owner was set.</returns>
-		virtual bool setOwner(std::shared_ptr<IGameObject> owner) {
+		virtual bool setOwner(IGameObject* owner) {
 			mOwner = owner;
 
 			return mOwner != nullptr && owner != nullptr;
@@ -45,7 +53,7 @@ namespace Atlas {
 		/// Initializes a new instance of the <see cref="Component"/> class.
 		/// </summary>
 		/// <param name="mOwner">The m owner.</param>
-		explicit Component(const std::shared_ptr<IGameObject>& mOwner);
+		explicit Component(IGameObject* mOwner);
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Component"/> class.
@@ -109,6 +117,6 @@ namespace Atlas {
 		/// Gets the current owner <b>AS A SHARED POINTER</b>.
 		/// </summary>
 		/// <returns>A shared pointer to the current owner of this component, or nullptr if no owner is set.</returns>
-		std::shared_ptr<IGameObject> getOwner();
+		std::shared_ptr<ObjectHolder> getOwner();
 	};
 }

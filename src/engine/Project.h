@@ -49,27 +49,27 @@ namespace Atlas {
 		/**
 		 * @brief A pointer to the config file registry. This is used to allow the user to register their own config files if they so choose.
 		 * @note This starts as a nullptr
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		ConfigFileRegistry* configFileRegistry = nullptr;
 		/**
 		 * @brief A pointer to the scripting API. This is used to allow the user to register their own API if they so choose.
 		 * @note This starts as a nullptr
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		ScriptingAPI* scriptingAPI = nullptr;
 		
 		/**
 		 * @brief A pointer to the window. This is used to allow the user to register their own window if they so choose.
 		 * @note This starts as a nullptr
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		IWindow* window = nullptr;
 		
 		/**
 		 * @brief A pointer to the renderer. This is used to allow the user to register their own renderer if they so choose.
 		 * @note This starts as a nullptr
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		Renderer* renderer = nullptr;
 		
@@ -77,7 +77,7 @@ namespace Atlas {
 		 * @brief A pointer to the game settings. This is used to allow the user to register their own game settings if they so choose.
 		 * @note This starts as a nullptr
 		 * @warning This is not currently implemented nor used at the moment.
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		GameSettings* gameSettings = nullptr;
 		
@@ -85,28 +85,28 @@ namespace Atlas {
 		 * @brief A pointer to the file system registry. This is used to allow the user to register their own file system if they so choose.
 		 * @note This starts as a nullptr
 		 * @warning This is not currently implemented nor used at the moment.
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		FileSystemRegistry* fileSystemRegistry = nullptr;
 		
 		/**
 		 * @brief A pointer to the physics engine. This is used to allow the user to register their own physics engine if they so choose.
 		 * @note This starts as a nullptr
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		PhysicsEngine* physicsEngine = nullptr;
 
 		/**
 		 * @brief A pointer to the input registry. This is used to allow the user to register their own input registry if they so choose.
 		 * @note This starts as a nullptr
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		InputRegistry* inputRegistry = nullptr;
 
 		/**
 		 * @brief A pointer to the logger. This is used to allow the user to register their own logger if they so choose.
 		 * @note This starts as a nullptr
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		Logger* logger = nullptr;
 	public:
@@ -122,7 +122,7 @@ namespace Atlas {
 		 * @param physicsEngine A pointer to the physics engine object that Atlas will use
 		 * @param inputRegistry A pointer to the input registry object that Atlas will use
 		 * @param logger A pointer to the logger object that Atlas will use
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		AtlasEngine(ConfigFileRegistry* configFileRegistry, ScriptingAPI* scriptingAPI, IWindow* window, Renderer* renderer,
 					GameSettings* gameSettings, FileSystemRegistry* fileSystemRegistry, PhysicsEngine* physicsEngine, 
@@ -138,7 +138,7 @@ namespace Atlas {
 		 * @remarks This is a virtual function.
 		 * @note This will return a nullptr if the config file registry is not set. This is done through the @ref ATLAS_GENERATED_NULL_CHECK macro
 		 * @return A pointer to the config file registry
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		virtual ConfigFileRegistry* getConfigFileRegistry() override;
 
@@ -147,7 +147,7 @@ namespace Atlas {
 		* @remarks This is a virtual function.
 		* @note This will return a nullptr if the scripting API is not set. This is done through the @ref ATLAS_GENERATED_NULL_CHECK macro
 		* @return A pointer to the scripting API
-		* @version v0.0.8
+		* @since v0.0.8
 		*/
 		virtual ScriptingAPI* getScriptingAPI() override;
 		
@@ -156,7 +156,7 @@ namespace Atlas {
 		* @remarks This is a virtual function.
 		* @note This will return a nullptr if the window is not set. This is done through the @ref ATLAS_GENERATED_NULL_CHECK macro
 		* @return A pointer to the window
-		* @version v0.0.8
+		* @since v0.0.8
 		* */
 		virtual IWindow* getWindow() override;
 
@@ -165,7 +165,7 @@ namespace Atlas {
 		 * @remarks This is a virtual function.
 		 * @note This will return a nullptr if the renderer is not set. This is done through the @ref ATLAS_GENERATED_NULL_CHECK macro
 		 * @return A pointer to the renderer
-		 * @version v0.0.8
+		 * @since v0.0.8
 		 */
 		virtual Renderer* getRenderer() override;
 		
@@ -322,7 +322,7 @@ namespace Atlas {
 	 * their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
 	 * @note If this boilerplate code is not done, Atlas will not know what to run. 
 	 * @warning <b>Do not directly call window code in here or your project will crash!</b>
-	 * @version Added in v0.0.1
+	 * @since Added in v0.0.1
 	 */
 	class BProject : public IProject {
 	protected:

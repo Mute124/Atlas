@@ -21,6 +21,12 @@
 
 namespace Atlas {
 	
+	enum class EInputThread {
+		INPUT_THREAD_RENDER,
+		INPUT_THREAD_UPDATE,
+		INPUT_THREAD_WORKER
+	};
+
 	/// <summary>
 	/// The enumeration for the different input device categories. This is here because the input system is going to be expanded in the future and it will be useful to 
 	/// maintaining developer sanity.
@@ -88,9 +94,16 @@ namespace Atlas {
 
 	/// <summary>
 	/// The input registry is used to register InputActions (<see cref="InputAction"/>) and their callbacks by using a Laissez-faire system. 
-	/// @note Remember that this is a singleton, so you may use this statically.
+	/// 
 	/// </summary>
 	/// <seealso cref="Singleton&lt;InputRegistry&gt;" />
+	
+	/**
+	 * @brief The input registry is used to register InputActions (<see cref="InputAction"/>) and their callbacks by using a Laissez-faire system. 
+	 * @note Remember that this is a singleton, so you may use this statically.
+	 * @bug When using functions that require rendering, the engine will crash because the input registry runs on a different thread. This can be fixed through a sync system.
+	 * @since 0.0.6
+	 */
 	class InputRegistry : public Singleton<InputRegistry> {
 	protected:
 
@@ -134,7 +147,6 @@ namespace Atlas {
 		/// </summary>
 		const float cRightTriggerDeadzone = -0.9f;
 #endif
-
 
 		std::unordered_map<InputAction*, std::unordered_map<int, std::function<void(InputAction*)>>> mActions;
 
