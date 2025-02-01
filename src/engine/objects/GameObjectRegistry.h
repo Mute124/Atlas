@@ -8,15 +8,11 @@
 #include <map>
 #include <string>
 
-#ifndef ATLAS_MACRO_FUNCTION
-
-#define ATLAS_MACRO_FUNCTION(macroVariable) 
-
-#endif
 namespace Atlas {
-	/// <summary>
-	/// Game object registry, it stores all game objects in the world and manages their updating, rendering, destruction, creation, etc.
-	/// </summary>
+	/**
+	 * @brief Stores and manages the states of all IGameObject (and the derivative classes thereof) in the world
+	 * @since v0.0.1
+	 */
 	class GameObjectRegistry {
 	private:
 		std::vector<std::function<void()>> mStandaloneDrawCalls;

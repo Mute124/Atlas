@@ -144,6 +144,22 @@ set(ATLAS_MATH_SOURCES
 set(ATLAS_INPUT_SOURCES
     "input/Input.h" 
     "input/Input.cpp"
+
+    "input/EInputThread.h"
+    "input/EInputType.h"
+    "input/EInputTrigger.h"
+
+    "input/InputAction.h"
+    "input/InputAction.cpp"
+
+    "input/SelfDeterminingInputAction.h"
+    "input/SelfDeterminingInputAction.cpp"
+    
+    "input/InputRegistry.h"
+    "input/InputRegistry.cpp"
+
+    "input/InputManager.h"
+	"input/InputManager.cpp"
 )
 
 set(ATLAS_CONFIG_SOURCES
