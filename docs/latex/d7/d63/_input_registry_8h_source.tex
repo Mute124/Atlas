@@ -1,0 +1,75 @@
+\doxysection{Input\+Registry.\+h}
+\hypertarget{_input_registry_8h_source}{}\label{_input_registry_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/input/InputRegistry.h@{C:/Dev/Techstorm-\/v5/src/engine/input/InputRegistry.h}}
+\mbox{\hyperlink{_input_registry_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}../utils/Singleton.h"{}}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_self_determining_input_action_8h}{SelfDeterminingInputAction.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_input_action_8h}{InputAction.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00008}00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00010}\mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{00010}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{InputActionCallbackID}}\ =\ int;}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00018}\mbox{\hyperlink{class_atlas_1_1_input_registry}{00018}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_input_registry}{InputRegistry}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_singleton}{Singleton}}<InputRegistry>\ \{}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00019}00019\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00022}00022\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_ENABLE\_CONTROLLER\_SUPPORT}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00024}00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00026}00026\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_ENABLE\_CONTROLLER\_SUPPORT}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ cLeftStickDeadzoneX\ =\ 0.1f;}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ cLeftStickDeadzoneY\ =\ 0.1f;}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ cRightStickDeadzoneX\ =\ 0.1f;}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ cRightStickDeadzoneY\ =\ 0.1f;}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ cLeftTriggerDeadzone\ =\ -\/0.9f;}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ cRightTriggerDeadzone\ =\ -\/0.9f;}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00057}00057\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00059}\mbox{\hyperlink{class_atlas_1_1_input_registry_a92a2ece1faf8807aa87bbc994a8c15e2}{00059}}\ \ \ \ \ \ \ \ \ std::unordered\_map<\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*,\ std::unordered\_map<\mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{InputActionCallbackID}},\ std::function<\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*)>>>\ \mbox{\hyperlink{class_atlas_1_1_input_registry_a92a2ece1faf8807aa87bbc994a8c15e2}{mActions}};}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00061}00061\ \ \ \ \ \ \ \ \ std::unordered\_map<}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*,}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ std::unordered\_map<}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{InputActionCallbackID}},}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_self_determining_input_action}{SelfDeterminingInputAction}}*}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ >}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00067}\mbox{\hyperlink{class_atlas_1_1_input_registry_acef18d17e7cf627d396a9ad185960b4c}{00067}}\ \ \ \ \ \ \ \ \ >\ \mbox{\hyperlink{class_atlas_1_1_input_registry_acef18d17e7cf627d396a9ad185960b4c}{mSelfDeterminingActions}};}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_acbe3415f84be01c6b1730e933b640b30}{checkPressedAction}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*\ action);}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_a11cd7b2d7b2e0e9ab9d538d90cd7f262}{checkReleasedAction}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*\ action);}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_a0d9c1acf8073e22d5b2598c495db1f72}{checkDownAction}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*\ action);}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_afe50bebe9b137e9e51224c799de79156}{checkUpAction}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*\ action);}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_a38c8c51d12d8e8a73f1b973793b79011}{checkRepeatAction}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*\ action);}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00074}00074\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00088}00088\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00099}00099\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{InputActionCallbackID}}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_a8b14013eab065d54257b24b379b35e2b}{registerActionCallback}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*\ action,\ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*)>\ \textcolor{keyword}{const}\&\ callback);}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00101}00101\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{InputActionCallbackID}}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_a4d65d1493d44321865002c02496e419c}{registerSelfDeterminingActionCallback}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*\ category,\ \mbox{\hyperlink{class_atlas_1_1_self_determining_input_action}{SelfDeterminingInputAction}}*\ action,}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ std::function<\textcolor{keywordtype}{bool}(\mbox{\hyperlink{class_atlas_1_1_self_determining_input_action}{SelfDeterminingInputAction}}*)>\ \textcolor{keyword}{const}\&\ checker,\ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{class_atlas_1_1_self_determining_input_action}{SelfDeterminingInputAction}}*)>\ \textcolor{keyword}{const}\&\ callback);}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00104}00104\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{InputActionCallbackID}}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_a4d65d1493d44321865002c02496e419c}{registerSelfDeterminingActionCallback}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*\ category,\ \mbox{\hyperlink{class_atlas_1_1_self_determining_input_action}{SelfDeterminingInputAction}}*\ action);}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_a5f4c120a761c8f2e8da2dc03f81f2259}{unregisterAction}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*\ action);}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_a92a6a5918b43a0ede221576a650646fb}{unregisterCallback}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*\ action,\ \mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{InputActionCallbackID}}\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_input_registry_abdf0273c3215b64ab3713439110ee90b}{checkAll}}();}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00131}00131\ \ \ \ \ \ \ \ \ std::unordered\_map<\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*,\ std::unordered\_map<\mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{InputActionCallbackID}},\ std::function<\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}(\mbox{\hyperlink{class_atlas_1_1_input_action}{InputAction}}*)>>>\&\ \mbox{\hyperlink{class_atlas_1_1_input_registry_ad3d1e85c5e2438f53030aa93f160565f}{getActions}}();}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00132}00132\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_input_registry_8h_source_l00133}00133\ \}}
+
+\end{DoxyCode}
