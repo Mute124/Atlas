@@ -34,6 +34,14 @@ set(ATLAS_ENGINE_CORE_SOURCES
     "engine.cpp"
     "BasicCore.h" 
 
+
+    "core/IProject.h"
+    "core/IAtlasEngine.h"
+    
+    "core/AtlasEngine.h"
+    "core/AtlasEngine.cpp"
+
+
     "Project.h" 
     "Project.cpp" 
 

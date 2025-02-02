@@ -16,7 +16,8 @@ Atlas::GameObject::GameObject() : IGameObject() {
 }
 
 void Atlas::GameObject::preUpdate() {
-	for (auto const& [key, component] : mComponents) {
+	std::map<std::string, std::shared_ptr<Component>> components = mComponents; // copy for thread safety
+	for (auto const& [key, component] : components) {
 		if (component.get() != nullptr) {
 			component->preUpdate(new PreUpdateEventArgs());
 		}
@@ -24,7 +25,8 @@ void Atlas::GameObject::preUpdate() {
 }
 
 void Atlas::GameObject::update() {
-	for (auto const& [key, component] : mComponents) {
+	std::map<std::string, std::shared_ptr<Component>> components = mComponents; // copy for thread safety
+	for (auto const& [key, component] : components) {
 		if (component.get() != nullptr) {
 			component->update(new UpdateEventArgs());
 		}
@@ -35,7 +37,8 @@ void Atlas::GameObject::update() {
 }
 
 void Atlas::GameObject::postUpdate() {
-	for (auto const& [key, component] : mComponents) {
+	std::map<std::string, std::shared_ptr<Component>> components = mComponents; // copy for thread safety
+	for (auto const& [key, component] : components) {
 		if (component.get() != nullptr) {
 			component->postUpdate(new PostUpdateEventArgs());
 		}
@@ -46,7 +49,8 @@ void Atlas::GameObject::postUpdate() {
 }
 
 void Atlas::GameObject::texture() {
-	for (auto const& [key, component] : mComponents) {
+	std::map<std::string, std::shared_ptr<Component>> components = mComponents; // copy for thread safety
+	for (auto const& [key, component] : components) {
 		if (component.get() != nullptr) {
 			component->texture(new TextureEventArgs());
 		}
@@ -57,7 +61,8 @@ void Atlas::GameObject::texture() {
 }
 
 void Atlas::GameObject::render() {
-	for (auto const& [key, component] : mComponents) {
+	std::map<std::string, std::shared_ptr<Component>> components = mComponents; // copy for thread safety
+	for (auto const& [key, component] : components) {
 		if (component.get() != nullptr) {
 			component->render(new RenderEventArgs());
 		}
@@ -68,7 +73,8 @@ void Atlas::GameObject::render() {
 }
 
 void Atlas::GameObject::destroy() {
-	for (auto const& [key, component] : mComponents) {
+	std::map<std::string, std::shared_ptr<Component>> components = mComponents; // copy for thread safety
+	for (auto const& [key, component] : components) {
 		if (component.get() != nullptr) {
 			component->destroy(new DestroyEventArgs());
 		}
@@ -79,7 +85,8 @@ void Atlas::GameObject::destroy() {
 }
 
 void Atlas::GameObject::cleanup() {
-	for (auto const& [key, component] : mComponents) {
+	std::map<std::string, std::shared_ptr<Component>> components = mComponents; // copy for thread safety
+	for (auto const& [key, component] : components) {
 		if (component.get() != nullptr) {
 			component->cleanup(new CleanupEventArgs());
 		}

@@ -1,31 +1,25 @@
 #pragma once
-#include "project.h"
-#include "EReturnCode.h"
-#include "modding/ScriptingAPI.h"
 
 #ifdef _DEBUG
-#include <crtdbg.h>
 #endif
 
-#include <iostream>
 #include <unordered_map>
 #include <thread>
 #include <string>
 #include <memory>
-#include <mutex>
 
-#include <Common.h>
 #include <modding/ScriptingAPI.h>
-#include <renderer/Renderer.h>
 #include <renderer/window/WindowDecorations.h>
-#include <conf/Config.h>
 
 #include <project.h>
-#include <raylib.h>
 #include <thread>
 
-#include <utils/MiscUtils.h>
 #include <dbg/Logging.h>
+#include <core/IProject.h>
+#include <GameSettings.h>
+#include <utils/Singleton.h>
+#include <chrono>
+
 
 #define ATLAS_THREAD_YIELD std::this_thread::yield()
 
@@ -215,9 +209,6 @@ namespace Atlas::Application {
 
 		void launchThreads()
 		{
-			
-			Log("Test");
-
 			sIsWaitingForOthers = true;
 			updateThread = std::jthread([&]() {
 				

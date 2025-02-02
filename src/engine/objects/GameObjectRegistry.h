@@ -7,6 +7,7 @@
 #include <functional>
 #include <map>
 #include <string>
+#include "../renderer/ICuller.h"
 
 namespace Atlas {
 	/**
@@ -18,10 +19,14 @@ namespace Atlas {
 		std::vector<std::function<void()>> mStandaloneDrawCalls;
 		std::vector<IGameObject*> mGameObjectsSink;
 		std::vector<IGameObjectGate*> mGameObjectsGateSink;
+		ICuller* mCuller = nullptr;
 
 		//std::map<std::string, std::vector<IGameObjectGate*>> mGameObjectGates;
 
 		friend class Renderer;
+
+		std::vector<IGameObject*> copyGameObjectSink();
+		
 	public:
 
 		/// <summary>
@@ -38,7 +43,7 @@ namespace Atlas {
 		/// <seealso cref="IGameObjectGate"/>
 		void addGameObjectGate(IGameObjectGate* gameObjectGate);
 
-		void addStandaloneDrawCall(std::function<void()> drawCall) { this->mStandaloneDrawCalls.push_back(drawCall); }
+		void addStandaloneDrawCall(std::function<void()> drawCall);
 
 		/// <summary>
 		/// Updates all game objects in the instance (world).
@@ -50,12 +55,7 @@ namespace Atlas {
 		/// </summary>
 		void render();
 
-		void texture() {
-			std::vector<IGameObject*> gameObjects = this->mGameObjectsSink; // copy for thread safety
-			for (auto& obj : gameObjects) {
-				obj->texture();
-			}
-		}
+		void texture();
 
 
 	};

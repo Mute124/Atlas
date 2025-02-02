@@ -1,14 +1,7 @@
 #include "ApplicationUtils.h"
-#include <raylib.h>
-#include <Common.h>
-#include <conf/Config.h>
-#include <dbg/Logging.h>
-#include <modding/ScriptingAPI.h>
-#include <renderer/Renderer.h>
-#include <renderer/window/WindowDecorations.h>
 #include <project.h>
 #include <memory>
-#include <string>
+
 /*	ThreadGroup group;
 	group.addThread([] {
 		// task 1
@@ -24,8 +17,10 @@
 	});
 	group.stopAll();
 	group.waitForAll();*/
+
 using namespace Atlas;
 
+/*
 void InitWindow(WindowDecorations& decorations) {
 
 	Log("Decorating window...");
@@ -52,14 +47,12 @@ void InitScripting(ScriptingAPI& scriptingAPI, PROJECT_TYPENAME& project) {
 }
 
 void HandleFrame(PROJECT_TYPENAME& project) {
-	//project.getRenderer().update();
-
 	project.texture();
 	project.render();
 
 	// This is here because it reduces CPU consumption
 	ATLAS_THREAD_YIELD;
-}
+}*/
 
 int main(int argc, char* argv[]) {
 	//Log("Pre-Initializing project...");

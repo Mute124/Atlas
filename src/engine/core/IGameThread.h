@@ -10,6 +10,45 @@
 
 namespace Atlas {
 
+    class GameThread {
+    private:
+        std::string mThreadName;
+        std::thread mThread;
+        std::function<void()> mTask;
+    public:
+
+		GameThread() = default;
+        
+		GameThread(std::string name, std::function<void()> task) : mTask(task) {
+			mThreadName = name;
+		}
+
+        void execute() {
+            return mTask();
+        }
+
+        void start() {
+			mThread = std::thread([this]() {
+				execute();
+			});
+		}
+
+
+        void join() {
+			mThread.join();
+		}
+
+        void detach() {
+			mThread.detach();
+		}
+
+        void setTask(std::function<void()> task) {
+			mTask = task;
+		}
+
+
+    };
+
     class ThreadGroup {
     public:
         ThreadGroup() = default;
@@ -17,9 +56,9 @@ namespace Atlas {
             stopAll();
         }
 
-        void addThread(std::function<void()> task) {
+        void addThread(const std::string& name, std::function<void()> task) {
             std::unique_lock<std::mutex> lock(mMutex);
-            std::thread t = std::thread(task);
+            GameThread t = GameThread(name, task);
             t.detach();
             mThreads.push_back(std::move(t));
         }
@@ -33,31 +72,27 @@ namespace Atlas {
                 }
             }
             for (auto& t : mThreads) {
-                t.join();
+                try {
+                    t.join();
+                }
+                catch (const std::exception& e) {
+                    // Handle exception or log it
+                }
             }
         }
 
         void waitForAll() {
             std::unique_lock<std::mutex> lock(mMutex);
-            mConditionalVariable.wait(lock, [this] { return mThreads.empty(); });
+            if (!mThreads.empty()) {
+                mConditionalVariable.wait(lock, [this] { return mThreads.empty(); });
+            }
         }
 
     private:
-        std::vector<std::thread> mThreads;
+        std::vector<GameThread> mThreads;
         bool mShouldStop = false;
         std::mutex mMutex;
         std::condition_variable mConditionalVariable;
         std::string mGroupName;
     };
-
-	template<typename T_USER_PROJECT>
-	class IGameThread {
-	public:
-		//virtual static inline std::shared_ptr<T_USER_PROJECT> GetUserProject() = 0;
-
-		virtual float getDeltaTime() = 0;
-		virtual float getFrameTime() = 0;
-
-		virtual volatile bool isIdle() = 0;
-	};
 }

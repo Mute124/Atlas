@@ -14,6 +14,7 @@ namespace Atlas {
 	public:
 		Matrix mMatrix;
 		Transform mTransform;
+
 		Vector3 pos = { 0.0f, 0.0f, 0.0f };
 
 		explicit TransformComponent(IGameObject* mOwner) : Component(mOwner) {}

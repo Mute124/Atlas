@@ -47,6 +47,20 @@ namespace Atlas {
 	/// </para>
 	/// </remarks>
 	/// <inheritdoc />
+	/// 
+	
+	/**
+	 * @brief Represents an object that can be rendered in the screen and contains all the common properties of a game object..
+	 * @remarks You may implement this yourself to create your own game objects and drawing code, or you can inherit from <see cref="Atlas::GameObject" /> to use the default
+	 * implementation. However, if you inherit from this class, be sure you have a basic understanding of Raylib's and OpenGL's rendering system. If not,
+	 * see <see cref="https://learnopengl.com/"/> and <see cref="https://www.raylib.com/"/> for a good place to start. In addition, it is not advised for you to inherit this
+	 * yourself because it will require you to implement rendering code. However, it is recommended if your game requires a rendering system that is not provided by default.
+	 * @note The IGameObject class is abstract and cannot be instantiated directly. Instead, you should inherit from this class and implement the pure virtual functions. As of version 0.0.3, the pure 
+	 * virtual functions are: @ref render(), @ref texture(), @ref update(), @ref prePhysicsUpdate(), @ref postUpdate(), @ref destroy(), and @ref cleanup().
+	 * @note This is an abstract class 
+	 * @todo add support for multiple layers.
+	 * @since v0.0.3
+	 */
 	class IGameObject {
 	protected:
 		std::map<std::string, std::shared_ptr<Component>> mComponents;
@@ -56,7 +70,7 @@ namespace Atlas {
 		/// Gets the name of the component.
 		/// </summary>
 		/// <returns></returns>
-		template<typename T_COMPONENT_TYPE>
+		template<class T_COMPONENT_TYPE>
 		std::string getComponentName() {
 			return typeid(T_COMPONENT_TYPE).name();
 		}
@@ -65,28 +79,28 @@ namespace Atlas {
 		// Defines what layer the object is on to prevent z-fighting
 		/// \todo add support for multiple layers.
 		int depth = 0;
+
 		Model model;
 		Vector3 position;
 		// positional variables that are used to draw the object
 		Transform transform;
 		Color tint = WHITE;
-				
 
-		IGameObject() {
-			addComponent<TransformComponent>();
-			//addComponent<RenderComponent>();
-		}
-
-		/// <summary>
-		/// Default destructor that finalizes an instance of the <see cref="IGameObject"/> class.
-		/// </summary>
+		/**
+		 * @brief Default destructor that finalizes an instance of the @ref IGameObject class.
+		 * @since v0.0.3
+		 */
 		virtual ~IGameObject() = default;
-		
-		/// <summary>
-		/// Adds a component.
-		/// </summary>
-		/// <typeparam name="T">The type of the component.</typeparam>
-		template<typename T_COMPONENT_TYPE>
+
+		/**
+		 * @brief Adds a component to this game object
+		 * @tparam T_COMPONENT_TYPE The type of the component being added.
+		 * @note The type parameter @ref T_COMPONENT_TYPE must be a subclass of @ref Component
+		 * @since v0.0.7
+		 * @sa @ref removeComponent
+		 * @sa @ref getComponent
+		 */
+		template<class T_COMPONENT_TYPE>
 		void addComponent() {
 			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
 			
@@ -98,12 +112,38 @@ namespace Atlas {
 			mComponents[componentName]->setOwner(this);
 		}
 
+		template<class T_COMPONENT_TYPE>
+		void addComponent(T_COMPONENT_TYPE component) {
+			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
+
+			if (componentName.empty()) {
+				throw std::invalid_argument("Component name cannot be empty");
+			}
+
+			mComponents[componentName] = std::make_shared<T_COMPONENT_TYPE>(component);
+			mComponents[componentName]->setOwner(this);
+		}
+
+
+		template<class T_COMPONENT_TYPE, typename ...Args>
+		void addComponent(Args... args) {
+			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
+
+			if (componentName.empty()) {
+				throw std::invalid_argument("Component name cannot be empty");
+			}
+
+			mComponents[componentName] = std::make_shared<T_COMPONENT_TYPE>(T_COMPONENT_TYPE(args));
+			mComponents[componentName]->setOwner(this);
+		}
+
+
 		/// <summary>
 		/// Gets a component.
 		/// </summary>
 		/// <typeparam name="T">The type of the component.</typeparam>
 		/// <returns></returns>
-		template<typename T_COMPONENT_TYPE>
+		template<class T_COMPONENT_TYPE>
 		std::shared_ptr<T_COMPONENT_TYPE> getComponent() {
 			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
 			auto component = mComponents[componentName];
@@ -114,7 +154,7 @@ namespace Atlas {
 		/// Removes a component.
 		/// </summary>
 		/// <typeparam name="T">The type of the component.</typeparam>
-		template<typename T_COMPONENT_TYPE>
+		template<class T_COMPONENT_TYPE>
 		void removeComponent() {
 			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
 			mComponents.erase(componentName);
@@ -127,7 +167,7 @@ namespace Atlas {
 		/// <returns>
 		///   <c>true</c> if this instance has component; otherwise, <c>false</c>.
 		/// </returns>
-		template<typename T_COMPONENT_TYPE>
+		template<class T_COMPONENT_TYPE>
 		bool hasComponent() {
 			std::string componentName = getComponentName<T_COMPONENT_TYPE>();
 			return mComponents.contains(componentName);
