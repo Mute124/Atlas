@@ -2,7 +2,7 @@
 \hypertarget{class_atlas_1_1_game_object_registry}{}\label{class_atlas_1_1_game_object_registry}\index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}}
 
 
-Game object registry, it stores all game objects in the world and manages their updating, rendering, destruction, creation, etc.  
+Stores and manages the states of all \doxylink{class_atlas_1_1_i_game_object}{IGame\+Object} (and the derivative classes thereof) in the world.  
 
 
 
@@ -12,7 +12,7 @@ Game object registry, it stores all game objects in the world and manages their 
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_game_object_registry_ab86454bb5a8d6d03a1b14c790faa4461}{add\+Game\+Object}} (IGame\+Object \texorpdfstring{$\ast$}{*}game\+Object)
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_game_object_registry_ab86454bb5a8d6d03a1b14c790faa4461}{add\+Game\+Object}} (\mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGame\+Object}} \texorpdfstring{$\ast$}{*}game\+Object)
 \begin{DoxyCompactList}\small\item\em Adds a game object pointer to m\+Game\+Objects\+Sink. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_game_object_registry_ac42d70824c78d40f218f17c2af1bebd4}{add\+Game\+Object\+Gate}} (IGame\+Object\+Gate \texorpdfstring{$\ast$}{*}game\+Object\+Gate)
 \begin{DoxyCompactList}\small\item\em Adds a game object gate pointer of IGame\+Object\+Gate to m\+Game\+Objects\+Gate\+Sink. \end{DoxyCompactList}\item 
@@ -24,14 +24,21 @@ Game object registry, it stores all game objects in the world and manages their 
 \begin{DoxyCompactList}\small\item\em Renders all game objects in the instance (world). \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_game_object_registry_a71e6660d4083ec4bf04013417f4acd24}{texture}} ()
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGame\+Object}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_a0832def6793138baec86dbf78ada7028}{copy\+Game\+Object\+Sink}} ()
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
 std\+::vector$<$ std\+::function$<$ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()$>$ $>$ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_af9083e79fed2ac83b3b8fe3c6ae54b29}{m\+Standalone\+Draw\+Calls}}
 \item 
-std\+::vector$<$ IGame\+Object \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_aa6082c6a5fc00385f7ce0b2e07b2db0c}{m\+Game\+Objects\+Sink}}
+std\+::vector$<$ \mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGame\+Object}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_aa6082c6a5fc00385f7ce0b2e07b2db0c}{m\+Game\+Objects\+Sink}}
 \item 
 std\+::vector$<$ IGame\+Object\+Gate \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_game_object_registry_a4a5a451db25ae4dfb159d1d6789122bc}{m\+Game\+Objects\+Gate\+Sink}}
+\item 
+ICuller \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_atlas_1_1_game_object_registry_a03bc77ddecbdb8d5721ce76e715bfd2d}{m\+Culler}} = nullptr
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -41,9 +48,14 @@ class \mbox{\hyperlink{class_atlas_1_1_game_object_registry_a70538530bc36e033e36
 
 
 \doxysubsection{Detailed Description}
-Game object registry, it stores all game objects in the world and manages their updating, rendering, destruction, creation, etc. 
+Stores and manages the states of all \doxylink{class_atlas_1_1_i_game_object}{IGame\+Object} (and the derivative classes thereof) in the world. 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00015}{15}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00017}{17}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
 
 
 
@@ -52,7 +64,7 @@ Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00015}{15}}
 \index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!addGameObject@{addGameObject}}
 \index{addGameObject@{addGameObject}!Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}}
 \doxysubsubsection{\texorpdfstring{addGameObject()}{addGameObject()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Game\+Object\+Registry\+::add\+Game\+Object (\begin{DoxyParamCaption}\item[{IGame\+Object \texorpdfstring{$\ast$}{*}}]{game\+Object }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Game\+Object\+Registry\+::add\+Game\+Object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGame\+Object}} \texorpdfstring{$\ast$}{*}}]{game\+Object }\end{DoxyParamCaption})}
 
 
 
@@ -70,11 +82,7 @@ Adds a game object pointer to m\+Game\+Objects\+Sink.
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00003}{3}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
-
-
-
-References \mbox{\hyperlink{_game_object_registry_8h_source_l00019}{m\+Game\+Objects\+Gate\+Sink}}, and \mbox{\hyperlink{_game_object_registry_8h_source_l00018}{m\+Game\+Objects\+Sink}}.
+Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00008}{8}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_game_object_registry_ac42d70824c78d40f218f17c2af1bebd4}\label{class_atlas_1_1_game_object_registry_ac42d70824c78d40f218f17c2af1bebd4} 
 \index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!addGameObjectGate@{addGameObjectGate}}
@@ -98,17 +106,31 @@ IGame\+Object\+Gate
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00018}{18}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
+Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00023}{23}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_game_object_registry_aa6b47da737596652bbdef33635f65064}\label{class_atlas_1_1_game_object_registry_aa6b47da737596652bbdef33635f65064} 
 \index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!addStandaloneDrawCall@{addStandaloneDrawCall}}
 \index{addStandaloneDrawCall@{addStandaloneDrawCall}!Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}}
 \doxysubsubsection{\texorpdfstring{addStandaloneDrawCall()}{addStandaloneDrawCall()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Game\+Object\+Registry\+::add\+Standalone\+Draw\+Call (\begin{DoxyParamCaption}\item[{std\+::function$<$ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()$>$}]{draw\+Call }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Game\+Object\+Registry\+::add\+Standalone\+Draw\+Call (\begin{DoxyParamCaption}\item[{std\+::function$<$ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()$>$}]{draw\+Call }\end{DoxyParamCaption})}
 
 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00040}{40}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00029}{29}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_game_object_registry_a0832def6793138baec86dbf78ada7028}\label{class_atlas_1_1_game_object_registry_a0832def6793138baec86dbf78ada7028} 
+\index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!copyGameObjectSink@{copyGameObjectSink}}
+\index{copyGameObjectSink@{copyGameObjectSink}!Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}}
+\doxysubsubsection{\texorpdfstring{copyGameObjectSink()}{copyGameObjectSink()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{class_atlas_1_1_i_game_object}{Atlas\+::\+IGame\+Object}} \texorpdfstring{$\ast$}{*} $>$ Atlas\+::\+Game\+Object\+Registry\+::copy\+Game\+Object\+Sink (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00003}{3}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_game_object_registry_8h_source_l00020}{m\+Game\+Objects\+Sink}}.
 
 \Hypertarget{class_atlas_1_1_game_object_registry_ae8cc62b19166f88ebb0915c9cdcfc7e2}\label{class_atlas_1_1_game_object_registry_ae8cc62b19166f88ebb0915c9cdcfc7e2} 
 \index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!render@{render}}
@@ -122,21 +144,17 @@ Renders all game objects in the instance (world).
 
 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00031}{31}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
+Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00041}{41}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_game_object_registry_a71e6660d4083ec4bf04013417f4acd24}\label{class_atlas_1_1_game_object_registry_a71e6660d4083ec4bf04013417f4acd24} 
 \index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!texture@{texture}}
 \index{texture@{texture}!Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}}
 \doxysubsubsection{\texorpdfstring{texture()}{texture()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Game\+Object\+Registry\+::texture (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Game\+Object\+Registry\+::texture (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00052}{52}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
-
-
-
-References \mbox{\hyperlink{_game_object_registry_8h_source_l00018}{m\+Game\+Objects\+Sink}}.
+Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00056}{56}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_game_object_registry_a56d654d4956a09f89f65acb9301ad864}\label{class_atlas_1_1_game_object_registry_a56d654d4956a09f89f65acb9301ad864} 
 \index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!update@{update}}
@@ -150,7 +168,7 @@ Updates all game objects in the instance (world).
 
 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00024}{24}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
+Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00031}{31}} of file \mbox{\hyperlink{_game_object_registry_8cpp_source}{Game\+Object\+Registry.\+cpp}}.
 
 
 
@@ -163,11 +181,21 @@ Definition at line \mbox{\hyperlink{_game_object_registry_8cpp_source_l00024}{24
 
 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00023}{23}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00026}{26}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
 
 
 
 \doxysubsection{Member Data Documentation}
+\Hypertarget{class_atlas_1_1_game_object_registry_a03bc77ddecbdb8d5721ce76e715bfd2d}\label{class_atlas_1_1_game_object_registry_a03bc77ddecbdb8d5721ce76e715bfd2d} 
+\index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!mCuller@{mCuller}}
+\index{mCuller@{mCuller}!Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}}
+\doxysubsubsection{\texorpdfstring{mCuller}{mCuller}}
+{\footnotesize\ttfamily ICuller\texorpdfstring{$\ast$}{*} Atlas\+::\+Game\+Object\+Registry\+::m\+Culler = nullptr\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00022}{22}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
+
 \Hypertarget{class_atlas_1_1_game_object_registry_a4a5a451db25ae4dfb159d1d6789122bc}\label{class_atlas_1_1_game_object_registry_a4a5a451db25ae4dfb159d1d6789122bc} 
 \index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!mGameObjectsGateSink@{mGameObjectsGateSink}}
 \index{mGameObjectsGateSink@{mGameObjectsGateSink}!Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}}
@@ -176,25 +204,21 @@ Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00023}{23}}
 
 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00019}{19}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
-
-
-
-Referenced by \mbox{\hyperlink{_game_object_registry_8cpp_source_l00003}{add\+Game\+Object()}}.
+Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00021}{21}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
 
 \Hypertarget{class_atlas_1_1_game_object_registry_aa6082c6a5fc00385f7ce0b2e07b2db0c}\label{class_atlas_1_1_game_object_registry_aa6082c6a5fc00385f7ce0b2e07b2db0c} 
 \index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!mGameObjectsSink@{mGameObjectsSink}}
 \index{mGameObjectsSink@{mGameObjectsSink}!Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}}
 \doxysubsubsection{\texorpdfstring{mGameObjectsSink}{mGameObjectsSink}}
-{\footnotesize\ttfamily std\+::vector$<$IGame\+Object\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Game\+Object\+Registry\+::m\+Game\+Objects\+Sink\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGame\+Object}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Game\+Object\+Registry\+::m\+Game\+Objects\+Sink\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00018}{18}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00020}{20}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{_game_object_registry_8cpp_source_l00003}{add\+Game\+Object()}}, and \mbox{\hyperlink{_game_object_registry_8h_source_l00052}{texture()}}.
+Referenced by \mbox{\hyperlink{_game_object_registry_8cpp_source_l00003}{copy\+Game\+Object\+Sink()}}.
 
 \Hypertarget{class_atlas_1_1_game_object_registry_af9083e79fed2ac83b3b8fe3c6ae54b29}\label{class_atlas_1_1_game_object_registry_af9083e79fed2ac83b3b8fe3c6ae54b29} 
 \index{Atlas::GameObjectRegistry@{Atlas::GameObjectRegistry}!mStandaloneDrawCalls@{mStandaloneDrawCalls}}
@@ -204,7 +228,7 @@ Referenced by \mbox{\hyperlink{_game_object_registry_8cpp_source_l00003}{add\+Ga
 
 
 
-Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00017}{17}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_game_object_registry_8h_source_l00019}{19}} of file \mbox{\hyperlink{_game_object_registry_8h_source}{Game\+Object\+Registry.\+h}}.
 
 
 

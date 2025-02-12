@@ -67,7 +67,7 @@ void Atlas::BProject::setWindowDecorations(WindowDecorations& windowDecorations)
 
 void Atlas::BProject::preInit() {
 
-	getAtlasEngine()->getLogger()->init(LoggerConfig());
+	getAtlasEngine()->getLogger().get()->init(LoggerConfig());
 	Log("Registering file load functions...");
 	AddFileRegistryLoadFunction("png", [](std::shared_ptr<FileMeta> loadFunc) {
 		Image image = LoadImage(loadFunc->path.c_str());
@@ -135,8 +135,8 @@ void Atlas::BProject::preInit() {
 
 	std::string gameDir = ATLAS_GAME_DIR;
 
-	FileSystemRegistry* registry = getAtlasEngine()->getFileSystemRegistry();
-	ConfigFileRegistry* configFileRegistry = getAtlasEngine()->getConfigFileRegistry();
+	FileSystemRegistry* registry = getAtlasEngine()->getFileSystemRegistry().get();
+	ConfigFileRegistry* configFileRegistry = getAtlasEngine()->getConfigFileRegistry().get();
 
 	Log("Initializing file system...");
 	registry->init(gameDir.c_str());
@@ -146,7 +146,7 @@ void Atlas::BProject::preInit() {
 //		#ifdef ATLAS_ENABLE_LUA
 	this->mLuaLibraries.push_back(sol::lib::base);
 
-	ScriptingAPI* scriptingAPI = getAtlasEngine()->getScriptingAPI();
+	ScriptingAPI* scriptingAPI = getAtlasEngine()->getScriptingAPI().get();
 
 	scriptingAPI->initializeScripting(this->getLuaLibraries(), this->getLuaFunctions()); // getAtlasEngine()->getLuaLibraries(), getAtlasEngine()->getLuaFunctions()
 	scriptingAPI->registerLua();
@@ -159,10 +159,10 @@ void Atlas::BProject::init(int argc, char* argv[]) {
 }
 
 void Atlas::BProject::postInit() {
-	IWindow* window = getAtlasEngine()->getWindow();
-	Renderer* renderer = getAtlasEngine()->getRenderer();
+	IWindow* window = getAtlasEngine()->getWindow().get();
+	Renderer* renderer = getAtlasEngine()->getRenderer().get();
 	AllocatedPhysicsResources resources = AllocatedPhysicsResources();
-	getAtlasEngine()->getPhysicsEngine()->init(resources);
+	getAtlasEngine()->getPhysicsEngine().get()->init(resources);
 	window->init(new WindowDecorations());
 	renderer->init();
 }
@@ -175,7 +175,7 @@ int Atlas::BProject::run(int argc, char* argv[]) {
 	
 	bool shouldClose = false;
 	while (!shouldClose) {
-		shouldClose = getAtlasEngine()->getWindow()->shouldClose();
+		shouldClose = getAtlasEngine()->getWindow().get()->shouldClose();
 
 		draw();
 	}
@@ -189,7 +189,7 @@ int Atlas::BProject::update()
 {
 	int code = 0;
 	
-	getAtlasEngine()->getRenderer()->updateObjects();
+	getAtlasEngine()->getRenderer().get()->updateObjects();
 	
 	return code;
 }
@@ -198,7 +198,7 @@ int Atlas::BProject::workingUpdate()
 {
 	int code = 0;
 
-	getAtlasEngine()->getInputRegistry()->checkAll();
+	getAtlasEngine()->getInputRegistry().get()->checkAll();
 
 	return code;
 }
@@ -211,7 +211,7 @@ int Atlas::BProject::prePhysicsUpdate() {
 
 int Atlas::BProject::physicsUpdate() {
 
-	PhysicsEngine* physicsEngine = getAtlasEngine()->getPhysicsEngine();
+	PhysicsEngine* physicsEngine = getAtlasEngine()->getPhysicsEngine().get();
 	physicsEngine->update(1.0f / 60.0f);
 
 	return 0; 
@@ -234,18 +234,18 @@ int Atlas::BProject::postObjectUpdate() {
 }
 
 int Atlas::BProject::texture() {
-	getAtlasEngine()->getRenderer()->texture(getAtlasEngine()->getRenderer()->mCamera);
+	getAtlasEngine()->getRenderer().get()->texture(getAtlasEngine()->getRenderer().get()->mCamera);
 	return 0; 
 }
 
 int Atlas::BProject::render() { 
-	getAtlasEngine()->getRenderer()->render(getAtlasEngine()->getRenderer()->mCamera);
+	getAtlasEngine()->getRenderer().get()->render(getAtlasEngine()->getRenderer().get()->mCamera);
 	return 0;
 }
 
 int Atlas::BProject::draw()
 {
-	getAtlasEngine()->getRenderer()->update();
+	getAtlasEngine()->getRenderer().get()->update();
 	texture();
 	render();
 
@@ -255,7 +255,7 @@ int Atlas::BProject::draw()
 int Atlas::BProject::cleanup(int exitCode) { 
 	std::shared_ptr<AtlasEngine> engine = getAtlasEngine();
 
-	engine->getRenderer()->cleanup();
+	engine->getRenderer().get()->cleanup();
 /*	engine->getPhysicsEngine()->cleanup();
 	engine->getInputRegistry()->cleanup();
 	engine->getLogger()->cleanup();*/

@@ -26,14 +26,18 @@ Serves as the renderer for the game.
 \begin{DoxyCompactList}\small\item\em Draws the FBO/\+Render\+Texture2D. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_renderer_a7c6e747ccf1187ad51299779f82f68db}{add\+Standalone\+Draw\+Call}} (std\+::function$<$ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()$>$ draw\+Call)
 \item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_renderer_a940a1f7f175261fbcbf99d33b58e2064}{add\+Game\+Object}} (IGame\+Object \texorpdfstring{$\ast$}{*}game\+Object)
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_renderer_a940a1f7f175261fbcbf99d33b58e2064}{add\+Game\+Object}} (\mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGame\+Object}} \texorpdfstring{$\ast$}{*}game\+Object)
 \begin{DoxyCompactList}\small\item\em Adds the game object. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_renderer_af5374ec4da3b6ad8d03c045e38553f50}{remove\+Game\+Object}} (IGame\+Object \texorpdfstring{$\ast$}{*}game\+Object)
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_renderer_af5374ec4da3b6ad8d03c045e38553f50}{remove\+Game\+Object}} (\mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGame\+Object}} \texorpdfstring{$\ast$}{*}game\+Object)
 \begin{DoxyCompactList}\small\item\em Removes a game object. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_renderer_a8de52d4c83ff3bf786a2c9c25a882a01}{add\+Game\+Object\+Gate}} (IGame\+Object\+Gate \texorpdfstring{$\ast$}{*}game\+Object\+Gate)
 \begin{DoxyCompactList}\small\item\em Adds a game object gate. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_renderer_ac02e9382439306b154cc0d923ce21c07}{remove\+Game\+Object\+Gate}} (IGame\+Object\+Gate \texorpdfstring{$\ast$}{*}game\+Object\+Gate)
 \begin{DoxyCompactList}\small\item\em Removes a game object gate. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_renderer_a5967d9d18f0e60160b195f7a630ac884}{update\+Objects}} ()
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_renderer_ac0622fb1f5ffa5be5506c60698b002e3}{update\+Camera}} ()
+\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_renderer_a971fea43b91b30cb3567e9a7ca4a6920}{cleanup}} ()
 \begin{DoxyCompactList}\small\item\em Cleanups this instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
@@ -56,6 +60,8 @@ Render\+Texture2D \mbox{\hyperlink{class_atlas_1_1_renderer_a99346687236f96ab7fc
 Color \mbox{\hyperlink{class_atlas_1_1_renderer_ad64d45d0e88041fefd2072d72a4baaf6}{m\+Background\+Color}} = BLACK
 \item 
 Color \mbox{\hyperlink{class_atlas_1_1_renderer_a9ca6badb5c307ad5c1a784e869bd726f}{m\+FBOTint}} = WHITE
+\item 
+std\+::mutex \mbox{\hyperlink{class_atlas_1_1_renderer_a2e0f630cc5468c00ad90024fff839efc}{m\+Mutex}}
 \end{DoxyCompactItemize}
 
 
@@ -83,7 +89,7 @@ Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00029}{29}} of file \
 
 
 
-References \mbox{\hyperlink{_renderer_8h_source_l00087}{m\+Camera}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00204}{Atlas\+::\+Game\+Camera\+::set\+Fovy()}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00186}{Atlas\+::\+Game\+Camera\+::set\+Position()}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00210}{Atlas\+::\+Game\+Camera\+::set\+Projection()}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00192}{Atlas\+::\+Game\+Camera\+::set\+Target()}}, and \mbox{\hyperlink{_game_camera_8cpp_source_l00198}{Atlas\+::\+Game\+Camera\+::set\+Up()}}.
+References \mbox{\hyperlink{_renderer_8h_source_l00091}{m\+Camera}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00204}{Atlas\+::\+Game\+Camera\+::set\+Fovy()}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00186}{Atlas\+::\+Game\+Camera\+::set\+Position()}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00210}{Atlas\+::\+Game\+Camera\+::set\+Projection()}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00192}{Atlas\+::\+Game\+Camera\+::set\+Target()}}, and \mbox{\hyperlink{_game_camera_8cpp_source_l00198}{Atlas\+::\+Game\+Camera\+::set\+Up()}}.
 
 
 
@@ -92,7 +98,7 @@ References \mbox{\hyperlink{_renderer_8h_source_l00087}{m\+Camera}}, \mbox{\hype
 \index{Atlas::Renderer@{Atlas::Renderer}!addGameObject@{addGameObject}}
 \index{addGameObject@{addGameObject}!Atlas::Renderer@{Atlas::Renderer}}
 \doxysubsubsection{\texorpdfstring{addGameObject()}{addGameObject()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Renderer\+::add\+Game\+Object (\begin{DoxyParamCaption}\item[{IGame\+Object \texorpdfstring{$\ast$}{*}}]{game\+Object }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Renderer\+::add\+Game\+Object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGame\+Object}} \texorpdfstring{$\ast$}{*}}]{game\+Object }\end{DoxyParamCaption})}
 
 
 
@@ -105,7 +111,7 @@ Adds the game object.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00097}{97}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00098}{98}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_renderer_a8de52d4c83ff3bf786a2c9c25a882a01}\label{class_atlas_1_1_renderer_a8de52d4c83ff3bf786a2c9c25a882a01} 
 \index{Atlas::Renderer@{Atlas::Renderer}!addGameObjectGate@{addGameObjectGate}}
@@ -129,7 +135,7 @@ IGame\+Object\+Gate
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00107}{107}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00109}{109}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_renderer_a7c6e747ccf1187ad51299779f82f68db}\label{class_atlas_1_1_renderer_a7c6e747ccf1187ad51299779f82f68db} 
 \index{Atlas::Renderer@{Atlas::Renderer}!addStandaloneDrawCall@{addStandaloneDrawCall}}
@@ -139,7 +145,7 @@ Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00107}{107}} of file 
 
 
 
-Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00092}{92}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00093}{93}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_renderer_a971fea43b91b30cb3567e9a7ca4a6920}\label{class_atlas_1_1_renderer_a971fea43b91b30cb3567e9a7ca4a6920} 
 \index{Atlas::Renderer@{Atlas::Renderer}!cleanup@{cleanup}}
@@ -153,7 +159,7 @@ Cleanups this instance.
 
 
 
-Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00111}{111}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00130}{130}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_renderer_a23b9e5f673f716ebdffdcbde23e2fd79}\label{class_atlas_1_1_renderer_a23b9e5f673f716ebdffdcbde23e2fd79} 
 \index{Atlas::Renderer@{Atlas::Renderer}!drawFBO@{drawFBO}}
@@ -167,7 +173,7 @@ Draws the FBO/\+Render\+Texture2D.
 
 
 
-Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00086}{86}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00087}{87}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_renderer_a3e136cc21a8132d5a94287f07e8b1f85}\label{class_atlas_1_1_renderer_a3e136cc21a8132d5a94287f07e8b1f85} 
 \index{Atlas::Renderer@{Atlas::Renderer}!init@{init}}
@@ -185,13 +191,13 @@ Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00040}{40}} of file \
 
 
 
-Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00162}{Atlas\+::\+BProject\+::post\+Init()}}.
+Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00161}{Atlas\+::\+BProject\+::post\+Init()}}.
 
 \Hypertarget{class_atlas_1_1_renderer_af5374ec4da3b6ad8d03c045e38553f50}\label{class_atlas_1_1_renderer_af5374ec4da3b6ad8d03c045e38553f50} 
 \index{Atlas::Renderer@{Atlas::Renderer}!removeGameObject@{removeGameObject}}
 \index{removeGameObject@{removeGameObject}!Atlas::Renderer@{Atlas::Renderer}}
 \doxysubsubsection{\texorpdfstring{removeGameObject()}{removeGameObject()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Renderer\+::remove\+Game\+Object (\begin{DoxyParamCaption}\item[{IGame\+Object \texorpdfstring{$\ast$}{*}}]{game\+Object }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Renderer\+::remove\+Game\+Object (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGame\+Object}} \texorpdfstring{$\ast$}{*}}]{game\+Object }\end{DoxyParamCaption})}
 
 
 
@@ -204,7 +210,7 @@ Removes a game object.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00102}{102}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00104}{104}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_renderer_ac02e9382439306b154cc0d923ce21c07}\label{class_atlas_1_1_renderer_ac02e9382439306b154cc0d923ce21c07} 
 \index{Atlas::Renderer@{Atlas::Renderer}!removeGameObjectGate@{removeGameObjectGate}}
@@ -228,7 +234,7 @@ IGame\+Object\+Gate
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00109}{109}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00111}{111}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_renderer_ade8b1f2086970ad251510384b8764bef}\label{class_atlas_1_1_renderer_ade8b1f2086970ad251510384b8764bef} 
 \index{Atlas::Renderer@{Atlas::Renderer}!render@{render}}
@@ -266,7 +272,7 @@ Renders the 3d scene.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00120}{120}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00139}{139}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_renderer_ae907927dfc7dd306512d45ec8b821b6b}\label{class_atlas_1_1_renderer_ae907927dfc7dd306512d45ec8b821b6b} 
 \index{Atlas::Renderer@{Atlas::Renderer}!texture@{texture}}
@@ -299,7 +305,27 @@ References \mbox{\hyperlink{_game_camera_8cpp_source_l00139}{Atlas\+::\+Game\+Ca
 
 
 
-Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00081}{81}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00082}{82}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_renderer_ac0622fb1f5ffa5be5506c60698b002e3}\label{class_atlas_1_1_renderer_ac0622fb1f5ffa5be5506c60698b002e3} 
+\index{Atlas::Renderer@{Atlas::Renderer}!updateCamera@{updateCamera}}
+\index{updateCamera@{updateCamera}!Atlas::Renderer@{Atlas::Renderer}}
+\doxysubsubsection{\texorpdfstring{updateCamera()}{updateCamera()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Renderer\+::update\+Camera (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00125}{125}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_renderer_a5967d9d18f0e60160b195f7a630ac884}\label{class_atlas_1_1_renderer_a5967d9d18f0e60160b195f7a630ac884} 
+\index{Atlas::Renderer@{Atlas::Renderer}!updateObjects@{updateObjects}}
+\index{updateObjects@{updateObjects}!Atlas::Renderer@{Atlas::Renderer}}
+\doxysubsubsection{\texorpdfstring{updateObjects()}{updateObjects()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Renderer\+::update\+Objects (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00113}{113}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
 
 
 
@@ -312,7 +338,7 @@ Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00081}{81}} of file \
 
 
 
-Definition at line \mbox{\hyperlink{_renderer_8h_source_l00091}{91}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00095}{95}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
 
 \Hypertarget{class_atlas_1_1_renderer_a9b84bf1e5525d9adc2502c3f9a0f5b7a}\label{class_atlas_1_1_renderer_a9b84bf1e5525d9adc2502c3f9a0f5b7a} 
 \index{Atlas::Renderer@{Atlas::Renderer}!mCamera@{mCamera}}
@@ -322,7 +348,7 @@ Definition at line \mbox{\hyperlink{_renderer_8h_source_l00091}{91}} of file \mb
 
 
 
-Definition at line \mbox{\hyperlink{_renderer_8h_source_l00087}{87}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00091}{91}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
 
 
 
@@ -336,7 +362,7 @@ Referenced by \mbox{\hyperlink{_renderer_8cpp_source_l00029}{Renderer()}}.
 
 
 
-Definition at line \mbox{\hyperlink{_renderer_8h_source_l00092}{92}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00096}{96}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
 
 \Hypertarget{class_atlas_1_1_renderer_abb31ba92135a24a9fdf5681c86143e54}\label{class_atlas_1_1_renderer_abb31ba92135a24a9fdf5681c86143e54} 
 \index{Atlas::Renderer@{Atlas::Renderer}!mGameObjects@{mGameObjects}}
@@ -346,7 +372,17 @@ Definition at line \mbox{\hyperlink{_renderer_8h_source_l00092}{92}} of file \mb
 
 
 
-Definition at line \mbox{\hyperlink{_renderer_8h_source_l00089}{89}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00093}{93}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+
+\Hypertarget{class_atlas_1_1_renderer_a2e0f630cc5468c00ad90024fff839efc}\label{class_atlas_1_1_renderer_a2e0f630cc5468c00ad90024fff839efc} 
+\index{Atlas::Renderer@{Atlas::Renderer}!mMutex@{mMutex}}
+\index{mMutex@{mMutex}!Atlas::Renderer@{Atlas::Renderer}}
+\doxysubsubsection{\texorpdfstring{mMutex}{mMutex}}
+{\footnotesize\ttfamily std\+::mutex Atlas\+::\+Renderer\+::m\+Mutex\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00097}{97}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
 
 \Hypertarget{class_atlas_1_1_renderer_a99346687236f96ab7fc7d35ca0c43fb1}\label{class_atlas_1_1_renderer_a99346687236f96ab7fc7d35ca0c43fb1} 
 \index{Atlas::Renderer@{Atlas::Renderer}!mScreenBuffer@{mScreenBuffer}}
@@ -356,7 +392,7 @@ Definition at line \mbox{\hyperlink{_renderer_8h_source_l00089}{89}} of file \mb
 
 
 
-Definition at line \mbox{\hyperlink{_renderer_8h_source_l00090}{90}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00094}{94}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
 
 
 

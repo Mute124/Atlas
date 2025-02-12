@@ -15,7 +15,7 @@ void Atlas::Window::init(WindowDecorations* windowDecorations)
 	const static std::string configPath = "\\data\\config\\Project.cfg";
 	Log("Decorating window...");
 	
-	std::shared_ptr<RegisteredFile> file = GetAtlasEngine()->getFileSystemRegistry()->getFile(configPath);
+	std::shared_ptr<RegisteredFile> file = GetAtlasEngine()->getFileSystemRegistry().get()->getFile(configPath);
 
 	windowDecorations->title = LookupConfig(file, "projectWindowTitle");
 	windowDecorations->width = LookupConfig(file, "projectWindowWidth");
@@ -32,7 +32,7 @@ void Atlas::Window::init(WindowDecorations* windowDecorations)
 
 	const std::string assetDir = ATLAS_ASSET_DIR; // this is done like this because the macro expands to an expression rather than a string.
 	
-	FileSystemRegistry* fileSystemRegistry = GetAtlasEngine()->getFileSystemRegistry();
+	FileSystemRegistry* fileSystemRegistry = GetAtlasEngine()->getFileSystemRegistry().get();
 	
 	file = fileSystemRegistry->getFile(windowDecorations->icon);
 

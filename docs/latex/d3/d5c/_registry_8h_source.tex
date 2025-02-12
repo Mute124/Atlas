@@ -1,0 +1,107 @@
+\doxysection{Registry.\+h}
+\hypertarget{_registry_8h_source}{}\label{_registry_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/core/Registry.h@{C:/Dev/Techstorm-\/v5/src/engine/core/Registry.h}}
+\mbox{\hyperlink{_registry_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <list>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00013}00013\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00019}00019\ \ \ \ \ \textcolor{comment}{//template<typename\ T\_SET\_TYPE,\ typename\ T\_KEY>}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00020}00020\ \ \ \ \ \textcolor{comment}{//concept\ RegistrySetType\ =\ requires(T\_SET\_TYPE\ t)\ \{}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00021}00021\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00022}00022\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_KEY,\ \textcolor{keyword}{typename}\ T\_SET\_TYPE,\ \textcolor{keyword}{typename}\ T\_CONTAINER,\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ T\_ENTITY\_TYPE,\ \textcolor{keyword}{typename}\ T\_HASH\ =\ std::hash<T\_KEY>,\ \textcolor{keyword}{typename}\ T\_EQUAL\ =\ std::equal\_to<T\_KEY>>}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00037}\mbox{\hyperlink{class_atlas_1_1_registry}{00037}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_registry}{Registry}}\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00046}\mbox{\hyperlink{class_atlas_1_1_registry_af1dd736fac4f0d0f09cbb72c4f123e9f}{00046}}\ \ \ \ \ \ \ \ \ T\_SET\_TYPE\ \mbox{\hyperlink{class_atlas_1_1_registry_af1dd736fac4f0d0f09cbb72c4f123e9f}{mEntityExistsLookupSet}};}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00053}\mbox{\hyperlink{class_atlas_1_1_registry_abaf2143e3dd82e9068b0227746fcf157}{00053}}\ \ \ \ \ \ \ \ \ T\_CONTAINER\ \mbox{\hyperlink{class_atlas_1_1_registry_abaf2143e3dd82e9068b0227746fcf157}{mContainer}};}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00054}00054\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00055}\mbox{\hyperlink{class_atlas_1_1_registry_a16eb0dc034b5938662c0f37d2bc65bd2}{00055}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_registry_a16eb0dc034b5938662c0f37d2bc65bd2}{Registry}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00057}\mbox{\hyperlink{class_atlas_1_1_registry_a636b27e57c5b67547e85277aca196feb}{00057}}\ \ \ \ \ \ \ \ \ T\_ENTITY\_TYPE\ \mbox{\hyperlink{class_atlas_1_1_registry_a636b27e57c5b67547e85277aca196feb}{get}}(T\_KEY\ \textcolor{keywordtype}{id})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_registry_abaf2143e3dd82e9068b0227746fcf157}{mContainer}}.at(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00059}00059\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00061}\mbox{\hyperlink{class_atlas_1_1_registry_ab497f44eacaab06acd82aad51a685a22}{00061}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_registry_ab497f44eacaab06acd82aad51a685a22}{add}}(T\_KEY\ \textcolor{keywordtype}{id},\ T\_ENTITY\_TYPE\ entity)\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_registry_af1dd736fac4f0d0f09cbb72c4f123e9f}{mEntityExistsLookupSet}}.insert(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_registry_abaf2143e3dd82e9068b0227746fcf157}{mContainer}}.insert(\{\ id,\ entity\ \});}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00064}00064\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00066}\mbox{\hyperlink{class_atlas_1_1_registry_a72754cd3b283d23bcce2b84294297b08}{00066}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_registry_a72754cd3b283d23bcce2b84294297b08}{remove}}(T\_KEY\ \textcolor{keywordtype}{id})\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_registry_af1dd736fac4f0d0f09cbb72c4f123e9f}{mEntityExistsLookupSet}}.erase(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_registry_abaf2143e3dd82e9068b0227746fcf157}{mContainer}}.erase(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00069}00069\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00071}\mbox{\hyperlink{class_atlas_1_1_registry_a1c7aeff5e863590970fdd27e9e3ef7bc}{00071}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_registry_a1c7aeff5e863590970fdd27e9e3ef7bc}{clear}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_registry_af1dd736fac4f0d0f09cbb72c4f123e9f}{mEntityExistsLookupSet}}.clear();}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_registry_abaf2143e3dd82e9068b0227746fcf157}{mContainer}}.clear();}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00074}00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00076}\mbox{\hyperlink{class_atlas_1_1_registry_ab6fdfdacf64764a80d612b2d6612e711}{00076}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_registry_ab6fdfdacf64764a80d612b2d6612e711}{isCleared}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_registry_af1dd736fac4f0d0f09cbb72c4f123e9f}{mEntityExistsLookupSet}}.empty();}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00078}00078\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00080}\mbox{\hyperlink{class_atlas_1_1_registry_a72d1f330d77c25886ae6a0d280e461f8}{00080}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_registry_a72d1f330d77c25886ae6a0d280e461f8}{exists}}(T\_KEY\ \textcolor{keywordtype}{id})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_registry_af1dd736fac4f0d0f09cbb72c4f123e9f}{mEntityExistsLookupSet}}.find(\textcolor{keywordtype}{id})\ !=\ \mbox{\hyperlink{class_atlas_1_1_registry_af1dd736fac4f0d0f09cbb72c4f123e9f}{mEntityExistsLookupSet}}.end();}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00082}00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00084}\mbox{\hyperlink{class_atlas_1_1_registry_ac506bec27d2fade0bd8c8933eb3e408b}{00084}}\ \ \ \ \ \ \ \ \ std::reference\_wrapper<T\_CONTAINER>\ \mbox{\hyperlink{class_atlas_1_1_registry_ac506bec27d2fade0bd8c8933eb3e408b}{getContainer}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_registry_abaf2143e3dd82e9068b0227746fcf157}{mContainer}};}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00086}00086\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00088}\mbox{\hyperlink{class_atlas_1_1_registry_adca6d5d76b38bb7deaffb57238dbf27f}{00088}}\ \ \ \ \ \ \ \ \ std::reference\_wrapper<T\_SET\_TYPE>\ \mbox{\hyperlink{class_atlas_1_1_registry_adca6d5d76b38bb7deaffb57238dbf27f}{getEntityExistsLookupSet}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_registry_af1dd736fac4f0d0f09cbb72c4f123e9f}{mEntityExistsLookupSet}};}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00090}00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00092}\mbox{\hyperlink{class_atlas_1_1_registry_a2227e676c56f067cdd9377465b234346}{00092}}\ \ \ \ \ \ \ \ \ T\_CONTAINER\ \mbox{\hyperlink{class_atlas_1_1_registry_a2227e676c56f067cdd9377465b234346}{copyContainer}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_registry_abaf2143e3dd82e9068b0227746fcf157}{mContainer}};}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00094}00094\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00096}\mbox{\hyperlink{class_atlas_1_1_registry_a56495931fdea101ee97fceee6c3c384c}{00096}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_registry_a56495931fdea101ee97fceee6c3c384c}{getSize}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_registry_abaf2143e3dd82e9068b0227746fcf157}{mContainer}}.size();}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00098}00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_FUNCTION>}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00101}\mbox{\hyperlink{class_atlas_1_1_registry_ae37ef54d05b49032b3e684882c299ceb}{00101}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_registry_ae37ef54d05b49032b3e684882c299ceb}{forEach}}(T\_FUNCTION\ function)\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!function)\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Function\ pointer\ is\ null"{}});}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ [\textcolor{keywordtype}{id},\ entity]\ :\ \mbox{\hyperlink{class_atlas_1_1_registry_abaf2143e3dd82e9068b0227746fcf157}{mContainer}})\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity)\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Entity\ is\ null"{}});}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ function(\textcolor{keywordtype}{id},\ entity);}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&\ e)\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(std::string(\textcolor{stringliteral}{"{}Error\ iterating\ over\ container:\ "{}})\ +\ e.what());}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00117}00117\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00119}\mbox{\hyperlink{class_atlas_1_1_registry_a0a63046217efdc369e3f2f56ff043c39}{00119}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_registry_a0a63046217efdc369e3f2f56ff043c39}{operator[]\ }}(T\_KEY\ \textcolor{keywordtype}{id})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_registry_a636b27e57c5b67547e85277aca196feb}{get}}(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00121}00121\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00123}00123\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00125}\mbox{\hyperlink{namespace_atlas_a658a106e1df3b9b79fc59eaa38ee349e}{00125}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a658a106e1df3b9b79fc59eaa38ee349e}{t}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00126}00126\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00127}00127\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_registry_8h_source_l00128}00128\ \}}
+
+\end{DoxyCode}

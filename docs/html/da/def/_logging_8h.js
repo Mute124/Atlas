@@ -1,5 +1,6 @@
 var _logging_8h =
 [
+    [ "Atlas::IConsoleSink", "d0/dc9/class_atlas_1_1_i_console_sink.html", "d0/dc9/class_atlas_1_1_i_console_sink" ],
     [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", "dc/dba/class_atlas_1_1abstract" ],
     [ "Atlas::TerminalSink", "d9/dbb/class_atlas_1_1_terminal_sink.html", "d9/dbb/class_atlas_1_1_terminal_sink" ],
     [ "Atlas::LoggerConfig", "d5/d0c/struct_atlas_1_1_logger_config.html", "d5/d0c/struct_atlas_1_1_logger_config" ],

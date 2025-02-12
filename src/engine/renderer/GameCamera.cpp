@@ -33,7 +33,7 @@ void Atlas::GameCamera::init()
 	sCameras[this->mCameraID] = this;
 
 	// setup input
-	InputRegistry* inputRegistry = GetAtlasEngine()->getInputRegistry();
+	InputRegistry* inputRegistry = GetAtlasEngine()->getInputRegistry().get();
 
 	// forwards
 	inputRegistry->registerActionCallback(

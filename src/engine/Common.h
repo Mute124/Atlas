@@ -18,9 +18,12 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
+#include <set>
 
 #include "utils/Singleton.h"
 #include "input/Input.h"
+#include <chrono>
+#include <type_traits>
 
 // ---------------------------------------------------------------
 // Platform definitions
@@ -79,10 +82,12 @@
 	#define ATLAS_GENERATED_NULL_CHECK_RETURN(ptr) if(ptr == nullptr) { return nullptr; }
 #endif
 
-/// <summary>
-/// Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these
-/// will be in the build directory rather than the final distribution directory.
-/// </summary>
+/**
+* @brief Since the location of the shared libraries and executables can vary, this is a simple solution to this.
+* During Distribution builds, the path is more exact, however the rest are not because these
+* will be in the build directory rather than the final distribution directory.
+* @since v0.0.2
+*/
 #define ATLAS_TOP_LAYER_DIR static_cast<std::string>(ATLAS_TOP_LAYER)
 #define ATLAS_ASSET_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/assets/");
 #define ATLAS_DATA_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/data/");
@@ -104,7 +109,6 @@ namespace Atlas {
 	using std::chrono::milliseconds;
 	using std::chrono::seconds;
 	using std::unordered_map;
-
 
 	/// <summary>
 	/// Represents a 3D vector. It will wrap raylib's Vector3 and Jolt's RVec3 to allow seamless integration. This also wraps raylib's vector math functions.

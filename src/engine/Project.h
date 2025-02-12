@@ -1,11 +1,11 @@
 /**
 * @file Project.h
-* 
 * @brief This file contains the BProject interface that is required for Atlas to run the user's project. The reason for the boilerplate is because it allows the engine to take a Laissez-faire approach and allow the user to do whatever they want.
 * with all their code being able to be called from the engine.
-* 
+* @since v0.0.1
 */
 #pragma once
+
 #include "Core/AtlasEngine.h"
 #include "core/IProject.h"
 #include <memory>
@@ -32,10 +32,12 @@ namespace Atlas {
 		ScriptingLibraryRegistry mLuaLibraries;
 		ScriptingFunctionRegistry mLuaFunctions;
 		
-		/// <summary>
-		/// Represents a polymorphic singleton reference to the user's project instance through a pointer of Atlas::BProject. This is
-		/// mandatory for Atlas to run the user's engine.
-		/// </summary>
+		/**
+		 * @brief Represents a polymorphic singleton reference to the user's project instance 
+		 * through a pointer of Atlas::BProject. This is mandatory for Atlas to run the user's engine.
+		 * @deprecated Use Atlas::BProject::getProject()
+		 * @since v0.0.1
+		 */
 		class ProjectReference : public Singleton<ProjectReference> {
 		public:
 			std::shared_ptr<BProject> mProject = nullptr;

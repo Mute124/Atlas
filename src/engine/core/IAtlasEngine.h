@@ -10,27 +10,31 @@
 #include "../dbg/Logging.h"
 #include "../input/InputRegistry.h"
 
+#include "ManagedVariable.h"
+#include <unordered_map>
+#include <unordered_set>
+
 namespace Atlas {
 	class IAtlas {
 	public:
-		virtual ConfigFileRegistry* getConfigFileRegistry() = 0;
-		virtual ScriptingAPI* getScriptingAPI() = 0;
-		virtual IWindow* getWindow() = 0;
-		virtual Renderer* getRenderer() = 0;
-		virtual GameSettings* getGameSettings() = 0;
-		virtual FileSystemRegistry* getFileSystemRegistry() = 0;
-		virtual PhysicsEngine* getPhysicsEngine() = 0;
-		virtual InputRegistry* getInputRegistry() = 0;
-		virtual Logger* getLogger() = 0;
+		virtual ThreadSafeVariable<ConfigFileRegistry*> getConfigFileRegistry() = 0;
+		virtual ThreadSafeVariable<ScriptingAPI*> getScriptingAPI() = 0;
+		virtual ThreadSafeVariable<IWindow*> getWindow() = 0;
+		virtual ThreadSafeVariable<Renderer*> getRenderer() = 0;
+		virtual ThreadSafeVariable<GameSettings*> getGameSettings() = 0;
+		virtual ThreadSafeVariable<FileSystemRegistry*> getFileSystemRegistry() = 0;
+		virtual ThreadSafeVariable<PhysicsEngine*> getPhysicsEngine() = 0;
+		virtual ThreadSafeVariable<InputRegistry*> getInputRegistry() = 0;
+		virtual ThreadSafeVariable<Logger*> getLogger() = 0;
 
-		virtual void setConfigFileRegistry(ConfigFileRegistry* configFileRegistry) = 0;
-		virtual void setScriptingAPI(ScriptingAPI* scriptingAPI) = 0;
-		virtual void setWindow(IWindow* window) = 0;
-		virtual void setRenderer(Renderer* renderer) = 0;
-		virtual void setGameSettings(GameSettings* gameSettings) = 0;
-		virtual void setFileSystemRegistry(FileSystemRegistry* fileSystemRegistry) = 0;
-		virtual void setPhysicsEngine(PhysicsEngine* physicsEngine) = 0;
-		virtual void setInputRegistry(InputRegistry* inputRegistry) = 0;
-		virtual void setLogger(Logger* logger) = 0;
+		virtual void setConfigFileRegistry(ThreadSafeVariable<ConfigFileRegistry*> configFileRegistry) = 0;
+		virtual void setScriptingAPI(ThreadSafeVariable<ScriptingAPI*> scriptingAPI) = 0;
+		virtual void setWindow(ThreadSafeVariable<IWindow*> window) = 0;
+		virtual void setRenderer(ThreadSafeVariable<Renderer*> renderer) = 0;
+		virtual void setGameSettings(ThreadSafeVariable<GameSettings*> gameSettings) = 0;
+		virtual void setFileSystemRegistry(ThreadSafeVariable<FileSystemRegistry*> fileSystemRegistry) = 0;
+		virtual void setPhysicsEngine(ThreadSafeVariable<PhysicsEngine*> physicsEngine) = 0;
+		virtual void setInputRegistry(ThreadSafeVariable<InputRegistry*> inputRegistry) = 0;
+		virtual void setLogger(ThreadSafeVariable<Logger*> logger) = 0;
 	};
 }

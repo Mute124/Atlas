@@ -1,5 +1,4 @@
 #pragma once
-
 #include <memory>
 
 #include "PreUpdateEventArgs.h"
@@ -12,9 +11,11 @@
 #include "CleanupEventArgs.h"
 #include "DestroyEventArgs.h"
 
-#include <type_traits>
+#include <string>
 
 namespace Atlas {
+	using ComponentName = std::string;
+
 	class IGameObject;
 
 	class ObjectHolder {
@@ -23,72 +24,95 @@ namespace Atlas {
 
 		ObjectHolder(IGameObject* obj) : obj(obj) {}
 	};
+
 	/// <summary>
 	/// A component is used to extend a system, but is mainly used to extend a game object with additional functionality (<see cref="IGameObject"/>).
 	/// </summary>
 	class Component {
 	private:
-		
 
-
+		/**
+		 * @brief The game object (as a pointer) that this component is attached to
+		 * @since v0.0.7
+		 */
 		IGameObject* mOwner;
 
 		friend IGameObject;
 	protected:
 		
-		/// <summary>
-		/// Sets the owner of this component.
-		/// </summary>
-		/// <param name="owner">The new owner of this component.</param>
-		/// <returns>Whether or not the owner was set.</returns>
-		virtual bool setOwner(IGameObject* owner) {
-			mOwner = owner;
-
-			return mOwner != nullptr && owner != nullptr;
-		}
+		/**
+		 * @brief Sets the owner of this component. 
+		 * @remarks This is a virtual function. 
+		 * @param owner The new owner of this component. This is an @ref IGameObject pointer. This works with polymorphism
+		 * @return Whether or not the owner was set
+		 * @todo Make the parameter a shared pointer
+		 * @todo Add exceptions and add checks
+		 * @since v0.0.7
+		 */
+		virtual bool setOwner(IGameObject* owner);
 
 	public:
-				
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Component"/> class.
-		/// </summary>
-		/// <param name="mOwner">The m owner.</param>
+
+
+		/**
+		 * @brief An explicit constructor that initializes a new instance of the @ref Component class
+		 * @param mOwner What to set the owner to
+		 * @since v0.0.7
+		 */
 		explicit Component(IGameObject* mOwner);
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Component"/> class.
-		/// </summary>
+		/**
+		 * @brief Initializes a new instance of the <see cref="Component"/> class.
+		 * @since v0.0.7
+		 */
 		Component() {}
 
-		/// <summary>
-		/// Finalizes an instance of the <see cref="Component"/> class.
-		/// </summary>
+		/**
+		 * @brief Finalizes an instance of the <see cref="Component"/> class.
+		 * @since v0.0.7
+		 */
 		virtual ~Component();
 
-		/// <summary>
-		/// Called before the first update
-		/// </summary>
+
+		/**
+		 * @brief Called before the first update
+		 * @param args The arguments for the event
+		 * @since v0.0.7
+		 */
 		virtual void preUpdate(PreUpdateEventArgs* args);
 				
-		/// <summary>
-		/// The main update frame
-		/// </summary>
+		/**
+		 * @brief Updates this instance
+		 * @param args The arguments for the event
+		 * @since v0.0.7
+		 */
 		virtual void update(UpdateEventArgs* args);
 		
-		/// <summary>
-		/// Called right after the last update.
-		/// </summary>
+		/**
+		 * @brief Called right after the last update.
+		 * @param args The arguments for the event
+		 * @since v0.0.7
+		 */
 		virtual void postUpdate(PostUpdateEventArgs* args);
-			
-		/// <summary>
-		/// Called after the render texture is drawn. This is the last function to be called in a frame
-		/// </summary>
+		
+		/**
+		 * @brief Called after the render texture is drawn. This is the last function to be called in a frame
+		 * @param args The arguments for the event
+		 * @since v0.0.7
+		 */
 		virtual void render(RenderEventArgs* args);
 				
 		/// <summary>
 		/// Called after updates, but before rendering. 
 		/// \note This will be textured onto the render texture.
 		/// </summary>
+		 
+		
+		/**
+		 * @brief Called after updates, but before rendering.
+		 * @note This will be textured onto the render texture.
+		 * @param args 
+		 */
 		virtual void texture(TextureEventArgs* args);
 
 		/// <summary>
@@ -103,16 +127,6 @@ namespace Atlas {
 		/// </summary>
 		virtual void cleanup(CleanupEventArgs* args);
 		
-/*		/// <summary>
-		/// Gets a component from the owner <b>AS A UNIQUE POINTER</b>.
-		/// </summary>
-		/// <returns></returns>
-		template<T_COMPONENT T>
-		std::unique_ptr<T> getComponent() {
-			return getOwner()->getComponent<T>();
-		}
-		*/
-
 		/// <summary>
 		/// Gets the current owner <b>AS A SHARED POINTER</b>.
 		/// </summary>

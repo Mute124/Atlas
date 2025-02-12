@@ -1,7 +1,23 @@
 #pragma once
+
+#include <memory>
+
 #include "IAtlasEngine.h"
+#include "../conf/Config.h"
+#include "../dbg/Logging.h"
+#include "../fs/FileSystemRegistry.h"
+#include "../GameSettings.h"
+#include "../input/InputRegistry.h"
+#include "../modding/ScriptingAPI.h"
+#include "../physics/Physics.h"
+#include "../renderer/Renderer.h"
+#include "../renderer/window/IWindow.h"
 
 namespace Atlas {
+
+	/**
+	 * @brief 
+	 */
 	class AtlasEngine : public IAtlas {
 	private:
 		/**
@@ -9,27 +25,27 @@ namespace Atlas {
 		 * @note This starts as a nullptr
 		 * @since v0.0.8
 		 */
-		ConfigFileRegistry* configFileRegistry = nullptr;
+		ThreadSafeVariable<ConfigFileRegistry*> configFileRegistry = nullptr;
 		/**
 		 * @brief A pointer to the scripting API. This is used to allow the user to register their own API if they so choose.
 		 * @note This starts as a nullptr
 		 * @since v0.0.8
 		 */
-		ScriptingAPI* scriptingAPI = nullptr;
+		ThreadSafeVariable<ScriptingAPI*> scriptingAPI = nullptr;
 
 		/**
 		 * @brief A pointer to the window. This is used to allow the user to register their own window if they so choose.
 		 * @note This starts as a nullptr
 		 * @since v0.0.8
 		 */
-		IWindow* window = nullptr;
+		ThreadSafeVariable<IWindow*> window = nullptr;
 
 		/**
 		 * @brief A pointer to the renderer. This is used to allow the user to register their own renderer if they so choose.
 		 * @note This starts as a nullptr
 		 * @since v0.0.8
 		 */
-		Renderer* renderer = nullptr;
+		ThreadSafeVariable<Renderer*> renderer = nullptr;
 
 		/**
 		 * @brief A pointer to the game settings. This is used to allow the user to register their own game settings if they so choose.
@@ -37,7 +53,7 @@ namespace Atlas {
 		 * @warning This is not currently implemented nor used at the moment.
 		 * @since v0.0.8
 		 */
-		GameSettings* gameSettings = nullptr;
+		ThreadSafeVariable<GameSettings*> gameSettings = nullptr;
 
 		/**
 		 * @brief A pointer to the file system registry. This is used to allow the user to register their own file system if they so choose.
@@ -45,28 +61,28 @@ namespace Atlas {
 		 * @warning This is not currently implemented nor used at the moment.
 		 * @since v0.0.8
 		 */
-		FileSystemRegistry* fileSystemRegistry = nullptr;
+		ThreadSafeVariable<FileSystemRegistry*> fileSystemRegistry = nullptr;
 
 		/**
 		 * @brief A pointer to the physics engine. This is used to allow the user to register their own physics engine if they so choose.
 		 * @note This starts as a nullptr
 		 * @since v0.0.8
 		 */
-		PhysicsEngine* physicsEngine = nullptr;
+		ThreadSafeVariable<PhysicsEngine*> physicsEngine = nullptr;
 
 		/**
 		 * @brief A pointer to the input registry. This is used to allow the user to register their own input registry if they so choose.
 		 * @note This starts as a nullptr
 		 * @since v0.0.8
 		 */
-		InputRegistry* inputRegistry = nullptr;
+		ThreadSafeVariable<InputRegistry*> inputRegistry = nullptr;
 
 		/**
 		 * @brief A pointer to the logger. This is used to allow the user to register their own logger if they so choose.
 		 * @note This starts as a nullptr
 		 * @since v0.0.8
 		 */
-		Logger* logger = nullptr;
+		ThreadSafeVariable<Logger*> logger = nullptr;
 	public:
 
 		/**
@@ -82,9 +98,10 @@ namespace Atlas {
 		 * @param logger A pointer to the logger object that Atlas will use
 		 * @since v0.0.8
 		 */
-		AtlasEngine(ConfigFileRegistry* configFileRegistry, ScriptingAPI* scriptingAPI, IWindow* window, Renderer* renderer,
-					GameSettings* gameSettings, FileSystemRegistry* fileSystemRegistry, PhysicsEngine* physicsEngine,
-			InputRegistry* inputRegistry, Logger* logger);
+		AtlasEngine(ThreadSafeVariable<ConfigFileRegistry*> configFileRegistry, ThreadSafeVariable<ScriptingAPI*> scriptingAPI,
+			ThreadSafeVariable<IWindow*> window, ThreadSafeVariable<Renderer*> renderer, ThreadSafeVariable<GameSettings*> gameSettings,
+			ThreadSafeVariable<FileSystemRegistry*> fileSystemRegistry, ThreadSafeVariable<PhysicsEngine*> physicsEngine,
+			ThreadSafeVariable<InputRegistry*> inputRegistry, ThreadSafeVariable<Logger*> logger);
 
 		/**
 		 * @brief The default constructor.
@@ -98,7 +115,7 @@ namespace Atlas {
 		 * @return A pointer to the config file registry
 		 * @since v0.0.8
 		 */
-		ConfigFileRegistry* getConfigFileRegistry() override;
+		ThreadSafeVariable<ConfigFileRegistry*> getConfigFileRegistry() override;
 
 		/**
 		* @brief Gets the scripting API.
@@ -107,7 +124,7 @@ namespace Atlas {
 		* @return A pointer to the scripting API
 		* @since v0.0.8
 		*/
-		ScriptingAPI* getScriptingAPI() override;
+		ThreadSafeVariable<ScriptingAPI*> getScriptingAPI() override;
 
 		/**
 		* @brief Gets the window.
@@ -116,7 +133,7 @@ namespace Atlas {
 		* @return A pointer to the window
 		* @since v0.0.8
 		* */
-		IWindow* getWindow() override;
+		ThreadSafeVariable<IWindow*> getWindow() override;
 
 		/**
 		 * @brief Gets the renderer.
@@ -125,44 +142,90 @@ namespace Atlas {
 		 * @return A pointer to the renderer
 		 * @since v0.0.8
 		 */
-		Renderer* getRenderer() override;
+		ThreadSafeVariable<Renderer*> getRenderer() override;
 
+		/**
+		 * @brief 
+		 * @return 
+		 */
+		ThreadSafeVariable<GameSettings*> getGameSettings() override;
 
-		GameSettings* getGameSettings() override;
+		/**
+		 * @brief 
+		 * @return 
+		 */
+		ThreadSafeVariable<FileSystemRegistry*> getFileSystemRegistry() override;
 
+		/**
+		 * @brief 
+		 * @return 
+		 */
+		ThreadSafeVariable<PhysicsEngine*> getPhysicsEngine() override;
 
-		FileSystemRegistry* getFileSystemRegistry() override;
+		/**
+		 * @brief 
+		 * @return 
+		 */
+		ThreadSafeVariable<InputRegistry*> getInputRegistry() override;
 
+		/**
+		 * @brief 
+		 * @return 
+		 */
+		ThreadSafeVariable<Logger*> getLogger() override;
 
-		PhysicsEngine* getPhysicsEngine() override;
+		/**
+		 * @brief 
+		 * @param configFileRegistry 
+		 */
+		void setConfigFileRegistry(ThreadSafeVariable<ConfigFileRegistry*> configFileRegistry) override;
 
+		/**
+		 * @brief 
+		 * @param scriptingAPI 
+		 */
+		void setScriptingAPI(ThreadSafeVariable<ScriptingAPI*> scriptingAPI) override;
 
-		InputRegistry* getInputRegistry() override;
+		/**
+		 * @brief 
+		 * @param window 
+		 */
+		void setWindow(ThreadSafeVariable<IWindow*> window) override;
 
-		Logger* getLogger() override;
+		/**
+		 * @brief 
+		 * @param renderer 
+		 */
+		void setRenderer(ThreadSafeVariable<Renderer*> renderer) override;
 
-		void setConfigFileRegistry(ConfigFileRegistry* configFileRegistry) override;
+		/**
+		 * @brief 
+		 * @param gameSettings 
+		 */
+		void setGameSettings(ThreadSafeVariable<GameSettings*> gameSettings) override;
 
+		/**
+		 * @brief 
+		 * @param fileSystemRegistry 
+		 */
+		void setFileSystemRegistry(ThreadSafeVariable<FileSystemRegistry*> fileSystemRegistry) override;
 
-		void setScriptingAPI(ScriptingAPI* scriptingAPI) override;
+		/**
+		 * @brief 
+		 * @param physicsEngine 
+		 */
+		void setPhysicsEngine(ThreadSafeVariable<PhysicsEngine*> physicsEngine) override;
 
+		/**
+		 * @brief 
+		 * @param inputRegistry 
+		 */
+		void setInputRegistry(ThreadSafeVariable<InputRegistry*> inputRegistry) override;
 
-		void setWindow(IWindow* window) override;
-
-
-		void setRenderer(Renderer* renderer) override;
-
-
-		void setGameSettings(GameSettings* gameSettings) override;
-
-
-		void setFileSystemRegistry(FileSystemRegistry* fileSystemRegistry) override;
-
-		void setPhysicsEngine(PhysicsEngine* physicsEngine) override;
-
-
-		void setInputRegistry(InputRegistry* inputRegistry) override;
-
-		void setLogger(Logger* logger) override;
+		/**
+		 * @brief 
+		 * @param logger 
+		 */
+		void setLogger(ThreadSafeVariable<Logger*> logger) override;
 	};
 }

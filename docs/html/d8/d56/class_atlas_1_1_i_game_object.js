@@ -1,8 +1,12 @@
 var class_atlas_1_1_i_game_object =
 [
-    [ "IGameObject", "d8/d56/class_atlas_1_1_i_game_object.html#a0bb74a5c8cec6b4fc18c6a3ebfdb51cc", null ],
+    [ "InvalidComponentNameException", "d4/d63/class_atlas_1_1_i_game_object_1_1_invalid_component_name_exception.html", "d4/d63/class_atlas_1_1_i_game_object_1_1_invalid_component_name_exception" ],
+    [ "InvalidGameObjectException", "df/dd0/class_atlas_1_1_i_game_object_1_1_invalid_game_object_exception.html", "df/dd0/class_atlas_1_1_i_game_object_1_1_invalid_game_object_exception" ],
+    [ "NullptrGameObjectException", "d6/d80/class_atlas_1_1_i_game_object_1_1_nullptr_game_object_exception.html", "d6/d80/class_atlas_1_1_i_game_object_1_1_nullptr_game_object_exception" ],
     [ "~IGameObject", "d8/d56/class_atlas_1_1_i_game_object.html#a1f2dc6d8a9e7d368445eeef2bc899e5f", null ],
     [ "addComponent", "d8/d56/class_atlas_1_1_i_game_object.html#a8b7591b65460bc8d54d6b8aaccfabb6b", null ],
+    [ "addComponent", "d8/d56/class_atlas_1_1_i_game_object.html#a933dead1c95eec685da2dc7d781d5588", null ],
+    [ "addComponent", "d8/d56/class_atlas_1_1_i_game_object.html#a948d4203c50b17e74009a6d29b79f644", null ],
     [ "cleanup", "d8/d56/class_atlas_1_1_i_game_object.html#aadb8ac4a4ee34905fb156c41929f24f6", null ],
     [ "destroy", "d8/d56/class_atlas_1_1_i_game_object.html#a0e4794c35b80eb92dbd3b0ac4626b4a5", null ],
     [ "getComponent", "d8/d56/class_atlas_1_1_i_game_object.html#ad266bd014fc5162f2ddb4d85bc8914e2", null ],

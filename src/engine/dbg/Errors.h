@@ -1,4 +1,3 @@
-
 #pragma once
 #include <iostream>
 #include <string>
@@ -18,11 +17,6 @@
 	const char* what() const noexcept override { return this->mMessage.c_str(); }
 
 namespace Atlas {
-	
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <seealso cref="std::exception" />
 	class IException : public std::exception {
 	protected:
 		std::string mMessage;
@@ -83,7 +77,6 @@ namespace Atlas {
 		virtual const char* what() const noexcept = 0;
 	};
 
-	
 	class FileIOFailure : public IError {
 	public:
 		FileIOFailure(std::string const& message, std::source_location location = std::source_location::current());

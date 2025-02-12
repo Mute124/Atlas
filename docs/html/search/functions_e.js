@@ -7,5 +7,6 @@ var searchData=
   ['non_5fmoving_4',['non_moving',['../dc/df3/namespace_broad_phase_layers.html#a472f96c5ed8c59a05eec2d8ec5e47689',1,'BroadPhaseLayers::NON_MOVING()'],['../d4/d5b/namespace_atlas_1_1_broad_phase_layers.html#a36fefd74f0ca27d0246e7c750f30b31e',1,'Atlas::BroadPhaseLayers::NON_MOVING()']]],
   ['normalize_5',['normalize',['../df/d8a/struct_vec3.html#af4e3610dbe35306be56ea47aa160b7ca',1,'Vec3::normalize()'],['../da/d87/class_atlas_1_1_vec3.html#a3b87573167adf154dcdbb2a8d9234962',1,'Atlas::Vec3::normalize()']]],
   ['normalizedmovetowards_6',['normalizedMoveTowards',['../da/d87/class_atlas_1_1_vec3.html#a0fae441c8e3e10036c96e8d7a17ae78a',1,'Atlas::Vec3']]],
-  ['num_5flayers_7',['num_layers',['../dc/df3/namespace_broad_phase_layers.html#af56a49c2afbe479c7cd436df258be813',1,'BroadPhaseLayers::NUM_LAYERS()'],['../d4/d5b/namespace_atlas_1_1_broad_phase_layers.html#aace929caee67cc72034075ff0675a692',1,'Atlas::BroadPhaseLayers::NUM_LAYERS()']]]
+  ['nullptrgameobjectexception_7',['NullptrGameObjectException',['../d6/d80/class_atlas_1_1_i_game_object_1_1_nullptr_game_object_exception.html#a14aba1dd8ea434682a906127bdc46075',1,'Atlas::IGameObject::NullptrGameObjectException']]],
+  ['num_5flayers_8',['num_layers',['../dc/df3/namespace_broad_phase_layers.html#af56a49c2afbe479c7cd436df258be813',1,'BroadPhaseLayers::NUM_LAYERS()'],['../d4/d5b/namespace_atlas_1_1_broad_phase_layers.html#aace929caee67cc72034075ff0675a692',1,'Atlas::BroadPhaseLayers::NUM_LAYERS()']]]
 ];

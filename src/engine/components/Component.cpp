@@ -1,6 +1,13 @@
 #include "Component.h"
 #include "../objects/IGameObject.h"
 
+
+bool Atlas::Component::setOwner(IGameObject* owner) {
+	mOwner = owner;
+
+	return mOwner != nullptr && owner != nullptr;
+}
+
 Atlas::Component::Component(IGameObject* mOwner)
 	: mOwner(mOwner)
 {

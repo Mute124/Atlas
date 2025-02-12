@@ -1,13 +1,5 @@
 var searchData=
 [
-<<<<<<< HEAD
-<<<<<<< HEAD
-  ['key_0',['key',['../d9/d02/class_techstorm_1_1_input_action.html#a0215b21856de62246ad7b6c91ee0eb88',1,'Techstorm::InputAction']]]
-=======
-  ['scale_0',['scale',['../d6/d34/class_techstorm_1_1abstract.html#a9b45c16a8ff92b5dede7255391a01d9b',1,'Techstorm::abstract']]],
-  ['settings_1',['settings',['../d6/d34/class_techstorm_1_1abstract.html#a4c1599f2a02023b0fd5e4880b371b965',1,'Techstorm::abstract']]]
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-=======
   ['hascliporigin_0',['HasClipOrigin',['../dc/d45/struct_im_gui___impl_open_g_l3___data.html#a2778e5caad83bc7b69981c53d5e9ed5e',1,'ImGui_ImplOpenGL3_Data']]],
   ['hasgamepad_1',['HasGamepad',['../d5/d71/struct_im_gui___impl_win32___data.html#a3ebc71caf46955c90bb8d6f4f94c08ce',1,'ImGui_ImplWin32_Data']]],
   ['hasmodel_2',['hasModel',['../d0/dd1/class_game_object.html#acad916a59d5647d80a6ef2159938a49f',1,'GameObject']]],
@@ -18,5 +10,4 @@ var searchData=
   ['hfontsrvcpudeschandle_7',['hFontSrvCpuDescHandle',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#a0a595d2e3657b5d3b6933d74e65adc3c',1,'ImGui_ImplDX12_Data']]],
   ['hfontsrvgpudeschandle_8',['hFontSrvGpuDescHandle',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#afbc904e7880493b7d4813238233c3db6',1,'ImGui_ImplDX12_Data']]],
   ['hwnd_9',['hWnd',['../d5/d71/struct_im_gui___impl_win32___data.html#a73c8b66f6315225a32f5143165d61df4',1,'ImGui_ImplWin32_Data']]]
->>>>>>> main
 ];

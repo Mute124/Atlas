@@ -6,6 +6,11 @@
 
 namespace Atlas {
 	
+	/**
+	 * @brief Represents an atlas project interface. This concept ensures that the type is a child class of @ref IAtlas
+	 * @note Not used yet
+	 * @since v0.0.9
+	 */
 	template<class T_ATLAS_ENGINE_TYPE>
 	concept AtlasProject = requires(T_ATLAS_ENGINE_TYPE t) {
 		{ t } -> std::convertible_to<IAtlas>;
@@ -15,16 +20,19 @@ namespace Atlas {
 	protected:
 		virtual std::shared_ptr<AtlasEngine> setupAtlas() = 0;
 	public:
-		/// <summary>
-		/// This is the first function that will be called on startup. 
-		/// </summary>
+		/**
+		 * @brief This is the first function that will be called on startup. 
+		 * @since v0.0.1
+		 */
 		virtual void preInit() = 0;
 
-		/// <summary>
-		/// Initializes your project. This will be called after preInit and window initialization, meaning that this is the earliest point that you can use raylib. <b>THIS MUST BE OVERRIDEN BY YOUR PROJECT CLASS!</b>
-		/// </summary>
-		/// <param name="argc">Command line argument count int</param>
-		/// <param name="argv">Command line arguments array</param>
+		/**
+		 * @brief Initializes your project.
+		 * @remarks This will be called after preInit and window initialization, meaning that this is the earliest point that you can use raylib.
+		 * @warning <b>THIS MUST BE OVERRIDEN BY YOUR PROJECT CLASS!</b>
+		 * @param argc 
+		 * @param argv 
+		 */
 		virtual void init(int argc, char* argv[]) = 0;
 
 		/// <summary>

@@ -35,10 +35,14 @@ var hierarchy =
     [ "Complex", "d4/d59/struct_complex.html", null ],
     [ "Atlas::Component", "d6/dfa/class_atlas_1_1_component.html", [
       [ "Atlas::ObjectPhysicsComponent", "d0/dfb/class_atlas_1_1_object_physics_component.html", null ],
+      [ "Atlas::RenderingComponent", "de/d73/class_atlas_1_1_rendering_component.html", null ],
       [ "Atlas::TransformComponent", "dc/d08/class_atlas_1_1_transform_component.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
     ] ],
+    [ "Atlas::ComponentManager", "d5/d7c/class_atlas_1_1_component_manager.html", null ],
+    [ "Atlas::ModularObject::ComponentPointer", "d0/db2/class_atlas_1_1_modular_object_1_1_component_pointer.html", null ],
+    [ "Atlas::ComponentRegistry< T_COMPONENT_KEY, T_BASE_COMPONENT_TYPE >", "d3/d8b/class_atlas_1_1_component_registry.html", null ],
     [ "gw::Constructor< T >", "dc/d41/structgw_1_1_constructor.html", null ],
     [ "gw::Constructor< T()>", "df/d75/structgw_1_1_constructor_3_01_t_07_08_4.html", null ],
     [ "gw::Constructor< T(A0)>", "d0/dfe/structgw_1_1_constructor_3_01_t_07_a0_08_4.html", null ],
@@ -73,6 +77,10 @@ var hierarchy =
     [ "std::exception", null, [
       [ "Atlas::IException", "d1/d81/class_atlas_1_1_i_exception.html", [
         [ "Atlas::InvalidValue", "de/df2/class_atlas_1_1_invalid_value.html", [
+          [ "Atlas::IGameObject::InvalidComponentNameException", "d4/d63/class_atlas_1_1_i_game_object_1_1_invalid_component_name_exception.html", null ],
+          [ "Atlas::IGameObject::InvalidGameObjectException", "df/dd0/class_atlas_1_1_i_game_object_1_1_invalid_game_object_exception.html", [
+            [ "Atlas::IGameObject::NullptrGameObjectException", "d6/d80/class_atlas_1_1_i_game_object_1_1_nullptr_game_object_exception.html", null ]
+          ] ],
           [ "Atlas::InvalidArgument", "df/d7c/class_atlas_1_1_invalid_argument.html", null ]
         ] ],
         [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
@@ -89,29 +97,30 @@ var hierarchy =
     [ "GameObject", "d0/dd1/class_game_object.html", null ],
     [ "Atlas::GameObjectRegistry", "d1/d4c/class_atlas_1_1_game_object_registry.html", null ],
     [ "Atlas::GameState", "d1/daa/class_atlas_1_1_game_state.html", null ],
+    [ "Atlas::GameThread", "db/d6f/class_atlas_1_1_game_thread.html", null ],
     [ "Generator", "d0/df5/class_generator.html", null ],
     [ "GridCell", "d4/d3c/struct_grid_cell.html", null ],
     [ "Atlas::IAtlas", "d8/dc7/class_atlas_1_1_i_atlas.html", [
       [ "Atlas::AtlasEngine", "d3/d8d/class_atlas_1_1_atlas_engine.html", null ]
     ] ],
+    [ "Atlas::IComponent< T_OWNER_OBJECT >", "dd/d0f/class_atlas_1_1_i_component.html", null ],
     [ "IConsole", null, [
       [ "Atlas::Console", "d3/d9f/class_atlas_1_1_console.html", null ]
     ] ],
-    [ "IConsoleSink", null, [
+    [ "Atlas::IConsoleSink", "d0/dc9/class_atlas_1_1_i_console_sink.html", [
       [ "Atlas::ConsoleSink", "d7/dd2/class_atlas_1_1_console_sink.html", null ]
     ] ],
     [ "gw::Id< T >", "d0/d4c/structgw_1_1_id.html", null ],
     [ "IError", null, [
       [ "Atlas::FileIOFailure", "db/d34/class_atlas_1_1_file_i_o_failure.html", null ]
     ] ],
-    [ "IGameObject", null, [
+    [ "Atlas::IGameObject", "d8/d56/class_atlas_1_1_i_game_object.html", [
       [ "Atlas::GameObject", "d0/d43/class_atlas_1_1_game_object.html", [
         [ "Atlas::PlaneObject", "d6/d78/class_atlas_1_1_plane_object.html", null ]
       ] ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
     ] ],
-    [ "Atlas::IGameThread< T_USER_PROJECT >", "dd/dca/class_atlas_1_1_i_game_thread.html", null ],
     [ "IGate", null, [
       [ "Atlas::ContactListenerGate", "d8/d75/class_atlas_1_1_contact_listener_gate.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
@@ -203,6 +212,7 @@ var hierarchy =
     [ "NSView", null, [
       [ "KeyEventResponder", "d9/d62/interface_key_event_responder.html", null ]
     ] ],
+    [ "Atlas::ObjectHolder", "dc/d6e/class_atlas_1_1_object_holder.html", null ],
     [ "JPH::ObjectLayerPairFilter", null, [
       [ "Atlas::ObjectLayerPairFilterImpl", "d1/dea/class_atlas_1_1_object_layer_pair_filter_impl.html", null ],
       [ "ObjectLayerPairFilterImpl", "de/d9a/class_object_layer_pair_filter_impl.html", null ]
@@ -241,6 +251,7 @@ var hierarchy =
     [ "gw::Proxy< T >", "d6/df0/classgw_1_1_proxy.html", null ],
     [ "Atlas::ReferenceHolder< T >", "d9/d0a/class_atlas_1_1_reference_holder.html", null ],
     [ "Atlas::RegisteredFile", "d5/d07/class_atlas_1_1_registered_file.html", null ],
+    [ "Atlas::Registry< T_KEY, T_SET_TYPE, T_CONTAINER, T_ENTITY_TYPE, T_HASH, T_EQUAL >", "df/df5/class_atlas_1_1_registry.html", null ],
     [ "Atlas::RenderArgs", "dc/df9/struct_atlas_1_1_render_args.html", null ],
     [ "Atlas::Renderer", "dc/d71/class_atlas_1_1_renderer.html", null ],
     [ "Atlas::RenderEventArgs", "d7/dd6/struct_atlas_1_1_render_event_args.html", null ],

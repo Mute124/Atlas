@@ -57,7 +57,7 @@ spdlog::level::level_enum Atlas::GetSpdlogLevel(ELogLevel level) {
 }
 
 void Atlas::Log(std::string message, ELogLevel level, const std::source_location& location) {
-	GetAtlasEngine()->getLogger()->log(message, level, location);
+	GetAtlasEngine()->getLogger().get()->log(message, level, location);
 	//Logger::Instance().log(message, level, location);
 }
 

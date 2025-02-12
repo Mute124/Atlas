@@ -25,62 +25,58 @@ namespace Atlas {
 
 
 	using FileLoadFuncType = std::function<std::any(std::shared_ptr<FileMeta>)>;
-
-
-	/// <summary>
-	/// The file system registry. 
-	/// </summary>
-	/// <remarks>
-	/// The file system registry is a relatively complex class because it:
-	/// <list type="bullet">
-	///		<item>
-	///			<description>Keeps track of files.</description>
-	///		</item>
-	///		<item>
-	///			<description>Handles loading of files</description>
-	///		</item>
-	///		<item>
-	///			<description>Handles unloading of files</description>
-	///		</item>
-	///		<item>
-	///			<description>Handles registration of files</description>
-	///		</item>
-	///		<item>
-	///			<description>And just about everything else that a registry does</description>
-	///		</item>
-	/// </list>
-	/// <par/>
-	/// As an example of how to add a new file extension, see the \ref file-loading document.
-	/// </remarks>
-	/// <seealso cref="Singleton&lt;FileSystemRegistry&gt;" />
+	
+	/**
+	 * @brief The file system registry. 
+	 * @remarks The file system registry is a relatively complex class because it:
+	 * <list type="bullet">
+	 * 		<item>
+	 * 			<description>Keeps track of files.</description>
+	 * 		</item>
+	 * 		<item>
+	 * 			<description>Handles loading of files</description>
+	 * 		</item>
+	 * 		<item>
+	 * 			<description>Handles unloading of files</description>
+	 * 		</item>
+	 * 		<item>
+	 * 			<description>Handles registration of files</description>
+	 * 		</item>
+	 * 		<item>
+	 * 			<description>And just about everything else that a registry does</description>
+	 * 		</item>
+	 *  </list>
+	 * As an example of how to add a new file extension, see the \ref file-loading document.
+	 * @since v0.0.4
+	 * @sa @ref Singleton
+	 */
 	class FileSystemRegistry : public Singleton<FileSystemRegistry> {
 	private:		
 		static inline volatile bool sIsReady = false;
 
-		/// <summary>
-		/// This static uint16_t variable represents the next available file index.
-		/// </summary>
-		/// <remarks>
-		/// This is typically only used during the discovery and registration of files. It is used to assign a unique index to each file meta.
-		/// </remarks>
+		/**
+		 * @brief This static uint16_t variable represents the next available file index.
+		 * @remarks This is typically only used during the discovery and registration of files. It is used to assign a unique index to each file meta.
+		 * @since v0.0.4
+		 */
 		static inline uint16_t sFileIndex = 0;
 		
-		/// <summary>
-		/// Gets the next file index
-		/// </summary>
-		/// <code>
-		/// int a = 0;
-		/// </code>
-		/// <returns>The next file index</returns>
+		/**
+		 * @brief Gets the next file index
+		 * @return The next file index
+		 * @since v0.0.4
+		 * @sa @ref sFileIndex
+		 */
 		static inline uint16_t GetNextFileIndex() { return sFileIndex++; }
 
-		/// <summary>
-		/// Holds the functions that will be called when a file is loaded.
-		/// </summary>
-		/// <remarks>
-		/// When a file is loaded, the respective load function will be called. The string key is the file extension, and the function is the load function. As is documented in the
-		/// <see cref="file-loading" />, each extension has its own load function or else Atlas does not know how to load the file. 
-		/// </remarks>
+		/**
+		 * @brief Holds the functions that will be called when a file is loaded. When a file is loaded, the respective
+		 * load function will be called. The string key is the file extension, and the function is the load function.
+		 * As is documented in the @ref "file-loading", each extension has its own load function or else Atlas does not
+		 * know how to load the file.
+		 * @since v0.0.4
+		 * @sa @ref file-loading
+		 */
 		std::unordered_map<std::string, FileLoadFuncType> mLoadingFunctions;
 		
 		/// <summary>

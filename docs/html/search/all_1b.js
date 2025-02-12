@@ -23,7 +23,7 @@ var searchData=
   ['_7eierror_20',['~IError',['../dc/dba/class_atlas_1_1abstract.html#a487b02a839fda302606663b21caafb44',1,'Atlas::abstract']]],
   ['_7eiexception_21',['~IException',['../d1/d81/class_atlas_1_1_i_exception.html#af1e0403c4163a2f25226c916739ce172',1,'Atlas::IException']]],
   ['_7eiframemanager_22',['~IFrameManager',['../db/db8/class_atlas_1_1_i_frame_manager.html#aa9040518db979de2b81a1b6e7810deb0',1,'Atlas::IFrameManager']]],
-  ['_7eigameobject_23',['~IGameObject',['../dc/dba/class_atlas_1_1abstract.html#a051dc07adc5d3358048b89fe82e90423',1,'Atlas::abstract']]],
+  ['_7eigameobject_23',['~IGameObject',['../d8/d56/class_atlas_1_1_i_game_object.html#a1f2dc6d8a9e7d368445eeef2bc899e5f',1,'Atlas::IGameObject']]],
   ['_7eilayerregistry_24',['~ILayerRegistry',['../d6/d34/class_techstorm_1_1abstract.html#a4a5949bcde32483abd8b15105a2eda10',1,'Techstorm::abstract']]],
   ['_7eiphysicsgameobject_25',['~IPhysicsGameObject',['../dc/dba/class_atlas_1_1abstract.html#a45c2807c34141e65d6b0d8c9026b679a',1,'Atlas::abstract']]],
   ['_7elayerregistry_26',['~LayerRegistry',['../db/d5d/class_techstorm_1_1_layer_registry.html#af9d0b1f70047143779fd67cd3b66bc8e',1,'Techstorm::LayerRegistry']]],

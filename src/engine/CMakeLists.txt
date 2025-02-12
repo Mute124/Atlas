@@ -1,6 +1,12 @@
 ﻿# The sources are seperated into different variables for organization reasons
 
 set(ATLAS_COMPONENT_SOURCES
+    "components/ComponentManager.h"
+    "components/ComponentManager.cpp"
+
+    "components/ComponentRegistry.h"
+	"components/ComponentRegistry.cpp"
+
 	"components/Component.h"
     "components/Component.cpp"
 
@@ -34,13 +40,16 @@ set(ATLAS_ENGINE_CORE_SOURCES
     "engine.cpp"
     "BasicCore.h" 
 
+    "core/ManagedVariable.h"
+
+    "core/MemoryAllocator.h"
+    "core/MemoryAllocator.cpp"
 
     "core/IProject.h"
     "core/IAtlasEngine.h"
     
     "core/AtlasEngine.h"
     "core/AtlasEngine.cpp"
-
 
     "Project.h" 
     "Project.cpp" 
@@ -55,6 +64,7 @@ set(ATLAS_ENGINE_CORE_SOURCES
     "core/IGameThread.h"
     "core/GameThread.h"
     "core/GameThread.cpp"
+    "core/Registry.h"
 )
 
 set(ATLAS_RENDERER_SOURCES
@@ -189,8 +199,14 @@ set(ATLAS_FILESYSTEM_SOURCES
     "fs/Sandboxer.h"
     "fs/Sandboxer.cpp"
 
+    "fs/File.h"
+	"fs/File.cpp"
+
     "fs/RegisteredFile.h"
 	"fs/RegisteredFile.cpp"
+
+    "fs/LoadedFile.h"
+	"fs/LoadedFile.cpp"
 
     "fs/FileMeta.h"
 	"fs/FileMeta.cpp"

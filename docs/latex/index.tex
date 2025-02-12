@@ -6,52 +6,14 @@
 \DoxyHorRuler{0}
 
 
-<<<<<<< HEAD
-\doxylink{namespace_techstorm}{Techstorm} is the response to the lack of a free game engine that is built for large open worlds. While Unity or Unreal can make open world games, there are alot of hoops that must be jumped through first, which is why there is a need for it. \doxylink{namespace_techstorm}{Techstorm} aims to be flexible and moldable to suit needs without having to make major changes. It also aims to be easy to work with and a limited number of complex components.
+\doxylink{namespace_atlas}{Atlas} is the response to the lack of a free game engine that is built for large open worlds. While Unity or Unreal can make open world games, there are alot of hoops that must be jumped through first, which is why there is a need for it. \doxylink{namespace_atlas}{Atlas} aims to be flexible and moldable to suit needs without having to make major changes. It also aims to be easy to work with and a limited number of complex components.
 
 If you are looking for a hello world application, please see hello-\/world-\/example\hypertarget{index_architecture}{}\doxysubsection{\texorpdfstring{Architecture}{Architecture}}\label{index_architecture}
 \DoxyHorRuler{0}
 
 
-<<<<<<< HEAD
 The architecture of \doxylink{namespace_atlas}{Atlas} can get complex at some points, but the documentation is extensive to make up for this and reduce the learning curve.\hypertarget{index_flow-architecture}{}\doxysubsection{\texorpdfstring{\#\#\# Flow}{\#\#\# Flow}}\label{index_flow-architecture}
-=======
-\begin{quote}
-The following instructions are {\bfseries{NOT YET COMPLETE}}. For now, please see \doxysectlink{index_automatic-building}{Automatic Building}{3} \end{quote}
-In the event that you would like to build directly, start at what ever point you would like.\hypertarget{index_installing-and-setting-up-conan}{}\doxyparagraph{\texorpdfstring{Installing And Setting Up Conan}{Installing And Setting Up Conan}}\label{index_installing-and-setting-up-conan}
-\DoxyHorRuler{0}
-
-
-The following instructions are based on Conan 2.\+9\textquotesingle{}s documentation. If you would like to use their documentation to install Conan, please see \href{https://docs.conan.io/2/tutorial/consuming_packages/build_simple_cmake_project.html}{\texttt{ their installation tutorial}}. With that said, first make sure that you have python by using\+:
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\$\ python3\ -\/-\/version}
-
-\end{DoxyCode}
-
-
-If you got an error, congrats! You do not have python. If it worked and you have a version greater than or equal to 3.\+6, please run\+:
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\$\ pip\ install\ conan}
-
-\end{DoxyCode}
-
-
-\begin{quote}
-According to their documentation, ensure your {\bfseries{pip version}} matches your {\bfseries{python version}}. \end{quote}
-\hypertarget{index_flow-architecture}{}\doxysubsection{\texorpdfstring{Flow}{Flow}}\label{index_flow-architecture}
-=======
-\doxylink{namespace_techstorm}{Techstorm} is the response to the lack of a free game engine that is built for large open worlds. ~\newline
-\hypertarget{index_architecture}{}\doxysection{\texorpdfstring{Architecture}{Architecture}}\label{index_architecture}
-\DoxyHorRuler{0}
-
-
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
->>>>>>> master
-Due to the inherent nature of \doxylink{namespace_techstorm}{Techstorm}, the architecture can be complex. In terms of building, there are a few things that are required to understand how \doxylink{namespace_techstorm}{Techstorm} works. There are 4 groups that are used to build the engine, as outlined below\+:
+Due to the inherent nature of \doxylink{namespace_atlas}{Atlas}, the architecture can be complex. In terms of building, there are a few things that are required to understand how \doxylink{namespace_atlas}{Atlas} works. There are 4 groups that are used to build the engine, as outlined below\+:
 \begin{DoxyItemize}
 \item Application
 \item Engine
@@ -59,7 +21,6 @@ Due to the inherent nature of \doxylink{namespace_techstorm}{Techstorm}, the arc
 \item Tools The Application is responsible for loading the engine and handling the project, as seen below.
 \end{DoxyItemize}
 
-<<<<<<< HEAD
  
 \begin{DoxyImage}
 \includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{flowchart.png}
@@ -82,11 +43,7 @@ Due to the inherent nature of \doxylink{namespace_techstorm}{Techstorm}, the arc
 \end{DoxyCode}
 
 
-Now what does this mean? This is how \doxylink{namespace_atlas}{Atlas} knows what your derivative class is. If you are using the already provided class, then this does not have to be worried about. However, this is used when you need to have a lower-\/level control of the engine. \doxylink{namespace_atlas}{Atlas} interacts through the various virtual functions that are found within IProject in \doxylink{project_2_project_8h}{Project.\+h}.\hypertarget{index_file-system-architecture}{}\doxysubsubsection{\texorpdfstring{File System Architecture}{File System Architecture}}\label{index_file-system-architecture}
-=======
-<<<<<<< HEAD
-\hypertarget{index_file-system-architecture}{}\doxysubsection{\texorpdfstring{File System Architecture}{File System Architecture}}\label{index_file-system-architecture}
->>>>>>> master
+Now what does this mean? This is how \doxylink{namespace_atlas}{Atlas} knows what your derivative class is. If you are using the already provided class, then this does not have to be worried about. However, this is used when you need to have a lower-\/level control of the engine. \doxylink{namespace_atlas}{Atlas} interacts through the various virtual functions that are found within IProject in \doxylink{project_2_project_8h}{Project.\+h}. If you have questions about these events, please refer to IProject.\hypertarget{index_file-system-architecture}{}\doxysubsubsection{\texorpdfstring{File System Architecture}{File System Architecture}}\label{index_file-system-architecture}
 \DoxyHorRuler{0}
 
 
@@ -107,18 +64,33 @@ When it comes to files, there are two types of files\+: registered and loaded. D
 \end{DoxyImage}
    
 
+There are two ways to load a file\+:
+\begin{DoxyEnumerate}
+\item Call {\ttfamily Get\+File("{}\textbackslash{}\textbackslash{}example\textbackslash{}\textbackslash{}path"{});}
+\item Call {\ttfamily Load\+File("{}\textbackslash{}\textbackslash{}example\textbackslash{}\textbackslash{}path);"{}}
+\end{DoxyEnumerate}
+
+However, just calling {\ttfamily Get\+File()} is perfectly fine in itself.
+
+\texorpdfstring{$>$}{>}Notice how "{}\textbackslash{}\textbackslash{}"{} was used in the path, {\bfseries{this must}} be used as the directory divider \label{index_immediate-file-loading}%
+\Hypertarget{index_immediate-file-loading}%
+ \doxysubparagraph*{Immediate File Loading}
+
+\DoxyHorRuler{0}
+
+
 Next, the topic of immediate loading needs to be discussed. Immediate loading is when the file system loads a file on registration if the extension is marked as such. In order to mark an extension to be immediately loaded, it must be done {\bfseries{PRIOR TO THE SEARCHING PHASE}}. This is done within the {\bfseries{pre-\/initialization step}}. Below is an example of this in action\+:
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{//\ includes\ ...}
+\DoxyCodeLine{...}
 \DoxyCodeLine{}
 \DoxyCodeLine{}
 \DoxyCodeLine{//\ project.h\ in\ the\ project\_lib\ project}
 \DoxyCodeLine{class\ Project\ final\ :\ public\ Atlas::IProject\ \{}
 \DoxyCodeLine{public:}
 \DoxyCodeLine{\ \ \ \ void\ preInit()\ override\ \{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ IProject::preInit();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ IProject::preInit();\ //\ this\ should\ always\ be\ here!}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ }
 \DoxyCodeLine{\ \ \ \ \ \ \ \ using\ namespace\ std;}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ }
@@ -129,7 +101,7 @@ Next, the topic of immediate loading needs to be discussed. Immediate loading is
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \});}
 \DoxyCodeLine{\ \ \ \ \}}
 \DoxyCodeLine{\ \ \ \ }
-\DoxyCodeLine{\ \ \ \ //\ ...}
+\DoxyCodeLine{\ \ \ \ ...}
 \DoxyCodeLine{\};}
 
 \end{DoxyCode}
@@ -144,13 +116,7 @@ When it comes to file loading, the {\bfseries{extension matters}}. This is becau
 \DoxyCodeLine{std::shared\_ptr<RegisteredFile>\ file\ =\ GetFileSystemRegistry().getFile("{}ExampleFile.txt"{});}
 
 \end{DoxyCode}
-<<<<<<< HEAD
 \hypertarget{index_extension-loading}{}\doxyparagraph{\texorpdfstring{Extension loading}{Extension loading}}\label{index_extension-loading}
-=======
-=======
->>>>>>> 54653e5aab996b3ca5dfae6c481ea281d8cba5dc
-\hypertarget{index_graphics-architecture}{}\doxysubsection{\texorpdfstring{Graphics Architecture}{Graphics Architecture}}\label{index_graphics-architecture}
->>>>>>> master
 \DoxyHorRuler{0}
 
 
@@ -167,15 +133,15 @@ First, the mechanics of how \doxylink{namespace_atlas}{Atlas} handles rendering 
 \DoxyHorRuler{0}
 
 
-\doxylink{namespace_atlas}{Atlas} makes models easy because it will automatically handle materials for it. \hypertarget{index_autotoc_md10}{}\doxysubsubsection{\texorpdfstring{Modding Architecture}{Modding Architecture}}\label{index_autotoc_md10}
+\doxylink{namespace_atlas}{Atlas} makes models easy because it will automatically handle materials for it. \hypertarget{index_modding-architecture}{}\doxysubsubsection{\texorpdfstring{Modding Architecture}{Modding Architecture}}\label{index_modding-architecture}
 \DoxyHorRuler{0}
 
 
-Since Tech\+Storm comes with modding capability out of the box, there is less that has to be worried about. However, it is up to you to ensure that it is used properly. As of version 0.\+0.\+7, Angel\+Script is NOT yet implemented and there is no functionality for it yet. \hypertarget{index_dependencies}{}\doxysubsection{\texorpdfstring{Dependencies}{Dependencies}}\label{index_dependencies}
+Since \doxylink{namespace_atlas}{Atlas} comes with modding capability out of the box, there is less that has to be worried about. However, it is up to you to ensure that it is used properly. As of version 0.\+0.\+7, Angel\+Script is NOT yet implemented and there is no functionality for it yet. \hypertarget{index_dependencies}{}\doxysubsection{\texorpdfstring{Dependencies}{Dependencies}}\label{index_dependencies}
 \DoxyHorRuler{0}
 
 
-As it is a game engine, \doxylink{namespace_techstorm}{Techstorm} has alot of dependencies and can be found within the conanfile.\+txt in the same folder as the main CMake\+Lists.\+txt file. In addition to this, the current dependencies are listed as listed below with it\textquotesingle{}s basic purpose.
+As it is a game engine, \doxylink{namespace_atlas}{Atlas} has alot of dependencies and can be found within the conanfile.\+txt in the same folder as the main CMake\+Lists.\+txt file. In addition to this, the current dependencies are listed as listed below with it\textquotesingle{}s basic purpose.
 
 
 \begin{DoxyItemize}
@@ -234,7 +200,7 @@ If you want an indepth explanation of these dependencies and their implementatio
 \DoxyHorRuler{0}
 
 
-This section serves as an insight into why things are the way they are. Usually, documentation just describes the whats, wheres, and whos, but \doxylink{namespace_techstorm}{Techstorm} is extensively documented! This section will try to be as clear and thorough as possible in explaining the logic behind the design. The hope is that if you know the thinking, then you are able to know how it works and how to exploit it.\hypertarget{index_code-conventions}{}\doxysubsection{\texorpdfstring{Code Conventions}{Code Conventions}}\label{index_code-conventions}
+This section serves as an insight into why things are the way they are. Usually, documentation just describes the whats, wheres, and whos, but \doxylink{namespace_atlas}{Atlas} is extensively documented! This section will try to be as clear and thorough as possible in explaining the logic behind the design. The hope is that if you know the thinking, then you are able to know how it works and how to exploit it.\hypertarget{index_code-conventions}{}\doxysubsection{\texorpdfstring{Code Conventions}{Code Conventions}}\label{index_code-conventions}
 \DoxyHorRuler{0}
 
 
@@ -288,4 +254,26 @@ Public Variable   &public\+Variable   &{\ttfamily int public\+Variable = 3;}   &
 \DoxyHorRuler{0}
 
 
-Functions are simple, any that are not bound to a specific object will have the first letter lowercase. If it is a static, namespace, or global function, then it will have the first letter capitalized instead. When it comes to Preprocessor functions, it will follow the same rules as Constant Global variables, as seen below\+: 
+Functions are simple, any that are not bound to a specific object will have the first letter lowercase. If it is a static, namespace, or global function, then it will have the first letter capitalized instead. The below chart shows how functions are named and used\+:
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Case   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Format   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Example   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Notes    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Case   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Format   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Example   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Notes    }\\\cline{1-4}
+\endhead
+Macro   &ATLAS\+\_\+\+MACRO\+\_\+\+FUNCTION(macro\+Parameter)   &{\ttfamily \texorpdfstring{$<$}{<}br\texorpdfstring{$>$}{>}\#ifndef ATLAS\+\_\+\+MACRO\+\_\+\+FUNCTION\texorpdfstring{$<$}{<}br\texorpdfstring{$>$}{>}\texorpdfstring{$<$}{<}br\texorpdfstring{$>$}{>}\#define ATLAS\+\_\+\+MACRO\+\_\+\+FUNCTION(macro\+Variable) \texorpdfstring{$<$}{<}br\texorpdfstring{$>$}{>}\texorpdfstring{$<$}{<}br\texorpdfstring{$>$}{>}\#endif\texorpdfstring{$<$}{<}br\texorpdfstring{$>$}{>}}   &The function is prefixed with ATLAS\+\_\+    \\\cline{1-4}
+Static Functions   &\multirow{4}{*}{}&&\multirow{2}{*}{Same rules apply for classes    }\\\cline{1-1}\cline{3-3}
+Static Inline Functions   &&&\multicolumn{1}{c|}{}\\\cline{1-1}\cline{3-4}
+Namespace functions   &&&\\\cline{1-1}\cline{3-4}
+Global Functions   &&&\\\cline{1-4}
+Class Public Member Functions   &&&\\\cline{1-4}
+Class Private Member Functions   &&&\\\cline{1-4}
+Class Protected Member Functions   &&&\\\cline{1-4}
+Template Functions   &&&Follows the same rules of where it is located    \\\cline{1-4}
+&&&\\\cline{1-4}
+\end{longtabu}
