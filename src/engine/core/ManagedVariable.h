@@ -89,10 +89,17 @@ namespace Atlas {
 			value = newValue;
 		}
 
+		void execute(std::function<void(ThreadSafeVariable<T_VARIABLE_TYPE>&)> function) {
+			std::unique_lock lock1{ mutex, std::defer_lock };
+			T_LOCK_GUARD lock(mutex);
+
+			function(*this);
+		}
 		ThreadSafeVariable<T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD>& operator=(
 				const ThreadSafeVariable<T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD>& other) {
 			T_LOCK_GUARD lock(mutex);
-			value = other.value;
+			//value = other.value;
+			this = other;
 			return *this;
 		}
 
@@ -100,12 +107,7 @@ namespace Atlas {
 			return get();
 		}
 
-		void execute(std::function<void(ThreadSafeVariable<T_VARIABLE_TYPE>&)> function) {
-			std::unique_lock lock1{ mutex, std::defer_lock };
-			T_LOCK_GUARD lock(mutex);
 
-			function(*this);
-		}
 	};
 
 }

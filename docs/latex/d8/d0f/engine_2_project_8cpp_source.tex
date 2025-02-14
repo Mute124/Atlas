@@ -71,7 +71,7 @@
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00067}00067\ }
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00068}\mbox{\hyperlink{class_atlas_1_1_b_project_aad34c51d30d235f25db8df4e3064ca2d}{00068}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_b_project_aad34c51d30d235f25db8df4e3064ca2d}{Atlas::BProject::preInit}}()\ \{}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00069}00069\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00070}00070\ \ \ \ \ getAtlasEngine()-\/>getLogger()-\/>init(\mbox{\hyperlink{struct_atlas_1_1_logger_config}{LoggerConfig}}());}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00070}00070\ \ \ \ \ getAtlasEngine()-\/>getLogger().get()-\/>init(\mbox{\hyperlink{struct_atlas_1_1_logger_config}{LoggerConfig}}());}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00071}00071\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Registering\ file\ load\ functions..."{}});}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00072}00072\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a5e7cd4a7e5ef777906b0bec063a11d8e}{AddFileRegistryLoadFunction}}(\textcolor{stringliteral}{"{}png"{}},\ [](std::shared\_ptr<FileMeta>\ loadFunc)\ \{}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ Image\ image\ =\ LoadImage(loadFunc-\/>path.c\_str());}
@@ -139,8 +139,8 @@
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00135}00135\ }
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00136}00136\ \ \ \ \ std::string\ gameDir\ =\ \mbox{\hyperlink{_common_8h_a22bf313ce6cdc640a1feaf76dfc2897e}{ATLAS\_GAME\_DIR}};}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00137}00137\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00138}00138\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{FileSystemRegistry}}*\ registry\ =\ getAtlasEngine()-\/>getFileSystemRegistry();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00139}00139\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_config_file_registry}{ConfigFileRegistry}}*\ configFileRegistry\ =\ getAtlasEngine()-\/>getConfigFileRegistry();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00138}00138\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{FileSystemRegistry}}*\ registry\ =\ getAtlasEngine()-\/>getFileSystemRegistry().get();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00139}00139\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_config_file_registry}{ConfigFileRegistry}}*\ configFileRegistry\ =\ getAtlasEngine()-\/>getConfigFileRegistry().get();}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00140}00140\ }
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00141}00141\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}}(\textcolor{stringliteral}{"{}Initializing\ file\ system..."{}});}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00142}00142\ \ \ \ \ registry-\/>\mbox{\hyperlink{class_atlas_1_1_file_system_registry_a09591b2eeacb6c7b5aa460780be9a26f}{init}}(gameDir.c\_str());}
@@ -150,7 +150,7 @@
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00146}00146\ \textcolor{comment}{//\ \ \ \ \ \ \#ifdef\ ATLAS\_ENABLE\_LUA}}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00147}00147\ \ \ \ \ this-\/>mLuaLibraries.push\_back(sol::lib::base);}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00148}00148\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00149}00149\ \ \ \ \ ScriptingAPI*\ scriptingAPI\ =\ getAtlasEngine()-\/>getScriptingAPI();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00149}00149\ \ \ \ \ ScriptingAPI*\ scriptingAPI\ =\ getAtlasEngine()-\/>getScriptingAPI().get();}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00150}00150\ }
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00151}00151\ \ \ \ \ scriptingAPI-\/>initializeScripting(this-\/>getLuaLibraries(),\ this-\/>getLuaFunctions());\ \textcolor{comment}{//\ getAtlasEngine()-\/>getLuaLibraries(),\ getAtlasEngine()-\/>getLuaFunctions()}}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00152}00152\ \ \ \ \ scriptingAPI-\/>registerLua();}
@@ -163,132 +163,135 @@
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00159}00159\ \}}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00160}00160\ }
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00161}\mbox{\hyperlink{class_atlas_1_1_b_project_af4778c2d0f23847f9534c8272195b478}{00161}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_b_project_af4778c2d0f23847f9534c8272195b478}{Atlas::BProject::postInit}}()\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00162}00162\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_i_window}{IWindow}}*\ window\ =\ getAtlasEngine()-\/>getWindow();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00163}00163\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}}*\ renderer\ =\ getAtlasEngine()-\/>getRenderer();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00164}00164\ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_allocated_physics_resources}{AllocatedPhysicsResources}}\ resources\ =\ \mbox{\hyperlink{struct_atlas_1_1_allocated_physics_resources}{AllocatedPhysicsResources}}();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00165}00165\ \ \ \ \ getAtlasEngine()-\/>getPhysicsEngine()-\/>init(resources);}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00166}00166\ \ \ \ \ window-\/>\mbox{\hyperlink{class_atlas_1_1_i_window_a392bc2e9396409db88f2880a323affab}{init}}(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_atlas_1_1_window_decorations}{WindowDecorations}}());}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00167}00167\ \ \ \ \ renderer-\/>\mbox{\hyperlink{class_atlas_1_1_renderer_a3e136cc21a8132d5a94287f07e8b1f85}{init}}();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00168}00168\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00169}00169\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00170}\mbox{\hyperlink{class_atlas_1_1_b_project_af967ae1489dbc794cac9e5c0cbdad33f}{00170}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_b_project_af967ae1489dbc794cac9e5c0cbdad33f}{Atlas::BProject::initRenderer}}()\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00162}00162\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_i_window}{IWindow}}*\ window\ =\ getAtlasEngine()-\/>getWindow().get();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00163}00163\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}}*\ renderer\ =\ getAtlasEngine()-\/>getRenderer().get();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00165}00165\ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_allocated_physics_resources}{AllocatedPhysicsResources}}\ resources\ =\ \mbox{\hyperlink{struct_atlas_1_1_allocated_physics_resources}{AllocatedPhysicsResources}}();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00166}00166\ \ \ \ \ getAtlasEngine()-\/>getPhysicsEngine().get()-\/>init(resources);}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00168}00168\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_window_decorations}{WindowDecorations}}*\ windowDecor\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_atlas_1_1_window_decorations}{WindowDecorations}}();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00169}00169\ \ \ \ \ window-\/>\mbox{\hyperlink{class_atlas_1_1_i_window_a392bc2e9396409db88f2880a323affab}{init}}(windowDecor);}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00170}00170\ \ \ \ \ renderer-\/>\mbox{\hyperlink{class_atlas_1_1_renderer_a3e136cc21a8132d5a94287f07e8b1f85}{init}}();}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00171}00171\ \}}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00172}00172\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00173}\mbox{\hyperlink{class_atlas_1_1_b_project_a2363b6b01ff3246ac0115f1e0ad2dd5a}{00173}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_a2363b6b01ff3246ac0115f1e0ad2dd5a}{Atlas::BProject::run}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}*\ argv[])\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00174}00174\ \ \ \ \ \textcolor{keywordtype}{int}\ code\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00175}00175\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00176}00176\ \ \ \ \ \textcolor{keywordtype}{bool}\ shouldClose\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00177}00177\ \ \ \ \ \textcolor{keywordflow}{while}\ (!shouldClose)\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ shouldClose\ =\ getAtlasEngine()-\/>getWindow()-\/>shouldClose();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00179}00179\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ draw();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00181}00181\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00173}\mbox{\hyperlink{class_atlas_1_1_b_project_af967ae1489dbc794cac9e5c0cbdad33f}{00173}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_b_project_af967ae1489dbc794cac9e5c0cbdad33f}{Atlas::BProject::initRenderer}}()\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00174}00174\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00176}\mbox{\hyperlink{class_atlas_1_1_b_project_a2363b6b01ff3246ac0115f1e0ad2dd5a}{00176}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_a2363b6b01ff3246ac0115f1e0ad2dd5a}{Atlas::BProject::run}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}*\ argv[])\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00177}00177\ \ \ \ \ \textcolor{keywordtype}{int}\ code\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00178}00178\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00179}00179\ \ \ \ \ \textcolor{keywordtype}{bool}\ shouldClose\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00180}00180\ \ \ \ \ \textcolor{keywordflow}{while}\ (!shouldClose)\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ shouldClose\ =\ getAtlasEngine()-\/>getWindow().get()-\/>shouldClose();}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00182}00182\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00183}00183\ \ \ \ \ \textcolor{comment}{//\ This\ is\ here\ because\ it\ reduces\ CPU\ usage\ (by\ alot!).}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00184}00184\ \ \ \ \ std::this\_thread::yield();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00185}00185\ \ \ \ \ \textcolor{keywordflow}{return}\ code;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00186}00186\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00187}00187\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00188}\mbox{\hyperlink{class_atlas_1_1_b_project_aa587dcff45c5a516381aabbf5a821619}{00188}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_aa587dcff45c5a516381aabbf5a821619}{Atlas::BProject::update}}()}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00189}00189\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00190}00190\ \ \ \ \ \textcolor{keywordtype}{int}\ code\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00191}00191\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00192}00192\ \ \ \ \ getAtlasEngine()-\/>getRenderer()-\/>updateObjects();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00193}00193\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00194}00194\ \ \ \ \ \textcolor{keywordflow}{return}\ code;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00195}00195\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00196}00196\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00197}\mbox{\hyperlink{class_atlas_1_1_b_project_af7b15a4ce93501c82febfeb8919b481f}{00197}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_af7b15a4ce93501c82febfeb8919b481f}{Atlas::BProject::workingUpdate}}()}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00198}00198\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00199}00199\ \ \ \ \ \textcolor{keywordtype}{int}\ code\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00200}00200\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00201}00201\ \ \ \ \ getAtlasEngine()-\/>getInputRegistry()-\/>checkAll();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00202}00202\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00203}00203\ \ \ \ \ \textcolor{keywordflow}{return}\ code;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00204}00204\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ draw();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00184}00184\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00186}00186\ \ \ \ \ \textcolor{comment}{//\ This\ is\ here\ because\ it\ reduces\ CPU\ usage\ (by\ alot!).}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00187}00187\ \ \ \ \ std::this\_thread::yield();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00188}00188\ \ \ \ \ \textcolor{keywordflow}{return}\ code;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00189}00189\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00191}\mbox{\hyperlink{class_atlas_1_1_b_project_aa587dcff45c5a516381aabbf5a821619}{00191}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_aa587dcff45c5a516381aabbf5a821619}{Atlas::BProject::update}}()}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00192}00192\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00193}00193\ \ \ \ \ \textcolor{keywordtype}{int}\ code\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00194}00194\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00195}00195\ \ \ \ \ getAtlasEngine()-\/>getRenderer().get()-\/>updateObjects();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00196}00196\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00197}00197\ \ \ \ \ \textcolor{keywordflow}{return}\ code;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00198}00198\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00200}\mbox{\hyperlink{class_atlas_1_1_b_project_af7b15a4ce93501c82febfeb8919b481f}{00200}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_af7b15a4ce93501c82febfeb8919b481f}{Atlas::BProject::workingUpdate}}()}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00201}00201\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00202}00202\ \ \ \ \ \textcolor{keywordtype}{int}\ code\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00204}00204\ \ \ \ \ getAtlasEngine()-\/>getInputRegistry().get()-\/>checkAll();}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00205}00205\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00206}\mbox{\hyperlink{class_atlas_1_1_b_project_a13bff372e93aa380399bad3af077f04c}{00206}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_a13bff372e93aa380399bad3af077f04c}{Atlas::BProject::prePhysicsUpdate}}()\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00207}00207\ \ \ \ \ \textcolor{keywordtype}{int}\ code\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00206}00206\ \ \ \ \ \textcolor{keywordflow}{return}\ code;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00207}00207\ \}}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00208}00208\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00209}00209\ \ \ \ \ \textcolor{keywordflow}{return}\ code;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00210}00210\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00209}\mbox{\hyperlink{class_atlas_1_1_b_project_a13bff372e93aa380399bad3af077f04c}{00209}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_a13bff372e93aa380399bad3af077f04c}{Atlas::BProject::prePhysicsUpdate}}()\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00210}00210\ \ \ \ \ \textcolor{keywordtype}{int}\ code\ =\ 0;}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00211}00211\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00212}\mbox{\hyperlink{class_atlas_1_1_b_project_abf0c5a0fd54ebc7cea03d2a6cee6e8fd}{00212}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_abf0c5a0fd54ebc7cea03d2a6cee6e8fd}{Atlas::BProject::physicsUpdate}}()\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00213}00213\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00214}00214\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_physics_engine}{PhysicsEngine}}*\ physicsEngine\ =\ getAtlasEngine()-\/>getPhysicsEngine();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00215}00215\ \ \ \ \ physicsEngine-\/>\mbox{\hyperlink{class_atlas_1_1_physics_engine_a2c36ce16ce3b0908e8d04ddece7c2914}{update}}(1.0f\ /\ 60.0f);}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00212}00212\ \ \ \ \ \textcolor{keywordflow}{return}\ code;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00213}00213\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00215}\mbox{\hyperlink{class_atlas_1_1_b_project_abf0c5a0fd54ebc7cea03d2a6cee6e8fd}{00215}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_abf0c5a0fd54ebc7cea03d2a6cee6e8fd}{Atlas::BProject::physicsUpdate}}()\ \{}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00216}00216\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00217}00217\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00218}00218\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00217}00217\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_physics_engine}{PhysicsEngine}}*\ physicsEngine\ =\ getAtlasEngine()-\/>getPhysicsEngine().get();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00218}00218\ \ \ \ \ physicsEngine-\/>\mbox{\hyperlink{class_atlas_1_1_physics_engine_a2c36ce16ce3b0908e8d04ddece7c2914}{update}}(1.0f\ /\ 60.0f);}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00219}00219\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00220}\mbox{\hyperlink{class_atlas_1_1_b_project_ab66dae5469e90e12d88f4ae216dd8d9d}{00220}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_ab66dae5469e90e12d88f4ae216dd8d9d}{Atlas::BProject::postPhysicsUpdate}}()\ \{\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00221}00221\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00222}00222\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00223}00223\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00224}\mbox{\hyperlink{class_atlas_1_1_b_project_a6bc4c4c61d58ac27b19dfd01233df65a}{00224}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_a6bc4c4c61d58ac27b19dfd01233df65a}{Atlas::BProject::preObjectUpdate}}()\ \{\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00225}00225\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00226}00226\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00227}00227\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00228}\mbox{\hyperlink{class_atlas_1_1_b_project_acef3fb6458d9046f2ca5975086dc8d31}{00228}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_acef3fb6458d9046f2ca5975086dc8d31}{Atlas::BProject::objectUpdate}}()\ \{\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00229}00229\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00230}00230\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00231}00231\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00232}\mbox{\hyperlink{class_atlas_1_1_b_project_abf0e30b0773da5eb34f873d811afb7da}{00232}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_abf0e30b0773da5eb34f873d811afb7da}{Atlas::BProject::postObjectUpdate}}()\ \{\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00233}00233\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00234}00234\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00235}00235\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00236}\mbox{\hyperlink{class_atlas_1_1_b_project_ac6363bf95c9db9974a7f7e65339f0e05}{00236}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_ac6363bf95c9db9974a7f7e65339f0e05}{Atlas::BProject::texture}}()\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00237}00237\ \ \ \ \ getAtlasEngine()-\/>getRenderer()-\/>texture(getAtlasEngine()-\/>getRenderer()-\/>mCamera);}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00238}00238\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00239}00239\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00240}00240\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00241}\mbox{\hyperlink{class_atlas_1_1_b_project_a7a073586af21d8bcbd93db9b8c99ba88}{00241}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_a7a073586af21d8bcbd93db9b8c99ba88}{Atlas::BProject::render}}()\ \{\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00242}00242\ \ \ \ \ getAtlasEngine()-\/>getRenderer()-\/>render(getAtlasEngine()-\/>getRenderer()-\/>mCamera);}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00243}00243\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00244}00244\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00245}00245\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00246}\mbox{\hyperlink{class_atlas_1_1_b_project_af83f0a4c17342789d3c5f9278f6a358a}{00246}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_af83f0a4c17342789d3c5f9278f6a358a}{Atlas::BProject::draw}}()}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00247}00247\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00248}00248\ \ \ \ \ getAtlasEngine()-\/>getRenderer()-\/>update();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00249}00249\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a0b57774cb59b667df4a205ae0b1a50e2}{texture}}();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00250}00250\ \ \ \ \ render();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00251}00251\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00252}00252\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00253}00253\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00220}00220\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00221}00221\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00223}\mbox{\hyperlink{class_atlas_1_1_b_project_ab66dae5469e90e12d88f4ae216dd8d9d}{00223}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_ab66dae5469e90e12d88f4ae216dd8d9d}{Atlas::BProject::postPhysicsUpdate}}()\ \{\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00224}00224\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00225}00225\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00227}\mbox{\hyperlink{class_atlas_1_1_b_project_a6bc4c4c61d58ac27b19dfd01233df65a}{00227}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_a6bc4c4c61d58ac27b19dfd01233df65a}{Atlas::BProject::preObjectUpdate}}()\ \{\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00228}00228\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00229}00229\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00231}\mbox{\hyperlink{class_atlas_1_1_b_project_acef3fb6458d9046f2ca5975086dc8d31}{00231}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_acef3fb6458d9046f2ca5975086dc8d31}{Atlas::BProject::objectUpdate}}()\ \{\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00232}00232\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00233}00233\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00235}\mbox{\hyperlink{class_atlas_1_1_b_project_abf0e30b0773da5eb34f873d811afb7da}{00235}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_abf0e30b0773da5eb34f873d811afb7da}{Atlas::BProject::postObjectUpdate}}()\ \{\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00236}00236\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00237}00237\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00239}\mbox{\hyperlink{class_atlas_1_1_b_project_ac6363bf95c9db9974a7f7e65339f0e05}{00239}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_ac6363bf95c9db9974a7f7e65339f0e05}{Atlas::BProject::texture}}()\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00240}00240\ \ \ \ \ getAtlasEngine()-\/>getRenderer().get()-\/>texture(getAtlasEngine()-\/>getRenderer().get()-\/>mCamera);}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00241}00241\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00242}00242\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00244}\mbox{\hyperlink{class_atlas_1_1_b_project_a7a073586af21d8bcbd93db9b8c99ba88}{00244}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_a7a073586af21d8bcbd93db9b8c99ba88}{Atlas::BProject::render}}()\ \{\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00245}00245\ \ \ \ \ getAtlasEngine()-\/>getRenderer().get()-\/>render(getAtlasEngine()-\/>getRenderer().get()-\/>mCamera);}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00246}00246\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00247}00247\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00249}\mbox{\hyperlink{class_atlas_1_1_b_project_af83f0a4c17342789d3c5f9278f6a358a}{00249}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_af83f0a4c17342789d3c5f9278f6a358a}{Atlas::BProject::draw}}()}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00250}00250\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00251}00251\ \ \ \ \ getAtlasEngine()-\/>getRenderer().get()-\/>update();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00252}00252\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a0b57774cb59b667df4a205ae0b1a50e2}{texture}}();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00253}00253\ \ \ \ \ render();}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00254}00254\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00255}\mbox{\hyperlink{class_atlas_1_1_b_project_ab86049db835569b5fe30825eddf0d2e5}{00255}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_ab86049db835569b5fe30825eddf0d2e5}{Atlas::BProject::cleanup}}(\textcolor{keywordtype}{int}\ exitCode)\ \{\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00256}00256\ \ \ \ \ std::shared\_ptr<AtlasEngine>\ engine\ =\ getAtlasEngine();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00255}00255\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00256}00256\ \}}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00257}00257\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00258}00258\ \ \ \ \ engine-\/>getRenderer()-\/>cleanup();}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00259}00259\ \textcolor{comment}{/*\ \ engine-\/>getPhysicsEngine()-\/>cleanup();}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00260}00260\ \textcolor{comment}{\ \ \ \ engine-\/>getInputRegistry()-\/>cleanup();}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00261}00261\ \textcolor{comment}{\ \ \ \ engine-\/>getLogger()-\/>cleanup();*/}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00262}00262\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00263}00263\ \ \ \ \ \textcolor{keywordflow}{return}\ exitCode;\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00264}00264\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00258}\mbox{\hyperlink{class_atlas_1_1_b_project_ab86049db835569b5fe30825eddf0d2e5}{00258}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_b_project_ab86049db835569b5fe30825eddf0d2e5}{Atlas::BProject::cleanup}}(\textcolor{keywordtype}{int}\ exitCode)\ \{\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00259}00259\ \ \ \ \ std::shared\_ptr<AtlasEngine>\ engine\ =\ getAtlasEngine();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00261}00261\ \ \ \ \ engine-\/>getRenderer().get()-\/>cleanup();}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00262}00262\ \textcolor{comment}{/*\ \ engine-\/>getPhysicsEngine()-\/>cleanup();}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00263}00263\ \textcolor{comment}{\ \ \ \ engine-\/>getInputRegistry()-\/>cleanup();}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00264}00264\ \textcolor{comment}{\ \ \ \ engine-\/>getLogger()-\/>cleanup();*/}}
 \DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00265}00265\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00266}\mbox{\hyperlink{class_atlas_1_1_b_project_ad5e30e33026b8cd13e918f8a19027494}{00266}}\ std::shared\_ptr<BProject>\ \mbox{\hyperlink{class_atlas_1_1_b_project_ad5e30e33026b8cd13e918f8a19027494}{Atlas::BProject::GetProject}}()\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00267}00267\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00268}00268\ \ \ \ \ \textcolor{keywordflow}{return}\ mProject;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00269}00269\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00270}00270\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00271}\mbox{\hyperlink{class_atlas_1_1_b_project_afb592fb10434b93d4a4b1e19718023ce}{00271}}\ std::shared\_ptr<AtlasEngine>\ \mbox{\hyperlink{class_atlas_1_1_b_project_afb592fb10434b93d4a4b1e19718023ce}{Atlas::BProject::getAtlasEngine}}()}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00272}00272\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00273}00273\ \ \ \ \ \textcolor{keywordflow}{return}\ mAtlas;}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00274}00274\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00275}00275\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00276}\mbox{\hyperlink{class_atlas_1_1_b_project_1_1_project_reference_a8a75f8431cf7a84ba68dbe401e0386b2}{00276}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_b_project_1_1_project_reference_a8a75f8431cf7a84ba68dbe401e0386b2}{Atlas::BProject::ProjectReference::setProjectReference}}(\mbox{\hyperlink{class_atlas_1_1_b_project}{BProject}}*\ project)\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00277}00277\ \ \ \ \ \textcolor{keywordflow}{if}\ (project\ !=\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ this-\/>mProject\ =\ std::shared\_ptr<BProject>(project);}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00279}00279\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00280}00280\ \}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00281}00281\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00282}00282\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00283}00283\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AtlasEngine}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00284}00284\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00285}00285\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00286}\mbox{\hyperlink{namespace_atlas_a35cdcfa9479f5d9f1a145949c03bddfe}{00286}}\ std::shared\_ptr<AtlasEngine>\ \mbox{\hyperlink{namespace_atlas_a35cdcfa9479f5d9f1a145949c03bddfe}{Atlas::GetAtlasEngine}}()\ \{\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00287}00287\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_b_project_ad5e30e33026b8cd13e918f8a19027494}{BProject::GetProject}}()-\/>getAtlasEngine();\ }
-\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00288}00288\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00266}00266\ \ \ \ \ \textcolor{keywordflow}{return}\ exitCode;\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00267}00267\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00269}\mbox{\hyperlink{class_atlas_1_1_b_project_ad5e30e33026b8cd13e918f8a19027494}{00269}}\ std::shared\_ptr<BProject>\ \mbox{\hyperlink{class_atlas_1_1_b_project_ad5e30e33026b8cd13e918f8a19027494}{Atlas::BProject::GetProject}}()\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00270}00270\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00271}00271\ \ \ \ \ \textcolor{keywordflow}{return}\ mProject;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00272}00272\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00274}\mbox{\hyperlink{class_atlas_1_1_b_project_afb592fb10434b93d4a4b1e19718023ce}{00274}}\ std::shared\_ptr<AtlasEngine>\ \mbox{\hyperlink{class_atlas_1_1_b_project_afb592fb10434b93d4a4b1e19718023ce}{Atlas::BProject::getAtlasEngine}}()}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00275}00275\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00276}00276\ \ \ \ \ \textcolor{keywordflow}{return}\ mAtlas;}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00277}00277\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00279}\mbox{\hyperlink{class_atlas_1_1_b_project_1_1_project_reference_a8a75f8431cf7a84ba68dbe401e0386b2}{00279}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_b_project_1_1_project_reference_a8a75f8431cf7a84ba68dbe401e0386b2}{Atlas::BProject::ProjectReference::setProjectReference}}(\mbox{\hyperlink{class_atlas_1_1_b_project}{BProject}}*\ project)\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00280}00280\ \ \ \ \ \textcolor{keywordflow}{if}\ (project\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00281}00281\ \ \ \ \ \ \ \ \ this-\/>mProject\ =\ std::shared\_ptr<BProject>(project);}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00282}00282\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00283}00283\ \}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00284}00284\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00285}00285\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00286}00286\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AtlasEngine}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00287}00287\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00288}00288\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00289}\mbox{\hyperlink{namespace_atlas_a35cdcfa9479f5d9f1a145949c03bddfe}{00289}}\ std::shared\_ptr<AtlasEngine>\ \mbox{\hyperlink{namespace_atlas_a35cdcfa9479f5d9f1a145949c03bddfe}{Atlas::GetAtlasEngine}}()\ \{\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00290}00290\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_b_project_ad5e30e33026b8cd13e918f8a19027494}{BProject::GetProject}}()-\/>getAtlasEngine();\ }
+\DoxyCodeLine{\Hypertarget{engine_2_project_8cpp_source_l00291}00291\ \}}
 
 \end{DoxyCode}

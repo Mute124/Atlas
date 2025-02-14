@@ -8,6 +8,6 @@ var searchData=
   ['linkprogram_5',['LinkProgram',['../d4/d6c/union_im_g_l3_w_procs.html#af79251d573cca52e1977a304f8acb0f6',1,'ImGL3WProcs']]],
   ['location_6',['location',['../df/d3f/struct_atlas_1_1_logger_1_1_temporary_message.html#a7e8a6f50252de10d5df768008abf7906',1,'Atlas::Logger::TemporaryMessage']]],
   ['logfile_7',['logFile',['../d5/d0c/struct_atlas_1_1_logger_config.html#a0e35d73fffa88ce89c36dca327d01b93',1,'Atlas::LoggerConfig']]],
-  ['logger_8',['logger',['../d3/d8d/class_atlas_1_1_atlas_engine.html#a6c891a7a211553cad0bde006639e8269',1,'Atlas::AtlasEngine']]],
+  ['logger_8',['logger',['../d3/d8d/class_atlas_1_1_atlas_engine.html#a675fa449b73a90280d0bcffe6d28b55e',1,'Atlas::AtlasEngine']]],
   ['loggerlevel_9',['loggerLevel',['../d5/d0c/struct_atlas_1_1_logger_config.html#ac760f24aafbf1cb5ab70664a4a76bce0',1,'Atlas::LoggerConfig']]]
 ];

@@ -211,7 +211,6 @@ namespace Atlas::Application {
 		{
 			sIsWaitingForOthers = true;
 			updateThread = std::jthread([&]() {
-				
 				RunUpdateThread();
 			});
 

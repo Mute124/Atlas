@@ -14,7 +14,6 @@ add_executable(main_app
 	"AngelScriptTest.h"
 	"AngelScriptTest.cpp"
 	"add_on/scriptstdstring/scriptstdstring.cpp"
-
 	${ATLAS_MAIN_APPLICATION_RC}
 	
     #"Shell.h"

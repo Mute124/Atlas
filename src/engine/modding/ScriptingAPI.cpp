@@ -1,5 +1,6 @@
 #include "ScriptingAPI.h"
 #include "../conf/Config.h"
+#include <sol/state_view.hpp>
 
 #ifdef ATLAS_ENABLE_MODDING
 

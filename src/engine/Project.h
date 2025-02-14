@@ -17,17 +17,26 @@
 
 namespace Atlas {
 	/**
-	 * @brief This is the interface for the user's project. This is the only interface that Atlas will call.
-	 * @remarks This is an <b>abstract interface singleton</b> that all projects must implement and set the <i>ProjectReference</i> singleton to
-	 * their project. In terms of functionality, this interface just holds the functions and variables that Atlas will call (besides some initialization). 
-	 * @note If this boilerplate code is not done, Atlas will not know what to run. 
+	 * @brief This is the interface for the user's project. This is the only
+	 * interface that Atlas will call.
+	 * 
+	 * @remarks This is an <b>abstract interface singleton</b> that all projects
+	 * must implement and set the <i>ProjectReference</i> singleton to their project.
+	 * In terms of functionality, this interface just holds the functions and variables
+	 * that Atlas will call (besides some initialization).
+	 * 
+	 * @note If this boilerplate code is not done, Atlas will not know what to run.
+	 * 
 	 * @warning <b>Do not directly call window code in here or your project will crash!</b>
-	 * @since Added in v0.0.1
+	 * 
+	 * @since v0.0.1
 	 */
 	class BProject : public IProject {
 	protected:
+		/**
+		 * @brief A flag that indicates whether or not the project has been cleaned up.
+		 */
 		bool mHasCleanedUp = false;
-		Renderer mRenderer;
 		WindowDecorations mWindowDecorations;
 		ScriptingLibraryRegistry mLuaLibraries;
 		ScriptingFunctionRegistry mLuaFunctions;
@@ -35,7 +44,9 @@ namespace Atlas {
 		/**
 		 * @brief Represents a polymorphic singleton reference to the user's project instance 
 		 * through a pointer of Atlas::BProject. This is mandatory for Atlas to run the user's engine.
+		 * 
 		 * @deprecated Use Atlas::BProject::getProject()
+		 * 
 		 * @since v0.0.1
 		 */
 		class ProjectReference : public Singleton<ProjectReference> {
@@ -65,6 +76,10 @@ namespace Atlas {
 		GameSettings settings;
 		static inline std::shared_ptr<AtlasEngine> mAtlas = nullptr;
 
+		/**
+		 * @brief This is a default constructor that will initialize Atlas and the user's project.
+		 * @since v0.0.1
+		 */
 		BProject();
 
 

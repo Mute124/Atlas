@@ -12,6 +12,7 @@
 #include "../physics/Physics.h"
 #include "../renderer/Renderer.h"
 #include "../renderer/window/IWindow.h"
+#include "ManagedVariable.h"
 
 namespace Atlas {
 

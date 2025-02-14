@@ -2,6 +2,8 @@ import subprocess
 import os
 import sys
 
+outputFolder = "build"
+    
 def IsConanInstalled():
     try:
         subprocess.check_call(['conan', '--version'])
@@ -17,11 +19,11 @@ def InstallConan():
     print("Conan is now installed.\n")
 
 def DoesBuildFolderExist():
-    return os.path.exists("build")
+    return os.path.exists(outputFolder)
 
 def RemoveBuildFolder():
 
-    os.rmdir("build")
+    os.rmdir(outputFolder)
     #os.chdir("build-scripts")
 
 def CheckConanStep():
@@ -80,9 +82,12 @@ def InstallPackagesStep():
             fileTest.write(line)
         fileTest.close()
     # os.chdir("..")
+
+
+
     if packageConfigsInstalled[0] == True:
         print("Installing debug packages...")
-        subprocess.check_call(['conan', 'install', '.', '--output-folder=build', '--build=missing', '-s', 'build_type=Debug'])
+        subprocess.check_call(['conan', 'install', '.', '--output-folder='+outputFolder, '--build=missing', '-s', 'build_type=Debug'])
         
         # Create a file in the cache folder that indicates that debug packages are installed
         buildTypeIndicator = open("cache/installedDebug.pkgstate", "w")
@@ -92,7 +97,7 @@ def InstallPackagesStep():
 
     if packageConfigsInstalled[1] == True:
         print("Installing release packages...")
-        subprocess.check_call(['conan', 'install', '.', '--output-folder=build', '--build=missing', '-s', 'build_type=Release'])
+        subprocess.check_call(['conan', 'install', '.', '--output-folder='+outputFolder, '--build=missing', '-s', 'build_type=Release'])
 
         # Create a file in the cache folder that indicates that release packages are installed
         buildTypeIndicator = open("cache/installedRelease.pkgstate", "w")
@@ -103,7 +108,7 @@ def InstallPackagesStep():
 
     if packageConfigsInstalled[2] == True:
         print("Installing distribution packages...")
-        subprocess.check_call(['conan', 'install', '.', '--output-folder=build', '--build=missing', '-s', 'build_type=Distribution'])
+        subprocess.check_call(['conan', 'install', '.', '--output-folder'+outputFolder, '--build=missing', '-s', 'build_type=Distribution'])
 
         # Create a file in the cache folder that indicates that distribution packages are installed
         buildTypeIndicator = open("cache/installedDistribution.pkgstate", "w")

@@ -30,8 +30,9 @@ var searchData=
   ['_7elogger_27',['~Logger',['../df/dca/class_atlas_1_1_logger.html#acda967f299ad40a73dc26942387f4211',1,'Atlas::Logger']]],
   ['_7emod_28',['~Mod',['../df/d6e/class_atlas_1_1_mod.html#a46e99d24b03c38d2053485ce0ba4835f',1,'Atlas::Mod']]],
   ['_7emodloader_29',['~ModLoader',['../d9/dc9/class_atlas_1_1_mod_loader.html#ad35f872f9a6cf583bdf303007480d5b7',1,'Atlas::ModLoader']]],
-  ['_7eshellfileinterface_30',['~ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#af3a1911ef7d963ac9bc10947b279af52',1,'ShellFileInterface']]],
-  ['_7ethreadgroup_31',['~ThreadGroup',['../de/d4b/class_atlas_1_1_thread_group.html#a283bf5c5b7e11bd661bd202720b5b4cf',1,'Atlas::ThreadGroup']]],
-  ['_7etransformcomponent_32',['~TransformComponent',['../dc/d08/class_atlas_1_1_transform_component.html#a7a29728e4eb536e07f70d4ed58eddc98',1,'Atlas::TransformComponent']]],
-  ['_7ewindow_33',['~Window',['../d1/df6/class_atlas_1_1_window.html#a4afa9a32bef0bc15f922f41ddb387b4e',1,'Atlas::Window']]]
+  ['_7eserializable_30',['~Serializable',['../d5/daa/class_atlas_1_1_serializable.html#a0d2a4a9c4eb294db2e8dbd7660dbfd0e',1,'Atlas::Serializable']]],
+  ['_7eshellfileinterface_31',['~ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#af3a1911ef7d963ac9bc10947b279af52',1,'ShellFileInterface']]],
+  ['_7ethreadgroup_32',['~ThreadGroup',['../de/d4b/class_atlas_1_1_thread_group.html#a283bf5c5b7e11bd661bd202720b5b4cf',1,'Atlas::ThreadGroup']]],
+  ['_7etransformcomponent_33',['~TransformComponent',['../dc/d08/class_atlas_1_1_transform_component.html#a7a29728e4eb536e07f70d4ed58eddc98',1,'Atlas::TransformComponent']]],
+  ['_7ewindow_34',['~Window',['../d1/df6/class_atlas_1_1_window.html#a4afa9a32bef0bc15f922f41ddb387b4e',1,'Atlas::Window']]]
 ];

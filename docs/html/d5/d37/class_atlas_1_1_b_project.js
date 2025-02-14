@@ -32,7 +32,6 @@ var class_atlas_1_1_b_project =
     [ "mLuaFunctions", "d5/d37/class_atlas_1_1_b_project.html#a03d956bb895e2639dd749f5601e4e849", null ],
     [ "mLuaLibraries", "d5/d37/class_atlas_1_1_b_project.html#a1e3e05595c1e0e6b5811841f56a8f73c", null ],
     [ "mProject", "d5/d37/class_atlas_1_1_b_project.html#ae713b95d98f2d21f0b6c58637fab54e4", null ],
-    [ "mRenderer", "d5/d37/class_atlas_1_1_b_project.html#adfe028afd0d057f7f0e386685e3b4bdf", null ],
     [ "mWindowDecorations", "d5/d37/class_atlas_1_1_b_project.html#a12ccc84d7d0d3f574176186e04fd5622", null ],
     [ "settings", "d5/d37/class_atlas_1_1_b_project.html#a1e49e5cf6135154f76a3d647d2c125d6", null ]
 ];

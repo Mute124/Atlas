@@ -1,0 +1,100 @@
+\doxysection{Managed\+Variable.\+h}
+\hypertarget{_managed_variable_8h_source}{}\label{_managed_variable_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/core/ManagedVariable.h@{C:/Dev/Techstorm-\/v5/src/engine/core/ManagedVariable.h}}
+\mbox{\hyperlink{_managed_variable_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00006}00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00013}00013\ \textcolor{comment}{/*\ \ template<typename\ T\_VARIABLE\_TYPE,\ typename\ T\_MUTEX\ =\ std::mutex,\ typename\ T\_ALLOCATOR>}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00014}00014\ \textcolor{comment}{\ \ \ \ class\ IManagedVariable\ \{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00015}00015\ \textcolor{comment}{\ \ \ \ protected:}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00016}00016\ \textcolor{comment}{\ \ \ \ \ \ \ \ T\_VARIABLE\_TYPE\ mVariable;}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00017}00017\ \textcolor{comment}{\ \ \ \ \ \ \ \ T\_MUTEX\ mMutex;}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00018}00018\ \textcolor{comment}{\ \ \ \ public:}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00019}00019\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00020}00020\ \textcolor{comment}{\ \ \ \ \ \ \ \ virtual\ T\_VARIABLE\_TYPE\ get()\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00021}00021\ \textcolor{comment}{\ \ \ \ \ \ \ \ virtual\ void\ set(const\ T\_VARIABLE\_TYPE\&\ variable)\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00022}00022\ \textcolor{comment}{\ \ \ \ \ \ \ \ virtual\ void\ lock()\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00023}00023\ \textcolor{comment}{\ \ \ \ \ \ \ \ virtual\ bool\ isLocked()\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00024}00024\ \textcolor{comment}{\ \ \ \ \};}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00025}00025\ \textcolor{comment}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00026}00026\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00027}00027\ \textcolor{comment}{\ \ \ \ template<typename\ T\_VARIABLE\_TYPE,\ typename\ T\_MUTEX\ =\ std::mutex,\ typename\ T\_ALLOCATOR>}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00028}00028\ \textcolor{comment}{\ \ \ \ class\ BManagedVariable\ :\ public\ IManagedVariable<T\_VARIABLE\_TYPE,\ T\_MUTEX,\ T\_ALLOCATOR>\ \{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00029}00029\ \textcolor{comment}{\ \ \ \ private:}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00030}00030\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00031}00031\ \textcolor{comment}{\ \ \ \ public:}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00032}00032\ \textcolor{comment}{\ \ \ \ \ \ \ \ virtual\ T\_VARIABLE\_TYPE\ get()\ \{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00033}00033\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00034}00034\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00035}00035\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00036}00036\ \textcolor{comment}{\ \ \ \ \ \ \ \ virtual\ void\ set(const\ T\_VARIABLE\_TYPE\&\ variable)\ \{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00037}00037\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00038}00038\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00039}00039\ \textcolor{comment}{\ \ \ \ \ \ \ \ virtual\ void\ lock()\ \{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00040}00040\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00041}00041\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00042}00042\ \textcolor{comment}{\ \ \ \ \ \ \ \ virtual\ bool\ isLocked()\ \{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00043}00043\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00044}00044\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00045}00045\ \textcolor{comment}{\ \ \ \ \ \ \ \ virtual\ void\ execute(std::function<void(ManagedVariable<T\_VARIABLE\_TYPE,\ T\_MUTEX,\ T\_ALLOCATOR>\&)>\ function)\ \{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00046}00046\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ std::unique\_lock\ lock1\{\ mMutex,\ std::defer\_lock\ \};}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00047}00047\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00048}00048\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ std::lock(lock1);}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00049}00049\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00050}00050\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ function(*this);}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00051}00051\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00052}00052\ \textcolor{comment}{\ \ \ \ \};*/}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00062}00062\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T\_VARIABLE\_TYPE,\ \textcolor{keyword}{typename}\ T\_MUTEX\ =\ std::mutex,\ \textcolor{keyword}{typename}\ T\_LOCK\_GUARD\ =\ std::lock\_guard<T\_MUTEX>>}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00063}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{00063}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable}}\ \{}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00064}00064\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00070}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a8167249050d6dcc6a5d317bec92eceda}{00070}}\ \ \ \ \ \ \ \ \ T\_VARIABLE\_TYPE\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a8167249050d6dcc6a5d317bec92eceda}{value}};}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00071}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_aa9d9fa80beff8e2b1bcf9716b0aac740}{00071}}\ \ \ \ \ \ \ \ \ T\_MUTEX\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_aa9d9fa80beff8e2b1bcf9716b0aac740}{mutex}};}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00072}00072\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00073}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_ab3432e86e57a4e21154b2c1c693e0f68}{00073}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_ab3432e86e57a4e21154b2c1c693e0f68}{ThreadSafeVariable}}(\textcolor{keyword}{const}\ T\_VARIABLE\_TYPE\&\ initialValue)\ :\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}}(initialValue)\ \{\}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00074}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a4e6c9ef9fb329bb7afc534c6ec83a67e}{00074}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a4e6c9ef9fb329bb7afc534c6ec83a67e}{ThreadSafeVariable}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ copy\ constructor}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00077}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a0bbe31714764ed04126c25a37cea38ee}{00077}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a0bbe31714764ed04126c25a37cea38ee}{ThreadSafeVariable}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<T\_VARIABLE\_TYPE,\ T\_MUTEX,\ T\_LOCK\_GUARD>}}\&\ other)\ \{}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ T\_LOCK\_GUARD\ lock(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_aa9d9fa80beff8e2b1bcf9716b0aac740}{mutex}});}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}}\ =\ other.\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a8167249050d6dcc6a5d317bec92eceda}{value}};}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00080}00080\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00082}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a4f3bdb27e59b6eca106cb4f50470c6be}{00082}}\ \ \ \ \ \ \ \ \ T\_VARIABLE\_TYPE\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a4f3bdb27e59b6eca106cb4f50470c6be}{get}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a8167249050d6dcc6a5d317bec92eceda}{value}};}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00085}00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00087}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a7840da777c194e6f4b0bc78a163179e0}{00087}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a7840da777c194e6f4b0bc78a163179e0}{set}}(\textcolor{keyword}{const}\ T\_VARIABLE\_TYPE\&\ newValue)\ \{}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ T\_LOCK\_GUARD\ lock(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_aa9d9fa80beff8e2b1bcf9716b0aac740}{mutex}});}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}}\ =\ newValue;}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00090}00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00092}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_ae32bbbd424440366b80312f12da01971}{00092}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<T\_VARIABLE\_TYPE,\ T\_MUTEX,\ T\_LOCK\_GUARD>}}\&\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_ae32bbbd424440366b80312f12da01971}{operator=}}(}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<T\_VARIABLE\_TYPE,\ T\_MUTEX,\ T\_LOCK\_GUARD>}}\&\ other)\ \{}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ T\_LOCK\_GUARD\ lock(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_aa9d9fa80beff8e2b1bcf9716b0aac740}{mutex}});}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}}\ =\ other.\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a8167249050d6dcc6a5d317bec92eceda}{value}};}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00097}00097\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00099}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_af3dd751e5b377ca6743e1e5cb69d96e2}{00099}}\ \ \ \ \ \ \ \ \ T\_VARIABLE\_TYPE\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_af3dd751e5b377ca6743e1e5cb69d96e2}{operator()}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a4f3bdb27e59b6eca106cb4f50470c6be}{get}}();}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00101}00101\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00103}\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a4007f83735117deb04971ae309f5f68f}{00103}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a4007f83735117deb04971ae309f5f68f}{execute}}(std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<T\_VARIABLE\_TYPE>}}\&)>\ function)\ \{}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_lock\ lock1\{\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_aa9d9fa80beff8e2b1bcf9716b0aac740}{mutex}},\ std::defer\_lock\ \};}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ T\_LOCK\_GUARD\ lock(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_aa9d9fa80beff8e2b1bcf9716b0aac740}{mutex}});}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ function(*\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00108}00108\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00109}00109\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{_managed_variable_8h_source_l00111}00111\ \}}
+
+\end{DoxyCode}

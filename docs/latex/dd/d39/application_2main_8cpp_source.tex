@@ -4,127 +4,130 @@
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_application_utils_8h}{ApplicationUtils.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <project.h>}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00004}00004\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00005}00005\ \textcolor{comment}{/*\ \ ThreadGroup\ group;}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00006}00006\ \textcolor{comment}{\ \ \ \ group.addThread([]\ \{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00007}00007\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ task\ 1}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00008}00008\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::cout\ <<\ "{}threadGroup\ 1"{}\ <<\ std::endl;}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00009}00009\ \textcolor{comment}{\ \ \ \ \});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00010}00010\ \textcolor{comment}{\ \ \ \ group.addThread([]\ \{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00011}00011\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ task\ 2}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00012}00012\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::cout\ <<\ "{}threadGroup\ 2"{}\ <<\ std::endl;}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00013}00013\ \textcolor{comment}{\ \ \ \ \});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00014}00014\ \textcolor{comment}{\ \ \ \ group.addThread([]\ \{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00015}00015\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ task\ 3}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00016}00016\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::cout\ <<\ "{}threadGroup\ 3"{}\ <<\ std::endl;}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00017}00017\ \textcolor{comment}{\ \ \ \ \});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00018}00018\ \textcolor{comment}{\ \ \ \ group.stopAll();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00019}00019\ \textcolor{comment}{\ \ \ \ group.waitForAll();*/}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00020}00020\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00021}00021\ \textcolor{keyword}{using\ namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}};}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <boost/serialization/serialization.hpp>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <boost/serialization/string.hpp>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <boost/archive/text\_oarchive.hpp>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <boost/archive/text\_iarchive.hpp>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <boost/uuid/name\_generator\_md5.hpp>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <ios>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <iosfwd>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <boost/uuid/uuid.hpp>}\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ uuid\ class}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <boost/uuid/uuid\_generators.hpp>}\ \textcolor{comment}{//\ generators}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <boost/uuid/uuid\_io.hpp>}\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ streaming\ operators\ etc.}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00017}\mbox{\hyperlink{class_person}{00017}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_person}{Person}}\ \{}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00018}00018\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00019}\mbox{\hyperlink{class_person_a7594663aadc0de77616506df8a2f4128}{00019}}\ \ \ \ \ std::string\ \mbox{\hyperlink{class_person_a7594663aadc0de77616506df8a2f4128}{name}};}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00020}\mbox{\hyperlink{class_person_acf9db1a60683f40b20ae569d29852d69}{00020}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_person_acf9db1a60683f40b20ae569d29852d69}{age}};}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00021}\mbox{\hyperlink{class_person_a3865660a2d46c74609a78f7440ff1dab}{00021}}\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_person_a3865660a2d46c74609a78f7440ff1dab}{height}};}
 \DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00022}00022\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00023}00023\ \textcolor{comment}{/*}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00024}00024\ \textcolor{comment}{void\ InitWindow(WindowDecorations\&\ decorations)\ \{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00025}00025\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00026}00026\ \textcolor{comment}{\ \ \ \ Log("{}Decorating\ window..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00027}00027\ \textcolor{comment}{\ \ \ \ decorations.title\ =\ LookupConfig("{}Project.cfg"{},\ "{}projectWindowTitle"{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00028}00028\ \textcolor{comment}{\ \ \ \ SetConfigFlags(FLAG\_MSAA\_4X\_HINT\ |\ FLAG\_INTERLACED\_HINT);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00029}00029\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00030}00030\ \textcolor{comment}{\ \ \ \ Log("{}Finalizing\ window\ initialization..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00031}00031\ \textcolor{comment}{\ \ \ \ InitWindow(decorations.width,\ decorations.height,\ decorations.title);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00032}00032\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00033}00033\ \textcolor{comment}{\ \ \ \ Log("{}Loading\ and\ setting\ window\ icon..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00034}00034\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00035}00035\ \textcolor{comment}{\ \ \ \ const\ std::string\ assetDir\ =\ ATLAS\_ASSET\_DIR;\ //\ this\ is\ done\ like\ this\ because\ the\ macro\ expands\ to\ an\ expression\ rather\ than\ a\ string.}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00036}00036\ \textcolor{comment}{\ \ \ \ const\ char*\ iconPath\ =\ TextFormat("{}\%s\%s"{},\ assetDir.c\_str(),\ decorations.icon);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00037}00037\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00038}00038\ \textcolor{comment}{\ \ \ \ Image\ icon\ =\ LoadImage(iconPath);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00039}00039\ \textcolor{comment}{\ \ \ \ ImageFormat(\&icon,\ PIXELFORMAT\_UNCOMPRESSED\_R8G8B8A8);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00040}00040\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00041}00041\ \textcolor{comment}{\ \ \ \ SetWindowIcons(\&icon,\ 1);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00042}00042\ \textcolor{comment}{\}}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00043}00043\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00044}00044\ \textcolor{comment}{void\ InitScripting(ScriptingAPI\&\ scriptingAPI,\ PROJECT\_TYPENAME\&\ project)\ \{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00045}00045\ \textcolor{comment}{\ \ \ \ scriptingAPI.initializeScripting(project.getLuaLibraries(),\ project.getLuaFunctions());}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00046}00046\ \textcolor{comment}{\ \ \ \ scriptingAPI.registerLua();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00047}00047\ \textcolor{comment}{\}}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00048}00048\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00049}00049\ \textcolor{comment}{void\ HandleFrame(PROJECT\_TYPENAME\&\ project)\ \{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00050}00050\ \textcolor{comment}{\ \ \ \ project.texture();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00051}00051\ \textcolor{comment}{\ \ \ \ project.render();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00052}00052\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00053}00053\ \textcolor{comment}{\ \ \ \ //\ This\ is\ here\ because\ it\ reduces\ CPU\ consumption}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00054}00054\ \textcolor{comment}{\ \ \ \ ATLAS\_THREAD\_YIELD;}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00055}00055\ \textcolor{comment}{\}*/}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00056}00056\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00057}\mbox{\hyperlink{application_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{00057}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{application_2add__on_2autowrapper_2generator_2generateheader_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}*\ argv[])\ \{}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00058}00058\ \ \ \ \ \textcolor{comment}{//Log("{}Pre-\/Initializing\ project..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00059}00059\ \ \ \ \ std::shared\_ptr<PROJECT\_TYPENAME>\ project\ =\ std::make\_shared<PROJECT\_TYPENAME>();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00060}00060\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00061}00061\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_application_1_1_frame_manager}{Atlas::Application::FrameManager}}\&\ manager\ =\ \mbox{\hyperlink{class_atlas_1_1_singleton_a035c506193c225c5b60eb7ad9242c245}{Atlas::Application::FrameManager::Instance}}();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00062}00062\ \ \ \ \ manager.\mbox{\hyperlink{class_atlas_1_1_application_1_1_frame_manager_aa76b23cb0d7efb020ad562e8637283bd}{userProject}}\ =\ project;}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00063}00063\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00064}00064\ \ \ \ \ manager.\mbox{\hyperlink{class_atlas_1_1_application_1_1_frame_manager_a6f9672b65cd71a067e66b3bd34d6473a}{launchThreads}}();}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00065}00065\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00066}00066\ \textcolor{comment}{/*\ \ project.preInit();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00067}00067\ \textcolor{comment}{\ \ \ \ Log("{}Project\ pre-\/initialized."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00068}00068\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00069}00069\ \textcolor{comment}{\ \ \ \ Log("{}Finishing\ Initialization..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00070}00070\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00071}00071\ \textcolor{comment}{\ \ \ \ InitializeConfigRegistry();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00072}00072\ \textcolor{comment}{\ \ \ \ ConfigFileRegistry\&\ configRegistry\ =\ GetConfigFileRegistry();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00073}00073\ \textcolor{comment}{\ \ \ \ }}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00074}00074\ \textcolor{comment}{\ \ \ \ Renderer\&\ renderer\ =\ project.getRenderer();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00075}00075\ \textcolor{comment}{\ \ \ \ WindowDecorations\&\ decorations\ =\ project.getWindowDecorations();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00076}00076\ \textcolor{comment}{\ \ \ \ }}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00077}00077\ \textcolor{comment}{\ \ \ \ Log("{}Setting\ up\ scripting\ API..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00078}00078\ \textcolor{comment}{\ \ \ \ ScriptingAPI\ scriptingAPI;}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00079}00079\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00080}00080\ \textcolor{comment}{\ \ \ \ InitScripting(scriptingAPI,\ project);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00081}00081\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00082}00082\ \textcolor{comment}{\ \ \ \ Log("{}Done\ setting\ up\ scripting\ API."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00083}00083\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00084}00084\ \textcolor{comment}{\ \ \ \ Log("{}Initializing\ window..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00085}00085\ \textcolor{comment}{\ \ \ \ InitWindow(decorations);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00086}00086\ \textcolor{comment}{\ \ \ \ }}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00087}00087\ \textcolor{comment}{\ \ \ \ Log("{}Done\ initializing\ window."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00088}00088\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00089}00089\ \textcolor{comment}{\ \ \ \ Log("{}Finishing\ project's\ initialization..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00090}00090\ \textcolor{comment}{\ \ \ \ project.init(argc,\ argv);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00091}00091\ \textcolor{comment}{\ \ \ \ project.postInit();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00023}00023\ \ \ \ \ \textcolor{comment}{//\ Make\ Boost.Serialization\ a\ friend\ to\ access\ private\ members}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00024}\mbox{\hyperlink{class_person_ac98d07dd8f7b70e16ccb9a01abf56b9c}{00024}}\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_person_ac98d07dd8f7b70e16ccb9a01abf56b9c}{boost::serialization::access}};}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00026}00026\ \ \ \ \ \textcolor{comment}{//\ Method\ to\ serialize\ and\ deserialize\ the\ object}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{class}\ Archive>}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00028}\mbox{\hyperlink{class_person_af5a6e058897cabaebb8ed05c29f3146f}{00028}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_person_af5a6e058897cabaebb8ed05c29f3146f}{serialize}}(Archive\&\ ar,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ version)\ \{}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ ar\&\ \mbox{\hyperlink{class_person_a7594663aadc0de77616506df8a2f4128}{name}};}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ ar\&\ \mbox{\hyperlink{class_person_acf9db1a60683f40b20ae569d29852d69}{age}};}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ ar\&\ \mbox{\hyperlink{class_person_a3865660a2d46c74609a78f7440ff1dab}{height}};}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00034}00034\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00035}00035\ \ \ \ \ \textcolor{comment}{//\ Constructors}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00036}\mbox{\hyperlink{class_person_a6621def844e1aba8d687e780919c44a2}{00036}}\ \ \ \ \ \mbox{\hyperlink{class_person_a6621def844e1aba8d687e780919c44a2}{Person}}(\textcolor{keyword}{const}\ std::string\&\ n\ =\ \textcolor{stringliteral}{"{}"{}},\ \textcolor{keywordtype}{int}\ a\ =\ 0,\ \textcolor{keywordtype}{double}\ h\ =\ 0.0)}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00037}00037\ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}(n),\ \mbox{\hyperlink{class_person_acf9db1a60683f40b20ae569d29852d69}{age}}(a),\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}}(h)\ \{\}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00039}00039\ \ \ \ \ \textcolor{comment}{//\ Display\ the\ Person's\ data}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00040}\mbox{\hyperlink{class_person_a0c4f1f6b9db40942b80f957c1212ca1e}{00040}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_person_a0c4f1f6b9db40942b80f957c1212ca1e}{display}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Name:\ "{}}\ <<\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}\ <<\ \textcolor{stringliteral}{"{},\ Age:\ "{}}\ <<\ \mbox{\hyperlink{class_person_acf9db1a60683f40b20ae569d29852d69}{age}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},\ Height:\ "{}}\ <<\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}}\ <<\ \textcolor{stringliteral}{"{}\ meters"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00044}00044\ \};}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00045}00045\ \textcolor{keyword}{using\ namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}};}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00048}\mbox{\hyperlink{application_2main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{00048}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{application_2add__on_2autowrapper_2generator_2generateheader_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}*\ argv[])\ \{}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00050}00050\ \ \ \ \ \textcolor{comment}{//\ Serialize\ the\ object\ to\ a\ file}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00051}00051\ \textcolor{comment}{/*\ \ Person\ p1("{}John\ Doe"{},\ 30,\ 1.75);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00052}00052\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00053}00053\ \textcolor{comment}{\ \ \ \ \ \ \ \ boost::uuids::uuid\ namespace\_id\ =\ boost::uuids::string\_generator()("{}my\_namespace"{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00054}00054\ \textcolor{comment}{\ \ \ \ \ \ \ \ boost::uuids::uuid\ uuid\ =\ boost::uuids::name\_generator\_md5(namespace\_id)(\&p1,\ sizeof(Person));}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00055}00055\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00056}00056\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::ofstream\ ofs("{}C:\(\backslash\)\(\backslash\)Dev\(\backslash\)\(\backslash\)Techstorm-\/v5\(\backslash\)\(\backslash\)game\(\backslash\)\(\backslash\)data\(\backslash\)\(\backslash\)"{}\ +\ boost::uuids::to\_string(uuid)\ +\ "{}.dat"{},\ std::ios\_base::binary\ |\ std::ios\_base::app);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00057}00057\ \textcolor{comment}{\ \ \ \ \ \ \ \ boost::archive::text\_oarchive\ oa(ofs);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00058}00058\ \textcolor{comment}{\ \ \ \ \ \ \ \ oa.save\_binary(\&p1,\ sizeof(Person));\ \ //\ Save\ the\ serialized\ data\ in\ binary\ format}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00059}00059\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00060}00060\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00061}00061\ \textcolor{comment}{\ \ \ \ //\ Serialize\ the\ object\ to\ a\ file}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00062}00062\ \textcolor{comment}{\ \ \ \ Person\ p3("{}John\ roe"{},\ 260,\ 1.4435);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00063}00063\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00064}00064\ \textcolor{comment}{\ \ \ \ \ \ \ \ boost::uuids::uuid\ uuid\ =\ boost::uuids::random\_generator()();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00065}00065\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00066}00066\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::ofstream\ ofs("{}C:\(\backslash\)\(\backslash\)Dev\(\backslash\)\(\backslash\)Techstorm-\/v5\(\backslash\)\(\backslash\)game\(\backslash\)\(\backslash\)data\(\backslash\)\(\backslash\)"{}\ +\ boost::uuids::to\_string(uuid)\ +\ "{}person.dat"{},\ std::ios\_base::binary\ |\ std::ios\_base::app);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00067}00067\ \textcolor{comment}{\ \ \ \ \ \ \ \ boost::archive::text\_oarchive\ oa(ofs);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00068}00068\ \textcolor{comment}{\ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00069}00069\ \textcolor{comment}{\ \ \ \ \ \ \ \ oa.save\_binary(\&p3,\ sizeof(Person));\ \ //\ Save\ the\ serialized\ data\ in\ binary\ format}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00070}00070\ \textcolor{comment}{\ \ \ \ \ \ \ \ //oa\ <<\ p3;\ \ //\ Serialize}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00071}00071\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00072}00072\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00073}00073\ \textcolor{comment}{\ \ \ \ //\ Deserialize\ the\ object\ from\ the\ file}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00074}00074\ \textcolor{comment}{\ \ \ \ Person\ p2;}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00075}00075\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00076}00076\ \textcolor{comment}{\ \ \ \ //\ \ std::ifstream\ ifs("{}C:\(\backslash\)\(\backslash\)Dev\(\backslash\)\(\backslash\)Techstorm-\/v5\(\backslash\)\(\backslash\)game\(\backslash\)\(\backslash\)data\(\backslash\)\(\backslash\)person.dat"{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00077}00077\ \textcolor{comment}{//\ \ \ \ \ \ boost::archive::text\_iarchive\ ia(ifs);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00078}00078\ \textcolor{comment}{\ \ \ \ //\ \ ia\ >>\ p2;\ \ //\ Deserialize}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00079}00079\ \textcolor{comment}{\ \ \ \ \}*/}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{comment}{//\ Display\ the\ deserialized\ object}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00082}00082\ \ \ \ \ \textcolor{comment}{//p2.display();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00083}00083\ \ \ \ \ std::shared\_ptr<PROJECT\_TYPENAME>\ project\ =\ std::make\_shared<PROJECT\_TYPENAME>();}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00085}00085\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_application_1_1_frame_manager}{Atlas::Application::FrameManager}}\&\ manager\ =\ \mbox{\hyperlink{class_atlas_1_1_singleton_a035c506193c225c5b60eb7ad9242c245}{Atlas::Application::FrameManager::Instance}}();}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00086}00086\ \ \ \ \ manager.\mbox{\hyperlink{class_atlas_1_1_application_1_1_frame_manager_aa76b23cb0d7efb020ad562e8637283bd}{userProject}}\ =\ project;}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00088}00088\ \ \ \ \ manager.\mbox{\hyperlink{class_atlas_1_1_application_1_1_frame_manager_a6f9672b65cd71a067e66b3bd34d6473a}{launchThreads}}();}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{comment}{//std::shared\_ptr<ThreadSafeVariable<\ int>>\ counter\ =\ std::make\_shared<ThreadSafeVariable<\ int>>(0);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00091}00091\ \textcolor{comment}{/*\ \ ThreadSafeVariable<\ int>\ counter\ =\ ThreadSafeVariable<\ int>(0);}}
 \DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00092}00092\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00093}00093\ \textcolor{comment}{\ \ \ \ Log("{}Done\ finishing\ project's\ initialization."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00094}00094\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00095}00095\ \textcolor{comment}{\ \ \ \ Log("{}Launching\ threads."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00096}00096\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00097}00097\ \textcolor{comment}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00093}00093\ \textcolor{comment}{\ \ \ \ //\ Create\ 10\ threads\ that\ increment\ the\ counter}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00094}00094\ \textcolor{comment}{\ \ \ \ std::thread\ threads[10];}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00095}00095\ \textcolor{comment}{\ \ \ \ for\ (int\ i\ =\ 0;\ i\ <\ 10;\ i++)\ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00096}00096\ \textcolor{comment}{\ \ \ \ \ \ \ \ threads[i]\ =\ std::thread([\&counter]()\ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00097}00097\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ for\ (int\ j\ =\ 0;\ j\ <\ 100;\ j++)\ \{}}
 \DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00098}00098\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00099}00099\ \textcolor{comment}{\ \ \ \ SetTargetFPS(decorations.targetFPS);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00100}00100\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00101}00101\ \textcolor{comment}{\ \ \ \ manager.launchThreads(project);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00102}00102\ \textcolor{comment}{\ \ \ \ }}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00103}00103\ \textcolor{comment}{\ \ \ \ Log("{}Initialization\ is\ now\ finished,\ starting\ main\ loop."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00104}00104\ \textcolor{comment}{\ \ \ \ while\ (!WindowShouldClose())\ \{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00105}00105\ \textcolor{comment}{\ \ \ \ \ \ \ \ HandleFrame(project);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00106}00106\ \textcolor{comment}{\ \ \ \ \}}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00107}00107\ \textcolor{comment}{\ \ \ \ }}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00108}00108\ \textcolor{comment}{\ \ \ \ Log("{}Shutting\ down..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00109}00109\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00110}00110\ \textcolor{comment}{\ \ \ \ Log("{}Cleaning\ up..."{});}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00111}00111\ \textcolor{comment}{\ \ \ \ project.cleanup(0);}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00112}00112\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00113}00113\ \textcolor{comment}{\ \ \ \ manager.killThreads();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00114}00114\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00115}00115\ \textcolor{comment}{\ \ \ \ Log("{}Done\ cleaning\ up."{});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00099}00099\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ counter.execute([\&counter](ThreadSafeVariable<\ int>\&\ var)\ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00100}00100\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00101}00101\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int\ value\ =\ var.get();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00102}00102\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value++;}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00103}00103\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ "{}Thread:\ "{}\ <<\ std::this\_thread::get\_id()\ <<\ "{}:\ "{}\ <<\ value\ <<\ std::endl;}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00104}00104\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00105}00105\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ counter.set(value);}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00106}00106\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::this\_thread::yield();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00107}00107\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00108}00108\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00109}00109\ \textcolor{comment}{\ \ \ \ \ \ \ \ \});}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00110}00110\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00111}00111\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00112}00112\ \textcolor{comment}{\ \ \ \ //\ Wait\ for\ all\ threads\ to\ finish}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00113}00113\ \textcolor{comment}{\ \ \ \ for\ (int\ i\ =\ 0;\ i\ <\ 10;\ i++)\ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00114}00114\ \textcolor{comment}{\ \ \ \ \ \ \ \ threads[i].join();}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00115}00115\ \textcolor{comment}{\ \ \ \ \}}}
 \DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00116}00116\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00117}00117\ \textcolor{comment}{\ \ \ \ CloseWindow();}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00118}00118\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00119}00119\ \textcolor{comment}{\ \ \ \ Log("{}Done\ shutting\ down.\ Goodbye!"{});*/}}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00120}00120\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00121}00121\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00122}00122\ }
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00123}00123\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
-\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00124}00124\ \}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00117}00117\ \textcolor{comment}{\ \ \ \ //\ Print\ the\ final\ value\ of\ the\ counter}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00118}00118\ \textcolor{comment}{\ \ \ \ std::cout\ <<\ "{}Final\ counter\ value:\ "{}\ <<\ counter.get()\ <<\ std::endl;}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00119}00119\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00120}00120\ \textcolor{comment}{\ \ \ \ while\ (true)\ \{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00121}00121\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00122}00122\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00123}00123\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00124}00124\ \textcolor{comment}{\ \ \ \ return\ 0;*/}}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00126}00126\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{application_2main_8cpp_source_l00127}00127\ \}}
 
 \end{DoxyCode}

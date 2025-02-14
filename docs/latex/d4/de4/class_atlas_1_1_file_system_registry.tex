@@ -15,45 +15,71 @@ Inheritance diagram for Atlas\+::File\+System\+Registry\+:\begin{figure}[H]
 \includegraphics[height=2.000000cm]{d4/de4/class_atlas_1_1_file_system_registry}
 \end{center}
 \end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_access_violation_exception}{Access\+Violation\+Exception}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_file_out_of_sandbox_exception}{File\+Out\+Of\+Sandbox\+Exception}}
+\begin{DoxyCompactList}\small\item\em This is thrown when a piece of code tries to register, load, unload, or search for a file that is out of the sandbox. This class inherits from \doxylink{class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception}{Forbidden\+File\+Exception} because this is a type of forbidden access violation. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception}{Forbidden\+File\+Exception}}
+\begin{DoxyCompactList}\small\item\em This exception is thrown when a piece of code tries to search for a file that is not allowed to be searched for. This class inherits from \doxylink{class_atlas_1_1_file_system_registry_1_1_access_violation_exception}{Access\+Violation\+Exception}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_forbidden_file_search_exception}{Forbidden\+File\+Search\+Exception}}
+\begin{DoxyCompactList}\small\item\em This is thrown when a piece of code tries to search for a file that does not exist, on a blacklist, or is otherwise forbidden. This class inherits from \doxylink{class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception}{Forbidden\+File\+Exception} because this is a type of forbidden access violation. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_impatient_usage_exception}{Impatient\+Usage\+Exception}}
+\begin{DoxyCompactList}\small\item\em What is meant by "{}impatient"{} is that a piece of code has used this class when {\ttfamily s\+Is\+Ready} is {\ttfamily false}. Essentially, this is thrown when some code is being impatient and not waiting for the registry to be ready. This class inherits from \doxylink{class_atlas_1_1_file_system_registry_1_1_access_violation_exception}{Access\+Violation\+Exception}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_missing_file_exception}{Missing\+File\+Exception}}
+\begin{DoxyCompactList}\small\item\em An exception that is thrown when a file is not found where it should be. This can mean that the key being used to search for a file is incorrect, or that the file is not registered. If this exception is thrown, it is recommended that you ensure that you have the correct key(s) being used to search for the file and that the file exists within the sandbox. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_missing_file_load_function_exception}{Missing\+File\+Load\+Function\+Exception}}
+\begin{DoxyCompactList}\small\item\em An exception that is thrown when there is no registered load function for the file extension of the file that is being loaded. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a2c2a6675e4262068dfff7ef2a88a0dbc}{File\+System\+Registry}} ()
 \begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxylink{class_atlas_1_1_file_system_registry}{File\+System\+Registry} class. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a09591b2eeacb6c7b5aa460780be9a26f}{init}} (const char \texorpdfstring{$\ast$}{*}root\+Path)
-\begin{DoxyCompactList}\small\item\em Initializes the specified root path. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function is used to initialize the file system registry. It will scan the provided root path for files and add them to the registry. The recursive searching method used is Load\+Directory\+Files\+Ex from Raylib. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a9a2460a2f0b44cf032e495e756ed223b}{register\+File}} (std\+::string const \&path)
-\begin{DoxyCompactList}\small\item\em Registers a file into the file registry. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Registers a file into the file registry using the provided path by creating a new \doxylink{class_atlas_1_1_file_meta}{File\+Meta} object, generating a unique index for the file, and adding it to the registry\textquotesingle{}s lookup table. If the file\textquotesingle{}s extension is in the load on register extensions set (\doxylink{class_atlas_1_1_file_system_registry_aa7d001a7f7da4664a3b899400a76b893}{m\+Load\+On\+Register\+Extensions\+Set}), it will be loaded immediately. \end{DoxyCompactList}\item 
 std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta}} $>$ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a917d5ab715847a8a2f9c38abdedfc0f7}{Get\+File\+Meta}} (std\+::string const \&key)
 \begin{DoxyCompactList}\small\item\em Gets the file meta stored in the file registry under the specified key. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a54252bda23d0a8c8190f7da6703cd356}{load\+File}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}} $>$ file)
-\begin{DoxyCompactList}\small\item\em Loads a file. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Turns a registered file into a loaded file. Typically, this is called internally within the \doxylink{class_atlas_1_1_file_system_registry_a9a2460a2f0b44cf032e495e756ed223b}{register\+File} function, but is also called when a file is used for the first time. \end{DoxyCompactList}\item 
 std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}} $>$ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_af4b0b7989eabd68412a63b0c9c6d90ab}{get\+File}} (std\+::string const \&key, bool load\+If\+Not\+Loaded=true)
-\begin{DoxyCompactList}\small\item\em Gets the file. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Looks up a file in the file registry. Unless load\+If\+Not\+Loaded is set to false, this function {\bfseries{WILL}} load the file if it is not already loaded. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a78dfc6669ba038e9ef63701ea7d04c0c}{is\+File\+Registered}} (std\+::string const \&key)
+\begin{DoxyCompactList}\small\item\em Checks within the registry if a file has been registered by looking up the key in the lookup table. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a4899ea8997981f6761d0358d0ef1a1d7}{add\+Load\+Function}} (std\+::string const \&extension, \mbox{\hyperlink{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}{File\+Load\+Func\+Type}} load\+Func)
-\begin{DoxyCompactList}\small\item\em Adds the load function. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Adds a load function for a specific extension. This is how you may inform \doxylink{namespace_atlas}{Atlas} on how to load a specific file type. This function is also a "{}call-\/and-\/forget"{} function; \doxylink{namespace_atlas}{Atlas} handles the loading of the file for you and there is not much you need to do afterwards. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a019e2a9f5dc1344d5b12a2bdb7dce833}{add\+Load\+On\+Register\+Extension}} (std\+::string const \&extension)
-\begin{DoxyCompactList}\small\item\em Adds the load on register extension. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This marks a certain extension as one that should be loaded when a file with the specified extension is registered using the concept of immediate loading (refer to the main page for more information). This must be done before a file(s) get registered. The way this works is by adding the extension to the \doxylink{class_atlas_1_1_file_system_registry_aa7d001a7f7da4664a3b899400a76b893}{m\+Load\+On\+Register\+Extensions\+Set} set. \end{DoxyCompactList}\item 
 std\+::string \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a0f6872c41fde258a67553f031d45ce3f}{get\+File\+Path}} (std\+::string const \&key)
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a4cfa5079b78f01d732936842ef0e431c}{is\+Ready}} () const
+\begin{DoxyCompactList}\small\item\em A getter function that tells you if the registry is ready or not; this just returns \doxylink{class_atlas_1_1_file_system_registry_a593e4239590c37dff9c1500fda1fe064}{s\+Is\+Ready}. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a50f772e81d1cc1c4b55bf1f641fdd5b4}{get\+File\+Index}} (std\+::string const \&key) const
+\begin{DoxyCompactList}\small\item\em Searches the lookup table to find the index of a file. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static uint16\+\_\+t \mbox{\hyperlink{class_atlas_1_1_file_system_registry_ae93193fe534f385ef6aafdf0ae1bf32d}{Get\+Next\+File\+Index}} ()
+static uint16\+\_\+t \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a89ac2e1d54472cbd23da26f663ed413a}{Get\+Next\+File\+Index}} ()
 \begin{DoxyCompactList}\small\item\em Gets the next file index. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
 std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}{File\+Load\+Func\+Type}} $>$ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a3dac29b72bc223394f5e6366e63cb9bd}{m\+Loading\+Functions}}
-\begin{DoxyCompactList}\small\item\em Holds the functions that will be called when a file is loaded. \end{DoxyCompactList}\item 
-std\+::unordered\+\_\+set$<$ std\+::string $>$ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_aa7d001a7f7da4664a3b899400a76b893}{m\+Load\+On\+Register\+Extensions\+Set}}
-\begin{DoxyCompactList}\small\item\em Tells the registry which extensions should be loaded on register. If it exists in the set, it will be loaded. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Holds the functions that will be called when a file is loaded. When a file is loaded, the respective extension\textquotesingle{}s load function will be called. The string key is the file extension, and the function is the load function. As is documented in the \doxysectlink{index_file-loading}{File Loading}{4}, each extension has to have it\textquotesingle{}s own load function or else \doxylink{namespace_atlas}{Atlas} does not know how to load that specific filetype. This is where the whole concept of extension-\/based loading it comes into play. \end{DoxyCompactList}\item 
 std\+::unordered\+\_\+map$<$ uint16\+\_\+t, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}} $>$ $>$ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_afb725cac4a287293adfc2e4ec49e4d45}{m\+Registered\+Files}}
 \begin{DoxyCompactList}\small\item\em An unordered map that maps a file index to a registered file (stored as a shared\+\_\+ptr). \end{DoxyCompactList}\item 
 std\+::unordered\+\_\+map$<$ uint16\+\_\+t, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta}} $>$ $>$ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a1fcfe1a99653beb8cf829bd38dcc4840}{m\+File\+Meta\+Registry}}
-\begin{DoxyCompactList}\small\item\em An unordered map that maps a file index to a file meta (stored as a shared\+\_\+ptr). \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em An unordered map that maps a file index to a file meta shared\+\_\+ptr (see \doxylink{class_atlas_1_1_file_meta}{File\+Meta}). This is the lookup table for the file meta. The uint16\+\_\+t index is the output from the search in m\+Lookup\+Table. \end{DoxyCompactList}\item 
 std\+::unordered\+\_\+map$<$ std\+::string, uint16\+\_\+t $>$ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_a15502328306c20c43f0be3a3ce6ddbb1}{m\+Lookup\+Table}}
-\begin{DoxyCompactList}\small\item\em An unordered map that maps a file path to a file index. This essentially serves as a reverse lookup table that maps a key to an index. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em An unordered map that maps a file path to a file index. This essentially serves as a reverse lookup table that maps a key to an index. The key can be either the file path, the file name, the file extension, or really anything that can be used to identify a file. However, \doxylink{namespace_atlas}{Atlas} only uses file path, the file name, and the file extension to identify a file. This is the first step in the process of looking up a file. The uint16\+\_\+t index corresponds to the index in the \doxylink{class_atlas_1_1_file_system_registry_a1fcfe1a99653beb8cf829bd38dcc4840}{m\+File\+Meta\+Registry} unordered map. \end{DoxyCompactList}\item 
+std\+::unordered\+\_\+set$<$ std\+::string $>$ \mbox{\hyperlink{class_atlas_1_1_file_system_registry_aa7d001a7f7da4664a3b899400a76b893}{m\+Load\+On\+Register\+Extensions\+Set}}
+\begin{DoxyCompactList}\small\item\em Tells the registry which extensions should be loaded on register. If it exists in the set, it will be loaded. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -77,6 +103,7 @@ static \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Regi
 \doxysubsection{Detailed Description}
 The file system registry. 
 
+\begin{DoxyRemark}{Remarks}
 The file system registry is a relatively complex class because it\+: 
 \begin{DoxyItemize}
 \item Keeps track of files.  
@@ -84,16 +111,23 @@ The file system registry is a relatively complex class because it\+:
 \item Handles unloading of files  
 \item Handles registration of files  
 \item And just about everything else that a registry does  
-\end{DoxyItemize}$<$par$>$ As an example of how to add a new file extension, see the \doxysectlink{index_file-loading}{File Loading}{4} document. 
+\end{DoxyItemize}As an example of how to add a new file extension, see the \doxysectlink{index_file-loading}{File Loading}{4} document.
+\end{DoxyRemark}
+\begin{DoxySince}{Since}
+v0.\+0.\+4
+\end{DoxySince}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000007}{Todo}}]Clean this up, it is a complete mess. 
+
+Add unit tests\end{DoxyRefDesc}
+
 
 \begin{DoxySeeAlso}{See also}
-\doxylink{class_atlas_1_1_singleton}{Singleton$<$\+File\+System\+Registry$>$}
-
-
+\doxylink{class_atlas_1_1_singleton}{Singleton} 
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00056}{56}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00064}{64}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
 
 
 
@@ -108,9 +142,12 @@ Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00056}{56}}
 
 Initializes a new instance of the \doxylink{class_atlas_1_1_file_system_registry}{File\+System\+Registry} class. 
 
+\begin{DoxySince}{Since}
+v0.\+0.\+4 
+\end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00125}{125}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00275}{275}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
 
 
 
@@ -119,41 +156,53 @@ Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00125}{125}
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!addLoadFunction@{addLoadFunction}}
 \index{addLoadFunction@{addLoadFunction}!Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}}
 \doxysubsubsection{\texorpdfstring{addLoadFunction()}{addLoadFunction()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+System\+Registry\+::add\+Load\+Function (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{extension,  }\item[{\mbox{\hyperlink{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}{File\+Load\+Func\+Type}}}]{load\+Func }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+System\+Registry\+::add\+Load\+Function (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{extension,  }\item[{\mbox{\hyperlink{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}{File\+Load\+Func\+Type}}}]{load\+Func }\end{DoxyParamCaption})}
 
 
 
-Adds the load function. 
+Adds a load function for a specific extension. This is how you may inform \doxylink{namespace_atlas}{Atlas} on how to load a specific file type. This function is also a "{}call-\/and-\/forget"{} function; \doxylink{namespace_atlas}{Atlas} handles the loading of the file for you and there is not much you need to do afterwards. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em extension} & The extension.\\
+{\em extension} & This defines what file type the load function is for. Keep in mind that this is {\bfseries{case-\/sensitive}} and is {\bfseries{WITHOUT}} the leading "{}."{} in the extension.\\
 \hline
-{\em load\+Func} & The load function.\\
+{\em load\+Func} & A lambda function that takes a shared\+\_\+ptr to the file meta as a parameter and returns a shared\+\_\+ptr to the file data.\\
 \hline
 \end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+4
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}{File\+Load\+Func\+Type} 
+\end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00177}{177}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00204}{204}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_a019e2a9f5dc1344d5b12a2bdb7dce833}\label{class_atlas_1_1_file_system_registry_a019e2a9f5dc1344d5b12a2bdb7dce833} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!addLoadOnRegisterExtension@{addLoadOnRegisterExtension}}
 \index{addLoadOnRegisterExtension@{addLoadOnRegisterExtension}!Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}}
 \doxysubsubsection{\texorpdfstring{addLoadOnRegisterExtension()}{addLoadOnRegisterExtension()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+System\+Registry\+::add\+Load\+On\+Register\+Extension (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{extension }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+System\+Registry\+::add\+Load\+On\+Register\+Extension (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{extension }\end{DoxyParamCaption})}
 
 
 
-Adds the load on register extension. 
+This marks a certain extension as one that should be loaded when a file with the specified extension is registered using the concept of immediate loading (refer to the main page for more information). This must be done before a file(s) get registered. The way this works is by adding the extension to the \doxylink{class_atlas_1_1_file_system_registry_aa7d001a7f7da4664a3b899400a76b893}{m\+Load\+On\+Register\+Extensions\+Set} set. 
 
+\begin{DoxyNote}{Note}
+It is recommended that you do this in your project\textquotesingle{}s {\ttfamily pre\+Init} function.
+\end{DoxyNote}
 
 \begin{DoxyParams}{Parameters}
-{\em extension} & The extension.\\
+{\em extension} & The extension that should be flagged for loading in the \doxylink{class_atlas_1_1_file_system_registry_aa7d001a7f7da4664a3b899400a76b893}{m\+Load\+On\+Register\+Extensions\+Set}.\\
 \hline
 \end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+4 
+\end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00183}{183}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00208}{208}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_af4b0b7989eabd68412a63b0c9c6d90ab}\label{class_atlas_1_1_file_system_registry_af4b0b7989eabd68412a63b0c9c6d90ab} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!getFile@{getFile}}
@@ -163,21 +212,24 @@ Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00183}{183}
 
 
 
-Gets the file. 
+Looks up a file in the file registry. Unless load\+If\+Not\+Loaded is set to false, this function {\bfseries{WILL}} load the file if it is not already loaded. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em key} & The key.\\
+{\em key} & The key that was used to register the file and is stored in the lookup table as.\\
 \hline
-{\em load\+If\+Not\+Loaded} & if set to {\ttfamily true} \mbox{[}load if not loaded\mbox{]}.\\
+{\em load\+If\+Not\+Loaded} & If set to {\ttfamily true} the file will be loaded if it is not already loaded. Please note that this is set to {\ttfamily true} by default.\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-
+A shared\+\_\+ptr to the file that was found in the file registry.
 \end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+4 
+\end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00127}{127}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00176}{176}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
 
 
 
@@ -186,6 +238,31 @@ References \mbox{\hyperlink{_logging_8cpp_source_l00059}{Atlas\+::\+Log()}}, and
 
 
 Referenced by \mbox{\hyperlink{_window_8cpp_source_l00013}{Atlas\+::\+Window\+::init()}}.
+
+\Hypertarget{class_atlas_1_1_file_system_registry_a50f772e81d1cc1c4b55bf1f641fdd5b4}\label{class_atlas_1_1_file_system_registry_a50f772e81d1cc1c4b55bf1f641fdd5b4} 
+\index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!getFileIndex@{getFileIndex}}
+\index{getFileIndex@{getFileIndex}!Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}}
+\doxysubsubsection{\texorpdfstring{getFileIndex()}{getFileIndex()}}
+{\footnotesize\ttfamily uint16\+\_\+t Atlas\+::\+File\+System\+Registry\+::get\+File\+Index (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Searches the lookup table to find the index of a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & One of the keys that was used to register the file.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A uint16\+\_\+t that corresponds to the index of the file in the registry.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+9 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00032}{32}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_a917d5ab715847a8a2f9c38abdedfc0f7}\label{class_atlas_1_1_file_system_registry_a917d5ab715847a8a2f9c38abdedfc0f7} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!GetFileMeta@{GetFileMeta}}
@@ -203,11 +280,23 @@ Gets the file meta stored in the file registry under the specified key.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A shared\+\_\+ptr to the file meta stored.
+A shared\+\_\+ptr to the file meta stored within the file registry.
 \end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+4
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_file_meta}{File\+Meta} for what file meta is 
+
+\doxylink{class_atlas_1_1_file_system_registry_a1fcfe1a99653beb8cf829bd38dcc4840}{m\+File\+Meta\+Registry} for where the file meta is stored at. 
+\end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00076}{76}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00092}{92}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_logging_8cpp_source_l00059}{Atlas\+::\+Log()}}, and \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a059e9861e0400dfbe05c98a841f3f96b}{Atlas\+::\+WARNING}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_a0f6872c41fde258a67553f031d45ce3f}\label{class_atlas_1_1_file_system_registry_a0f6872c41fde258a67553f031d45ce3f} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!getFilePath@{getFilePath}}
@@ -217,28 +306,34 @@ Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00076}{76
 
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00150}{150}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00212}{212}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
 
-\Hypertarget{class_atlas_1_1_file_system_registry_ae93193fe534f385ef6aafdf0ae1bf32d}\label{class_atlas_1_1_file_system_registry_ae93193fe534f385ef6aafdf0ae1bf32d} 
+\Hypertarget{class_atlas_1_1_file_system_registry_a89ac2e1d54472cbd23da26f663ed413a}\label{class_atlas_1_1_file_system_registry_a89ac2e1d54472cbd23da26f663ed413a} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!GetNextFileIndex@{GetNextFileIndex}}
 \index{GetNextFileIndex@{GetNextFileIndex}!Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}}
 \doxysubsubsection{\texorpdfstring{GetNextFileIndex()}{GetNextFileIndex()}}
-{\footnotesize\ttfamily static uint16\+\_\+t Atlas\+::\+File\+System\+Registry\+::\+Get\+Next\+File\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [private]}}
+{\footnotesize\ttfamily uint16\+\_\+t Atlas\+::\+File\+System\+Registry\+::\+Get\+Next\+File\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [private]}}
 
 
 
 Gets the next file index. 
 
-{\ttfamily  int a = 0; } \begin{DoxyReturn}{Returns}
+\begin{DoxyReturn}{Returns}
 The next file index
 \end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+4
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_file_system_registry_a031dbdcc6fc7ef3e40588589f24392dd}{s\+File\+Index} 
+\end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00075}{75}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00024}{24}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_file_system_registry_8h_source_l00066}{s\+File\+Index}}.
+References \mbox{\hyperlink{_file_system_registry_8h_source_l00078}{s\+File\+Index}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_a09591b2eeacb6c7b5aa460780be9a26f}\label{class_atlas_1_1_file_system_registry_a09591b2eeacb6c7b5aa460780be9a26f} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!init@{init}}
@@ -248,26 +343,74 @@ References \mbox{\hyperlink{_file_system_registry_8h_source_l00066}{s\+File\+Ind
 
 
 
-Initializes the specified root path. 
-
 This function is used to initialize the file system registry. It will scan the provided root path for files and add them to the registry. The recursive searching method used is Load\+Directory\+Files\+Ex from Raylib. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em root\+Path} & The root path.\\
+{\em root\+Path} & The path to the directory that should be scanned. For example, the "{}game"{} directory.\\
 \hline
 \end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+4
+\end{DoxySince}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000008}{Todo}}]Encapsulate this function \end{DoxyRefDesc}
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00017}{17}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00042}{42}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_logging_8cpp_source_l00059}{Atlas\+::\+Log()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00038}{register\+File()}}, \mbox{\hyperlink{_file_system_registry_8h_source_l00058}{s\+Is\+Ready}}, and \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a059e9861e0400dfbe05c98a841f3f96b}{Atlas\+::\+WARNING}}.
+References \mbox{\hyperlink{_logging_8cpp_source_l00059}{Atlas\+::\+Log()}}, and \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a059e9861e0400dfbe05c98a841f3f96b}{Atlas\+::\+WARNING}}.
 
 
 
 Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00068}{Atlas\+::\+BProject\+::pre\+Init()}}.
+
+\Hypertarget{class_atlas_1_1_file_system_registry_a78dfc6669ba038e9ef63701ea7d04c0c}\label{class_atlas_1_1_file_system_registry_a78dfc6669ba038e9ef63701ea7d04c0c} 
+\index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!isFileRegistered@{isFileRegistered}}
+\index{isFileRegistered@{isFileRegistered}!Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}}
+\doxysubsubsection{\texorpdfstring{isFileRegistered()}{isFileRegistered()}}
+{\footnotesize\ttfamily bool Atlas\+::\+File\+System\+Registry\+::is\+File\+Registered (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{key }\end{DoxyParamCaption})}
+
+
+
+Checks within the registry if a file has been registered by looking up the key in the lookup table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key that was used to register the file and is stored in the lookup table as.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the file has been registered, {\ttfamily false} if not. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00199}{199}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_file_system_registry_a4cfa5079b78f01d732936842ef0e431c}\label{class_atlas_1_1_file_system_registry_a4cfa5079b78f01d732936842ef0e431c} 
+\index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!isReady@{isReady}}
+\index{isReady@{isReady}!Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}}
+\doxysubsubsection{\texorpdfstring{isReady()}{isReady()}}
+{\footnotesize\ttfamily bool Atlas\+::\+File\+System\+Registry\+::is\+Ready (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A getter function that tells you if the registry is ready or not; this just returns \doxylink{class_atlas_1_1_file_system_registry_a593e4239590c37dff9c1500fda1fe064}{s\+Is\+Ready}. 
+
+\begin{DoxyReturn}{Returns}
+The copied value of \doxylink{class_atlas_1_1_file_system_registry_a593e4239590c37dff9c1500fda1fe064}{s\+Is\+Ready}
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+9
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_file_system_registry_a593e4239590c37dff9c1500fda1fe064}{s\+Is\+Ready} for what \doxylink{class_atlas_1_1_file_system_registry_a593e4239590c37dff9c1500fda1fe064}{s\+Is\+Ready} is 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00028}{28}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_a54252bda23d0a8c8190f7da6703cd356}\label{class_atlas_1_1_file_system_registry_a54252bda23d0a8c8190f7da6703cd356} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!loadFile@{loadFile}}
@@ -277,27 +420,24 @@ Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00068}{Atlas\+::\+B
 
 
 
-Loads a file. 
-
-Loads the file.
-
-Turns a registered file into a loaded file. Typically, this is called internally within the \doxylink{class_atlas_1_1_file_system_registry_a9a2460a2f0b44cf032e495e756ed223b}{File\+System\+Registry\+::register\+File} function, but is also called when a file is used for the first time. 
+Turns a registered file into a loaded file. Typically, this is called internally within the \doxylink{class_atlas_1_1_file_system_registry_a9a2460a2f0b44cf032e495e756ed223b}{register\+File} function, but is also called when a file is used for the first time. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em file} & The file shared\+\_\+ptr to load.\\
+{\em file} & A shared\+\_\+ptr to the \mbox{[}registered\mbox{]} file that should be loaded.\\
 \hline
 \end{DoxyParams}
 
-
-
-\begin{DoxyParams}{Parameters}
-{\em file} & The file.\\
+\begin{DoxyExceptions}{Exceptions}
+{\em \doxylink{class_atlas_1_1_file_system_registry_1_1_impatient_usage_exception}{Impatient\+Usage\+Exception}} & If this is called before the registry is ready\\
 \hline
-\end{DoxyParams}
+\end{DoxyExceptions}
+\begin{DoxySince}{Since}
+v0.\+0.\+4 
+\end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00088}{88}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00119}{119}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
 
 
 
@@ -311,26 +451,26 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079abb
 
 
 
-Registers a file into the file registry. 
+Registers a file into the file registry using the provided path by creating a new \doxylink{class_atlas_1_1_file_meta}{File\+Meta} object, generating a unique index for the file, and adding it to the registry\textquotesingle{}s lookup table. If the file\textquotesingle{}s extension is in the load on register extensions set (\doxylink{class_atlas_1_1_file_system_registry_aa7d001a7f7da4664a3b899400a76b893}{m\+Load\+On\+Register\+Extensions\+Set}), it will be loaded immediately. 
 
-This function creates a new \doxylink{class_atlas_1_1_file_meta}{File\+Meta} object from the provided path, generates a unique index for the file, and adds it to the registry\textquotesingle{}s lookup table. If the file\textquotesingle{}s extension is in the load on register extensions set, it will be loaded immediately. This function is mostly used internally within the \doxylink{class_atlas_1_1_file_system_registry_a09591b2eeacb6c7b5aa460780be9a26f}{File\+System\+Registry\+::init} function during the file registration process. 
-
+\begin{DoxyRemark}{Remarks}
+This function is mostly used internally within the \doxylink{class_atlas_1_1_file_system_registry_a09591b2eeacb6c7b5aa460780be9a26f}{init} function during the file registration process, but has been made public because it can still be used to register files that were not registered during the initialization process.
+\end{DoxyRemark}
 
 \begin{DoxyParams}{Parameters}
 {\em path} & The path to the file that should be registered. This is the exact path to the file, not the file name.\\
 \hline
 \end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+4 
+\end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00038}{38}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8cpp_source_l00063}{63}} of file \mbox{\hyperlink{_file_system_registry_8cpp_source}{File\+System\+Registry.\+cpp}}.
 
 
 
 References \mbox{\hyperlink{_file_meta_8h_source_l00018}{Atlas\+::\+File\+Meta\+::extension}}, \mbox{\hyperlink{_file_meta_8h_source_l00033}{Atlas\+::\+File\+Meta\+::filename}}, \mbox{\hyperlink{_file_meta_8cpp_source_l00047}{Atlas\+::\+File\+Meta\+::format()}}, \mbox{\hyperlink{_logging_8cpp_source_l00059}{Atlas\+::\+Log()}}, \mbox{\hyperlink{_file_meta_8h_source_l00023}{Atlas\+::\+File\+Meta\+::path}}, \mbox{\hyperlink{_file_meta_8h_source_l00028}{Atlas\+::\+File\+Meta\+::sandbox\+Path}}, and \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a2d3e4144aa384b18849ab9a8abad74d6}{Atlas\+::\+TRACE}}.
-
-
-
-Referenced by \mbox{\hyperlink{_file_system_registry_8cpp_source_l00017}{init()}}.
 
 
 
@@ -343,7 +483,7 @@ Referenced by \mbox{\hyperlink{_file_system_registry_8cpp_source_l00017}{init()}
 
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00119}{119}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00066}{66}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
 
 
 
@@ -356,11 +496,19 @@ Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00119}{119}
 
 
 
-An unordered map that maps a file index to a file meta (stored as a shared\+\_\+ptr). 
+An unordered map that maps a file index to a file meta shared\+\_\+ptr (see \doxylink{class_atlas_1_1_file_meta}{File\+Meta}). This is the lookup table for the file meta. The uint16\+\_\+t index is the output from the search in m\+Lookup\+Table. 
 
-This is the lookup table for the file meta. The uint16\+\_\+t index is the output from the search in m\+Lookup\+Table. 
+\begin{DoxySince}{Since}
+v0.\+0.\+4
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_file_system_registry_a15502328306c20c43f0be3a3ce6ddbb1}{m\+Lookup\+Table} for how the lookup table works. 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00106}{106}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+\doxylink{class_atlas_1_1_file_meta}{File\+Meta} for what a file meta is. 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00109}{109}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_a3dac29b72bc223394f5e6366e63cb9bd}\label{class_atlas_1_1_file_system_registry_a3dac29b72bc223394f5e6366e63cb9bd} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!mLoadingFunctions@{mLoadingFunctions}}
@@ -370,11 +518,17 @@ Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00106}{106}
 
 
 
-Holds the functions that will be called when a file is loaded. 
+Holds the functions that will be called when a file is loaded. When a file is loaded, the respective extension\textquotesingle{}s load function will be called. The string key is the file extension, and the function is the load function. As is documented in the \doxysectlink{index_file-loading}{File Loading}{4}, each extension has to have it\textquotesingle{}s own load function or else \doxylink{namespace_atlas}{Atlas} does not know how to load that specific filetype. This is where the whole concept of extension-\/based loading it comes into play. 
 
-When a file is loaded, the respective load function will be called. The string key is the file extension, and the function is the load function. As is documented in the file-\/loading, each extension has its own load function or else \doxylink{namespace_atlas}{Atlas} does not know how to load the file. 
+\begin{DoxySince}{Since}
+v0.\+0.\+4
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxysectlink{index_file-loading}{File Loading}{4} 
+\end{DoxySeeAlso}
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00084}{84}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+
+Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00091}{91}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_aa7d001a7f7da4664a3b899400a76b893}\label{class_atlas_1_1_file_system_registry_aa7d001a7f7da4664a3b899400a76b893} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!mLoadOnRegisterExtensionsSet@{mLoadOnRegisterExtensionsSet}}
@@ -386,9 +540,15 @@ Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00084}{84}}
 
 Tells the registry which extensions should be loaded on register. If it exists in the set, it will be loaded. 
 
-This is set PRIOR to the discovery of files because this defines what extensions should be immediately loaded on registration. This is a set because this is only used to determine if a file should be loaded on register. The code knows if the file should be loaded on register by checking if the extension is contained in the set. 
+\begin{DoxyNote}{Note}
+This is set PRIOR to the discovery of files because this defines what extensions should be immediately loaded on registration. This is a set because this is only used to determine if a file should be loaded on register. The code knows if the file should be loaded on register by checking if the extension is contained in the set.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+4 
+\end{DoxySince}
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00093}{93}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+
+Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00133}{133}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_a15502328306c20c43f0be3a3ce6ddbb1}\label{class_atlas_1_1_file_system_registry_a15502328306c20c43f0be3a3ce6ddbb1} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!mLookupTable@{mLookupTable}}
@@ -398,11 +558,14 @@ Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00093}{93}}
 
 
 
-An unordered map that maps a file path to a file index. This essentially serves as a reverse lookup table that maps a key to an index. 
+An unordered map that maps a file path to a file index. This essentially serves as a reverse lookup table that maps a key to an index. The key can be either the file path, the file name, the file extension, or really anything that can be used to identify a file. However, \doxylink{namespace_atlas}{Atlas} only uses file path, the file name, and the file extension to identify a file. This is the first step in the process of looking up a file. The uint16\+\_\+t index corresponds to the index in the \doxylink{class_atlas_1_1_file_system_registry_a1fcfe1a99653beb8cf829bd38dcc4840}{m\+File\+Meta\+Registry} unordered map. 
 
-The key can be either the file path, the file name, the file extension, or really anything that can be used to identify a file. However, \doxylink{namespace_atlas}{Atlas} only uses file path, the file name, and the file extension to identify a file. This is the first step in the process of looking up a file. The uint16\+\_\+t index corresponds to the index in the m\+File\+Meta\+Registry unordered map. 
+\begin{DoxySince}{Since}
+v0.\+0.\+4 
+\end{DoxySince}
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00116}{116}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+
+Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00120}{120}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_afb725cac4a287293adfc2e4ec49e4d45}\label{class_atlas_1_1_file_system_registry_afb725cac4a287293adfc2e4ec49e4d45} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!mRegisteredFiles@{mRegisteredFiles}}
@@ -414,6 +577,9 @@ Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00116}{116}
 
 An unordered map that maps a file index to a registered file (stored as a shared\+\_\+ptr). 
 
+\begin{DoxySince}{Since}
+v0.\+0.\+4 
+\end{DoxySince}
 
 
 Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00098}{98}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
@@ -428,13 +594,19 @@ Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00098}{98}}
 
 This static uint16\+\_\+t variable represents the next available file index. 
 
-This is typically only used during the discovery and registration of files. It is used to assign a unique index to each file meta. 
+\begin{DoxyRemark}{Remarks}
+This is typically only used during the discovery and registration of files. It is also used to quickly assign a unique index to each file meta.
+\end{DoxyRemark}
+\begin{DoxySince}{Since}
+v0.\+0.\+4 
+\end{DoxySince}
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00066}{66}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+
+Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00078}{78}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{_file_system_registry_8h_source_l00075}{Get\+Next\+File\+Index()}}.
+Referenced by \mbox{\hyperlink{_file_system_registry_8cpp_source_l00024}{Get\+Next\+File\+Index()}}.
 
 \Hypertarget{class_atlas_1_1_file_system_registry_a593e4239590c37dff9c1500fda1fe064}\label{class_atlas_1_1_file_system_registry_a593e4239590c37dff9c1500fda1fe064} 
 \index{Atlas::FileSystemRegistry@{Atlas::FileSystemRegistry}!sIsReady@{sIsReady}}
@@ -444,11 +616,7 @@ Referenced by \mbox{\hyperlink{_file_system_registry_8h_source_l00075}{Get\+Next
 
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00058}{58}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
-
-
-
-Referenced by \mbox{\hyperlink{_file_system_registry_8cpp_source_l00017}{init()}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00068}{68}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
 
 
 

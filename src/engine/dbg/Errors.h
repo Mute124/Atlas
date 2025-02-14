@@ -55,6 +55,8 @@ namespace Atlas {
 		/// <param name="message">The message.</param>
 		/// <param name="location">The location.</param>
 		InvalidValue(std::string const& message, std::source_location location = std::source_location::current());
+
+		virtual const char* what() const noexcept override { return this->mMessage.c_str(); }
 	};
 
 	class InvalidArgument : public InvalidValue {
@@ -66,7 +68,16 @@ namespace Atlas {
 		/// <param name="location">The location.</param>
 		InvalidArgument(std::string const& message, std::source_location location = std::source_location::current());
 	};
-	
+
+	/**
+	 * @brief This exception is thrown when an ID is not found.
+	 *
+	 * @since v0.0.9
+	 */
+	class ValueNotFoundException : public InvalidArgument {
+	public:
+		using InvalidArgument::InvalidArgument;
+	};
 
 	class IError abstract : public IException {
 	public:

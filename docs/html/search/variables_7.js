@@ -6,7 +6,7 @@ var searchData=
   ['g_5fwindow_3',['g_Window',['../d3/db8/imgui__impl__android_8cpp.html#ab0dc7b445f3ca90091600f42724aaf22',1,'imgui_impl_android.cpp']]],
   ['gamepadmode_4',['gamepadmode',['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#a844e29c21cb8fa1d21e48f7b47dc12a3',1,'ImGui_ImplSDL3_Data::GamepadMode'],['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#a119997885ec4ab163814c75389924590',1,'ImGui_ImplSDL2_Data::GamepadMode']]],
   ['gamepads_5',['gamepads',['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#aac1eb1bd9dabc44aa6c1525d3a886254',1,'ImGui_ImplSDL2_Data::Gamepads'],['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#aa0cb944dad2ecf18a37da544e3cd051d',1,'ImGui_ImplSDL3_Data::Gamepads']]],
-  ['gamesettings_6',['gameSettings',['../d3/d8d/class_atlas_1_1_atlas_engine.html#a7f26e8515711d5402ae894bfe144af17',1,'Atlas::AtlasEngine']]],
+  ['gamesettings_6',['gameSettings',['../d3/d8d/class_atlas_1_1_atlas_engine.html#a1fd73d50b57f28d58a6d522f626b889d',1,'Atlas::AtlasEngine']]],
   ['gamma_7',['Gamma',['../da/d5c/struct_uniforms.html#aefde4e43d8be2c9f48edb2bf264a4bb3',1,'Uniforms']]],
   ['gcflag_8',['gcflag',['../dc/d2f/class_c_script_any.html#a96317f5c71f9bcea93d0beeba809e41a',1,'CScriptAny::gcFlag'],['../d8/d22/class_c_script_array.html#ad9b81bca74db2f95bb71f70b63b3eda6',1,'CScriptArray::gcFlag'],['../dc/d3b/class_c_script_dictionary.html#a0f8b5eb3ed516e0581b1533e981484cf',1,'CScriptDictionary::gcFlag'],['../de/df5/class_c_script_grid.html#a1a841681f88c7d871596dddb2cfdf282',1,'CScriptGrid::gcFlag']]],
   ['genbuffers_9',['GenBuffers',['../d4/d6c/union_im_g_l3_w_procs.html#a5da63e6c23da9e8b97020ae4b2df5100',1,'ImGL3WProcs']]],

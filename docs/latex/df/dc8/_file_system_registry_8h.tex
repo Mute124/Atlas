@@ -11,12 +11,29 @@
 {\ttfamily \#include "{}Registered\+File.\+h"{}}\newline
 {\ttfamily \#include "{}../dbg/\+ELog\+Level.\+h"{}}\newline
 {\ttfamily \#include "{}../dbg/\+Logging.\+h"{}}\newline
+{\ttfamily \#include "{}../dbg/\+Errors.\+h"{}}\newline
+{\ttfamily \#include "{}../core/\+Managed\+Variable.\+h"{}}\newline
 {\ttfamily \#include "{}../utils/\+Singleton.\+h"{}}\newline
+{\ttfamily \#include $<$source\+\_\+location$>$}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{Atlas\+::\+File\+System\+Registry}}
-\begin{DoxyCompactList}\small\item\em The file system registry. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em The file system registry. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_missing_file_exception}{Atlas\+::\+File\+System\+Registry\+::\+Missing\+File\+Exception}}
+\begin{DoxyCompactList}\small\item\em An exception that is thrown when a file is not found where it should be. This can mean that the key being used to search for a file is incorrect, or that the file is not registered. If this exception is thrown, it is recommended that you ensure that you have the correct key(s) being used to search for the file and that the file exists within the sandbox. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_access_violation_exception}{Atlas\+::\+File\+System\+Registry\+::\+Access\+Violation\+Exception}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_missing_file_load_function_exception}{Atlas\+::\+File\+System\+Registry\+::\+Missing\+File\+Load\+Function\+Exception}}
+\begin{DoxyCompactList}\small\item\em An exception that is thrown when there is no registered load function for the file extension of the file that is being loaded. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_impatient_usage_exception}{Atlas\+::\+File\+System\+Registry\+::\+Impatient\+Usage\+Exception}}
+\begin{DoxyCompactList}\small\item\em What is meant by "{}impatient"{} is that a piece of code has used this class when {\ttfamily s\+Is\+Ready} is {\ttfamily false}. Essentially, this is thrown when some code is being impatient and not waiting for the registry to be ready. This class inherits from \doxylink{class_atlas_1_1_file_system_registry_1_1_access_violation_exception}{Access\+Violation\+Exception}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception}{Atlas\+::\+File\+System\+Registry\+::\+Forbidden\+File\+Exception}}
+\begin{DoxyCompactList}\small\item\em This exception is thrown when a piece of code tries to search for a file that is not allowed to be searched for. This class inherits from \doxylink{class_atlas_1_1_file_system_registry_1_1_access_violation_exception}{Access\+Violation\+Exception}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_file_out_of_sandbox_exception}{Atlas\+::\+File\+System\+Registry\+::\+File\+Out\+Of\+Sandbox\+Exception}}
+\begin{DoxyCompactList}\small\item\em This is thrown when a piece of code tries to register, load, unload, or search for a file that is out of the sandbox. This class inherits from \doxylink{class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception}{Forbidden\+File\+Exception} because this is a type of forbidden access violation. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_registry_1_1_forbidden_file_search_exception}{Atlas\+::\+File\+System\+Registry\+::\+Forbidden\+File\+Search\+Exception}}
+\begin{DoxyCompactList}\small\item\em This is thrown when a piece of code tries to search for a file that does not exist, on a blacklist, or is otherwise forbidden. This class inherits from \doxylink{class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception}{Forbidden\+File\+Exception} because this is a type of forbidden access violation. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -31,7 +48,7 @@ using \mbox{\hyperlink{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}{Atlas\
 
 \doxysubsection{Detailed Description}
 \begin{DoxyRefDesc}{Todo}
-\item[\mbox{\hyperlink{todo__todo000005}{Todo}}]Write documentation 
+\item[\mbox{\hyperlink{todo__todo000006}{Todo}}]Write documentation 
 
 Write tests 
 

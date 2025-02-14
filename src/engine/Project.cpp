@@ -161,9 +161,12 @@ void Atlas::BProject::init(int argc, char* argv[]) {
 void Atlas::BProject::postInit() {
 	IWindow* window = getAtlasEngine()->getWindow().get();
 	Renderer* renderer = getAtlasEngine()->getRenderer().get();
+
 	AllocatedPhysicsResources resources = AllocatedPhysicsResources();
 	getAtlasEngine()->getPhysicsEngine().get()->init(resources);
-	window->init(new WindowDecorations());
+
+	WindowDecorations* windowDecor = new WindowDecorations();
+	window->init(windowDecor);
 	renderer->init();
 }
 

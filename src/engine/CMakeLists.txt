@@ -64,7 +64,13 @@ set(ATLAS_ENGINE_CORE_SOURCES
     "core/IGameThread.h"
     "core/GameThread.h"
     "core/GameThread.cpp"
+    
+    "core/ThreadGroup.h"
+    "core/ThreadGroup.cpp"
+
     "core/Registry.h"
+
+    "core/Serializable.h"
 )
 
 set(ATLAS_RENDERER_SOURCES
@@ -361,7 +367,7 @@ set(ATLAS_ENGINE_DEPENDENCIES
     simdjson::simdjson
     tinyxml2::tinyxml2
     Angelscript::angelscript
-
+    boost::boost
     miniaudio::miniaudio
 )
 
