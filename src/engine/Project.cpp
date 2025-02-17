@@ -19,12 +19,17 @@
 #include <sol/types.hpp>
 #include "input/Input.h"
 #include <thread>
+#include "core/AtlasEngine.h"
+#include "core/IProject.h"
+#include "core/ThreadSafeVariable.h"
+#include "input/InputRegistry.h"
+#include <stdexcept>
 
 using namespace Atlas;
 
-std::shared_ptr<AtlasEngine> Atlas::BProject::setupAtlas()
+Atlas::ThreadSafeVariable<AtlasEngine*> Atlas::BProject::setupAtlas()
 {
-	return std::shared_ptr<AtlasEngine>(
+	return ThreadSafeVariable<AtlasEngine*>(
 		new AtlasEngine(
 			new ConfigFileRegistry(),
 			new ScriptingAPI(),
@@ -50,7 +55,7 @@ Atlas::BProject::BProject()  : IProject()
 {
 	mProject = std::shared_ptr<BProject>(this);
 
-	if (mAtlas == nullptr) {
+	if (mAtlas.get() == nullptr) {
 		mAtlas = setupAtlas();
 	}
 }
@@ -141,8 +146,9 @@ void Atlas::BProject::preInit() {
 	Log("Initializing file system...");
 	registry->init(gameDir.c_str());
 	configFileRegistry->init();
+	getAtlasEngine()->getInputRegistry()->addGroup("working", std::make_shared<InputRegistry::InputActionRegistry>(InputRegistry::InputActionRegistry()));
 
-//#ifdef ATLAS_ENABLE_MODDDING
+	//#ifdef ATLAS_ENABLE_MODDDING
 //		#ifdef ATLAS_ENABLE_LUA
 	this->mLuaLibraries.push_back(sol::lib::base);
 
@@ -161,9 +167,11 @@ void Atlas::BProject::init(int argc, char* argv[]) {
 void Atlas::BProject::postInit() {
 	IWindow* window = getAtlasEngine()->getWindow().get();
 	Renderer* renderer = getAtlasEngine()->getRenderer().get();
-
-	AllocatedPhysicsResources resources = AllocatedPhysicsResources();
-	getAtlasEngine()->getPhysicsEngine().get()->init(resources);
+	
+	getAtlasEngine()->getInputRegistry()->addGroup("renderer", std::make_shared<InputRegistry::InputActionRegistry>(InputRegistry::InputActionRegistry()));
+	
+	//AllocatedPhysicsResources resources = AllocatedPhysicsResources();
+	//getAtlasEngine()->getPhysicsEngine().get()->init(resources);
 
 	WindowDecorations* windowDecor = new WindowDecorations();
 	window->init(windowDecor);
@@ -178,6 +186,7 @@ int Atlas::BProject::run(int argc, char* argv[]) {
 	
 	bool shouldClose = false;
 	while (!shouldClose) {
+		getAtlasEngine()->getInputRegistry().get()->checkAll("renderer");
 		shouldClose = getAtlasEngine()->getWindow().get()->shouldClose();
 
 		draw();
@@ -191,9 +200,9 @@ int Atlas::BProject::run(int argc, char* argv[]) {
 int Atlas::BProject::update()
 {
 	int code = 0;
-	
+
+	getAtlasEngine()->getInputRegistry().get()->checkAll("update");
 	getAtlasEngine()->getRenderer().get()->updateObjects();
-	
 	return code;
 }
 
@@ -201,7 +210,7 @@ int Atlas::BProject::workingUpdate()
 {
 	int code = 0;
 
-	getAtlasEngine()->getInputRegistry().get()->checkAll();
+	getAtlasEngine()->getInputRegistry().get()->checkAll("working");
 
 	return code;
 }
@@ -214,8 +223,8 @@ int Atlas::BProject::prePhysicsUpdate() {
 
 int Atlas::BProject::physicsUpdate() {
 
-	PhysicsEngine* physicsEngine = getAtlasEngine()->getPhysicsEngine().get();
-	physicsEngine->update(1.0f / 60.0f);
+	//PhysicsEngine* physicsEngine = getAtlasEngine()->getPhysicsEngine().get();
+	//physicsEngine->update(1.0f / 60.0f);
 
 	return 0; 
 }
@@ -248,6 +257,7 @@ int Atlas::BProject::render() {
 
 int Atlas::BProject::draw()
 {
+
 	getAtlasEngine()->getRenderer().get()->update();
 	texture();
 	render();
@@ -256,7 +266,7 @@ int Atlas::BProject::draw()
 }
 
 int Atlas::BProject::cleanup(int exitCode) { 
-	std::shared_ptr<AtlasEngine> engine = getAtlasEngine();
+	ThreadSafeVariable<AtlasEngine*> engine = getAtlasEngine();
 
 	engine->getRenderer().get()->cleanup();
 /*	engine->getPhysicsEngine()->cleanup();
@@ -271,7 +281,7 @@ std::shared_ptr<BProject> Atlas::BProject::GetProject() {
 	return mProject;
 }
 
-std::shared_ptr<AtlasEngine> Atlas::BProject::getAtlasEngine()
+ThreadSafeVariable<AtlasEngine*> Atlas::BProject::getAtlasEngine()
 {
 	return mAtlas;
 }
@@ -286,6 +296,6 @@ void Atlas::BProject::ProjectReference::setProjectReference(BProject* project) {
 //							AtlasEngine
 //----------------------------------------------------------------------------
 
-std::shared_ptr<AtlasEngine> Atlas::GetAtlasEngine() { 
+ThreadSafeVariable<AtlasEngine*> Atlas::GetAtlasEngine() {
 	return BProject::GetProject()->getAtlasEngine(); 
 }

@@ -40,7 +40,8 @@ set(ATLAS_ENGINE_CORE_SOURCES
     "engine.cpp"
     "BasicCore.h" 
 
-    "core/ManagedVariable.h"
+    "core/ThreadSafeVariable.h"
+    "core/ThreadSafeVariable.cpp"
 
     "core/MemoryAllocator.h"
     "core/MemoryAllocator.cpp"

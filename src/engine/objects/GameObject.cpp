@@ -11,8 +11,7 @@
 #include <stdexcept>
 
 Atlas::GameObject::GameObject() : IGameObject() {
-	//addComponent<TransformComponent>();
-
+	addComponent<TransformComponent>();
 }
 
 void Atlas::GameObject::preUpdate() {

@@ -209,24 +209,16 @@ void Atlas::GameCamera::setFovy(float fovy) { mCameraData.fovy = fovy; }
 /// <param name="projection">The projection.</param>
 void Atlas::GameCamera::setProjection(int projection) { mCameraData.projection = projection; }
 
-/// <summary>
-/// Sets this instance as the main camera.
-/// </summary>
-
 void Atlas::GameCamera::setAsMainCamera() {
 	sMainCamera = this;
 	mIsMainCamera = true;
 }
 
-/// <summary>
-/// Checks if this instance is the main camera.
-/// </summary>
-/// <returns></returns>
 
 bool Atlas::GameCamera::isMainCamera() const { return mIsMainCamera; }
 
 Atlas::GameCamera::CameraInputAction::CameraInputAction(const std::string& name, int key, const EInputType& type, const EInputTrigger& trigger,
-	GameCamera* camera) : InputAction(name, key, type, trigger), camera(camera) {
+	GameCamera* camera) : InputAction(name, "renderer", key, type, trigger), camera(camera) {
 	
 	}
 

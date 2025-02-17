@@ -1,10 +1,5 @@
 \doxysection{Atlas Namespace Reference}
 \hypertarget{namespace_atlas}{}\label{namespace_atlas}\index{Atlas@{Atlas}}
-
-
-test  
-
-
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -28,7 +23,7 @@ class \mbox{\hyperlink{class_atlas_1_1_angel_script_a_p_i}{Angel\+Script\+API}}
 class \mbox{\hyperlink{class_atlas_1_1_angel_script_registry}{Angel\+Script\+Registry}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+Engine}}
-\item 
+\begin{DoxyCompactList}\small\item\em This is the core and heart of \doxylink{namespace_atlas}{Atlas}; it is responsible for just about everything that is required to run the engine. It contains multiple different modules that can be used to extend the engine. If you want to extend the engine, you can simply inherit the respective module and utilize the concepts of polymorphism to your advantage. Keep in mind that the modules are stored as a \doxylink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable} and can be used concurrently. That means the user can multi-\/thread these modules if they so choose. This is just a default implementation of the \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} and you do not have to use this class. However, if you would like to use a different implementation, you can simply inherit from \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} and override the virtual functions. But one thing must remain\+: the class must inherit from \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} or be a child of \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine}. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_audio_device}{Audio\+Device}}
 \begin{DoxyCompactList}\small\item\em An audio device is a physical {\bfseries{OUTPUT}} device that can be used to play audio. If you are looking for a {\bfseries{INPUT}} device, see Audio\+Capture\+Device. If you are looking for documentation on the forms of {\bfseries{OUTPUT}} devices, see this class\textquotesingle{}s details documentation. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_audio_device_config}{Audio\+Device\+Config}}
@@ -92,7 +87,7 @@ class \mbox{\hyperlink{class_atlas_1_1_globals}{Globals}}
 \begin{DoxyCompactList}\small\item\em Represents a 3D vector. It will wrap raylib\textquotesingle{}s Vector3 and Jolt\textquotesingle{}s RVec3 to allow seamless integration. This also wraps raylib\textquotesingle{}s vector math functions. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_globals_container}{Globals\+Container}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_atlas}{IAtlas}}
+class \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_i_atlas_system}{IAtlas\+System}}
 \item 
@@ -207,7 +202,7 @@ struct \mbox{\hyperlink{struct_atlas_1_1_texture_event_args}{Texture\+Event\+Arg
 class \mbox{\hyperlink{class_atlas_1_1_thread_group}{Thread\+Group}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}
-\begin{DoxyCompactList}\small\item\em A managed variable is one that is thread-\/safe, handled by \doxylink{class_atlas_1_1_memory_allocator}{Memory\+Allocator}, and can be used to share data between threads. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This class wraps a variable (specified by T\+\_\+\+VARIABLE\+\_\+\+TYPE) and makes it thread-\/safe. When \doxylink{class_atlas_1_1_thread_safe_variable_a4007f83735117deb04971ae309f5f68f}{Thread\+Safe\+Variable\+::execute()} is called, it will lock this variable and execute the function that is passed to it. Furthermore, it will also lock when the \doxylink{class_atlas_1_1_thread_safe_variable_a7840da777c194e6f4b0bc78a163179e0}{set()} function, is called. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_transform}{Transform}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_transform_component}{Transform\+Component}}
@@ -230,7 +225,7 @@ class \mbox{\hyperlink{class_atlas_1_1_x_m_l_file}{XMLFile}}
 \begin{DoxyCompactItemize}
 \item 
 concept \mbox{\hyperlink{concept_atlas_1_1_atlas_project}{Atlas\+Project}}
-\begin{DoxyCompactList}\small\item\em Represents an atlas project interface. This concept ensures that the type is a child class of IAtlas. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Represents an atlas project interface. This concept ensures that the type is a child class of IAtlas\+Engine. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -378,7 +373,7 @@ std\+::string \mbox{\hyperlink{namespace_atlas_a26ee3194395538b80492eed99ef83618
 \item 
 static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a2fb14e6c76bf6e577bdd65ffff7d7519}{Default\+Physics\+Trace}} (const char \texorpdfstring{$\ast$}{*}in\+FMT,...)
 \begin{DoxyCompactList}\small\item\em This is the already provided trace function for the physics engine. \end{DoxyCompactList}\item 
-std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+Engine}} $>$ \mbox{\hyperlink{namespace_atlas_a35cdcfa9479f5d9f1a145949c03bddfe}{Get\+Atlas\+Engine}} ()
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+Engine}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{namespace_atlas_abf9672162529f95ec75b909111e6abba}{Get\+Atlas\+Engine}} ()
 \item 
 {\footnotesize template$<$typename T $>$ }\\T \& \mbox{\hyperlink{namespace_atlas_ae4147e1ed53261fedf1809ea1fd913ed}{Get\+Global}} (const std\+::string \&key)
 \item 
@@ -387,9 +382,6 @@ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+
 std\+::string \mbox{\hyperlink{namespace_atlas_a5c20927104cfd9d9b0a6d92b3d55fd65}{Get\+Date}} ()
 \end{DoxyCompactItemize}
 
-
-\doxysubsection{Detailed Description}
-test 
 
 \doxysubsection{Typedef Documentation}
 \Hypertarget{namespace_atlas_a354652e760f721fa1494d71644bc8ca8}\label{namespace_atlas_a354652e760f721fa1494d71644bc8ca8} 
@@ -451,7 +443,7 @@ Definition at line \mbox{\hyperlink{engine_8h_source_l00021}{21}} of file \mbox{
 
 
 
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00030}{30}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00026}{26}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
 
 \Hypertarget{namespace_atlas_a23da551e07626be8694155b8721b265f}\label{namespace_atlas_a23da551e07626be8694155b8721b265f} 
 \index{Atlas@{Atlas}!GameSettings@{GameSettings}}
@@ -475,7 +467,7 @@ Definition at line \mbox{\hyperlink{_game_settings_8h_source_l00009}{9}} of file
 
 
 
-Definition at line \mbox{\hyperlink{_input_registry_8h_source_l00010}{10}} of file \mbox{\hyperlink{_input_registry_8h_source}{Input\+Registry.\+h}}.
+Definition at line \mbox{\hyperlink{_input_registry_8h_source_l00017}{17}} of file \mbox{\hyperlink{_input_registry_8h_source}{Input\+Registry.\+h}}.
 
 \Hypertarget{namespace_atlas_ab3e1b45690b287e486c74fa696caaf10}\label{namespace_atlas_ab3e1b45690b287e486c74fa696caaf10} 
 \index{Atlas@{Atlas}!InternalAudioContext@{InternalAudioContext}}
@@ -896,11 +888,11 @@ Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00034}{34}} of fil
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00289}{Get\+Atlas\+Engine()}}.
+References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
 
 
 
-Referenced by \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, and \mbox{\hyperlink{engine_2_project_8cpp_source_l00068}{Atlas\+::\+BProject\+::pre\+Init()}}.
+Referenced by \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, and \mbox{\hyperlink{engine_2_project_8cpp_source_l00073}{Atlas\+::\+BProject\+::pre\+Init()}}.
 
 \Hypertarget{namespace_atlas_a29a6343014b963b902d0e0afb838dfdd}\label{namespace_atlas_a29a6343014b963b902d0e0afb838dfdd} 
 \index{Atlas@{Atlas}!AddFileRegistryLoadOnRegisterExtension@{AddFileRegistryLoadOnRegisterExtension}}
@@ -923,7 +915,7 @@ Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00040}{40}} of fil
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00289}{Get\+Atlas\+Engine()}}.
+References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
 
 \Hypertarget{namespace_atlas_a4a3774487efaf3fd274897ab22f238be}\label{namespace_atlas_a4a3774487efaf3fd274897ab22f238be} 
 \index{Atlas@{Atlas}!CreateLogFileName@{CreateLogFileName}}
@@ -993,23 +985,23 @@ A boolean value that denotes whether or not the file system is properly formatte
 
 Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00016}{16}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
 
-\Hypertarget{namespace_atlas_a35cdcfa9479f5d9f1a145949c03bddfe}\label{namespace_atlas_a35cdcfa9479f5d9f1a145949c03bddfe} 
+\Hypertarget{namespace_atlas_abf9672162529f95ec75b909111e6abba}\label{namespace_atlas_abf9672162529f95ec75b909111e6abba} 
 \index{Atlas@{Atlas}!GetAtlasEngine@{GetAtlasEngine}}
 \index{GetAtlasEngine@{GetAtlasEngine}!Atlas@{Atlas}}
 \doxysubsubsection{\texorpdfstring{GetAtlasEngine()}{GetAtlasEngine()}}
-{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+Engine}} $>$ Atlas\+::\+Get\+Atlas\+Engine (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+Engine}} \texorpdfstring{$\ast$}{*} $>$ Atlas\+::\+Get\+Atlas\+Engine (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00289}{289}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{299}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00269}{Atlas\+::\+BProject\+::\+Get\+Project()}}.
+References \mbox{\hyperlink{engine_2_project_8cpp_source_l00279}{Atlas\+::\+BProject\+::\+Get\+Project()}}.
 
 
 
-Referenced by \mbox{\hyperlink{_file_system_8cpp_source_l00034}{Add\+File\+Registry\+Load\+Function()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00040}{Add\+File\+Registry\+Load\+On\+Register\+Extension()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00052}{Get\+File()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00046}{Get\+File\+Meta()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00057}{Get\+File\+Path()}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00025}{Atlas\+::\+Game\+Camera\+::init()}}, \mbox{\hyperlink{_window_8cpp_source_l00013}{Atlas\+::\+Window\+::init()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00028}{Initialize\+File\+Registry()}}, \mbox{\hyperlink{_logging_8cpp_source_l00059}{Log()}}, \mbox{\hyperlink{_config_8cpp_source_l00122}{Lookup\+Config()}}, and \mbox{\hyperlink{_config_8cpp_source_l00126}{Lookup\+Config()}}.
+Referenced by \mbox{\hyperlink{_file_system_8cpp_source_l00034}{Add\+File\+Registry\+Load\+Function()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00040}{Add\+File\+Registry\+Load\+On\+Register\+Extension()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00052}{Get\+File()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00046}{Get\+File\+Meta()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00057}{Get\+File\+Path()}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00025}{Atlas\+::\+Game\+Camera\+::init()}}, \mbox{\hyperlink{_window_8cpp_source_l00013}{Atlas\+::\+Window\+::init()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00028}{Initialize\+File\+Registry()}}, \mbox{\hyperlink{_logging_8cpp_source_l00059}{Log()}}, \mbox{\hyperlink{_config_8cpp_source_l00122}{Lookup\+Config()}}, \mbox{\hyperlink{_config_8cpp_source_l00126}{Lookup\+Config()}}, \mbox{\hyperlink{project_2_project_8cpp_source_l00050}{Project\+::post\+Init()}}, and \mbox{\hyperlink{_application_utils_8h_source_l00161}{Atlas\+::\+Application\+::\+Frame\+Manager\+::\+Run\+Update\+Thread()}}.
 
 \Hypertarget{namespace_atlas_a19e6b5f5dd610b5bc867d30c3bed251d}\label{namespace_atlas_a19e6b5f5dd610b5bc867d30c3bed251d} 
 \index{Atlas@{Atlas}!GetConfigFileRegistry@{GetConfigFileRegistry}}
@@ -1092,7 +1084,7 @@ Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00052}{52}} of fil
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00289}{Get\+Atlas\+Engine()}}.
+References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
 
 
 
@@ -1122,7 +1114,7 @@ Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00046}{46}} of fil
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00289}{Get\+Atlas\+Engine()}}.
+References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
 
 \Hypertarget{namespace_atlas_a26ee3194395538b80492eed99ef83618}\label{namespace_atlas_a26ee3194395538b80492eed99ef83618} 
 \index{Atlas@{Atlas}!GetFilePath@{GetFilePath}}
@@ -1136,11 +1128,11 @@ Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00057}{57}} of fil
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00289}{Get\+Atlas\+Engine()}}.
+References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
 
 
 
-Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00068}{Atlas\+::\+BProject\+::pre\+Init()}}.
+Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00073}{Atlas\+::\+BProject\+::pre\+Init()}}.
 
 \Hypertarget{namespace_atlas_a2cb0cf87e4174aa22214eb99c3b3e9cb}\label{namespace_atlas_a2cb0cf87e4174aa22214eb99c3b3e9cb} 
 \index{Atlas@{Atlas}!GetFileSystemRegistry@{GetFileSystemRegistry}}
@@ -1259,7 +1251,7 @@ Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00028}{28}} of fil
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00289}{Get\+Atlas\+Engine()}}.
+References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
 
 \Hypertarget{namespace_atlas_a254f5a6dc4d6b4838489a9afd1c31709}\label{namespace_atlas_a254f5a6dc4d6b4838489a9afd1c31709} 
 \index{Atlas@{Atlas}!IsPathSandboxed@{IsPathSandboxed}}
@@ -1295,11 +1287,11 @@ Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00059}{59}} of file \m
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00289}{Get\+Atlas\+Engine()}}.
+References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
 
 
 
-Referenced by \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\+Registry\+::config\+Lookup()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00176}{Atlas\+::\+File\+System\+Registry\+::get\+File()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00092}{Atlas\+::\+File\+System\+Registry\+::\+Get\+File\+Meta()}}, \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00042}{Atlas\+::\+File\+System\+Registry\+::init()}}, \mbox{\hyperlink{_window_8cpp_source_l00013}{Atlas\+::\+Window\+::init()}}, \mbox{\hyperlink{_atlas_app_8h_source_l00026}{Atlas\+::\+Application\+::\+Atlas\+App\+::init\+Window()}}, \mbox{\hyperlink{_application_utils_8h_source_l00210}{Atlas\+::\+Application\+::\+Frame\+Manager\+::launch\+Threads()}}, \mbox{\hyperlink{_config_8cpp_source_l00085}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+Config\+File()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00119}{Atlas\+::\+File\+System\+Registry\+::load\+File()}}, \mbox{\hyperlink{_config_8cpp_source_l00093}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+JSONFile()}}, \mbox{\hyperlink{_config_8cpp_source_l00101}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+XMLFile()}}, \mbox{\hyperlink{engine_2_project_8cpp_source_l00068}{Atlas\+::\+BProject\+::pre\+Init()}}, \mbox{\hyperlink{_atlas_app_8h_source_l00015}{Atlas\+::\+Application\+::\+Atlas\+App\+::prepare\+Project()}}, \mbox{\hyperlink{_logging_8cpp_source_l00216}{Atlas\+::\+Logger\+::\+Raylib\+Log\+Callback()}}, and \mbox{\hyperlink{_file_system_registry_8cpp_source_l00063}{Atlas\+::\+File\+System\+Registry\+::register\+File()}}.
+Referenced by \mbox{\hyperlink{_file_system_registry_8cpp_source_l00219}{Atlas\+::\+File\+System\+Registry\+::\+Missing\+File\+Load\+Function\+Exception\+::\+Access\+Violation\+Exception()}}, \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\+Registry\+::config\+Lookup()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00176}{Atlas\+::\+File\+System\+Registry\+::get\+File()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00092}{Atlas\+::\+File\+System\+Registry\+::\+Get\+File\+Meta()}}, \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00042}{Atlas\+::\+File\+System\+Registry\+::init()}}, \mbox{\hyperlink{_window_8cpp_source_l00013}{Atlas\+::\+Window\+::init()}}, \mbox{\hyperlink{_atlas_app_8h_source_l00026}{Atlas\+::\+Application\+::\+Atlas\+App\+::init\+Window()}}, \mbox{\hyperlink{_application_utils_8h_source_l00212}{Atlas\+::\+Application\+::\+Frame\+Manager\+::launch\+Threads()}}, \mbox{\hyperlink{_config_8cpp_source_l00085}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+Config\+File()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00119}{Atlas\+::\+File\+System\+Registry\+::load\+File()}}, \mbox{\hyperlink{_config_8cpp_source_l00093}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+JSONFile()}}, \mbox{\hyperlink{_config_8cpp_source_l00101}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+XMLFile()}}, \mbox{\hyperlink{engine_2_project_8cpp_source_l00073}{Atlas\+::\+BProject\+::pre\+Init()}}, \mbox{\hyperlink{_atlas_app_8h_source_l00015}{Atlas\+::\+Application\+::\+Atlas\+App\+::prepare\+Project()}}, \mbox{\hyperlink{_logging_8cpp_source_l00216}{Atlas\+::\+Logger\+::\+Raylib\+Log\+Callback()}}, and \mbox{\hyperlink{_file_system_registry_8cpp_source_l00063}{Atlas\+::\+File\+System\+Registry\+::register\+File()}}.
 
 \Hypertarget{namespace_atlas_aea78e3773f79ad0d706edfea919cfc63}\label{namespace_atlas_aea78e3773f79ad0d706edfea919cfc63} 
 \index{Atlas@{Atlas}!LookupConfig@{LookupConfig}}
@@ -1327,7 +1319,7 @@ Definition at line \mbox{\hyperlink{_config_8cpp_source_l00122}{122}} of file \m
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00289}{Get\+Atlas\+Engine()}}.
+References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
 
 
 
@@ -1345,7 +1337,7 @@ Definition at line \mbox{\hyperlink{_config_8cpp_source_l00126}{126}} of file \m
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00289}{Get\+Atlas\+Engine()}}.
+References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
 
 \Hypertarget{namespace_atlas_a51fdcf67897c4f8a2845255331167e28}\label{namespace_atlas_a51fdcf67897c4f8a2845255331167e28} 
 \index{Atlas@{Atlas}!SetGlobal@{SetGlobal}}
@@ -1384,5 +1376,5 @@ Definition at line \mbox{\hyperlink{_registry_8h_source_l00125}{125}} of file \m
 
 
 
-Referenced by \mbox{\hyperlink{_i_game_thread_8h_source_l00059}{Atlas\+::\+Thread\+Group\+::add\+Thread()}}, \mbox{\hyperlink{_vec3_8cpp_source_l00194}{Atlas\+::\+Vec3\+::lerp()}}, and \mbox{\hyperlink{_i_game_thread_8h_source_l00066}{Atlas\+::\+Thread\+Group\+::stop\+All()}}.
+Referenced by \mbox{\hyperlink{_thread_group_8cpp_source_l00013}{Atlas\+::\+Thread\+Group\+::add\+Thread()}}, \mbox{\hyperlink{_vec3_8cpp_source_l00194}{Atlas\+::\+Vec3\+::lerp()}}, and \mbox{\hyperlink{_thread_group_8cpp_source_l00020}{Atlas\+::\+Thread\+Group\+::stop\+All()}}.
 

@@ -10,12 +10,12 @@
 #include "../dbg/Logging.h"
 #include "../input/InputRegistry.h"
 
-#include "ManagedVariable.h"
+#include "ThreadSafeVariable.h"
 #include <unordered_map>
 #include <unordered_set>
 
 namespace Atlas {
-	class IAtlas {
+	class IAtlasEngine {
 	public:
 		virtual ThreadSafeVariable<ConfigFileRegistry*> getConfigFileRegistry() = 0;
 		virtual ThreadSafeVariable<ScriptingAPI*> getScriptingAPI() = 0;

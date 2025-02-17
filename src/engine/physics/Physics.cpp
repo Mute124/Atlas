@@ -88,7 +88,7 @@ void Atlas::DefaultPhysicsTrace(const char* inFMT, ...)
 	// Print to the TTY
 	cout << buffer << endl;
 }
-
+#ifdef JPH_ENABLE_ASSERTS
 bool Atlas::DefaultPhysicsAssertFailed(const char* inExpression, const char* inMessage, const char* inFile, JPH::uint inLine)
 {
 	// TODO: See above documentation
@@ -98,3 +98,4 @@ bool Atlas::DefaultPhysicsAssertFailed(const char* inExpression, const char* inM
 	// Breakpoint
 	return true;
 }
+#endif

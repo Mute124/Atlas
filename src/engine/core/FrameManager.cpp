@@ -1,6 +1,6 @@
 #include "FrameManager.h"
 #include "IProject.h"
-#include "ManagedVariable.h"
+#include "ThreadSafeVariable.h"
 #include "ThreadGroup.h"
 #include "../dbg/Logging.h"
 #include <chrono>

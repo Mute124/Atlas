@@ -38,7 +38,8 @@ var hierarchy =
       [ "Atlas::RenderingComponent", "de/d73/class_atlas_1_1_rendering_component.html", null ],
       [ "Atlas::TransformComponent", "dc/d08/class_atlas_1_1_transform_component.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
-      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
+      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
+      [ "Block::BlockRendererComponent", "d9/da4/class_block_1_1_block_renderer_component.html", null ]
     ] ],
     [ "Atlas::ComponentManager", "d5/d7c/class_atlas_1_1_component_manager.html", null ],
     [ "Atlas::ModularObject::ComponentPointer", "d0/db2/class_atlas_1_1_modular_object_1_1_component_pointer.html", null ],
@@ -91,6 +92,7 @@ var hierarchy =
             [ "Atlas::IGameObject::NullptrGameObjectException", "d6/d80/class_atlas_1_1_i_game_object_1_1_nullptr_game_object_exception.html", null ]
           ] ],
           [ "Atlas::InvalidArgument", "df/d7c/class_atlas_1_1_invalid_argument.html", [
+            [ "Atlas::ThreadSafeVariable< T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD >::MissingDefaultConstructorException", "de/d61/class_atlas_1_1_thread_safe_variable_1_1_missing_default_constructor_exception.html", null ],
             [ "Atlas::ValueNotFoundException", "df/d64/class_atlas_1_1_value_not_found_exception.html", null ]
           ] ]
         ] ],
@@ -112,7 +114,7 @@ var hierarchy =
     [ "Atlas::GameThread", "db/d6f/class_atlas_1_1_game_thread.html", null ],
     [ "Generator", "d0/df5/class_generator.html", null ],
     [ "GridCell", "d4/d3c/struct_grid_cell.html", null ],
-    [ "Atlas::IAtlas", "d8/dc7/class_atlas_1_1_i_atlas.html", [
+    [ "Atlas::IAtlasEngine", "d8/d96/class_atlas_1_1_i_atlas_engine.html", [
       [ "Atlas::AtlasEngine", "d3/d8d/class_atlas_1_1_atlas_engine.html", null ]
     ] ],
     [ "Atlas::IAtlasSystem", "d8/d09/class_atlas_1_1_i_atlas_system.html", null ],
@@ -129,7 +131,8 @@ var hierarchy =
     ] ],
     [ "Atlas::IGameObject", "d8/d56/class_atlas_1_1_i_game_object.html", [
       [ "Atlas::GameObject", "d0/d43/class_atlas_1_1_game_object.html", [
-        [ "Atlas::PlaneObject", "d6/d78/class_atlas_1_1_plane_object.html", null ]
+        [ "Atlas::PlaneObject", "d6/d78/class_atlas_1_1_plane_object.html", null ],
+        [ "Block", "d2/df8/class_block.html", null ]
       ] ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
       [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
@@ -180,6 +183,8 @@ var hierarchy =
       [ "Atlas::GameCamera::CameraInputAction", "de/d72/class_atlas_1_1_game_camera_1_1_camera_input_action.html", null ],
       [ "Atlas::SelfDeterminingInputAction", "d2/d1b/class_atlas_1_1_self_determining_input_action.html", null ]
     ] ],
+    [ "Atlas::InputRegistry::InputActionRegistry", "d2/df0/class_atlas_1_1_input_registry_1_1_input_action_registry.html", null ],
+    [ "Atlas::InputRegistry", "d7/d84/class_atlas_1_1_input_registry.html", null ],
     [ "Atlas::IProject", "dd/daa/class_atlas_1_1_i_project.html", [
       [ "Atlas::BProject", "d5/d37/class_atlas_1_1_b_project.html", [
         [ "Project", "d9/d6e/class_project.html", null ],
@@ -309,9 +314,6 @@ var hierarchy =
     [ "Atlas::Singleton< GlobalsContainer >", "d6/dd4/class_atlas_1_1_singleton.html", [
       [ "Atlas::GlobalsContainer", "d6/d6d/class_atlas_1_1_globals_container.html", null ]
     ] ],
-    [ "Atlas::Singleton< InputRegistry >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::InputRegistry", "d7/d84/class_atlas_1_1_input_registry.html", null ]
-    ] ],
     [ "Atlas::Singleton< LocalizationRegistry >", "d6/dd4/class_atlas_1_1_singleton.html", [
       [ "Atlas::LocalizationRegistry", "d7/de3/class_atlas_1_1_localization_registry.html", null ]
     ] ],
@@ -333,6 +335,7 @@ var hierarchy =
     [ "Atlas::TextureEventArgs", "d4/da5/struct_atlas_1_1_texture_event_args.html", null ],
     [ "Atlas::ThreadGroup", "de/d4b/class_atlas_1_1_thread_group.html", null ],
     [ "Atlas::ThreadSafeVariable< T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
+    [ "Atlas::ThreadSafeVariable< Atlas::AtlasEngine * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
     [ "Atlas::ThreadSafeVariable< Atlas::ConfigFileRegistry * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
     [ "Atlas::ThreadSafeVariable< Atlas::FileSystemRegistry * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
     [ "Atlas::ThreadSafeVariable< Atlas::InputRegistry * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
@@ -342,6 +345,7 @@ var hierarchy =
     [ "Atlas::ThreadSafeVariable< Atlas::Renderer * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
     [ "Atlas::ThreadSafeVariable< GameSettings * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
     [ "Atlas::ThreadSafeVariable< ScriptingAPI * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
+    [ "Atlas::ThreadSafeVariable< std::shared_ptr< Atlas::InputRegistry::InputActionRegistry > >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
     [ "Atlas::Transform", "de/d42/class_atlas_1_1_transform.html", null ],
     [ "Terrain::TriangleStruct", "da/d89/struct_terrain_1_1_triangle_struct.html", null ],
     [ "Uniforms", "da/d5c/struct_uniforms.html", null ],

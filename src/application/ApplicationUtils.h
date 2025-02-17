@@ -161,7 +161,9 @@ namespace Atlas::Application {
 		int RunUpdateThread()
 		{
 			isUpdateWaiting = true;
-
+			
+			GetAtlasEngine()->getInputRegistry()->addGroup("update", std::make_shared<InputRegistry::InputActionRegistry>(InputRegistry::InputActionRegistry()));
+			
 			while (sIsWaitingForOthers && !sExit) {
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}

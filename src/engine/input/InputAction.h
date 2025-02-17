@@ -23,6 +23,8 @@ namespace Atlas {
 		 */
 		std::string name;
 
+		std::string inputRegistryName;
+
 		/**
 		 * @brief The key associated with the InputAction.
 		 * @remarks This is the physical key or button that triggers the InputAction.
@@ -66,6 +68,6 @@ namespace Atlas {
 		 * @param trigger The trigger type associated with the InputAction.
 		 * @since v0.0.6
 		 */
-		InputAction(const std::string& name, int key, const EInputType& type, const EInputTrigger& trigger);
+		InputAction(const std::string& name, const std::string& registryName, int key, const EInputType& type, const EInputTrigger& trigger);
 	};
 }

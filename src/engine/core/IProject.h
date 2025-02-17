@@ -7,18 +7,18 @@
 namespace Atlas {
 	
 	/**
-	 * @brief Represents an atlas project interface. This concept ensures that the type is a child class of @ref IAtlas
+	 * @brief Represents an atlas project interface. This concept ensures that the type is a child class of @ref IAtlasEngine
 	 * @note Not used yet
 	 * @since v0.0.9
 	 */
 	template<class T_ATLAS_ENGINE_TYPE>
 	concept AtlasProject = requires(T_ATLAS_ENGINE_TYPE t) {
-		{ t } -> std::convertible_to<IAtlas>;
+		{ t } -> std::convertible_to<IAtlasEngine>;
 	};
 
 	class IProject {
 	protected:
-		virtual std::shared_ptr<AtlasEngine> setupAtlas() = 0;
+		virtual ThreadSafeVariable<AtlasEngine*> setupAtlas() = 0;
 	public:
 		/**
 		 * @brief This is the first function that will be called on startup. 
@@ -122,6 +122,6 @@ namespace Atlas {
 		virtual int cleanup(int exitCode) = 0;
 
 
-		virtual std::shared_ptr<AtlasEngine> getAtlasEngine() = 0;
+		virtual ThreadSafeVariable<AtlasEngine*> getAtlasEngine() = 0;
 	};
 }

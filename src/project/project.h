@@ -13,24 +13,35 @@
 #include <objects/IGameObject.h>
 #include <objects/GameObject.h>
 #include <raylib.h>
+#include <components/TextureEventArgs.h>
+#include <components/TransformComponent.h>
+#include <input/EInputTrigger.h>
+#include <input/EInputType.h>
+#include <input/InputAction.h>
+#include <memory>
 
 using namespace Atlas;
 
-/// <summary>
-/// Write your project code here or do what you want with it. However,
-/// you MUST implement the BProject interface somehow and set the project reference!
-/// See <see cref="Atlas::BProject" /> for more information on this.
-/// </summary>
-/// <inheritdoc />
+/**
+ * @brief Write your project code here or do what you want with it. However,
+ * you MUST implement the BProject interface somehow and set the project
+ * reference! See BProject for more information on this.
+ * 
+ * @since v0.0.1
+ * 
+ * @sa @ref BProject
+ */
 class Project final : public Atlas::BProject {
 public:
-	Project() : BProject() {
 	
-	}
 
-	void preInit() override {
-		// WARNING: This MUST be called before any operations that use the file registry. The only exceptions is if you are adding load functions and adding extensions
-		// that need to be loaded on registration.
-		BProject::preInit();
-	}
+	Project();
+
+	void preInit() override;
+
+	void postInit() override;
+
+	int update() override;
+
+	int texture() override;
 };

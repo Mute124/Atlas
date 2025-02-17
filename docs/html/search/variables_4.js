@@ -10,7 +10,7 @@ var searchData=
   ['deletetextures_7',['DeleteTextures',['../d4/d6c/union_im_g_l3_w_procs.html#ab11376688525d1f30b3f3fdb951a4a33',1,'ImGL3WProcs']]],
   ['deletevertexarrays_8',['DeleteVertexArrays',['../d4/d6c/union_im_g_l3_w_procs.html#aa36cc089a00829a19d2743a7352f4abe',1,'ImGL3WProcs']]],
   ['depth_9',['depth',['../d8/d56/class_atlas_1_1_i_game_object.html#a0001128436e3b2402a682785f7fd8463',1,'Atlas::IGameObject']]],
-  ['depthstencilformat_10',['depthstencilformat',['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#a0e63ac323c2f2c0272677d079fe1a6cb',1,'ImGui_ImplWGPU_InitInfo::DepthStencilFormat'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a346d81380745d85c9065283da935c1e2',1,'ImGui_ImplWGPU_Data::depthStencilFormat']]],
+  ['depthstencilformat_10',['depthstencilformat',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a346d81380745d85c9065283da935c1e2',1,'ImGui_ImplWGPU_Data::depthStencilFormat'],['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#a0e63ac323c2f2c0272677d079fe1a6cb',1,'ImGui_ImplWGPU_InitInfo::DepthStencilFormat']]],
   ['descriptorpool_11',['DescriptorPool',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a8062aeaef73fcda522fbb866b312320a',1,'ImGui_ImplVulkan_InitInfo']]],
   ['descriptorsetlayout_12',['DescriptorSetLayout',['../d2/d86/struct_im_gui___impl_vulkan___data.html#adac2b4aabd37341e2546c01744947e85',1,'ImGui_ImplVulkan_Data']]],
   ['detachshader_13',['DetachShader',['../d4/d6c/union_im_g_l3_w_procs.html#a83b8b2656e4b0dd5df33c68d1ad7ada2',1,'ImGL3WProcs']]],

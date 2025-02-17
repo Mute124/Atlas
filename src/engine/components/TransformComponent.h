@@ -45,6 +45,12 @@ namespace Atlas {
 
 		void rotate(Quaternion const& delta) { }
 
+		TransformComponent& operator=(TransformComponent& comp) {
+			this->mTransform = comp.mTransform;
+			this->mMatrix = comp.mMatrix;
+			this->pos = comp.pos;
 
+			return *this;
+		}
 	};
 }

@@ -3,5 +3,56 @@
 \mbox{\hyperlink{_frame_manager_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00001}00001\ ﻿\#pragma\ once}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}../Project.h"{}}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}../utils/Singleton.h"{}}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_project_8h}{IProject.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}../dbg/Logging.h"{}}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_thread_safe_variable_8h}{ThreadSafeVariable.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_thread_group_8h}{ThreadGroup.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_game_thread_8h}{GameThread.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00019}00019\ \textcolor{comment}{//\#define\ ATLAS\_THREAD\_YIELD\ std::this\_thread::yield()}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00021}00021\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00028}00028\ \ \ \ \ \textcolor{comment}{/*class\ FrameManager\ :\ public\ ThreadGroup\ \{}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00029}00029\ \textcolor{comment}{\ \ \ \ private:}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00030}00030\ \textcolor{comment}{\ \ \ \ \ \ \ \ ThreadSafeVariable<IProject*>\ mUserProject;}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00031}00031\ \textcolor{comment}{\ \ \ \ \ \ \ \ ThreadSafeVariable<volatile\ bool>\ mShouldExit;}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00032}00032\ \textcolor{comment}{\ \ \ \ public:}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00033}00033\ \textcolor{comment}{\ \ \ \ \ \ \ \ float\ sFrameTime\ =\ 0.0f;\ //\ This\ is\ provided\ by\ the\ main\ thread.\ This\ is\ read\ only\ and\ should\ only\ be\ set\ by\ the\ main\ thread}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00034}00034\ \textcolor{comment}{\ \ \ \ \ \ \ \ volatile\ bool\ sIsWaitingForOthers\ =\ false;\ //\ This\ is\ read\ only\ and\ should\ only\ be\ set\ by\ the\ main\ thread}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00035}00035\ \textcolor{comment}{\ \ \ \ \ \ \ \ volatile\ bool\ sExit\ =\ false;}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00036}00036\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::unordered\_map<std::string,\ std::shared\_ptr<bool>>\ sThreads;\ //\ use\ this\ for\ information\ about\ each\ thread}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00037}00037\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00038}00038\ \textcolor{comment}{\ \ \ \ \ \ \ \ volatile\ bool\ isWorkerWaiting\ =\ false;}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00039}00039\ \textcolor{comment}{\ \ \ \ \ \ \ \ volatile\ bool\ isUpdateWaiting\ =\ false;}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00040}00040\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00041}00041\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::shared\_ptr<IProject>\ userProject;}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00042}00042\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::jthread\ updateThread;}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00043}00043\ \textcolor{comment}{\ \ \ \ \ \ \ \ std::jthread\ workThread;}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00044}00044\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00045}00045\ \textcolor{comment}{\ \ \ \ \ \ \ \ FrameManager();}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00046}00046\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00047}00047\ \textcolor{comment}{\ \ \ \ \ \ \ \ FrameManager(const\ uint8\_t\ cMaxThreads,\ ThreadSafeVariable<IProject*>\ project);}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00048}00048\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00049}00049\ \textcolor{comment}{\ \ \ \ \ \ \ \ int\ RunUpdateThread();}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00050}00050\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00051}00051\ \textcolor{comment}{\ \ \ \ \ \ \ \ int\ RunWorkerThread();}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00052}00052\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00053}00053\ \textcolor{comment}{\ \ \ \ \ \ \ \ void\ launchThreads();}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00054}00054\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00055}00055\ \textcolor{comment}{\ \ \ \ \ \ \ \ void\ killThreads();}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00056}00056\ \textcolor{comment}{\ \ \ \ \};*/}}
+\DoxyCodeLine{\Hypertarget{_frame_manager_8h_source_l00057}00057\ \}}
 
 \end{DoxyCode}

@@ -20,11 +20,10 @@ var searchData=
   ['singleton_3c_20framemanager_20_3e_17',['Singleton&lt; FrameManager &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
   ['singleton_3c_20globals_20_3e_18',['Singleton&lt; Globals &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
   ['singleton_3c_20globalscontainer_20_3e_19',['Singleton&lt; GlobalsContainer &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
-  ['singleton_3c_20inputregistry_20_3e_20',['Singleton&lt; InputRegistry &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
-  ['singleton_3c_20localizationregistry_20_3e_21',['Singleton&lt; LocalizationRegistry &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
-  ['singleton_3c_20logger_20_3e_22',['Singleton&lt; Logger &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
-  ['singleton_3c_20physicsengine_20_3e_23',['Singleton&lt; PhysicsEngine &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
-  ['singleton_3c_20projectreference_20_3e_24',['Singleton&lt; ProjectReference &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
-  ['smetadatadecl_25',['SMetadataDecl',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html',1,'CScriptBuilder']]],
-  ['statemachine_26',['StateMachine',['../d7/d30/class_atlas_1_1_state_machine.html',1,'Atlas']]]
+  ['singleton_3c_20localizationregistry_20_3e_20',['Singleton&lt; LocalizationRegistry &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
+  ['singleton_3c_20logger_20_3e_21',['Singleton&lt; Logger &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
+  ['singleton_3c_20physicsengine_20_3e_22',['Singleton&lt; PhysicsEngine &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
+  ['singleton_3c_20projectreference_20_3e_23',['Singleton&lt; ProjectReference &gt;',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
+  ['smetadatadecl_24',['SMetadataDecl',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html',1,'CScriptBuilder']]],
+  ['statemachine_25',['StateMachine',['../d7/d30/class_atlas_1_1_state_machine.html',1,'Atlas']]]
 ];

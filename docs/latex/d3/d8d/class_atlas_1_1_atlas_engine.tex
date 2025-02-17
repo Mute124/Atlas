@@ -2,6 +2,11 @@
 \hypertarget{class_atlas_1_1_atlas_engine}{}\label{class_atlas_1_1_atlas_engine}\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}}
 
 
+This is the core and heart of \doxylink{namespace_atlas}{Atlas}; it is responsible for just about everything that is required to run the engine. It contains multiple different modules that can be used to extend the engine. If you want to extend the engine, you can simply inherit the respective module and utilize the concepts of polymorphism to your advantage. Keep in mind that the modules are stored as a \doxylink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable} and can be used concurrently. That means the user can multi-\/thread these modules if they so choose. This is just a default implementation of the \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} and you do not have to use this class. However, if you would like to use a different implementation, you can simply inherit from \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} and override the virtual functions. But one thing must remain\+: the class must inherit from \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} or be a child of \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine}.  
+
+
+
+
 {\ttfamily \#include $<$Atlas\+Engine.\+h$>$}
 
 Inheritance diagram for Atlas\+::Atlas\+Engine\+:\begin{figure}[H]
@@ -56,30 +61,38 @@ Inheritance diagram for Atlas\+::Atlas\+Engine\+:\begin{figure}[H]
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_config_file_registry}{Config\+File\+Registry}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a3153612a6df7ddbed63c77d8def4bc54}{config\+File\+Registry}} = nullptr
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_config_file_registry}{Config\+File\+Registry}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a3153612a6df7ddbed63c77d8def4bc54}{config\+File\+Registry}} = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_config_file_registry}{Config\+File\+Registry}}\texorpdfstring{$\ast$}{*}$>$(nullptr)
 \begin{DoxyCompactList}\small\item\em A pointer to the config file registry. This is used to allow the user to register their own config files if they so choose. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ Scripting\+API \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a52585249327a7ae8b7d412b3593f5fac}{scripting\+API}} = nullptr
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ Scripting\+API \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a52585249327a7ae8b7d412b3593f5fac}{scripting\+API}} = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$Scripting\+API\texorpdfstring{$\ast$}{*}$>$(nullptr)
 \begin{DoxyCompactList}\small\item\em A pointer to the scripting API. This is used to allow the user to register their own API if they so choose. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_i_window}{IWindow}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a0b06386bd884f2e134ae1dff2c308a11}{window}} = nullptr
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_i_window}{IWindow}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a0b06386bd884f2e134ae1dff2c308a11}{window}} = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_i_window}{IWindow}}\texorpdfstring{$\ast$}{*}$>$(nullptr)
 \begin{DoxyCompactList}\small\item\em A pointer to the window. This is used to allow the user to register their own window if they so choose. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a716e26cd0190e0132580eeb6df5e4112}{renderer}} = nullptr
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a716e26cd0190e0132580eeb6df5e4112}{renderer}} = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}}\texorpdfstring{$\ast$}{*}$>$(nullptr)
 \begin{DoxyCompactList}\small\item\em A pointer to the renderer. This is used to allow the user to register their own renderer if they so choose. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{namespace_atlas_a23da551e07626be8694155b8721b265f}{Game\+Settings}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a1fd73d50b57f28d58a6d522f626b889d}{game\+Settings}} = nullptr
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{namespace_atlas_a23da551e07626be8694155b8721b265f}{Game\+Settings}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a1fd73d50b57f28d58a6d522f626b889d}{game\+Settings}} = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{namespace_atlas_a23da551e07626be8694155b8721b265f}{Game\+Settings}}\texorpdfstring{$\ast$}{*}$>$(nullptr)
 \begin{DoxyCompactList}\small\item\em A pointer to the game settings. This is used to allow the user to register their own game settings if they so choose. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a8ed0f2010d2af76f3a733b4d29542a80}{file\+System\+Registry}} = nullptr
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a8ed0f2010d2af76f3a733b4d29542a80}{file\+System\+Registry}} = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}}\texorpdfstring{$\ast$}{*}$>$(nullptr)
 \begin{DoxyCompactList}\small\item\em A pointer to the file system registry. This is used to allow the user to register their own file system if they so choose. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_physics_engine}{Physics\+Engine}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a5577c5b6905aec15c3e967f8ea5ad454}{physics\+Engine}} = nullptr
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_physics_engine}{Physics\+Engine}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a5577c5b6905aec15c3e967f8ea5ad454}{physics\+Engine}} = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_physics_engine}{Physics\+Engine}}\texorpdfstring{$\ast$}{*}$>$(nullptr)
 \begin{DoxyCompactList}\small\item\em A pointer to the physics engine. This is used to allow the user to register their own physics engine if they so choose. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_input_registry}{Input\+Registry}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a89ce6a1501448093d93134d018a23372}{input\+Registry}} = nullptr
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_input_registry}{Input\+Registry}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a89ce6a1501448093d93134d018a23372}{input\+Registry}} = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_input_registry}{Input\+Registry}}\texorpdfstring{$\ast$}{*}$>$(nullptr)
 \begin{DoxyCompactList}\small\item\em A pointer to the input registry. This is used to allow the user to register their own input registry if they so choose. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_logger}{Logger}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a675fa449b73a90280d0bcffe6d28b55e}{logger}} = nullptr
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_logger}{Logger}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a675fa449b73a90280d0bcffe6d28b55e}{logger}} = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_logger}{Logger}}\texorpdfstring{$\ast$}{*}$>$(nullptr)
 \begin{DoxyCompactList}\small\item\em A pointer to the logger. This is used to allow the user to register their own logger if they so choose. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
+This is the core and heart of \doxylink{namespace_atlas}{Atlas}; it is responsible for just about everything that is required to run the engine. It contains multiple different modules that can be used to extend the engine. If you want to extend the engine, you can simply inherit the respective module and utilize the concepts of polymorphism to your advantage. Keep in mind that the modules are stored as a \doxylink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable} and can be used concurrently. That means the user can multi-\/thread these modules if they so choose. This is just a default implementation of the \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} and you do not have to use this class. However, if you would like to use a different implementation, you can simply inherit from \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} and override the virtual functions. But one thing must remain\+: the class must inherit from \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} or be a child of \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine}. 
+
+\begin{DoxyNote}{Note}
+There should not be more than one instance of this object.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00021}{21}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
+Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00037}{37}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
 
 
 
@@ -96,23 +109,23 @@ Constructs a new \doxylink{class_atlas_1_1_atlas_engine}{Atlas\+Engine} object.
 
 
 \begin{DoxyParams}{Parameters}
-{\em config\+File\+Registry} & A pointer to the config file registry object that \doxylink{namespace_atlas}{Atlas} will use \\
+{\em config\+File\+Registry} & A pointer to the config file registry object that \doxylink{namespace_atlas}{Atlas} will use\\
 \hline
-{\em scripting\+API} & A pointer to the scripting API object that \doxylink{namespace_atlas}{Atlas} will use \\
+{\em scripting\+API} & A pointer to the scripting API object that \doxylink{namespace_atlas}{Atlas} will use\\
 \hline
-{\em window} & A pointer to the window object that \doxylink{namespace_atlas}{Atlas} will use \\
+{\em window} & A pointer to the window object that \doxylink{namespace_atlas}{Atlas} will use\\
 \hline
-{\em renderer} & A pointer to the renderer object that \doxylink{namespace_atlas}{Atlas} will use \\
+{\em renderer} & A pointer to the renderer object that \doxylink{namespace_atlas}{Atlas} will use\\
 \hline
-{\em game\+Settings} & A pointer to the game settings object that \doxylink{namespace_atlas}{Atlas} will use \\
+{\em game\+Settings} & A pointer to the game settings object that \doxylink{namespace_atlas}{Atlas} will use\\
 \hline
-{\em file\+System\+Registry} & A pointer to the file system registry object that \doxylink{namespace_atlas}{Atlas} will use \\
+{\em file\+System\+Registry} & A pointer to the file system registry object that \doxylink{namespace_atlas}{Atlas} will use\\
 \hline
-{\em physics\+Engine} & A pointer to the physics engine object that \doxylink{namespace_atlas}{Atlas} will use \\
+{\em physics\+Engine} & A pointer to the physics engine object that \doxylink{namespace_atlas}{Atlas} will use\\
 \hline
-{\em input\+Registry} & A pointer to the input registry object that \doxylink{namespace_atlas}{Atlas} will use \\
+{\em input\+Registry} & A pointer to the input registry object that \doxylink{namespace_atlas}{Atlas} will use\\
 \hline
-{\em logger} & A pointer to the logger object that \doxylink{namespace_atlas}{Atlas} will use \\
+{\em logger} & A pointer to the logger object that \doxylink{namespace_atlas}{Atlas} will use\\
 \hline
 \end{DoxyParams}
 \begin{DoxySince}{Since}
@@ -124,7 +137,7 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{19}} of fi
 
 
 
-References \mbox{\hyperlink{_atlas_engine_8h_source_l00028}{config\+File\+Registry}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00064}{file\+System\+Registry}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00056}{game\+Settings}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00078}{input\+Registry}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00085}{logger}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00071}{physics\+Engine}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00048}{renderer}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00034}{scripting\+API}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00077}{set\+Config\+File\+Registry()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00107}{set\+File\+System\+Registry()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00101}{set\+Game\+Settings()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00119}{set\+Input\+Registry()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00125}{set\+Logger()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00113}{set\+Physics\+Engine()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00095}{set\+Renderer()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00083}{set\+Scripting\+API()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00089}{set\+Window()}}, and \mbox{\hyperlink{_atlas_engine_8h_source_l00041}{window}}.
+References \mbox{\hyperlink{_atlas_engine_8h_source_l00047}{config\+File\+Registry}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00100}{file\+System\+Registry}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00088}{game\+Settings}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00120}{input\+Registry}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00130}{logger}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00110}{physics\+Engine}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00076}{renderer}}, \mbox{\hyperlink{_atlas_engine_8h_source_l00056}{scripting\+API}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00077}{set\+Config\+File\+Registry()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00107}{set\+File\+System\+Registry()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00101}{set\+Game\+Settings()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00119}{set\+Input\+Registry()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00125}{set\+Logger()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00113}{set\+Physics\+Engine()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00095}{set\+Renderer()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00083}{set\+Scripting\+API()}}, \mbox{\hyperlink{_atlas_engine_8cpp_source_l00089}{set\+Window()}}, and \mbox{\hyperlink{_atlas_engine_8h_source_l00066}{window}}.
 
 \Hypertarget{class_atlas_1_1_atlas_engine_a1991949e739bcfc11d92e15bcb422ed3}\label{class_atlas_1_1_atlas_engine_a1991949e739bcfc11d92e15bcb422ed3} 
 \index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!AtlasEngine@{AtlasEngine}}
@@ -150,20 +163,20 @@ The default constructor.
 Gets the config file registry. 
 
 \begin{DoxyRemark}{Remarks}
-This is a virtual function. 
+This is a virtual function.
 \end{DoxyRemark}
 \begin{DoxyNote}{Note}
-This will return a nullptr if the config file registry is not set. This is done through the \doxylink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK} macro 
+This will return a nullptr if the config file registry is not set. This is done through the \doxylink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK} macro
 \end{DoxyNote}
 \begin{DoxyReturn}{Returns}
-A pointer to the config file registry 
+A pointer to the config file registry
 \end{DoxyReturn}
 \begin{DoxySince}{Since}
 v0.\+0.\+8 
 \end{DoxySince}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_aa717cd4e2b77192fc6a067edd4a625a2}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_ae85c32d0cb5ab4b497c8ce76d844298a}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -180,7 +193,7 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8cpp_source_l00032}{32}} of fi
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_aa7dd2d8e4e5b2623c5cc14e59e537c93}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_a7e88911d1e5398d90e5f819fb7fc5e51}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -197,7 +210,7 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8cpp_source_l00057}{57}} of fi
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a33a9da7515003b60e50ecd5ae610c1b9}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_a473b9dbff7153e54196608c79cc77595}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -214,7 +227,7 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8cpp_source_l00052}{52}} of fi
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a05e45567a267362f88db277982bd10ea}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_aa0f4b0b5f0bf8ce89e0bde31a683007a}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -231,7 +244,7 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8cpp_source_l00067}{67}} of fi
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a66de344bf72ba442a5c7060d1274696a}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_a5e54aa9c68c63a95f79cf89e9cd739ff}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -248,7 +261,7 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8cpp_source_l00072}{72}} of fi
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a049cc181a3e02a9635b1c7c818ce410e}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_a4dfe7b38660561f2071185aa780eefe8}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -265,20 +278,20 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8cpp_source_l00062}{62}} of fi
 Gets the renderer. 
 
 \begin{DoxyRemark}{Remarks}
-This is a virtual function. 
+This is a virtual function.
 \end{DoxyRemark}
 \begin{DoxyNote}{Note}
-This will return a nullptr if the renderer is not set. This is done through the \doxylink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK} macro 
+This will return a nullptr if the renderer is not set. This is done through the \doxylink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK} macro
 \end{DoxyNote}
 \begin{DoxyReturn}{Returns}
-A pointer to the renderer 
+A pointer to the renderer
 \end{DoxyReturn}
 \begin{DoxySince}{Since}
 v0.\+0.\+8 
 \end{DoxySince}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_aa54809100cf75b4e913b2e9588fc41fc}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_ae494f45c858451b9d00dd7563a1b32c8}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -295,20 +308,20 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8cpp_source_l00047}{47}} of fi
 Gets the scripting API. 
 
 \begin{DoxyRemark}{Remarks}
-This is a virtual function. 
+This is a virtual function.
 \end{DoxyRemark}
 \begin{DoxyNote}{Note}
-This will return a nullptr if the scripting API is not set. This is done through the \doxylink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK} macro 
+This will return a nullptr if the scripting API is not set. This is done through the \doxylink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK} macro
 \end{DoxyNote}
 \begin{DoxyReturn}{Returns}
-A pointer to the scripting API 
+A pointer to the scripting API
 \end{DoxyReturn}
 \begin{DoxySince}{Since}
 v0.\+0.\+8 
 \end{DoxySince}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_afbb55ae8f71793be9df3e1ab2a118edf}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_a98fd9ebf39c6da7a4980ffdaf6047ae7}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -325,20 +338,20 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8cpp_source_l00037}{37}} of fi
 Gets the window. 
 
 \begin{DoxyRemark}{Remarks}
-This is a virtual function. 
+This is a virtual function.
 \end{DoxyRemark}
 \begin{DoxyNote}{Note}
-This will return a nullptr if the window is not set. This is done through the \doxylink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK} macro 
+This will return a nullptr if the window is not set. This is done through the \doxylink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK} macro
 \end{DoxyNote}
 \begin{DoxyReturn}{Returns}
-A pointer to the window 
+A pointer to the window
 \end{DoxyReturn}
 \begin{DoxySince}{Since}
 v0.\+0.\+8 
 \end{DoxySince}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_ab39faec53abde85206b9d1b74e47bd81}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_aa10faa5862369b338c021a6bef8bf004}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -357,7 +370,7 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8cpp_source_l00042}{42}} of fi
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a62f89e2349a48ce0be565c99e1479a00}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_a44480fe8a6b0d4917ce956e43af9130c}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -380,7 +393,7 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a7bd1f78c0ab98f1a2c1cbfb9b2f98647}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_a6304f17f2b3d18d965b1dbaba8dea5a3}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -403,7 +416,7 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a465670bf748736586435cb5e225093e9}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_a0c44802029dd012f0233cffaf0340a2f}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -426,7 +439,7 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_ace4cf3400ae623c2b02b0ec4a534547e}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_abbaeacf33806e36a977770a317388ba1}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -449,7 +462,7 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_acf3149c3556fe566ac4071a89c325c6f}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_a3350a5ca9176c5b2e4b0462e55a5f912}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -472,7 +485,7 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a3a9a4bac2fac0e1fd53212436761e127}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_ac099c45c1fdc8b673c0d90409f71307b}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -495,7 +508,7 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a737167d35b3b30146913e2a33a834f9f}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_af31c912fe95eac4c0abf9330ff2d9be6}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -518,7 +531,7 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a5e7eceebcb9c3477f2fafa05b303e60e}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_a3c428dd593b0599967d6062862d9cfc7}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -541,7 +554,7 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_a14c2981b0eac21e1bfd85a2da550ee65}{Atlas\+::\+IAtlas}}.
+Implements \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine_af9416cc23411d9601700f6c252190b62}{Atlas\+::\+IAtlas\+Engine}}.
 
 
 
@@ -558,21 +571,21 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!configFileRegistry@{configFileRegistry}}
 \index{configFileRegistry@{configFileRegistry}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
 \doxysubsubsection{\texorpdfstring{configFileRegistry}{configFileRegistry}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_config_file_registry}{Config\+File\+Registry}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::config\+File\+Registry = nullptr\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_config_file_registry}{Config\+File\+Registry}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::config\+File\+Registry = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_config_file_registry}{Config\+File\+Registry}}\texorpdfstring{$\ast$}{*}$>$(nullptr)\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 A pointer to the config file registry. This is used to allow the user to register their own config files if they so choose. 
 
 \begin{DoxyNote}{Note}
-This starts as a nullptr 
+This starts as a nullptr
 \end{DoxyNote}
 \begin{DoxySince}{Since}
 v0.\+0.\+8 
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00028}{28}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
+Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00047}{47}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
 
 
 
@@ -582,24 +595,24 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!fileSystemRegistry@{fileSystemRegistry}}
 \index{fileSystemRegistry@{fileSystemRegistry}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
 \doxysubsubsection{\texorpdfstring{fileSystemRegistry}{fileSystemRegistry}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::file\+System\+Registry = nullptr\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::file\+System\+Registry = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}}\texorpdfstring{$\ast$}{*}$>$(nullptr)\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 A pointer to the file system registry. This is used to allow the user to register their own file system if they so choose. 
 
 \begin{DoxyNote}{Note}
-This starts as a nullptr 
+This starts as a nullptr
 \end{DoxyNote}
 \begin{DoxyWarning}{Warning}
-This is not currently implemented nor used at the moment. 
+This is not currently implemented nor used at the moment.
 \end{DoxyWarning}
 \begin{DoxySince}{Since}
 v0.\+0.\+8 
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00064}{64}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
+Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00100}{100}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
 
 
 
@@ -609,18 +622,138 @@ Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()
 \index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!gameSettings@{gameSettings}}
 \index{gameSettings@{gameSettings}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
 \doxysubsubsection{\texorpdfstring{gameSettings}{gameSettings}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{namespace_atlas_a23da551e07626be8694155b8721b265f}{Game\+Settings}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::game\+Settings = nullptr\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{namespace_atlas_a23da551e07626be8694155b8721b265f}{Game\+Settings}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::game\+Settings = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{namespace_atlas_a23da551e07626be8694155b8721b265f}{Game\+Settings}}\texorpdfstring{$\ast$}{*}$>$(nullptr)\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 A pointer to the game settings. This is used to allow the user to register their own game settings if they so choose. 
 
 \begin{DoxyNote}{Note}
-This starts as a nullptr 
+This starts as a nullptr
 \end{DoxyNote}
 \begin{DoxyWarning}{Warning}
-This is not currently implemented nor used at the moment. 
+This is not currently implemented nor used at the moment.
 \end{DoxyWarning}
+\begin{DoxySince}{Since}
+v0.\+0.\+8 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00088}{88}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
+
+\Hypertarget{class_atlas_1_1_atlas_engine_a89ce6a1501448093d93134d018a23372}\label{class_atlas_1_1_atlas_engine_a89ce6a1501448093d93134d018a23372} 
+\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!inputRegistry@{inputRegistry}}
+\index{inputRegistry@{inputRegistry}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
+\doxysubsubsection{\texorpdfstring{inputRegistry}{inputRegistry}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_input_registry}{Input\+Registry}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::input\+Registry = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_input_registry}{Input\+Registry}}\texorpdfstring{$\ast$}{*}$>$(nullptr)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A pointer to the input registry. This is used to allow the user to register their own input registry if they so choose. 
+
+\begin{DoxyNote}{Note}
+This starts as a nullptr
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+8 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00120}{120}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
+
+\Hypertarget{class_atlas_1_1_atlas_engine_a675fa449b73a90280d0bcffe6d28b55e}\label{class_atlas_1_1_atlas_engine_a675fa449b73a90280d0bcffe6d28b55e} 
+\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!logger@{logger}}
+\index{logger@{logger}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_logger}{Logger}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::logger = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_logger}{Logger}}\texorpdfstring{$\ast$}{*}$>$(nullptr)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A pointer to the logger. This is used to allow the user to register their own logger if they so choose. 
+
+\begin{DoxyNote}{Note}
+This starts as a nullptr
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+8 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00130}{130}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
+
+\Hypertarget{class_atlas_1_1_atlas_engine_a5577c5b6905aec15c3e967f8ea5ad454}\label{class_atlas_1_1_atlas_engine_a5577c5b6905aec15c3e967f8ea5ad454} 
+\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!physicsEngine@{physicsEngine}}
+\index{physicsEngine@{physicsEngine}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
+\doxysubsubsection{\texorpdfstring{physicsEngine}{physicsEngine}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_physics_engine}{Physics\+Engine}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::physics\+Engine = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_physics_engine}{Physics\+Engine}}\texorpdfstring{$\ast$}{*}$>$(nullptr)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A pointer to the physics engine. This is used to allow the user to register their own physics engine if they so choose. 
+
+\begin{DoxyNote}{Note}
+This starts as a nullptr
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+8 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00110}{110}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
+
+\Hypertarget{class_atlas_1_1_atlas_engine_a716e26cd0190e0132580eeb6df5e4112}\label{class_atlas_1_1_atlas_engine_a716e26cd0190e0132580eeb6df5e4112} 
+\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!renderer@{renderer}}
+\index{renderer@{renderer}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
+\doxysubsubsection{\texorpdfstring{renderer}{renderer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::renderer = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}}\texorpdfstring{$\ast$}{*}$>$(nullptr)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A pointer to the renderer. This is used to allow the user to register their own renderer if they so choose. 
+
+\begin{DoxyNote}{Note}
+This starts as a nullptr
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+8 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00076}{76}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
+
+\Hypertarget{class_atlas_1_1_atlas_engine_a52585249327a7ae8b7d412b3593f5fac}\label{class_atlas_1_1_atlas_engine_a52585249327a7ae8b7d412b3593f5fac} 
+\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!scriptingAPI@{scriptingAPI}}
+\index{scriptingAPI@{scriptingAPI}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
+\doxysubsubsection{\texorpdfstring{scriptingAPI}{scriptingAPI}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$Scripting\+API\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::scripting\+API = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$Scripting\+API\texorpdfstring{$\ast$}{*}$>$(nullptr)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A pointer to the scripting API. This is used to allow the user to register their own API if they so choose. 
+
+\begin{DoxyNote}{Note}
+This starts as a nullptr
+\end{DoxyNote}
 \begin{DoxySince}{Since}
 v0.\+0.\+8 
 \end{DoxySince}
@@ -632,145 +765,25 @@ Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00056}{56}} of file
 
 Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
 
-\Hypertarget{class_atlas_1_1_atlas_engine_a89ce6a1501448093d93134d018a23372}\label{class_atlas_1_1_atlas_engine_a89ce6a1501448093d93134d018a23372} 
-\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!inputRegistry@{inputRegistry}}
-\index{inputRegistry@{inputRegistry}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
-\doxysubsubsection{\texorpdfstring{inputRegistry}{inputRegistry}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_input_registry}{Input\+Registry}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::input\+Registry = nullptr\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-A pointer to the input registry. This is used to allow the user to register their own input registry if they so choose. 
-
-\begin{DoxyNote}{Note}
-This starts as a nullptr 
-\end{DoxyNote}
-\begin{DoxySince}{Since}
-v0.\+0.\+8 
-\end{DoxySince}
-
-
-Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00078}{78}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
-
-
-
-Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
-
-\Hypertarget{class_atlas_1_1_atlas_engine_a675fa449b73a90280d0bcffe6d28b55e}\label{class_atlas_1_1_atlas_engine_a675fa449b73a90280d0bcffe6d28b55e} 
-\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!logger@{logger}}
-\index{logger@{logger}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
-\doxysubsubsection{\texorpdfstring{logger}{logger}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_logger}{Logger}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::logger = nullptr\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-A pointer to the logger. This is used to allow the user to register their own logger if they so choose. 
-
-\begin{DoxyNote}{Note}
-This starts as a nullptr 
-\end{DoxyNote}
-\begin{DoxySince}{Since}
-v0.\+0.\+8 
-\end{DoxySince}
-
-
-Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00085}{85}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
-
-
-
-Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
-
-\Hypertarget{class_atlas_1_1_atlas_engine_a5577c5b6905aec15c3e967f8ea5ad454}\label{class_atlas_1_1_atlas_engine_a5577c5b6905aec15c3e967f8ea5ad454} 
-\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!physicsEngine@{physicsEngine}}
-\index{physicsEngine@{physicsEngine}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
-\doxysubsubsection{\texorpdfstring{physicsEngine}{physicsEngine}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_physics_engine}{Physics\+Engine}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::physics\+Engine = nullptr\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-A pointer to the physics engine. This is used to allow the user to register their own physics engine if they so choose. 
-
-\begin{DoxyNote}{Note}
-This starts as a nullptr 
-\end{DoxyNote}
-\begin{DoxySince}{Since}
-v0.\+0.\+8 
-\end{DoxySince}
-
-
-Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00071}{71}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
-
-
-
-Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
-
-\Hypertarget{class_atlas_1_1_atlas_engine_a716e26cd0190e0132580eeb6df5e4112}\label{class_atlas_1_1_atlas_engine_a716e26cd0190e0132580eeb6df5e4112} 
-\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!renderer@{renderer}}
-\index{renderer@{renderer}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
-\doxysubsubsection{\texorpdfstring{renderer}{renderer}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::renderer = nullptr\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-A pointer to the renderer. This is used to allow the user to register their own renderer if they so choose. 
-
-\begin{DoxyNote}{Note}
-This starts as a nullptr 
-\end{DoxyNote}
-\begin{DoxySince}{Since}
-v0.\+0.\+8 
-\end{DoxySince}
-
-
-Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00048}{48}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
-
-
-
-Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
-
-\Hypertarget{class_atlas_1_1_atlas_engine_a52585249327a7ae8b7d412b3593f5fac}\label{class_atlas_1_1_atlas_engine_a52585249327a7ae8b7d412b3593f5fac} 
-\index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!scriptingAPI@{scriptingAPI}}
-\index{scriptingAPI@{scriptingAPI}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
-\doxysubsubsection{\texorpdfstring{scriptingAPI}{scriptingAPI}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$Scripting\+API\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::scripting\+API = nullptr\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-A pointer to the scripting API. This is used to allow the user to register their own API if they so choose. 
-
-\begin{DoxyNote}{Note}
-This starts as a nullptr 
-\end{DoxyNote}
-\begin{DoxySince}{Since}
-v0.\+0.\+8 
-\end{DoxySince}
-
-
-Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00034}{34}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
-
-
-
-Referenced by \mbox{\hyperlink{_atlas_engine_8cpp_source_l00019}{Atlas\+Engine()}}.
-
 \Hypertarget{class_atlas_1_1_atlas_engine_a0b06386bd884f2e134ae1dff2c308a11}\label{class_atlas_1_1_atlas_engine_a0b06386bd884f2e134ae1dff2c308a11} 
 \index{Atlas::AtlasEngine@{Atlas::AtlasEngine}!window@{window}}
 \index{window@{window}!Atlas::AtlasEngine@{Atlas::AtlasEngine}}
 \doxysubsubsection{\texorpdfstring{window}{window}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_i_window}{IWindow}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::window = nullptr\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_i_window}{IWindow}}\texorpdfstring{$\ast$}{*}$>$ Atlas\+::\+Atlas\+Engine\+::window = \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$\mbox{\hyperlink{class_atlas_1_1_i_window}{IWindow}}\texorpdfstring{$\ast$}{*}$>$(nullptr)\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 A pointer to the window. This is used to allow the user to register their own window if they so choose. 
 
 \begin{DoxyNote}{Note}
-This starts as a nullptr 
+This starts as a nullptr
 \end{DoxyNote}
 \begin{DoxySince}{Since}
 v0.\+0.\+8 
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00041}{41}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
+Definition at line \mbox{\hyperlink{_atlas_engine_8h_source_l00066}{66}} of file \mbox{\hyperlink{_atlas_engine_8h_source}{Atlas\+Engine.\+h}}.
 
 
 

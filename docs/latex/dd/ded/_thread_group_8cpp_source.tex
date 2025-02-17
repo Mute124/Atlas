@@ -1,0 +1,49 @@
+\doxysection{Thread\+Group.\+cpp}
+\hypertarget{_thread_group_8cpp_source}{}\label{_thread_group_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/core/ThreadGroup.cpp@{C:/Dev/Techstorm-\/v5/src/engine/core/ThreadGroup.cpp}}
+\mbox{\hyperlink{_thread_group_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_thread_group_8h}{ThreadGroup.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_game_thread_8h}{GameThread.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <exception>}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00009}\mbox{\hyperlink{class_atlas_1_1_thread_group_a283bf5c5b7e11bd661bd202720b5b4cf}{00009}}\ \mbox{\hyperlink{class_atlas_1_1_thread_group_a283bf5c5b7e11bd661bd202720b5b4cf}{Atlas::ThreadGroup::\string~ThreadGroup}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00010}00010\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_group_aa474fcc1cd54ee2dd89fb171d456fad5}{stopAll}}();}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00011}00011\ \}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00013}\mbox{\hyperlink{class_atlas_1_1_thread_group_aee504e8eee28c8c690f436764f4710c9}{00013}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_thread_group_aee504e8eee28c8c690f436764f4710c9}{Atlas::ThreadGroup::addThread}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ std::function<\textcolor{keywordtype}{void}()>\ task)\ \{}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00014}00014\ \ \ \ \ std::unique\_lock<std::mutex>\ lock(mMutex);}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00015}00015\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread}{GameThread}}\ \mbox{\hyperlink{namespace_atlas_a658a106e1df3b9b79fc59eaa38ee349e}{t}}\ =\ \mbox{\hyperlink{class_atlas_1_1_game_thread}{GameThread}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ task);}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00016}00016\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a658a106e1df3b9b79fc59eaa38ee349e}{t}}.detach();}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00017}00017\ \ \ \ \ mThreads.push\_back(std::move(\mbox{\hyperlink{namespace_atlas_a658a106e1df3b9b79fc59eaa38ee349e}{t}}));}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00018}00018\ \}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00020}\mbox{\hyperlink{class_atlas_1_1_thread_group_aa474fcc1cd54ee2dd89fb171d456fad5}{00020}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_thread_group_aa474fcc1cd54ee2dd89fb171d456fad5}{Atlas::ThreadGroup::stopAll}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00021}00021\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00022}00022\ \ \ \ \ \ \ \ \ std::unique\_lock<std::mutex>\ lock(mMutex);}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!mThreads.empty())\ \{}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ mShouldStop\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ mConditionalVariable.notify\_all();}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ \mbox{\hyperlink{namespace_atlas_a658a106e1df3b9b79fc59eaa38ee349e}{t}}\ :\ mThreads)\ \{}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a658a106e1df3b9b79fc59eaa38ee349e}{t}}.join();}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&\ e)\ \{}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Handle\ exception\ or\ log\ it}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00035}00035\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00036}00036\ \}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00038}\mbox{\hyperlink{class_atlas_1_1_thread_group_a6d787d1f42b29e1f793f396c7cb21b6b}{00038}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_thread_group_a6d787d1f42b29e1f793f396c7cb21b6b}{Atlas::ThreadGroup::waitForAll}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00039}00039\ \ \ \ \ std::unique\_lock<std::mutex>\ lock(mMutex);}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{if}\ (!mThreads.empty())\ \{}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ mConditionalVariable.wait(lock,\ [\textcolor{keyword}{this}]\ \{\ \textcolor{keywordflow}{return}\ mThreads.empty();\ \});}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00042}00042\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_thread_group_8cpp_source_l00043}00043\ \}}
+
+\end{DoxyCode}

@@ -9,171 +9,9 @@
 #include <functional>
 #include <unordered_map>
 
-bool Atlas::InputRegistry::checkPressedAction(InputAction* action)
+void Atlas::InputRegistry::addGroup(std::string const& name, std::shared_ptr<InputActionRegistry> group)
 {
-	if (action == nullptr) {
-		throw std::invalid_argument("action cannot be null");
-	}
-
-	int gamepad = 0;
-	switch (action->type)
-	{
-		using enum Atlas::EInputType;
-	case INPUT_KEYBOARD:
-		return IsKeyPressed(action->key);
-		break;
-	case INPUT_MOUSE:
-		return IsMouseButtonPressed(action->key);
-		break;
-	case INPUT_CONTROLLER:
-		gamepad = action->controllerID.value_or(0);
-
-		if (IsGamepadAvailable(gamepad))
-		{
-			return IsGamepadButtonPressed(gamepad, action->key);
-		}
-		else {
-			//throw std::runtime_error("Gamepad " + std::to_string(gamepad) + " is not available or the id has not been set.");
-			return false;
-		}
-
-		break;
-	default:
-		return false;
-		break;
-	}
-}
-
-bool Atlas::InputRegistry::checkReleasedAction(InputAction* action)
-{
-	if (action == nullptr) {
-		throw std::invalid_argument("action cannot be null");
-	}
-
-	int gamepad = 0;
-	switch (action->type)
-	{
-		using enum Atlas::EInputType;
-	case INPUT_KEYBOARD:
-		return IsKeyPressed(action->key);
-		break;
-	case INPUT_MOUSE:
-		return IsMouseButtonPressed(action->key);
-		break;
-	case INPUT_CONTROLLER:
-		gamepad = action->controllerID.value_or(0);
-
-		if (IsGamepadAvailable(gamepad))
-		{
-			return IsGamepadButtonPressed(gamepad, action->key);
-		}
-		else {
-			//throw std::runtime_error("Gamepad " + std::to_string(gamepad) + " is not available or the id has not been set.");
-			return false;
-		}
-
-		break;
-	default:
-		return false;
-		break;
-	}
-}
-
-bool Atlas::InputRegistry::checkDownAction(InputAction* action)
-{
-	if (action == nullptr) {
-		throw std::invalid_argument("action cannot be null");
-	}
-
-	int gamepad = 0;
-	switch (action->type)
-	{
-		using enum Atlas::EInputType;
-	case INPUT_KEYBOARD:
-		return IsKeyDown(action->key);
-		break;
-	case INPUT_MOUSE:
-		return IsMouseButtonDown(action->key);
-		break;
-	case INPUT_CONTROLLER:
-		gamepad = action->controllerID.value_or(0);
-
-		if (IsGamepadAvailable(gamepad))
-		{
-			return IsGamepadButtonDown(gamepad, action->key);
-		}
-		else {
-			//throw std::runtime_error("Gamepad " + std::to_string(gamepad) + " is not available or the id has not been set.");
-			return false;
-		}
-
-		break;
-	default:
-		return false;
-		break;
-	}
-}
-
-bool Atlas::InputRegistry::checkUpAction(InputAction* action)
-{
-	if (action == nullptr) {
-		throw std::invalid_argument("action cannot be null");
-	}
-
-	int gamepad = 0;
-	switch (action->type)
-	{
-		using enum Atlas::EInputType;
-	case INPUT_KEYBOARD:
-		return IsKeyUp(action->key);
-		break;
-	case INPUT_MOUSE:
-		return IsMouseButtonUp(action->key);
-		break;
-	case INPUT_CONTROLLER:
-		gamepad = action->controllerID.value_or(0);
-
-		if (IsGamepadAvailable(gamepad))
-		{
-			return IsGamepadButtonUp(gamepad, action->key);
-		}
-		else {
-			//throw std::runtime_error("Gamepad " + std::to_string(gamepad) + " is not available or the id has not been set.");
-			return false;
-		}
-
-		break;
-	default:
-		return false;
-		break;
-	}
-}
-
-bool Atlas::InputRegistry::checkRepeatAction(InputAction* action)
-{
-	if (action == nullptr) {
-		throw std::invalid_argument("action cannot be null");
-	}
-
-	int gamepad = 0;
-	switch (action->type)
-	{
-		using enum Atlas::EInputType;
-	case INPUT_KEYBOARD:
-		return IsKeyPressedRepeat(action->key);
-		break;
-	case INPUT_MOUSE:
-		// TODO: Add mouse repeat support
-		return false;
-		break;
-	case INPUT_CONTROLLER:
-		// TODO: Add controller repeat support
-		return false;
-		break;
-	default:
-		return false;
-		break;
-	}
+	mActionRegistries[name] = ThreadSafeVariable<std::shared_ptr<InputActionRegistry>>(group);
 }
 
 Atlas::InputActionCallbackID Atlas::InputRegistry::registerActionCallback(InputAction* action, std::function<void(InputAction*)> const& callback) {
@@ -183,7 +21,9 @@ Atlas::InputActionCallbackID Atlas::InputRegistry::registerActionCallback(InputA
 	// Since callbacks are stored in an unordered_map, the next available id/slot is the map's size + 1.
 	int id = mActions[action].size() + 1;
 
-	mActions[action].try_emplace(id, callback);
+	//mActions[action].try_emplace(id, callback);
+
+	mActionRegistries[action->inputRegistryName].get()->registerAction(action, callback);
 	return id;
 }
 Atlas::InputActionCallbackID Atlas::InputRegistry::registerSelfDeterminingActionCallback(InputAction* category, SelfDeterminingInputAction* action, std::function<bool(SelfDeterminingInputAction*)> const& checker, std::function<void(SelfDeterminingInputAction*)> const& callback)
@@ -232,44 +72,14 @@ void Atlas::InputRegistry::unregisterCallback(InputAction* action, Atlas::InputA
 	mActions[action].erase(id);
 }
 
-void Atlas::InputRegistry::checkAll() {
+void Atlas::InputRegistry::checkAll(std::string const& groupName) {
 	// Iterate through all registered actions in mActions (and then through all of it's callbacks)
-	for (auto const& [key, value] : mActions) {
-		bool triggered = false;
+	//for (auto& [key, value] : mActionRegistries) {
 
-		// Check all registered callbacks
-		switch (key->trigger)
-		{
-			using enum Atlas::EInputTrigger;
-		case INPUT_TRIGGER_PRESSED:
-			triggered = checkPressedAction(key);
-			break;
-		case INPUT_TRIGGER_REPEAT:
-			triggered = checkRepeatAction(key);
-			break;
-		case INPUT_TRIGGER_RELEASED:
-			triggered = checkReleasedAction(key);
-			break;
-		case INPUT_TRIGGER_DOWN:
-			triggered = checkDownAction(key);
-			break;
-		case INPUT_TRIGGER_UP:
-			triggered = checkUpAction(key);
-			break;
-		default:
-			throw std::runtime_error("Invalid trigger type");
-			break;
-		}
-
-		for (auto const& [id, action] : value) {
-
-			if (triggered) {
-				action(key);
-			}
-
-			//checks.second(actions.first);
-		}
-	}
+		mActionRegistries[groupName].get()->checkAll();
+		
+	
+	//}
 
 	// Iterate through all registered actions in mActions (and then through all of it's callbacks)
 	for (auto const& [key, value] : mSelfDeterminingActions) {

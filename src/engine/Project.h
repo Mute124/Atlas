@@ -69,12 +69,12 @@ namespace Atlas {
 		
 		static inline std::shared_ptr<BProject> mProject = nullptr;
 
-		virtual std::shared_ptr<AtlasEngine> setupAtlas() override;
+		virtual ThreadSafeVariable<AtlasEngine*> setupAtlas() override;
 
 		//explicit BProject(std::shared_ptr<AtlasEngine> mAtlas);
 	public:
 		GameSettings settings;
-		static inline std::shared_ptr<AtlasEngine> mAtlas = nullptr;
+		static inline ThreadSafeVariable<AtlasEngine*> mAtlas = nullptr;
 
 		/**
 		 * @brief This is a default constructor that will initialize Atlas and the user's project.
@@ -239,10 +239,10 @@ namespace Atlas {
 		 * 
 		 * @return std::shared_ptr<AtlasEngine> 
 		 */
-		std::shared_ptr<AtlasEngine> getAtlasEngine() override;
+		ThreadSafeVariable<AtlasEngine*> getAtlasEngine() override;
 
 	};
 
 
-	std::shared_ptr<AtlasEngine> GetAtlasEngine();
+	ThreadSafeVariable<AtlasEngine*> GetAtlasEngine();
 }
