@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['r_0',['r',['../d4/d59/struct_complex.html#a66a574ca3e39bd1476a7fc1670980052',1,'Complex']]],
+  ['readpixels_1',['ReadPixels',['../d4/d6c/union_im_g_l3_w_procs.html#af062bdc89cd28e7ac6fff3f35c808da3',1,'ImGL3WProcs']]],
+  ['refcount_2',['refCount',['../dc/d2f/class_c_script_any.html#a9c54671a01d160f3c378b898bbc9a38f',1,'CScriptAny::refCount'],['../d8/d22/class_c_script_array.html#ac2ada6d851d5e606ecaf915805e411c6',1,'CScriptArray::refCount'],['../dc/d3b/class_c_script_dictionary.html#a3f790dc358e619649a6a043b27fc5a91',1,'CScriptDictionary::refCount'],['../d1/d1d/class_c_script_file.html#a7c52be2a2e1b24cfa2c0864005ec3204',1,'CScriptFile::refCount'],['../d7/db0/class_c_script_file_system.html#a6155c4fcb0b66e41bcfa6a9a361d2ba0',1,'CScriptFileSystem::refCount'],['../de/df5/class_c_script_grid.html#a379cc83412676fc10ccbafb144ade309',1,'CScriptGrid::refCount']]],
+  ['referencevalue_3',['referenceValue',['../dc/da2/class_atlas_1_1_optional_reference.html#a5f777e0c97ed128d9302e6ebdb56aa81',1,'Atlas::OptionalReference']]],
+  ['region_4',['region',['../d4/d6b/class_atlas_1_1_language.html#a54daf019af7bf1ff6a634078420e6683',1,'Atlas::Language']]],
+  ['regioncode_5',['regionCode',['../d4/d6b/class_atlas_1_1_language.html#a91c7daec8c9cee14f68be640deb45563',1,'Atlas::Language']]],
+  ['rendercompletesemaphore_6',['RenderCompleteSemaphore',['../d5/d82/struct_im_gui___impl_vulkan_h___frame_semaphores.html#aa5dad94e9e02ef1cfd2ef171bb72f3e8',1,'ImGui_ImplVulkanH_FrameSemaphores']]],
+  ['renderer_7',['Renderer',['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#a51810713448b42cf804596b8316cd7d6',1,'ImGui_ImplSDL2_Data::Renderer'],['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#a1082e4b98694ff6d198f5b4bc5297e22',1,'ImGui_ImplSDL3_Data::Renderer'],['../d1/d05/struct_im_gui___impl_s_d_l_renderer2___data.html#ab4e104eff23fa5bc484210100dd38782',1,'ImGui_ImplSDLRenderer2_Data::Renderer'],['../da/d7d/struct_im_gui___impl_s_d_l_renderer2___render_state.html#ad7f66ec0d296e756542b5f83cae2ed62',1,'ImGui_ImplSDLRenderer2_RenderState::Renderer'],['../df/d54/struct_im_gui___impl_s_d_l_renderer3___data.html#a04f582f1978a98703dc5000f792cea14',1,'ImGui_ImplSDLRenderer3_Data::Renderer'],['../d0/d19/struct_im_gui___impl_s_d_l_renderer3___render_state.html#a84497d3468ba4809ad1da881a311ff81',1,'ImGui_ImplSDLRenderer3_RenderState::Renderer']]],
+  ['renderer_8',['renderer',['../d3/d8d/class_atlas_1_1_atlas_engine.html#a716e26cd0190e0132580eeb6df5e4112',1,'Atlas::AtlasEngine']]],
+  ['renderpass_9',['RenderPass',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#aa2b09ece6557a844a08e6ff8b998a316',1,'ImGui_ImplVulkan_InitInfo::RenderPass'],['../de/d27/struct_im_gui___impl_vulkan_h___window.html#ac3eff232378a4a334617a8fba3953b03',1,'ImGui_ImplVulkanH_Window::RenderPass']]],
+  ['renderpassencoder_10',['RenderPassEncoder',['../da/d0a/struct_im_gui___impl_w_g_p_u___render_state.html#ad8078c526f71cd7d93cfbdd046debcce',1,'ImGui_ImplWGPU_RenderState']]],
+  ['renderresources_11',['renderResources',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#aa917aa3bfe6121ca7775feb83a131fe7',1,'ImGui_ImplWGPU_Data']]],
+  ['rendertargetformat_12',['RenderTargetFormat',['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#ae63cbe11129eea4fc73fef1348ffc974',1,'ImGui_ImplWGPU_InitInfo']]],
+  ['rendertargetformat_13',['renderTargetFormat',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a7d6a63bad9154eaa895f6e857f6dcebb',1,'ImGui_ImplWGPU_Data']]],
+  ['root_14',['root',['../dc/d7b/class_shell_file_interface.html#af27a78903f18ab2482c59cce56652240',1,'ShellFileInterface']]],
+  ['rotation_15',['rotation',['../d0/dd1/class_game_object.html#ae2d2785c50d645a728cee32be422cf85',1,'GameObject']]],
+  ['rtvformat_16',['RTVFormat',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#ac51215a8aa27a0c0fa095abc87e0a80b',1,'ImGui_ImplDX12_Data']]]
+];
