@@ -22,7 +22,7 @@ namespace Atlas {
 	 * that is provided by default.
 	 * 
 	 * @since v0.0.1
-	 */
+	 */	
 	class Window : public IWindow {
 	private:
 		

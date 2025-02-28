@@ -35,6 +35,14 @@
 
 #include "ThreadSafeVariable.h"
 
+/**
+ * @brief This is what is being set as the default value for a module
+ * within the AtlasEngine class.
+ * 
+ * @since v0.0.9
+ */
+#define ATLAS_DEFAULT_MODULE_VALUE nullptr
+
 namespace Atlas {
 	/**
 	 * @brief This is the core and heart of Atlas. It is responsible for just
@@ -56,9 +64,52 @@ namespace Atlas {
 	 * @warning There should @b NOT be more than one instance of this object. 
 	 * 
 	 * @since v0.0.8
+	 * 
+	 * @sa @ref IAtlasEngine for the parent interface of this class.
+	 * 
+	 * @sa @ref BProject for where to start extending the engine (if you want to extend
+	 * off of the basic implementation).
 	 */
 	class AtlasEngine : public IAtlasEngine {
 	private:
+
+		/**
+		 * @brief Constructs a thread safe variable with the default value.
+		 * 
+		 * @remarks The reason for this function's existence is to reduce
+		 * the amount of times the same code has to be written. Prior to
+		 * the introduction of this function, the code would look like, as
+		 * an example, this:
+		 * @code
+		 * ThreadSafeVariable<ConfigFileRegistry*> configFileRegistry = ThreadSafeVariable<ConfigFileRegistry*>(nullptr);
+		 * 
+		 * ThreadSafeVariable<ScriptingAPI*> scriptingAPI = ThreadSafeVariable<ScriptingAPI*>(nullptr);
+		 * 
+		 * ThreadSafeVariable<IWindow*> window = ThreadSafeVariable<IWindow*>(nullptr);
+		 * 
+		 * ThreadSafeVariable<Renderer*> renderer = ThreadSafeVariable<Renderer*>(nullptr);
+		 * 
+		 * ThreadSafeVariable<GameSettings*> gameSettings = ThreadSafeVariable<GameSettings*>(nullptr);
+		 * 
+		 * ThreadSafeVariable<FileSystemRegistry*> fileSystemRegistry = ThreadSafeVariable<FileSystemRegistry*>(nullptr);
+		 * 
+		 * ThreadSafeVariable<PhysicsEngine*> physicsEngine = ThreadSafeVariable<PhysicsEngine*>(nullptr);
+		 * 
+		 * ThreadSafeVariable<InputRegistry*> inputRegistry = ThreadSafeVariable<InputRegistry*>(nullptr);
+		 * 
+		 * ThreadSafeVariable<Logger*> logger = ThreadSafeVariable<Logger*>(nullptr);
+		 * @endcode
+		 * As you can see, the same constructor is being called multiple times.
+		 * 
+		 * @return A newly constructed thread safe variable instance.
+		 * 
+		 * @since v0.0.9
+		 */
+		template<class T_MODULE>
+		static inline ThreadSafeVariable<T_MODULE*> &ConstructModule() {
+			return ThreadSafeVariable<T_MODULE*>(ATLAS_DEFAULT_MODULE_VALUE);
+		}
+
 		/**
 		 * @brief A thread safe pointer to the config file registry. This is used to allow
 		 * the user to register their own config files if they so choose.
@@ -67,7 +118,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.8
 		 */
-		ThreadSafeVariable<ConfigFileRegistry*> configFileRegistry = ThreadSafeVariable<ConfigFileRegistry*>(nullptr);
+		ThreadSafeVariable<ConfigFileRegistry*> configFileRegistry = ConstructModule<ConfigFileRegistry>();
 
 		/**
 		 * @brief A pointer to the scripting API. This is used to allow the user
@@ -77,7 +128,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.8
 		 */
-		ThreadSafeVariable<ScriptingAPI*> scriptingAPI = ThreadSafeVariable<ScriptingAPI*>(nullptr);
+		ThreadSafeVariable<ScriptingAPI*> scriptingAPI = ConstructModule<ScriptingAPI>();
 
 		/**
 		 * @brief A pointer to the window. This is used to allow the user to register
@@ -87,7 +138,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.8
 		 */
-		ThreadSafeVariable<IWindow*> window = ThreadSafeVariable<IWindow*>(nullptr);
+		ThreadSafeVariable<IWindow*> window = ConstructModule<IWindow>();
 
 		/**
 		 * @brief A pointer to the renderer. This is used to allow the user to register
@@ -97,7 +148,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.8
 		 */
-		ThreadSafeVariable<Renderer*> renderer = ThreadSafeVariable<Renderer*>(nullptr);
+		ThreadSafeVariable<Renderer*> renderer = ConstructModule<Renderer>();
 
 		/**
 		 * @brief A pointer to the game settings. This is used to allow the user to register
@@ -109,7 +160,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.8
 		 */
-		ThreadSafeVariable<GameSettings*> gameSettings = ThreadSafeVariable<GameSettings*>(nullptr);
+		ThreadSafeVariable<GameSettings*> gameSettings = ConstructModule<GameSettings>();
 
 		/**
 		 * @brief A pointer to the file system registry. This is used to allow the user to register
@@ -121,7 +172,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.8
 		 */
-		ThreadSafeVariable<FileSystemRegistry*> fileSystemRegistry = ThreadSafeVariable<FileSystemRegistry*>(nullptr);
+		ThreadSafeVariable<FileSystemRegistry*> fileSystemRegistry = ConstructModule<FileSystemRegistry>();
 
 		/**
 		 * @brief A pointer to the physics engine. This is used to allow the user to register
@@ -131,7 +182,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.8
 		 */
-		ThreadSafeVariable<PhysicsEngine*> physicsEngine = ThreadSafeVariable<PhysicsEngine*>(nullptr);
+		ThreadSafeVariable<PhysicsEngine*> physicsEngine = ConstructModule<PhysicsEngine>();
 
 		/**
 		 * @brief A pointer to the input registry. This is used to allow the user to register
@@ -141,7 +192,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.8
 		 */
-		ThreadSafeVariable<InputRegistry*> inputRegistry = ThreadSafeVariable<InputRegistry*>(nullptr);
+		ThreadSafeVariable<InputRegistry*> inputRegistry = ConstructModule<InputRegistry>();
 
 		/**
 		 * @brief A pointer to the logger. This is used to allow the user to register their own
@@ -151,7 +202,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.8
 		 */
-		ThreadSafeVariable<Logger*> logger = ThreadSafeVariable<Logger*>(nullptr);
+		ThreadSafeVariable<Logger*> logger = ConstructModule<Logger>();
 	public:
 
 		/**

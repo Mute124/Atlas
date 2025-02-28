@@ -10,8 +10,6 @@
  * 
  * @date   February 2025
  * 
- * 
- * 
  * @since v0.0.9
  *********************************************************************/
 #pragma once
@@ -21,7 +19,34 @@
 #include <mutex>
 #include <functional>
 #include <type_traits>
+#include <memory>
+#include <vector>
+
 #include "../dbg/Errors.h"
+
+/**
+ * @brief This macro defines the default mutex type to use for the type
+ * parameters of the ThreadSafeVariable class. The reason for why this
+ * is a macro is so that it can be changed in a single place if needed
+ * instead of having to change it in multiple places. In other words,
+ * it is a macro because of DRY (Don't Repeat Yourself).
+ * 
+ * @since v0.0.9
+ */
+#define ATLAS_DEFAULT_MUTEX std::mutex
+
+/**
+ * @brief This macro defines the default type lock guard to use for the
+ * type parameters of the ThreadSafeVariable class.
+ * 
+ * @remarks This macro is a function because the lock guard requires a
+ * template parameter. However, you may be asking yourself why this isnt
+ * a macro. The reason for why it is a function is because you may want
+ * to use the default lock guard, but want to change the mutex type. 
+ * 
+ * @since v0.0.9
+ */
+#define ATLAS_DEFAULT_LOCK_GUARD(mutexType) std::lock_guard<mutexType>
 
 namespace Atlas {
 	/**
@@ -30,19 +55,20 @@ namespace Atlas {
 	 * this variable and execute the function that is passed to it. Furthermore,
 	 * it will also lock when the set() function, is called.
 	 * 
-	 * @tparam T_VARIABLE_TYPE The type of variable to wrap. This is used as a variable in 
-	 * mValue.
+	 * @tparam T_VARIABLE_TYPE The type of variable to wrap. This is used as a
+	 * variable in mValue.
 	 * 
-	 * @tparam T_MUTEX What type of mutex to use. This defaults to std::mutex
+	 * @tparam T_MUTEX What type of mutex to use. This defaults to the value of
+	 * ATLAS_DEFAULT_MUTEX
 	 * 
-	 * @tparam T_LOCK_GUARD What type of lock_guard to use. This defaults to std::lock_guard<T_MUTEX>
+	 * @tparam T_LOCK_GUARD What type of lock_guard to use. The default value of
+	 * this type parameter is the result of the macro function ATLAS_DEFAULT_LOCK_GUARD
 	 * 
 	 * @since v0.0.9
 	 */
-	template <typename T_VARIABLE_TYPE, typename T_MUTEX = std::mutex, typename T_LOCK_GUARD = std::lock_guard<T_MUTEX>>
+	template<typename T_VARIABLE_TYPE, typename T_MUTEX = ATLAS_DEFAULT_MUTEX, typename T_LOCK_GUARD = ATLAS_DEFAULT_LOCK_GUARD(T_MUTEX)>
 	class ThreadSafeVariable final {
 	private:
-
 		/**
 		 * @brief This is the variable that is wrapped by and is the
 		 * centerpiece of this class. Within the confines of this class,
@@ -52,7 +78,7 @@ namespace Atlas {
 		 */
 		T_VARIABLE_TYPE mValue;
 
-/**
+		/**
 		 * @brief This is the mutex that is used to lock this class.
 		 * Any operations that modify the value of mValue will lock 
 		 * this mutex
@@ -60,6 +86,16 @@ namespace Atlas {
 		 * @since v0.0.9
 		 */
 		T_MUTEX mMutex;
+
+		bool isVariablePointer() {
+			return std::is_pointer_v<T_VARIABLE_TYPE>::value;
+		}
+
+		bool isVariableSmartPointer() {
+			return std::is_base_of_v<std::shared_ptr<typename T_VARIABLE_TYPE::element_type>, T_VARIABLE_TYPE>
+				|| std::is_base_of_v<std::weak_ptr<typename T_VARIABLE_TYPE::element_type>, T_VARIABLE_TYPE>
+				|| std::is_base_of_v<std::unique_ptr<typename T_VARIABLE_TYPE::element_type>, T_VARIABLE_TYPE>;
+		}
 
 	public:
 
@@ -102,7 +138,7 @@ namespace Atlas {
 		 */
 		ThreadSafeVariable() {
 			// if the variable can be default constructed, do it
-			if (std::is_default_constructible<T_VARIABLE_TYPE>::value) {
+			if (std::is_default_constructible_v<T_VARIABLE_TYPE>::value) {
 				mValue = T_VARIABLE_TYPE{};
 			}
 			else {
@@ -112,9 +148,7 @@ namespace Atlas {
 
 		/**
 		 * @brief This @b EXPLICIT constructor takes a variable of type T_VARIABLE_TYPE
-		 * and sets mValue to the value of that variable. Keep in mind that this is a
-		 * copy constructor for the wrapped variable. While setting the variable, this
-		 * operation will lock the mutex.
+		 * and sets mValue to the value of that variable.
 		 * 
 		 * @remarks This constructor is useful for initializing the variable with a value.
 		 * For example, if you have a variable called x that you want to initialize to 5,
@@ -129,6 +163,10 @@ namespace Atlas {
 		 * @code
 		 * ThreadSafeVariable<int> x = ThreadSafeVariable<int>(5);
 		 * @endcode
+		 * 
+		 * @note Keep in mind that this is a copy constructor for the wrapped variable.
+		 * While setting the variable (by using @ref set()), this operation will lock
+		 * the mutex.
 		 * 
 		 * @param initialValue A unary const reference to a variable of type T_VARIABLE_TYPE
 		 * 
@@ -155,6 +193,16 @@ namespace Atlas {
 		 */
 		ThreadSafeVariable(const ThreadSafeVariable<T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD>& other) {
 			set(other.mValue);
+		}
+
+		~ThreadSafeVariable() {
+			// Since we want to prevent memory leaks, we need to handle the pointer
+			bool variableIsPointer = this->isVariablePointer();
+			bool variableIsSmartPointer = this->isVariableSmartPointer();
+
+			if (variableIsPointer) {
+				
+			}
 		}
 
 
@@ -319,6 +367,5 @@ namespace Atlas {
 		T_VARIABLE_TYPE operator->() {
 			return get();
 		}
-
 	};
 }

@@ -1,9 +1,17 @@
-/**
-* @file Project.h
-* @brief This file contains the BProject interface that is required for Atlas to run the user's project. The reason for the boilerplate is because it allows the engine to take a Laissez-faire approach and allow the user to do whatever they want.
-* with all their code being able to be called from the engine.
-* @since v0.0.1
-*/
+/*****************************************************************//**
+ * @file   Project.h
+ * 
+ * @brief This file contains the BProject interface that is
+ * required for Atlas to run the user's project. The reason
+ * for the boilerplate is because it allows the engine to
+ * take a Laissez-faire approach and allow the user to do
+ * whatever they want with all their code being able to be
+ * called from the engine.
+ *
+ * @date   August 2024
+ * 
+ * @since v0.0.1
+ *********************************************************************/
 #pragma once
 
 #include "Core/AtlasEngine.h"
@@ -21,7 +29,7 @@ namespace Atlas {
 	 * interface that Atlas will call.
 	 * 
 	 * @remarks This is an <b>abstract interface singleton</b> that all projects
-	 * must implement and set the <i>ProjectReference</i> singleton to their project.
+	 * must implement and set the @a ProjectReference singleton to their project.
 	 * In terms of functionality, this interface just holds the functions and variables
 	 * that Atlas will call (besides some initialization).
 	 * 
@@ -30,6 +38,8 @@ namespace Atlas {
 	 * @warning <b>Do not directly call window code in here or your project will crash!</b>
 	 * 
 	 * @since v0.0.1
+	 * 
+	 * @sa @ref IProject for the parent interface of this class.
 	 */
 	class BProject : public IProject {
 	protected:
@@ -243,6 +253,10 @@ namespace Atlas {
 
 	};
 
-
+	/**
+	 * @brief .
+	 * 
+	 * @since 
+	 */
 	ThreadSafeVariable<AtlasEngine*> GetAtlasEngine();
 }
