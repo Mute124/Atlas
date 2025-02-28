@@ -5,7 +5,7 @@ namespace Atlas {
 	/// Event arguments for the render event
 	/// </summary>
 	struct RenderEventArgs {
-		int width;
+		int mWindowWidth;
 		int height;
 	};
 }

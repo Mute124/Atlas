@@ -12,6 +12,6 @@
 ::cmake .. -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE=build\conan_toolchain.cmake
 ::cmake --build . --config=Debug
 ::cd ../build-scripts
-python3 configure.py --release --debug
+python configure.py --release --debug
 echo "Generating project"
-python3 generate.py
+python generate.py

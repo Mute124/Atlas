@@ -3,11 +3,13 @@
 
 namespace Atlas {
 	
-	template<typename T>
 	class ICuller abstract {
 	public:
 
 		ICuller() = default;
+
+		virtual bool shouldCull(IGameObject* gameObject) = 0;
+		virtual float getCullDistance() = 0;
 
 
 	};

@@ -27,35 +27,35 @@ Atlas::FileSystemRegistry& Atlas::GetFileSystemRegistry()
 
 void Atlas::InitializeFileRegistry(const char* rootPath)
 {
-	GetAtlasEngine()->getFileSystemRegistry()->init(rootPath);
+	GetAtlasEngine()->getFileSystemRegistry().get()->init(rootPath);
 }
 
 
 void Atlas::AddFileRegistryLoadFunction(std::string  extension, FileLoadFuncType loadFunc)
 {
-	GetAtlasEngine()->getFileSystemRegistry()->addLoadFunction(extension, loadFunc);
+	GetAtlasEngine()->getFileSystemRegistry().get()->addLoadFunction(extension, loadFunc);
 }
 
 
 void Atlas::AddFileRegistryLoadOnRegisterExtension(std::string const& extension)
 {
-	GetAtlasEngine()->getFileSystemRegistry()->addLoadOnRegisterExtension(extension);
+	GetAtlasEngine()->getFileSystemRegistry().get()->addLoadOnRegisterExtension(extension);
 }
 
 
 std::shared_ptr<Atlas::FileMeta> Atlas::GetFileMeta(std::string key)
 {
-	return GetAtlasEngine()->getFileSystemRegistry()->GetFileMeta(key);
+	return GetAtlasEngine()->getFileSystemRegistry().get()->GetFileMeta(key);
 }
 
 
 std::shared_ptr<Atlas::RegisteredFile> Atlas::GetFile(std::string key, bool loadIfNotLoaded)
 {
-	return GetAtlasEngine()->getFileSystemRegistry()->getFile(key, loadIfNotLoaded);
+	return GetAtlasEngine()->getFileSystemRegistry().get()->getFile(key, loadIfNotLoaded);
 }
 
 std::string Atlas::GetFilePath(std::string key)
 {
-	return GetAtlasEngine()->getFileSystemRegistry()->getFilePath(key);
+	return GetAtlasEngine()->getFileSystemRegistry().get()->getFilePath(key);
 }
 

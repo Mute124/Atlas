@@ -1,9 +1,44 @@
-/// @file Physics.h
-/// @brief This file contains Atlas's physics engine and is built on JoltPhysics. 
-/// @note This is a work in progress, so it is not very extensible. With that being said, it is able to do its job but it is not as flexible as it could be.
+/*****************************************************************//**
+ * @file   Physics.h
+ * 
+ * @brief  This file contains all the required components for 
+ * Atlas's physics engine. As of right now, it is built on 
+ * JoltPhysics and there may be plans to change and/or add support
+ * for another physics engine in the future. 
+ * 
+ * @important The physics engine is not yet fully implemented and 
+ * is subject to change. Please expect the API to change in the
+ * future, especially since the addition of other physics engines
+ * is being considered.
+ * 
+ * @note This is a work in progress, so it is not very extensible.
+ * With that being said, it is able to do its job but it is not as 
+ * flexible as it could be.
+ * 
+ * @date   February 2025
+ * 
+ * @since v0.0.3
+ *********************************************************************/
 #pragma once
 
-#include <Jolt/Jolt.h>
+/**
+ * @brief Enables support for JoltPhysics. As is stated in the 
+ * header documentation, this is being declared here because
+ * Atlas only supports JoltPhysics at the moment. However,
+ * this may change in the future, so the prospect of it
+ * is enough to justify declaring it here.
+ * 
+ * @since v0.0.3
+ */
+#define ATLAS_ENABLE_JOLTPHYSICS
+
+/******************************************************************
+* JoltPhysics includes
+********************************************************************/
+
+// As is documented in Jolt's documentation, this include is required
+// because the other includes do not include this file.
+#include <Jolt/Jolt.h> 
 
 #include <Jolt/Core/Core.h>
 #include <Jolt/Core/Factory.h>
@@ -19,47 +54,29 @@
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/RegisterTypes.h>
 
+/******************************************************************
+* Atlas includes
+********************************************************************/
 #include "../Common.h"
 #include "Layers.h"
 #include "Listeners.h"
+
 
 // Shut the compiler up. 
 JPH_SUPPRESS_WARNINGS
 
 using namespace JPH::literals;
 
+
 namespace Atlas {
-
-
-	
 	/**
-	 * @brief This is the already provided trace function for the physics engine. 
-	 * @note Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
-	 * @todo TODO: Implement this more properly
-	 * @param inFMT The format string
-	 * @param vaArgs Variable arguments for the trace. This is declared as "...", which means it is a variable number of arguments.
+	 * @brief A struct that contains data on what resources should be
+	 * allocated for the physics engine.
+	 * 
+	 * @remarks T
+	 * 
+	 * @since 
 	 */
-	static void DefaultPhysicsTrace(const char* inFMT, ...);
-
-#ifdef JPH_ENABLE_ASSERTS
-
-	/**
-	 * @brief This is the already provided failed assertion function. 
-	 * @remarks Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
-	 * @todo Implement this more properly
-	 * @param inExpression The assert expression that failed.
-	 * @param inMessage The assertion message.
-	 * @param inFile The file that the assert was in.
-	 * @param inLine The line that the assert was on.
-	 * @return 
-	 */
-	static bool DefaultPhysicsAssertFailed(const char* inExpression, const char* inMessage, const char* inFile, JPH::uint inLine);
-
-#endif // JPH_ENABLE_ASSERTS
-	
-	/// <summary>
-	/// This struct contains the allocated resources for the physics engine and is used to initialize the physics engine.
-	/// </summary>
 	struct AllocatedPhysicsResources {		
 
 		JPH::uint cMaxBodies = 65536;
@@ -85,6 +102,97 @@ namespace Atlas {
 	/// <seealso cref="Atlas::Singleton&lt;PhysicsEngine&gt;" />
 	/// <seealso cref="Atlas::Singleton&lt;PhysicsEngine&gt;" />
 	class PhysicsEngine : public Atlas::Singleton<PhysicsEngine> {
+	private:
+		/**
+		 * @brief Since the body interface reference was required as a
+		 * member variable and it could not be created in the constructor
+		 * because the physics system was not initialized yet, the
+		 * BodyInterfaceHolder class was created to essentially wrap the
+		 * JPH::BodyInterface. 
+		 * 
+		 * @since 
+		 */
+		class BodyInterfaceHolder {
+		public:
+			JPH::BodyInterface& bodyInterface;
+
+			explicit BodyInterfaceHolder(JPH::BodyInterface& bodyInterface);
+			~BodyInterfaceHolder();
+		};
+		
+		/**
+		 * @brief Jolt physics's collision steps argument.
+		 * 
+		 * @since v0.0.3
+		 */
+		int	mCollisionSteps = 1;
+
+		
+		BodyInterfaceHolder* mBodyInterfaceHolder;
+
+		/**
+		 * @brief The m physics system
+		 */
+		JPH::PhysicsSystem* mPhysicsSystem = nullptr;
+
+		/**
+		 * @brief Whether or not the physics engine has been initialized
+		 */
+		bool mIsInitialized = false;
+
+		/// <summary>
+		/// The m resources
+		/// </summary>
+		AllocatedPhysicsResources mResources;
+
+		/// <summary>
+		/// The m temporary allocator
+		/// </summary>
+		JPH::TempAllocator* mTempAllocator = nullptr;
+
+		/// <summary>
+		/// The m job system thread pool
+		/// </summary>
+		JPH::JobSystem* mJobSystemThreadPool = nullptr;
+
+		/// <summary>
+		/// The m broad phase layer interface
+		/// </summary>
+		BPLayerInterfaceImpl mBroadPhaseLayerInterface;
+
+		/// <summary>
+		/// The m object vs broad phase layer filter
+		/// </summary>
+		ObjectVsBroadPhaseLayerFilterImpl mObjectVsBroadPhaseLayerFilter;
+
+		/// <summary>
+		/// The m object layer pair filter
+		/// </summary>
+		ObjectLayerPairFilterImpl mObjectLayerPairFilter;
+
+		/// <summary>
+		/// The contact listener
+		/// </summary>
+		/// <remarks>
+		/// This is used to listen in on the contact events. For more information, please refer to Jolt's JPH::ContactListener class.
+		/// </remarks>
+		JPH::ContactListener* mContactListener = nullptr;
+
+		/// <summary>
+		/// The m physics settings
+		/// </summary>
+		/// <seealso cref="JPH::PhysicsSettings" />
+		JPH::PhysicsSettings  mPhysicsSettings;
+
+		/// <summary>
+		/// The jolt body activation listener class.
+		/// </summary>
+		/// <remarks>
+		/// This is used to listen in on the activation and deactivation of physics bodies. For more information, please refer to Jolt's JPH::BodyActivationListener class.
+		/// </remarks>
+		/// <seealso cref="JPH::BodyActivationListener" />
+		JPH::BodyActivationListener* mBodyActivationListener = nullptr;
+
 	public:
 		PhysicsEngine() = default;
 		
@@ -116,89 +224,47 @@ namespace Atlas {
 		/// <returns>A reference to the body interface</returns>
 		JPH::BodyInterface& getBodyInterface() const;
 
-	private:
-				
-		/// <summary>
-		/// Since the body interface reference was required as a member variable and it could not be created in the constructor, the BodyInterfaceHolder class was created to essentially wrap around
-		/// the JPH::BodyInterface. 
-		/// </summary>
-		class BodyInterfaceHolder {
-		public:
-			JPH::BodyInterface& bodyInterface;
-
-			explicit BodyInterfaceHolder(JPH::BodyInterface& bodyInterface);
-			~BodyInterfaceHolder();
-		};
-		
-		/// <summary>
-		/// The m collision steps
-		/// </summary>
-		int	mCollisionSteps = 1;
-		
-		//
-		BodyInterfaceHolder* mBodyInterfaceHolder;
-		
-		/**
-		 * @brief The m physics system
-		 */
-		JPH::PhysicsSystem* mPhysicsSystem = nullptr;
-		
-		/**
-		 * @brief Whether or not the physics engine has been initialized
-		 */
-		bool mIsInitialized = false;
-		
-		/// <summary>
-		/// The m resources
-		/// </summary>
-		AllocatedPhysicsResources mResources;
-		
-		/// <summary>
-		/// The m temporary allocator
-		/// </summary>
-		JPH::TempAllocator* mTempAllocator = nullptr;
-		
-		/// <summary>
-		/// The m job system thread pool
-		/// </summary>
-		JPH::JobSystem* mJobSystemThreadPool = nullptr;
-		
-		/// <summary>
-		/// The m broad phase layer interface
-		/// </summary>
-		BPLayerInterfaceImpl mBroadPhaseLayerInterface;
-		
-		/// <summary>
-		/// The m object vs broad phase layer filter
-		/// </summary>
-		ObjectVsBroadPhaseLayerFilterImpl mObjectVsBroadPhaseLayerFilter;
-		
-		/// <summary>
-		/// The m object layer pair filter
-		/// </summary>
-		ObjectLayerPairFilterImpl mObjectLayerPairFilter;
-				
-		/// <summary>
-		/// The contact listener
-		/// </summary>
-		/// <remarks>
-		/// This is used to listen in on the contact events. For more information, please refer to Jolt's JPH::ContactListener class.
-		/// </remarks>
-		JPH::ContactListener* mContactListener = nullptr;
-				
-		/// <summary>
-		/// The m physics settings
-		/// </summary>
-		/// <seealso cref="JPH::PhysicsSettings" />
-		JPH::PhysicsSettings  mPhysicsSettings;
-		
-		/// <summary>
-		/// The jolt body activation listener class.
-		/// </summary>
-		/// <remarks>
-		/// This is used to listen in on the activation and deactivation of physics bodies. For more information, please refer to Jolt's JPH::BodyActivationListener class.
-		/// </remarks>
-		/// <seealso cref="JPH::BodyActivationListener" />
-		JPH::BodyActivationListener* mBodyActivationListener = nullptr;
+	
 	};
+
+	/**
+	 * @brief This is the already provided trace function for the
+	 * physics engine.
+	 *
+	 * @note Keep in mind this is used exclusively by the
+	 * physics engine, so there is not much use besides that.
+	 *
+	 * @todo TODO: Implement this more properly
+	 *
+	 * @param inFMT The format string
+	 *
+	 * @param vaArgs Variable arguments for the trace. This is
+	 * declared as "...", which means it is a variable number of arguments.
+	 */
+	static void DefaultPhysicsTrace(const char* inFMT, ...);
+
+#ifdef JPH_ENABLE_ASSERTS
+
+	/**
+	 * @brief This is the already provided failed assertion
+	 * function.
+	 *
+	 * @remarks Keep in mind this is used exclusively by the
+	 * physics engine, so there is not much use besides that.
+	 *
+	 * @todo Implement this more properly
+	 *
+	 * @param inExpression The assert expression that failed.
+	 *
+	 * @param inMessage The assertion message.
+	 *
+	 * @param inFile The file that the assert was in.
+	 *
+	 * @param inLine The line that the assert was on.
+	 *
+	 * @return
+	 */
+	static bool DefaultPhysicsAssertFailed(const char* inExpression, const char* inMessage, const char* inFile, JPH::uint inLine);
+
+#endif // JPH_ENABLE_ASSERTS
 }

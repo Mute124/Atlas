@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include <raylib.h>
-#include <raymath.h>
+
 
 namespace Atlas {	
 	/// <summary>
@@ -10,10 +10,15 @@ namespace Atlas {
 	/// <seealso cref="Component" />
 	class TransformComponent final : public Component {
 	private:
-		Matrix mMatrix; 
-		Transform mTransform;
+
 	public:
-	
+		Matrix mMatrix;
+		Transform mTransform;
+
+		Vector3 pos = { 0.0f, 0.0f, 0.0f };
+
+		explicit TransformComponent(IGameObject* mOwner) : Component(mOwner) {}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TransformComponent"/> class.
 		/// </summary>
@@ -40,6 +45,12 @@ namespace Atlas {
 
 		void rotate(Quaternion const& delta) { }
 
+		TransformComponent& operator=(TransformComponent& comp) {
+			this->mTransform = comp.mTransform;
+			this->mMatrix = comp.mMatrix;
+			this->pos = comp.pos;
 
+			return *this;
+		}
 	};
 }

@@ -3,9 +3,11 @@
 
 
 namespace Atlas {
-	/// <summary>
-	/// A game object that can be rendered to the screen. Inherits from <see cref="IGameObject" />, and already provides the basic rendering functionality.
-	/// </summary>
+	/**
+	 * @brief A game object that can be rendered to the screen. This already provides the basic rendering functionality.
+	 * @since v0.0.1
+	 * @sa @ref IGameObject
+	 */
 	class GameObject : public IGameObject {
 	public:
 		GameObject();

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-python3 TechstormConfigure.py --release
+python3 configure.py --release
 echo Generating project
-python3 TechstormGenerate.py
+python3 generate.py

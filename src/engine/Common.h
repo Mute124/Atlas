@@ -1,12 +1,25 @@
-/// @file Common.h
-/// 
-/// @brief Common includes and definitions that are used throughout the engine. There are going to be very limited amounts of actual engine includes, so this is not a replacement for that. 
-/// Instead, this is a way to centralize the includes and definitions that are used throughout the engine.
-/// 
-/// @todo Add more haptic features
-/// 
-/// @remarks This file has a few configurations that are based on defines. ATLAS_ENABLE_HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas ATLAS_ENABLE_EXTENSIONS is used
-/// to enable/disable extensions.
+/*****************************************************************//**
+ * @file   Common.h
+ * 
+ * @brief  Common includes and definitions that are used throughout 
+ * the engine. 
+ * 
+ * @remarks There are going to be very limited amounts of actual
+ * engine includes, so this is not a replacement for that. Instead,
+ * this is a way to centralize the includes and definitions that are
+ * used throughout the engine.
+ * 
+ * @note This file has a few configurations that are based on defines.
+ * ATLAS_ENABLE_HAPTICS is used to enable/disable haptic features
+ * (ie. controller rumble), whereas ATLAS_ENABLE_EXTENSIONS is used
+ * to enable/disable extensions.
+ * 
+ * @todo Add more haptic features
+ * 
+ * @date   February 2025
+ * 
+ * @since 
+ *********************************************************************/
 #pragma once
 
 #include <iostream>
@@ -18,72 +31,23 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
+#include <set>
 
 #include "utils/Singleton.h"
 #include "input/Input.h"
+#include <chrono>
+#include <type_traits>
+#include "core/CompileTimeCommons.h"
 
-// ---------------------------------------------------------------
-// Platform definitions
-// ---------------------------------------------------------------
-
-// find out what platform we are on
-#ifdef _WIN32
-	#define ATLAS_PLATFORM_WINDOWS
-
-#elif __APPLE__
-	#define ATLAS_PLATFORM_MAC
-	#error "Mac support is not yet implemented."
-#elif __linux__
-	#define ATLAS_PLATFORM_LINUX
-
-#else
-	#define ATLAS_PLATFORM_UNKNOWN
-	#error "Unknown platform."
-
-#endif
-
-// find out processor type
-#ifdef __x86_64__
-	#define ATLAS_PROCESSOR_X86_64
-#elif __i386__
-	#define ATLAS_PROCESSOR_X86
-
-#endif
-
-// find out compiler type
-#ifdef _MSC_VER
-	#define ATLAS_COMPILER_MSVC
-#elif __clang__
-	#define ATLAS_COMPILER_CLANG
-#elif __GNUC__
-	#define ATLAS_COMPILER_GCC
-#endif
-
-// ---------------------------------------------------------------
-// Macro definitions (helpers)
-// ---------------------------------------------------------------
-
-#ifndef ATLAS_GENERATED_NULL_CHECK
-	/**
-	* @brief Macro to check if a pointer is null and return if it is. This is used to catch null pointer exceptions.
-	* @since v0.0.9
-	*/
-	#define ATLAS_GENERATED_NULL_CHECK(ptr) if(ptr == nullptr) { return; }
-#endif
-
-#ifndef ATLAS_GENERATED_NULL_CHECK_RETURN
-	/**
-	* @brief Macro to check if a pointer is null and return a null pointer if it is. This is used to catch null pointer exceptions.
-	* @since v0.0.9
-	*/
-	#define ATLAS_GENERATED_NULL_CHECK_RETURN(ptr) if(ptr == nullptr) { return nullptr; }
-#endif
-
-/// <summary>
-/// Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these
-/// will be in the build directory rather than the final distribution directory.
-/// </summary>
+/**
+* @brief Since the location of the shared libraries and executables can vary, this is a simple solution to this.
+* During Distribution builds, the path is more exact, however the rest are not because these
+* will be in the build directory rather than the final distribution directory.
+* 
+* @since v0.0.2
+*/
 #define ATLAS_TOP_LAYER_DIR static_cast<std::string>(ATLAS_TOP_LAYER)
+
 #define ATLAS_ASSET_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/assets/");
 #define ATLAS_DATA_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/data/");
 #define ATLAS_GAME_DIR static_cast<std::string>(ATLAS_TOP_LAYER) + static_cast<std::string>("/game/");
@@ -95,16 +59,47 @@
 #define ATLAS_NULL_GIF ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.gif")
 
 namespace Atlas {
-
+	/******************************************************************
+	* Using Statements
+	********************************************************************/
 	using std::string;
 	using std::cout;
 	using std::endl;
 	using std::thread;
 	using std::this_thread::sleep_for;
-	using std::chrono::milliseconds;
+
+	using std::chrono::days;
+	using std::chrono::hours;
+	using std::chrono::minutes;
 	using std::chrono::seconds;
+	using std::chrono::milliseconds;
+	using std::chrono:: microseconds;
+	using std::chrono::nanoseconds;
+
 	using std::unordered_map;
 
+	/******************************************************************
+	* Concepts
+	********************************************************************/
+
+	/******************************************************************
+	* Time Concepts
+	********************************************************************/
+
+	/**
+	 * @brief A concept that ensures @c T_TIME_UNIT is a valid unit of time.
+	 * This does not fully match the units of time in the C++20 standard
+	 * library Chrono. See remarks for why this is.
+	 *
+	 * @since v0.0.9
+	 */
+	template<typename T_TIME_UNIT>
+	concept TimeUnit = std::convertible_to<T_TIME_UNIT, hours>
+		|| std::convertible_to<T_TIME_UNIT, minutes>
+		|| std::convertible_to<T_TIME_UNIT, seconds>
+		|| std::convertible_to<T_TIME_UNIT, milliseconds>
+		|| std::convertible_to<T_TIME_UNIT, microseconds>
+		|| std::convertible_to<T_TIME_UNIT, nanoseconds>;
 
 	/// <summary>
 	/// Represents a 3D vector. It will wrap raylib's Vector3 and Jolt's RVec3 to allow seamless integration. This also wraps raylib's vector math functions.
@@ -565,11 +560,12 @@ namespace Atlas {
 	};
 */
 	
-
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <seealso cref="Singleton&lt;Globals&gt;" />
+	/**
+	 * @brief Serves as a way to store global variables that can
+	 * be accessed from anywhere.
+	 * 
+	 * @since 
+	 */
 	class Globals : public Singleton<Globals> {
 	public:		
 		/// <summary>

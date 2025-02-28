@@ -1,8 +1,13 @@
 #pragma once
+
 #include <Jolt/Jolt.h>
 #include <Jolt/Physics/Collision/ObjectLayer.h>
 #include <Jolt/Physics/Collision/BroadPhase/BroadPhaseLayer.h>
+
+
 namespace Atlas {
+
+
 	// Layer that objects can be in, determines which other objects it can collide with
 	// Typically you at least want to have 1 layer for moving bodies and 1 layer for static bodies, but you can have more
 	// layers if you want. E.g. you could have a layer for high detail collision (which is not used by the physics simulation
@@ -74,4 +79,5 @@ namespace Atlas {
 	public:
 		virtual bool ShouldCollide(JPH::ObjectLayer inLayer1, JPH::BroadPhaseLayer inLayer2) const override;
 	};
+
 }

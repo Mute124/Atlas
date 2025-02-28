@@ -5,7 +5,7 @@ namespace Atlas {
 	/// Arguments for texture events
 	/// </summary>
 	struct TextureEventArgs {
-		int width;
+		int mWindowWidth;
 		int height;
 	};
 }

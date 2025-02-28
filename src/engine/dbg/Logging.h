@@ -23,7 +23,15 @@ namespace Atlas {
 	/// <summary>
 	/// This is NOT what will print to the terminal, rather this is an interface where the logger will pass logging messages to. Use this for in-game consoles or something like that.
 	/// </summary>
-	class IConsoleSink abstract {
+	
+	/**
+	 * @brief This is a sink for message logging. 
+	 * @remarks This is used when the @ref Logger class recieves logs. Afterwards, it is forwarded to the @ref IConsoleSink. 
+	 * @note This can be used for in-game consoles or something like that.
+	 * @note This is @b NOT what will print to the terminal, rather this is an interface where the logger will pass logging messages to
+	 * @since v0.0.3
+	 */
+	class IConsoleSink {
 	public:
 		virtual void parseLog(const std::string& message, ELogLevel level, const std::source_location& location) = 0;
 		virtual void parsePrompt(const std::string& message) = 0;
@@ -106,7 +114,7 @@ namespace Atlas {
 		/**
 		 * @brief This is a buffer of logs that will be printed when the logger is initialized.
 		 * @remarks This is used when the logger is used but is not initialized. This is also a ptr because it will be deleted after the logs are printed.
-		 * @version v0.0.9
+		 * @since v0.0.9
 		 */
 
 		void InitSpdlog();

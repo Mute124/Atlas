@@ -468,7 +468,7 @@ static void StringResize(asUINT l, string &str)
 
 // AngelScript signature:
 // string formatInt(int64 val, const string &in options, uint width)
-static string formatInt(asINT64 value, const string &options, asUINT width)
+static string formatInt(asINT64 value, const string &options, asUINT mWindowWidth)
 {
 	bool leftJustify = options.find("l") != string::npos;
 	bool padWithZero = options.find("0") != string::npos;
@@ -498,10 +498,10 @@ static string formatInt(asINT64 value, const string &options, asUINT width)
 	else fmt += "d";
 
 	string buf;
-	buf.resize(width+30);
+	buf.resize(mWindowWidth+30);
 #if _MSC_VER >= 1400 && !defined(__S3E__)
 	// MSVC 8.0 / 2005 or newer
-	sprintf_s(&buf[0], buf.size(), fmt.c_str(), width, value);
+	sprintf_s(&buf[0], buf.size(), fmt.c_str(), mWindowWidth, value);
 #else
 	snprintf(&buf[0], buf.size(), fmt.c_str(), width, value);
 #endif
@@ -512,7 +512,7 @@ static string formatInt(asINT64 value, const string &options, asUINT width)
 
 // AngelScript signature:
 // string formatUInt(uint64 val, const string &in options, uint width)
-static string formatUInt(asQWORD value, const string &options, asUINT width)
+static string formatUInt(asQWORD value, const string &options, asUINT mWindowWidth)
 {
 	bool leftJustify = options.find("l") != string::npos;
 	bool padWithZero = options.find("0") != string::npos;
@@ -542,10 +542,10 @@ static string formatUInt(asQWORD value, const string &options, asUINT width)
 	else fmt += "u";
 
 	string buf;
-	buf.resize(width+30);
+	buf.resize(mWindowWidth+30);
 #if _MSC_VER >= 1400 && !defined(__S3E__)
 	// MSVC 8.0 / 2005 or newer
-	sprintf_s(&buf[0], buf.size(), fmt.c_str(), width, value);
+	sprintf_s(&buf[0], buf.size(), fmt.c_str(), mWindowWidth, value);
 #else
 	snprintf(&buf[0], buf.size(), fmt.c_str(), width, value);
 #endif
@@ -556,7 +556,7 @@ static string formatUInt(asQWORD value, const string &options, asUINT width)
 
 // AngelScript signature:
 // string formatFloat(double val, const string &in options, uint width, uint precision)
-static string formatFloat(double value, const string &options, asUINT width, asUINT precision)
+static string formatFloat(double value, const string &options, asUINT mWindowWidth, asUINT precision)
 {
 	bool leftJustify = options.find("l") != string::npos;
 	bool padWithZero = options.find("0") != string::npos;
@@ -578,10 +578,10 @@ static string formatFloat(double value, const string &options, asUINT width, asU
 	else fmt += "f";
 
 	string buf;
-	buf.resize(width+precision+50);
+	buf.resize(mWindowWidth+precision+50);
 #if _MSC_VER >= 1400 && !defined(__S3E__)
 	// MSVC 8.0 / 2005 or newer
-	sprintf_s(&buf[0], buf.size(), fmt.c_str(), width, precision, value);
+	sprintf_s(&buf[0], buf.size(), fmt.c_str(), mWindowWidth, precision, value);
 #else
 	snprintf(&buf[0], buf.size(), fmt.c_str(), width, precision, value);
 #endif
@@ -1005,25 +1005,25 @@ static void formatInt_Generic(asIScriptGeneric * gen)
 {
 	asINT64 val = gen->GetArgQWord(0);
 	string *options = reinterpret_cast<string*>(gen->GetArgAddress(1));
-	asUINT width = gen->GetArgDWord(2);
-	new(gen->GetAddressOfReturnLocation()) string(formatInt(val, *options, width));
+	asUINT mWindowWidth = gen->GetArgDWord(2);
+	new(gen->GetAddressOfReturnLocation()) string(formatInt(val, *options, mWindowWidth));
 }
 
 static void formatUInt_Generic(asIScriptGeneric * gen)
 {
 	asQWORD val = gen->GetArgQWord(0);
 	string *options = reinterpret_cast<string*>(gen->GetArgAddress(1));
-	asUINT width = gen->GetArgDWord(2);
-	new(gen->GetAddressOfReturnLocation()) string(formatUInt(val, *options, width));
+	asUINT mWindowWidth = gen->GetArgDWord(2);
+	new(gen->GetAddressOfReturnLocation()) string(formatUInt(val, *options, mWindowWidth));
 }
 
 static void formatFloat_Generic(asIScriptGeneric *gen)
 {
 	double val = gen->GetArgDouble(0);
 	string *options = reinterpret_cast<string*>(gen->GetArgAddress(1));
-	asUINT width = gen->GetArgDWord(2);
+	asUINT mWindowWidth = gen->GetArgDWord(2);
 	asUINT precision = gen->GetArgDWord(3);
-	new(gen->GetAddressOfReturnLocation()) string(formatFloat(val, *options, width, precision));
+	new(gen->GetAddressOfReturnLocation()) string(formatFloat(val, *options, mWindowWidth, precision));
 }
 
 static void parseInt_Generic(asIScriptGeneric *gen)

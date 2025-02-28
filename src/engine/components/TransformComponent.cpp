@@ -1,6 +1,6 @@
 #include "TransformComponent.h"
-
-Atlas::TransformComponent::TransformComponent()
+#include <raymath.h>
+Atlas::TransformComponent::TransformComponent() : Component()
 {
 	// TODO: implement
 }

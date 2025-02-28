@@ -1,18 +1,47 @@
-#include "../dbg/ELogLevel.h"
-#include "../dbg/Logging.h"
+// File system components
 #include "FileMeta.h"
 #include "FileSystemRegistry.h"
 #include "RegisteredFile.h"
-#include "RegisteredFile.h"
+
+// Debug stuff
+#include "../dbg/ELogLevel.h"
+#include "../dbg/Errors.h"
+#include "../dbg/Logging.h"
+
+// Raylib is being included here because of the LoadDirectoryFilesEx function 
+// and it has multiple useful functions
 #include <raylib.h>
 
-#include <iostream>
+// Other includes
+#include <any>
 #include <cstdint>
 #include <format>
-#include <memory>
-#include <string>
-#include <any>
 #include <functional>
+#include <memory>
+#include <source_location>
+#include <string>
+
+#ifndef ATLAS_NO_PERFORMACE_LOGGING
+	
+#endif
+
+uint16_t Atlas::FileSystemRegistry::GetNextFileIndex() { 
+	return sFileIndex++; 
+}
+
+bool Atlas::FileSystemRegistry::isReady() const { 
+	return sIsReady; 
+}
+
+uint16_t Atlas::FileSystemRegistry::getFileIndex(std::string const& key) const
+{
+
+/*	if(!this->mLookupTable.contains(key)) {
+		return -1;
+	} */
+
+	return this->mLookupTable.at(key);
+}
 
 void Atlas::FileSystemRegistry::init(const char* rootPath)
 {
@@ -42,14 +71,7 @@ void Atlas::FileSystemRegistry::registerFile(std::string const& path)
 
 	// create file meta
 	FileMeta meta(path);
-/*	meta.path = path;
-	meta.filename = filename;
-	meta.extension = extension;
-	meta.sandboxPath = meta.resolveSandboxPath(path);
-	*/
-	
 
-	// Get file index
 	uint16_t index = GetNextFileIndex();
 
 	// add to configLookup table
@@ -67,29 +89,44 @@ void Atlas::FileSystemRegistry::registerFile(std::string const& path)
 		loadFile(this->mRegisteredFiles[index]);
 	}
 
-	std::string output = "";
-
-	output = std::format("File with index[{}], with the meta of: {} was registered. ", index, meta.format());
+	std::string output = std::format("File with index[{}], with the meta of: {} was registered. ", index, meta.format());
 	Log(output, ELogLevel::TRACE);
 }
 
 std::shared_ptr<Atlas::FileMeta> Atlas::FileSystemRegistry::GetFileMeta(std::string const& key)
 {
-	uint16_t index = this->mLookupTable[key];
+	if (!sIsReady) {
+		std::string registryNotReadyMsg = std::format("Registry is not ready; cannot get file meta: {}!", key);
+		Log(registryNotReadyMsg, ELogLevel::WARNING);
+
+		throw ImpatientUsageException(registryNotReadyMsg);
+
+		return nullptr;
+	}
+
+
+/*	if(!this->mLookupTable.contains(key)) {
+		std::string keyNotFoundMsg = std::format("File with key: {} was not found in the lookup table.", key);
+
+		Log(keyNotFoundMsg, ELogLevel::WARNING);
+
+		throw ValueNotFoundException(keyNotFoundMsg);
+
+		return nullptr;
+	}*/
+
+	uint16_t index = getFileIndex(key);
 
 	return this->mFileMetaRegistry[index];
 }
-
-/// <summary>
-/// Loads the file.
-/// </summary>
-/// <param name="file">The file.</param>
 
 void Atlas::FileSystemRegistry::loadFile(std::shared_ptr<RegisteredFile> file) {
 	if (!sIsReady) {
 		std::string registryNotReadyMsg = std::format("Registry is not ready; cannot load file: {}!", file->getFileMeta()->format());
 
 		Log(registryNotReadyMsg, ELogLevel::WARNING);
+
+		throw ImpatientUsageException(registryNotReadyMsg, std::source_location::current());
 		return;
 	}
 
@@ -101,6 +138,12 @@ void Atlas::FileSystemRegistry::loadFile(std::shared_ptr<RegisteredFile> file) {
 		return;
 	}
 
+	if (!mLoadingFunctions.contains(fileMeta->extension)) {
+		Log("No load function found for extension: " + fileMeta->extension);
+		
+		throw MissingFileLoadFunctionException(fileMeta->extension, std::source_location::current());
+		return;
+	}
 
 	Log("Loading file: " + fileMeta->filename + " (" + fileMeta->extension + ")", ELogLevel::TRACE);
 	FileLoadFuncType loadFunc = mLoadingFunctions.at(fileMeta->extension);
@@ -112,9 +155,19 @@ void Atlas::FileSystemRegistry::loadFile(std::shared_ptr<RegisteredFile> file) {
 
 	try {
 		file->mFileData = loadFunc(fileMeta);
+
+		if (!file->mFileData.has_value()) {
+			std::string msg = std::format("Failed to load file: {} because the load function returned null or empty data.", fileMeta->format());
+			throw AccessViolationException(msg, std::source_location::current());
+		}
 	} catch(std::bad_any_cast& e) {
 		
-		std::string msg = std::format("Failed to load file: {} because it was not of the expected type.", fileMeta->format());
+		std::string msg = std::format(
+			"Failed to load file: {} because it was not of the expected type. Exception: {}",
+			fileMeta->format(),
+			e.what()
+		);
+
 		Log(msg, ELogLevel::ERROR);
 		file->mFileData = nullptr;
 
@@ -147,6 +200,31 @@ std::shared_ptr<Atlas::RegisteredFile> Atlas::FileSystemRegistry::getFile(std::s
 	return file;
 }
 
-std::string Atlas::FileSystemRegistry::getFilePath(std::string const& key) { 
+bool Atlas::FileSystemRegistry::isFileRegistered(std::string const& key)
+{
+	return false;
+}
+
+void Atlas::FileSystemRegistry::addLoadFunction(std::string const& extension, FileLoadFuncType loadFunc) { 
+	this->mLoadingFunctions[extension] = loadFunc; 
+}
+
+void Atlas::FileSystemRegistry::addLoadOnRegisterExtension(std::string const& extension) { 
+	this->mLoadOnRegisterExtensionsSet.insert(extension); 
+}
+
+std::string Atlas::FileSystemRegistry::getFilePath(std::string const& key) {
 	return this->mFileMetaRegistry[this->mLookupTable[key]]->path; 
+}
+
+Atlas::FileSystemRegistry::MissingFileException::MissingFileException(std::string const& message, std::source_location location)
+	: InvalidValue(message, location) {}
+
+Atlas::FileSystemRegistry::AccessViolationException::AccessViolationException(std::string const& message, std::source_location location)
+	: IException(message, location)
+{
+}
+
+const char* Atlas::FileSystemRegistry::AccessViolationException::what() const noexcept {
+	return this->mMessage.c_str();
 }

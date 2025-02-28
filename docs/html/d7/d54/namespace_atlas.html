@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -94,6 +94,7 @@ $(document).ready(function(){initNavTree('d7/d54/namespace_atlas.html','../../')
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#concepts">Concepts</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
@@ -115,7 +116,7 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dba/class_atlas_1_1abstract.html">abstract</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is NOT what will print to the terminal, rather this is an interface where the logger will pass logging messages to. Use this for in-game consoles or something like that.  <a href="../../dc/dba/class_atlas_1_1abstract.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same thing as a gate, but for game objects.  <a href="../../dc/dba/class_atlas_1_1abstract.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/df6/struct_atlas_1_1_allocated_physics_resources.html">AllocatedPhysicsResources</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct contains the allocated resources for the physics engine and is used to initialize the physics engine.  <a href="../../df/df6/struct_atlas_1_1_allocated_physics_resources.html#details">More...</a><br /></td></tr>
@@ -125,6 +126,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/da4/class_atlas_1_1_angel_script_registry.html">AngelScriptRegistry</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8d/class_atlas_1_1_atlas_engine.html">AtlasEngine</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the core and heart of <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a>; it is responsible for just about everything that is required to run the engine. It contains multiple different modules that can be used to extend the engine. If you want to extend the engine, you can simply inherit the respective module and utilize the concepts of polymorphism to your advantage. Keep in mind that the modules are stored as a <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html" title="This class wraps a variable (specified by T_VARIABLE_TYPE) and makes it thread-safe....">ThreadSafeVariable</a> and can be used concurrently. That means the user can multi-thread these modules if they so choose. This is just a default implementation of the <a class="el" href="../../d8/d96/class_atlas_1_1_i_atlas_engine.html">IAtlasEngine</a> and you do not have to use this class. However, if you would like to use a different implementation, you can simply inherit from <a class="el" href="../../d8/d96/class_atlas_1_1_i_atlas_engine.html">IAtlasEngine</a> and override the virtual functions. But one thing must remain: the class must inherit from <a class="el" href="../../d8/d96/class_atlas_1_1_i_atlas_engine.html">IAtlasEngine</a> or be a child of <a class="el" href="../../d8/d96/class_atlas_1_1_i_atlas_engine.html">IAtlasEngine</a>.  <a href="../../d3/d8d/class_atlas_1_1_atlas_engine.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d5b/class_atlas_1_1_audio_device.html">AudioDevice</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An audio device is a physical <b>OUTPUT</b> device that can be used to play audio. If you are looking for a <b>INPUT</b> device, see AudioCaptureDevice. If you are looking for documentation on the forms of <b>OUTPUT</b> devices, see this class's details documentation.  <a href="../../dc/d5b/class_atlas_1_1_audio_device.html#details">More...</a><br /></td></tr>
@@ -143,7 +145,11 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used by the Cleanup event for passing arguments to components to allow developers the ability to polymorph the arguments.  <a href="../../de/dcc/struct_atlas_1_1_cleanup_event_args.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dfa/class_atlas_1_1_component.html">Component</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A component is used to extend a system, but is mainly used to extend a game object with additional functionality (<a class="el" href="../../d6/dfa/class_atlas_1_1_component.html#a895fdb10618cf395e979f9368ba97ab3">IGameObject</a>).  <a href="../../d6/dfa/class_atlas_1_1_component.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A component is used to extend a system, but is mainly used to extend a game object with additional functionality (<a class="el" href="../../d8/d56/class_atlas_1_1_i_game_object.html" title="Represents an object that can be rendered in the screen and contains all the common properties of a g...">IGameObject</a>).  <a href="../../d6/dfa/class_atlas_1_1_component.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d7c/class_atlas_1_1_component_manager.html">ComponentManager</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8b/class_atlas_1_1_component_registry.html">ComponentRegistry</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d1a/class_atlas_1_1_config_file_registry.html">ConfigFileRegistry</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,10 +170,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d48/class_atlas_1_1_entity.html">Entity</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d7a/class_atlas_1_1_file.html">File</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d34/class_atlas_1_1_file_i_o_failure.html">FileIOFailure</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d78/class_atlas_1_1_file_meta.html">FileMeta</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">File meta is the attributes of a registered/loaded file. This is also used to search for files within the file system. <br  />
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../dd/d7a/class_atlas_1_1_file.html">File</a> meta is the attributes of a registered/loaded file. This is also used to search for files within the file system. <br  />
   <a href="../../d7/d78/class_atlas_1_1_file_meta.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dd5/class_atlas_1_1_file_path.html">FilePath</a></td></tr>
@@ -182,25 +190,35 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dec/class_atlas_1_1_game_model.html">GameModel</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d43/class_atlas_1_1_game_object.html">GameObject</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A game object that can be rendered to the screen. Inherits from IGameObject, and already provides the basic rendering functionality.  <a href="../../d0/d43/class_atlas_1_1_game_object.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A game object that can be rendered to the screen. This already provides the basic rendering functionality.  <a href="../../d0/d43/class_atlas_1_1_game_object.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d4c/class_atlas_1_1_game_object_registry.html">GameObjectRegistry</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Game object registry, it stores all game objects in the world and manages their updating, rendering, destruction, creation, etc.  <a href="../../d1/d4c/class_atlas_1_1_game_object_registry.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores and manages the states of all <a class="el" href="../../d8/d56/class_atlas_1_1_i_game_object.html" title="Represents an object that can be rendered in the screen and contains all the common properties of a g...">IGameObject</a> (and the derivative classes thereof) in the world.  <a href="../../d1/d4c/class_atlas_1_1_game_object_registry.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/daa/class_atlas_1_1_game_state.html">GameState</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6f/class_atlas_1_1_game_thread.html">GameThread</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dfb/class_atlas_1_1_globals.html">Globals</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a 3D vector. It will wrap raylib's Vector3 and Jolt's RVec3 to allow seamless integration. This also wraps raylib's vector math functions.  <a href="../../d0/dfb/class_atlas_1_1_globals.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d6d/class_atlas_1_1_globals_container.html">GlobalsContainer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dc7/class_atlas_1_1_i_atlas.html">IAtlas</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d96/class_atlas_1_1_i_atlas_engine.html">IAtlasEngine</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d09/class_atlas_1_1_i_atlas_system.html">IAtlasSystem</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d0f/class_atlas_1_1_i_component.html">IComponent</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dc9/class_atlas_1_1_i_console_sink.html">IConsoleSink</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is NOT what will print to the terminal, rather this is an interface where the logger will pass logging messages to. Use this for in-game consoles or something like that.  <a href="../../d0/dc9/class_atlas_1_1_i_console_sink.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d81/class_atlas_1_1_i_exception.html">IException</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/db8/class_atlas_1_1_i_frame_manager.html">IFrameManager</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dca/class_atlas_1_1_i_game_thread.html">IGameThread</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d56/class_atlas_1_1_i_game_object.html">IGameObject</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an object that can be rendered in the screen and contains all the common properties of a game object.  <a href="../../d8/d56/class_atlas_1_1_i_game_object.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/class_atlas_1_1_i_g_u_i_container.html">IGUIContainer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -225,11 +243,16 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d6b/class_atlas_1_1_language.html">Language</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d6c/class_atlas_1_1_loaded_file.html">LoadedFile</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/de3/class_atlas_1_1_localization_registry.html">LocalizationRegistry</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dca/class_atlas_1_1_logger.html">Logger</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d0c/struct_atlas_1_1_logger_config.html">LoggerConfig</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d38/class_atlas_1_1_memory_allocator.html">MemoryAllocator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles memory allocation and deallocation. This class is also used to help manage the amount of memory used by the engine. This class can also set the memory limit of the engine (beware that this will cause the engine to crash if the limit is exceeded, so use with caution).  <a href="../../db/d38/class_atlas_1_1_memory_allocator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/da5/class_atlas_1_1_memory_status.html">MemoryStatus</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -244,6 +267,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d38/class_atlas_1_1_my_body_activation_listener.html">MyBodyActivationListener</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dda/class_atlas_1_1_object_contact_listener.html">ObjectContactListener</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d6e/class_atlas_1_1_object_holder.html">ObjectHolder</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dea/class_atlas_1_1_object_layer_pair_filter_impl.html">ObjectLayerPairFilterImpl</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that determines if two object layers can collide.  <a href="../../d1/dea/class_atlas_1_1_object_layer_pair_filter_impl.html#details">More...</a><br /></td></tr>
@@ -273,6 +298,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d07/class_atlas_1_1_registered_file.html">RegisteredFile</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a file that has been registered with the <a class="el" href="../../d4/de4/class_atlas_1_1_file_system_registry.html" title="The file system registry.">FileSystemRegistry</a>.  <a href="../../d5/d07/class_atlas_1_1_registered_file.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/df5/class_atlas_1_1_registry.html">Registry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This concept is used to ensure that the type is either a std::unordered_set or std::set.  <a href="../../df/df5/class_atlas_1_1_registry.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/df9/struct_atlas_1_1_render_args.html">RenderArgs</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d71/class_atlas_1_1_renderer.html">Renderer</a></td></tr>
@@ -281,12 +309,17 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dd6/struct_atlas_1_1_render_event_args.html">RenderEventArgs</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Event arguments for the render event.  <a href="../../d7/dd6/struct_atlas_1_1_render_event_args.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d73/class_atlas_1_1_rendering_component.html">RenderingComponent</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dfd/class_atlas_1_1_render_layer.html">RenderLayer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dc0/class_atlas_1_1_sandboxer.html">Sandboxer</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is what is used to determine if a path is safe or not.  <a href="../../da/dc0/class_atlas_1_1_sandboxer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d1b/class_atlas_1_1_self_determining_input_action.html">SelfDeterminingInputAction</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/daa/class_atlas_1_1_serializable.html">Serializable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class is used to make an object serializable and deserializable. This class is intended to be inherited by other classes. If you want to make a class serializable, inherit this class and you must override the <a class="el" href="../../d5/daa/class_atlas_1_1_serializable.html#a567102d8313786f3d2af41333fb39d6c">serializeVariables</a> function. Do <b>NOT</b> touch the <a class="el" href="../../d5/daa/class_atlas_1_1_serializable.html#ab89808083e4325daf8af8723aa203de3">serialize</a> function because that is what boost uses to serialize the object. In the <a class="el" href="../../d5/daa/class_atlas_1_1_serializable.html#a567102d8313786f3d2af41333fb39d6c">serializeVariables</a> function, you should set the values.  <a href="../../d5/daa/class_atlas_1_1_serializable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dd4/class_atlas_1_1_singleton.html">Singleton</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A singleton class, it does what singletons do.  <a href="../../d6/dd4/class_atlas_1_1_singleton.html#details">More...</a><br /></td></tr>
@@ -304,6 +337,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d4b/class_atlas_1_1_thread_group.html">ThreadGroup</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class wraps a variable (specified by T_VARIABLE_TYPE) and makes it thread-safe. When <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4007f83735117deb04971ae309f5f68f" title="Executes a lambda function while locking the mutex.">ThreadSafeVariable::execute()</a> is called, it will lock this variable and execute the function that is passed to it. Furthermore, it will also lock when the <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a7840da777c194e6f4b0bc78a163179e0" title="This is one of the most important functions in this class because it allows you to set the mValue of ...">set()</a> function, is called.  <a href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d42/class_atlas_1_1_transform.html">Transform</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d08/class_atlas_1_1_transform_component.html">TransformComponent</a></td></tr>
@@ -313,6 +349,9 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update event arguments.  <a href="../../de/d57/struct_atlas_1_1_update_event_args.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/db6/struct_atlas_1_1_validity_check_result.html">ValidityCheckResult</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d64/class_atlas_1_1_value_not_found_exception.html">ValueNotFoundException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This exception is thrown when an ID is not found.  <a href="../../df/d64/class_atlas_1_1_value_not_found_exception.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d87/class_atlas_1_1_vec3.html">Vec3</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a 3D vector. It will wrap raylib's Vector3 and Jolt's RVec3 to allow seamless integration. This also wraps raylib's vector math functions. This class contains many functions because it wraps around Raymath's functions and Jolt's functions. Furthermore, there is alot of math that can be done with vectors, so this class tries to wrap as much as possible and make it easier to work with. The reason that this class exists despite raylib's Vector3 and Jolt's RVec3 is because there may be future plans to add different renderers.  <a href="../../da/d87/class_atlas_1_1_vec3.html#details">More...</a><br /></td></tr>
@@ -325,12 +364,20 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d24/class_atlas_1_1_x_m_l_file.html">XMLFile</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="concepts" name="concepts"></a>
+Concepts</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dcd/concept_atlas_1_1_atlas_project.html">AtlasProject</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an atlas project interface. This concept ensures that the type is a child class of IAtlasEngine. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a2f9b80e6cd8cd269ffbede51d81d26b6" id="r_a2f9b80e6cd8cd269ffbede51d81d26b6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a2f9b80e6cd8cd269ffbede51d81d26b6">InternalAudioDevice</a> = ma_device</td></tr>
 <tr class="separator:a2f9b80e6cd8cd269ffbede51d81d26b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3e1b45690b287e486c74fa696caaf10" id="r_ab3e1b45690b287e486c74fa696caaf10"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#ab3e1b45690b287e486c74fa696caaf10">InternalAudioContext</a> = ma_context</td></tr>
 <tr class="separator:ab3e1b45690b287e486c74fa696caaf10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a354652e760f721fa1494d71644bc8ca8" id="r_a354652e760f721fa1494d71644bc8ca8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a354652e760f721fa1494d71644bc8ca8">ComponentName</a> = std::string</td></tr>
+<tr class="separator:a354652e760f721fa1494d71644bc8ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9064d006a69e0a0da7bb9b2dde7c47c" id="r_ab9064d006a69e0a0da7bb9b2dde7c47c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#ab9064d006a69e0a0da7bb9b2dde7c47c">PaddedString</a> = simdjson::padded_string</td></tr>
 <tr class="separator:ab9064d006a69e0a0da7bb9b2dde7c47c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4eb39ae8b8b6a74c0f7135d6559cf9a" id="r_ad4eb39ae8b8b6a74c0f7135d6559cf9a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#ad4eb39ae8b8b6a74c0f7135d6559cf9a">JSONDocument</a> = simdjson::ondemand::document</td></tr>
@@ -351,6 +398,8 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a23da551e07626be8694155b8721b265f" id="r_a23da551e07626be8694155b8721b265f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a23da551e07626be8694155b8721b265f">GameSettings</a> = <a class="el" href="../../d7/d54/namespace_atlas.html#a23da551e07626be8694155b8721b265f">GameSettings</a> { const int cMaxThreads=-1</td></tr>
 <tr class="memdesc:a23da551e07626be8694155b8721b265f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serves as the settings for the game. Please note that cMaxThreads must be at least 2. If you want <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a> to decide, set cMaxThreads to -1.  <br /></td></tr>
 <tr class="separator:a23da551e07626be8694155b8721b265f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a245de11d279bb7805a034dd0ae235167" id="r_a245de11d279bb7805a034dd0ae235167"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a245de11d279bb7805a034dd0ae235167">InputActionCallbackID</a> = int</td></tr>
+<tr class="separator:a245de11d279bb7805a034dd0ae235167"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2060a2f75d4506be764e1a2e824a3b37" id="r_a2060a2f75d4506be764e1a2e824a3b37"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a2060a2f75d4506be764e1a2e824a3b37">Depth</a> = int</td></tr>
 <tr class="separator:a2060a2f75d4506be764e1a2e824a3b37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -405,12 +454,11 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="separator:a8db949e6d304e138149d0c697ed389aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac597da9fe7e9baad81dcd94b291e5eae" id="r_ac597da9fe7e9baad81dcd94b291e5eae"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eae">EInputType</a> { <a class="el" href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eaeadb96d0096c7139c5ee3fd155a357fb77">INPUT_KEYBOARD</a>
-, <a class="el" href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eaeab569600ed95905ffd61f59ba74ca35ec">INPUT_MOUSE</a>
-, <a class="el" href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eaeae7bb3cb1d97b054348b144a429fa1b6e">INPUT_CONTROLLER</a>
+<tr class="memitem:a8f534104d1ff367cd8b3b56d40531c1a" id="r_a8f534104d1ff367cd8b3b56d40531c1a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a8f534104d1ff367cd8b3b56d40531c1a">EInputThread</a> { <a class="el" href="../../d7/d54/namespace_atlas.html#a8f534104d1ff367cd8b3b56d40531c1aa33801e0fa971429602386bbb94bee0a0">INPUT_THREAD_RENDER</a>
+, <a class="el" href="../../d7/d54/namespace_atlas.html#a8f534104d1ff367cd8b3b56d40531c1aa92029241da4f43b77406c39e523727b0">INPUT_THREAD_UPDATE</a>
+, <a class="el" href="../../d7/d54/namespace_atlas.html#a8f534104d1ff367cd8b3b56d40531c1aa7a20bae3252add57696152caf4d85d48">INPUT_THREAD_WORKER</a>
  }</td></tr>
-<tr class="memdesc:ac597da9fe7e9baad81dcd94b291e5eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">The enumeration for the different input device categories. This is here because the input system is going to be expanded in the future and it will be useful to maintaining developer sanity.  <a href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eae">More...</a><br /></td></tr>
-<tr class="separator:ac597da9fe7e9baad81dcd94b291e5eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a8f534104d1ff367cd8b3b56d40531c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3de63d593b09a1492bb3d240f65ef88e" id="r_a3de63d593b09a1492bb3d240f65ef88e"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a3de63d593b09a1492bb3d240f65ef88e">EInputTrigger</a> { <br />
 &#160;&#160;<a class="el" href="../../d7/d54/namespace_atlas.html#a3de63d593b09a1492bb3d240f65ef88ea4d4d492eccd5ffa943f9c7278c171995">INPUT_TRIGGER_PRESSED</a>
 , <a class="el" href="../../d7/d54/namespace_atlas.html#a3de63d593b09a1492bb3d240f65ef88ea6ef288157def0b4b0a97c80e805156c7">INPUT_TRIGGER_RELEASED</a>
@@ -422,6 +470,12 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a3de63d593b09a1492bb3d240f65ef88e"><td class="mdescLeft">&#160;</td><td class="mdescRight">What sort of action should trigger the InputAction?  <a href="../../d7/d54/namespace_atlas.html#a3de63d593b09a1492bb3d240f65ef88e">More...</a><br /></td></tr>
 <tr class="separator:a3de63d593b09a1492bb3d240f65ef88e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac597da9fe7e9baad81dcd94b291e5eae" id="r_ac597da9fe7e9baad81dcd94b291e5eae"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eae">EInputType</a> { <a class="el" href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eaeadb96d0096c7139c5ee3fd155a357fb77">INPUT_KEYBOARD</a>
+, <a class="el" href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eaeab569600ed95905ffd61f59ba74ca35ec">INPUT_MOUSE</a>
+, <a class="el" href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eaeae7bb3cb1d97b054348b144a429fa1b6e">INPUT_CONTROLLER</a>
+ }</td></tr>
+<tr class="memdesc:ac597da9fe7e9baad81dcd94b291e5eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">The enumeration for the different input device categories. This is here because the input system is going to be expanded in the future and it will be useful to maintaining developer sanity.  <a href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eae">More...</a><br /></td></tr>
+<tr class="separator:ac597da9fe7e9baad81dcd94b291e5eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae306caa996e9b0fe4afc2e7e80a533c3" id="r_ae306caa996e9b0fe4afc2e7e80a533c3"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#ae306caa996e9b0fe4afc2e7e80a533c3">ERenderLayerDrawTime</a> : uint8_t { <a class="el" href="../../d7/d54/namespace_atlas.html#ae306caa996e9b0fe4afc2e7e80a533c3a696b031073e74bf2cb98e5ef201d4aa3">UNKNOWN</a> = 0
 , <a class="el" href="../../d7/d54/namespace_atlas.html#ae306caa996e9b0fe4afc2e7e80a533c3a3f92f542bd9ec48f912b9350e22736ac">TEXTURE</a> = 1
 , <a class="el" href="../../d7/d54/namespace_atlas.html#ae306caa996e9b0fe4afc2e7e80a533c3ac71c45515d9a92759e3cc0046bfdb059">RENDER</a> = 2
@@ -450,6 +504,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a85dcb3d0c186dbbe3ca7f78845c60a21" id="r_a85dcb3d0c186dbbe3ca7f78845c60a21"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a85dcb3d0c186dbbe3ca7f78845c60a21">GetConfigString</a> (std::string fileName, std::string lookupTarget)</td></tr>
 <tr class="memdesc:a85dcb3d0c186dbbe3ca7f78845c60a21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the config string.  <br /></td></tr>
 <tr class="separator:a85dcb3d0c186dbbe3ca7f78845c60a21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a658a106e1df3b9b79fc59eaa38ee349e" id="r_a658a106e1df3b9b79fc59eaa38ee349e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a658a106e1df3b9b79fc59eaa38ee349e">t</a> ()</td></tr>
+<tr class="separator:a658a106e1df3b9b79fc59eaa38ee349e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a3774487efaf3fd274897ab22f238be" id="r_a4a3774487efaf3fd274897ab22f238be"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a4a3774487efaf3fd274897ab22f238be">CreateLogFileName</a> ()</td></tr>
 <tr class="separator:a4a3774487efaf3fd274897ab22f238be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b792faf29085a5da63f88014b79aac5" id="r_a5b792faf29085a5da63f88014b79aac5"><td class="memItemLeft" align="right" valign="top">spdlog::level::level_enum&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a5b792faf29085a5da63f88014b79aac5">GetSpdlogLevel</a> (<a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079">ELogLevel</a> <a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a2b536fca24f51d6a849aed325793e661">level</a>)</td></tr>
@@ -482,11 +538,11 @@ Functions</h2></td></tr>
 <tr class="separator:a73f62e52350edd7a0496cba5d674774d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26ee3194395538b80492eed99ef83618" id="r_a26ee3194395538b80492eed99ef83618"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a26ee3194395538b80492eed99ef83618">GetFilePath</a> (std::string key)</td></tr>
 <tr class="separator:a26ee3194395538b80492eed99ef83618"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa2a252b78c0821fed0a608c60cfd2f0" id="r_afa2a252b78c0821fed0a608c60cfd2f0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#afa2a252b78c0821fed0a608c60cfd2f0">DefaultPhysicsTrace</a> (const char *inFMT,...)</td></tr>
-<tr class="memdesc:afa2a252b78c0821fed0a608c60cfd2f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the already provided trace function for the physics engine.  <br /></td></tr>
-<tr class="separator:afa2a252b78c0821fed0a608c60cfd2f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35cdcfa9479f5d9f1a145949c03bddfe" id="r_a35cdcfa9479f5d9f1a145949c03bddfe"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d3/d8d/class_atlas_1_1_atlas_engine.html">AtlasEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a35cdcfa9479f5d9f1a145949c03bddfe">GetAtlasEngine</a> ()</td></tr>
-<tr class="separator:a35cdcfa9479f5d9f1a145949c03bddfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fb14e6c76bf6e577bdd65ffff7d7519" id="r_a2fb14e6c76bf6e577bdd65ffff7d7519"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a2fb14e6c76bf6e577bdd65ffff7d7519">DefaultPhysicsTrace</a> (const char *inFMT,...)</td></tr>
+<tr class="memdesc:a2fb14e6c76bf6e577bdd65ffff7d7519"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the already provided trace function for the physics engine.  <br /></td></tr>
+<tr class="separator:a2fb14e6c76bf6e577bdd65ffff7d7519"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9672162529f95ec75b909111e6abba" id="r_abf9672162529f95ec75b909111e6abba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; <a class="el" href="../../d3/d8d/class_atlas_1_1_atlas_engine.html">AtlasEngine</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#abf9672162529f95ec75b909111e6abba">GetAtlasEngine</a> ()</td></tr>
+<tr class="separator:abf9672162529f95ec75b909111e6abba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4147e1ed53261fedf1809ea1fd913ed" id="r_ae4147e1ed53261fedf1809ea1fd913ed"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ae4147e1ed53261fedf1809ea1fd913ed"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#ae4147e1ed53261fedf1809ea1fd913ed">GetGlobal</a> (const std::string &amp;key)</td></tr>
 <tr class="separator:ae4147e1ed53261fedf1809ea1fd913ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -497,6 +553,22 @@ Functions</h2></td></tr>
 <tr class="separator:a5c20927104cfd9d9b0a6d92b3d55fd65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
+<a id="a354652e760f721fa1494d71644bc8ca8" name="a354652e760f721fa1494d71644bc8ca8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a354652e760f721fa1494d71644bc8ca8">&#9670;&#160;</a></span>ComponentName</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d54/namespace_atlas.html#a354652e760f721fa1494d71644bc8ca8">Atlas::ComponentName</a> = typedef std::string</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d20/_component_8h_source.html#l00017">17</a> of file <a class="el" href="../../dc/d20/_component_8h_source.html">Component.h</a>.</p>
+
+</div>
+</div>
 <a id="a70fa409c8b4e697795350e0cc0bfbbfd" name="a70fa409c8b4e697795350e0cc0bfbbfd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a70fa409c8b4e697795350e0cc0bfbbfd">&#9670;&#160;</a></span>DefaultColorSink</h2>
 
@@ -509,7 +581,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/def/_logging_8h_source.html#l00034">34</a> of file <a class="el" href="../../da/def/_logging_8h_source.html">Logging.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/def/_logging_8h_source.html#l00042">42</a> of file <a class="el" href="../../da/def/_logging_8h_source.html">Logging.h</a>.</p>
 
 </div>
 </div>
@@ -575,7 +647,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/dc8/_file_system_registry_8h_source.html#l00027">27</a> of file <a class="el" href="../../df/dc8/_file_system_registry_8h_source.html">FileSystemRegistry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/dc8/_file_system_registry_8h_source.html#l00026">26</a> of file <a class="el" href="../../df/dc8/_file_system_registry_8h_source.html">FileSystemRegistry.h</a>.</p>
 
 </div>
 </div>
@@ -594,6 +666,22 @@ template&lt;typename T &gt; </div>
 <p>Serves as the settings for the game. Please note that cMaxThreads must be at least 2. If you want <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a> to decide, set cMaxThreads to -1. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d49/_game_settings_8h_source.html#l00009">9</a> of file <a class="el" href="../../d1/d49/_game_settings_8h_source.html">GameSettings.h</a>.</p>
+
+</div>
+</div>
+<a id="a245de11d279bb7805a034dd0ae235167" name="a245de11d279bb7805a034dd0ae235167"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a245de11d279bb7805a034dd0ae235167">&#9670;&#160;</a></span>InputActionCallbackID</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d54/namespace_atlas.html#a245de11d279bb7805a034dd0ae235167">Atlas::InputActionCallbackID</a> = typedef int</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/d63/_input_registry_8h_source.html#l00017">17</a> of file <a class="el" href="../../d7/d63/_input_registry_8h_source.html">InputRegistry.h</a>.</p>
 
 </div>
 </div>
@@ -776,6 +864,35 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a8f534104d1ff367cd8b3b56d40531c1a" name="a8f534104d1ff367cd8b3b56d40531c1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f534104d1ff367cd8b3b56d40531c1a">&#9670;&#160;</a></span>EInputThread</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="../../d7/d54/namespace_atlas.html#a8f534104d1ff367cd8b3b56d40531c1a">Atlas::EInputThread</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8f534104d1ff367cd8b3b56d40531c1aa33801e0fa971429602386bbb94bee0a0" name="a8f534104d1ff367cd8b3b56d40531c1aa33801e0fa971429602386bbb94bee0a0"></a>INPUT_THREAD_RENDER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8f534104d1ff367cd8b3b56d40531c1aa92029241da4f43b77406c39e523727b0" name="a8f534104d1ff367cd8b3b56d40531c1aa92029241da4f43b77406c39e523727b0"></a>INPUT_THREAD_UPDATE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8f534104d1ff367cd8b3b56d40531c1aa7a20bae3252add57696152caf4d85d48" name="a8f534104d1ff367cd8b3b56d40531c1aa7a20bae3252add57696152caf4d85d48"></a>INPUT_THREAD_WORKER&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../da/db0/_e_input_thread_8h_source.html#l00004">4</a> of file <a class="el" href="../../da/db0/_e_input_thread_8h_source.html">EInputThread.h</a>.</p>
+
+</div>
+</div>
 <a id="a3de63d593b09a1492bb3d240f65ef88e" name="a3de63d593b09a1492bb3d240f65ef88e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3de63d593b09a1492bb3d240f65ef88e">&#9670;&#160;</a></span>EInputTrigger</h2>
 
@@ -797,7 +914,10 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>What sort of action should trigger the <a class="el" href="../../d6/d5c/class_atlas_1_1_input_action.html" title="Serves as a search key/input category for the input system.">InputAction</a>? </p>
-<dl class="section warning"><dt>Warning</dt><dd>Please pay attention when using this because any slight change in <a class="el" href="../../d6/d5c/class_atlas_1_1_input_action.html" title="Serves as a search key/input category for the input system.">InputAction</a> keys will give you entirely different input results. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Please pay attention when using this because any slight change in <a class="el" href="../../d6/d5c/class_atlas_1_1_input_action.html" title="Serves as a search key/input category for the input system.">InputAction</a> keys will give you entirely different input results.</dd></dl>
+<p>What sort of action should trigger the <a class="el" href="../../d6/d5c/class_atlas_1_1_input_action.html" title="Serves as a search key/input category for the input system.">InputAction</a>? </p><dl class="section warning"><dt>Warning</dt><dd>Please pay attention when using this because any slight change in <a class="el" href="../../d6/d5c/class_atlas_1_1_input_action.html" title="Serves as a search key/input category for the input system.">InputAction</a> keys will give you entirely different input results. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v0.0.6 </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d7/d54/namespace_atlas.html#ac597da9fe7e9baad81dcd94b291e5eae" title="The enumeration for the different input device categories. This is here because the input system is g...">EInputType</a> </dd></dl>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3de63d593b09a1492bb3d240f65ef88ea4d4d492eccd5ffa943f9c7278c171995" name="a3de63d593b09a1492bb3d240f65ef88ea4d4d492eccd5ffa943f9c7278c171995"></a>INPUT_TRIGGER_PRESSED&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a3de63d593b09a1492bb3d240f65ef88ea6ef288157def0b4b0a97c80e805156c7" name="a3de63d593b09a1492bb3d240f65ef88ea6ef288157def0b4b0a97c80e805156c7"></a>INPUT_TRIGGER_RELEASED&#160;</td><td class="fielddoc"></td></tr>
@@ -806,7 +926,7 @@ template&lt;typename T &gt; </div>
 <tr><td class="fieldname"><a id="a3de63d593b09a1492bb3d240f65ef88eaecbcb28c1bd554fb19fe98a5c74aaf23" name="a3de63d593b09a1492bb3d240f65ef88eaecbcb28c1bd554fb19fe98a5c74aaf23"></a>INPUT_TRIGGER_REPEAT&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d94/_input_8h_source.html#l00038">38</a> of file <a class="el" href="../../d2/d94/_input_8h_source.html">Input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d0b/_e_input_trigger_8h_source.html#l00015">15</a> of file <a class="el" href="../../d3/d0b/_e_input_trigger_8h_source.html">EInputTrigger.h</a>.</p>
 
 </div>
 </div>
@@ -837,7 +957,7 @@ template&lt;typename T &gt; </div>
 <tr><td class="fieldname"><a id="ac597da9fe7e9baad81dcd94b291e5eaeae7bb3cb1d97b054348b144a429fa1b6e" name="ac597da9fe7e9baad81dcd94b291e5eaeae7bb3cb1d97b054348b144a429fa1b6e"></a>INPUT_CONTROLLER&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d94/_input_8h_source.html#l00028">28</a> of file <a class="el" href="../../d2/d94/_input_8h_source.html">Input.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/dfa/_e_input_type_8h_source.html#l00008">8</a> of file <a class="el" href="../../d1/dfa/_e_input_type_8h_source.html">EInputType.h</a>.</p>
 
 </div>
 </div>
@@ -1012,9 +1132,9 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00034">34</a> of file <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html">FileSystem.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00396">GetAtlasEngine()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00299">GetAtlasEngine()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00020">Atlas::ConfigFileRegistry::init()</a>, and <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00068">Atlas::BProject::preInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00020">Atlas::ConfigFileRegistry::init()</a>, and <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00073">Atlas::BProject::preInit()</a>.</p>
 
 </div>
 </div>
@@ -1044,7 +1164,7 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00040">40</a> of file <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html">FileSystem.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00396">GetAtlasEngine()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00299">GetAtlasEngine()</a>.</p>
 
 </div>
 </div>
@@ -1065,12 +1185,12 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d5e/_logging_8cpp_source.html#l00038">38</a> of file <a class="el" href="../../d4/d5e/_logging_8cpp_source.html">Logging.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../db/d1f/_common_8h_source.html#l00090">ATLAS_TEMP_DIR</a>.</p>
+<p class="reference">References <a class="el" href="../../db/d1f/_common_8h_source.html#l00095">ATLAS_TEMP_DIR</a>.</p>
 
 </div>
 </div>
-<a id="afa2a252b78c0821fed0a608c60cfd2f0" name="afa2a252b78c0821fed0a608c60cfd2f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa2a252b78c0821fed0a608c60cfd2f0">&#9670;&#160;</a></span>DefaultPhysicsTrace()</h2>
+<a id="a2fb14e6c76bf6e577bdd65ffff7d7519" name="a2fb14e6c76bf6e577bdd65ffff7d7519"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fb14e6c76bf6e577bdd65ffff7d7519">&#9670;&#160;</a></span>DefaultPhysicsTrace()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1079,7 +1199,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a> Atlas::DefaultPhysicsTrace </td>
+          <td class="memname"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a> Atlas::DefaultPhysicsTrace </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>inFMT</em>, </td>
@@ -1105,16 +1225,16 @@ template&lt;typename T &gt; </div>
 
 <p>This is the already provided trace function for the physics engine. </p>
 <dl class="section note"><dt>Note</dt><dd>Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="../../dd/da0/todo.html#_todo000009">Todo:</a></b></dt><dd>TODO: Implement this more properly </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="../../dd/da0/todo.html#_todo000014">Todo:</a></b></dt><dd>TODO: Implement this more properly </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inFMT</td><td>The format string </td></tr>
-    <tr><td class="paramname">args</td><td>Variable arguments for the trace. </td></tr>
+    <tr><td class="paramname">vaArgs</td><td>Variable arguments for the trace. This is declared as "...", which means it is a variable number of arguments. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d65/_physics_8h_source.html#l00042">42</a> of file <a class="el" href="../../d8/d65/_physics_8h_source.html">Physics.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d6a/_physics_8cpp_source.html#l00078">78</a> of file <a class="el" href="../../d8/d6a/_physics_8cpp_source.html">Physics.cpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d8/d6a/_physics_8cpp_source.html#l00023">Atlas::PhysicsEngine::init()</a>.</p>
 
@@ -1160,14 +1280,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a35cdcfa9479f5d9f1a145949c03bddfe" name="a35cdcfa9479f5d9f1a145949c03bddfe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35cdcfa9479f5d9f1a145949c03bddfe">&#9670;&#160;</a></span>GetAtlasEngine()</h2>
+<a id="abf9672162529f95ec75b909111e6abba" name="abf9672162529f95ec75b909111e6abba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf9672162529f95ec75b909111e6abba">&#9670;&#160;</a></span>GetAtlasEngine()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::shared_ptr&lt; <a class="el" href="../../d3/d8d/class_atlas_1_1_atlas_engine.html">AtlasEngine</a> &gt; Atlas::GetAtlasEngine </td>
+          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; <a class="el" href="../../d3/d8d/class_atlas_1_1_atlas_engine.html">AtlasEngine</a> * &gt; Atlas::GetAtlasEngine </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1175,11 +1295,11 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00396">396</a> of file <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html">Project.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00299">299</a> of file <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html">Project.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00264">Atlas::BProject::GetProject()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00279">Atlas::BProject::GetProject()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00034">AddFileRegistryLoadFunction()</a>, <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00040">AddFileRegistryLoadOnRegisterExtension()</a>, <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00052">GetFile()</a>, <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00046">GetFileMeta()</a>, <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00057">GetFilePath()</a>, <a class="el" href="../../d9/d6a/_game_camera_8cpp_source.html#l00025">Atlas::GameCamera::init()</a>, <a class="el" href="../../d3/db8/_window_8cpp_source.html#l00013">Atlas::Window::init()</a>, <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00028">InitializeFileRegistry()</a>, <a class="el" href="../../d4/d5e/_logging_8cpp_source.html#l00059">Log()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00122">LookupConfig()</a>, and <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00126">LookupConfig()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00034">AddFileRegistryLoadFunction()</a>, <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00040">AddFileRegistryLoadOnRegisterExtension()</a>, <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00052">GetFile()</a>, <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00046">GetFileMeta()</a>, <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00057">GetFilePath()</a>, <a class="el" href="../../d9/d6a/_game_camera_8cpp_source.html#l00025">Atlas::GameCamera::init()</a>, <a class="el" href="../../d3/db8/_window_8cpp_source.html#l00013">Atlas::Window::init()</a>, <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00028">InitializeFileRegistry()</a>, <a class="el" href="../../d4/d5e/_logging_8cpp_source.html#l00059">Log()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00122">LookupConfig()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00126">LookupConfig()</a>, <a class="el" href="../../dc/d55/project_2_project_8cpp_source.html#l00050">Project::postInit()</a>, and <a class="el" href="../../dd/d47/_application_utils_8h_source.html#l00161">Atlas::Application::FrameManager::RunUpdateThread()</a>.</p>
 
 </div>
 </div>
@@ -1304,7 +1424,7 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00052">52</a> of file <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html">FileSystem.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00396">GetAtlasEngine()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00299">GetAtlasEngine()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00067">Atlas::ConfigFileRegistry::configLookup()</a>, <a class="el" href="../../dd/d9e/_game_model_8cpp_source.html#l00025">Atlas::GameModel::GameModel()</a>, <a class="el" href="../../d4/d71/_config_8h_source.html#l00090">Atlas::ConfigFileRegistry::getJsonFile()</a>, and <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00041">Atlas::ConfigFileRegistry::readConfigFile()</a>.</p>
 
@@ -1337,7 +1457,7 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00046">46</a> of file <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html">FileSystem.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00396">GetAtlasEngine()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00299">GetAtlasEngine()</a>.</p>
 
 </div>
 </div>
@@ -1359,9 +1479,9 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00057">57</a> of file <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html">FileSystem.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00396">GetAtlasEngine()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00299">GetAtlasEngine()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00068">Atlas::BProject::preInit()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00073">Atlas::BProject::preInit()</a>.</p>
 
 </div>
 </div>
@@ -1444,9 +1564,9 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the value that is stored</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00633">633</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00637">637</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
-<p class="reference">References <a class="el" href="../../db/d1f/_common_8h_source.html#l00591">Atlas::Globals::get()</a>, and <a class="el" href="../../de/dec/_singleton_8h_source.html#l00025">Atlas::Singleton&lt; Globals &gt;::Instance()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/d1f/_common_8h_source.html#l00595">Atlas::Globals::get()</a>, and <a class="el" href="../../de/dec/_singleton_8h_source.html#l00025">Atlas::Singleton&lt; Globals &gt;::Instance()</a>.</p>
 
 </div>
 </div>
@@ -1521,7 +1641,7 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html#l00028">28</a> of file <a class="el" href="../../d1/d4c/_file_system_8cpp_source.html">FileSystem.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00396">GetAtlasEngine()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00299">GetAtlasEngine()</a>.</p>
 
 </div>
 </div>
@@ -1588,9 +1708,9 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d5e/_logging_8cpp_source.html#l00059">59</a> of file <a class="el" href="../../d4/d5e/_logging_8cpp_source.html">Logging.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00396">GetAtlasEngine()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00299">GetAtlasEngine()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00067">Atlas::ConfigFileRegistry::configLookup()</a>, <a class="el" href="../../de/df6/_file_system_registry_8cpp_source.html#l00127">Atlas::FileSystemRegistry::getFile()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00020">Atlas::ConfigFileRegistry::init()</a>, <a class="el" href="../../de/df6/_file_system_registry_8cpp_source.html#l00017">Atlas::FileSystemRegistry::init()</a>, <a class="el" href="../../d3/db8/_window_8cpp_source.html#l00013">Atlas::Window::init()</a>, <a class="el" href="../../dc/d76/_atlas_app_8h_source.html#l00026">Atlas::Application::AtlasApp::initWindow()</a>, <a class="el" href="../../dd/d39/application_2main_8cpp_source.html#l00029">InitWindow()</a>, <a class="el" href="../../dd/d47/_application_utils_8h_source.html#l00216">Atlas::Application::FrameManager::launchThreads()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00085">Atlas::ConfigFileRegistry::LoadConfigFile()</a>, <a class="el" href="../../de/df6/_file_system_registry_8cpp_source.html#l00088">Atlas::FileSystemRegistry::loadFile()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00093">Atlas::ConfigFileRegistry::LoadJSONFile()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00101">Atlas::ConfigFileRegistry::LoadXMLFile()</a>, <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00068">Atlas::BProject::preInit()</a>, <a class="el" href="../../dc/d76/_atlas_app_8h_source.html#l00015">Atlas::Application::AtlasApp::prepareProject()</a>, <a class="el" href="../../d4/d5e/_logging_8cpp_source.html#l00216">Atlas::Logger::RaylibLogCallback()</a>, and <a class="el" href="../../de/df6/_file_system_registry_8cpp_source.html#l00038">Atlas::FileSystemRegistry::registerFile()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/df6/_file_system_registry_8cpp_source.html#l00219">Atlas::FileSystemRegistry::MissingFileLoadFunctionException::AccessViolationException()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00067">Atlas::ConfigFileRegistry::configLookup()</a>, <a class="el" href="../../de/df6/_file_system_registry_8cpp_source.html#l00176">Atlas::FileSystemRegistry::getFile()</a>, <a class="el" href="../../de/df6/_file_system_registry_8cpp_source.html#l00092">Atlas::FileSystemRegistry::GetFileMeta()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00020">Atlas::ConfigFileRegistry::init()</a>, <a class="el" href="../../de/df6/_file_system_registry_8cpp_source.html#l00042">Atlas::FileSystemRegistry::init()</a>, <a class="el" href="../../d3/db8/_window_8cpp_source.html#l00013">Atlas::Window::init()</a>, <a class="el" href="../../dc/d76/_atlas_app_8h_source.html#l00026">Atlas::Application::AtlasApp::initWindow()</a>, <a class="el" href="../../dd/d47/_application_utils_8h_source.html#l00212">Atlas::Application::FrameManager::launchThreads()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00085">Atlas::ConfigFileRegistry::LoadConfigFile()</a>, <a class="el" href="../../de/df6/_file_system_registry_8cpp_source.html#l00119">Atlas::FileSystemRegistry::loadFile()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00093">Atlas::ConfigFileRegistry::LoadJSONFile()</a>, <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00101">Atlas::ConfigFileRegistry::LoadXMLFile()</a>, <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00073">Atlas::BProject::preInit()</a>, <a class="el" href="../../dc/d76/_atlas_app_8h_source.html#l00015">Atlas::Application::AtlasApp::prepareProject()</a>, <a class="el" href="../../d4/d5e/_logging_8cpp_source.html#l00216">Atlas::Logger::RaylibLogCallback()</a>, and <a class="el" href="../../de/df6/_file_system_registry_8cpp_source.html#l00063">Atlas::FileSystemRegistry::registerFile()</a>.</p>
 
 </div>
 </div>
@@ -1632,9 +1752,9 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00122">122</a> of file <a class="el" href="../../d7/dd3/_config_8cpp_source.html">Config.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00396">GetAtlasEngine()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00299">GetAtlasEngine()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00131">GetConfigString()</a>, <a class="el" href="../../d3/db8/_window_8cpp_source.html#l00013">Atlas::Window::init()</a>, <a class="el" href="../../dc/d76/_atlas_app_8h_source.html#l00026">Atlas::Application::AtlasApp::initWindow()</a>, and <a class="el" href="../../dd/d39/application_2main_8cpp_source.html#l00029">InitWindow()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00131">GetConfigString()</a>, <a class="el" href="../../d3/db8/_window_8cpp_source.html#l00013">Atlas::Window::init()</a>, and <a class="el" href="../../dc/d76/_atlas_app_8h_source.html#l00026">Atlas::Application::AtlasApp::initWindow()</a>.</p>
 
 </div>
 </div>
@@ -1666,7 +1786,7 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/dd3/_config_8cpp_source.html#l00126">126</a> of file <a class="el" href="../../d7/dd3/_config_8cpp_source.html">Config.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00396">GetAtlasEngine()</a>.</p>
+<p class="reference">References <a class="el" href="../../d8/d0f/engine_2_project_8cpp_source.html#l00299">GetAtlasEngine()</a>.</p>
 
 </div>
 </div>
@@ -1734,13 +1854,34 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a658a106e1df3b9b79fc59eaa38ee349e" name="a658a106e1df3b9b79fc59eaa38ee349e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a658a106e1df3b9b79fc59eaa38ee349e">&#9670;&#160;</a></span>t()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a> Atlas::t </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d5c/_registry_8h_source.html#l00125">125</a> of file <a class="el" href="../../d3/d5c/_registry_8h_source.html">Registry.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dd/ded/_thread_group_8cpp_source.html#l00013">Atlas::ThreadGroup::addThread()</a>, <a class="el" href="../../d0/d88/_vec3_8cpp_source.html#l00194">Atlas::Vec3::lerp()</a>, and <a class="el" href="../../dd/ded/_thread_group_8cpp_source.html#l00020">Atlas::ThreadGroup::stopAll()</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a></li>
-    <li class="footer">Generated on Fri Jan 31 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Feb 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -12,7 +12,7 @@
 #endif
 
 #include <gtest/gtest.h>
-
+#include <mutex>
 namespace Atlas {
 	class GameObject;
 
@@ -79,6 +79,10 @@ namespace Atlas {
 		/// <seealso cref="IGameObjectGate" />
 		void removeGameObjectGate(IGameObjectGate* gameObjectGate);
 
+		void updateObjects();
+
+		void updateCamera();
+
 		/// <summary>
 		/// Cleanups this instance.
 		/// </summary>
@@ -90,7 +94,7 @@ namespace Atlas {
 		RenderTexture2D mScreenBuffer;
 		Color mBackgroundColor = BLACK;
 		Color mFBOTint = WHITE;
-		
+		std::mutex mMutex;
 #ifdef ATLAS_RENDERER_2D
 		/// <summary>
 		/// Renders the 2d scene.

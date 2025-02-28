@@ -1,6 +1,67 @@
 ﻿# The sources are seperated into different variables for organization reasons
 
+
+
+set(ATLAS_ENGINE_CORE_SOURCES
+    "core/CompileTimeCommons.h"
+
+    "Common.h" 
+    "Common.cpp"
+
+    "engine.h" 
+    "engine.cpp"
+    "BasicCore.h" 
+
+    "core/ThreadSafeVariable.h"
+    "core/ThreadSafeVariable.cpp"
+
+    "core/MemoryAllocator.h"
+    "core/MemoryAllocator.cpp"
+
+    "core/IProject.h"
+    "core/IAtlasEngine.h"
+    
+    "core/AtlasEngine.h"
+    "core/AtlasEngine.cpp"
+
+    "Project.h" 
+    "Project.cpp" 
+
+    "IEngineComponent.h"
+    "IEngineComponentRegistry.h"
+
+    "core/IFrameManager.h"
+    "core/FrameManager.h"
+    "core/FrameManager.cpp"
+
+    "core/IGameThread.h"
+    "core/GameThread.h"
+    "core/GameThread.cpp"
+    
+    "core/ThreadGroup.h"
+    "core/ThreadGroup.cpp"
+
+    "core/Registry.h"
+
+    "core/Serializable.h"
+)
+
+set(ATLAS_PERFORMANCE_SOURCES
+    #"performance/Timer.h"
+	#"performance/Timer.cpp"
+
+    "performance/PerformanceTest.h"
+	#"performance/PerformanceTest.cpp"
+)
+
+
 set(ATLAS_COMPONENT_SOURCES
+    "components/ComponentManager.h"
+    "components/ComponentManager.cpp"
+
+    "components/ComponentRegistry.h"
+	"components/ComponentRegistry.cpp"
+
 	"components/Component.h"
     "components/Component.cpp"
 
@@ -25,28 +86,6 @@ set(ATLAS_COMPONENT_SOURCES
 
     "components/ObjectPhysicsComponent.h"
     "components/ObjectPhysicsComponent.cpp"
-)
-
-set(ATLAS_ENGINE_CORE_SOURCES
-    "Common.h" 
-    "Common.cpp"
-    "engine.h" 
-    "engine.cpp"
-    "BasicCore.h" 
-
-    "Project.h" 
-    "Project.cpp" 
-
-    "IEngineComponent.h"
-    "IEngineComponentRegistry.h"
-
-    "core/IFrameManager.h"
-    "core/FrameManager.h"
-    "core/FrameManager.cpp"
-
-    "core/IGameThread.h"
-    "core/GameThread.h"
-    "core/GameThread.cpp"
 )
 
 set(ATLAS_RENDERER_SOURCES
@@ -120,6 +159,8 @@ set(ATLAS_STATE_SOURCES
 
 set(ATLAS_SYSTEM_SOURCES
     "system/OS.h"
+    "system/OS.cpp"
+
     "system/Memory.h"
 )
 
@@ -144,6 +185,22 @@ set(ATLAS_MATH_SOURCES
 set(ATLAS_INPUT_SOURCES
     "input/Input.h" 
     "input/Input.cpp"
+
+    "input/EInputThread.h"
+    "input/EInputType.h"
+    "input/EInputTrigger.h"
+
+    "input/InputAction.h"
+    "input/InputAction.cpp"
+
+    "input/SelfDeterminingInputAction.h"
+    "input/SelfDeterminingInputAction.cpp"
+    
+    "input/InputRegistry.h"
+    "input/InputRegistry.cpp"
+
+    "input/InputManager.h"
+	"input/InputManager.cpp"
 )
 
 set(ATLAS_CONFIG_SOURCES
@@ -165,8 +222,14 @@ set(ATLAS_FILESYSTEM_SOURCES
     "fs/Sandboxer.h"
     "fs/Sandboxer.cpp"
 
+    "fs/File.h"
+	"fs/File.cpp"
+
     "fs/RegisteredFile.h"
 	"fs/RegisteredFile.cpp"
+
+    "fs/LoadedFile.h"
+	"fs/LoadedFile.cpp"
 
     "fs/FileMeta.h"
 	"fs/FileMeta.cpp"
@@ -280,8 +343,10 @@ set(ATLAS_AUDIO_SOURCES
 
 set(ATLAS_ENGINE_SOURCES 
 	# Engine Core
-    ${ATLAS_COMPONENT_SOURCES}
+
     ${ATLAS_ENGINE_CORE_SOURCES}
+    ${ATLAS_PERFORMANCE_SOURCES}
+    ${ATLAS_COMPONENT_SOURCES}
     ${ATLAS_RENDERER_SOURCES}
     ${ATLAS_STATE_SOURCES}
     ${ATLAS_SYSTEM_SOURCES}
@@ -303,7 +368,7 @@ set(ATLAS_ENGINE_SOURCES
 
 # Please note that this is NOT the final list of dependencies, some are toggled based on options
 set(ATLAS_ENGINE_DEPENDENCIES
-    raylib 
+    raylib
 
     joltphysics::joltphysics 
     joltphysics_DEPS_TARGET
@@ -321,7 +386,7 @@ set(ATLAS_ENGINE_DEPENDENCIES
     simdjson::simdjson
     tinyxml2::tinyxml2
     Angelscript::angelscript
-
+    boost::boost
     miniaudio::miniaudio
 )
 

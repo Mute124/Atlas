@@ -59,6 +59,7 @@ void Atlas::Renderer::render(GameCamera& cam)
 
 void Atlas::Renderer::texture(GameCamera& cam)
 {
+	std::scoped_lock<std::mutex> lock(this->mMutex);
 	BeginTextureMode(this->mScreenBuffer);
 	ClearBackground(this->mBackgroundColor);
 #ifdef ATLAS_RENDERER_2D
@@ -71,7 +72,7 @@ void Atlas::Renderer::texture(GameCamera& cam)
 #ifdef ATLAS_RENDERER_2D
 #else
 
-	DrawCube(Vector3{ 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f, 1.0f, RED);
+	//DrawCube(Vector3{ 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f, 1.0f, RED);
 
 	EndMode3D();
 #endif
@@ -80,13 +81,13 @@ void Atlas::Renderer::texture(GameCamera& cam)
 
 void Atlas::Renderer::update()
 {
-	mCamera.update();
+	updateCamera();
 }
 
 void Atlas::Renderer::drawFBO() {
 	// TODO: Allow FBO shaders
 
-	DrawTextureRec(this->mScreenBuffer.texture, Rectangle{ 0, 0, (float)(this->mScreenBuffer.texture.width), -(float)(this->mScreenBuffer.texture.height) }, Vector2{ 0, 0 }, this->mFBOTint);
+	DrawTextureRec(this->mScreenBuffer.texture, Rectangle{ 0, 0, (float)(this->mScreenBuffer.texture.mWindowWidth), -(float)(this->mScreenBuffer.texture.height) }, Vector2{ 0, 0 }, this->mFBOTint);
 }
 
  void Atlas::Renderer::addStandaloneDrawCall(std::function<void()> drawCall) { 
@@ -96,6 +97,7 @@ void Atlas::Renderer::drawFBO() {
 
 void Atlas::Renderer::addGameObject(IGameObject* gameObject)
 {
+
 	this->mGameObjects.addGameObject(gameObject);
 }
 
@@ -108,6 +110,23 @@ void Atlas::Renderer::addGameObjectGate(IGameObjectGate* gameObjectGate) {}
 
 void Atlas::Renderer::removeGameObjectGate(IGameObjectGate* gameObjectGate) {}
 
+void Atlas::Renderer::updateObjects()
+{
+	try {
+		std::scoped_lock<std::mutex> lock(this->mMutex);
+
+		mGameObjects.update();
+	} catch (const std::exception& e) {
+		std::cout << e.what() << std::endl;
+	}
+
+}
+
+void Atlas::Renderer::updateCamera()
+{
+	mCamera.update();
+}
+
 void Atlas::Renderer::cleanup()
 {
 }
@@ -119,6 +138,7 @@ void Atlas::Renderer::render2D(GameCamera& cam)
 #else
 void Atlas::Renderer::render3D(GameCamera& cam)
 {
+
 	//UpdateCamera(&cam.mCameraData, CAMERA_FIRST_PERSON);
 
 	//texture(cam);

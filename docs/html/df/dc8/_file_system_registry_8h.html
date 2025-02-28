@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -107,9 +107,9 @@ $(document).ready(function(){initNavTree('df/dc8/_file_system_registry_8h.html',
 <code>#include &lt;unordered_set&gt;</code><br />
 <code>#include &quot;<a class="el" href="../../d4/dff/_file_meta_8h_source.html">FileMeta.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../dc/da6/_registered_file_8h_source.html">RegisteredFile.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../da/d41/_e_log_level_8h_source.html">../dbg/ELogLevel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../da/def/_logging_8h_source.html">../dbg/Logging.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../db/d16/_errors_8h_source.html">../dbg/Errors.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../de/dec/_singleton_8h_source.html">../utils/Singleton.h</a>&quot;</code><br />
+<code>#include &lt;source_location&gt;</code><br />
 </div>
 <p><a href="../../df/dc8/_file_system_registry_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -117,6 +117,26 @@ $(document).ready(function(){initNavTree('df/dc8/_file_system_registry_8h.html',
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de4/class_atlas_1_1_file_system_registry.html">Atlas::FileSystemRegistry</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The file system registry.  <a href="../../d4/de4/class_atlas_1_1_file_system_registry.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d5f/class_atlas_1_1_file_system_registry_1_1_missing_file_exception.html">Atlas::FileSystemRegistry::MissingFileException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An exception that is thrown when a file is not found where it should be. This can mean that the key being used to search for a file is incorrect, or that the file is not registered. If this exception is thrown, it is recommended that you ensure that you have the correct key(s) being used to search for the file and that the file exists within the sandbox.  <a href="../../d9/d5f/class_atlas_1_1_file_system_registry_1_1_missing_file_exception.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/df1/class_atlas_1_1_file_system_registry_1_1_access_violation_exception.html">Atlas::FileSystemRegistry::AccessViolationException</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/ddc/class_atlas_1_1_file_system_registry_1_1_missing_file_load_function_exception.html">Atlas::FileSystemRegistry::MissingFileLoadFunctionException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An exception that is thrown when there is no registered load function for the file extension of the file that is being loaded.  <a href="../../d0/ddc/class_atlas_1_1_file_system_registry_1_1_missing_file_load_function_exception.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd9/class_atlas_1_1_file_system_registry_1_1_impatient_usage_exception.html">Atlas::FileSystemRegistry::ImpatientUsageException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">What is meant by "impatient" is that a piece of code has used this class when <code>sIsReady</code> is <code>false</code>. Essentially, this is thrown when some code is being impatient and not waiting for the registry to be ready. This class inherits from <a class="el" href="../../db/df1/class_atlas_1_1_file_system_registry_1_1_access_violation_exception.html">AccessViolationException</a>.  <a href="../../d2/dd9/class_atlas_1_1_file_system_registry_1_1_impatient_usage_exception.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dab/class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception.html">Atlas::FileSystemRegistry::ForbiddenFileException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This exception is thrown when a piece of code tries to search for a file that is not allowed to be searched for. This class inherits from <a class="el" href="../../db/df1/class_atlas_1_1_file_system_registry_1_1_access_violation_exception.html">AccessViolationException</a>.  <a href="../../d7/dab/class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d85/class_atlas_1_1_file_system_registry_1_1_file_out_of_sandbox_exception.html">Atlas::FileSystemRegistry::FileOutOfSandboxException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is thrown when a piece of code tries to register, load, unload, or search for a file that is out of the sandbox. This class inherits from <a class="el" href="../../d7/dab/class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception.html">ForbiddenFileException</a> because this is a type of forbidden access violation.  <a href="../../d1/d85/class_atlas_1_1_file_system_registry_1_1_file_out_of_sandbox_exception.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d36/class_atlas_1_1_file_system_registry_1_1_forbidden_file_search_exception.html">Atlas::FileSystemRegistry::ForbiddenFileSearchException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is thrown when a piece of code tries to search for a file that does not exist, on a blacklist, or is otherwise forbidden. This class inherits from <a class="el" href="../../d7/dab/class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception.html">ForbiddenFileException</a> because this is a type of forbidden access violation.  <a href="../../d3/d36/class_atlas_1_1_file_system_registry_1_1_forbidden_file_search_exception.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -142,7 +162,7 @@ Typedefs</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_61e8c4930a2b0e7b78d347ba3b13742a.html">fs</a></li><li class="navelem"><a class="el" href="../../df/dc8/_file_system_registry_8h.html">FileSystemRegistry.h</a></li>
-    <li class="footer">Generated on Fri Jan 31 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Feb 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

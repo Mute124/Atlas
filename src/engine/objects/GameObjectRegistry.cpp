@@ -1,5 +1,10 @@
 #include "GameObjectRegistry.h"
 
+std::vector<Atlas::IGameObject*> Atlas::GameObjectRegistry::copyGameObjectSink()
+{
+	return this->mGameObjectsSink;
+}
+
 void Atlas::GameObjectRegistry::addGameObject(IGameObject* gameObject)
 {
 	std::cout << "Pushing GameObject of type " << typeid(*gameObject).name() << " to GameObjectRegistry" << std::endl;
@@ -21,21 +26,40 @@ void Atlas::GameObjectRegistry::addGameObjectGate(IGameObjectGate* gameObjectGat
 	}
 }
 
+void Atlas::GameObjectRegistry::addStandaloneDrawCall(std::function<void()> drawCall) { this->mStandaloneDrawCalls.push_back(drawCall); }
+
 void Atlas::GameObjectRegistry::update()
 {
-	for (auto& obj : this->mGameObjectsSink) {
-		//obj->update();
+	std::vector<IGameObject*> gameObjects = copyGameObjectSink(); // copy for thread safety
+	for (auto& obj : gameObjects) {
+		if(obj != nullptr) {
+			obj->update();
+		}
 	}
 }
 
 void Atlas::GameObjectRegistry::render()
 {
-	for (auto& drawCall : this->mStandaloneDrawCalls) {
+	std::vector<IGameObject*> gameObjects = copyGameObjectSink(); // copy for thread safety
+
+	for (auto const& drawCall : this->mStandaloneDrawCalls) {
 		drawCall();
 	}
 
-	for (auto& obj : this->mGameObjectsSink) {
+	for (auto& obj : gameObjects) {
+		if(obj != nullptr) {
+			obj->render();
+		}
+	}
+}
 
-		obj->render();
+void Atlas::GameObjectRegistry::texture() {
+	std::vector<IGameObject*> gameObjects = copyGameObjectSink(); // copy for thread safety
+	for(auto& obj : gameObjects) {
+
+		if(obj != nullptr) {
+			obj->texture();
+		}
+		
 	}
 }

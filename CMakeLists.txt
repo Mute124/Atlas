@@ -16,6 +16,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # The version of CPM to install if it is not already installed
 set(CPM_INSTALL_VERSION 0.40.2)
+#set(CPM_SOURCE_CACHE "${CMAKE_BINARY_DIR}/pkgCache")
+
 
 # Output directories
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib") # Static libraries
@@ -76,6 +78,15 @@ include("cmake/cpm.cmake")
 include("cmake/techstorm.cmake")
 include("CMakeOptions.txt")
 
+set(CPM_USE_LOCAL_PACKAGES ON)
+
+if(CPM_SOURCE_CACHE)
+  set(CPM_DOWNLOAD_LOCATION "${CPM_SOURCE_CACHE}/cpm/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+elseif(DEFINED ENV{CPM_SOURCE_CACHE})
+  set(CPM_DOWNLOAD_LOCATION "$ENV{CPM_SOURCE_CACHE}/cpm/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+else()
+  set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+endif()
 
 # Set compilation definitions
 if(CMAKE_BUILD_TYPE STREQUAL "Distribution")
@@ -117,8 +128,18 @@ add_compile_definitions(ATLAS_ENABLE_TESTING=${ATLAS_ENABLE_TESTING})
 add_compile_definitions(ATLAS_TESTING)
 
 
-# Absolutely DO NOT remove this. It will break all rendering functionality
+
+# Absolutely DO NOT remove this set command. It will break all rendering functionality
 set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE) 
+
+#FetchContent_Declare(
+#  raylib
+#  GIT_REPOSITORY https://github.com/raysan5/raylib.git
+#  GIT_TAG        5.5
+#)
+
+#FetchContent_MakeAvailable(raylib)
+
 CPMAddPackage(
     NAME raylib
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
@@ -127,11 +148,11 @@ CPMAddPackage(
         "BUILD_SHARED_LIBS=ON"
 )
 
-CPMAddPackage(
-    NAME raylib_nuklear
-    GIT_REPOSITORY https://github.com/RobLoach/raylib-nuklear.git
-    GIT_TAG v5.5.0
-)
+#CPMAddPackage(
+#    NAME raylib_nuklear
+#    GIT_REPOSITORY https://github.com/RobLoach/raylib-nuklear.git
+#    GIT_TAG v5.5.0
+#)
 
 CPMAddPackage(
     NAME spdlog
@@ -141,8 +162,10 @@ CPMAddPackage(
 
 # find_package(ZLIB REQUIRED)
 find_package(joltphysics REQUIRED)
+find_package(boost REQUIRED)
 find_package(libconfig REQUIRED)
 find_package(Angelscript REQUIRED)
+
 if(${ATLAS_ENABLE_MODDING})
     if(${ATLAS_ENABLE_ANGELSCRIPT})
        # find_package(Angelscript REQUIRED)

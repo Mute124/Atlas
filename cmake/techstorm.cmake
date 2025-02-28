@@ -26,3 +26,9 @@ function(assign_source_group)
     endforeach()
 endfunction(assign_source_group)
 
+function(setup_output_directories)
+	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib") # Static libraries
+	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin") # Shared libraries (.so/.dll)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin") # Executables (.out/.exe)
+
+endfunction()

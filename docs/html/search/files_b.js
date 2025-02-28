@@ -7,12 +7,14 @@ var searchData=
   ['marchingcubes_2ecpp_4',['MarchingCubes.cpp',['../dd/dfb/_marching_cubes_8cpp.html',1,'']]],
   ['marchingcubes_2eh_5',['MarchingCubes.h',['../d4/de6/_marching_cubes_8h.html',1,'']]],
   ['memory_2eh_6',['Memory.h',['../d3/de6/_memory_8h.html',1,'']]],
-  ['miscutils_2ecpp_7',['MiscUtils.cpp',['../da/d39/_misc_utils_8cpp.html',1,'']]],
-  ['miscutils_2eh_8',['MiscUtils.h',['../db/d15/_misc_utils_8h.html',1,'']]],
-  ['mod_2ecpp_9',['Mod.cpp',['../d5/d23/_mod_8cpp.html',1,'']]],
-  ['mod_2eh_10',['Mod.h',['../d9/dd4/_mod_8h.html',1,'']]],
-  ['modmanager_2ecpp_11',['ModManager.cpp',['../d7/d2d/_mod_manager_8cpp.html',1,'']]],
-  ['modmanager_2eh_12',['ModManager.h',['../d3/d86/_mod_manager_8h.html',1,'']]],
-  ['modularobject_2ecpp_13',['ModularObject.cpp',['../d9/dd3/_modular_object_8cpp.html',1,'']]],
-  ['modularobject_2eh_14',['modularobject.h',['../d4/dda/components_2_modular_object_8h.html',1,'(Global Namespace)'],['../dd/d4e/core_2_modular_object_8h.html',1,'(Global Namespace)']]]
+  ['memoryallocator_2ecpp_7',['MemoryAllocator.cpp',['../de/d85/_memory_allocator_8cpp.html',1,'']]],
+  ['memoryallocator_2eh_8',['MemoryAllocator.h',['../df/dc2/_memory_allocator_8h.html',1,'']]],
+  ['miscutils_2ecpp_9',['MiscUtils.cpp',['../da/d39/_misc_utils_8cpp.html',1,'']]],
+  ['miscutils_2eh_10',['MiscUtils.h',['../db/d15/_misc_utils_8h.html',1,'']]],
+  ['mod_2ecpp_11',['Mod.cpp',['../d5/d23/_mod_8cpp.html',1,'']]],
+  ['mod_2eh_12',['Mod.h',['../d9/dd4/_mod_8h.html',1,'']]],
+  ['modmanager_2ecpp_13',['ModManager.cpp',['../d7/d2d/_mod_manager_8cpp.html',1,'']]],
+  ['modmanager_2eh_14',['ModManager.h',['../d3/d86/_mod_manager_8h.html',1,'']]],
+  ['modularobject_2ecpp_15',['ModularObject.cpp',['../d9/dd3/_modular_object_8cpp.html',1,'']]],
+  ['modularobject_2eh_16',['modularobject.h',['../d4/dda/components_2_modular_object_8h.html',1,'(Global Namespace)'],['../dd/d4e/core_2_modular_object_8h.html',1,'(Global Namespace)']]]
 ];
