@@ -76,7 +76,23 @@ project(Atlas LANGUAGES CXX C)
 
 include("cmake/cpm.cmake")
 include("cmake/techstorm.cmake")
+
 include("CMakeOptions.txt")
+
+# Print the values in CMakeOptions.txt to the console
+message(STATUS "ATLAS_ENABLE_HAPTICS: ${ATLAS_ENABLE_HAPTICS}")
+message(STATUS "ATLAS_ENABLE_EXTENSIONS: ${ATLAS_ENABLE_EXTENSIONS}")
+message(STATUS "ATLAS_ENABLE_DISCORD_RPC: ${ATLAS_ENABLE_DISCORD_RPC}")
+
+message(STATUS "ATLAS_ENABLE_MODDING: ${ATLAS_ENABLE_MODDING}")
+message(STATUS "ATLAS_ENABLE_ANGELSCRIPT: ${ATLAS_ENABLE_ANGELSCRIPT}")
+message(STATUS "ATLAS_ENABLE_LUA: ${ATLAS_ENABLE_LUA}")
+
+message(STATUS "ATLAS_DEFAULT_IMPLEMENTATION: ${ATLAS_DEFAULT_IMPLEMENTATION}")
+
+message(STATUS "ATLAS_BUILD_EXAMPLES: ${ATLAS_BUILD_EXAMPLES}")
+message(STATUS "ATLAS_BUILD_TOOLS: ${ATLAS_BUILD_TOOLS}")
+message(STATUS "ATLAS_ENABLE_TESTING: ${ATLAS_ENABLE_TESTING}")
 
 set(CPM_USE_LOCAL_PACKAGES ON)
 
@@ -115,6 +131,7 @@ endif()
 
 if(${ATLAS_ENABLE_MODDING})
     add_compile_definitions(ATLAS_ENABLE_MODDING)
+
     if(${ATLAS_ENABLE_ANGELSCRIPT})
         add_compile_definitions(ATLAS_ENABLE_ANGELSCRIPT)
     endif()
@@ -161,14 +178,15 @@ CPMAddPackage(
 find_package(joltphysics REQUIRED)
 find_package(boost REQUIRED)
 find_package(libconfig REQUIRED)
-find_package(Angelscript REQUIRED)
+
 
 if(${ATLAS_ENABLE_MODDING})
     if(${ATLAS_ENABLE_ANGELSCRIPT})
-       # find_package(Angelscript REQUIRED)
+       find_package(Angelscript REQUIRED)
     endif()
     
     if(${ATLAS_ENABLE_LUA})
+        message(STATUS "Using sol2")
         find_package(sol2 REQUIRED)
     endif()
 endif()
@@ -205,25 +223,27 @@ set(USE_FMADD ON)
 
 add_subdirectory("src/engine")
 
-if (${ATLAS_CUSTOM_APPLICATION_HANDLING} EQUAL "OFF")
-add_subdirectory("src/project")
+if (${ATLAS_DEFAULT_IMPLEMENTATION})
 
-# Currently, Techstorm only supports the default implementation, however, it is on the list of things to do.
-if(${ATLAS_CUSTOM_APPLICATION_HANDLING} EQUAL "OFF")
+	 message(STATUS "Building project")
+     add_subdirectory("src/project")
+
+
+    # Currently, Techstorm only supports the default implementation, however, it is on the list of things to do.
+
 	message(STATUS "Building application")
     add_subdirectory("src/application")
-endif()
 
+    if(${ATLAS_BUILD_TOOLS})
+        message(STATUS "Building tools")
+        add_subdirectory("src/tools")
+    endif()
 
-if(${ATLAS_BUILD_TOOLS} EQUAL "ON")
-    message(STATUS "Building tools")
-    add_subdirectory("src/tools")
-endif()
-
-if(${ATLAS_ENABLE_TESTING} EQUAL "ON")
+    if(${ATLAS_ENABLE_TESTING} )
     
 
-	message(STATUS "Building tests")
-	add_subdirectory("src/tests")
+	    message(STATUS "Building tests")
+	    add_subdirectory("src/tests")
 
+    endif()
 endif()
