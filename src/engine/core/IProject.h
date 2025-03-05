@@ -2,6 +2,7 @@
 #include <memory>
 #include "AtlasEngine.h"
 #include "IAtlasEngine.h"
+
 #include <type_traits>
 
 namespace Atlas {
@@ -28,9 +29,13 @@ namespace Atlas {
 
 		/**
 		 * @brief Initializes your project.
+		 * 
 		 * @remarks This will be called after preInit and window initialization, meaning that this is the earliest point that you can use raylib.
+		 * 
 		 * @warning <b>THIS MUST BE OVERRIDEN BY YOUR PROJECT CLASS!</b>
+		 * 
 		 * @param argc 
+		 * 
 		 * @param argv 
 		 */
 		virtual void init(int argc, char* argv[]) = 0;

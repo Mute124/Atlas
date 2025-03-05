@@ -15,6 +15,8 @@
 
 namespace Atlas {
 
+
+	//ModuleAttributes attributes;
 	/**
 	 * @brief This is the base class for all modules within Atlas.
 	 * 
@@ -22,44 +24,20 @@ namespace Atlas {
 	 */
 	class IModule {
 	public:
-		class ModuleAttributes {
-		private:
-			const std::string cName;
-			
-			const std::string cCategory;
-			
-			const bool cEnabled;
 
-		public:
+		IModule(bool enabled, bool initInConstructor);
 
-			ModuleAttributes();
+		IModule() = default;
 
-			explicit ModuleAttributes(std::string const& name, std::string const& category);
+		virtual ~IModule();
 
-			/**
-			 * @brief The recomended constructor.
-			 * 
-			 * @param name
-			 * @param category
-			 * @param enabled
-			 * 
-			 * @since 
-			 */
-			explicit ModuleAttributes(std::string const& name, std::string const& category, bool enabled);
-
-			std::string const& getName() const;
-
-			std::string const& getCategory() const;
-
-			bool isEnabled() const;
-		};
-
-		ModuleAttributes attributes;
-
-		virtual void preInit() = 0;
+		virtual void setup() = 0;
 
 		virtual void init() = 0;
 
-		virtual void postInit() = 0;
+		virtual void update() = 0;
+
+		virtual void cleanup() = 0;
 	};
+
 }

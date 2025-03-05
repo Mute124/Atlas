@@ -19,6 +19,7 @@
 #include <mutex>
 #include <functional>
 #include <type_traits>
+#include <typeinfo>
 #include <memory>
 #include <vector>
 
@@ -87,15 +88,24 @@ namespace Atlas {
 		 */
 		T_MUTEX mMutex;
 
+		/**
+		 * @brief This function returns whether or not the variable 
+		 * is a pointer through std::is_pointer_v.
+		 * 
+		 * @return 
+		 * 
+		 * @since 
+		 */
 		bool isVariablePointer() {
-			return std::is_pointer_v<T_VARIABLE_TYPE>::value;
+			
+			return false;//std::is_pointer_v<typename T_VARIABLE_TYPE::element_type>::value;
 		}
 
-		bool isVariableSmartPointer() {
+		/*bool isVariableSmartPointer() {
 			return std::is_base_of_v<std::shared_ptr<typename T_VARIABLE_TYPE::element_type>, T_VARIABLE_TYPE>
 				|| std::is_base_of_v<std::weak_ptr<typename T_VARIABLE_TYPE::element_type>, T_VARIABLE_TYPE>
 				|| std::is_base_of_v<std::unique_ptr<typename T_VARIABLE_TYPE::element_type>, T_VARIABLE_TYPE>;
-		}
+		}*/
 
 	public:
 
@@ -138,7 +148,7 @@ namespace Atlas {
 		 */
 		ThreadSafeVariable() {
 			// if the variable can be default constructed, do it
-			if (std::is_default_constructible_v<T_VARIABLE_TYPE>::value) {
+			if (std::is_default_constructible<T_VARIABLE_TYPE>::value) {
 				mValue = T_VARIABLE_TYPE{};
 			}
 			else {
@@ -198,7 +208,7 @@ namespace Atlas {
 		~ThreadSafeVariable() {
 			// Since we want to prevent memory leaks, we need to handle the pointer
 			bool variableIsPointer = this->isVariablePointer();
-			bool variableIsSmartPointer = this->isVariableSmartPointer();
+			//bool variableIsSmartPointer = this->isVariableSmartPointer();
 
 			if (variableIsPointer) {
 				

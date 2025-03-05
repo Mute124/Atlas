@@ -7,13 +7,21 @@
 #include "GameThread.h"
 
 namespace Atlas {
+
+
     class ThreadGroup {
     protected:
         std::vector<GameThread> mThreads;
+        
         bool mShouldStop = false;
+        
         std::mutex mMutex;
+        
         std::condition_variable mConditionalVariable;
+
         std::string mGroupName;
+
+
     public:
         ThreadGroup() = default;
 

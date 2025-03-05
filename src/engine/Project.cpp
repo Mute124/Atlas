@@ -28,6 +28,47 @@
 
 using namespace Atlas;
 
+std::any loadPNG(std::shared_ptr<FileMeta> loadFunc) {
+	Image image = LoadImage(loadFunc->path.c_str());
+
+	if (image.data == nullptr) {
+		if (loadFunc->filename == "null.png") {
+			// This means that the null image was not found, which is a bad bad thing.
+			throw std::runtime_error("Null png image not found!");
+
+			// TODO: Figure out how to handle this.
+			return std::any_cast<Image>(image);
+		}
+
+		std::string nullPath = GetFilePath("null.png");
+
+		image = LoadImage(nullPath.c_str());
+	}
+
+	return std::any_cast<Image>(image);
+}
+
+std::any loadJPG(std::shared_ptr<FileMeta> loadFunc) {
+
+	Image image = LoadImage(loadFunc->path.c_str());
+
+	if (image.data == nullptr) {
+		if (loadFunc->filename == "null.jpg") {
+			// This means that the null image was not found, which is a bad bad thing.
+			throw std::runtime_error("Null jpg image not found!");
+
+			// TODO: Figure out how to handle this.
+			return std::any_cast<Image>(image);
+		}
+
+		std::string nullPath = GetFilePath("null.jpg");
+
+		image = LoadImage(nullPath.c_str());
+	}
+
+	return std::any_cast<Image>(image);
+}
+
 Atlas::ThreadSafeVariable<AtlasEngine*> Atlas::BProject::setupAtlas()
 {
 	return ThreadSafeVariable<AtlasEngine*>(
@@ -45,13 +86,6 @@ Atlas::ThreadSafeVariable<AtlasEngine*> Atlas::BProject::setupAtlas()
 	);
 }
 
-/*Atlas::BProject::BProject(std::shared_ptr<AtlasEngine> engine) : IProject()
-{
-	if (mAtlas == nullptr) {
-		mAtlas = engine;
-	}
-}*/
-
 Atlas::BProject::BProject()  : IProject()
 {
 	mProject = std::shared_ptr<BProject>(this);
@@ -61,81 +95,19 @@ Atlas::BProject::BProject()  : IProject()
 	}
 }
 
-
-
-WindowDecorations& Atlas::BProject::getWindowDecorations() { 
-	return mWindowDecorations;
-}
-
-void Atlas::BProject::setWindowDecorations(WindowDecorations& windowDecorations) {
-	mWindowDecorations = windowDecorations; 
-}
-
 void Atlas::BProject::preInit() {
-
+	
 	getAtlasEngine()->getLogger().get()->init(LoggerConfig());
+
 	Log("Registering file load functions...");
-	AddFileRegistryLoadFunction("png", [](std::shared_ptr<FileMeta> loadFunc) {
-		Image image = LoadImage(loadFunc->path.c_str());
 
-		if (image.data == nullptr) {
-			if (loadFunc->filename == "null.png") {
-				// This means that the null image was not found, which is a bad bad thing.
-				throw std::runtime_error("Null png image not found!");
+	AddFileRegistryLoadFunction("png", loadPNG);
 
-				// TODO: Figure out how to handle this.
-				return std::any_cast<Image>(image);
-			}
+	AddFileRegistryLoadFunction("jpg", loadJPG);
 
-			std::string nullPath = GetFilePath("null.png");
-
-			image = LoadImage(nullPath.c_str());
-		}
-
-		return std::any_cast<Image>(image);
-	});
-
-	AddFileRegistryLoadFunction("jpg", [](std::shared_ptr<FileMeta> loadFunc) {
-
-		Image image = LoadImage(loadFunc->path.c_str());
-
-		if (image.data == nullptr) {
-			if (loadFunc->filename == "null.jpg") {
-				// This means that the null image was not found, which is a bad bad thing.
-				throw std::runtime_error("Null jpg image not found!");
-
-				// TODO: Figure out how to handle this.
-				return std::any_cast<Image>(image);
-			}
-
-			std::string nullPath = GetFilePath("null.jpg");
-
-			image = LoadImage(nullPath.c_str());
-		}
-
-		return std::any_cast<Image>(image);
-	});
-
-	AddFileRegistryLoadFunction("jpeg", [](std::shared_ptr<FileMeta> loadFunc) {
-
-		Image image = LoadImage(loadFunc->path.c_str());
-
-		if (image.data == nullptr) {
-			if (loadFunc->filename == "null.jpeg") {
-				// This means that the null image was not found, which is a bad bad thing.
-				throw std::runtime_error("Null jpeg image not found!");
-
-				// TODO: Figure out how to handle this.
-				return std::any_cast<Image>(image);
-			}
-			
-			std::string nullPath = GetFilePath("null.jpeg");
-
-			image = LoadImage(nullPath.c_str());
-		}
-
-		return std::any_cast<Image>(image);
-	});
+	// The same load functino is being used for both jpg and jpeg 
+	// file extensions because they are the same file format.
+	AddFileRegistryLoadFunction("jpeg", loadJPG);
 
 	Log("Done registering file load functions...");
 
@@ -146,19 +118,17 @@ void Atlas::BProject::preInit() {
 
 	Log("Initializing file system...");
 	registry->init(gameDir.c_str());
-	configFileRegistry->init();
-	getAtlasEngine()->getInputRegistry()->addGroup("working", std::make_shared<InputRegistry::InputActionRegistry>(InputRegistry::InputActionRegistry()));
 
-	//#ifdef ATLAS_ENABLE_MODDDING
-//		#ifdef ATLAS_ENABLE_LUA
-	this->mLuaLibraries.push_back(sol::lib::base);
+	configFileRegistry->init();
+	
+	// this group should only work on the working thread (aka where this is called from)
+	getAtlasEngine()->getInputRegistry()->addGroup("working", std::make_shared<InputRegistry::InputActionRegistry>(InputRegistry::InputActionRegistry()));
 
 	ScriptingAPI* scriptingAPI = getAtlasEngine()->getScriptingAPI().get();
 
-	scriptingAPI->initializeScripting(this->getLuaLibraries(), this->getLuaFunctions()); // getAtlasEngine()->getLuaLibraries(), getAtlasEngine()->getLuaFunctions()
-	scriptingAPI->registerLua();
-//		#endif
-//#endif
+	//scriptingAPI->initializeScripting(this->getLuaLibraries(), this->getLuaFunctions()); // getAtlasEngine()->getLuaLibraries(), getAtlasEngine()->getLuaFunctions()
+	//scriptingAPI->registerLua();
+
 }
 
 void Atlas::BProject::init(int argc, char* argv[]) {
@@ -189,12 +159,11 @@ int Atlas::BProject::run(int argc, char* argv[]) {
 	
 	bool shouldClose = false;
 
-
-
 	MinimizeWindow();
-	RequestWindowAttention(getAtlasEngine()->getWindow() );
+
 	while (!shouldClose) {
 		getAtlasEngine()->getInputRegistry().get()->checkAll("renderer");
+
 		shouldClose = getAtlasEngine()->getWindow().get()->shouldClose();
 
 		draw();
@@ -273,7 +242,7 @@ int Atlas::BProject::draw()
 	return 0;
 }
 
-int Atlas::BProject::cleanup(int exitCode) { 
+int Atlas::BProject::cleanup(int exitCode) {
 	ThreadSafeVariable<AtlasEngine*> engine = getAtlasEngine();
 
 	engine->getRenderer().get()->cleanup();
@@ -294,11 +263,6 @@ ThreadSafeVariable<AtlasEngine*> Atlas::BProject::getAtlasEngine()
 	return mAtlas;
 }
 
-void Atlas::BProject::ProjectReference::setProjectReference(BProject* project) {
-	if (project != nullptr) {
-		this->mProject = std::shared_ptr<BProject>(project);
-	}
-}
 
 //---------------------------------------------------------------------------
 //							AtlasEngine

@@ -51,9 +51,9 @@ void Project::postInit() {
 	BProject::postInit();
 
 	DisableCursor();
-	
-	for(float x = 0.0f; x < 100.0f; x++) {
-		for(float z = 0.0f; z < 100.0f; z++) {
+	float max = 10.0f;
+	for(float x = 0.0f; x < max; x++) {
+		for(float z = 0.0f; z < max; z++) {
 
 			Vector3 pos = {x, 0, z};
 			Transform transform = {
@@ -62,9 +62,9 @@ void Project::postInit() {
 				{1, 1, 1}
 			};
 
-			//Block* block = new Block(transform);
+			Block* block = new Block(transform);
 
-			//getAtlasEngine()->getRenderer().get()->addGameObject(block);
+			getAtlasEngine()->getRenderer().get()->addGameObject(block);
 		}
 	}
 	
