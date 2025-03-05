@@ -214,6 +214,7 @@ if(${ATLAS_CUSTOM_APPLICATION_HANDLING} EQUAL "OFF")
     add_subdirectory("src/application")
 endif()
 
+
 if(${ATLAS_BUILD_TOOLS} EQUAL "ON")
     message(STATUS "Building tools")
     add_subdirectory("src/tools")
