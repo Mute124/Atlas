@@ -87,7 +87,7 @@ void Atlas::Renderer::update()
 void Atlas::Renderer::drawFBO() {
 	// TODO: Allow FBO shaders
 
-	DrawTextureRec(this->mScreenBuffer.texture, Rectangle{ 0, 0, (float)(this->mScreenBuffer.texture.mWindowWidth), -(float)(this->mScreenBuffer.texture.height) }, Vector2{ 0, 0 }, this->mFBOTint);
+	DrawTextureRec(this->mScreenBuffer.texture, Rectangle{ 0, 0, (float)(this->mScreenBuffer.texture.width), -(float)(this->mScreenBuffer.texture.height) }, Vector2{ 0, 0 }, this->mFBOTint);
 }
 
  void Atlas::Renderer::addStandaloneDrawCall(std::function<void()> drawCall) { 

@@ -37,99 +37,39 @@ namespace Atlas {
 	 * 
 	 * @warning <b>Do not directly call window code in here or your project will crash!</b>
 	 * 
+	 * @todo Update the documentation so tha the formatting is correct.
+	 * 
 	 * @since v0.0.1
 	 * 
 	 * @sa @ref IProject for the parent interface of this class.
 	 */
 	class BProject : public IProject {
 	protected:
+
+		static inline std::shared_ptr<BProject> mProject = nullptr;
+		static inline ThreadSafeVariable<AtlasEngine*> mAtlas = ThreadSafeVariable<AtlasEngine*>(nullptr);
+
 		/**
 		 * @brief A flag that indicates whether or not the project has been cleaned up.
 		 */
 		bool mHasCleanedUp = false;
-		WindowDecorations mWindowDecorations;
-		ScriptingLibraryRegistry mLuaLibraries;
-		ScriptingFunctionRegistry mLuaFunctions;
-		
-		/**
-		 * @brief Represents a polymorphic singleton reference to the user's project instance 
-		 * through a pointer of Atlas::BProject. This is mandatory for Atlas to run the user's engine.
-		 * 
-		 * @deprecated Use Atlas::BProject::getProject()
-		 * 
-		 * @since v0.0.1
-		 */
-		class ProjectReference : public Singleton<ProjectReference> {
-		public:
-			std::shared_ptr<BProject> mProject = nullptr;
 
-			
-			
-			//ProjectReference(BProject* project) : mProject(std::make_shared<BProject>(project)) {}
-
-			ProjectReference() {}
-			/// <summary>
-			/// Sets the project reference.
-			/// </summary>
-			/// <param name="project">The project.</param>
-			void setProjectReference(BProject* project);
-
-			std::shared_ptr<BProject> getProject() { return mProject; }
-		};
-		
-		static inline std::shared_ptr<BProject> mProject = nullptr;
 
 		virtual ThreadSafeVariable<AtlasEngine*> setupAtlas() override;
 
-		//explicit BProject(std::shared_ptr<AtlasEngine> mAtlas);
 	public:
-		GameSettings settings;
-		static inline ThreadSafeVariable<AtlasEngine*> mAtlas = ThreadSafeVariable<AtlasEngine*>(nullptr);
 
 		/**
 		 * @brief This is a default constructor that will initialize Atlas and the user's project.
 		 * @since v0.0.1
 		 */
 		BProject();
-
-
-		/// <summary>
-		/// Returns the currently active libraries for lua.
-		/// </summary>
-		/// <returns>A reference to mLuaLibraries</returns>
-		ScriptingLibraryRegistry& getLuaLibraries() { return mLuaLibraries; }
-
-		/// <summary>
-		/// Gets the lua functions.
-		/// </summary>
-		/// <returns>A reference to mLuaFunctions</returns>
-		ScriptingFunctionRegistry& getLuaFunctions() { return mLuaFunctions; }
-
-		/// <summary>
-		/// Gets the window decorations. This includes the window title, icon, size, etc.
-		/// </summary>
-		/// <returns>A reference to mWindowDecorations</returns>
-		WindowDecorations& getWindowDecorations();
-
-		/// <summary>
-		/// Sets the window decorations.
-		/// </summary>
-		/// <seealso cref="Atlas::WindowDecorations" />
-		/// <param name="windowDecorations">The window decorations.</param>
-		void setWindowDecorations(WindowDecorations& windowDecorations);
-
-		/// <summary>
-		/// This function is used to set the <i>ProjectReference</i> singleton to the project.
-		/// </summary>
-		/// <typeparam name="T">The typename for what the user's project is</typeparam>
-		/// <param name="project">The pointer to the user's project</param>
-		template<typename T>
-		void setProject(T* project);
-
-		/// <summary>
-		/// This is the first function that will be called on startup. 
-		/// </summary>
-		/// <inheritdoc />
+		
+		/**
+		 * @brief This is the first function that will be called on startup.
+		 * 
+		 * @since v0.0.1
+		 */
 		virtual void preInit() override;
 
 		/// <summary>
@@ -249,7 +189,7 @@ namespace Atlas {
 		 * 
 		 * @return std::shared_ptr<AtlasEngine> 
 		 */
-		ThreadSafeVariable<AtlasEngine*> getAtlasEngine() override;
+		ThreadSafeVariable<AtlasEngine*> getAtlasEngine() final override;
 
 	};
 

@@ -16,7 +16,7 @@
 #include "IWindow.h"
 
 namespace Atlas {
-
+#ifndef ATLAS_BARE_BONES
 	/**
 	 * @brief This is an implementation of the IWindow interface
 	 * that is provided by default.
@@ -133,4 +133,6 @@ namespace Atlas {
 
 		void requestAttention() override;
 	};
+
+#endif
 }
