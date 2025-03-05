@@ -106,7 +106,7 @@ namespace Atlas {
 		 * @since v0.0.9
 		 */
 		template<class T_MODULE>
-		static inline ThreadSafeVariable<T_MODULE*> ConstructModule() {
+		static inline ThreadSafeVariable<T_MODULE*> &ConstructModule() {
 			return ThreadSafeVariable<T_MODULE*>(ATLAS_DEFAULT_MODULE_VALUE);
 		}
 

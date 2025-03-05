@@ -5,21 +5,11 @@
 set(ATLAS_ENGINE_CORE_SOURCES
     "core/CompileTimeCommons.h"
 
-    "core/IModule.h"
-    "core/IModule.cpp"
-    
-    "core/BModule.h"
-	"core/BModule.cpp"
-
-    "core/Module.h"
-	"core/Module.cpp"
-
     "Common.h" 
     "Common.cpp"
 
     "engine.h" 
     "engine.cpp"
-
     "BasicCore.h" 
 
     "core/ThreadSafeVariable.h"

@@ -10,8 +10,6 @@
 
 #include <GLFW/glfw3.h>
 
-#ifndef ATLAS_BARE_BONES
-
 Atlas::Window::~Window() { 
 	close(); 
 }
@@ -88,5 +86,3 @@ void Atlas::Window::requestAttention()
 {
 	
 }
-
-#endif

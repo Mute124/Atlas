@@ -103,15 +103,15 @@ bool Atlas::IsdeviceXbox()
 #ifdef ATLAS_PLATFORM_LINUX
 	return false;
 #else
-	//GAMING_DEVICE_MODEL_INFORMATION deviceModelInformation;
-	//HRESULT result = GetGamingDeviceModelInformation(&deviceModelInformation);
+	GAMING_DEVICE_MODEL_INFORMATION deviceModelInformation;
+	HRESULT result = GetGamingDeviceModelInformation(&deviceModelInformation);
 
-	//if (FAILED(result)) {
-	//	return false;
-	//}//
+	if (FAILED(result)) {
+		return false;
+	}
 
 	// See https://learn.microsoft.com/en-us/windows/win32/api/gamingdeviceinformation/ne-gamingdeviceinformation-gaming_device_device_id
-	return false; //deviceModelInformation.deviceId != GAMING_DEVICE_DEVICE_ID_NONE;
+	return deviceModelInformation.deviceId != GAMING_DEVICE_DEVICE_ID_NONE;
 
 #endif
 
@@ -121,7 +121,7 @@ bool Atlas::IsdeviceXbox()
 std::string Atlas::GetXboxDeviceName()
 {
 #ifdef ATLAS_PLATFORM_WINDOWS
-	return "This function is not yet supported on Windows";
+	
 #else
 	return "Unknown";
 #endif

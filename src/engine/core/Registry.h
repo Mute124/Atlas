@@ -1,14 +1,4 @@
-/*****************************************************************//**
- * @file   Registry.h
- * 
- * @brief  
- * 
- * @date   March 2025
- * 
- * @since 
- *********************************************************************/
 #pragma once
-
 #include <string>
 #include <cstdint>
 #include <unordered_set>
@@ -19,11 +9,6 @@
 #include <list>
 #include <functional>
 #include <type_traits>
-#include <iterator>
-
-#include "CompileTimeCommons.h"
-
-
 
 namespace Atlas {
 
@@ -35,185 +20,6 @@ namespace Atlas {
 	//concept RegistrySetType = requires(T_SET_TYPE t) {
 	
 	//};
-
-	/**
-	 * @brief A [heavily] templated interface for a registry that
-	 * provides basic functionality for storing and retrieving
-	 * entities, along with some additional utility features.
-	 * 
-	 * @tparam T_KEY The type of the ID of the entity (what it
-	 * should be stored as in the set and the container).
-	 * 
-	 * @tparam T_CONTAINER The type of the container used to store
-	 * the entities. 
-	 * 
-	 * @tparam T_ENTITY_TYPE The type of the entity stored in the
-	 * container. This is also used when adding an entity to the
-	 * container, so make sure to plan accordingly.
-	 * 
-	 * @tparam T_ENTITY_REF_TYPE The type of the reference to the
-	 * entity stored in the container. This is used when getting
-	 * an entity from the container. By default, it is a reference
-	 * wrapper around the entity type.
-	 * 
-	 * @tparam T_CONTAINER_REF_TYPE The type of the reference to the
-	 * container. This is used when getting the container from the
-	 * registry. By default, it is a reference wrapper around the
-	 * container type.
-	 * 
-	 * @tparam T_SIZE_TYPE The type to use when getting the size
-	 * of the container. By default, it is size_t as this is the
-	 * most common type. However, this template parameter exists
-	 * here to ensure that this interface is flexible.
-	 * 
-	 * @since v0.0.9
-	 */
-	template<
-		typename T_KEY,
-		typename T_CONTAINER,
-		typename T_ENTITY_TYPE,
-		typename T_ENTITY_REF_TYPE = std::reference_wrapper<T_ENTITY_TYPE>,
-		typename T_CONTAINER_REF_TYPE = std::reference_wrapper<T_CONTAINER>,
-		typename T_SIZE_TYPE = size_t
-	>
-	class IRegistry {
-	protected:
-		/**
-		 * @brief This pure virtual function should return a
-		 * reference to the container that is being stored.
-		 * 
-		 * @note This function is protected to allow derived
-		 * classes the ability to choose if they want it to
-		 * be accessible or not.
-		 * 
-		 * @return v0.0.9
-		 * 
-		 * @since v0.0.9
-		 */
-		virtual T_CONTAINER_REF_TYPE getContainer() = 0;
-	public:
-
-		/**
-		 * @brief .
-		 * 
-		 * @since 
-		 */
-		virtual ~IRegistry() {
-			if (!isEmpty()) {
-				clear();
-			}
-		}
-
-		/**
-		 * @brief This pure virtual function should add an entity
-		 * to the container.
-		 * 
-		 * @param id The location within the container where the
-		 * entity should be stored. If the container does not 
-		 * work off of an ID (ie. a vector), then the overload
-		 * that does not take an ID should be used instead.
-		 * However, this function still needs to be implemented
-		 * in the derived class as it is a pure virtual function.
-		 * 
-		 * @param entity 
-		 * 
-		 * @since v0.0.9
-		 */
-		virtual void emplace(T_KEY id, T_ENTITY_TYPE entity) = 0;
-
-		/**
-		 * @brief .
-		 * 
-		 * @param entity
-		 * 
-		 * @since 
-		 */
-		virtual void emplace(T_ENTITY_TYPE entity) = 0;
-
-		/**
-		 * @brief .
-		 * 
-		 * @param id
-		 * 
-		 * @since 
-		 */
-		virtual void remove(T_KEY id) = 0;
-
-		/**
-		 * @brief .
-		 * 
-		 * @param id
-		 * 
-		 * 
-		 * @since 
-		 */
-		virtual void invalidate(T_KEY id) = 0;
-
-		/**
-		 * @brief .
-		 * 
-		 * @since 
-		 */
-		virtual void invalidateAll() = 0;
-
-		/**
-		 * @brief .
-		 * 
-		 * @param id
-		 * 
-		 * @return 
-		 * 
-		 * @since 
-		 */
-		virtual bool exists(T_KEY id) = 0;
-
-		/**
-		 * @brief .
-		 * 
-		 * @param id
-		 * 
-		 * @return 
-		 * 
-		 * @since 
-		 */
-		virtual bool isValid(T_KEY id) = 0;
-
-		/**
-		 * @brief .
-		 * 
-		 * @param id
-		 * 
-		 * @return 
-		 * 
-		 * @since 
-		 */
-		virtual T_ENTITY_REF_TYPE get(T_KEY id) = 0;
-
-		/**
-		 * @brief .
-		 * 
-		 * @return 
-		 * 
-		 * @since 
-		 */
-		virtual T_SIZE_TYPE getSize() = 0;
-
-		/**
-		 * @brief .
-		 * 
-		 * @return 
-		 * 
-		 * @since 
-		 */
-		virtual bool isEmpty() = 0;
-
-		/**
-		 * @brief .
-		 * 
-		 * @since 
-		 */
-		virtual void clear() = 0;
-	};
 
 	/**
 	 * @brief This class serves as a base class for all registry classes. It is able to lookup entities by their ID, remove them,
@@ -316,4 +122,7 @@ namespace Atlas {
 
 	};
 
+	void t() {
+		
+	}
 }

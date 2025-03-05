@@ -124,6 +124,9 @@ if(${ATLAS_ENABLE_MODDING})
     endif()
 endif()	
 
+add_compile_definitions(ATLAS_ENABLE_TESTING=${ATLAS_ENABLE_TESTING})
+add_compile_definitions(ATLAS_TESTING)
+
 
 
 # Absolutely DO NOT remove this set command. It will break all rendering functionality
@@ -204,25 +207,23 @@ set(USE_F16C ON)
 set(USE_FMADD ON)
 
 add_subdirectory("src/engine")
-
-if (${ATLAS_CUSTOM_APPLICATION_HANDLING} EQUAL "OFF")
 add_subdirectory("src/project")
 
 # Currently, Techstorm only supports the default implementation, however, it is on the list of things to do.
-if(${ATLAS_CUSTOM_APPLICATION_HANDLING} EQUAL "OFF")
+if(${ATLAS_CUSTOM_APPLICATION_HANDLING})
 	message(STATUS "Building application")
     add_subdirectory("src/application")
 endif()
 
-if(${ATLAS_BUILD_TOOLS} EQUAL "ON")
+if(${ATLAS_BUILD_TOOLS})
     message(STATUS "Building tools")
     add_subdirectory("src/tools")
 endif()
 
-if(${ATLAS_ENABLE_TESTING} EQUAL "ON")
+#if(${ATLAS_ENABLE_TESTING})
     
 
 	message(STATUS "Building tests")
 	add_subdirectory("src/tests")
 
-endif()
+#endif()
