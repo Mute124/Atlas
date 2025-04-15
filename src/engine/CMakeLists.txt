@@ -34,11 +34,10 @@ set(ATLAS_COMPONENT_SOURCES
 )
 
 set(ATLAS_ENGINE_CORE_SOURCES
-    "Common.h" 
-    "Common.cpp"
-    "engine.h" 
-    "engine.cpp"
-    "BasicCore.h" 
+    "core/Common.h" 
+
+    "core/Module.h"
+    #"common.cpp"
 
     "core/ThreadSafeVariable.h"
     "core/ThreadSafeVariable.cpp"
@@ -75,6 +74,7 @@ set(ATLAS_ENGINE_CORE_SOURCES
 )
 
 set(ATLAS_RENDERER_SOURCES
+    "renderer/backend/RenderingBackend.h"
 
     "renderer/RendererCommon.h"
 

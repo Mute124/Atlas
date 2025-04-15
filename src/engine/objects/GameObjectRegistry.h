@@ -1,13 +1,14 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include "IGameObject.h"
-#include "../Common.h"
-#include "IGameObjectGate.h"
 #include <functional>
 #include <map>
 #include <string>
+#include <iostream>
+#include <vector>
+
+#include "../core/Common.h"
 #include "../renderer/ICuller.h"
+#include "IGameObject.h"
+#include "IGameObjectGate.h"
 
 namespace Atlas {
 	/**

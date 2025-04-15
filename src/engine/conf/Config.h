@@ -13,12 +13,14 @@
 #include <any>
 #include <memory>
 
+#include "../core/Module.h"
+
 namespace Atlas {
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <seealso cref="Singleton&lt;ConfigFileRegistry&gt;" />
-	class ConfigFileRegistry : public Singleton<ConfigFileRegistry> {
+	class ConfigFileRegistry : public IModule {
 	public:		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConfigFileRegistry"/> class.

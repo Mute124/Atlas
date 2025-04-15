@@ -1,5 +1,5 @@
 #include "FilePath.h"
-#include "../Common.h"
+#include "../core/Common.h"
 
 bool Atlas::IsPathSandboxed(std::string const& path)
 {

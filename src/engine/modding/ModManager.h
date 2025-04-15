@@ -1,5 +1,5 @@
 #pragma once
-#include "../Common.h"
+#include "../core/Common.h"
 
 namespace Atlas {
 	class ModLoader {

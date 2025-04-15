@@ -19,7 +19,7 @@
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/RegisterTypes.h>
 
-#include "../Common.h"
+#include "../core/Common.h"
 #include "Layers.h"
 #include "Listeners.h"
 
@@ -79,20 +79,18 @@ namespace Atlas {
 		AllocatedPhysicsResources(const JPH::uint& cMaxBodies, const JPH::uint& cNumBodyMutexes, const JPH::uint& cMaxBodyPairs, const JPH::uint& cMaxContactConstraints);
 	};
 	
-	/// <summary>
-	/// Handles everything related to Atlas' physics engine.
-	/// </summary>
-	/// <seealso cref="Atlas::Singleton&lt;PhysicsEngine&gt;" />
-	/// <seealso cref="Atlas::Singleton&lt;PhysicsEngine&gt;" />
-	class PhysicsEngine : public Atlas::Singleton<PhysicsEngine> {
+	/**
+	 * @brief Handles the physics engine.
+	 */
+	class PhysicsEngine {
 	public:
 		PhysicsEngine() = default;
 		
-		/// <summary>
-		/// Initializes the physics engine with the resources (<see cref="AllocatedPhysicsResources"/>). The reason for the struct is to keep things organized and have as little parameter hell as
-		/// possible.
-		/// </summary> 
-		/// <param name="resources">The resources.</param>
+		/**
+		 * @brief Initializes the physics engine within the allocated resources.
+		 * 
+		 * @param resources 
+		 */
 		void init(const AllocatedPhysicsResources resources);
 		
 		/// <summary>

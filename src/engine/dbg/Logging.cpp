@@ -1,5 +1,5 @@
 #include "Logging.h"
-#include "../Common.h"
+#include "../core/Common.h"
 #include "spdlog\common.h"
 #include "spdlog\logger.h"
 #include "spdlog\sinks\basic_file_sink.h"

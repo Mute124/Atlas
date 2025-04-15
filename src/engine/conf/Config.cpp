@@ -114,10 +114,14 @@ libconfig::Config& Atlas::ConfigFileRegistry::operator[](const std::string& name
 */
 
 Atlas::ConfigFileRegistry& Atlas::GetConfigFileRegistry() { 
-	return ConfigFileRegistry::Instance(); 
+	//return ConfigFileRegistry::Instance(); 
+	return *GetAtlasEngine()->getConfigFileRegistry().get();
 }
 
-void Atlas::InitializeConfigRegistry() { ConfigFileRegistry::Instance().init(); }
+void Atlas::InitializeConfigRegistry() { 
+	//ConfigFileRegistry::Instance().init(); 
+	GetAtlasEngine()->getConfigFileRegistry().get()->init();
+}
 
 libconfig::Setting& Atlas::LookupConfig(const std::string& fileName, const std::string& lookupTarget) { 
 	return GetAtlasEngine()->getConfigFileRegistry().get()->configLookup(fileName, lookupTarget);

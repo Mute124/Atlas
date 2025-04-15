@@ -1,4 +1,6 @@
+
 #pragma once
+
 #include <string>
 #include "Language.h"
 
@@ -18,7 +20,9 @@ namespace Atlas {
 		Language* mLanguage;
 	public:
 		
-
+		/**
+		 * @brief 
+		 */
 		virtual void localize() = 0;
 		
 		virtual void updateLanguage(Language* language) { 

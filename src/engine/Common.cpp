@@ -13,13 +13,8 @@
 #endif
 #endif
 
-void Atlas::SetGlobalValue(const std::string& name, std::any& value)
-{
-    Globals::Instance().set(name, value);
-}
-
 #ifdef ATLAS_ENABLE_HAPTICS
-
+// Code is kept here for reference, even though it has no declaration in the header
 
 
 void Atlas::InitHaptics()

@@ -32,3 +32,4 @@ function(setup_output_directories)
 	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin") # Executables (.out/.exe)
 
 endfunction()
+

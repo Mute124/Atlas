@@ -30,7 +30,7 @@ add_executable(AtlasUnitTests
     
     ${ATLAS_RENDERER_TESTS}
 )
-target_include_directories(project_lib PRIVATE ${PROJECT_SOURCE_DIR}/src/engine)
+# target_include_directories(project_lib PRIVATE ${PROJECT_SOURCE_DIR}/src/engine)
 target_link_libraries(AtlasUnitTests Atlas)
 
 # Organize files in Visual Studio

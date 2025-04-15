@@ -1,59 +1,67 @@
 #include "Window.h"
-#include <raylib.h>
 
-#include "../../conf/Config.h"
-#include "../../Project.h"
-#include "../../dbg/Logging.h"
-#include "../../Common.h"
+#ifdef ATLAS_USE_RAYLIB
+	#include <raylib.h>
+#endif
+
+
 #include "WindowDecorations.h"
 #include <string>
 
-Atlas::Window::~Window() { close(); }
+#ifdef ATLAS_USE_GLFW
 
-void Atlas::Window::init(WindowDecorations* windowDecorations)
+Atlas::GLFWGameWindow::~GLFWGameWindow() { close(); }
+
+void Atlas::GLFWGameWindow::init()
 {
-	const static std::string configPath = "\\data\\config\\Project.cfg";
-	Log("Decorating window...");
-	
-	std::shared_ptr<RegisteredFile> file = GetAtlasEngine()->getFileSystemRegistry().get()->getFile(configPath);
+	//const static std::string configPath = "\\data\\config\\Project.cfg";
+	//Log("Decorating window...");
+	//
+	//std::shared_ptr<RegisteredFile> file = GetAtlasEngine()->getFileSystemRegistry().get()->getFile(configPath);
 
-	windowDecorations->title = LookupConfig(file, "projectWindowTitle");
-	windowDecorations->width = LookupConfig(file, "projectWindowWidth");
-	windowDecorations->height = LookupConfig(file, "projectWindowHeight");
-	windowDecorations->icon = LookupConfig(file, "projectWindowIcon");
-	windowDecorations->targetFPS = LookupConfig(file, "projectTargetFPS");
+	//windowDecorations->title = LookupConfig(file, "projectWindowTitle");
+	//windowDecorations->width = LookupConfig(file, "projectWindowWidth");
+	//windowDecorations->height = LookupConfig(file, "projectWindowHeight");
+	//windowDecorations->icon = LookupConfig(file, "projectWindowIcon");
+	//windowDecorations->targetFPS = LookupConfig(file, "projectTargetFPS");
 
-	SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_INTERLACED_HINT);
+	//SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_INTERLACED_HINT);
 
-	Log("Finalizing window initialization...");
-	InitWindow(windowDecorations->width, windowDecorations->height, windowDecorations->title);
+	//Log("Finalizing window initialization...");
+	//InitWindow(windowDecorations->width, windowDecorations->height, windowDecorations->title);
 
-	Log("Loading and setting window icon...");
+	//Log("Loading and setting window icon...");
 
-	const std::string assetDir = ATLAS_ASSET_DIR; // this is done like this because the macro expands to an expression rather than a string.
-	
-	FileSystemRegistry* fileSystemRegistry = GetAtlasEngine()->getFileSystemRegistry().get();
-	
-	file = fileSystemRegistry->getFile(windowDecorations->icon);
+	//const std::string assetDir = ATLAS_ASSET_DIR; // this is done like this because the macro expands to an expression rather than a string.
+	//
+	//FileSystemRegistry* fileSystemRegistry = GetAtlasEngine()->getFileSystemRegistry().get();
+	//
+	//file = fileSystemRegistry->getFile(windowDecorations->icon);
 
-	Image icon = file->get<Image>();
-	ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+	//Image icon = file->get<Image>();
+	//ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
 
-	SetWindowIcons(&icon, 1);
-	SetTargetFPS(windowDecorations->targetFPS);
+	//SetWindowIcons(&icon, 1);
+	//SetTargetFPS(windowDecorations->targetFPS);
 }
 
-void Atlas::Window::update()
+void Atlas::GLFWGameWindow::open()
+{
+}
+
+void Atlas::GLFWGameWindow::update()
 {
 	
 }
 
-bool Atlas::Window::shouldClose()
+bool Atlas::GLFWGameWindow::shouldClose()
 {
     return WindowShouldClose();
 }
 
-void Atlas::Window::close()
+void Atlas::GLFWGameWindow::close()
 {
 	CloseWindow();
 }
+
+#endif

@@ -9,9 +9,15 @@
 namespace Atlas {
 	/**
 	 * @brief This class wraps a variable (specified by T_VARIABLE_TYPE) and makes
-	 * it thread-safe. When ThreadSafeVariable::execute() is called, it will lock 
+	 * it thread-safe. 
+	 * 
+	 * @details When ThreadSafeVariable::execute() is called, it will lock 
 	 * this variable and execute the function that is passed to it. Furthermore,
 	 * it will also lock when the set() function, is called.
+	 * 
+	 * @warning The variable that is wrapped by this class must have a default
+	 * constructor. If the variable does not have a default constructor, then
+	 * this class will throw an exception (@ref MissingDefaultConstructorException).
 	 * 
 	 * @tparam T_VARIABLE_TYPE The type of variable to wrap. This is used as a variable in 
 	 * mValue.
@@ -126,7 +132,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.9
 		 */
-		ThreadSafeVariable(const ThreadSafeVariable<T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD>& other) {
+		ThreadSafeVariable(ThreadSafeVariable<T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD>& other) {
 			set(other.get());
 		}
 

@@ -16,233 +16,198 @@
 #include "utils/Singleton.h"
 
 namespace Atlas {
-	/**
-	 * @brief This is the interface for the user's project. This is the only
-	 * interface that Atlas will call.
-	 * 
-	 * @remarks This is an <b>abstract interface singleton</b> that all projects
-	 * must implement and set the <i>ProjectReference</i> singleton to their project.
-	 * In terms of functionality, this interface just holds the functions and variables
-	 * that Atlas will call (besides some initialization).
-	 * 
-	 * @note If this boilerplate code is not done, Atlas will not know what to run.
-	 * 
-	 * @warning <b>Do not directly call window code in here or your project will crash!</b>
-	 * 
-	 * @since v0.0.1
-	 */
-	class BProject : public IProject {
-	protected:
-		/**
-		 * @brief A flag that indicates whether or not the project has been cleaned up.
-		 */
-		bool mHasCleanedUp = false;
-		WindowDecorations mWindowDecorations;
-		ScriptingLibraryRegistry mLuaLibraries;
-		ScriptingFunctionRegistry mLuaFunctions;
-		
-		/**
-		 * @brief Represents a polymorphic singleton reference to the user's project instance 
-		 * through a pointer of Atlas::BProject. This is mandatory for Atlas to run the user's engine.
-		 * 
-		 * @deprecated Use Atlas::BProject::getProject()
-		 * 
-		 * @since v0.0.1
-		 */
-		class ProjectReference : public Singleton<ProjectReference> {
-		public:
-			std::shared_ptr<BProject> mProject = nullptr;
 
-			
-			
-			//ProjectReference(BProject* project) : mProject(std::make_shared<BProject>(project)) {}
+#if !defined(ATLAS_BARE_BONES) && !defined(ATLAS_LIBRARY_MODE)
+	///**
+	// * @brief This is the interface for the user's project. This is the only
+	// * interface that Atlas will call.
+	// * 
+	// * @remarks This is an <b>abstract interface singleton</b> that all projects
+	// * must implement and set the <i>ProjectReference</i> singleton to their project.
+	// * In terms of functionality, this interface just holds the functions and variables
+	// * that Atlas will call (besides some initialization).
+	// * 
+	// * @note If this boilerplate code is not done, Atlas will not know what to run.
+	// * 
+	// * @warning <b>Do not directly call window code in here or your project will crash!</b>
+	// * 
+	// * @since v0.0.1
+	// */
+	//class BProject : public IProject {
+	//protected:
+	//	/**
+	//	 * @brief A flag that indicates whether or not the project has been cleaned up.
+	//	 */
+	//	bool mHasCleanedUp = false;
+	//	WindowDecorations mWindowDecorations;
 
-			ProjectReference() {}
-			/// <summary>
-			/// Sets the project reference.
-			/// </summary>
-			/// <param name="project">The project.</param>
-			void setProjectReference(BProject* project);
+	//	
 
-			std::shared_ptr<BProject> getProject() { return mProject; }
-		};
-		
-		static inline std::shared_ptr<BProject> mProject = nullptr;
+	//	
+	//	static inline std::shared_ptr<BProject> mProject = nullptr;
 
-		virtual ThreadSafeVariable<AtlasEngine*> setupAtlas() override;
+	//	virtual ThreadSafeVariable<AtlasEngine*> setupAtlas() override;
 
-		//explicit BProject(std::shared_ptr<AtlasEngine> mAtlas);
-	public:
-		GameSettings settings;
-		static inline ThreadSafeVariable<AtlasEngine*> mAtlas = nullptr;
+	//	//explicit BProject(std::shared_ptr<AtlasEngine> mAtlas);
+	//public:
+	//	GameSettings settings;
+	//	static inline ThreadSafeVariable<AtlasEngine*> mAtlas;
 
-		/**
-		 * @brief This is a default constructor that will initialize Atlas and the user's project.
-		 * @since v0.0.1
-		 */
-		BProject();
+	//	/**
+	//	 * @brief This is a default constructor that will initialize Atlas and the user's project.
+	//	 * @since v0.0.1
+	//	 */
+	//	BProject();
 
 
-		/// <summary>
-		/// Returns the currently active libraries for lua.
-		/// </summary>
-		/// <returns>A reference to mLuaLibraries</returns>
-		ScriptingLibraryRegistry& getLuaLibraries() { return mLuaLibraries; }
+	//	/// <summary>
+	//	/// Gets the window decorations. This includes the window title, icon, size, etc.
+	//	/// </summary>
+	//	/// <returns>A reference to mWindowDecorations</returns>
+	//	WindowDecorations& getWindowDecorations();
 
-		/// <summary>
-		/// Gets the lua functions.
-		/// </summary>
-		/// <returns>A reference to mLuaFunctions</returns>
-		ScriptingFunctionRegistry& getLuaFunctions() { return mLuaFunctions; }
+	//	/// <summary>
+	//	/// Sets the window decorations.
+	//	/// </summary>
+	//	/// <seealso cref="Atlas::WindowDecorations" />
+	//	/// <param name="windowDecorations">The window decorations.</param>
+	//	void setWindowDecorations(WindowDecorations& windowDecorations);
 
-		/// <summary>
-		/// Gets the window decorations. This includes the window title, icon, size, etc.
-		/// </summary>
-		/// <returns>A reference to mWindowDecorations</returns>
-		WindowDecorations& getWindowDecorations();
+	//	/// <summary>
+	//	/// This function is used to set the <i>ProjectReference</i> singleton to the project.
+	//	/// </summary>
+	//	/// <typeparam name="T">The typename for what the user's project is</typeparam>
+	//	/// <param name="project">The pointer to the user's project</param>
+	//	template<typename T>
+	//	void setProject(T* project);
 
-		/// <summary>
-		/// Sets the window decorations.
-		/// </summary>
-		/// <seealso cref="Atlas::WindowDecorations" />
-		/// <param name="windowDecorations">The window decorations.</param>
-		void setWindowDecorations(WindowDecorations& windowDecorations);
+	//	/// <summary>
+	//	/// This is the first function that will be called on startup. 
+	//	/// </summary>
+	//	/// <inheritdoc />
+	//	virtual void preInit() override;
 
-		/// <summary>
-		/// This function is used to set the <i>ProjectReference</i> singleton to the project.
-		/// </summary>
-		/// <typeparam name="T">The typename for what the user's project is</typeparam>
-		/// <param name="project">The pointer to the user's project</param>
-		template<typename T>
-		void setProject(T* project);
+	//	/// <summary>
+	//	/// Initializes your project. This will be called after preInit and window initialization, meaning that this is the earliest point that you can use raylib. <b>THIS MUST BE OVERRIDEN BY YOUR PROJECT CLASS!</b>
+	//	/// </summary>
+	//	/// <param name="argc">Command line argument count int</param>
+	//	/// <param name="argv">Command line arguments array</param>
+	//	/// <inheritdoc />
+	//	virtual void init(int argc, char* argv[]) override;
 
-		/// <summary>
-		/// This is the first function that will be called on startup. 
-		/// </summary>
-		/// <inheritdoc />
-		virtual void preInit() override;
+	//	/// <summary>
+	//	/// Does a post initialization of the project. This is empty because it is not neccesary to override.
+	//	/// </summary>
+	//	virtual void postInit() override;
 
-		/// <summary>
-		/// Initializes your project. This will be called after preInit and window initialization, meaning that this is the earliest point that you can use raylib. <b>THIS MUST BE OVERRIDEN BY YOUR PROJECT CLASS!</b>
-		/// </summary>
-		/// <param name="argc">Command line argument count int</param>
-		/// <param name="argv">Command line arguments array</param>
-		/// <inheritdoc />
-		virtual void init(int argc, char* argv[]) override;
+	//	/// <summary>
+	//	/// Initializes the renderer and should be called after initWindow.
+	//	/// </summary>
+	//	/// <inheritdoc />
+	//	virtual void initRenderer() override;
 
-		/// <summary>
-		/// Does a post initialization of the project. This is empty because it is not neccesary to override.
-		/// </summary>
-		virtual void postInit() override;
+	//	/// <summary>
+	//	/// Runs the actual game and is called after the init functions
+	//	/// </summary>
+	//	/// <param name="argc">Command line argument count int</param>
+	//	/// <param name="argv">Command line arguments array</param>
+	//	/// <returns>The game loop's exit code</returns>
+	//	/// <inheritdoc />
+	//	virtual int run(int argc, char* argv[]) override;
 
-		/// <summary>
-		/// Initializes the renderer and should be called after initWindow.
-		/// </summary>
-		/// <inheritdoc />
-		virtual void initRenderer() override;
+	//	/// <summary>
+	//	/// Updates this instance in the updating thread.
+	//	/// </summary>
+	//	/// <returns></returns>
+	//	virtual int update() override;
 
-		/// <summary>
-		/// Runs the actual game and is called after the init functions
-		/// </summary>
-		/// <param name="argc">Command line argument count int</param>
-		/// <param name="argv">Command line arguments array</param>
-		/// <returns>The game loop's exit code</returns>
-		/// <inheritdoc />
-		virtual int run(int argc, char* argv[]) override;
+	//	virtual int workingUpdate() override;
 
-		/// <summary>
-		/// Updates this instance in the updating thread.
-		/// </summary>
-		/// <returns></returns>
-		virtual int update() override;
+	//	/// <summary>
+	//	/// Pre-update step that is called in the physics or update thread (depending on thread count)
+	//	/// </summary>
+	//	/// <returns>The exit code of the step</returns>
+	//	/// <inheritdoc />
+	//	virtual int prePhysicsUpdate() override;
 
-		virtual int workingUpdate() override;
+	//	/// <summary>
+	//	/// This is where the actual physics update happens. <b>Please note that this will run on the physics thread!</b>
+	//	/// </summary>
+	//	/// <returns>The exit code of the step</returns>
+	//	/// <inheritdoc />
+	//	virtual int physicsUpdate() override;
 
-		/// <summary>
-		/// Pre-update step that is called in the physics or update thread (depending on thread count)
-		/// </summary>
-		/// <returns>The exit code of the step</returns>
-		/// <inheritdoc />
-		virtual int prePhysicsUpdate() override;
+	//	/// <summary>
+	//	/// Post physics update that is called after physicsUpdate() in the physics or update thread (depending on thread count).
+	//	/// </summary>
+	//	/// <returns>The exit code of the step</returns>
+	//	/// <inheritdoc />
+	//	virtual int postPhysicsUpdate() override;
 
-		/// <summary>
-		/// This is where the actual physics update happens. <b>Please note that this will run on the physics thread!</b>
-		/// </summary>
-		/// <returns>The exit code of the step</returns>
-		/// <inheritdoc />
-		virtual int physicsUpdate() override;
+	//	/// <summary>
+	//	/// Any preparation code for updating the scene's game objects. Use this if you need to do something after the physics update, but before the
+	//	/// GameObject update. <b>Please note that this will run on the update thread!</b>
+	//	/// </summary>
+	//	/// <returns>The exit code of the step</returns>
+	//	/// <inheritdoc />
+	//	virtual int preObjectUpdate() override;
 
-		/// <summary>
-		/// Post physics update that is called after physicsUpdate() in the physics or update thread (depending on thread count).
-		/// </summary>
-		/// <returns>The exit code of the step</returns>
-		/// <inheritdoc />
-		virtual int postPhysicsUpdate() override;
+	//	/// <summary>
+	//	/// This is where the actual GameObject update happens, and is called after preObjectUpdate(). <b>Please note that this will run on the update thread!</b>
+	//	/// </summary>
+	//	/// <returns>The exit code of the step</returns>
+	//	/// <inheritdoc />
+	//	virtual int objectUpdate() override;
 
-		/// <summary>
-		/// Any preparation code for updating the scene's game objects. Use this if you need to do something after the physics update, but before the
-		/// GameObject update. <b>Please note that this will run on the update thread!</b>
-		/// </summary>
-		/// <returns>The exit code of the step</returns>
-		/// <inheritdoc />
-		virtual int preObjectUpdate() override;
+	//	/// <summary>
+	//	/// Called right after objectUpdate(). Use this to do anything after the GameObject update. <b>Please note that this will run on the update thread!</b>
+	//	/// </summary>
+	//	/// <returns></returns>
+	//	/// <inheritdoc />
+	//	virtual int postObjectUpdate() override;
 
-		/// <summary>
-		/// This is where the actual GameObject update happens, and is called after preObjectUpdate(). <b>Please note that this will run on the update thread!</b>
-		/// </summary>
-		/// <returns>The exit code of the step</returns>
-		/// <inheritdoc />
-		virtual int objectUpdate() override;
+	//	/// <summary>
+	//	/// Textures all GameObjects before render() is called and after update functions are called. This is essentially where the scene is
+	//	/// rendered. <b>Please note that this will run on the render thread!</b>
+	//	/// </summary>
+	//	/// <returns> An integer that is the exit code for this texturing frame.</returns>
+	//	/// <inheritdoc />
+	//	virtual int texture() override;
 
-		/// <summary>
-		/// Called right after objectUpdate(). Use this to do anything after the GameObject update. <b>Please note that this will run on the update thread!</b>
-		/// </summary>
-		/// <returns></returns>
-		/// <inheritdoc />
-		virtual int postObjectUpdate() override;
+	//	/// <summary>
+	//	/// Assuming that the FBO is enabled, this will render the FBO and apply any post-processing effects to the FBO.
+	//	/// <b>Please note that this will run on the update thread!</b>
+	//	/// </summary>
+	//	/// <returns> An integer that is the exit code for this rendering frame.</returns>
+	//	/// <inheritdoc />
+	//	virtual int render() override;
 
-		/// <summary>
-		/// Textures all GameObjects before render() is called and after update functions are called. This is essentially where the scene is
-		/// rendered. <b>Please note that this will run on the render thread!</b>
-		/// </summary>
-		/// <returns> An integer that is the exit code for this texturing frame.</returns>
-		/// <inheritdoc />
-		virtual int texture() override;
+	//	virtual int draw() override;
 
-		/// <summary>
-		/// Assuming that the FBO is enabled, this will render the FBO and apply any post-processing effects to the FBO.
-		/// <b>Please note that this will run on the update thread!</b>
-		/// </summary>
-		/// <returns> An integer that is the exit code for this rendering frame.</returns>
-		/// <inheritdoc />
-		virtual int render() override;
+	//	/// <summary>
+	//	/// Cleans up anything that may need to be cleaned up.
+	//	/// </summary>
+	//	/// <param name="exitCode">The code that the engine has exited with</param>
+	//	/// <returns>The cleanup exit code.</returns>
+	//	/// <inheritdoc />
+	//	virtual int cleanup(int exitCode) override;
 
-		virtual int draw() override;
+	//	/**
+	//	 * @brief Get the Project object
+	//	 * 
+	//	 * @return std::shared_ptr<BProject> 
+	//	 */
+	//	static inline std::shared_ptr<BProject> GetProject();
 
-		/// <summary>
-		/// Cleans up anything that may need to be cleaned up.
-		/// </summary>
-		/// <param name="exitCode">The code that the engine has exited with</param>
-		/// <returns>The cleanup exit code.</returns>
-		/// <inheritdoc />
-		virtual int cleanup(int exitCode) override;
+	//	/**
+	//	 * @brief Get the Atlas Engine object
+	//	 * 
+	//	 * @return std::shared_ptr<AtlasEngine> 
+	//	 */
+	//	ThreadSafeVariable<AtlasEngine*> getAtlasEngine() override;
 
-		/**
-		 * @brief Get the Project object
-		 * 
-		 * @return std::shared_ptr<BProject> 
-		 */
-		static inline std::shared_ptr<BProject> GetProject();
-
-		/**
-		 * @brief Get the Atlas Engine object
-		 * 
-		 * @return std::shared_ptr<AtlasEngine> 
-		 */
-		ThreadSafeVariable<AtlasEngine*> getAtlasEngine() override;
-
-	};
-
+	//};
+#endif
 
 	ThreadSafeVariable<AtlasEngine*> GetAtlasEngine();
 }

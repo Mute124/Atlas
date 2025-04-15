@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "BasicCore.h"
 //#include "EngineComponent.h"
 #include "utils/Singleton.h"
@@ -17,53 +17,7 @@
 
 namespace Atlas {
 
-	template<typename T>
-	using EngineComp = std::shared_ptr<T>;
-
-	template<typename T>
-	class ITechstormEngine abstract : public Singleton<T> {
-	public:
-
-		virtual EngineComp<Renderer> getRenderer() = 0;
-		virtual EngineComp<ConfigFileRegistry> getConfigFileRegistry() = 0;
-		virtual EngineComp<WindowDecorations> getWindowDecorations() = 0;
-		virtual EngineComp<ScriptingAPI> getScriptingAPI() = 0;
-		virtual EngineComp<FileSystemRegistry> getFileSystemRegistry() = 0;
-
-		virtual void preInit() = 0;
-		virtual void init(int argc, char* argv[]) = 0;
-		virtual void postInit() = 0;
-	};
-
-	class TechstormEngine : ITechstormEngine<TechstormEngine> {
-	private:
-		EngineComp<Renderer> mRenderer = nullptr;
-		EngineComp<ConfigFileRegistry> mConfigFileRegistry = nullptr;
-		EngineComp<WindowDecorations> mWindowDecorations = nullptr;
-		EngineComp<ScriptingAPI> mScriptingAPI = nullptr;
-		EngineComp<FileSystemRegistry> mFileSystemRegistry = nullptr;
-	public:
-		
-
-		// Inherited via ITechstormEngine
-		EngineComp<Renderer> getRenderer() override;
-
-		EngineComp<ConfigFileRegistry> getConfigFileRegistry() override;
-
-		EngineComp<WindowDecorations> getWindowDecorations() override;
-
-		EngineComp<ScriptingAPI> getScriptingAPI() override;
-
-		EngineComp<FileSystemRegistry> getFileSystemRegistry() override;
-
-		void preInit() override;
-
-		void init(int argc, char* argv[]) override;
-
-		void postInit() override;
-
-	};
-}
+}*/
 
 /*
 		enum class EGlobalVariableType : int8_t {

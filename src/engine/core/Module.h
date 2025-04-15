@@ -1,6 +1,8 @@
 #pragma once
-#include "WindowDecorations.h"
 
 namespace Atlas {
-
+	class IModule {
+	public:
+		
+	};
 }
