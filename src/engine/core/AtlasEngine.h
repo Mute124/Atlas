@@ -4,15 +4,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "../conf/Config.h"
-#include "../dbg/Logging.h"
-#include "../fs/FileSystemRegistry.h"
-#include "../GameSettings.h"
-#include "../input/InputRegistry.h"
-#include "../modding/ScriptingAPI.h"
-#include "../physics/Physics.h"
 #include "../renderer/Renderer.h"
-#include "../renderer/window/IWindow.h"
+#include "../renderer/window/Window.h"
 
 #include "ThreadSafeVariable.h"
 
@@ -27,7 +20,7 @@ namespace Atlas {
 	public:
 		ThreadSafeVariable<IRenderer*> renderer;
 
-		//std::map<std::string, ThreadSafeVariable<IModule*>*> modules;
+		//std::map<std::string, ThreadSafeVariable<EngineModule*>*> modules;
 
 		//virtual ThreadSafeVariable<ConfigFileRegistry*> getConfigFileRegistry() = 0;
 		//virtual ThreadSafeVariable<ScriptingAPI*> getScriptingAPI() = 0;
@@ -342,5 +335,8 @@ namespace Atlas {
 	//	 * @param logger 
 	//	 */
 	//	void setLogger(ThreadSafeVariable<Logger*> logger) override;
+	
+	public:
+
 	};
 }

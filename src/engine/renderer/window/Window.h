@@ -1,5 +1,15 @@
 #pragma once
-#include "../../core/Core.h"
+
+#include <string>
+#include <cstdint>
+
+
+#include "../../core/Core.h" // this include has to be put here because the GLFW_INCLUDE_VULKAN is defined in this file (of course if vulkan and GLFW3 is being used!)
+
+#ifdef ATLAS_USE_GLFW3
+	#include <GLFW/glfw3.h>
+#endif // ATLAS_USE_GLFW3
+
 
 namespace Atlas {
 	/**
@@ -22,12 +32,15 @@ namespace Atlas {
 
 		uint32_t mWindowWidth;
 		uint32_t mWindowHeight;
+		
 		unsigned int mWindowConfigFlags;
 		unsigned int mTargetFPS;
+
+		bool mIsOpen;
+		bool mIsInitialized;
+
 	public:
-		IGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfig, unsigned int targetFPS, std::string const& icon) 
-		: mWindowTitle(title), mWindowWidth(width), mWindowHeight(height), mWindowConfigFlags(windowConfig), mTargetFPS(targetFPS), mWindowIcon(icon) {
-		}
+		IGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfig, unsigned int targetFPS, std::string const& icon);
 
 		virtual void init() = 0;
 
@@ -37,16 +50,19 @@ namespace Atlas {
 
 		virtual bool shouldClose() = 0;
 
-		virtual void close() = 0;
+		virtual void close(bool shouldCleanup) = 0;
+
+		virtual void cleanup() = 0;
 	};
 
-#ifdef ATLAS_USE_GLFW
+#ifdef ATLAS_USE_GLFW3
 	class GLFWGameWindow : public IGameWindow {
 	private:
+		GLFWwindow* mGLFWWindowPointer = nullptr;
 	public:
 		using IGameWindow::IGameWindow;
 
-		~GLFWGameWindow();
+		virtual ~GLFWGameWindow();
 
 		// Inherited via IWindow
 		void init() override;
@@ -57,7 +73,9 @@ namespace Atlas {
 
 		bool shouldClose() override;
 
-		void close() override;
+		void close(bool shouldCleanup) override;
+
+		void cleanup() override;
 	};
-#endif
+#endif // ATLAS_USE_GLFW3
 }

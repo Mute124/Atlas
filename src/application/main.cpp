@@ -1,5 +1,5 @@
-#include "ApplicationUtils.h"
-#include <project.h>
+
+//#include <project.h>
 #include <boost/serialization/serialization.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -14,6 +14,8 @@
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
+
+#include <core/AtlasEngine.h>
 
 class Person {
 private:
@@ -78,13 +80,20 @@ int main(int argc, char* argv[]) {
 	//	ia >> p2;  // Deserialize
 	}*/
 
-	std::shared_ptr<PROJECT_TYPENAME> project = std::make_shared<PROJECT_TYPENAME>();
+	//std::shared_ptr<PROJECT_TYPENAME> project = std::make_shared<PROJECT_TYPENAME>();
 
-	Atlas::Application::FrameManager& manager = Atlas::Application::FrameManager::Instance();
-	manager.userProject = project;
+	//Atlas::Application::FrameManager& manager = Atlas::Application::FrameManager::Instance();
+	//manager.userProject = project;
 
-	manager.launchThreads();
+	//manager.launchThreads();
 	
+	VulkanRenderer* atlas = new VulkanRenderer(new GLFWGameWindow("Vulkan", 800, 600, NULL, 60, ""));
+
+	atlas->init();
+
+	while (true) {
+
+	}
 
 	return 0;
 }

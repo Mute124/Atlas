@@ -1,8 +1,8 @@
 #include "AtlasEngine.h"
-#pragma once
 
 
-///**
+
+//**
 //* @brief Constructs a new AtlasEngine object.
 //* @param configFileRegistry A pointer to the config file registry object that Atlas will use
 //* @param scriptingAPI A pointer to the scripting API object that Atlas will use

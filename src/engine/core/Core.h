@@ -1,11 +1,22 @@
+/**
+* @file Core.h
+* 
+* @brief Contains alot of core preprocessing and macro definitions
+* 
+*/
 #pragma once
+
+#define ATLAS_USE_GLFW3
+#define ATLAS_USE_VULKAN
 #define ATLAS_RENDERER_3D
+
 // ---------------------------------------------------------------
 // Platform definitions
 // ---------------------------------------------------------------
 
 // find out what platform we are on
 #ifdef _WIN32
+	
 	#define ATLAS_PLATFORM_WINDOWS
 
 #elif __APPLE__
@@ -35,6 +46,24 @@
 	#define ATLAS_COMPILER_CLANG
 #elif __GNUC__
 	#define ATLAS_COMPILER_GCC
+#endif
+
+// ---------------------------------------------------------------
+// Renderer Macros
+// ---------------------------------------------------------------
+
+// Ensure that raylib is not being used.
+#ifdef ATLAS_USE_RAYLIB
+	#error "Atlas does not yet support raylib."
+#endif
+
+#ifdef ATLAS_USE_GLFW3
+	#ifdef ATLAS_USE_VULKAN
+
+		// Define this here so that GLFW knows to include vulkan header files
+		
+		#define GLFW_INCLUDE_VULKAN	
+	#endif
 #endif
 
 // ---------------------------------------------------------------

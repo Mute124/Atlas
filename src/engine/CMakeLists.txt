@@ -1,39 +1,11 @@
 ﻿# The sources are seperated into different variables for organization reasons
 
 set(ATLAS_COMPONENT_SOURCES
-    "components/ComponentManager.h"
-    "components/ComponentManager.cpp"
 
-    "components/ComponentRegistry.h"
-	"components/ComponentRegistry.cpp"
-
-	"components/Component.h"
-    "components/Component.cpp"
-
-    "components/ScriptableComponent.h"
-    "components/ScriptableComponent.cpp"
-    
-    "components/ModularObject.h"
-
-    "components/PreUpdateEventArgs.h"
-    "components/UpdateEventArgs.h"
-	"components/PostUpdateEventArgs.h"
-    "components/RenderEventArgs.h"
-    "components/TextureEventArgs.h"
-    "components/CleanupEventArgs.h"
-    "components/DestroyEventArgs.h"
-
-
-    "components/TransformComponent.h"
-	"components/TransformComponent.cpp"
-
-    "components/ObjectRendererComponent.h"
-
-    "components/ObjectPhysicsComponent.h"
-    "components/ObjectPhysicsComponent.cpp"
 )
 
 set(ATLAS_ENGINE_CORE_SOURCES
+    "core/Core.h"
     "core/Common.h" 
 
     "core/Module.h"
@@ -44,285 +16,82 @@ set(ATLAS_ENGINE_CORE_SOURCES
 
     "core/MemoryAllocator.h"
     "core/MemoryAllocator.cpp"
-
-    "core/IProject.h"
-    "core/IAtlasEngine.h"
     
     "core/AtlasEngine.h"
     "core/AtlasEngine.cpp"
 
-    "Project.h" 
-    "Project.cpp" 
 
-    "IEngineComponent.h"
-    "IEngineComponentRegistry.h"
-
-    "core/IFrameManager.h"
-    "core/FrameManager.h"
-    "core/FrameManager.cpp"
-
-    "core/IGameThread.h"
-    "core/GameThread.h"
-    "core/GameThread.cpp"
-    
-    "core/ThreadGroup.h"
-    "core/ThreadGroup.cpp"
-
-    "core/Registry.h"
-
-    "core/Serializable.h"
 )
 
 set(ATLAS_RENDERER_SOURCES
     "renderer/backend/RenderingBackend.h"
 
-    "renderer/RendererCommon.h"
+    "renderer/backend/VulkanRenderingBackend.h"
+    "renderer/backend/VulkanRenderingBackend.cpp"
 
-    "renderer/window/IWindow.h"
+
     "renderer/window/Window.h" 
     "renderer/window/Window.cpp" 
-    "renderer/window/WindowDecorations.h"
-
-    "renderer/drawing/RenderArgs.h"
-    "renderer/drawing/TextureArgs.h"
-
-    "renderer/drawing/DrawableHook.h"
-    "renderer/drawing/DrawableHook.cpp"
-
-    "renderer/IRenderer.h"
 
     "renderer/Renderer.h" 
     "renderer/Renderer.cpp"
-
-    "renderer/Color.h" 
-
-    "renderer/IDrawable.h"
-
-    "objects/IGameObject.h" 
-    "objects/GameObject.h"
-    "objects/GameObject.cpp"
-    "objects/PhysicsObject.h"
-	"objects/PhysicsObject.cpp"
-
-    "renderer/IEntity.h"
-    "renderer/Entity.h"
-	"renderer/Entity.cpp"
-
-    "renderer/GameCamera.h" 
-    "renderer/GameCamera.cpp" 
-
-    "renderer/RenderLayer.h" 
-    
-    "objects/GameObjectRegistry.h"
-    "objects/GameObjectRegistry.cpp" 
-
-    "renderer/objects/PlaneObject.h"
-
-    "objects/IGameObjectGate.h"
-
-    "renderer/GameUI.h"
-    "renderer/GameUI.cpp"
-
-    "renderer/GameModel.h"
-    "renderer/GameModel.cpp"
-
-    "renderer/ICuller.h"
-    "renderer/BObjectCuller.h"
-
-    "renderer/ERenderLayerDrawTime.h"
 )
 
 set(ATLAS_STATE_SOURCES
-    "states/IState.h"
-    "states/IState.cpp"
 
-	"states/State.h"
-	"states/State.cpp"
-
-    "states/IStateMachine.h"
-	"states/IStateMachine.cpp"
 )
 
 set(ATLAS_SYSTEM_SOURCES
-    "system/OS.h"
-    "system/Memory.h"
+
 )
 
 set(ATLAS_UTIL_SOURCES
-    "Utils/Singleton.h" 
-    "utils/DoublyLinkedList.h" 
-    "utils/Gate.h" 
-    "utils/GateRegistry.h"
-    "utils/Globals.h"
-    "utils/MiscUtils.h"
+
 
 )
 
 set(ATLAS_MATH_SOURCES
-    "math/Vec3.h"
-	"math/Vec3.cpp"
 
-    "math/Transform.h"
-    "math/Transform.cpp"
 )
 
 set(ATLAS_INPUT_SOURCES
-    "input/Input.h" 
-    "input/Input.cpp"
 
-    "input/EInputThread.h"
-    "input/EInputType.h"
-    "input/EInputTrigger.h"
-
-    "input/InputAction.h"
-    "input/InputAction.cpp"
-
-    "input/SelfDeterminingInputAction.h"
-    "input/SelfDeterminingInputAction.cpp"
-    
-    "input/InputRegistry.h"
-    "input/InputRegistry.cpp"
-
-    "input/InputManager.h"
-	"input/InputManager.cpp"
 )
 
 set(ATLAS_CONFIG_SOURCES
-    "conf/Config.h"
-    "conf/Config.cpp"
 
-    "conf/JSONFile.h"
-    "conf/JSONFile.cpp"
-
-    "conf/XMLFile.h"
-	"conf/XMLFile.cpp"
 )
 
 set(ATLAS_FILESYSTEM_SOURCES
-    "fs/FileSystem.h"
-    "fs/FileSystem.cpp"
 
-    "fs/ISandboxer.h"
-    "fs/Sandboxer.h"
-    "fs/Sandboxer.cpp"
-
-    "fs/File.h"
-	"fs/File.cpp"
-
-    "fs/RegisteredFile.h"
-	"fs/RegisteredFile.cpp"
-
-    "fs/LoadedFile.h"
-	"fs/LoadedFile.cpp"
-
-    "fs/FileMeta.h"
-	"fs/FileMeta.cpp"
-
-    "fs/FileSystemRegistry.h"
-	"fs/FileSystemRegistry.cpp"
-
-    "fs/FilePath.h"
-    "fs/FilePath.cpp"
 )
 
 set(ATLAS_PHYSICS_SOURCES
-    "physics/Physics.h" 
-    "physics/Physics.cpp"
-    "physics/Listeners.h"
-    "physics/Listeners.cpp"
-    "physics/Layers.h"
-    "physics/Layers.cpp"
+
 )
 
 set(ATLAS_MODDING_SOURCES
-	"modding/add_on/scriptstdstring/scriptstdstring.h"
-	"modding/add_on/scriptstdstring/scriptstdstring.cpp"
 
-    "modding/angelscript/AngelScriptAPI.h"
-    "modding/angelscript/AngelScriptAPI.cpp"
-
-    "modding/angelscript/AngelScriptRegistry.h"
-    "modding/angelscript/AngelScriptRegistry.cpp"
-
-    "modding/IScriptingLanguageInitializer.h"
-
-    "modding/lua/LuaAPI.h"
-	"modding/lua/LuaAPI.cpp"
-
-    "modding/ScriptingAPI.h"
-    "modding/ScriptingAPI.cpp"
-    
-    "modding/IScript.h"
-    
-    "modding/Script.h"
-	"modding/Script.cpp"
-    
-    "modding/DynamicObject.h"
-    "modding/DynamicObject.cpp"
-
-    "modding/ModManager.h"
-    "modding/ModManager.cpp"
-    "modding/Mod.h"
-    "modding/Mod.cpp"    
 )
 
 set(ATLAS_DEBUGGING_SOURCES 
-    "EReturnCode.h"
-
-    "dbg/Logging.h" 
-    "dbg/Logging.cpp"
-
-    "dbg/ELoggingMode.h"
-    "dbg/ELogLevel.h"
-
-    "dbg/Debugging.h"
-
-    "dbg/Debugger.h"
-	"dbg/Debugger.cpp"
-
-    "dbg/Errors.h"
-    "dbg/Errors.cpp"
-
-    "dbg/Console.h"
-	"dbg/Console.cpp"
+ 
 )
 
 set(ATLAS_WORLD_SOURCES
-    "world/world.h" 
-    "world/tools/Terrain.h" 
+
 )
 
 set(ATLAS_LANGUAGE_SOURCES
-    "language/Language.h"
-    "language/LocalizationRegistry.h"
-	"language/LocalizationRegistry.cpp"
+
 )
 
 set(ATLAS_PROJECT_SOURCES 
-    "project/IProjectSettings.h"
 
-	"project/ProjectSettings.h"
-	"project/ProjectSettings.cpp"
-    
-    "project/ProjectManager.h"
-    "project/IProjectManager.h"
 )
 
 set(ATLAS_AUDIO_SOURCES
-    "audio/AudioCommon.h"
 
-    "audio/AudioDevice.h"
-    "audio/AudioDevice.cpp"
-
-    "audio/AudioDeviceRegistry.h"
-	"audio/AudioDeviceRegistry.cpp"
-
-    "audio/AudioDeviceConfig.h"
-
-    "audio/EAudioDeviceType.h"
-
-    "audio/AudioManager.h"
-    "audio/AudioManager.cpp"
 )
 
 set(ATLAS_ENGINE_SOURCES 
@@ -346,7 +115,20 @@ set(ATLAS_ENGINE_SOURCES
     ${ATLAS_AUDIO_SOURCES}
 )
 
+if (DEFINED VULKAN_SDK_PATH)
+  set(Vulkan_INCLUDE_DIRS "${VULKAN_SDK_PATH}/Include") # 1.1 Make sure this include path is correct
+  set(Vulkan_LIBRARIES "${VULKAN_SDK_PATH}/Lib") # 1.2 Make sure lib path is correct
+  set(Vulkan_FOUND "True")
 
+else()
+  find_package(Vulkan REQUIRED) # throws error if could not find Vulkan
+  message(STATUS "Found Vulkan: $ENV{VULKAN_SDK}")
+endif()
+if (NOT Vulkan_FOUND)
+    message(FATAL_ERROR "Could not find Vulkan library!")
+else()
+    message(STATUS "Using vulkan lib at: ${Vulkan_LIBRARIES}")
+endif()
 
 # Please note that this is NOT the final list of dependencies, some are toggled based on options
 set(ATLAS_ENGINE_DEPENDENCIES
@@ -364,7 +146,7 @@ set(ATLAS_ENGINE_DEPENDENCIES
     rmlui_DEPS_TARGET
 
     spdlog::spdlog
-    
+    Vulkan::Vulkan
     simdjson::simdjson
     tinyxml2::tinyxml2
     Angelscript::angelscript
@@ -395,7 +177,7 @@ endif()
 #if(${ATLAS_ENABLE_TESTING}) 
     set(ATLAS_ENGINE_DEPENDENCIES 
 		${ATLAS_ENGINE_DEPENDENCIES}
-        gtest::gtest
+    #    gtest::gtest
     )
 #endif()
 

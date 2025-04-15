@@ -8,60 +8,56 @@
 #include "WindowDecorations.h"
 #include <string>
 
-#ifdef ATLAS_USE_GLFW
+Atlas::IGameWindow::IGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfig, unsigned int targetFPS, std::string const& icon)
+	: mWindowTitle(title), mWindowWidth(width), mWindowHeight(height), mWindowConfigFlags(windowConfig), mTargetFPS(targetFPS), mWindowIcon(icon) {
+}
 
-Atlas::GLFWGameWindow::~GLFWGameWindow() { close(); }
+#ifdef ATLAS_USE_GLFW3
+
+Atlas::GLFWGameWindow::~GLFWGameWindow() { 
+	close(true); 
+}
 
 void Atlas::GLFWGameWindow::init()
 {
-	//const static std::string configPath = "\\data\\config\\Project.cfg";
-	//Log("Decorating window...");
-	//
-	//std::shared_ptr<RegisteredFile> file = GetAtlasEngine()->getFileSystemRegistry().get()->getFile(configPath);
+	glfwInit();
 
-	//windowDecorations->title = LookupConfig(file, "projectWindowTitle");
-	//windowDecorations->width = LookupConfig(file, "projectWindowWidth");
-	//windowDecorations->height = LookupConfig(file, "projectWindowHeight");
-	//windowDecorations->icon = LookupConfig(file, "projectWindowIcon");
-	//windowDecorations->targetFPS = LookupConfig(file, "projectTargetFPS");
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-	//SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_INTERLACED_HINT);
-
-	//Log("Finalizing window initialization...");
-	//InitWindow(windowDecorations->width, windowDecorations->height, windowDecorations->title);
-
-	//Log("Loading and setting window icon...");
-
-	//const std::string assetDir = ATLAS_ASSET_DIR; // this is done like this because the macro expands to an expression rather than a string.
-	//
-	//FileSystemRegistry* fileSystemRegistry = GetAtlasEngine()->getFileSystemRegistry().get();
-	//
-	//file = fileSystemRegistry->getFile(windowDecorations->icon);
-
-	//Image icon = file->get<Image>();
-	//ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
-
-	//SetWindowIcons(&icon, 1);
-	//SetTargetFPS(windowDecorations->targetFPS);
+	
 }
 
 void Atlas::GLFWGameWindow::open()
 {
+	this->mGLFWWindowPointer = glfwCreateWindow(this->mWindowWidth, this->mWindowHeight, this->mWindowTitle.c_str(), nullptr, nullptr);
 }
 
 void Atlas::GLFWGameWindow::update()
 {
-	
+	glfwPollEvents();
 }
 
 bool Atlas::GLFWGameWindow::shouldClose()
 {
-    return WindowShouldClose();
+	return glfwWindowShouldClose(this->mGLFWWindowPointer);
 }
 
-void Atlas::GLFWGameWindow::close()
+void Atlas::GLFWGameWindow::close(bool shouldCleanup)
 {
-	CloseWindow();
+	glfwDestroyWindow(this->mGLFWWindowPointer);
+	
+	// in order to simplify the deinitialization process, this function may also call cleanup.
+	if (shouldCleanup) {
+		this->cleanup();
+	}
 }
 
-#endif
+void Atlas::GLFWGameWindow::cleanup()
+{
+	glfwTerminate();
+}
+
+#endif // ATLAS_USE_GLFW3
+
+

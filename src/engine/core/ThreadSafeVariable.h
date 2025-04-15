@@ -4,7 +4,6 @@
 #include <mutex>
 #include <functional>
 #include <type_traits>
-#include "../dbg/Errors.h"
 
 namespace Atlas {
 	/**
@@ -45,10 +44,10 @@ namespace Atlas {
 		/**
 		 * @brief 
 		 */
-		class MissingDefaultConstructorException : public InvalidArgument {
-		public:
-			using InvalidArgument::InvalidArgument;
-		};
+		//class MissingDefaultConstructorException : public InvalidArgument {
+		//public:
+		//	using InvalidArgument::InvalidArgument;
+		//};
 
 		/**
 		 * @brief The default constructor. This will first check if the variable's
@@ -85,7 +84,7 @@ namespace Atlas {
 				mValue = T_VARIABLE_TYPE{};
 			}
 			else {
-				throw MissingDefaultConstructorException("The variable cannot be default constructed!");
+				//throw MissingDefaultConstructorException("The variable cannot be default constructed!");
 			}
 		}
 
