@@ -11,11 +11,6 @@ static volatile bool updateThreadIsDone = false;
 static volatile bool beginLoop = false;
 
 
-int add(int a, int b) {
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
-	return a + b;
-}
-
 //**
 //* @brief Constructs a new AtlasEngine object.
 //* @param configFileRegistry A pointer to the config file registry object that Atlas will use
@@ -171,7 +166,7 @@ void Atlas::AtlasEngine::runRenderer()
 {
 	this->mGameRenderingModule->init();
 	this->mGameRenderingModule->mainGameWindow->open();
-	//this->mGameThreader->getScheduler("Rendering")->schedule([&]() {  });
+
 	renderThreadIsDone = true;
 
 	while(!beginLoop) {

@@ -15,7 +15,6 @@
 
 
 namespace Atlas {
-#ifndef ATLAS_ENABLE_THREADING
 
 	template<typename T>
 	concept ThreadTypeConcept = std::is_same_v<T, std::thread> || std::is_same_v<T, std::jthread>;
@@ -97,10 +96,4 @@ namespace Atlas {
 
 		
 	};
-
-
-
-
-
-#endif
 }
