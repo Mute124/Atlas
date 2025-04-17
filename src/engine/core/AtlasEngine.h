@@ -1,3 +1,12 @@
+/**************************************************************************************************
+ * @file AtlasEngine.h
+ * 
+ * @brief This file contains the declaration of the @ref AtlasEngine class.
+ * 
+ * @date April 2025
+ * 
+ * @since v
+ ***************************************************************************************************/
 #pragma once
 
 #include <memory>

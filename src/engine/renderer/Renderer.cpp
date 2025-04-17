@@ -1,6 +1,9 @@
 #include "Renderer.h"
+
 #include "backend/RenderingBackend.h"
 #include "window/Window.h"
+#include "../core/Core.h"
+#include "backend/VulkanRenderingBackend.h"
 
 //
 //#include <iostream>

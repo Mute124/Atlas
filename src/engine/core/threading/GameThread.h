@@ -93,7 +93,5 @@ namespace Atlas {
 		void join() override;
 
 		virtual void execute() override;
-
-		
 	};
 }

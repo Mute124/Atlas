@@ -27,6 +27,50 @@
 namespace Atlas {
 
     /**
+     * @brief The state of the scheduler.
+     * 
+     * @remarks This enum class is useful for doing diagnostics on the scheduler. 
+     * 
+     * @since v0.0.10
+     */
+    enum class EGameThreadSchedulerStatus : uint8_t {
+		/**
+		 * @brief The state of the scheduler is unknown. Typically this means that the scheduler is not initialized or something is wrong.
+		 * 
+		 * @since v0.0.10
+		 */
+        Unknown = 0,
+
+        /**
+         * @brief The scheduler is in the process of initializing.
+         * 
+         * @since v0.0.10
+         */
+        Initializing,
+
+		/**
+		 * @brief The scheduler is running. This does not mean that there is work to be done, just that the scheduler is running.
+		 * 
+		 * @since v0.0.10
+		 */
+        Running,
+
+        /**
+         * @brief The scheduler is stopped. This implies that the scheduler was once initialized and running, but is now stopped.
+         * 
+         * @since v0.0.10
+         */
+		Stopped,
+
+        /**
+         * @brief The scheduler is shutting down.
+         * 
+         * @since v0.0.10
+         */
+		ShuttingDown
+	};
+    
+    /**
      * @brief Scheduler for running tasks on separate threads. It will take given tasks, and distribute them across threads.
      * 
      * @pre Atlas must have multi-threading enabled for this to even be used.
@@ -49,11 +93,18 @@ namespace Atlas {
         using Task = std::function<void()>;
 
         /**
+         * @brief The current status of the scheduler.
+         * 
+         * @since v0.0.10
+         */
+        EGameThreadSchedulerStatus mStatus = EGameThreadSchedulerStatus::Unknown;
+
+        /**
          * @brief Number of threads in this scheduler.
          * 
          * @since v0.0.10
          */
-        size_t mThreadCount;
+        uint8_t mThreadCount;
         
         /**
          * @brief A vector that contains all the worker threads. 
@@ -98,12 +149,14 @@ namespace Atlas {
          */
         std::atomic<bool> mIsRunning;
 
-/**
+        /**
 		 * @brief Returns whether or not the task queue is empty.
 		 * 
 		 * @since v0.0.10
 		 */
         bool isTaskQueueEmpty() const;
+
+        void setStatus(EGameThreadSchedulerStatus status);
 
     public:
         // Disable copy
@@ -127,7 +180,7 @@ namespace Atlas {
          * 
          * @since v0.0.10
          */
-        explicit GameThreadScheduler(uint8_t numThreads);
+        explicit GameThreadScheduler(uint8_t numThreads, bool callInit = true);
 
         /**
          * @brief The default deconstructor that joins all threads (if they are joinable) and cleans up everything.
@@ -148,8 +201,6 @@ namespace Atlas {
          * @since v0.0.10
          */
         void init(uint8_t numThreads);
-
-        // 
 
         /**
          * @brief Schedules a task to be executed. The templates are not really necessary, see this function's details section in the documentation for more information.
@@ -218,7 +269,6 @@ namespace Atlas {
                 if (!mIsRunning) {
                     throw std::runtime_error("Scheduler is shutting down, cannot schedule new tasks.");
                 }
-
 
                 // Forward the callable object (Func) and its arguments (Args...) to the packaged task.
                 // In other words, finally put the callable object (Func) and its arguments (Args...) into the queue for execution
