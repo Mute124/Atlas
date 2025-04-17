@@ -176,8 +176,25 @@ void Atlas::VulkanRenderer::init()
 void Atlas::VulkanRenderer::update()
 {
 	while (!this->mainGameWindow->shouldClose()) {
-		this->mainGameWindow->update();
-		this->renderingBackend->update();
+		if (this->mainGameWindow != nullptr) {
+			this->mainGameWindow->update();
+		}
+		else {
+#ifdef ATLAS_DEBUG
+
+			std::cout << "Main game window is null!" << std::endl;
+#endif
+		}
+
+		if (this->renderingBackend != nullptr) {
+
+			this->renderingBackend->update();
+		}
+		else {
+#ifdef ATLAS_DEBUG
+			std::cout << "Rendering backend is null!" << std::endl;
+#endif
+		}
 	}
 }
 
