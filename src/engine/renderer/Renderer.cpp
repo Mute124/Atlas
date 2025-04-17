@@ -158,15 +158,29 @@
 //
 //#endif
 
+Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend, bool canBeMultiThreaded)
+	: mainGameWindow(gameWindow), renderingBackend(backend), mCanBeMultiThreaded(canBeMultiThreaded)
+{
+}
+
 Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend)
 	: mainGameWindow(gameWindow), renderingBackend(backend)
 {
 }
 
+bool Atlas::IRenderer::canBeMultiThreaded() const { return this->mCanBeMultiThreaded; }
+
+bool Atlas::IRenderer::isInitialized() const { return this->mIsInitialized; }
+
 #ifdef ATLAS_USE_VULKAN
 
-Atlas::VulkanRenderer::VulkanRenderer(IGameWindow* gameWindow) 
-	: IRenderer(gameWindow, new VulkanRenderingBackend())
+Atlas::VulkanRenderer::VulkanRenderer(IGameWindow* gameWindow, VulkanRenderingBackend* backend)
+	: IRenderer(gameWindow, backend, true)
+{
+}
+
+Atlas::VulkanRenderer::VulkanRenderer(IGameWindow* gameWindow)
+	: VulkanRenderer(gameWindow, new VulkanRenderingBackend())
 {
 }
 
@@ -203,6 +217,7 @@ void Atlas::VulkanRenderer::update()
 
 void Atlas::VulkanRenderer::cleanup()
 {
+	this->mainGameWindow->close(true);
 }
 
 #endif

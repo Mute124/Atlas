@@ -82,7 +82,7 @@ set(ATLAS_MODDING_SOURCES
 )
 
 set(ATLAS_DEBUGGING_SOURCES 
- 
+    "debugging/Debugger.h"
 )
 
 set(ATLAS_WORLD_SOURCES

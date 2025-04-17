@@ -1,6 +1,12 @@
-/**
-* @file Renderer.h
-*/
+/**************************************************************************************************
+ * @file Renderer.h
+ * 
+ * @brief .
+ * 
+ * @date April 2025
+ * 
+ * @since v
+ ***************************************************************************************************/
 #pragma once
 
 #include <vector>
@@ -36,27 +42,30 @@ namespace Atlas {
 	 * @sa @ref EngineModule to read the documentation of this class's parent.
 	 */
 	class IRenderer : public EngineModule {
-	public:
+	protected:
 		/**
 		 * @brief Whether or not the renderer has been initialized.
-		 * 
+		 *
 		 * @remarks This does not neccesarily mean that the renderer is ready to be used.
-		 * 
+		 *
 		 * @note This should only be modified by the renderer's `init` method.
-		 * 
+		 *
 		 * @since v
 		 */
-		bool isInitialized = false;
+		bool mIsInitialized = false;
 
 		/**
 		 * @brief Signals to Atlas whether or not the renderer can be multi-threaded. By default it is set to @a false.
-		 * 
+		 *
 		 * @note This should be set before the renderer's `init` method is called.
-		 * 
+		 *
 		 * @since v
 		 */
-		const bool canBeMultiThreaded = false;
+		const bool mCanBeMultiThreaded = false;
+		
+		IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend, bool canBeMultiThreaded);
 
+	public:
 		/**
 		 * @brief A polymorphic pointer to the main window that the renderer is rendering to. 
 		 
@@ -103,6 +112,10 @@ namespace Atlas {
 		virtual void update() = 0;
 
 		virtual void cleanup() = 0;
+
+		bool canBeMultiThreaded() const;
+
+		bool isInitialized() const;
 	};
 
 #ifdef ATLAS_USE_VULKAN
@@ -110,6 +123,8 @@ namespace Atlas {
 	class VulkanRenderer : public IRenderer {
 	public:
 		using IRenderer::IRenderer;
+
+		VulkanRenderer(IGameWindow* gameWindow, VulkanRenderingBackend* backend);
 
 		explicit VulkanRenderer(IGameWindow* gameWindow);
 

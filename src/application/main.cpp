@@ -88,9 +88,13 @@ int main(int argc, char* argv[]) {
 	//manager.launchThreads();
 	
 
+	GameWindowSettings windowSettings{};
+	windowSettings.enableEventPolling = true;
+	
+	
 
 	EngineModulesInfo modulesInfo = EngineModulesInfo{ 
-		new VulkanRenderer(new GLFWGameWindow("Vulkan", 800, 600, NULL, 60, "")),
+		new VulkanRenderer(new GLFWGameWindow("Vulkan", 800, 600, NULL, 60, "",	windowSettings)),
 		new GameThreader()
 	};
 

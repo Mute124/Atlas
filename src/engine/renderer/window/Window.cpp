@@ -1,39 +1,61 @@
-#include "Window.h"
-
-#ifdef ATLAS_USE_RAYLIB
-	#include <raylib.h>
-#endif
-
+#include <stdexcept>
+#include <unordered_map>
 #include <string>
 
-Atlas::IGameWindow::IGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfig, unsigned int targetFPS, std::string const& icon)
-	: mWindowTitle(title), mWindowWidth(width), mWindowHeight(height), mWindowConfigFlags(windowConfig), mTargetFPS(targetFPS), mWindowIcon(icon) {
+#include "Window.h"
+
+#ifdef ATLAS_USE_GLFW3
+	#include <GLFW/glfw3.h>
+#endif
+
+Atlas::IGameWindow::IGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon)
+	: mWindowTitle(title), mWindowWidth(width), mWindowHeight(height), mWindowConfigFlags(windowConfigFlags), mTargetFPS(targetFPS), mWindowIcon(icon) {
 }
 
-//#ifdef ATLAS_USE_GLFW3
+#ifdef ATLAS_USE_GLFW3
 
-Atlas::GLFWGameWindow::~GLFWGameWindow() { 
+Atlas::GLFWGameWindow::GLFWGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon, GameWindowSettings const& gameWindowSettings)
+	: IGameWindow(title, width, height, windowConfigFlags, targetFPS, icon), mGameWindowSettings(gameWindowSettings)
+{
+}
+
+Atlas::GLFWGameWindow::~GLFWGameWindow() {
 	close(true); 
 }
 
 void Atlas::GLFWGameWindow::init()
 {
-	glfwInit();
+	if (!glfwInit()) {
+		throw std::runtime_error("Failed to initialize GLFW");
+	}
+
+	this->mIsInitialized = true;
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-	
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);	
 }
 
 void Atlas::GLFWGameWindow::open()
 {
-	this->mGLFWWindowPointer = glfwCreateWindow(this->mWindowWidth, this->mWindowHeight, this->mWindowTitle.c_str(), nullptr, nullptr);
+	if (this->mGameWindowSettings.monitor == nullptr && this->mGameWindowSettings.fullscreen) {
+		this->mGameWindowSettings.monitor = glfwGetPrimaryMonitor();
+	}
+
+	this->mGLFWWindowPointer = glfwCreateWindow(this->mWindowWidth, this->mWindowHeight, this->mWindowTitle.c_str(), this->mGameWindowSettings.monitor, nullptr);
+
+	if (this->mGLFWWindowPointer == nullptr || glfwGetError(nullptr) != GLFW_NO_ERROR) {
+		throw std::runtime_error("Failed to create GLFW window");
+	}
+	else {
+		this->mIsOpen = true;
+	}
 }
 
 void Atlas::GLFWGameWindow::update()
 {
-	glfwPollEvents();
+	if (this->mGameWindowSettings.enableEventPolling) {
+		glfwPollEvents();
+	}
 }
 
 bool Atlas::GLFWGameWindow::shouldClose()
@@ -43,8 +65,10 @@ bool Atlas::GLFWGameWindow::shouldClose()
 
 void Atlas::GLFWGameWindow::close(bool shouldCleanup)
 {
-	glfwDestroyWindow(this->mGLFWWindowPointer);
-	
+	if (this->mGLFWWindowPointer != nullptr) {
+		glfwDestroyWindow(this->mGLFWWindowPointer);
+	}
+
 	// in order to simplify the deinitialization process, this function may also call cleanup.
 	if (shouldCleanup) {
 		this->cleanup();
@@ -56,6 +80,35 @@ void Atlas::GLFWGameWindow::cleanup()
 	glfwTerminate();
 }
 
-//#endif // ATLAS_USE_GLFW3
+void Atlas::GLFWGameWindow::setFlag(std::string const& flagName, unsigned int value)
+{
+	unsigned int flag = GetWindowConfigFlag(flagName);
 
+	glfwWindowHint(flag, value);
 
+	const char* errorString = nullptr;
+	int error = glfwGetError(&errorString);
+	
+	if(error != GLFW_NO_ERROR) {
+		throw std::runtime_error(errorString);
+	}
+}
+
+#endif // ATLAS_USE_GLFW3
+
+unsigned int Atlas::GetWindowConfigFlag(std::string const& flagName)
+{
+	unsigned int result = 0;
+
+#ifdef ATLAS_USE_GLFW3
+	
+	if (GLFWGameWindow::sWindowFlagsTranslationMap.contains(flagName)) {
+		result = GLFWGameWindow::sWindowFlagsTranslationMap.at(flagName);
+	} else {
+		throw std::runtime_error("Unknown flag: " + flagName);
+	}
+
+#endif // ATLAS_USE_GLFW3
+
+	return result;
+}
