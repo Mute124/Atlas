@@ -4,15 +4,13 @@
 	#include <raylib.h>
 #endif
 
-
-#include "WindowDecorations.h"
 #include <string>
 
 Atlas::IGameWindow::IGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfig, unsigned int targetFPS, std::string const& icon)
 	: mWindowTitle(title), mWindowWidth(width), mWindowHeight(height), mWindowConfigFlags(windowConfig), mTargetFPS(targetFPS), mWindowIcon(icon) {
 }
 
-#ifdef ATLAS_USE_GLFW3
+//#ifdef ATLAS_USE_GLFW3
 
 Atlas::GLFWGameWindow::~GLFWGameWindow() { 
 	close(true); 
@@ -58,6 +56,6 @@ void Atlas::GLFWGameWindow::cleanup()
 	glfwTerminate();
 }
 
-#endif // ATLAS_USE_GLFW3
+//#endif // ATLAS_USE_GLFW3
 
 

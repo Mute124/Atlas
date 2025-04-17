@@ -1,6 +1,20 @@
+#include <iostream>
+#include <thread>
+#include <cassert>
+
 #include "AtlasEngine.h"
 
+#include "Common.h"
 
+static volatile bool renderThreadIsDone = false;
+static volatile bool updateThreadIsDone = false;
+static volatile bool beginLoop = false;
+
+
+int add(int a, int b) {
+	std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	return a + b;
+}
 
 //**
 //* @brief Constructs a new AtlasEngine object.
@@ -127,3 +141,75 @@
 //	//ATLAS_GENERATED_NULL_CHECK(logger);
 //	this->logger = logger;
 //}
+
+Atlas::IAtlasEngine::IAtlasEngine(EngineModulesInfo const& modulesInfo, AtlasSettings const& settings)
+	: mEngineSettings(settings), mGameRenderingModule(modulesInfo.gameRenderingModule), mGameThreader(modulesInfo.gameThreader)
+{
+}
+
+void Atlas::AtlasEngine::initWithThreading()
+{
+	assert(this->mGameRenderingModule != nullptr);
+	assert(this->mGameThreader != nullptr);
+
+	this->mGameThreader->addScheduler("Rendering", 1);
+	this->mGameThreader->getScheduler("Rendering")->schedule(
+		[&]() {
+			runRenderer(); 
+		}
+	);
+
+	updateThreadIsDone = true;
+}
+
+void Atlas::AtlasEngine::initWithoutThreading()
+{
+	this->runRenderer();
+}
+
+void Atlas::AtlasEngine::runRenderer()
+{
+	this->mGameRenderingModule->init();
+	this->mGameRenderingModule->mainGameWindow->open();
+	//this->mGameThreader->getScheduler("Rendering")->schedule([&]() {  });
+	renderThreadIsDone = true;
+
+	while(!beginLoop) {
+	}
+
+	while (true) {
+		this->mGameRenderingModule->update();
+	}
+}
+
+void Atlas::AtlasEngine::init()
+{
+
+	if (this->mEngineSettings.isThreaded) {
+
+
+		initWithThreading();
+	}
+	else {
+		initWithoutThreading();
+	}
+}
+
+void Atlas::AtlasEngine::run()
+{
+
+
+	while (!renderThreadIsDone || !updateThreadIsDone) {
+
+	}
+
+	beginLoop = true;
+
+	while (true) {
+
+	}
+}
+
+void Atlas::AtlasEngine::cleanup()
+{
+}

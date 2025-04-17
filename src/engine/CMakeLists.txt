@@ -11,16 +11,23 @@ set(ATLAS_ENGINE_CORE_SOURCES
     "core/Module.h"
     #"common.cpp"
 
-    "core/ThreadSafeVariable.h"
-    "core/ThreadSafeVariable.cpp"
-
     "core/MemoryAllocator.h"
     "core/MemoryAllocator.cpp"
     
     "core/AtlasEngine.h"
     "core/AtlasEngine.cpp"
 
+    "core/threading/GameThread.h"
+    "core/threading/GameThread.cpp"
 
+    "core/threading/GameThreadScheduler.h"
+    "core/threading/GameThreadScheduler.cpp"
+
+    "core/threading/GameThreader.h"
+	"core/threading/GameThreader.cpp"
+
+    "core/threading/ThreadSafeVariable.h"
+    "core/threading/ThreadSafeVariable.cpp"
 )
 
 set(ATLAS_RENDERER_SOURCES

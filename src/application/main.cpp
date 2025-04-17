@@ -87,13 +87,22 @@ int main(int argc, char* argv[]) {
 
 	//manager.launchThreads();
 	
-	VulkanRenderer* atlas = new VulkanRenderer(new GLFWGameWindow("Vulkan", 800, 600, NULL, 60, ""));
+
+
+	EngineModulesInfo modulesInfo = EngineModulesInfo{ 
+		new VulkanRenderer(new GLFWGameWindow("Vulkan", 800, 600, NULL, 60, "")),
+		new GameThreader()
+	};
+
+
+	AtlasSettings settings{};
+
+	AtlasEngine* atlas = new AtlasEngine(modulesInfo, settings);
+	//
 
 	atlas->init();
 
-	while (true) {
-
-	}
+	atlas->run();
 
 	return 0;
 }

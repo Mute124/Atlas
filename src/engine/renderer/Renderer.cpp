@@ -175,6 +175,10 @@ void Atlas::VulkanRenderer::init()
 
 void Atlas::VulkanRenderer::update()
 {
+	while (!this->mainGameWindow->shouldClose()) {
+		this->mainGameWindow->update();
+		this->renderingBackend->update();
+	}
 }
 
 void Atlas::VulkanRenderer::cleanup()

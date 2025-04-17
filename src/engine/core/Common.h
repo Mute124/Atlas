@@ -24,6 +24,11 @@
 
 #include "Core.h"
 
+#define ATLAS_TYPE_NAME(...) __VA_ARGS__
+
+#define ATLAS_STRINGIFY(...) #__VA_ARGS__
+
+
 /**
 * @brief Since the location of the shared libraries and executables can vary, this is a simple solution to this.
 * During Distribution builds, the path is more exact, however the rest are not because these
@@ -39,7 +44,7 @@
 #define ATLAS_NULL_PNG ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.png")
 #define ATLAS_NULL_JPG ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.jpg")
 #define ATLAS_NULL_JPEG static_cast<std::string>(ATLAS_ASSET_DIR) + static_cast<std::string>("/engine/null.jpeg")
-#define ATLAS_NULL_GIF ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.gif")
+#define ATLAS_NULL_GIF ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.gif"
 
 namespace Atlas {
 
@@ -51,6 +56,42 @@ namespace Atlas {
 	using std::chrono::milliseconds;
 	using std::chrono::seconds;
 	using std::unordered_map;
+
+	/**
+	 * @brief An interface for classes that want to be printable.
+	 * 
+	 * @remarks This is useful for debugging and logging as it provides a way to get a string representation of the object.
+	 * 
+	 * @note It is not recommended that you use this interface on everything as it may cause performance issues.
+	 */
+	class IStringifiedObject {
+	public:
+		IStringifiedObject() = default;
+
+		virtual std::string toString() const = 0;
+
+		virtual operator std::string() const = 0;
+	};
+
+	/**
+	 * @brief An "inherit-and-forget" class that implements the IPrettyObject interface for you. This class uses a data-driven approach to get the string representation of the object.
+	 * 
+	 * @tparam T_CHILD The class that has inherited from this.
+	 */
+	template<typename T_CHILD>
+	class StringifiedObject : public IStringifiedObject {
+	public:
+
+		StringifiedObject() = default;
+
+		virtual std::string toString() const override {
+			return ATLAS_TYPE_NAME(typeid(T_CHILD).name());
+		}
+
+		virtual operator std::string() const override {
+			return toString();
+		}
+	};
 
 	template<typename T>
 	class ReferenceHolder {
@@ -70,7 +111,6 @@ namespace Atlas {
 	private:
 		T& mValue;
 	};
-
 
 #ifdef ATLAS_ENABLE_HAPTICS
 

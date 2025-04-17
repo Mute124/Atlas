@@ -1,3 +1,12 @@
+/**************************************************************************************************
+ * @file ThreadSafeVariable.h
+ * 
+ * @brief 
+ * 
+ * @date April 2025
+ * 
+ * @since v
+ ***************************************************************************************************/
 #pragma once
 #include <iostream>
 #include <memory>
@@ -153,7 +162,7 @@ namespace Atlas {
 		 */
 		T_VARIABLE_TYPE get() {
 			return mValue;
-		}
+		} 
 
 		/**
 		 * @brief Similar to get(), but returns a reference to the variable instead
