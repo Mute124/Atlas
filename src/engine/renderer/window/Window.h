@@ -9,6 +9,9 @@
 
 #ifdef ATLAS_USE_GLFW3
 	#include <GLFW/glfw3.h>
+
+#elif defined ATLAS_USE_SDL2
+	#include <SDL2/SDL.h>
 #endif // ATLAS_USE_GLFW3
 
 
@@ -109,6 +112,35 @@ namespace Atlas {
 		void setFlag(std::string const& flagName, unsigned int value) override;
 	};
 
+#elif defined(ATLAS_USE_SDL2)
+
+	struct GameWindowSettings {
+		bool enableEventPolling = true;
+		bool fullscreen = false;
+
+	};
+
+	class SDLGameWindow final : public IGameWindow {
+	private:
+		GameWindowSettings mGameWindowSettings;
+	public:
+		SDLGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon, GameWindowSettings const& gameWindowSettings);
+
+		virtual ~SDLGameWindow();
+
+		// Inherited via IWindow
+		void init() override;
+
+		void open() override;
+
+		void update() override;
+
+		bool shouldClose() override;
+
+		void close(bool shouldCleanup) override;
+
+		void cleanup() override;
+	};
 #endif // ATLAS_USE_GLFW3
 
 	unsigned int GetWindowConfigFlag(std::string const& flagName);

@@ -6,6 +6,9 @@
 
 #ifdef ATLAS_USE_GLFW3
 	#include <GLFW/glfw3.h>
+#elif defined(ATLAS_USE_SDL2)
+
+	#include <SDL2/SDL.h>
 #endif
 
 Atlas::IGameWindow::IGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon)
@@ -94,6 +97,46 @@ void Atlas::GLFWGameWindow::setFlag(std::string const& flagName, unsigned int va
 	}
 }
 
+
+#elif defined(ATLAS_USE_SDL2)
+
+
+
+
+Atlas::SDLGameWindow::SDLGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon, GameWindowSettings const& gameWindowSettings)
+: IGameWindow(title, width, height, windowConfigFlags, targetFPS, icon), mGameWindowSettings(gameWindowSettings)
+{
+}
+
+Atlas::SDLGameWindow::~SDLGameWindow()
+{
+}
+
+void Atlas::SDLGameWindow::init()
+{
+}
+
+void Atlas::SDLGameWindow::open()
+{
+}
+
+void Atlas::SDLGameWindow::update()
+{
+}
+
+bool Atlas::SDLGameWindow::shouldClose()
+{
+	return false;
+}
+
+void Atlas::SDLGameWindow::close(bool shouldCleanup)
+{
+}
+
+void Atlas::SDLGameWindow::cleanup()
+{
+}
+
 #endif // ATLAS_USE_GLFW3
 
 unsigned int Atlas::GetWindowConfigFlag(std::string const& flagName)
@@ -101,10 +144,11 @@ unsigned int Atlas::GetWindowConfigFlag(std::string const& flagName)
 	unsigned int result = 0;
 
 #ifdef ATLAS_USE_GLFW3
-	
+
 	if (GLFWGameWindow::sWindowFlagsTranslationMap.contains(flagName)) {
 		result = GLFWGameWindow::sWindowFlagsTranslationMap.at(flagName);
-	} else {
+	}
+	else {
 		throw std::runtime_error("Unknown flag: " + flagName);
 	}
 

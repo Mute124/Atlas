@@ -37,6 +37,14 @@ option(ATLAS_LIBRARY_MODE "Should Atlas' run application automatically handle th
 option(ATLAS_BARE_BONES "Should Atlas only build the bare minimum" OFF)
 option(ATLAS_SEPERATE_OUTPUT "Should Atlas put libraries in the lib folder and executables in the bin folder" ON)
 
+# Rendering backend options
+option(ATLAS_USE_RAYLIB "Should Atlas use raylib" OFF) # this will satisfy the backend and window API requirements
+option(ATLAS_USE_VULKAN "Should Atlas use Vulkan (You still need to have Vulkan SDK installed)" ON)
+
+# Window API options
+option(ATLAS_USE_GLFW "Should Atlas use GLFW" OFF)
+option(ATLAS_USE_SDL2 "Should Atlas use SDL2" ON)
+
 # Build target options
 option(ATLAS_BUILD_EXAMPLES "Build Examples For Atlas" ON) # Not implemented yet
 option(ATLAS_BUILD_TOOLS "Build Tools For Atlas" OFF)
@@ -134,15 +142,29 @@ message(STATUS "Finished setting up code definitions")
 message(STATUS "Handling dependencies...")
 
 
-# TODO: Make raylib usage optional.
-# Absolutely DO NOT remove this if using raylib. It will break all rendering functionality
-set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE) 
+if(${ATLAS_USE_RAYLIB})
+    # TODO: Make raylib usage optional.
+    # Absolutely DO NOT remove this if using raylib. It will break all rendering functionality
+    set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE) 
+    CPMAddPackage(
+        NAME raylib
+        GIT_REPOSITORY https://github.com/raysan5/raylib.git
+        GIT_TAG 5.5
+        OPTIONS
+            "BUILD_SHARED_LIBS=ON"
+    )
+endif()
+
 CPMAddPackage(
-    NAME raylib
-    GIT_REPOSITORY https://github.com/raysan5/raylib.git
-    GIT_TAG 5.5
-    OPTIONS
-        "BUILD_SHARED_LIBS=ON"
+    NAME glfw
+    GIT_REPOSITORY https://github.com/glfw/glfw.git
+    GIT_TAG 3.4
+)
+
+CPMAddPackage(
+    NAME vk-bootstrap
+    GIT_REPOSITORY https://github.com/charles-lunarg/vk-bootstrap.git
+    GIT_TAG v1.4.312
 )
 
 CPMAddPackage(
@@ -167,17 +189,20 @@ endif()
 
 
 find_package(eventpp REQUIRED)
-find_package(SDL2 REQUIRED CONFIG)
+
+#find_package(SDL2 REQUIRED CONFIG)
 find_package(rmlui REQUIRED)
 find_package(fmt REQUIRED)
 
 find_package(simdjson REQUIRED)
 find_package(tinyxml2 REQUIRED)
+
 find_package(miniaudio REQUIRED)
 
 if(${ATLAS_ENABLE_TESTING})
     find_package(GTest REQUIRED)
 endif()
+
 
 set(DOUBLE_PRECISION OFF)
 set(GENERATE_DEBUG_SYMBOLS OFF)

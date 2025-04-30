@@ -31,7 +31,6 @@ namespace Atlas {
 		bool isThreaded = true;
 	};
 
-
 	struct EngineModulesInfo {
 		IRenderer* gameRenderingModule;
 		IGameThreader* gameThreader;

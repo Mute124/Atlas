@@ -80,19 +80,9 @@ int main(int argc, char* argv[]) {
 	//	ia >> p2;  // Deserialize
 	}*/
 
-	//std::shared_ptr<PROJECT_TYPENAME> project = std::make_shared<PROJECT_TYPENAME>();
-
-	//Atlas::Application::FrameManager& manager = Atlas::Application::FrameManager::Instance();
-	//manager.userProject = project;
-
-	//manager.launchThreads();
-	
-
 	GameWindowSettings windowSettings{};
 	windowSettings.enableEventPolling = true;
 	
-	
-
 	EngineModulesInfo modulesInfo = EngineModulesInfo{ 
 		new VulkanRenderer(new GLFWGameWindow("Vulkan", 800, 600, NULL, 60, "",	windowSettings)),
 		new GameThreader()

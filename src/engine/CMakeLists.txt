@@ -78,7 +78,7 @@ set(ATLAS_PHYSICS_SOURCES
 )
 
 set(ATLAS_MODDING_SOURCES
-
+    "scripting/ScriptedObject.h"
 )
 
 set(ATLAS_DEBUGGING_SOURCES 
@@ -139,8 +139,6 @@ endif()
 
 # Please note that this is NOT the final list of dependencies, some are toggled based on options
 set(ATLAS_ENGINE_DEPENDENCIES
-    raylib 
-
     joltphysics::joltphysics 
     joltphysics_DEPS_TARGET
 
@@ -151,9 +149,13 @@ set(ATLAS_ENGINE_DEPENDENCIES
 
     rmlui::rmlui
     rmlui_DEPS_TARGET
-
+    glfw
     spdlog::spdlog
+
+    # TODO: these two need to be toggled based on options
+    # vk-bootstrap::vk-bootstrap
     Vulkan::Vulkan
+
     simdjson::simdjson
     tinyxml2::tinyxml2
     Angelscript::angelscript
