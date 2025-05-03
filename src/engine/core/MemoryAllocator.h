@@ -108,13 +108,15 @@ namespace Atlas {
 		MemoryAllocatorStats* getMemoryAllocatorStats() const { return mMemoryAllocatorStats; }
 
 	public:
-		AbstractMemoryAllocator() {};
+		AbstractMemoryAllocator() {
+
+		};
 
 		explicit AbstractMemoryAllocator(MemoryAllocatorSettings* memoryAllocationInfo)
 			: mMemoryAllocationInfo(memoryAllocationInfo) {
 		}
 
-		virtual MemoryAllocationAddress allocate(MemoryAllocationCallInfo* memoryAllocationInfo) = 0;
+		virtual MemoryAllocationAddress allocate(size_t memoryAllocationInfo) = 0;
 		virtual void deallocate(MemoryAllocationCallInfo* memoryAllocationInfo) = 0;
 	};
 
@@ -129,40 +131,41 @@ namespace Atlas {
 
 		MemoryAllocator(MemoryAllocatorSettings* memoryAllocationInfo) : AbstractMemoryAllocator(memoryAllocationInfo) {}
 
-		MemoryAllocationAddress allocate(MemoryAllocationCallInfo* memoryAllocationInfo) override {
-			MemoryAllocatorStats* stats = getMemoryAllocatorStats();
+		MemoryAllocationAddress allocate(size_t memoryAllocationInfo) override {
+			//MemoryAllocatorStats* stats = getMemoryAllocatorStats();
 
-			if (stats != nullptr && memoryAllocationInfo != nullptr) {
+			//if (stats != nullptr && memoryAllocationInfo != nullptr) {
 
-				// copy variables for thread safety
+			//	// copy variables for thread safety
 
-				const size_t currentMemoryUsage = stats->currentMemoryUsage;
-				const size_t maxMemoryUsage = stats->maxMemoryUsage;
-				const size_t memoryAllocationSize = memoryAllocationInfo->memoryAllocationSize;
+			//	const size_t currentMemoryUsage = stats->currentMemoryUsage;
+			//	const size_t maxMemoryUsage = stats->maxMemoryUsage;
+			//	const size_t memoryAllocationSize = memoryAllocationInfo->memoryAllocationSize;
 
-				// Check if the allocation can occur without exceeding the memory limit
-				if(memoryAllocationInfo->memoryAllocationSize + stats->currentMemoryUsage <= stats->maxMemoryUsage) {
-					stats->currentMemoryUsage += memoryAllocationInfo->memoryAllocationSize;
+			//	// Check if the allocation can occur without exceeding the memory limit
+			//	if(memoryAllocationInfo->memoryAllocationSize + stats->currentMemoryUsage <= stats->maxMemoryUsage) {
+			//		stats->currentMemoryUsage += memoryAllocationInfo->memoryAllocationSize;
 
-					return malloc(memoryAllocationSize);
-				}
-			}
-			else {
-				// return for now.
-				return nullptr;
-			}
+			//		return malloc(memoryAllocationSize);
+			//	}
+			//}
+			//else {
+			//	// return for now.
+			//	return nullptr;
+			//}
 		}
 
 		void deallocate(MemoryAllocationCallInfo* memoryAllocationInfo) override {
 
-			MemoryAllocatorStats* stats = getMemoryAllocatorStats();
+			//MemoryAllocatorStats* stats = getMemoryAllocatorStats();
 
-			if (stats != nullptr && memoryAllocationInfo != nullptr) {
-				delete memoryAllocationInfo->memoryAllocationAddress;
+			//if (stats != nullptr && memoryAllocationInfo != nullptr) {
+			//	delete memoryAllocationInfo->memoryAllocationAddress;
 
-				stats->currentMemoryUsage -= memoryAllocationInfo->memoryAllocationSize;
-			}
+			//	stats->currentMemoryUsage -= memoryAllocationInfo->memoryAllocationSize;
+			//}
 		}
 	};
+
 
 }

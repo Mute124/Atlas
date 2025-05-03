@@ -1,3 +1,14 @@
+/**************************************************************************************************
+ * @file AtlasEngine.cpp
+ * 
+ * @brief .
+ * 
+ * @date May 2025
+ * 
+ * @since v0.0.1
+ * 
+ * @todo Get rid of the global variables that were used for testing
+ ***************************************************************************************************/
 #include <iostream>
 #include <thread>
 #include <cassert>
@@ -5,6 +16,7 @@
 #include "AtlasEngine.h"
 
 #include "Common.h"
+#include "threading/GameThreadScheduler.h"
 
 static volatile bool renderThreadIsDone = false;
 static volatile bool updateThreadIsDone = false;
@@ -144,8 +156,9 @@ Atlas::IAtlasEngine::IAtlasEngine(EngineModulesInfo const& modulesInfo, AtlasSet
 
 void Atlas::AtlasEngine::initWithThreading()
 {
-	assert(this->mGameRenderingModule != nullptr);
-	assert(this->mGameThreader != nullptr);
+	// Make sure everything is good to go before these two modules are used.
+	ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The game rendering module (mGameRenderingModule) in AtlasEngine cannot be a nullptr!");
+	ATLAS_ASSERT(this->mGameThreader != nullptr, "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr!");
 
 	this->mGameThreader->addScheduler("Rendering", 1);
 	this->mGameThreader->getScheduler("Rendering")->schedule(
@@ -169,8 +182,11 @@ void Atlas::AtlasEngine::runRenderer()
 
 	renderThreadIsDone = true;
 
+	// Is all of this required still or is it just a leftover from prototyping?
 	while(!beginLoop) {
+		// Simply idle until the threads are done
 	}
+
 
 	while (true) {
 		this->mGameRenderingModule->update();
@@ -181,8 +197,6 @@ void Atlas::AtlasEngine::init()
 {
 
 	if (this->mEngineSettings.isThreaded) {
-
-
 		initWithThreading();
 	}
 	else {

@@ -26,9 +26,9 @@
 
 namespace Atlas {
 	struct AtlasSettings {
-		MemoryAllocator* memoryAllocator;
+		AbstractMemoryAllocator* memoryAllocator;
 
-		bool isThreaded = true;
+		bool isThreaded = true; 
 	};
 
 	struct EngineModulesInfo {
@@ -69,24 +69,69 @@ namespace Atlas {
 	 * @note There should not be more than one instance of this object. 
 	 * 
 	 * @since v0.0.1
+	 * 
+	 * @sa @ref IAtlasEngine
 	 */
 	class AtlasEngine : public IAtlasEngine {
 	private:
+		/**
+		 * @brief .
+		 *
+		 * @since v
+		 */
 		volatile bool mShouldIdlebeforeRunning = true;
 
+		/**
+		 * @brief .
+		 * 
+		 * @since v
+		 * 
+		 * @todo Explicitly catch what ever is needed instead of just using & to capture it all
+		 * when scheduling the @ref runRenderer function task.
+		 * 
+		 * @todo Replace the assert calls with Atlas' own assert function
+		 */
 		void initWithThreading();
 
+		/**
+		 * @brief .
+		 *
+		 * @since v
+		 */
 		void initWithoutThreading();
 
+		/**
+		 * @brief .
+		 *
+		 * @since v
+		 */
 		void runRenderer();
 	public:
 
+
 		using IAtlasEngine::IAtlasEngine;
 
+		/**
+		 * @brief As the name suggests, this function initializes the engine. If this module is
+		 * infact threaded, it will call the initWithThreading function. If not, then it will
+		 * call the initWithoutThreading function.
+		 * 
+		 * @since v0.0.1
+		 */
 		void init() override;
 
+		/**
+		 * @brief .
+		 * 
+		 * @since v
+		 */
 		void run() override;
 
+		/**
+		 * @brief .
+		 *
+		 * @since v
+		 */
 		void cleanup() override;
 	};
 }

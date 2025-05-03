@@ -10,27 +10,24 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 #include <spdlog/spdlog.h>
 
 #include "../core/Core.h"
 
+#include "Logging.h"
 
 namespace Atlas {
-	class ILogger {
-	private:
-		
-	public:
-		virtual void init() = 0;
-
-		virtual void display(std::string const& message) = 0;
-
-		virtual void log(std::string const& message) = 0;
-	};
-
 	class IDebugger {
 	public:
-
-
+		/**
+		 * @brief A unique pointer to the logger that the debugger is suggested to use.
+		 *  
+		 * @since v0.0.1
+		 */
+		std::unique_ptr<ILogger> logger = nullptr;
+		
+		virtual void init() = 0;
 	};
 }

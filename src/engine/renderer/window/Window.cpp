@@ -1,3 +1,12 @@
+/**************************************************************************************************
+ * @file Window.cpp
+ * 
+ * @brief .
+ * 
+ * @date May 2025
+ * 
+ * @since v0.0.1
+ ***************************************************************************************************/
 #include <stdexcept>
 #include <unordered_map>
 #include <string>
@@ -31,7 +40,7 @@ void Atlas::GLFWGameWindow::init()
 	if (!glfwInit()) {
 		throw std::runtime_error("Failed to initialize GLFW");
 	}
-
+	
 	this->mIsInitialized = true;
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);

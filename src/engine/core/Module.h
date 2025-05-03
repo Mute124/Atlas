@@ -1,15 +1,15 @@
 #pragma once
 
+#include "../scripting/ScriptedObject.h"
+
 namespace Atlas {
-	class EngineModule {
+	class EngineModule : public ScriptedObject {
 	private:
 		bool mIsReady = false;
 		bool mIsEnabled = false;
 	
 	public:
-		virtual void exposeSymbols() {
-			// this function is empty as some modules may not wish to expose any symbols to mods.
-		}
+
 
 		virtual bool isReady() { return this->mIsReady; }
 		

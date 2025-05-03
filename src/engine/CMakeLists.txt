@@ -82,7 +82,11 @@ set(ATLAS_MODDING_SOURCES
 )
 
 set(ATLAS_DEBUGGING_SOURCES 
+    "debugging/Logging.h"
+    "debugging/Logging.cpp"
+
     "debugging/Debugger.h"
+    "debugging/Debugger.cpp"
 )
 
 set(ATLAS_WORLD_SOURCES
@@ -150,7 +154,7 @@ set(ATLAS_ENGINE_DEPENDENCIES
     rmlui::rmlui
     rmlui_DEPS_TARGET
     glfw
-    spdlog::spdlog
+    spdlog
 
     # TODO: these two need to be toggled based on options
     # vk-bootstrap::vk-bootstrap
