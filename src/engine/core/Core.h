@@ -6,7 +6,7 @@
 */
 #pragma once
 
-#define ATLAS_USE_GLFW3
+#define ATLAS_USE_SDL2
 #define ATLAS_USE_VULKAN
 #define ATLAS_RENDERER_3D
 

@@ -214,8 +214,8 @@ void Atlas::AtlasEngine::run()
 
 	beginLoop = true;
 
-	while (true) {
-
+	while (!this->mGameRenderingModule->shouldExit()) {
+		this->mGameRenderingModule->update();
 	}
 }
 

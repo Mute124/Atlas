@@ -35,7 +35,12 @@
 	#include <cassert>
 #endif
 
+// Used for some of the math stuff
+#include <glm/glm.hpp>
+
 #include "Core.h"
+
+
 
 #if defined(ATLAS_ALLOW_ASSERTS) || defined(ATLAS_DEBUG)
 	/**
@@ -145,6 +150,8 @@ namespace Atlas {
 	using std::chrono::milliseconds;
 	using std::chrono::seconds;
 	using std::unordered_map;
+
+
 
 	/**
 	 * @brief An interface for classes that want to be printable.

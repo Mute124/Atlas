@@ -155,8 +155,9 @@ set(ATLAS_ENGINE_DEPENDENCIES
     spdlog
 
     # TODO: these two need to be toggled based on options
-    # vk-bootstrap::vk-bootstrap
+    vk-bootstrap::vk-bootstrap
     Vulkan::Vulkan
+    SDL2::SDL2main
 
     simdjson::simdjson
     tinyxml2::tinyxml2

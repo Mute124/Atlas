@@ -4,12 +4,12 @@
 #include "window/Window.h"
 #include "../core/Core.h"
 
-Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, ARenderingBackend* backend, bool canBeMultiThreaded)
+Atlas::IRenderer::IRenderer(AGameWindow* gameWindow, ARenderingBackend* backend, bool canBeMultiThreaded)
 	: mainGameWindow(gameWindow), renderingBackend(backend), mCanBeMultiThreaded(canBeMultiThreaded)
 {
 }
 
-Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, ARenderingBackend* backend)
+Atlas::IRenderer::IRenderer(AGameWindow* gameWindow, ARenderingBackend* backend)
 	: mainGameWindow(gameWindow), renderingBackend(backend)
 {
 }
@@ -20,12 +20,12 @@ bool Atlas::IRenderer::isInitialized() const { return this->mIsInitialized; }
 
 #ifdef ATLAS_USE_VULKAN
 
-Atlas::VulkanRenderer::VulkanRenderer(IGameWindow* gameWindow, VulkanRenderingBackend* backend)
+Atlas::VulkanRenderer::VulkanRenderer(AGameWindow* gameWindow, VulkanRenderingBackend* backend)
 	: IRenderer(gameWindow, backend, true)
 {
 }
 
-Atlas::VulkanRenderer::VulkanRenderer(IGameWindow* gameWindow)
+Atlas::VulkanRenderer::VulkanRenderer(AGameWindow* gameWindow)
 	: VulkanRenderer(gameWindow, new VulkanRenderingBackend())
 {
 }
@@ -64,6 +64,11 @@ void Atlas::VulkanRenderer::update()
 void Atlas::VulkanRenderer::cleanup()
 {
 	this->mainGameWindow->close(true);
+}
+
+bool Atlas::VulkanRenderer::shouldExit()
+{
+	return this->mainGameWindow->shouldClose();
 }
 
 #endif

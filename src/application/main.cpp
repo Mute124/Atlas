@@ -15,6 +15,7 @@
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
 
+
 #include <core/AtlasEngine.h>
 
 class Person {
@@ -83,8 +84,19 @@ int main(int argc, char* argv[]) {
 	GameWindowSettings windowSettings{};
 	windowSettings.enableEventPolling = true;
 	
+	AGameWindow* gameWindow = nullptr;
+
+#ifdef ATLAS_USE_GLFW
+	gameWindow = new GLFWGameWindow("Atlas", 800, 600, NULL, 60, "", windowSettings);
+#elif defined ATLAS_USE_SDL2
+
+	windowSettings.windowInitFlags |= SDL_WINDOW_VULKAN;
+
+	gameWindow = new SDLGameWindow("Atlas", 800, 600, NULL, 60, "", windowSettings);
+#endif
+
 	EngineModulesInfo modulesInfo = EngineModulesInfo{ 
-		new VulkanRenderer(new GLFWGameWindow("Vulkan", 800, 600, NULL, 60, "",	windowSettings)),
+		new VulkanRenderer(gameWindow),
 		new GameThreader()
 	};
 

@@ -1,3 +1,12 @@
+/**************************************************************************************************
+ * @file Window.h
+ * 
+ * @brief .
+ * 
+ * @date May 2025
+ * 
+ * @since v
+ ***************************************************************************************************/
 #pragma once
 
 #include <string>
@@ -6,35 +15,39 @@
 #include <unordered_map>
 
 #include "../../core/Core.h" // this include has to be put here because the GLFW_INCLUDE_VULKAN is defined in this file (of course if vulkan and GLFW3 is being used!)
+#include "../../core/Common.h"
 
 #ifdef ATLAS_USE_GLFW3
 	#include <GLFW/glfw3.h>
 
 #elif defined ATLAS_USE_SDL2
 	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_video.h>
 #endif // ATLAS_USE_GLFW3
 
 
-namespace Atlas {
+#include <glm/glm.hpp>
+#include <glm/fwd.hpp>
 
+namespace Atlas {
+	/**
+	 * @brief A using alias for a GLM low-precision 2D vector that can be used to store the size
+	 * of a window.
+	 * 
+	 * @note There is no need for any real amount of precision as this is just used for storing
+	 * the size of the window, so having a higher precision is not necessary and could be a
+	 * performance hit.
+	 * 
+	 * @since v0.0.1
+	 */
+	using WindowSize = glm::vec<2, uint32_t, glm::lowp>;
+
+	enum class EWindowConfigFlag : uint32_t {
+
+	};
 
 	class IGameWindow {
-	protected:
-		std::string mWindowTitle;
-		std::string mWindowIcon;
-
-		uint32_t mWindowWidth;
-		uint32_t mWindowHeight;
-		
-		unsigned int mWindowConfigFlags;
-		unsigned int mTargetFPS;
-
-		bool mIsOpen = false;
-		bool mIsInitialized = false;
-
 	public:
-		IGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon);
-
 		virtual void init() = 0;
 
 		virtual void open() = 0;
@@ -50,6 +63,26 @@ namespace Atlas {
 		virtual void setFlag(std::string const& flagName, unsigned int value) = 0;
 	};
 
+	class AGameWindow : public IGameWindow {
+	protected:
+		std::string mWindowTitle;
+		std::string mWindowIcon;
+
+		uint32_t mWindowWidth;
+		uint32_t mWindowHeight;
+		
+		unsigned int mWindowConfigFlags;
+		unsigned int mTargetFPS;
+
+		bool mIsOpen = false;
+		bool mIsInitialized = false;
+
+		bool mShouldClose = false;
+
+	public:
+		AGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon);
+	};
+
 #ifdef ATLAS_USE_GLFW3
 
 	struct GameWindowSettings {
@@ -59,7 +92,7 @@ namespace Atlas {
 		GLFWmonitor* monitor = nullptr; 
 	};
 
-	class GLFWGameWindow final : public IGameWindow {
+	class GLFWGameWindow final : public AGameWindow {
 	private:
 
 		friend unsigned int GetWindowConfigFlag(std::string const& flagName);
@@ -118,12 +151,20 @@ namespace Atlas {
 		bool enableEventPolling = true;
 		bool fullscreen = false;
 
+		uint32_t windowInitFlags;
 	};
 
-	class SDLGameWindow final : public IGameWindow {
+	class SDLGameWindow final : public AGameWindow {
 	private:
 		GameWindowSettings mGameWindowSettings;
+
+		SDL_Window* mSDLWindowPointer = nullptr;
+
+		uint64_t mFrameCount = 0;
+
 	public:
+
+
 		SDLGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon, GameWindowSettings const& gameWindowSettings);
 
 		virtual ~SDLGameWindow();
@@ -140,6 +181,8 @@ namespace Atlas {
 		void close(bool shouldCleanup) override;
 
 		void cleanup() override;
+
+		void setFlag(std::string const& flagName, unsigned int value) override;
 	};
 #endif // ATLAS_USE_GLFW3
 
