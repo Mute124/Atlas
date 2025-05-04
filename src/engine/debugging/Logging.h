@@ -80,36 +80,40 @@ namespace Atlas {
 		
 	public:
 
-		SpdlogLogger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath, LoggerSinks* loggingSinks);
+		SpdlogLogger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath, LoggerSinks* loggingSinks)
+			: mLoggerName(loggerName), mLogFilePath(logFilePath), mLoggingSinks(loggingSinks), mMessageFormatPattern(messageFormatPattern)
+		{
+		}
 
-		void init(LoggerSinks* loggingSinks);
-		void init() override;
+		void init(LoggerSinks* loggingSinks)
+		{
+			this->mInternalSpdlogLogger = std::make_shared<spdlog::logger>(
+				spdlog::logger(mLoggerName, { loggingSinks->consoleSink, loggingSinks->fileSink }));
+
+			this->mInternalSpdlogLogger->set_pattern(mMessageFormatPattern);
+		}
+		void init() override
+		{
+			this->init(this->mLoggingSinks);
+		}
 
 		void log(std::string const& message, uint16_t logLevel) override;
 		
 
 		void close() override;
+
+		// Inherited via ILogger
+		void setLevel(uint16_t logLevel) override
+		{
+		}
 	};
 
 
 	class Logger : public SpdlogLogger {
-	private:
-		
-
-		void display(std::string const& message) override;
-	
 	public:
-
-		Logger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath);
+		using SpdlogLogger::SpdlogLogger;
+		//Logger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath);
 		Logger() = default;
-
-		~Logger() override;
-
-		void init() override;
-
-		void close() override;
-
-		void log(std::string const& message, uint16_t logLevel) override;
 	};
 
 }

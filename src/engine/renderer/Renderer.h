@@ -19,9 +19,6 @@
 #include "window/Window.h"
 #include "backend/RenderingBackend.h"
 
-#ifdef ATLAS_USE_VULKAN
-	#include "backend/VulkanRenderingBackend.h"
-#endif
 
 namespace Atlas {
 	
@@ -63,7 +60,7 @@ namespace Atlas {
 		 */
 		const bool mCanBeMultiThreaded = false;
 		
-		IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend, bool canBeMultiThreaded);
+		IRenderer(IGameWindow* gameWindow, ARenderingBackend* backend, bool canBeMultiThreaded);
 
 	public:
 		/**
@@ -88,7 +85,7 @@ namespace Atlas {
 		 * 
 		 * @since v
 		 */
-		IRenderingBackend* renderingBackend = nullptr;
+		ARenderingBackend* renderingBackend = nullptr;
 
 		/**
 		 * @brief Sets the main game window and rendering backend to the specified parameters.
@@ -99,7 +96,7 @@ namespace Atlas {
 		 * 
 		 * @since v
 		 */
-		IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend);
+		IRenderer(IGameWindow* gameWindow, ARenderingBackend* backend);
 
 		/**
 		 * @brief This is one of the most important methods in this class. It is responsible for initializing the renderer, ensuring that all setup is done correctly. It should initialize

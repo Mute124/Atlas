@@ -9,36 +9,45 @@
  ***************************************************************************************************/
 #pragma once
 #include <string>
+#include <functional>
 
 #include "../../core/Core.h"
+
+#include "../../debugging/Debugger.h"
 
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
 	#include <vulkan/vulkan_core.h>
 #endif
+#include <cstdint>
+#include <vector>
 
 namespace Atlas {
-	class IRenderingBackend {
+	class ARenderingBackend {
 	protected:
 		const std::string mAPIName;
+
 	public:
 
 		virtual void init() = 0;
 		virtual void update() = 0;
 		virtual void shutdown() = 0;
+
+
 	};
 
 #ifdef ATLAS_USE_VULKAN
-
-	class VulkanRenderingBackend : public IRenderingBackend {
+	
+	class VulkanRenderingBackend : public ARenderingBackend {
 	private:
 
 		VkInstance mVulkanInstance = VK_NULL_HANDLE;
+		std::vector<const char*> mValidationLayers;
 
 	protected:
 
-		const VkApplicationInfo mAppInfo;
-		const VkInstanceCreateInfo mCreateInfo;
+		VkApplicationInfo mAppInfo;
+		VkInstanceCreateInfo mCreateInfo;
 
 	public:
 
@@ -57,11 +66,7 @@ namespace Atlas {
 		 * @sa @ref mAppInfo
 		 * @sa @ref mCreateInfo
 		 */
-		VulkanRenderingBackend() = delete;
-
-		explicit VulkanRenderingBackend(VkApplicationInfo const& appInfo, VkInstanceCreateInfo const& createInfo);
-
-		
+		VulkanRenderingBackend() = default;
 
 		void init() override;
 
@@ -69,9 +74,7 @@ namespace Atlas {
 
 		void shutdown() override;
 
-		bool operator==(const VulkanRenderingBackend& other) const;
+		bool checkValidationLayerSupport();
 	};
-
 #endif
-
 }

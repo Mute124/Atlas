@@ -3,14 +3,13 @@
 #include "backend/RenderingBackend.h"
 #include "window/Window.h"
 #include "../core/Core.h"
-#include "backend/VulkanRenderingBackend.h"
 
-Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend, bool canBeMultiThreaded)
+Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, ARenderingBackend* backend, bool canBeMultiThreaded)
 	: mainGameWindow(gameWindow), renderingBackend(backend), mCanBeMultiThreaded(canBeMultiThreaded)
 {
 }
 
-Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend)
+Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, ARenderingBackend* backend)
 	: mainGameWindow(gameWindow), renderingBackend(backend)
 {
 }
