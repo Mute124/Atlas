@@ -32,9 +32,7 @@ set(ATLAS_ENGINE_CORE_SOURCES
 
 set(ATLAS_RENDERER_SOURCES
     "renderer/backend/RenderingBackend.h"
-
-    "renderer/backend/VulkanRenderingBackend.h"
-    "renderer/backend/VulkanRenderingBackend.cpp"
+    "renderer/backend/RenderingBackend.cpp"
 
 
     "renderer/window/Window.h" 
