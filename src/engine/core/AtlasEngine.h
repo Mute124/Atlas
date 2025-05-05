@@ -17,8 +17,8 @@
 #include "Core.h"
 #include "MemoryAllocator.h"
 
-#include "../renderer/Renderer.h"
-#include "../renderer/window/Window.h"
+#include "../graphics/Renderer.h"
+#include "../graphics/window/Window.h"
 
 #include "threading/GameThreader.h"
 #include "threading/ThreadSafeVariable.h"

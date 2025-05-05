@@ -22,15 +22,30 @@
 
 	#include <SDL2/SDL.h>
 	#include <SDL2/SDL_video.h>
+	#include <SDL2/SDL_events.h>
 #endif
 
-
-
-
+#include <iostream>
 
 Atlas::AGameWindow::AGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon)
 	: IGameWindow(), mWindowTitle(title), mWindowWidth(width), mWindowHeight(height), mWindowConfigFlags(windowConfigFlags), mTargetFPS(targetFPS), mWindowIcon(icon) {
 }
+
+std::string const& Atlas::AGameWindow::getTitle() const { return mWindowTitle; }
+
+uint32_t Atlas::AGameWindow::getWidth() const { return mWindowWidth; }
+
+uint32_t Atlas::AGameWindow::getHeight() const { return mWindowHeight; }
+
+unsigned int Atlas::AGameWindow::getFlags() const { return mWindowConfigFlags; }
+
+unsigned int Atlas::AGameWindow::getTargetFPS() const { return mTargetFPS; }
+
+bool Atlas::AGameWindow::isOpen() const { return mIsOpen; }
+
+bool Atlas::AGameWindow::isInitialized() const { return mIsInitialized; }
+
+bool Atlas::AGameWindow::shouldClose() { return mShouldClose; }
 
 #ifdef ATLAS_USE_GLFW3
 
@@ -117,6 +132,13 @@ void Atlas::GLFWGameWindow::setFlag(std::string const& flagName, unsigned int va
 
 #elif defined(ATLAS_USE_SDL2)
 
+bool Atlas::SDLGameWindow::EventOccurred()
+{
+	// Since the documentation of SDL_PollEvent states that this function will return whether or not there is a 
+	// pending event in the event queue if the parameter is null, we can safely ignore the return value here.
+	return SDL_PollEvent(nullptr) != 0;
+}
+
 Atlas::SDLGameWindow::SDLGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon, GameWindowSettings const& gameWindowSettings)
 : AGameWindow(title, width, height, windowConfigFlags, targetFPS, icon), mGameWindowSettings(gameWindowSettings)
 {
@@ -138,8 +160,6 @@ void Atlas::SDLGameWindow::init()
 	else {
 		this->mIsInitialized = true;
 	}
-
-	
 }
 
 void Atlas::SDLGameWindow::open()
@@ -158,10 +178,22 @@ void Atlas::SDLGameWindow::update()
 {
 	SDL_Event sdlEvent;
 
-	while(SDL_PollEvent(&sdlEvent)) {
-		if (sdlEvent.type == SDL_QUIT) {
-			this->mShouldClose = true;
-		}
+	// Since we only care about doing event checking IF an event exists, this variable is used to track that.
+	bool eventsExist = EventOccurred();
+
+	if (!eventsExist) {
+		// if no events exist, we can skip the rest of the function.
+
+		std::cout << "No events exist, skipping window update" << std::endl;
+		return;
+	}
+
+	while(eventsExist) {
+		SDL_PollEvent(&sdlEvent);
+
+		this->mEventHandlers[sdlEvent.type](sdlEvent, *this);
+
+		eventsExist = EventOccurred();
 	}
 }
 

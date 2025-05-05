@@ -154,9 +154,14 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.10
 		 */
-        bool isTaskQueueEmpty() const;
+        bool isTaskQueueEmpty() const {
+            return mTaskQueue.empty();
+        }
 
-        void setStatus(EGameThreadSchedulerStatus status);
+        void setStatus(EGameThreadSchedulerStatus status)
+        {
+            mStatus = status;
+        }
 
     public:
         // Disable copy
@@ -180,7 +185,12 @@ namespace Atlas {
          * 
          * @since v0.0.10
          */
-        explicit GameThreadScheduler(uint8_t numThreads, bool callInit = true);
+        explicit GameThreadScheduler(uint8_t numThreads, bool callInit = true) : mThreadCount(numThreads) {
+            if(callInit)
+            {
+                init(numThreads);
+            }
+        }
 
         /**
          * @brief The default deconstructor that joins all threads (if they are joinable) and cleans up everything.
@@ -189,7 +199,16 @@ namespace Atlas {
          * 
          * @since v0.0.10
          */
-        ~GameThreadScheduler();
+        ~GameThreadScheduler() {
+            {
+                std::lock_guard<std::mutex> lock(mQueueMutex);
+                mIsRunning = false;
+            }
+
+            mWorkAvailableConditional.notify_all();
+
+            joinAll();
+        }
 
         /**
          * @brief Initializes this class with the specified amount of threads.
@@ -200,7 +219,37 @@ namespace Atlas {
          * 
          * @since v0.0.10
          */
-        void init(uint8_t numThreads);
+        void init(uint8_t numThreads) {
+            mIsRunning = true;
+            setStatus(EGameThreadSchedulerStatus::Initializing);
+
+            for(size_t i = 0; i < numThreads; ++i) {
+
+                mWorkersVector.emplace_back([this]() {
+
+                    while(true) {
+                        Task task;
+                        {
+                            std::unique_lock<std::mutex> lock(mQueueMutex);
+
+                            mWorkAvailableConditional.wait(lock, [this]() {
+                                return !isTaskQueueEmpty() || !mIsRunning;
+                                });
+
+                            if(!mIsRunning && isTaskQueueEmpty())
+                                return;
+
+                            task = std::move(mTaskQueue.front());
+                            mTaskQueue.pop();
+                        }
+
+                        task(); // Run task
+                    }
+                    });
+            }
+
+            setStatus(EGameThreadSchedulerStatus::Running);
+        }
 
         /**
          * @brief Schedules a task to be executed. The templates are not really necessary, see this function's details section in the documentation for more information.
@@ -288,7 +337,12 @@ namespace Atlas {
          * 
          * @since v0.0.10
          */
-        void joinAll();
+        void joinAll() {
+            for(std::thread& workerThread : mWorkersVector) {
+                if(workerThread.joinable())
+                    workerThread.join();
+            }
+        }
 
         /**
          * @brief Checks if this scheduler is running. The outcome of this function is based on the value of the mIsRunning member variable and does not
@@ -298,7 +352,9 @@ namespace Atlas {
          * 
          * @since v0.0.10
          */
-        bool isRunning() const;
+        bool isRunning() const {
+            return mIsRunning;
+        }
 
         /**
          * @brief Returns the number of worker threads in this scheduler. 
@@ -307,7 +363,9 @@ namespace Atlas {
          * 
          * @since v0.0.10
          */
-        uint8_t getThreadCount() const;
+        uint8_t getThreadCount() const {
+            return mThreadCount;
+        }
 
         GameThreadScheduler& operator=(const GameThreadScheduler&) = delete;
     };

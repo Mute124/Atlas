@@ -1,7 +1,10 @@
 /**************************************************************************************************
  * @file Window.h
  * 
- * @brief .
+ * @brief Everything required to create a window. If you wish to create a window, you may use
+ * the GLFWGameWindow or the SDLGameWindow classes direction (if you dont wish to make your
+ * own window class). If you want to use a custom window class, you should inherit from
+ * IGameWindow or AGameWindow, depending on your needs.
  * 
  * @date May 2025
  * 
@@ -13,6 +16,7 @@
 #include <cstdint>
 #include <unordered_set>
 #include <unordered_map>
+#include <functional>
 
 #include "../../core/Core.h" // this include has to be put here because the GLFW_INCLUDE_VULKAN is defined in this file (of course if vulkan and GLFW3 is being used!)
 #include "../../core/Common.h"
@@ -42,10 +46,24 @@ namespace Atlas {
 	 */
 	using WindowSize = glm::vec<2, uint32_t, glm::lowp>;
 
+	/**
+	 * @brief An enum class that contains all possible flags that can be used to configure a window.
+	 * 
+	 * @since v0.0.1
+	 * 
+	 * @todo Add some general window flags
+	 */
 	enum class EWindowConfigFlag : uint32_t {
 
 	};
 
+	/**
+	 * @brief An interface that allows the creation of custom window classes. If you want to make
+	 * your own window class and you don't want to use the AGameWindow class, you should inherit
+	 * from this interface.
+	 * 
+	 * @since v
+	 */
 	class IGameWindow {
 	public:
 		virtual void init() = 0;
@@ -81,6 +99,22 @@ namespace Atlas {
 
 	public:
 		AGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon);
+
+		std::string const& getTitle() const;
+
+		uint32_t getWidth() const;
+
+		uint32_t getHeight() const;
+
+		unsigned int getFlags() const;
+
+		unsigned int getTargetFPS() const;
+
+		bool isOpen() const;
+
+		bool isInitialized() const;
+
+		bool shouldClose() override;
 	};
 
 #ifdef ATLAS_USE_GLFW3
@@ -156,14 +190,26 @@ namespace Atlas {
 
 	class SDLGameWindow final : public AGameWindow {
 	private:
+		std::unordered_map<uint32_t, std::function<int(SDL_Event const&, SDLGameWindow const&)>> mEventHandlers;
+
 		GameWindowSettings mGameWindowSettings;
 
 		SDL_Window* mSDLWindowPointer = nullptr;
 
 		uint64_t mFrameCount = 0;
 
-	public:
+		/**
+		 * @brief Checks if an event occurred by simply calling SDL_PollEvents with a nullptr.
+		 * 
+		 * @return @a True if SDL_PollEvents does not return 0, otherwise @a false.
+		 * 
+		 * @since v
+		 */
+		static inline bool EventOccurred();
+	
 
+	
+	public:
 
 		SDLGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon, GameWindowSettings const& gameWindowSettings);
 

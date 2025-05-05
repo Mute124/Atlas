@@ -1,10 +1,5 @@
-﻿# The sources are seperated into different variables for organization reasons
-
-set(ATLAS_COMPONENT_SOURCES
-
-)
-
-set(ATLAS_ENGINE_CORE_SOURCES
+﻿set(ATLAS_ENGINE_SOURCES 
+	# Engine Core
     "core/Core.h"
     "core/Common.h" 
 
@@ -28,100 +23,23 @@ set(ATLAS_ENGINE_CORE_SOURCES
 
     "core/threading/ThreadSafeVariable.h"
     "core/threading/ThreadSafeVariable.cpp"
-)
 
-set(ATLAS_RENDERER_SOURCES
-    "renderer/backend/RenderingBackend.h"
-    "renderer/backend/RenderingBackend.cpp"
+    "graphics/backend/RenderingBackend.h"
+    "graphics/backend/RenderingBackend.cpp"
 
+    "graphics/window/Window.h" 
+    "graphics/window/Window.cpp" 
 
-    "renderer/window/Window.h" 
-    "renderer/window/Window.cpp" 
+    "graphics/Renderer.h" 
+    "graphics/Renderer.cpp"
 
-    "renderer/Renderer.h" 
-    "renderer/Renderer.cpp"
-)
-
-set(ATLAS_STATE_SOURCES
-
-)
-
-set(ATLAS_SYSTEM_SOURCES
-
-)
-
-set(ATLAS_UTIL_SOURCES
-
-
-)
-
-set(ATLAS_MATH_SOURCES
-
-)
-
-set(ATLAS_INPUT_SOURCES
-
-)
-
-set(ATLAS_CONFIG_SOURCES
-
-)
-
-set(ATLAS_FILESYSTEM_SOURCES
-
-)
-
-set(ATLAS_PHYSICS_SOURCES
-
-)
-
-set(ATLAS_MODDING_SOURCES
     "scripting/ScriptedObject.h"
-)
 
-set(ATLAS_DEBUGGING_SOURCES 
     "debugging/Logging.h"
     "debugging/Logging.cpp"
 
     "debugging/Debugger.h"
     "debugging/Debugger.cpp"
-)
-
-set(ATLAS_WORLD_SOURCES
-
-)
-
-set(ATLAS_LANGUAGE_SOURCES
-
-)
-
-set(ATLAS_PROJECT_SOURCES 
-
-)
-
-set(ATLAS_AUDIO_SOURCES
-
-)
-
-set(ATLAS_ENGINE_SOURCES 
-	# Engine Core
-    ${ATLAS_COMPONENT_SOURCES}
-    ${ATLAS_ENGINE_CORE_SOURCES}
-    ${ATLAS_RENDERER_SOURCES}
-    ${ATLAS_STATE_SOURCES}
-    ${ATLAS_SYSTEM_SOURCES}
-    ${ATLAS_UTIL_SOURCES}
-	${ATLAS_MATH_SOURCES}
-    ${ATLAS_INPUT_SOURCES}
-    ${ATLAS_CONFIG_SOURCES}
-    ${ATLAS_FILESYSTEM_SOURCES}
-	${ATLAS_PHYSICS_SOURCES}
-	${ATLAS_MODDING_SOURCES}
-	${ATLAS_DEBUGGING_SOURCES}
-    ${ATLAS_WORLD_SOURCES}
-    ${ATLAS_LANGUAGE_SOURCES}
-    ${ATLAS_PROJECT_SOURCES}
-    ${ATLAS_AUDIO_SOURCES}
 )
 
 if (DEFINED VULKAN_SDK_PATH)
@@ -141,16 +59,8 @@ endif()
 
 # Please note that this is NOT the final list of dependencies, some are toggled based on options
 set(ATLAS_ENGINE_DEPENDENCIES
-    joltphysics::joltphysics 
-    joltphysics_DEPS_TARGET
-
-    libconfig::libconfig
-    libconfig_libconfig_libconfig++_DEPS_TARGET
 
     eventpp::eventpp
-
-    rmlui::rmlui
-    rmlui_DEPS_TARGET
     glfw
     spdlog
 
@@ -161,9 +71,7 @@ set(ATLAS_ENGINE_DEPENDENCIES
 
     simdjson::simdjson
     tinyxml2::tinyxml2
-    Angelscript::angelscript
     boost::boost
-    miniaudio::miniaudio
 )
 
 include("${CMAKE_SOURCE_DIR}/CMakeOptions.txt")
