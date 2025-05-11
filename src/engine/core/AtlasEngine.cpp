@@ -178,7 +178,9 @@ void Atlas::AtlasEngine::initWithoutThreading()
 void Atlas::AtlasEngine::runRenderer()
 {
 	this->mGameRenderingModule->init();
-	this->mGameRenderingModule->mainGameWindow->open();
+
+	
+	this->mGameRenderingModule->mainGameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
 
 	renderThreadIsDone = true;
 

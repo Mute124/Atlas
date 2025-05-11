@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
 	WindowDescription windowDesc{};
 	windowDesc.windowRectangle.width = 800;
 	windowDesc.windowRectangle.height = 600;
-	windowDesc.windowTitleString = "Atlas";
+	windowDesc.title = "Atlas";
 	//windowSettings.windowDescription = windowDesc;
 	
 	IGameWindow* gameWindow = nullptr;
@@ -96,9 +96,14 @@ int main(int argc, char* argv[]) {
 	gameWindow = new GLFWGameWindow("Atlas", 800, 600, NULL, 60, "", windowSettings);
 #elif defined ATLAS_USE_SDL2
 
-	windowSettings.windowInitFlags |= SDL_WINDOW_VULKAN;
 
-	gameWindow = new SDLGameWindow(windowDesc);
+	gameWindow = new SDLGameWindow();
+
+	gameWindow->setWindowTitle("Atlas");
+	gameWindow->setWindowSize(800, 600);
+	gameWindow->setWindowPosition(0, 0);
+	gameWindow->setTargetFPS(60);
+
 #endif
 
 	EngineModulesInfo modulesInfo = EngineModulesInfo{ 

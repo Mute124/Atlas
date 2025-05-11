@@ -32,7 +32,7 @@ Atlas::VulkanRenderer::VulkanRenderer(IGameWindow* gameWindow)
 
 void Atlas::VulkanRenderer::init()
 {
-	this->mainGameWindow->init();
+	this->mainGameWindow->init(SDL_INIT_VIDEO);
 	this->renderingBackend->init();
 }
 

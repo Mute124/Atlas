@@ -46,12 +46,17 @@ namespace Atlas {
 	 * @note There is no need for any real amount of precision as this is just used for storing
 	 * the size of the window, so having a higher precision is not necessary and could be a
 	 * performance hit.
-	 * 
+	 *
 	 * @since v0.0.1
 	 */
 	using WindowSize = glm::vec<2, uint32_t, glm::lowp>;
 	
 	using WindowRectangle = Rectangle<int16_t>;
+
+	struct WindowHint {
+		std::string identifier;
+		std::string value;
+	};
 
 	/**
 	 * @brief A struct that contains all the information that a window needs. 
@@ -60,27 +65,12 @@ namespace Atlas {
 	 */
 	struct WindowDescription {
 
-		std::string windowTitleString;
+		std::string title;
 		std::string iconPath;
 
 		WindowRectangle windowRectangle;
 
 		uint16_t targetFPS;
-		
-		bool isInitialized = false;
-
-		bool isOpen = false;
-
-		/**
-		 * @brief A map that contains all the window configuration flags.
-		 * 
-		 * @note This map has a key of type uint32_t because this is supposed to be what is actually
-		 * passed to the windowing API. GLFW and SDL2 both use uint32_t as the flag identifier and
-		 * this is the reason for this. In other words, the key is a lower-level flag identifier.
-		 * 
-		 * @since v0.0.1
-		 */
-		std::unordered_map<uint32_t, std::variant<std::string, uint32_t>> windowConfigFlags;
 	};
 
 	/**
@@ -99,11 +89,11 @@ namespace Atlas {
 
 		virtual ~IGameWindow() = default;
 
-		virtual void init() = 0;
+		virtual void init(const uint32_t cInitFlags) = 0;
 
 		virtual void update() = 0;
 
-		virtual void open() = 0;
+		virtual void open(const uint32_t cOpenFlags) = 0;
 
 		virtual bool shouldClose() = 0;
 
@@ -115,13 +105,21 @@ namespace Atlas {
 
 		virtual bool isInitialized() const = 0;
 
-		virtual void setFlag(uint32_t flagIdentifier, uint32_t newValue) = 0;
-
-		virtual void setFlag(uint32_t flagIdentifier, std::string const& newValue) = 0;
+		virtual void setHint(WindowHint const& hint) = 0;
 
 		virtual void setIcon(std::string const& newIconPath) = 0;
 
-		virtual WindowDescription& getWindowDescription() = 0;
+		virtual void setWindowTitle(std::string const& newWindowTitle) = 0;
+
+		virtual void setWindowPosition(int16_t newX, int16_t newY) = 0;
+
+		virtual void setWindowSize(int16_t newWidth, int16_t newHeight) = 0;
+
+		virtual void setTargetFPS(int16_t newTargetFPS) = 0;
+
+		virtual WindowDescription getWindowDescription() const = 0;
+
+		//explicit virtual operator WindowDescription() const = 0;
 	};
 
 	/**
@@ -131,47 +129,38 @@ namespace Atlas {
 	 * @since v0.0.1
 	 */
 	class NullGameWindow : public IGameWindow {
-	private:
-		static inline uint32_t sGraphicsAPIFlag = -1;
-		static inline bool sHasSetGraphicsAPIFlag = false;
-
-		WindowDescription mWindowDescription;
-
 	protected:
 
-		explicit NullGameWindow(WindowDescription const& windowDescription, const uint32_t cGraphicsAPIFlag);
+		static inline bool sHasSetGraphicsAPIFlag = false;
 
+		std::string mWindowTitle;
+		std::string mIconPath;
+
+		WindowRectangle mWindowRect;
+
+		int16_t mTargetFPS;
+
+		bool mIsInitialized = false;
+
+		bool mIsOpen = false;
 	public:
-		
+
+		static inline uint32_t sGraphicsAPIFlag = -1;
+
 		using IGameWindow::IGameWindow;
 
 		NullGameWindow(NullGameWindow const&) = delete;
 
 		NullGameWindow& operator=(NullGameWindow const&) = delete;
 
-		explicit NullGameWindow(WindowDescription const& windowDescription);
+		explicit NullGameWindow(const uint32_t cGraphicsAPIFlag);
 
 		~NullGameWindow() override = default;
 
-		void init() override;
+		WindowDescription getWindowDescription() const override;
 
-		void open() override;
 
-		void close() override;
-
-		bool isOpen() const override;
-
-		bool isInitialized() const override;
-
-		void setFlag(uint32_t flagIdentifier, uint32_t newValue) override;
-
-		void setFlag(uint32_t flagIdentifier, std::string const& newValue) override;
-
-		void setIcon(std::string const& newIconPath) override;
-
-		WindowDescription& getWindowDescription() noexcept final;
-
-		uint32_t getGraphicsAPIFlag() const noexcept;
+		//explicit operator WindowDescription() const override;
 	};
 
 
@@ -246,7 +235,7 @@ namespace Atlas {
 		uint32_t windowInitFlags;
 	};
 
-	class SDLGameWindow final : public NullGameWindow {
+	class SDLGameWindow : public NullGameWindow {
 	private:
 		std::unordered_map<uint32_t, std::function<int(SDL_Event const&, SDLGameWindow&)>> mEventHandlers;
 
@@ -270,18 +259,18 @@ namespace Atlas {
 		static inline uint32_t GetGraphicsAPIFlag();
 
 	public:
-		explicit SDLGameWindow(WindowDescription const& windowDescription, const uint32_t cGraphicsAPIFlag);
+		explicit SDLGameWindow(const uint32_t cGraphicsAPIFlag);
 
-		explicit SDLGameWindow(WindowDescription const& windowDescription);
+		SDLGameWindow() = default;
 
-		~SDLGameWindow() = default;
+		~SDLGameWindow() override = default;
 
 		// Inherited via NullGameWindow
-		void init() override;
+		void init(const uint32_t cInitFlags) override;
 
 		void update() override;
 
-		void open() override;
+		void open(const uint32_t cOpenFlags) override;
 
 		bool shouldClose() override;
 
@@ -289,11 +278,21 @@ namespace Atlas {
 
 		void cleanup() override;
 
-		void setFlag(uint32_t flagIdentifier, uint32_t newValue) override;
+		bool isOpen() const override;
 
-		void setFlag(uint32_t flagIdentifier, std::string const& newValue) override;
+		bool isInitialized() const override;
+
+		void setHint(WindowHint const& hint) override;
 
 		void setIcon(std::string const& newIconPath) override;
+
+		void setWindowTitle(std::string const& newWindowTitle) override;
+
+		void setWindowPosition(int16_t newX, int16_t newY) override;
+
+		void setWindowSize(int16_t newWidth, int16_t newHeight) override;
+
+		void setTargetFPS(int16_t newTargetFPS) override;
 	};
 
 #endif // ATLAS_USE_GLFW3
