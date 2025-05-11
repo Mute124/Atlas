@@ -60,7 +60,7 @@ namespace Atlas {
 		 */
 		const bool mCanBeMultiThreaded = false;
 		
-		IRenderer(AGameWindow* gameWindow, IRenderingBackend* backend, bool canBeMultiThreaded);
+		IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend, bool canBeMultiThreaded);
 
 	public:
 		/**
@@ -74,7 +74,7 @@ namespace Atlas {
 		 * 
 		 * @since v
 		 */
-		AGameWindow* mainGameWindow = nullptr;
+		IGameWindow* mainGameWindow = nullptr;
 
 		/**
 		 * @brief A polymorphic pointer to the rendering backend that the renderer is using. 
@@ -96,7 +96,7 @@ namespace Atlas {
 		 * 
 		 * @since v
 		 */
-		IRenderer(AGameWindow* gameWindow, IRenderingBackend* backend);
+		IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend);
 
 		/**
 		 * @brief This is one of the most important methods in this class. It is responsible for initializing the renderer, ensuring that all setup is done correctly. It should initialize
@@ -123,9 +123,9 @@ namespace Atlas {
 	public:
 		using IRenderer::IRenderer;
 
-		VulkanRenderer(AGameWindow* gameWindow, VulkanRenderingBackend* backend);
+		VulkanRenderer(IGameWindow* gameWindow, VulkanRenderingBackend* backend);
 
-		explicit VulkanRenderer(AGameWindow* gameWindow);
+		explicit VulkanRenderer(IGameWindow* gameWindow);
 
 		void init() override;
 

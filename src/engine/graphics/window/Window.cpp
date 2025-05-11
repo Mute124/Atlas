@@ -11,9 +11,11 @@
 #include <unordered_map>
 #include <string>
 #include <cstdint>
+#include <iostream>
 
 #include "../../core/Core.h"
 #include "../../core/Common.h"
+
 #include "Window.h"
 
 #ifdef ATLAS_USE_GLFW3
@@ -21,36 +23,83 @@
 #elif defined(ATLAS_USE_SDL2)
 
 	#include <SDL2/SDL.h>
+	#include <SDL2/SDL_stdinc.h>
 	#include <SDL2/SDL_video.h>
 	#include <SDL2/SDL_events.h>
 #endif
 
-#include <iostream>
 
-Atlas::AGameWindow::AGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon)
-	: IGameWindow(), mWindowTitle(title), mWindowWidth(width), mWindowHeight(height), mWindowConfigFlags(windowConfigFlags), mTargetFPS(targetFPS), mWindowIcon(icon) {
+
+Atlas::NullGameWindow::NullGameWindow(WindowDescription const& windowDescription, const uint32_t cGraphicsAPIFlag)
+	: IGameWindow(), mWindowDescription(windowDescription)
+{
+	if (sHasSetGraphicsAPIFlag == false) {
+		sGraphicsAPIFlag = cGraphicsAPIFlag;
+		sHasSetGraphicsAPIFlag = true;
+	}
 }
 
-std::string const& Atlas::AGameWindow::getTitle() const { return mWindowTitle; }
 
-uint32_t Atlas::AGameWindow::getWidth() const { return mWindowWidth; }
 
-uint32_t Atlas::AGameWindow::getHeight() const { return mWindowHeight; }
+Atlas::NullGameWindow::NullGameWindow(WindowDescription const& windowDescription)
+	: NullGameWindow(windowDescription, sGraphicsAPIFlag)
+{
+}
 
-unsigned int Atlas::AGameWindow::getFlags() const { return mWindowConfigFlags; }
+void Atlas::NullGameWindow::init()
+{
+	this->getWindowDescription().isInitialized = true;
+}
 
-unsigned int Atlas::AGameWindow::getTargetFPS() const { return mTargetFPS; }
+void Atlas::NullGameWindow::open()
+{
+	this->getWindowDescription().isOpen = true;
+}
 
-bool Atlas::AGameWindow::isOpen() const { return mIsOpen; }
+void Atlas::NullGameWindow::close()
+{
+	this->getWindowDescription().isOpen = false;
+}
 
-bool Atlas::AGameWindow::isInitialized() const { return mIsInitialized; }
+bool Atlas::NullGameWindow::isOpen() const
+{
+	return this->mWindowDescription.isOpen;
+}
 
-bool Atlas::AGameWindow::shouldClose() { return mShouldClose; }
+bool Atlas::NullGameWindow::isInitialized() const
+{
+	return this->mWindowDescription.isInitialized;
+}
+
+void Atlas::NullGameWindow::setFlag(uint32_t flagIdentifier, uint32_t newValue)
+{
+	this->getWindowDescription().windowConfigFlags[flagIdentifier] = newValue;
+}
+
+void Atlas::NullGameWindow::setFlag(uint32_t flagIdentifier, std::string const& newValue)
+{
+	this->getWindowDescription().windowConfigFlags[flagIdentifier] = newValue;
+}
+
+void Atlas::NullGameWindow::setIcon(std::string const& newIconPath)
+{
+	this->getWindowDescription().iconPath = newIconPath;
+}
+
+Atlas::WindowDescription& Atlas::NullGameWindow::getWindowDescription() noexcept
+{
+	return this->mWindowDescription;
+}
+
+uint32_t Atlas::NullGameWindow::getGraphicsAPIFlag() const noexcept
+{
+	return sGraphicsAPIFlag;
+}
 
 #ifdef ATLAS_USE_GLFW3
 
 Atlas::GLFWGameWindow::GLFWGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon, GameWindowSettings const& gameWindowSettings)
-	: AGameWindow(title, width, height, windowConfigFlags, targetFPS, icon), mGameWindowSettings(gameWindowSettings)
+	: NullGameWindow(title, width, height, windowConfigFlags, targetFPS, icon), mGameWindowSettings(gameWindowSettings)
 {
 }
 
@@ -132,6 +181,37 @@ void Atlas::GLFWGameWindow::setFlag(std::string const& flagName, unsigned int va
 
 #elif defined(ATLAS_USE_SDL2)
 
+uint32_t Atlas::SDLGameWindow::GetGraphicsAPIFlag()
+{
+	uint32_t result = 0;
+
+#ifdef ATLAS_USE_OPENGL
+	result = SDL_WINDOW_OPENGL;
+#elif defined(ATLAS_USE_VULKAN)
+	result = SDL_WINDOW_VULKAN;
+
+#elif defined(ATLAS_USE_METAL)
+
+	result = SDL_WINDOW_METAL;
+
+#else
+
+	ATLAS_STATIC_ASSERT(false, "Unknown graphics API! Please define ATLAS_USE_OPENGL, ATLAS_USE_VULKAN or ATLAS_USE_METAL!");
+#endif
+
+	return result;
+}
+
+Atlas::SDLGameWindow::SDLGameWindow(WindowDescription const& windowDescription, const uint32_t cGraphicsAPIFlag)
+	: NullGameWindow(windowDescription, cGraphicsAPIFlag)
+{
+}
+
+Atlas::SDLGameWindow::SDLGameWindow(WindowDescription const& windowDescription)
+	: SDLGameWindow(windowDescription, GetGraphicsAPIFlag())
+{
+}
+
 bool Atlas::SDLGameWindow::EventOccurred()
 {
 	// Since the documentation of SDL_PollEvent states that this function will return whether or not there is a 
@@ -139,12 +219,19 @@ bool Atlas::SDLGameWindow::EventOccurred()
 	return SDL_PollEvent(nullptr) != 0;
 }
 
-Atlas::SDLGameWindow::SDLGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon, GameWindowSettings const& gameWindowSettings)
-: AGameWindow(title, width, height, windowConfigFlags, targetFPS, icon), mGameWindowSettings(gameWindowSettings)
+void Atlas::SDLGameWindow::setFlag(uint32_t flagIdentifier, uint32_t newValue)
 {
+	NullGameWindow::setFlag(flagIdentifier, newValue);
+
 }
 
-Atlas::SDLGameWindow::~SDLGameWindow()
+void Atlas::SDLGameWindow::setFlag(uint32_t flagIdentifier, std::string const& newValue)
+{
+	NullGameWindow::setFlag(flagIdentifier, newValue);
+
+}
+
+void Atlas::SDLGameWindow::setIcon(std::string const& newIconPath)
 {
 }
 
@@ -158,20 +245,38 @@ void Atlas::SDLGameWindow::init()
 		throw std::runtime_error("Failed to initialize SDL");
 	}
 	else {
-		this->mIsInitialized = true;
+		this->getWindowDescription().isInitialized = true;
 	}
+
+	this->mEventHandlers[SDL_QUIT] = [](SDL_Event const& event, SDLGameWindow& window) { 
+		window.close();
+		return 0;
+	};
+
 }
 
 void Atlas::SDLGameWindow::open()
 {
-	this->mSDLWindowPointer = SDL_CreateWindow(this->mWindowTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->mWindowWidth, this->mWindowHeight, this->mGameWindowSettings.windowInitFlags);
+	WindowDescription const& windowDescription = this->getWindowDescription();
 
+	this->mSDLWindowPointer = SDL_CreateWindow(
+		windowDescription.windowTitleString.c_str(),
+		SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED,
+		windowDescription.windowRectangle.width,
+		windowDescription.windowRectangle.height,
+		(SDL_WindowFlags)(SDL_WINDOW_VULKAN)
+	);
+	
 	if (this->mSDLWindowPointer == nullptr) {
 		throw std::runtime_error("Failed to create SDL window");
 	}
 	else {
-		this->mIsOpen = true;
+		// this parent function actually only sets the value of windowDescription.isOpen.
+		NullGameWindow::open();
 	}
+
+	SDL_SetWindowPosition(this->mSDLWindowPointer, windowDescription.windowRectangle.x, windowDescription.windowRectangle.y);
 }
 
 void Atlas::SDLGameWindow::update()
@@ -188,13 +293,15 @@ void Atlas::SDLGameWindow::update()
 		return;
 	}
 
-	while(eventsExist) {
-		SDL_PollEvent(&sdlEvent);
+	while(SDL_PollEvent(&sdlEvent)) {
 
-		this->mEventHandlers[sdlEvent.type](sdlEvent, *this);
+		if(sdlEvent.type == SDL_QUIT) {
+			this->mShouldClose = true;
+		}
 
-		eventsExist = EventOccurred();
+		//eventsExist = EventOccurred();
 	}
+
 }
 
 bool Atlas::SDLGameWindow::shouldClose()
@@ -202,31 +309,28 @@ bool Atlas::SDLGameWindow::shouldClose()
 	return this->mShouldClose;
 }
 
-void Atlas::SDLGameWindow::close(bool shouldCleanup)
+void Atlas::SDLGameWindow::close()
+{
+	this->setFlag(SDL_WINDOW_HIDDEN, SDL_TRUE);
+}
+
+void Atlas::SDLGameWindow::cleanup()
 {
 	if (this->mSDLWindowPointer != nullptr) {
 		SDL_DestroyWindow(this->mSDLWindowPointer);
 	}
 
-	// in order to simplify the deinitialization process, this function may also call cleanup.
-	if (shouldCleanup) {
-		this->cleanup();
-	}
-}
-
-void Atlas::SDLGameWindow::cleanup()
-{
 	SDL_Quit();
 }
 
-void Atlas::SDLGameWindow::setFlag(std::string const& flagName, unsigned int value)
-{
-}
+
 
 #endif // ATLAS_USE_GLFW3
 
 unsigned int Atlas::GetWindowConfigFlag(std::string const& flagName)
 {
+	
+
 	unsigned int result = 0;
 
 #ifdef ATLAS_USE_GLFW3
@@ -242,3 +346,6 @@ unsigned int Atlas::GetWindowConfigFlag(std::string const& flagName)
 
 	return result;
 }
+
+
+

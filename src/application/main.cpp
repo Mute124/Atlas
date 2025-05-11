@@ -83,8 +83,14 @@ int main(int argc, char* argv[]) {
 
 	GameWindowSettings windowSettings{};
 	windowSettings.enableEventPolling = true;
+
+	WindowDescription windowDesc{};
+	windowDesc.windowRectangle.width = 800;
+	windowDesc.windowRectangle.height = 600;
+	windowDesc.windowTitleString = "Atlas";
+	//windowSettings.windowDescription = windowDesc;
 	
-	AGameWindow* gameWindow = nullptr;
+	IGameWindow* gameWindow = nullptr;
 
 #ifdef ATLAS_USE_GLFW
 	gameWindow = new GLFWGameWindow("Atlas", 800, 600, NULL, 60, "", windowSettings);
@@ -92,7 +98,7 @@ int main(int argc, char* argv[]) {
 
 	windowSettings.windowInitFlags |= SDL_WINDOW_VULKAN;
 
-	gameWindow = new SDLGameWindow("Atlas", 800, 600, NULL, 60, "", windowSettings);
+	gameWindow = new SDLGameWindow(windowDesc);
 #endif
 
 	EngineModulesInfo modulesInfo = EngineModulesInfo{ 

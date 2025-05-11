@@ -42,6 +42,7 @@
 
 
 
+
 #if defined(ATLAS_ALLOW_ASSERTS) || defined(ATLAS_DEBUG)
 	/**
 	* @brief If enabled (see the warning in the documentation), this will assert the specified condition
@@ -151,7 +152,15 @@ namespace Atlas {
 	using std::chrono::seconds;
 	using std::unordered_map;
 
-
+	
+	template<typename T_NUMERIC_TYPE>
+	struct Rectangle {
+		T_NUMERIC_TYPE x;
+		T_NUMERIC_TYPE y;
+		T_NUMERIC_TYPE width;
+		T_NUMERIC_TYPE height;
+	};
+	
 
 	/**
 	 * @brief An interface for classes that want to be printable.
@@ -191,6 +200,8 @@ namespace Atlas {
 
 	template<typename T>
 	class ReferenceHolder {
+	private:
+		T& mValue;
 	public:
 
 		explicit ReferenceHolder(T& value) : mValue(value) {}
@@ -203,9 +214,6 @@ namespace Atlas {
 			return mValue;
 		}
 
-
-	private:
-		T& mValue;
 	};
 
 
