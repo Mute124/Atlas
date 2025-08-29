@@ -41,7 +41,7 @@ namespace Atlas {
 		//	AtlasSettings mEngineSettings;
 
 		//public:
-		//	IRenderer* mGameRenderingModule;
+		//	ARenderer* mGameRenderingModule;
 		//	IGameThreader* mGameThreader;
 
 		//	AbstractMemoryAllocator* memoryAllocator;
@@ -53,7 +53,7 @@ namespace Atlas {
 			//{
 			//}
 
-		virtual void setRenderer(std::shared_ptr<IRenderer> renderer) = 0;
+		virtual void setRenderer(std::shared_ptr<ARenderer> renderer) = 0;
 
 		virtual void setGameThreader(std::shared_ptr <IGameThreader> gameThreader) = 0;
 

@@ -21,6 +21,8 @@
 
 #include "../../debugging/Debugger.h"
 
+#include "../window/Window.h"
+
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
 	#include <vulkan/vulkan_core.h>
@@ -29,7 +31,7 @@
 
 namespace Atlas {
 
-	class IGameWindow;
+	class AGameWindow;
 
 	enum class TextureFormat { RGBA8, Depth32 };
 
@@ -93,7 +95,6 @@ namespace Atlas {
 		}
 	};
 
-
 	class RenderingBackend {
 	public:
 		struct APIVersion {
@@ -111,9 +112,9 @@ namespace Atlas {
 		
 		RenderingBackend() = default;
 
-		explicit RenderingBackend(APIVersion version, const bool cbUseValidationLayers) : mAPIVersion(version), mbEnableErrorChecking(cbUseValidationLayers) {}
+		
 
-		virtual void setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch) { this->mAPIVersion.major = major; this->mAPIVersion.minor = minor; this->mAPIVersion.patch = patch; }
+		virtual void setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch);
 
 		virtual void setAPIVersion(APIVersion version);
 
@@ -123,7 +124,7 @@ namespace Atlas {
 
 		bool isErrorCheckingEnabled() const;
 
-		virtual void init() = 0;
+		virtual void init(AGameWindow* windowHandle) = 0;
 
 		virtual void update() = 0;
 		
@@ -135,76 +136,5 @@ namespace Atlas {
 		}
 	};
 
-#ifdef ATLAS_USE_VULKAN
-	
-	class VulkanRenderingBackend : public RenderingBackend {
-	private:
-		class ValidationLayers {
-		private:
 
-			std::vector<const char*> mValidationLayers;
-
-		public:
-
-			ValidationLayers(std::initializer_list<const char*> layers) : mValidationLayers(layers) {}
-
-			/**
-			 * @brief Gets a copy of the validation layers vector.
-			 *
-			 * @return
-			 *
-			 * @since v
-			 */
-			std::vector<const char*> getLayers() const {
-				return mValidationLayers;
-			}
-
-		};
-
-		ValidationLayers* mValidationLayers = nullptr;
-		
-		// Vulkan stuff
-		VkInstance mVulkanInstance = VK_NULL_HANDLE;
-		VkDebugUtilsMessengerEXT mVulkanDebugMessenger = VK_NULL_HANDLE;
-		VkPhysicalDevice mVulkanPhysicalDevice = VK_NULL_HANDLE;
-		VkDevice mVulkanDevice = VK_NULL_HANDLE;
-		VkSurfaceKHR mVulkanSurface = VK_NULL_HANDLE;
-
-		//std::vector<const char*> mValidationLayers;
-
-		uint16_t initInstance(const APIVersion& cAPIVersionRef, bool cbEnableValidationLayers, std::string appName);
-
-	protected:
-
-		VkApplicationInfo mAppInfo;
-		VkInstanceCreateInfo mCreateInfo;
-
-	public:
-
-		VulkanRenderingBackend(const VulkanRenderingBackend&) = delete;
-
-		/**
-		 * @brief Default constructor.
-		 *
-		 * @note This constructor is not intended to be used because the @ref mAppInfo and @ref mCreateInfo are
-		 * required to create a Vulkan instance (and they are declared as a const!). Additionally, the variable
-		 * @ref mCreateInfo requires information on extensions and such, and since Atlas does not mandate any
-		 * specific window management system (ie. GLFW), the @ref mAppInfo @b MUST be set prior to calling this.
-		 *
-		 * @since v0.0.1
-		 *
-		 * @sa @ref mAppInfo
-		 * @sa @ref mCreateInfo
-		 */
-		VulkanRenderingBackend() = default;
-
-		void init() override;
-
-		void update() override;
-
-		void shutdown() override;
-
-		bool checkValidationLayerSupport();
-	};
-#endif
 }

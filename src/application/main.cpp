@@ -14,36 +14,38 @@
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
-#include <core/AtlasEngine.h>
+//#include <core/AtlasEngine.h>
 
-class Person {
-private:
-	std::string name;
-	int age;
-	double height;
+#include <graphics/backend/VKDevice.h>
 
-	// Make Boost.Serialization a friend to access private members
-	friend class boost::serialization::access;
-
-	// Method to serialize and deserialize the object
-	template<class Archive>
-	void serialize(Archive& ar, const unsigned int version) {
-		ar& name;
-		ar& age;
-		ar& height;
-	}
-
-public:
-	// Constructors
-	Person(const std::string& n = "", int a = 0, double h = 0.0)
-		: name(n), age(a), height(h) {}
-
-	// Display the Person's data
-	void display() const {
-		std::cout << "Name: " << name << ", Age: " << age
-			<< ", Height: " << height << " meters" << std::endl;
-	}
-};
+//class Person {
+//private:
+//	std::string name;
+//	int age;
+//	double height;
+//
+//	// Make Boost.Serialization a friend to access private members
+//	friend class boost::serialization::access;
+//
+//	// Method to serialize and deserialize the object
+//	template<class Archive>
+//	void serialize(Archive& ar, const unsigned int version) {
+//		ar& name;
+//		ar& age;
+//		ar& height;
+//	}
+//
+//public:
+//	// Constructors
+//	Person(const std::string& n = "", int a = 0, double h = 0.0)
+//		: name(n), age(a), height(h) {}
+//
+//	// Display the Person's data
+//	void display() const {
+//		std::cout << "Name: " << name << ", Age: " << age
+//			<< ", Height: " << height << " meters" << std::endl;
+//	}
+//};
 using namespace Atlas;
 
 int main(int argc, char* argv[]) {
@@ -88,7 +90,7 @@ int main(int argc, char* argv[]) {
 	windowDesc.title = "Atlas";
 	//windowSettings.windowDescription = windowDesc;
 	
-	IGameWindow* gameWindow = nullptr;
+	AGameWindow* gameWindow = nullptr;
 
 #ifdef ATLAS_USE_GLFW
 	gameWindow = new GLFWGameWindow("Atlas", 800, 600, NULL, 60, "", windowSettings);
@@ -103,58 +105,21 @@ int main(int argc, char* argv[]) {
 
 #endif
 
-	std::shared_ptr<VulkanRenderer> renderer = std::make_shared<VulkanRenderer>(gameWindow);
-	std::shared_ptr<GameThreader> gameThreader = std::make_shared<GameThreader>();
+	gameWindow->init(SDL_INIT_VIDEO);
 
-	//EngineModulesInfo modulesInfo = EngineModulesInfo{ 
-	//	new VulkanRenderer(gameWindow),
-	//	new GameThreader()
-	//};
+	gameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
 
-	bool beginLoop = false;
-	AtlasSettings settings{};
-	//modulesInfo, settings
-	
-	std::unique_ptr<AtlasEngine> atlas = std::make_unique<AtlasEngine>();
+	auto renderingDevice = std::make_unique<VulkanRenderingBackend>();
 
-	atlas->setGameThreader(gameThreader);
-	
-	atlas->setRenderer(renderer);
+	renderingDevice->setAPIVersion(1, 3, 0);
 
-	atlas->threadEngine(3);
+	renderingDevice->setApplicationName("Example Application");
 
-	atlas->init();
+	renderingDevice->init(gameWindow);
 
-	atlas->mGameThreader->addScheduler("Rendering", 1);
-	atlas->mGameThreader->addScheduler("Update", 1);
+	renderingDevice->shutdown();
 
-	// why the fuck is this being done before it gets scheduled?
-	auto rendererInitFuture = atlas->mGameThreader->getScheduler("Rendering")->schedule(
-		[renderer, &beginLoop]() {
-			//std::cout << "Hello from the rendering thread" << std::endl;
-			renderer->init();
-			renderer->mainGameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
-			beginLoop = true;
-		}
-	);
-
-	//atlas->run();
-
-	while (!beginLoop) {
-
-	}
-
-	while (!atlas->shouldExit() && renderer->isInitialized()) {
-
-		// Tell the renderer to update (this automatically happens after everything is ready).
-		atlas->mGameThreader->getScheduler("Rendering")->schedule(
-			[&]() {
-				renderer->update();
-			}
-		);
-
-		atlas->update();
-	}
+	gameWindow->cleanup();
 
 	return 0;
 }

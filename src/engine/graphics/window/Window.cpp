@@ -30,29 +30,8 @@
 
 
 
-Atlas::NullGameWindow::NullGameWindow(const uint32_t cGraphicsAPIFlag)
-	: IGameWindow()
-{ 
-	if (sHasSetGraphicsAPIFlag == false) {
-		sGraphicsAPIFlag = cGraphicsAPIFlag;
-		sHasSetGraphicsAPIFlag = true;
-	}
-}
 
 
-
-Atlas::WindowDescription Atlas::NullGameWindow::getWindowDescription() const
-{
-
-	WindowDescription description{};
-
-	description.title = this->mWindowTitle;
-	description.iconPath = this->mIconPath;
-	description.windowRectangle = this->mWindowRect;
-	description.targetFPS = this->mTargetFPS;
-
-	return description;
-}
 
 //Atlas::NullGameWindow::operator WindowDescription() const {
 //	return getWindowDescription();

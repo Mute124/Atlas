@@ -12,6 +12,7 @@
 #include <vector>
 #include <memory>
 #include <mutex>
+#include <chrono>
 
 #include "../core/Core.h"
 #include "../core/Module.h"
@@ -37,7 +38,7 @@ namespace Atlas {
 	 * 
 	 * @sa @ref EngineModule to read the documentation of this class's parent.
 	 */
-	class IRenderer : public EngineModule {
+	class ARenderer : public EngineModule {
 	protected:
 		/**
 		 * @brief Whether or not the renderer has been initialized.
@@ -59,7 +60,7 @@ namespace Atlas {
 		 */
 		const bool mCanBeMultiThreaded = false;
 		
-		IRenderer(IGameWindow* gameWindow, RenderingBackend* backend, bool canBeMultiThreaded);
+		ARenderer(AGameWindow* gameWindow, RenderingBackend* backend, bool canBeMultiThreaded);
 
 	public:
 		/**
@@ -73,7 +74,7 @@ namespace Atlas {
 		 * 
 		 * @since v
 		 */
-		IGameWindow* mainGameWindow = nullptr;
+		AGameWindow* mainGameWindow = nullptr;
 
 		/**
 		 * @brief A polymorphic pointer to the rendering backend that the renderer is using. 
@@ -95,7 +96,7 @@ namespace Atlas {
 		 * 
 		 * @since v
 		 */
-		IRenderer(IGameWindow* gameWindow, RenderingBackend* backend);
+		ARenderer(AGameWindow* gameWindow, RenderingBackend* backend);
 
 		/**
 		 * @brief This is one of the most important methods in this class. It is responsible for initializing the renderer, ensuring that all setup is done correctly. It should initialize
@@ -120,34 +121,6 @@ namespace Atlas {
 			return this->renderingBackend->castAs<T_BACKEND_TYPE*>();
 		}
 	};
-
-#ifdef ATLAS_USE_VULKAN
-
-	class VulkanRenderer : public IRenderer {
-	private:
-		static bool WindowShouldClose(IGameWindow* gameWindow)
-		{
-			return gameWindow->shouldClose();
-		}
-
-	public:
-		using IRenderer::IRenderer;
-
-		VulkanRenderer(IGameWindow* gameWindow, VulkanRenderingBackend* backend);
-
-		explicit VulkanRenderer(IGameWindow* gameWindow);
-
-		void init() override;
-
-		void update() override;
-		
-		void cleanup() override;
-
-		bool shouldExit() override;
-	};
-
-#endif
-
 #ifdef ATLAS_RENDERER_3D
 	 
 #elif ATLAS_RENDERER_2D

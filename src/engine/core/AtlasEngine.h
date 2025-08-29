@@ -36,7 +36,7 @@ namespace Atlas {
 	};
 
 	struct EngineModulesInfo {
-		IRenderer* gameRenderingModule;
+		ARenderer* gameRenderingModule;
 		IGameThreader* gameThreader;
 	};
 
@@ -100,11 +100,11 @@ namespace Atlas {
 
 	public:
 
-		std::shared_ptr<IRenderer> mGameRenderingModule = nullptr;
+		std::shared_ptr<ARenderer> mGameRenderingModule = nullptr;
 		std::shared_ptr<IGameThreader> mGameThreader = nullptr;
 		//std::shared_ptr<AbstractMemoryAllocator> memoryAllocator = nullptr;
 
-		void setRenderer(std::shared_ptr<IRenderer> renderer) override;
+		void setRenderer(std::shared_ptr<ARenderer> renderer) override;
 
 		void setGameThreader(std::shared_ptr<IGameThreader> gameThreader) override;
 

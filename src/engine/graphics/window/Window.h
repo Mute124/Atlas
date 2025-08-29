@@ -4,7 +4,7 @@
  * @brief Everything required to create a window. If you wish to create a window, you may use
  * the GLFWGameWindow or the SDLGameWindow classes direction (if you dont wish to make your
  * own window class). If you want to use a custom window class, you should inherit from
- * IGameWindow or NullGameWindow, depending on your needs.
+ * AGameWindow or NullGameWindow, depending on your needs.
  * 
  * @date May 2025
  * 
@@ -30,7 +30,7 @@
 
 #elif defined ATLAS_USE_SDL2
 	#include <SDL2/SDL.h>
-	#include <SDL2/SDL_video.h>
+#include <SDL2/SDL_video.h>
 #endif // ATLAS_USE_GLFW3
 
 
@@ -84,10 +84,37 @@ namespace Atlas {
 	 * 
 	 * @since v0.0.1
 	 */
-	class IGameWindow {
+	class AGameWindow {
+	protected:
+		static inline bool sHasSetGraphicsAPIFlag = false;
+		static inline uint32_t sGraphicsAPIFlag = -1;
+
+		std::string mWindowTitle;
+		std::string mIconPath;
+
+		WindowRectangle mWindowRect;
+
+		int16_t mTargetFPS;
+
+		bool mIsInitialized = false;
+
+		bool mIsOpen = false;
+
+		bool mShouldClose = false;
+
 	public:
 
-		virtual ~IGameWindow() = default;
+		explicit AGameWindow(const uint32_t cGraphicsAPIFlag)
+		{
+			if (sHasSetGraphicsAPIFlag == false) {
+				sGraphicsAPIFlag = cGraphicsAPIFlag;
+				sHasSetGraphicsAPIFlag = true;
+			}
+		}
+
+		AGameWindow() = default;
+
+		virtual ~AGameWindow() = default;
 
 		virtual void init(const uint32_t cInitFlags) = 0;
 
@@ -95,13 +122,13 @@ namespace Atlas {
 
 		virtual void open(const uint32_t cOpenFlags) = 0;
 
-		virtual bool shouldClose() = 0;
+		virtual bool isOpen() const = 0;
 
 		virtual void close() = 0;
 
-		virtual void cleanup() = 0;
+		virtual bool shouldClose() = 0;
 
-		virtual bool isOpen() const = 0;
+		virtual void cleanup() = 0;
 
 		virtual bool isInitialized() const = 0;
 
@@ -117,9 +144,19 @@ namespace Atlas {
 
 		virtual void setTargetFPS(int16_t newTargetFPS) = 0;
 
-		virtual WindowDescription getWindowDescription() const = 0;
+		virtual void* getUncastWindowHandle() = 0;
 
-		//explicit virtual operator WindowDescription() const = 0;
+		virtual WindowDescription getWindowDescription() const {
+
+			WindowDescription description{};
+
+			description.title = this->mWindowTitle;
+			description.iconPath = this->mIconPath;
+			description.windowRectangle = this->mWindowRect;
+			description.targetFPS = this->mTargetFPS;
+
+			return description;
+		}
 	};
 
 	/**
@@ -128,40 +165,47 @@ namespace Atlas {
 	 * 
 	 * @since v0.0.1
 	 */
-	class NullGameWindow : public IGameWindow {
-	protected:
+	//class NullGameWindow : public AGameWindow {
+	//protected:
 
-		static inline bool sHasSetGraphicsAPIFlag = false;
+	//	static inline bool sHasSetGraphicsAPIFlag = false;
 
-		std::string mWindowTitle;
-		std::string mIconPath;
+	//	std::string mWindowTitle;
+	//	std::string mIconPath;
 
-		WindowRectangle mWindowRect;
+	//	WindowRectangle mWindowRect;
 
-		int16_t mTargetFPS;
+	//	int16_t mTargetFPS;
 
-		bool mIsInitialized = false;
+	//	bool mIsInitialized = false;
 
-		bool mIsOpen = false;
-	public:
+	//	bool mIsOpen = false;
+	//public:
 
-		static inline uint32_t sGraphicsAPIFlag = -1;
+	//	static inline uint32_t sGraphicsAPIFlag = -1;
 
-		using IGameWindow::IGameWindow;
+	//	using AGameWindow::AGameWindow;
 
-		NullGameWindow(NullGameWindow const&) = delete;
+	//	NullGameWindow(NullGameWindow const&) = delete;
 
-		NullGameWindow& operator=(NullGameWindow const&) = delete;
+	//	NullGameWindow& operator=(NullGameWindow const&) = delete;
 
-		explicit NullGameWindow(const uint32_t cGraphicsAPIFlag);
+	//	explicit NullGameWindow(const uint32_t cGraphicsAPIFlag)
+	//		: AGameWindow()
+	//	{
+	//		if (sHasSetGraphicsAPIFlag == false) {
+	//			sGraphicsAPIFlag = cGraphicsAPIFlag;
+	//			sHasSetGraphicsAPIFlag = true;
+	//		}
+	//	}
 
-		~NullGameWindow() override = default;
+	//	~NullGameWindow() override = default;
 
-		WindowDescription getWindowDescription() const override;
+	//	WindowDescription getWindowDescription() const override;
 
 
-		//explicit operator WindowDescription() const override;
-	};
+	//	//explicit operator WindowDescription() const override;
+	//};
 
 
 #ifdef ATLAS_USE_GLFW3
@@ -173,7 +217,7 @@ namespace Atlas {
 		GLFWmonitor* monitor = nullptr; 
 	};
 
-	class GLFWGameWindow final : public NullGameWindow {
+	class GLFWGameWindow final : public AGameWindow {
 	private:
 
 		friend unsigned int GetWindowConfigFlag(std::string const& flagName);
@@ -235,7 +279,7 @@ namespace Atlas {
 		uint32_t windowInitFlags;
 	};
 
-	class SDLGameWindow : public NullGameWindow {
+	class SDLGameWindow final : public AGameWindow {
 	private:
 		std::unordered_map<uint32_t, std::function<int(SDL_Event const&, SDLGameWindow&)>> mEventHandlers;
 
@@ -293,6 +337,11 @@ namespace Atlas {
 		void setWindowSize(int16_t newWidth, int16_t newHeight) override;
 
 		void setTargetFPS(int16_t newTargetFPS) override;
+
+		void* getUncastWindowHandle() override {
+			return this->mSDLWindowPointer;
+		}
+
 	};
 
 #endif // ATLAS_USE_GLFW3

@@ -153,56 +153,56 @@ static volatile bool beginLoop = false;
 
 void Atlas::AtlasEngine::initWithThreading()
 {
-	// Make sure everything is good to go before these two modules are used.
-	ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The game rendering module (mGameRenderingModule) in AtlasEngine cannot be a nullptr!");
-	ATLAS_ASSERT(this->mGameThreader != nullptr, "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr!");
+	//// Make sure everything is good to go before these two modules are used.
+	//ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The game rendering module (mGameRenderingModule) in AtlasEngine cannot be a nullptr!");
+	//ATLAS_ASSERT(this->mGameThreader != nullptr, "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr!");
 
-	// set up the rendering thread scheduler
+	//// set up the rendering thread scheduler
 
-	this->mGameThreader->addScheduler("Rendering", 1);
-	this->mGameThreader->getScheduler("Rendering")->schedule(
-		[&]() {
-			runRenderer(); 
-		}
-	);
+	//this->mGameThreader->addScheduler("Rendering", 1);
+	//this->mGameThreader->getScheduler("Rendering")->schedule(
+	//	[&]() {
+	//		runRenderer(); 
+	//	}
+	//);
 
-	updateThreadIsDone = true;
+	//updateThreadIsDone = true;
 }
 
 void Atlas::AtlasEngine::initWithoutThreading()
 {
-	this->runRenderer();
+	//this->runRenderer();
 }
 
 void Atlas::AtlasEngine::runRenderer()
 {
-	this->mGameRenderingModule->init();
+	//this->mGameRenderingModule->init();
 
-	this->mGameRenderingModule->mainGameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
+	//this->mGameRenderingModule->mainGameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
 
-	renderThreadIsDone = true;
+	//renderThreadIsDone = true;
 
-	// Is all of this required still or is it just a leftover from prototyping?
-	while(!beginLoop) {
-		// Simply idle until the threads are done
-		//break;
-	}
+	//// Is all of this required still or is it just a leftover from prototyping?
+	//while(!beginLoop) {
+	//	// Simply idle until the threads are done
+	//	//break;
+	//}
 
-	while (!this->mGameRenderingModule->shouldExit()) {
-		this->mGameRenderingModule->update();
-	}
+	//while (!this->mGameRenderingModule->shouldExit()) {
+	//	this->mGameRenderingModule->update();
+	//}
 
 	//std::cout << "renderer done" << std::endl;
 }
 
-void Atlas::AtlasEngine::setRenderer(std::shared_ptr<IRenderer> renderer)
+void Atlas::AtlasEngine::setRenderer(std::shared_ptr<ARenderer> renderer)
 {
-	this->mGameRenderingModule = renderer;
+	//this->mGameRenderingModule = renderer;
 }
 
 void Atlas::AtlasEngine::setGameThreader(std::shared_ptr<IGameThreader> gameThreader)
 {
-	this->mGameThreader = gameThreader;
+	//this->mGameThreader = gameThreader;
 }
 
 //void Atlas::AtlasEngine::setMemoryAllocator(std::shared_ptr<AbstractMemoryAllocator> allocator)
@@ -212,31 +212,31 @@ void Atlas::AtlasEngine::setGameThreader(std::shared_ptr<IGameThreader> gameThre
 
 void Atlas::AtlasEngine::threadEngine(const int8_t cAllowedThreadCount)
 {
-	this->mIsThreaded = true;
+	//this->mIsThreaded = true;
 
-	if (this->mGameThreader == nullptr) {
-		std::cout << "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr!" << std::endl;
-		return;
-	}
+	//if (this->mGameThreader == nullptr) {
+	//	std::cout << "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr!" << std::endl;
+	//	return;
+	//}
 
-	this->mGameThreader->init(cAllowedThreadCount);
+	//this->mGameThreader->init(cAllowedThreadCount);
 }
 
 void Atlas::AtlasEngine::init()
 {
-	if (this->mIsThreaded) {
-		ATLAS_ASSERT(this->mGameThreader != nullptr, "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr if you are using threading!");
-		ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The rendering module is a nullptr!");
+	//if (this->mIsThreaded) {
+	//	ATLAS_ASSERT(this->mGameThreader != nullptr, "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr if you are using threading!");
+	//	ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The rendering module is a nullptr!");
 
-		
+	//	
 
-		//	initWithThreading();
-	}
-	else {
-	//	initWithoutThreading();
+	//	//	initWithThreading();
+	//}
+	//else {
+	////	initWithoutThreading();
 
-		ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The rendering module is a nullptr!");
-	}
+	//	ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The rendering module is a nullptr!");
+	//}
 }
 
 void Atlas::AtlasEngine::run()
@@ -282,11 +282,11 @@ bool Atlas::AtlasEngine::shouldExit() const
 
 void Atlas::AtlasEngine::update()
 {
-	mGameThreader->getScheduler("Rendering")->schedule(
-		[&]() {
-			this->mGameRenderingModule->update();
-		}
-	);
+	//mGameThreader->getScheduler("Rendering")->schedule(
+	//	[&]() {
+	//		this->mGameRenderingModule->update();
+	//	}
+	//);
 
 	//this->mGameRenderingModule->update();
 }

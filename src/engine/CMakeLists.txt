@@ -36,8 +36,17 @@
     "core/threading/ThreadSafeVariable.h"
     "core/threading/ThreadSafeVariable.cpp"
 
+    "graphics/Renderer.h"
+    "graphics/Renderer.cpp"
+
+    "graphics/VulkanRenderer.h"
+	"graphics/VulkanRenderer.cpp"
+
     "graphics/backend/RenderingBackend.h"
     "graphics/backend/RenderingBackend.cpp"
+
+    "graphics/backend/VKDevice.h"
+    "graphics/backend/VKDevice.cpp"
 
     "graphics/window/Window.h" 
     "graphics/window/Window.cpp" 
