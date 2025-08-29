@@ -23,6 +23,8 @@
 
 #include "GameThread.h"
 
+#include "../MakeNonCopyable.h"
+
 
 namespace Atlas {
 
@@ -70,6 +72,8 @@ namespace Atlas {
 		ShuttingDown
 	};
     
+
+
     /**
      * @brief Scheduler for running tasks on separate threads. It will take given tasks, and distribute them across threads.
      * 
@@ -78,6 +82,8 @@ namespace Atlas {
      * @note Everything is thread-safe.
      * 
      * @note This class @b CANNOT be copied.
+     * 
+     * @important This class does not ensure the proper order of execution of tasks, so be careful when using it.
      * 
      * @since v0.0.10
      * 
@@ -322,6 +328,7 @@ namespace Atlas {
                 // Forward the callable object (Func) and its arguments (Args...) to the packaged task.
                 // In other words, finally put the callable object (Func) and its arguments (Args...) into the queue for execution
                 mTaskQueue.emplace(std::move(wrapper));
+                
             }
 
             // let worker threads know that there is a new task
@@ -342,6 +349,7 @@ namespace Atlas {
                 if(workerThread.joinable())
                     workerThread.join();
             }
+            
         }
 
         /**

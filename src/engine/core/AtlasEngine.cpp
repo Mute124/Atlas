@@ -17,6 +17,8 @@
 
 #include "Common.h"
 #include "threading/GameThreadScheduler.h"
+#include <cstdint>
+#include <type_traits>
 
 static volatile bool renderThreadIsDone = false;
 static volatile bool updateThreadIsDone = false;
@@ -149,16 +151,13 @@ static volatile bool beginLoop = false;
 //	this->logger = logger;
 //}
 
-Atlas::IAtlasEngine::IAtlasEngine(EngineModulesInfo const& modulesInfo, AtlasSettings const& settings)
-	: mEngineSettings(settings), mGameRenderingModule(modulesInfo.gameRenderingModule), mGameThreader(modulesInfo.gameThreader)
-{
-}
-
 void Atlas::AtlasEngine::initWithThreading()
 {
 	// Make sure everything is good to go before these two modules are used.
 	ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The game rendering module (mGameRenderingModule) in AtlasEngine cannot be a nullptr!");
 	ATLAS_ASSERT(this->mGameThreader != nullptr, "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr!");
+
+	// set up the rendering thread scheduler
 
 	this->mGameThreader->addScheduler("Rendering", 1);
 	this->mGameThreader->getScheduler("Rendering")->schedule(
@@ -179,7 +178,6 @@ void Atlas::AtlasEngine::runRenderer()
 {
 	this->mGameRenderingModule->init();
 
-	
 	this->mGameRenderingModule->mainGameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
 
 	renderThreadIsDone = true;
@@ -187,22 +185,57 @@ void Atlas::AtlasEngine::runRenderer()
 	// Is all of this required still or is it just a leftover from prototyping?
 	while(!beginLoop) {
 		// Simply idle until the threads are done
+		//break;
 	}
 
-
-	while (true) {
+	while (!this->mGameRenderingModule->shouldExit()) {
 		this->mGameRenderingModule->update();
 	}
+
+	//std::cout << "renderer done" << std::endl;
+}
+
+void Atlas::AtlasEngine::setRenderer(std::shared_ptr<IRenderer> renderer)
+{
+	this->mGameRenderingModule = renderer;
+}
+
+void Atlas::AtlasEngine::setGameThreader(std::shared_ptr<IGameThreader> gameThreader)
+{
+	this->mGameThreader = gameThreader;
+}
+
+//void Atlas::AtlasEngine::setMemoryAllocator(std::shared_ptr<AbstractMemoryAllocator> allocator)
+//{
+//	//this->mMemoryAllocator = allocator;
+//}
+
+void Atlas::AtlasEngine::threadEngine(const int8_t cAllowedThreadCount)
+{
+	this->mIsThreaded = true;
+
+	if (this->mGameThreader == nullptr) {
+		std::cout << "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr!" << std::endl;
+		return;
+	}
+
+	this->mGameThreader->init(cAllowedThreadCount);
 }
 
 void Atlas::AtlasEngine::init()
 {
+	if (this->mIsThreaded) {
+		ATLAS_ASSERT(this->mGameThreader != nullptr, "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr if you are using threading!");
+		ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The rendering module is a nullptr!");
 
-	if (this->mEngineSettings.isThreaded) {
-		initWithThreading();
+		
+
+		//	initWithThreading();
 	}
 	else {
-		initWithoutThreading();
+	//	initWithoutThreading();
+
+		ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The rendering module is a nullptr!");
 	}
 }
 
@@ -210,17 +243,50 @@ void Atlas::AtlasEngine::run()
 {
 
 
-	while (!renderThreadIsDone || !updateThreadIsDone) {
+	//while (!renderThreadIsDone && !updateThreadIsDone) {
 
-	}
+	//}
 
-	beginLoop = true;
+	//beginLoop = true;
 
-	while (!this->mGameRenderingModule->shouldExit()) {
-		this->mGameRenderingModule->update();
-	}
+	//while (!this->mGameRenderingModule->shouldExit()) {
+	//	//this->mGameRenderingModule->update();
+	//	//std::cout << "update" << std::endl;
+
+
+	//	if (this->mGameRenderingModule->mainGameWindow->isOpen()) {
+	//		this->mGameRenderingModule->cleanup();
+	//	}
+	//}
 }
 
 void Atlas::AtlasEngine::cleanup()
 {
+}
+
+void Atlas::AtlasEngine::exit(const uint32_t exitCode)
+{
+}
+
+bool Atlas::AtlasEngine::isThreaded() const
+{
+	return false;
+}
+
+bool Atlas::AtlasEngine::shouldExit() const
+{
+	const bool rendererExiting = this->mGameRenderingModule->shouldExit();
+
+	return rendererExiting;
+}
+
+void Atlas::AtlasEngine::update()
+{
+	mGameThreader->getScheduler("Rendering")->schedule(
+		[&]() {
+			this->mGameRenderingModule->update();
+		}
+	);
+
+	//this->mGameRenderingModule->update();
 }

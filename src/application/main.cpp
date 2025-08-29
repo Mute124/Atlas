@@ -14,8 +14,6 @@
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
-
-
 #include <core/AtlasEngine.h>
 
 class Person {
@@ -96,7 +94,6 @@ int main(int argc, char* argv[]) {
 	gameWindow = new GLFWGameWindow("Atlas", 800, 600, NULL, 60, "", windowSettings);
 #elif defined ATLAS_USE_SDL2
 
-
 	gameWindow = new SDLGameWindow();
 
 	gameWindow->setWindowTitle("Atlas");
@@ -106,20 +103,58 @@ int main(int argc, char* argv[]) {
 
 #endif
 
-	EngineModulesInfo modulesInfo = EngineModulesInfo{ 
-		new VulkanRenderer(gameWindow),
-		new GameThreader()
-	};
+	std::shared_ptr<VulkanRenderer> renderer = std::make_shared<VulkanRenderer>(gameWindow);
+	std::shared_ptr<GameThreader> gameThreader = std::make_shared<GameThreader>();
 
+	//EngineModulesInfo modulesInfo = EngineModulesInfo{ 
+	//	new VulkanRenderer(gameWindow),
+	//	new GameThreader()
+	//};
 
+	bool beginLoop = false;
 	AtlasSettings settings{};
+	//modulesInfo, settings
+	
+	std::unique_ptr<AtlasEngine> atlas = std::make_unique<AtlasEngine>();
 
-	AtlasEngine* atlas = new AtlasEngine(modulesInfo, settings);
-	//
+	atlas->setGameThreader(gameThreader);
+	
+	atlas->setRenderer(renderer);
+
+	atlas->threadEngine(3);
 
 	atlas->init();
 
-	atlas->run();
+	atlas->mGameThreader->addScheduler("Rendering", 1);
+	atlas->mGameThreader->addScheduler("Update", 1);
+
+	// why the fuck is this being done before it gets scheduled?
+	auto rendererInitFuture = atlas->mGameThreader->getScheduler("Rendering")->schedule(
+		[renderer, &beginLoop]() {
+			//std::cout << "Hello from the rendering thread" << std::endl;
+			renderer->init();
+			renderer->mainGameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
+			beginLoop = true;
+		}
+	);
+
+	//atlas->run();
+
+	while (!beginLoop) {
+
+	}
+
+	while (!atlas->shouldExit() && renderer->isInitialized()) {
+
+		// Tell the renderer to update (this automatically happens after everything is ready).
+		atlas->mGameThreader->getScheduler("Rendering")->schedule(
+			[&]() {
+				renderer->update();
+			}
+		);
+
+		atlas->update();
+	}
 
 	return 0;
 }

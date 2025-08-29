@@ -36,7 +36,7 @@ namespace Atlas {
 	 */
 	class ILogger {
 	private:
-		static inline AbstractMemoryAllocator* sMemoryAllocator = nullptr;
+		//static inline AbstractMemoryAllocator* sMemoryAllocator = nullptr;
 
 	public:
 		

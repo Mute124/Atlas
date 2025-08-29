@@ -48,6 +48,13 @@
 	#define ATLAS_COMPILER_GCC
 #endif
 
+#ifdef __MINGW32__
+	#define ATLAS_COMPILER_MINGW
+#elif defined(__MINGW64__)
+	
+	#define ATLAS_COMPILER_MINGW
+#endif
+
 // ---------------------------------------------------------------
 // Renderer Macros
 // ---------------------------------------------------------------
@@ -85,4 +92,14 @@
 	*/
 	#define ATLAS_GENERATED_NULL_CHECK_RETURN(ptr) if(ptr == nullptr) { return nullptr; }
 #endif
+
+// ---------------------------------------------------------------
+// Macro definitions (reminders)
+// ---------------------------------------------------------------
+
+#define ATLAS_STRINGIZE( L )     #L
+#define ATLAS_MAKE_STRING( M, L ) M(L)
+#define $Line ATLAS_MAKE_STRING( ATLAS_STRINGIZE, __LINE__ )
+#define ATLAS_REMINDER __FILE__ "(" $Line ") : Reminder: "
+
 

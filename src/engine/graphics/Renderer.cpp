@@ -4,19 +4,23 @@
 #include "window/Window.h"
 #include "../core/Core.h"
 
-Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend, bool canBeMultiThreaded)
+Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, RenderingBackend* backend, bool canBeMultiThreaded)
 	: mainGameWindow(gameWindow), renderingBackend(backend), mCanBeMultiThreaded(canBeMultiThreaded)
 {
 }
 
-Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend)
+Atlas::IRenderer::IRenderer(IGameWindow* gameWindow, RenderingBackend* backend)
 	: mainGameWindow(gameWindow), renderingBackend(backend)
 {
 }
 
-bool Atlas::IRenderer::canBeMultiThreaded() const { return this->mCanBeMultiThreaded; }
+bool Atlas::IRenderer::canBeMultiThreaded() const {
+	return this->mCanBeMultiThreaded; 
+}
 
-bool Atlas::IRenderer::isInitialized() const { return this->mIsInitialized; }
+bool Atlas::IRenderer::isInitialized() const {
+	return this->mIsInitialized; 
+}
 
 #ifdef ATLAS_USE_VULKAN
 
@@ -32,17 +36,24 @@ Atlas::VulkanRenderer::VulkanRenderer(IGameWindow* gameWindow)
 
 void Atlas::VulkanRenderer::init()
 {
+	// TODO: make this not hardcoded
 	this->mainGameWindow->init(SDL_INIT_VIDEO);
+	
 	this->renderingBackend->init();
+
+	this->mIsInitialized = true;
 }
 
 void Atlas::VulkanRenderer::update()
 {
-	while (!this->mainGameWindow->shouldClose()) {
+	while (!WindowShouldClose(this->mainGameWindow)) {
+
 		if (this->mainGameWindow != nullptr) {
+
 			this->mainGameWindow->update();
 
-			if (this->mainGameWindow->shouldClose()) {
+			// Check to see if there was a request to close the window that occured during the frame update
+			if (WindowShouldClose(this->mainGameWindow)) {
 				this->mainGameWindow->close();
 				this->mainGameWindow->cleanup();
 

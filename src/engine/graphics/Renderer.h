@@ -4,7 +4,7 @@
  * @brief .
  * 
  * @date April 2025
- * 
+ *
  * @since v
  ***************************************************************************************************/
 #pragma once
@@ -21,7 +21,6 @@
 
 
 namespace Atlas {
-	
 	/**
 	 * @brief A base class for all renderers. This class is responsible for @b frontend rendering of your game. The rendering backend is responsible for the
 	 * actual rendering. When using this class, you should inherit from it and implement the `init` and `update` methods. If you want this class to be
@@ -60,7 +59,7 @@ namespace Atlas {
 		 */
 		const bool mCanBeMultiThreaded = false;
 		
-		IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend, bool canBeMultiThreaded);
+		IRenderer(IGameWindow* gameWindow, RenderingBackend* backend, bool canBeMultiThreaded);
 
 	public:
 		/**
@@ -85,7 +84,7 @@ namespace Atlas {
 		 * 
 		 * @since v
 		 */
-		IRenderingBackend* renderingBackend = nullptr;
+		RenderingBackend* renderingBackend = nullptr;
 
 		/**
 		 * @brief Sets the main game window and rendering backend to the specified parameters.
@@ -96,7 +95,7 @@ namespace Atlas {
 		 * 
 		 * @since v
 		 */
-		IRenderer(IGameWindow* gameWindow, IRenderingBackend* backend);
+		IRenderer(IGameWindow* gameWindow, RenderingBackend* backend);
 
 		/**
 		 * @brief This is one of the most important methods in this class. It is responsible for initializing the renderer, ensuring that all setup is done correctly. It should initialize
@@ -115,11 +114,22 @@ namespace Atlas {
 		bool canBeMultiThreaded() const;
 
 		bool isInitialized() const;
+	
+		template<typename T_BACKEND_TYPE>
+		T_BACKEND_TYPE* castRenderingBackendAs() {
+			return this->renderingBackend->castAs<T_BACKEND_TYPE*>();
+		}
 	};
 
 #ifdef ATLAS_USE_VULKAN
 
 	class VulkanRenderer : public IRenderer {
+	private:
+		static bool WindowShouldClose(IGameWindow* gameWindow)
+		{
+			return gameWindow->shouldClose();
+		}
+
 	public:
 		using IRenderer::IRenderer;
 

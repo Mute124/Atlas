@@ -15,6 +15,9 @@
 #include <string>
 
 #include "Core.h"
+
+#include "IAtlasEngine.h"
+
 #include "MemoryAllocator.h"
 
 #include "../graphics/Renderer.h"
@@ -27,7 +30,7 @@
 
 namespace Atlas {
 	struct AtlasSettings {
-		AbstractMemoryAllocator* memoryAllocator;
+		//AbstractMemoryAllocator* memoryAllocator;
 
 		bool isThreaded = true; 
 	};
@@ -35,23 +38,6 @@ namespace Atlas {
 	struct EngineModulesInfo {
 		IRenderer* gameRenderingModule;
 		IGameThreader* gameThreader;
-	};
-
-	class IAtlasEngine {
-	protected:
-		AtlasSettings mEngineSettings;
-
-	public:
-		IRenderer* mGameRenderingModule;
-		IGameThreader* mGameThreader;
-
-		explicit IAtlasEngine(EngineModulesInfo const& modulesInfo, AtlasSettings const& settings);
-
-		virtual void init() = 0;
-
-		virtual void run() = 0;
-
-		virtual void cleanup() = 0;
 	};
 
 	/**
@@ -75,6 +61,10 @@ namespace Atlas {
 	 */
 	class AtlasEngine : public IAtlasEngine {
 	private:
+		
+		
+		bool mIsThreaded = false;
+
 		/**
 		 * @brief .
 		 *
@@ -107,10 +97,20 @@ namespace Atlas {
 		 * @since v
 		 */
 		void runRenderer();
+
 	public:
 
+		std::shared_ptr<IRenderer> mGameRenderingModule = nullptr;
+		std::shared_ptr<IGameThreader> mGameThreader = nullptr;
+		//std::shared_ptr<AbstractMemoryAllocator> memoryAllocator = nullptr;
 
-		using IAtlasEngine::IAtlasEngine;
+		void setRenderer(std::shared_ptr<IRenderer> renderer) override;
+
+		void setGameThreader(std::shared_ptr<IGameThreader> gameThreader) override;
+
+		//void setMemoryAllocator(std::shared_ptr<AbstractMemoryAllocator> allocator) override;
+
+		void threadEngine(const int8_t cAllowedThreadCount) override;
 
 		/**
 		 * @brief As the name suggests, this function initializes the engine. If this module is
@@ -134,5 +134,14 @@ namespace Atlas {
 		 * @since v
 		 */
 		void cleanup() override;
+
+		// Inherited via IAtlasEngine
+		void exit(const uint32_t exitCode) override;
+		bool isThreaded() const override;
+		bool shouldExit() const override;
+
+		// Inherited via IAtlasEngine
+		void update() override;
 	};
+
 }

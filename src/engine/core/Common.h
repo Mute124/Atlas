@@ -40,9 +40,6 @@
 
 #include "Core.h"
 
-
-
-
 #if defined(ATLAS_ALLOW_ASSERTS) || defined(ATLAS_DEBUG)
 	/**
 	* @brief If enabled (see the warning in the documentation), this will assert the specified condition
@@ -160,7 +157,8 @@ namespace Atlas {
 		T_NUMERIC_TYPE width;
 		T_NUMERIC_TYPE height;
 	};
-	
+
+
 
 	/**
 	 * @brief An interface for classes that want to be printable.
@@ -216,6 +214,8 @@ namespace Atlas {
 
 	};
 
-
-
+	template<typename T>
+	inline T AlignUp(T value, uint64_t alignment) {
+		return T((uint64_t(value) + alignment - 1) & ~(alignment - 1));
+	}
 }

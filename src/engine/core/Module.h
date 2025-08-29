@@ -2,14 +2,19 @@
 
 #include "../scripting/ScriptedObject.h"
 
+#include <string>
+
 namespace Atlas {
 	class EngineModule : public ScriptedObject {
 	private:
+
 		bool mIsReady = false;
+
 		bool mIsEnabled = false;
 	
-	public:
+		const std::string mThreadHandlerID;
 
+	public:
 
 		virtual bool isReady() { return this->mIsReady; }
 		

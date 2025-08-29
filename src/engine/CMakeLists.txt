@@ -1,14 +1,24 @@
 ﻿set(ATLAS_ENGINE_SOURCES 
 	# Engine Core
     "core/Core.h"
-    "core/Common.h" 
+    
+    "core/MakeNonCopyable.h"
+
+    "core/Common.h"
+
+    "core/Device.h"
+	"core/Device.cpp"
 
     "core/Module.h"
     #"common.cpp"
 
+    "core/MemoryCounter.h"
+    "core/MemoryCounter.cpp"
+
     "core/MemoryAllocator.h"
     "core/MemoryAllocator.cpp"
     
+    "core/IAtlasEngine.h"
     "core/AtlasEngine.h"
     "core/AtlasEngine.cpp"
 
@@ -17,6 +27,8 @@
 
     "core/threading/GameThreadScheduler.h"
     "core/threading/GameThreadScheduler.cpp"
+
+    "core/Task.h"
 
     "core/threading/GameThreader.h"
 	"core/threading/GameThreader.cpp"
@@ -34,6 +46,7 @@
     "graphics/Renderer.cpp"
 
     "scripting/ScriptedObject.h"
+	"scripting/ScriptedObject.cpp"
 
     "debugging/Logging.h"
     "debugging/Logging.cpp"

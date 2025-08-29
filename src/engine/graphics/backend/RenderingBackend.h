@@ -9,10 +9,13 @@
  ***************************************************************************************************/
 #pragma once
 
+#include <optional>
 #include <string>
 #include <functional>
 #include <cstdint>
 #include <vector>
+#include <initializer_list>
+
 
 #include "../../core/Core.h"
 
@@ -25,6 +28,8 @@
 
 
 namespace Atlas {
+
+	class IGameWindow;
 
 	enum class TextureFormat { RGBA8, Depth32 };
 
@@ -46,6 +51,7 @@ namespace Atlas {
 
 	struct PipelineDesc { std::string vertPath, fragPath; };
 
+
 	class Pipeline {
 	public:
 		Pipeline(PipelineDesc d) : desc(d) {}
@@ -62,8 +68,12 @@ namespace Atlas {
 		std::function<void()> onExecute;
 	};
 
+	class RenderingBackend;
+
 	// RenderGraph holds passes and executes them (sequentially by default)
 	class RenderGraph {
+	private:
+		std::vector<RenderPass> passes;
 	public:
 		auto createRenderTarget(RenderTargetDesc d) {
 			return std::make_shared<RenderTarget>(d);
@@ -72,34 +82,97 @@ namespace Atlas {
 			return std::make_shared<Pipeline>(d);
 		}
 		void addPass(const RenderPass& p) { passes.push_back(p); }
+
 		const std::vector<RenderPass>& getPasses() const { return passes; }
+
 		void execute() {
 			for (auto& p : passes) {
 				std::cout << "[RenderGraph] Executing: " << p.name << std::endl;
 				if (p.onExecute) p.onExecute();
 			}
 		}
-	private:
-		std::vector<RenderPass> passes;
 	};
 
-	class IRenderingBackend {
+
+	class RenderingBackend {
 	public:
+		struct APIVersion {
+			uint32_t major = -1;
+			uint32_t minor = -1;
+			uint32_t patch = -1;
+		};
+
+	private:
+		APIVersion mAPIVersion;
+		
+		bool mbUseDebuggingTools = false;
+		bool mbEnableErrorChecking = false; // dont worry about this if you are not using vulkan
+	public:
+		
+		RenderingBackend() = default;
+
+		explicit RenderingBackend(APIVersion version, const bool cbUseValidationLayers) : mAPIVersion(version), mbEnableErrorChecking(cbUseValidationLayers) {}
+
+		virtual void setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch) { this->mAPIVersion.major = major; this->mAPIVersion.minor = minor; this->mAPIVersion.patch = patch; }
+
+		virtual void setAPIVersion(APIVersion version);
+
+		virtual APIVersion getAPIVersion() const;
+
+		bool areDebuggingToolsEnabled() const;
+
+		bool isErrorCheckingEnabled() const;
 
 		virtual void init() = 0;
 
 		virtual void update() = 0;
 		
 		virtual void shutdown() = 0;
+
+		template<typename T_CAST_TO>
+		T_CAST_TO* castAs() {
+			return dynamic_cast<T_CAST_TO*>(this);
+		}
 	};
 
 #ifdef ATLAS_USE_VULKAN
 	
-	class VulkanRenderingBackend : public IRenderingBackend {
+	class VulkanRenderingBackend : public RenderingBackend {
 	private:
+		class ValidationLayers {
+		private:
 
+			std::vector<const char*> mValidationLayers;
+
+		public:
+
+			ValidationLayers(std::initializer_list<const char*> layers) : mValidationLayers(layers) {}
+
+			/**
+			 * @brief Gets a copy of the validation layers vector.
+			 *
+			 * @return
+			 *
+			 * @since v
+			 */
+			std::vector<const char*> getLayers() const {
+				return mValidationLayers;
+			}
+
+		};
+
+		ValidationLayers* mValidationLayers = nullptr;
+		
+		// Vulkan stuff
 		VkInstance mVulkanInstance = VK_NULL_HANDLE;
-		std::vector<const char*> mValidationLayers;
+		VkDebugUtilsMessengerEXT mVulkanDebugMessenger = VK_NULL_HANDLE;
+		VkPhysicalDevice mVulkanPhysicalDevice = VK_NULL_HANDLE;
+		VkDevice mVulkanDevice = VK_NULL_HANDLE;
+		VkSurfaceKHR mVulkanSurface = VK_NULL_HANDLE;
+
+		//std::vector<const char*> mValidationLayers;
+
+		uint16_t initInstance(const APIVersion& cAPIVersionRef, bool cbEnableValidationLayers, std::string appName);
 
 	protected:
 
