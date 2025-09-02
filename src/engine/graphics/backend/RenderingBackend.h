@@ -31,77 +31,79 @@
 
 namespace Atlas {
 
-	class AGameWindow;
+	//class AGameWindow;
 
-	enum class TextureFormat { RGBA8, Depth32 };
+	//enum class TextureFormat { RGBA8, Depth32 };
 
-	struct RenderTargetDesc { 
-		int width;
-		int height;
-		TextureFormat format; 
-	};
+	//struct RenderTargetDesc { 
+	//	int width;
+	//	int height;
+	//	TextureFormat format; 
+	//};
 
-	class RenderTarget {
-	public:
-		RenderTarget(RenderTargetDesc d) : desc(d) {}
-		int getWidth() const { return desc.width; }
-		int getHeight() const { return desc.height; }
-		TextureFormat getFormat() const { return desc.format; }
-	private:
-		RenderTargetDesc desc;
-	};
+	//class RenderTarget {
+	//public:
+	//	RenderTarget(RenderTargetDesc d) : desc(d) {}
+	//	int getWidth() const { return desc.width; }
+	//	int getHeight() const { return desc.height; }
+	//	TextureFormat getFormat() const { return desc.format; }
+	//private:
+	//	RenderTargetDesc desc;
+	//};
 
-	struct PipelineDesc { std::string vertPath, fragPath; };
+	//struct PipelineDesc { std::string vertPath, fragPath; };
 
 
-	class Pipeline {
-	public:
-		Pipeline(PipelineDesc d) : desc(d) {}
-	private:
-		PipelineDesc desc;
-	};
+	//class Pipeline {
+	//public:
+	//	Pipeline(PipelineDesc d) : desc(d) {}
+	//private:
+	//	PipelineDesc desc;
+	//};
 
-	// RenderPass describes a single pass in the graph
-	struct RenderPass {
-		std::string name;
-		std::shared_ptr<Pipeline> pipeline;
-		std::vector<std::shared_ptr<RenderTarget>> inputs;
-		std::shared_ptr<RenderTarget> output;
-		std::function<void()> onExecute;
-	};
+	//// RenderPass describes a single pass in the graph
+	//struct RenderPass {
+	//	std::string name;
+	//	std::shared_ptr<Pipeline> pipeline;
+	//	std::vector<std::shared_ptr<RenderTarget>> inputs;
+	//	std::shared_ptr<RenderTarget> output;
+	//	std::function<void()> onExecute;
+	//};
 
-	class RenderingBackend;
+	//class RenderingBackend;
 
-	// RenderGraph holds passes and executes them (sequentially by default)
-	class RenderGraph {
-	private:
-		std::vector<RenderPass> passes;
-	public:
-		auto createRenderTarget(RenderTargetDesc d) {
-			return std::make_shared<RenderTarget>(d);
-		}
-		auto createPipeline(PipelineDesc d) {
-			return std::make_shared<Pipeline>(d);
-		}
-		void addPass(const RenderPass& p) { passes.push_back(p); }
+	//// RenderGraph holds passes and executes them (sequentially by default)
+	//class RenderGraph {
+	//private:
+	//	std::vector<RenderPass> passes;
+	//public:
+	//	auto createRenderTarget(RenderTargetDesc d) {
+	//		return std::make_shared<RenderTarget>(d);
+	//	}
+	//	auto createPipeline(PipelineDesc d) {
+	//		return std::make_shared<Pipeline>(d);
+	//	}
+	//	void addPass(const RenderPass& p) { passes.push_back(p); }
 
-		const std::vector<RenderPass>& getPasses() const { return passes; }
+	//	const std::vector<RenderPass>& getPasses() const { return passes; }
 
-		void execute() {
-			for (auto& p : passes) {
-				std::cout << "[RenderGraph] Executing: " << p.name << std::endl;
-				if (p.onExecute) p.onExecute();
-			}
-		}
+	//	void execute() {
+	//		for (auto& p : passes) {
+	//			std::cout << "[RenderGraph] Executing: " << p.name << std::endl;
+	//			if (p.onExecute) p.onExecute();
+	//		}
+	//	}
+	//};
+
+	struct Version {
+		uint32_t major = -1;
+		uint32_t minor = -1;
+		uint32_t patch = -1;
 	};
 
 	class RenderingBackend {
 	public:
-		struct APIVersion {
-			uint32_t major = -1;
-			uint32_t minor = -1;
-			uint32_t patch = -1;
-		};
+		using APIVersion = Version;
 
 	private:
 		APIVersion mAPIVersion;

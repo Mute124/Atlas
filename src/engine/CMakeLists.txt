@@ -1,5 +1,8 @@
-﻿set(ATLAS_ENGINE_SOURCES 
+﻿set(ATLAS_ENGINE_SOURCES
+
+	#-----------------------------------
 	# Engine Core
+	#-----------------------------------
     "core/Core.h"
     
     "core/MakeNonCopyable.h"
@@ -11,6 +14,9 @@
 
     "core/Module.h"
     #"common.cpp"
+
+    "core/Timer.h"
+    "core/Timer.cpp"
 
     "core/MemoryCounter.h"
     "core/MemoryCounter.cpp"
@@ -36,11 +42,27 @@
     "core/threading/ThreadSafeVariable.h"
     "core/threading/ThreadSafeVariable.cpp"
 
+	#-----------------------------------
+	# Graphics
+	#-----------------------------------
+
+    "graphics/Frame.h"
+    "graphics/Frame.cpp"
+
+    "graphics/DeletionQueue.h"
+	"graphics/DeletionQueue.cpp"
+
+    "grahics/Instance.h"
+	"graphics/Instance.cpp"
+
     "graphics/Renderer.h"
     "graphics/Renderer.cpp"
 
     "graphics/VulkanRenderer.h"
 	"graphics/VulkanRenderer.cpp"
+
+    "graphics/VulkanSwapchain.h"
+	"graphics/VulkanSwapchain.cpp"
 
     "graphics/backend/RenderingBackend.h"
     "graphics/backend/RenderingBackend.cpp"
@@ -54,8 +76,35 @@
     "graphics/Renderer.h" 
     "graphics/Renderer.cpp"
 
+    "graphics/AllocatedImage.h"
+
+	#-----------------------------------
+    # IO
+	#-----------------------------------
+
+    "io/IOCommon.h"
+    "io/File.h"
+    "io/PathLocation.h"
+
+    "io/PathSearcher.h"
+	"io/PathSearcher.cpp"
+
+    "io/FileSystemMap.h"
+	"io/FileSystemMap.cpp"
+
+    "io/IOManager.h"
+	"io/IOManager.cpp"
+
+	#-----------------------------------
+    # Scripting
+    #-----------------------------------
+
     "scripting/ScriptedObject.h"
 	"scripting/ScriptedObject.cpp"
+
+    #-----------------------------------
+	# Debugging
+    #-----------------------------------
 
     "debugging/Logging.h"
     "debugging/Logging.cpp"
@@ -85,10 +134,12 @@ set(ATLAS_ENGINE_DEPENDENCIES
     eventpp::eventpp
     glfw
     spdlog
-
+    
     # TODO: these two need to be toggled based on options
     vk-bootstrap::vk-bootstrap
     Vulkan::Vulkan
+    vulkan-memory-allocator::vulkan-memory-allocator
+
     SDL2::SDL2main
 
     simdjson::simdjson

@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
 
 		std::ofstream ofs("C:\\Dev\\Techstorm-v5\\game\\data\\" + boost::uuids::to_string(uuid) + "person.dat", std::ios_base::binary | std::ios_base::app);
 		boost::archive::text_oarchive oa(ofs);
-		
+
 		oa.save_binary(&p3, sizeof(Person));  // Save the serialized data in binary format
 		//oa << p3;  // Serialize
 	}
@@ -81,41 +81,34 @@ int main(int argc, char* argv[]) {
 	//	ia >> p2;  // Deserialize
 	}*/
 
-	GameWindowSettings windowSettings{};
-	windowSettings.enableEventPolling = true;
-
-	WindowDescription windowDesc{};
-	windowDesc.windowRectangle.width = 800;
-	windowDesc.windowRectangle.height = 600;
-	windowDesc.title = "Atlas";
-	//windowSettings.windowDescription = windowDesc;
-	
-	AGameWindow* gameWindow = nullptr;
-
-#ifdef ATLAS_USE_GLFW
-	gameWindow = new GLFWGameWindow("Atlas", 800, 600, NULL, 60, "", windowSettings);
-#elif defined ATLAS_USE_SDL2
-
-	gameWindow = new SDLGameWindow();
+	// Setup the game window (this needs to be done before the rendering device is created)
+	SDLGameWindow* gameWindow = new SDLGameWindow;
 
 	gameWindow->setWindowTitle("Atlas");
 	gameWindow->setWindowSize(800, 600);
-	gameWindow->setWindowPosition(0, 0);
+	gameWindow->setWindowPosition(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	gameWindow->setTargetFPS(60);
 
-#endif
-
 	gameWindow->init(SDL_INIT_VIDEO);
-
 	gameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
+
+	RenderingBackend::APIVersion renderingAPIVersion;
+	renderingAPIVersion.major = 1;
+	renderingAPIVersion.minor = 3;
+	renderingAPIVersion.patch = 0;
 
 	auto renderingDevice = std::make_unique<VulkanRenderingBackend>();
 
-	renderingDevice->setAPIVersion(1, 3, 0);
-
+	renderingDevice->setAPIVersion(renderingAPIVersion);
 	renderingDevice->setApplicationName("Example Application");
 
 	renderingDevice->init(gameWindow);
+
+	while (!gameWindow->shouldClose()) {
+		gameWindow->update();
+
+		renderingDevice->draw();
+	}
 
 	renderingDevice->shutdown();
 

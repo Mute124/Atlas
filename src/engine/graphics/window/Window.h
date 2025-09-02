@@ -51,7 +51,7 @@ namespace Atlas {
 	 */
 	using WindowSize = glm::vec<2, uint32_t, glm::lowp>;
 	
-	using WindowRectangle = Rectangle<int16_t>;
+	using WindowRectangle = Rectangle<int>;
 
 	struct WindowHint {
 		std::string identifier;
@@ -138,7 +138,7 @@ namespace Atlas {
 
 		virtual void setWindowTitle(std::string const& newWindowTitle) = 0;
 
-		virtual void setWindowPosition(int16_t newX, int16_t newY) = 0;
+		virtual void setWindowPosition(int newX, int newY) = 0;
 
 		virtual void setWindowSize(int16_t newWidth, int16_t newHeight) = 0;
 
@@ -332,7 +332,7 @@ namespace Atlas {
 
 		void setWindowTitle(std::string const& newWindowTitle) override;
 
-		void setWindowPosition(int16_t newX, int16_t newY) override;
+		void setWindowPosition(int newX, int newY) override;
 
 		void setWindowSize(int16_t newWidth, int16_t newHeight) override;
 

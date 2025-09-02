@@ -23,7 +23,11 @@
 
 #endif
 
-void Atlas::RenderingBackend::setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch) { this->mAPIVersion.major = major; this->mAPIVersion.minor = minor; this->mAPIVersion.patch = patch; }
+void Atlas::RenderingBackend::setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch) {
+	this->mAPIVersion.major = major;
+	this->mAPIVersion.minor = minor;
+	this->mAPIVersion.patch = patch; 
+}
 
 void Atlas::RenderingBackend::setAPIVersion(APIVersion version) {
 	this->setAPIVersion(version.major, version.minor, version.patch);

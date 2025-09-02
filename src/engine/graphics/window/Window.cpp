@@ -132,7 +132,7 @@ void Atlas::SDLGameWindow::init(const uint32_t cInitFlags)
 		throw std::runtime_error("Failed to initialize SDL");
 	}
 
-	this->mIsInitialized = true;
+	mIsInitialized = true;
 }
 
 void Atlas::SDLGameWindow::update()
@@ -141,19 +141,33 @@ void Atlas::SDLGameWindow::update()
 
 	while (SDL_PollEvent(&event) != 0) {
 		if (event.type == SDL_QUIT) {
-			this->mShouldClose = true;
+
+			std::cout << "Window closed" << std::endl;
+			mShouldClose = true;
+		}
+
+		if (event.type == SDL_WINDOWEVENT) {
+			if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
+				//event= true;
+				std::cout << "Window minimized" << std::endl;
+			}
+			if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
+				//stop_rendering = false;
+
+				std::cout << "Window restored" << std::endl;
+			}
 		}
 	}
 }
 
 void Atlas::SDLGameWindow::open(const uint32_t cOpenFlags)
 {
-	this->mSDLWindowPointer = SDL_CreateWindow(
-		this->mWindowTitle.c_str(),
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		this->mWindowRect.width,
-		this->mWindowRect.height,
+	mSDLWindowPointer = SDL_CreateWindow(
+		mWindowTitle.c_str(),
+		mWindowRect.x,
+		mWindowRect.y,
+		mWindowRect.width,
+		mWindowRect.height,
 		cOpenFlags
 	);
 
@@ -161,19 +175,19 @@ void Atlas::SDLGameWindow::open(const uint32_t cOpenFlags)
 		throw std::runtime_error("Failed to create SDL window");
 	}
 	else {
-		this->mIsOpen = true;
+		mIsOpen = true;
 	}
 }
 
 bool Atlas::SDLGameWindow::shouldClose()
 {
-	return this->mShouldClose;
+	return mShouldClose;
 }
 
 void Atlas::SDLGameWindow::close()
 {
-	if (this->mSDLWindowPointer != nullptr) {
-		SDL_DestroyWindow(this->mSDLWindowPointer);
+	if (mSDLWindowPointer != nullptr) {
+		SDL_DestroyWindow(mSDLWindowPointer);
 	}
 }
 
@@ -186,12 +200,12 @@ void Atlas::SDLGameWindow::cleanup()
 
 bool Atlas::SDLGameWindow::isOpen() const
 {
-	return this->mIsOpen;
+	return mIsOpen;
 }
 
 bool Atlas::SDLGameWindow::isInitialized() const
 {
-	return this->mIsInitialized;
+	return mIsInitialized;
 }
 
 void Atlas::SDLGameWindow::setHint(WindowHint const& hint)
@@ -201,27 +215,27 @@ void Atlas::SDLGameWindow::setHint(WindowHint const& hint)
 
 void Atlas::SDLGameWindow::setIcon(std::string const& newIconPath)
 {
-	this->mIconPath = newIconPath;
+	mIconPath = newIconPath;
 }
 
 void Atlas::SDLGameWindow::setWindowTitle(std::string const& newWindowTitle)
 {
-	this->mWindowTitle = newWindowTitle;
+	mWindowTitle = newWindowTitle;
 }
 
-void Atlas::SDLGameWindow::setWindowPosition(int16_t newX, int16_t newY)
+void Atlas::SDLGameWindow::setWindowPosition(int newX, int newY)
 {
-	this->mWindowRect.x = newX;
-	this->mWindowRect.y = newY;
+	mWindowRect.x = newX;
+	mWindowRect.y = newY;
 }
 
 void Atlas::SDLGameWindow::setWindowSize(int16_t newWidth, int16_t newHeight)
 {
-	this->mWindowRect.width = newWidth;
-	this->mWindowRect.height = newHeight;
+	mWindowRect.width = newWidth;
+	mWindowRect.height = newHeight;
 }
 
 void Atlas::SDLGameWindow::setTargetFPS(int16_t newTargetFPS)
 {
-	this->mTargetFPS = newTargetFPS;
+	mTargetFPS = newTargetFPS;
 }

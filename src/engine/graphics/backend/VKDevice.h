@@ -1,66 +1,181 @@
+/**************************************************************************************************
+ * @file VKDevice.h
+ * 
+ * @brief .
+ * 
+ * @date September 2025
+ * 
+ * @since v
+ ***************************************************************************************************/
 #pragma once
 
-#include "RenderingBackend.h"
+// This avoids the transitive include of string_view on MSVC compilers
+#ifdef ATLAS_COMPILER_MSVC
+	#include <__msvc_string_view.hpp>
+#endif
+
+#include <filesystem>
+#include <cstdint>
+#include <string>
+#include <vector>
+#include <array>
+#include <iosfwd>
+#include <span>
+#include <__msvc_string_view.hpp>
+#include <vk_mem_alloc.h>
+#include <vulkan/vulkan_core.h>
+#include <iostream>
+#include <fstream>
 
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
 	#include <vulkan/vulkan_core.h>
+	#include <vk_mem_alloc.h>
 #endif
+
+#include "RenderingBackend.h"
+
+#include "../Frame.h"
+#include "../AllocatedImage.h"
+#include "../../core/Core.h"
+#include "../window/Window.h"
+#include "../DeletionQueue.h"
+
+
+
+#define ATLAS_1_SECOND_IN_NS 1000000000
 
 #ifdef ATLAS_USE_VULKAN
 
 namespace Atlas {
-	class VulkanRenderingBackend : public RenderingBackend {
-	private:
-		class ValidationLayers {
-		private:
 
-			std::vector<const char*> mValidationLayers;
 
-		public:
+	struct DescriptorLayoutBuilder {
 
-			ValidationLayers(std::initializer_list<const char*> layers) : mValidationLayers(layers) {}
+		std::vector<VkDescriptorSetLayoutBinding> bindings;
 
-			/**
-			 * @brief Gets a copy of the validation layers vector.
-			 *
-			 * @return
-			 *
-			 * @since v
-			 */
-			std::vector<const char*> getLayers() const {
-				return mValidationLayers;
-			}
+		void add_binding(uint32_t binding, VkDescriptorType type);
+		void clear();
+		VkDescriptorSetLayout build(VkDevice device, VkShaderStageFlags shaderStages, void* pNext = nullptr, VkDescriptorSetLayoutCreateFlags flags = 0);
+	};
 
+	class DescriptorAllocator {
+	public:
+		struct PoolSizeRatio {
+			VkDescriptorType type;
+			float ratio;
 		};
 
-		ValidationLayers* mValidationLayers = nullptr;
+		VkDescriptorPool pool;
+
+		void init_pool(VkDevice device, uint32_t maxSets, std::span<PoolSizeRatio> poolRatios);
+		void clear_descriptors(VkDevice device);
+		void destroy_pool(VkDevice device);
+
+		VkDescriptorSet allocate(VkDevice device, VkDescriptorSetLayout layout);
+	};
+
+	class Shader {
+	private:
+		std::filesystem::path mCompiledShaderPath;
+		std::string mName;
+
+		VkShaderModule mShaderModule = VK_NULL_HANDLE;
+	public:
+
+		Shader() = default;
+
+		explicit Shader(std::filesystem::path compiledShaderPath, std::string name);
+
+		void destroyModule(VkDevice* device);
+
+		bool load(VkDevice* device);
+
+		VkShaderModule getModule() const;
+
+	};
+
+	class Pipeline {
+	private:
+		VkPipeline mPipeline = VK_NULL_HANDLE;
+		VkPipelineLayout mPipelineLayout = VK_NULL_HANDLE;
+
+		Shader mShader;
+	public:
+
+		void createLayout(VkPipelineLayoutCreateInfo layoutInfo, VkDevice* device);
+
+		void createLayout(VkDevice* device, VkDescriptorSetLayout* descriptorSetLayout);
+
+		void init(VkDevice* device, DeletionQueue* deletionQueue, VkPipelineShaderStageCreateInfo stageInfo, VkComputePipelineCreateInfo pipelineInfo) {
+			vkCreateComputePipelines(*device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mPipeline);
+
+			vkDestroyShaderModule(*device, mShader.getModule(), nullptr);
+
+			deletionQueue->push_function([&]() {
+				destroyPipeline(device);
+			});
+		}
+
+		void destroyPipeline(VkDevice* device) {
+			vkDestroyPipelineLayout(*device, mPipelineLayout, nullptr);
+			vkDestroyPipeline(*device, mPipeline, nullptr);
+		}
+	};
+
+	
+
+	class VulkanRenderingBackend : public RenderingBackend {
+	private:
+		int mCurrentFrameNumber = 0;
+
+		bool mIsInitialized = false;
 
 		// Vulkan stuff
 		VkInstance mVulkanInstance = VK_NULL_HANDLE;
-		VkDebugUtilsMessengerEXT mVulkanDebugMessenger = VK_NULL_HANDLE;
-		VkPhysicalDevice mVulkanGPUDevice = VK_NULL_HANDLE;
-		VkDevice mVulkanDevice = VK_NULL_HANDLE;
-		VkSurfaceKHR mVulkanSurface = VK_NULL_HANDLE;
+		VkDebugUtilsMessengerEXT mDebugMessenger = VK_NULL_HANDLE;
+		VkPhysicalDevice mGPUDevice = VK_NULL_HANDLE;
+		VkDevice mDevice = VK_NULL_HANDLE;
+		VkSurfaceKHR mSurface = VK_NULL_HANDLE;
 
-		VkSwapchainKHR mVulkanSwapchain;
-		VkFormat mVulkanSwapchainImageFormat;
+		VkSwapchainKHR mSwapchain = VK_NULL_HANDLE;
+		VkFormat mSwapchainImageFormat;
 
-		std::vector<VkImage> mVulkanSwapchainImages;
-		std::vector<VkImageView> mVulkanSwapchainImageViews;
-		VkExtent2D mVulkanSwapchainExtent;
+		std::vector<VkImage> mSwapchainImages;
+		std::vector<VkImageView> mSwapchainImageViews;
+		VkExtent2D mSwapchainExtent;
+
+		// TODO: Move to a frame manager class or something like that
+		std::array<FrameData, FRAME_OVERLAP> mFrameDataArray;
+
+		AllocatedImage mDrawImage;
+		VkExtent2D mDrawExtent;
+
+		VkQueue mGraphicsQueue = VK_NULL_HANDLE;
+		uint32_t mGraphicsQueueFamily;
+
+		DeletionQueue mMainDeletionQueue;
+		VmaAllocator mVMAAllocator = VK_NULL_HANDLE;
+
+		uint64_t mFencesTimeoutNS = ATLAS_1_SECOND_IN_NS;
+		uint64_t mNextImageTimeoutNS = ATLAS_1_SECOND_IN_NS;
+
+		DescriptorAllocator mGlobalDescriptorAllocator;
+
+		VkDescriptorSet mDrawImageDescriptors;
+		VkDescriptorSetLayout mDrawImageDescriptorLayout;
+
+		VkPipeline mGradientPipeline;
+		VkPipelineLayout mGradientPipelineLayout;
 
 		std::string mApplicationName;
 
-		//std::vector<const char*> mValidationLayers;
-
-		uint16_t initInstance(const APIVersion& cAPIVersionRef, bool cbEnableValidationLayers, std::string appName);
+		uint16_t initInstance(const APIVersion& cAPIVersionRef, const bool cbEnableValidationLayers, std::string const& appName);
 		
-		bool mIsInitialized = false;
+		void initDescriptors();
 
-		void createSwapchain(uint32_t width, uint32_t height);
-		void destroySwapchain();
-
+		void initPipelines();
+		void initBackgroundPipelines();
 	public:
 
 		VulkanRenderingBackend(const VulkanRenderingBackend&) = delete;
@@ -80,17 +195,86 @@ namespace Atlas {
 		 */
 		VulkanRenderingBackend() = default;
 
-		void setApplicationName(std::string_view applicationName);
+		/**
+		 * @brief Initializes Vulkan.
+		 * 
+		 * @param windowHandle The currently @b initialized and @b open window pointer.
+		 * 
+		 * @pre You must make sure that the window is @b initialized and @b open before calling this!
+		 * 
+		 * @note This can take some time to complete. Further testing should be done to see if this is a problem.
+		 * 
+		 * @since v0.0.1
+		 */
+		void init(AGameWindow* gameWindow) override;
+		
+		void initSwapchain(AGameWindow* gameWindow);
 
-		std::string getApplicationName();
-
-		void init(AGameWindow* windowHandle) override;
+		void initCommands();
 
 		void update() override;
 
+		void resetFences(const uint32_t cFenceCount, FrameData& currentFrame);
+
+		void draw();
+
+		void drawBackground(VkCommandBuffer cmd);
+
+		void present();
+
 		void shutdown() override;
+		
+		void setApplicationName(std::string_view applicationName);
+
+		void setFenceTimeout(uint64_t lengthInNS);
+
+		void setNextImageTimeout(uint64_t lengthInNS);
+
+		void createSwapchain(uint32_t width, uint32_t height);
+		
+		void destroySwapchain();
 
 		bool checkValidationLayerSupport();
+
+		bool canInitialize(AGameWindow* gameWindow);
+
+		std::string getApplicationName();
+
+		FrameData& getCurrentFrame();
 	};
+
+	VkCommandPoolCreateInfo CreateCommandPoolCreateInfo(uint32_t queueFamilyIndex, VkCommandPoolCreateFlags flags = 0);
+	VkCommandBufferAllocateInfo CreateCommandBufferAllocateInfo(VkCommandPool pool, uint32_t count = 1);
+	
+	VkFenceCreateInfo CreateFenceCreateInfo(VkFenceCreateFlags flags = 0 /*= 0*/);
+
+	VkSemaphoreCreateInfo CreateSemaphoreCreateInfo(VkSemaphoreCreateFlags flags = 0 /*= 0*/);
+	
+	VkSemaphoreSubmitInfo SubmitSemaphoreInfo(VkPipelineStageFlags2 stageMask, VkSemaphore semaphore);
+
+	VkCommandBufferSubmitInfo SubmitCommandBufferInfo(VkCommandBuffer cmd);
+
+	VkSubmitInfo2 SubmitInfo(VkCommandBufferSubmitInfo* cmd, VkSemaphoreSubmitInfo* signalSemaphoreInfo,
+		VkSemaphoreSubmitInfo* waitSemaphoreInfo);
+
+	VkCommandBufferBeginInfo CreateCommandBufferBeginInfo(VkCommandBufferUsageFlags flags /*= 0*/);
+
+	void TransitionImage(VkCommandBuffer cmd, VkImage image, VkImageLayout currentLayout, VkImageLayout newLayout);
+	VkImageSubresourceRange CreateImageSubresourceRange(VkImageAspectFlags aspectMask);
+
+	VkImageCreateInfo CreateImageCreateInfo(VkFormat format, VkImageUsageFlags usageFlags, VkExtent3D extent);
+
+	VkImageViewCreateInfo CreateImageViewCreateInfo(VkFormat format, VkImage image, VkImageAspectFlags aspectFlags);
+
+	void CopyImageToImage(VkCommandBuffer cmd, VkImage source, VkImage destination, VkExtent2D srcSize, VkExtent2D dstSize);
+
+	bool LoadShaderModule(const char* filePath,
+	VkDevice device,
+	VkShaderModule* outShaderModule);
+
+	VulkanRenderingBackend& getLoadedRenderingBacked();
+
+	void setLoadedRenderingBackend(VulkanRenderingBackend* backend);
+	void resetLoadedRenderingBackend();
 }
 #endif

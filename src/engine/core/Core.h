@@ -10,6 +10,14 @@
 #define ATLAS_USE_VULKAN
 #define ATLAS_RENDERER_3D
 
+#define ATLAS_VERSION_MAJOR 0
+#define ATLAS_VERSION_MINOR 0
+#define ATLAS_VERSION_PATCH 1
+
+#ifdef _DEBUG
+	#define ATLAS_DEBUG
+#endif
+
 // ---------------------------------------------------------------
 // Platform definitions
 // ---------------------------------------------------------------
