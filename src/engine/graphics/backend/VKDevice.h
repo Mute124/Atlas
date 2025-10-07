@@ -23,9 +23,9 @@
 #include <span>
 #include <__msvc_string_view.hpp>
 #include <vk_mem_alloc.h>
-#include <vulkan/vulkan_core.h>
 #include <iostream>
 #include <fstream>
+#include <bitset>
 
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
@@ -35,28 +35,78 @@
 
 #include "RenderingBackend.h"
 
+#include "../VulkanInstance.h"
 #include "../Frame.h"
 #include "../AllocatedImage.h"
 #include "../../core/Core.h"
+#include "../../core/Device.h"
 #include "../window/Window.h"
 #include "../DeletionQueue.h"
-
-
+#include "../DescriptorLayoutBuilder.h"
 
 #define ATLAS_1_SECOND_IN_NS 1000000000
+
+#define ATLAS_VK_DEVICE_BITS 32
+//std::cout << "Detected Vulkan error: " << std::string(string_VkResult(err)) << std::endl; 
+#define VK_CHECK(x)                                                     
+
+
+/*    do {                                                                \
+        VkResult err = x;                                               \
+        if (err) {                                                      \
+			
+            abort();                                                    \
+        }                                                               \
+    } while (0)*/
 
 #ifdef ATLAS_USE_VULKAN
 
 namespace Atlas {
 
 
-	struct DescriptorLayoutBuilder {
+	//struct DescriptorLayoutBuilder {
 
-		std::vector<VkDescriptorSetLayoutBinding> bindings;
+	//	std::vector<VkDescriptorSetLayoutBinding> bindings;
 
-		void add_binding(uint32_t binding, VkDescriptorType type);
-		void clear();
-		VkDescriptorSetLayout build(VkDevice device, VkShaderStageFlags shaderStages, void* pNext = nullptr, VkDescriptorSetLayoutCreateFlags flags = 0);
+	//	void add_binding(uint32_t binding, VkDescriptorType type)
+	//	{
+	//		VkDescriptorSetLayoutBinding newbind{};
+	//		newbind.binding = binding;
+	//		newbind.descriptorCount = 1;
+	//		newbind.descriptorType = type;
+
+	//		bindings.push_back(newbind);
+	//	}
+
+	//	void clear()
+	//	{
+	//		bindings.clear();
+	//	}
+
+	//	VkDescriptorSetLayout build(VkDevice device, VkShaderStageFlags shaderStages, void* pNext = nullptr, VkDescriptorSetLayoutCreateFlags flags = 0)
+	//	{
+	//		for (auto& b : bindings) {
+	//			b.stageFlags |= shaderStages;
+	//		}
+
+	//		VkDescriptorSetLayoutCreateInfo info = { .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO };
+	//		info.pNext = pNext;
+
+	//		info.pBindings = bindings.data();
+	//		info.bindingCount = (uint32_t)bindings.size();
+	//		info.flags = flags;
+
+	//		VkDescriptorSetLayout set;
+	//		vkCreateDescriptorSetLayout(device, &info, nullptr, &set);
+
+	//		return set;
+	//	}
+	//};
+
+	struct ImmediateSubmitInfo {
+		VkFence fence;
+		VkCommandBuffer commandBuffer;
+		VkCommandPool commandPool;
 	};
 
 	class DescriptorAllocator {
@@ -112,7 +162,7 @@ namespace Atlas {
 
 			vkDestroyShaderModule(*device, mShader.getModule(), nullptr);
 
-			deletionQueue->push_function([&]() {
+			deletionQueue->push([&]() {
 				destroyPipeline(device);
 			});
 		}
@@ -123,17 +173,56 @@ namespace Atlas {
 		}
 	};
 
-	
+	class Renderable {
+	public:
 
+	};
+
+	class BackgroundColor : public Renderable {
+	public:
+
+	};
+
+	enum class EVulkanRenderingOption : size_t {
+		Version_Major = 0,
+		Version_Minor,
+		Version_Patch,
+		Enable_Validation_Layers,
+		Use_Dynamic_Rendering,
+		Use_Default_Instance_Builder,
+		Enable_Syncronization,
+		Enable_Buffer_Device_Address,
+		Enable_Descriptor_Indexing,
+		Swapchain_Format,
+		Fence_Timeout,
+	};
+
+	/**
+	 * @brief A wrapper class for the usage of Vulkan as a rendering backend. This class handles the lifecycle of Vulkan and simplifies the usage of Vulkan to a simple API.
+	 * 
+	 * @pre The window must be set up and open prior to initializing Vulkan (and therefore this class!).
+	 * 
+	 * @warning This class requires the user's device to support Vulkan!
+	 * 
+	 * @since v0.0.1
+	 */
 	class VulkanRenderingBackend : public RenderingBackend {
 	private:
+
+		std::bitset<ATLAS_VK_DEVICE_BITS> mOptionsBitset;
+
 		int mCurrentFrameNumber = 0;
 
 		bool mIsInitialized = false;
+		bool mbUseDefaultInstanceBuilder = true;
+
+		ImmediateSubmitInfo mImmediateSubmitInfo;
+
+		VulkanInstance mInstance;
 
 		// Vulkan stuff
-		VkInstance mVulkanInstance = VK_NULL_HANDLE;
-		VkDebugUtilsMessengerEXT mDebugMessenger = VK_NULL_HANDLE;
+		//VkInstance mVulkanInstance = VK_NULL_HANDLE;
+		//VkDebugUtilsMessengerEXT mDebugMessenger = VK_NULL_HANDLE;
 		VkPhysicalDevice mGPUDevice = VK_NULL_HANDLE;
 		VkDevice mDevice = VK_NULL_HANDLE;
 		VkSurfaceKHR mSurface = VK_NULL_HANDLE;
@@ -176,6 +265,9 @@ namespace Atlas {
 
 		void initPipelines();
 		void initBackgroundPipelines();
+	
+		void initVMAAllocator(vkb::Instance const& cVkBootstrapInstanceRef);
+
 	public:
 
 		VulkanRenderingBackend(const VulkanRenderingBackend&) = delete;
@@ -194,6 +286,10 @@ namespace Atlas {
 		 * @sa @ref mCreateInfo
 		 */
 		VulkanRenderingBackend() = default;
+
+		void setOption(EVulkanRenderingOption option, int value) {
+			mOptionsBitset[static_cast<size_t>(option)] = value;
+		}
 
 		/**
 		 * @brief Initializes Vulkan.
@@ -224,6 +320,8 @@ namespace Atlas {
 
 		void shutdown() override;
 		
+		void shouldUseDefaultInstanceBuilder(bool bUseDefaultInstanceBuilder);
+
 		void setApplicationName(std::string_view applicationName);
 
 		void setFenceTimeout(uint64_t lengthInNS);
@@ -233,6 +331,8 @@ namespace Atlas {
 		void createSwapchain(uint32_t width, uint32_t height);
 		
 		void destroySwapchain();
+
+		void ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
 
 		bool checkValidationLayerSupport();
 
@@ -245,7 +345,7 @@ namespace Atlas {
 
 	VkCommandPoolCreateInfo CreateCommandPoolCreateInfo(uint32_t queueFamilyIndex, VkCommandPoolCreateFlags flags = 0);
 	VkCommandBufferAllocateInfo CreateCommandBufferAllocateInfo(VkCommandPool pool, uint32_t count = 1);
-	
+
 	VkFenceCreateInfo CreateFenceCreateInfo(VkFenceCreateFlags flags = 0 /*= 0*/);
 
 	VkSemaphoreCreateInfo CreateSemaphoreCreateInfo(VkSemaphoreCreateFlags flags = 0 /*= 0*/);
@@ -276,5 +376,6 @@ namespace Atlas {
 
 	void setLoadedRenderingBackend(VulkanRenderingBackend* backend);
 	void resetLoadedRenderingBackend();
+
 }
 #endif

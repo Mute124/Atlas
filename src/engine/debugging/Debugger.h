@@ -15,84 +15,131 @@
 #include <any>
 #include <vector>
 #include <source_location>
+#include <chrono>
 
 #include "../core/Core.h"
+#include "../core/Common.h"
 
 #include "Logging.h"
 
 
 namespace Atlas {
-	class IDebugEvent {
-	public:
 
-		virtual uint32_t getEventType() = 0;
-		virtual std::string getEventMessageString() = 0;
-		virtual std::string getPrettyEventMessageString() = 0;
-
-
-		virtual bool isFatal() = 0;
-		virtual bool isError() = 0;
-		virtual bool isException() = 0;
+	/**
+	 * @brief A list of debug event types in an order of increasing severity.
+	 * 
+	 * @since v0.0.1
+	 */
+	enum class EDebugEventType : uint8_t {
+		Unknown = -1,
+		Trace,
+		Info,
+		Warning,
+		Error
 	};
 
-	class ADebugEvent : public IDebugEvent {
+	class DebugEvent {
 	private:
-
-		const uint32_t mEventType;
-		const std::string mEventMessageString;
-
-
+		EDebugEventType mEventType = EDebugEventType::Unknown;
+		std::string mEventMessageString = "";
+		HighResolutionTimepoint mEventTimePoint;
+		std::source_location mEventLocation;
 	public:
 
-		ADebugEvent(uint32_t eventType, std::string const& eventMessageString);
-
-		uint32_t getEventType() override;
-		std::string getEventMessageString() override;
-		std::string getPrettyEventMessageString() override;
-
-		virtual bool isFatal() = 0;
-
-	};
-
-	class IEventRecorder {
-	public:
-		virtual void pushEvent(IDebugEvent* eventOccurred) = 0;
-
-		virtual std::vector<IDebugEvent*> getRecordedEvents() = 0;
-
-
-	};
-
-	class IDebugger {
-	public:
-
-
-		virtual void init() = 0;
-
-		virtual bool enableDebugging() = 0;
-		virtual bool disableDebugging() = 0;
-
-		virtual bool startRecording() = 0;
-		virtual bool stopRecording() = 0;
-
-		virtual void recordEvent(IDebugEvent* eventOccurred) = 0;
+		DebugEvent() = default;
 		
-		virtual void onFatalEvent(IDebugEvent* fatalDebugEvent) = 0;
+		DebugEvent(
+			EDebugEventType eventType,
+			std::string const& eventMessageString,
+			HighResolutionTimepoint eventTimePoint = std::chrono::high_resolution_clock::now(),
+			std::source_location eventLocation = std::source_location::current()
+		);
 
-		virtual IEventRecorder* getEventRecorder() = 0;
-		virtual void setEventRecorder(IEventRecorder* eventRecorder) = 0;
+		virtual ~DebugEvent() = default;
+
+		virtual bool isValid();
+
+		EDebugEventType getEventType() const;
+
+		std::string const& getEventMessageString() const;
+
+		HighResolutionTimepoint getEventTimePoint() const;
+
+		std::source_location getEventLocation() const;
 	};
 
-	class ADebugger : public IDebugger {
-	private:
-		IEventRecorder* mEventRecorder;
-	public:
 
-		ADebugger(IEventRecorder* eventRecorder);
+	//class IDebugEvent {
+	//public:
+
+	//	virtual uint32_t getEventType() = 0;
+	//	virtual std::string getEventMessageString() = 0;
+	//	virtual std::string getPrettyEventMessageString() = 0;
+
+
+	//	virtual bool isFatal() = 0;
+	//	virtual bool isError() = 0;
+	//	virtual bool isException() = 0;
+	//};
+
+	//class ADebugEvent : public IDebugEvent {
+	//private:
+
+	//	const uint32_t mEventType;
+	//	const std::string mEventMessageString;
+
+
+	//public:
+
+	//	ADebugEvent(uint32_t eventType, std::string const& eventMessageString);
+
+	//	uint32_t getEventType() override;
+	//	std::string getEventMessageString() override;
+	//	std::string getPrettyEventMessageString() override;
+
+	//	virtual bool isFatal() = 0;
+
+	//};
+
+	//class IEventRecorder {
+	//public:
+	//	virtual void pushEvent(IDebugEvent* eventOccurred) = 0;
+
+	//	virtual std::vector<IDebugEvent*> getRecordedEvents() = 0;
+
+
+	//};
+
+	//class IDebugger {
+	//public:
+
+
+	//	virtual void init() = 0;
+
+	//	virtual bool enableDebugging() = 0;
+	//	virtual bool disableDebugging() = 0;
+
+	//	virtual bool startRecording() = 0;
+	//	virtual bool stopRecording() = 0;
+
+	//	virtual void recordEvent(IDebugEvent* eventOccurred) = 0;
+	//	
+	//	virtual void onFatalEvent(IDebugEvent* fatalDebugEvent) = 0;
+
+	//	virtual IEventRecorder* getEventRecorder() = 0;
+	//	virtual void setEventRecorder(IEventRecorder* eventRecorder) = 0;
+	//};
+
+	//class ADebugger : public IDebugger {
+	//private:
+	//	IEventRecorder* mEventRecorder;
+	//public:
+
+	//	ADebugger(IEventRecorder* eventRecorder);
 
 
 
-		IEventRecorder* getEventRecorder() final override;
-		void setEventRecorder(IEventRecorder* eventRecorder) final override;
-	};
+	//	IEventRecorder* getEventRecorder() final override;
+	//	void setEventRecorder(IEventRecorder* eventRecorder) final override;
+	//};
 }

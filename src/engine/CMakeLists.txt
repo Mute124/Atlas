@@ -4,10 +4,13 @@
 	# Engine Core
 	#-----------------------------------
     "core/Core.h"
+    "core/Version.h"
     
     "core/MakeNonCopyable.h"
 
     "core/Common.h"
+    
+    "core/Math.h"
 
     "core/Device.h"
 	"core/Device.cpp"
@@ -52,8 +55,11 @@
     "graphics/DeletionQueue.h"
 	"graphics/DeletionQueue.cpp"
 
-    "grahics/Instance.h"
-	"graphics/Instance.cpp"
+    "graphics/VulkanInstance.h"
+	"graphics/VulkanInstance.cpp"
+
+    "graphics/PhysicalDevice.h"
+	"graphics/PhysicalDevice.cpp"
 
     "graphics/Renderer.h"
     "graphics/Renderer.cpp"
@@ -67,6 +73,9 @@
     "graphics/backend/RenderingBackend.h"
     "graphics/backend/RenderingBackend.cpp"
 
+    "graphics/DescriptorLayoutBuilder.h"
+	"graphics/DescriptorLayoutBuilder.cpp"
+
     "graphics/backend/VKDevice.h"
     "graphics/backend/VKDevice.cpp"
 
@@ -78,12 +87,17 @@
 
     "graphics/AllocatedImage.h"
 
+    "graphics/Color.h"
+
 	#-----------------------------------
     # IO
 	#-----------------------------------
 
     "io/IOCommon.h"
+
     "io/File.h"
+    "io/File.cpp"
+
     "io/PathLocation.h"
 
     "io/PathSearcher.h"

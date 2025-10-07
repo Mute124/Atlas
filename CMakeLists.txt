@@ -198,6 +198,14 @@ find_package(simdjson REQUIRED)
 find_package(tinyxml2 REQUIRED)
 find_package(vulkan-memory-allocator REQUIRED)
 
+    #add_library(ImGui STATIC
+    #    ${ImGui_SOURCE_DIR}/imgui.cpp
+    #    ${ImGui_SOURCE_DIR}/imgui_draw.cpp
+    #    ${ImGui_SOURCE_DIR}/imgui_tables.cpp
+    #    ${ImGui_SOURCE_DIR}/imgui_widgets.cpp
+
+#    )
+
 find_program(GLSL_VALIDATOR glslangValidator $ENV{VULKAN_SDK}/Bin/ $ENV{VULKAN_SDK}/Bin32/)
 
 file(GLOB_RECURSE GLSL_SOURCE_FILES

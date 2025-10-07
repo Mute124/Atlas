@@ -80,22 +80,11 @@ namespace Atlas {
 		
 	public:
 
-		SpdlogLogger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath, LoggerSinks* loggingSinks)
-			: mLoggerName(loggerName), mLogFilePath(logFilePath), mLoggingSinks(loggingSinks), mMessageFormatPattern(messageFormatPattern)
-		{
-		}
+		SpdlogLogger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath, LoggerSinks* loggingSinks);
 
-		void init(LoggerSinks* loggingSinks)
-		{
-			this->mInternalSpdlogLogger = std::make_shared<spdlog::logger>(
-				spdlog::logger(mLoggerName, { loggingSinks->consoleSink, loggingSinks->fileSink }));
+		void init(LoggerSinks* loggingSinks);
 
-			this->mInternalSpdlogLogger->set_pattern(mMessageFormatPattern);
-		}
-		void init() override
-		{
-			this->init(this->mLoggingSinks);
-		}
+		void init() override;
 
 		void log(std::string const& message, uint16_t logLevel) override;
 		
@@ -103,9 +92,7 @@ namespace Atlas {
 		void close() override;
 
 		// Inherited via ILogger
-		void setLevel(uint16_t logLevel) override
-		{
-		}
+		void setLevel(uint16_t logLevel) override;
 	};
 
 

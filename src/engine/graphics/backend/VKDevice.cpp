@@ -8,6 +8,7 @@
  * @since v
  ***************************************************************************************************/
 #include "VKDevice.h"
+#include "../VulkanInstance.h"
 #include "RenderingBackend.h"
 #include "../Frame.h"
 #include "../../core/Core.h"
@@ -26,6 +27,7 @@
 #include <string>
 #include <vector>
 #include <span>
+#include <bitset>
 
 // This avoids the transitive include of string_view on MSVC compilers
 #ifdef ATLAS_COMPILER_MSVC
@@ -54,46 +56,19 @@
 
 #ifdef ATLAS_USE_VULKAN
 
+struct GlobalContext {
+
+};
+
+std::unique_ptr<GlobalContext> gGlobalContext;
+
+
 Atlas::VulkanRenderingBackend* gLoadedVulkanBackend = nullptr;
-
-void Atlas::DescriptorLayoutBuilder::add_binding(uint32_t binding, VkDescriptorType type)
-{
-	VkDescriptorSetLayoutBinding newbind{};
-	newbind.binding = binding;
-	newbind.descriptorCount = 1;
-	newbind.descriptorType = type;
-
-	bindings.push_back(newbind);
-}
-
-void Atlas::DescriptorLayoutBuilder::clear()
-{
-	bindings.clear();
-}
-
-VkDescriptorSetLayout Atlas::DescriptorLayoutBuilder::build(VkDevice device, VkShaderStageFlags shaderStages, void* pNext, VkDescriptorSetLayoutCreateFlags flags)
-{
-	for (auto& b : bindings) {
-		b.stageFlags |= shaderStages;
-	}
-
-	VkDescriptorSetLayoutCreateInfo info = { .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO };
-	info.pNext = pNext;
-
-	info.pBindings = bindings.data();
-	info.bindingCount = (uint32_t)bindings.size();
-	info.flags = flags;
-
-	VkDescriptorSetLayout set;
-	vkCreateDescriptorSetLayout(device, &info, nullptr, &set);
-
-	return set;
-}
-
 
 void Atlas::DescriptorAllocator::init_pool(VkDevice device, uint32_t maxSets, std::span<PoolSizeRatio> poolRatios)
 {
 	std::vector<VkDescriptorPoolSize> poolSizes;
+
 	for (PoolSizeRatio ratio : poolRatios) {
 		poolSizes.push_back(VkDescriptorPoolSize{
 			.type = ratio.type,
@@ -157,18 +132,18 @@ Atlas::FrameData& Atlas::VulkanRenderingBackend::getCurrentFrame()
 
 uint16_t Atlas::VulkanRenderingBackend::initInstance(const APIVersion& cAPIVersionRef, bool cbEnableValidationLayers, std::string const& appName)
 {
-	vkb::InstanceBuilder instanceBuilder;
+	//vkb::InstanceBuilder instanceBuilder;
 
-	auto instanceReturn = instanceBuilder.set_app_name(appName.c_str())
-		.request_validation_layers(cbEnableValidationLayers)
-		.use_default_debug_messenger()
-		.require_api_version(cAPIVersionRef.major, cAPIVersionRef.minor, cAPIVersionRef.patch)
-		.build();
+	//auto instanceReturn = instanceBuilder.set_app_name(appName.c_str())
+	//	.request_validation_layers(cbEnableValidationLayers)
+	//	.use_default_debug_messenger()
+	//	.require_api_version(cAPIVersionRef.major, cAPIVersionRef.minor, cAPIVersionRef.patch)
+	//	.build();
 
-	vkb::Instance vulkanInstance = instanceReturn.value();
-	
-	this->mVulkanInstance = vulkanInstance.instance;
-	this->mDebugMessenger = vulkanInstance.debug_messenger;
+	//vkb::Instance vulkanInstance = instanceReturn.value();
+	//
+	//this->mVulkanInstance = vulkanInstance.instance;
+	//this->mDebugMessenger = vulkanInstance.debug_messenger;
 
 	return 0;
 }
@@ -186,7 +161,7 @@ void Atlas::VulkanRenderingBackend::initDescriptors()
 	//make the descriptor set layout for our compute draw
 	{
 		DescriptorLayoutBuilder builder;
-		builder.add_binding(0, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE);
+		builder.addBinding(0, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE);
 		mDrawImageDescriptorLayout = builder.build(mDevice, VK_SHADER_STAGE_COMPUTE_BIT);
 	}
 
@@ -211,7 +186,7 @@ void Atlas::VulkanRenderingBackend::initDescriptors()
 	vkUpdateDescriptorSets(mDevice, 1, &drawImageWrite, 0, nullptr);
 
 	//make sure both the descriptor allocator and the new layout get cleaned up properly
-	mMainDeletionQueue.push_function([&]() {
+	mMainDeletionQueue.push([&]() {
 		mGlobalDescriptorAllocator.destroy_pool(mDevice);
 
 		vkDestroyDescriptorSetLayout(mDevice, mDrawImageDescriptorLayout, nullptr);
@@ -221,8 +196,6 @@ void Atlas::VulkanRenderingBackend::initDescriptors()
 void Atlas::VulkanRenderingBackend::initPipelines()
 {
 	initBackgroundPipelines();
-
-
 }
 
 void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
@@ -259,9 +232,24 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 
 	vkDestroyShaderModule(mDevice, computeDrawShader, nullptr);
 
-	mMainDeletionQueue.push_function([&]() {
+	mMainDeletionQueue.push([&]() {
 		vkDestroyPipelineLayout(mDevice, mGradientPipelineLayout, nullptr);
 		vkDestroyPipeline(mDevice, mGradientPipeline, nullptr);
+	});
+}
+
+void Atlas::VulkanRenderingBackend::initVMAAllocator(vkb::Instance const& cVkBootstrapInstanceRef)
+{
+	// initialize the memory allocator (this can be a function)
+	VmaAllocatorCreateInfo allocatorInfo = {};
+	allocatorInfo.physicalDevice = mGPUDevice;
+	allocatorInfo.device = mDevice;
+	allocatorInfo.instance = cVkBootstrapInstanceRef;
+	allocatorInfo.flags = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
+	vmaCreateAllocator(&allocatorInfo, &mVMAAllocator);
+
+	mMainDeletionQueue.push([&]() {
+		vmaDestroyAllocator(mVMAAllocator);
 	});
 }
 
@@ -281,6 +269,15 @@ void Atlas::VulkanRenderingBackend::initCommands()
 		vkAllocateCommandBuffers(mDevice, &cmdAllocInfo, &mFrameDataArray.at(i).mainCommandBuffer);
 	}
 
+	//// allocate the command buffer for immediate submits
+	//VkCommandBufferAllocateInfo cmdAllocInfo = CreateCommandBufferAllocateInfo(mImmediateSubmitInfo.commandPool, 1);
+
+	//vkAllocateCommandBuffers(mDevice, &cmdAllocInfo, &mImmediateSubmitInfo.commandBuffer);
+
+	//mMainDeletionQueue.push([=]() {
+	//	vkDestroyCommandPool(mDevice, mImmediateSubmitInfo.commandPool, nullptr);
+	//});
+
 	//create syncronization structures
 	//one fence to control when the gpu has finished rendering the frame,
 	//and 2 semaphores to syncronize rendering with swapchain
@@ -295,6 +292,8 @@ void Atlas::VulkanRenderingBackend::initCommands()
 		vkCreateSemaphore(mDevice, &semaphoreCreateInfo, nullptr, &mFrameDataArray.at(i).renderSemaphore);
 	}
 
+	vkCreateFence(mDevice, &fenceCreateInfo, nullptr, &mImmediateSubmitInfo.fence);
+	mMainDeletionQueue.push([=]() { vkDestroyFence(mDevice, mImmediateSubmitInfo.fence, nullptr); });
 }
 
 void Atlas::VulkanRenderingBackend::createSwapchain(uint32_t width, uint32_t height)
@@ -331,44 +330,81 @@ void Atlas::VulkanRenderingBackend::destroySwapchain()
 	}
 }
 
+void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function)
+{
+	VK_CHECK(vkResetFences(mDevice, 1, &mImmediateSubmitInfo.fence));
+	VK_CHECK(vkResetCommandBuffer(mImmediateSubmitInfo.commandBuffer, 0));
+
+	VkCommandBuffer cmd = mImmediateSubmitInfo.commandBuffer;
+
+	VkCommandBufferBeginInfo cmdBeginInfo = CreateCommandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+
+	VK_CHECK(vkBeginCommandBuffer(cmd, &cmdBeginInfo));
+
+	function(cmd);
+
+	VK_CHECK(vkEndCommandBuffer(cmd));
+
+	VkCommandBufferSubmitInfo cmdinfo = SubmitCommandBufferInfo(cmd);
+	VkSubmitInfo2 submit = SubmitInfo(&cmdinfo, nullptr, nullptr);
+
+	// submit command buffer to the queue and execute it.
+	//  _renderFence will now block until the graphic commands finish execution
+	VK_CHECK(vkQueueSubmit2(mGraphicsQueue, 1, &submit, mImmediateSubmitInfo.fence));
+
+	constexpr uint64_t cTimeout = 9999999999;
+
+	VK_CHECK(vkWaitForFences(mDevice, 1, &mImmediateSubmitInfo.fence, true, cTimeout));
+}
+
 void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 {
-	// Just make sure everything is in order before Vulkan gets initialized
-	if (gameWindow == nullptr || canInitialize(gameWindow) == false) {
+	//// Just make sure everything is in order before Vulkan gets initialized
+	ATLAS_ASSERT(gameWindow != nullptr, "Window must be set up prior to Vulkan init");
+
+	if (canInitialize(gameWindow) == false) {
 		std::cout << "Window must be set up and open prior to Vulkan init" << std::endl;
 		return;
 	}
-
+	
 	const bool cbEnableValidationLayers = isErrorCheckingEnabled();
 	const APIVersion cApiVersion = getAPIVersion();
 
-	vkb::InstanceBuilder instanceBuilder;
-	instanceBuilder.set_app_name(mApplicationName.c_str());
-	instanceBuilder.request_validation_layers(cbEnableValidationLayers);
-	instanceBuilder.use_default_debug_messenger(); // TODO: allow the user to set what messenger to use
-	instanceBuilder.require_api_version(cApiVersion.major, cApiVersion.minor, cApiVersion.patch);
+	//vkb::InstanceBuilder instanceBuilder;
+	//instanceBuilder.set_app_name(mApplicationName.c_str());
+	//instanceBuilder.request_validation_layers(cbEnableValidationLayers);
+	//instanceBuilder.use_default_debug_messenger(); // TODO: allow the user to set what messenger to use
+	//instanceBuilder.require_api_version(cApiVersion.major, cApiVersion.minor, cApiVersion.patch);
 
-	// TODO: Figure out how to stop OBS from overriding the API version.
-	// The issue is that, if OBS is installed, it will override the API 
-	// version, even if a higher version is set. This is a problem because
-	// it can cause the API version to be set to a lower version than what
-	// we want. Currently, it is not a major problem, but it is something
-	// to keep in mind.
-	auto instanceReturn = instanceBuilder.build();
-	
-	vkb::Instance vulkanBootstrapInstance = instanceReturn.value();
+	//// TODO: Figure out how to stop OBS from overriding the API version.
+	//// The issue is that, if OBS is installed, it will override the API 
+	//// version, even if a higher version is set. This is a problem because
+	//// it can cause the API version to be set to a lower version than what
+	//// we want. Currently, it is not a major problem, but it is something
+	//// to keep in mind.
+	//auto instanceReturn = instanceBuilder.build();
+	//
+	//vkb::Instance vulkanBootstrapInstance = instanceReturn.value();
 
-	this->mVulkanInstance = vulkanBootstrapInstance.instance;
-	this->mDebugMessenger = vulkanBootstrapInstance.debug_messenger;
+	//this->mVulkanInstance = vulkanBootstrapInstance.instance;
+	//this->mDebugMessenger = vulkanBootstrapInstance.debug_messenger;
+
+	mInstance.setVersion(cApiVersion);
+	mInstance.setApplicationName(mApplicationName);
+	mInstance.setEnableValidationLayers(cbEnableValidationLayers);
+
+	mInstance.init();
+
+	vkb::Instance const& cVkBootstrapInstanceRef = mInstance.getVulkanBootstrapInstance();
 
 	// Device init
 	
 	// If vulkan is being used with SDL2, this has to be done here.
 #ifdef ATLAS_USE_SDL2
 	// directly passing the window cast to avoid memory issues.
-	SDL_Vulkan_CreateSurface(static_cast<SDL_Window*>(gameWindow->getUncastWindowHandle()), mVulkanInstance, &mSurface);
+	SDL_Vulkan_CreateSurface(static_cast<SDL_Window*>(gameWindow->getUncastWindowHandle()), cVkBootstrapInstanceRef, &mSurface);
 #endif // ATLAS_USE_SDL2
-	
+
 	// Vulkan 1.3 features
 	//--------------------
 	constexpr bool cbEnableDynamicRendering = true;
@@ -390,19 +426,19 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 	
 	// use vkbootstrap to select a gpu. 
 	//We want a gpu that can write to the SDL surface and supports vulkan 1.3 with the correct features
-	vkb::PhysicalDeviceSelector selector{ vulkanBootstrapInstance };
+	vkb::PhysicalDeviceSelector selector{ cVkBootstrapInstanceRef };
 	selector.set_minimum_version(cApiVersion.major, cApiVersion.minor);
 	selector.set_required_features_13(features);
 	selector.set_required_features_12(features12);
 	selector.set_surface(mSurface);
 
 	vkb::PhysicalDevice physicalDevice = selector.select().value();
-
+	
 	//create the final vulkan device
 	vkb::DeviceBuilder deviceBuilder{ physicalDevice };
 
 	vkb::Device vkbDevice = deviceBuilder.build().value();
-
+	
 	// Get the VkDevice handle used in the rest of a vulkan application
 	mDevice = vkbDevice.device;
 	mGPUDevice = physicalDevice.physical_device;
@@ -410,17 +446,7 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 	mGraphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
 	mGraphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
 
-	// initialize the memory allocator (this can be a function)
-	VmaAllocatorCreateInfo allocatorInfo = {};
-	allocatorInfo.physicalDevice = mGPUDevice;
-	allocatorInfo.device = mDevice;
-	allocatorInfo.instance = mVulkanInstance;
-	allocatorInfo.flags = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
-	vmaCreateAllocator(&allocatorInfo, &mVMAAllocator);
-
-	mMainDeletionQueue.push_function([&]() {
-		vmaDestroyAllocator(mVMAAllocator);
-	});
+	initVMAAllocator(cVkBootstrapInstanceRef);
 
 	initSwapchain(gameWindow);
 
@@ -474,7 +500,7 @@ void Atlas::VulkanRenderingBackend::initSwapchain(AGameWindow* gameWindow)
 	vkCreateImageView(mDevice, &rview_info, nullptr, &mDrawImage.imageView);
 
 	//add to deletion queues
-	mMainDeletionQueue.push_function([=]() {
+	mMainDeletionQueue.push([=]() {
 		vkDestroyImageView(mDevice, mDrawImage.imageView, nullptr);
 		vmaDestroyImage(mVMAAllocator, mDrawImage.image, mDrawImage.allocation);
 	});
@@ -628,14 +654,21 @@ void Atlas::VulkanRenderingBackend::shutdown()
 
 		destroySwapchain();
 
-		vkDestroySurfaceKHR(mVulkanInstance, mSurface, nullptr);
+		vkDestroySurfaceKHR(mInstance.getInstance(), mSurface, nullptr);
 		vkDestroyDevice(mDevice, nullptr);
 
-		vkb::destroy_debug_utils_messenger(mVulkanInstance, mDebugMessenger);
-		vkDestroyInstance(mVulkanInstance, nullptr);
+		mInstance.shutdown();
+
+		//vkb::destroy_debug_utils_messenger(mVulkanInstance, mDebugMessenger);
+		//vkDestroyInstance(mVulkanInstance, nullptr);
 
 		mIsInitialized = false;
 	}
+}
+
+void Atlas::VulkanRenderingBackend::shouldUseDefaultInstanceBuilder(bool bUseDefaultInstanceBuilder)
+{
+	mbUseDefaultInstanceBuilder = bUseDefaultInstanceBuilder;
 }
 
 bool Atlas::VulkanRenderingBackend::checkValidationLayerSupport() {

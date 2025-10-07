@@ -9,7 +9,6 @@
 	#include <vulkan/vulkan_core.h>
 #endif
 
-
 #include "DeletionQueue.h"
 
 namespace Atlas {
@@ -19,6 +18,7 @@ namespace Atlas {
 		VkCommandPool commandPool = VK_NULL_HANDLE;
 		VkCommandBuffer mainCommandBuffer = VK_NULL_HANDLE;
 		
+		// Cant this be put in the swapchain class?
 		VkSemaphore swapchainSemaphore = VK_NULL_HANDLE;
 		VkSemaphore renderSemaphore = VK_NULL_HANDLE;
 

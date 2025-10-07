@@ -14,21 +14,40 @@
 #include <functional>
 
 namespace Atlas {
-	struct DeletionQueue
+	class DeletionQueue
 	{
-		std::deque<std::function<void()>> deletors;
+	private:
 
-		void push_function(std::function<void()>&& function) {
-			deletors.push_back(function);
+		std::deque<std::function<void()>> mDeletorsDeque;
+
+	public:
+
+		DeletionQueue() = default;
+
+		~DeletionQueue() { 
+			flush();
+		}
+
+		void push(std::function<void()>&& function) {
+			mDeletorsDeque.push_back(function);
 		}
 
 		void flush() {
 			// reverse iterate the deletion queue to execute all the functions
-			for (auto it = deletors.rbegin(); it != deletors.rend(); it++) {
+			for (auto it = mDeletorsDeque.rbegin(); it != mDeletorsDeque.rend(); it++) {
 				(*it)(); //call functors
 			}
-
-			deletors.clear();
+			
+			mDeletorsDeque.clear();
 		}
+		
+		size_t size() const {
+			return mDeletorsDeque.size();
+		}
+
+		std::deque<std::function<void()>>& getDeletorsDeque() {
+			return mDeletorsDeque;
+		}
+
 	};
 }

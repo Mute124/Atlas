@@ -9,6 +9,8 @@
  ***************************************************************************************************/
 #pragma once
 
+#include <string>
+
 namespace Atlas {
 	
 	class ADevice {
@@ -19,6 +21,8 @@ namespace Atlas {
 		bool mIsReady = false;
 
 		const bool mIsPhysicalDevice = false;
+
+
 
 	public:
 		

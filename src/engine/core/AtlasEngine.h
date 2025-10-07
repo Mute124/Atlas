@@ -15,6 +15,7 @@
 #include <string>
 
 #include "Core.h"
+#include "Version.h"
 
 #include "IAtlasEngine.h"
 
@@ -61,7 +62,7 @@ namespace Atlas {
 	 */
 	class AtlasEngine : public IAtlasEngine {
 	private:
-		
+		const static inline Version sAtlasVersion = Version(ATLAS_VERSION_MAJOR, ATLAS_VERSION_MINOR, ATLAS_VERSION_PATCH);
 		
 		bool mIsThreaded = false;
 
@@ -142,6 +143,8 @@ namespace Atlas {
 
 		// Inherited via IAtlasEngine
 		void update() override;
+	
+		const Version& getVersion() const;
 	};
 
 }

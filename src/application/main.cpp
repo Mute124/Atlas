@@ -17,7 +17,7 @@
 //#include <core/AtlasEngine.h>
 
 #include <graphics/backend/VKDevice.h>
-
+#include <io/IOManager.h>
 //class Person {
 //private:
 //	std::string name;
@@ -80,6 +80,8 @@ int main(int argc, char* argv[]) {
 //		boost::archive::text_iarchive ia(ifs);
 	//	ia >> p2;  // Deserialize
 	}*/
+
+
 
 	// Setup the game window (this needs to be done before the rendering device is created)
 	SDLGameWindow* gameWindow = new SDLGameWindow;

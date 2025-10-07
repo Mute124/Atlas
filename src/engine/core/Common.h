@@ -149,6 +149,12 @@ namespace Atlas {
 	using std::chrono::seconds;
 	using std::unordered_map;
 
+	using HighResolutionTimepoint = std::chrono::high_resolution_clock::time_point;
+
+	enum class EResultCode : uint32_t {
+		Failed = 0,
+		Okay,
+	};
 	
 	template<typename T_NUMERIC_TYPE>
 	struct Rectangle {

@@ -290,3 +290,9 @@ void Atlas::AtlasEngine::update()
 
 	//this->mGameRenderingModule->update();
 }
+
+const Atlas::Version& Atlas::AtlasEngine::getVersion() const
+{
+	return sAtlasVersion;
+	// TODO: insert return statement here
+}

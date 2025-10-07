@@ -40,13 +40,6 @@ namespace Atlas {
 
 	};
 
-	class IFileSystemIndexer {
-	public:
-	
-		virtual void indexPathResult(FoundPathResult const& cFoundPath) = 0;
-	
-	};
-
 	class APathSearcher {
 	private:
 		PathLocation mRootSearchPath;

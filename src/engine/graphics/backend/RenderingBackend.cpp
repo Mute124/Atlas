@@ -29,11 +29,11 @@ void Atlas::RenderingBackend::setAPIVersion(uint32_t major, uint32_t minor, uint
 	this->mAPIVersion.patch = patch; 
 }
 
-void Atlas::RenderingBackend::setAPIVersion(APIVersion version) {
+void Atlas::RenderingBackend::setAPIVersion(Version version) {
 	this->setAPIVersion(version.major, version.minor, version.patch);
 }
 
-Atlas::RenderingBackend::APIVersion Atlas::RenderingBackend::getAPIVersion() const { 
+Atlas::Version Atlas::RenderingBackend::getAPIVersion() const {
 	return this->mAPIVersion;
 }
 

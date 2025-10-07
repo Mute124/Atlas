@@ -18,6 +18,7 @@
 
 
 #include "../../core/Core.h"
+#include "../../core/Version.h"
 
 #include "../../debugging/Debugger.h"
 
@@ -95,18 +96,14 @@ namespace Atlas {
 	//	}
 	//};
 
-	struct Version {
-		uint32_t major = -1;
-		uint32_t minor = -1;
-		uint32_t patch = -1;
-	};
+
 
 	class RenderingBackend {
 	public:
 		using APIVersion = Version;
 
 	private:
-		APIVersion mAPIVersion;
+		Version mAPIVersion;
 		
 		bool mbUseDebuggingTools = false;
 		bool mbEnableErrorChecking = false; // dont worry about this if you are not using vulkan
@@ -118,9 +115,9 @@ namespace Atlas {
 
 		virtual void setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch);
 
-		virtual void setAPIVersion(APIVersion version);
+		virtual void setAPIVersion(Version version);
 
-		virtual APIVersion getAPIVersion() const;
+		virtual Version getAPIVersion() const;
 
 		bool areDebuggingToolsEnabled() const;
 

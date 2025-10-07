@@ -13,32 +13,61 @@
 
 #include "Debugger.h"
 
-Atlas::ADebugEvent::ADebugEvent(uint32_t eventType, std::string const& eventMessageString) 
-	: mEventType(eventType), mEventMessageString(eventMessageString) {
+//Atlas::ADebugEvent::ADebugEvent(uint32_t eventType, std::string const& eventMessageString) 
+//	: mEventType(eventType), mEventMessageString(eventMessageString) {
+//}
+//
+//uint32_t Atlas::ADebugEvent::getEventType()
+//{
+//	return mEventType;
+//}
+//
+//std::string Atlas::ADebugEvent::getEventMessageString()
+//{
+//	return mEventMessageString;
+//}
+//
+//std::string Atlas::ADebugEvent::getPrettyEventMessageString()
+//{
+//	return std::string();
+//}
+//
+//Atlas::ADebugger::ADebugger(IEventRecorder* eventRecorder) : mEventRecorder(eventRecorder) {}
+//
+//Atlas::IEventRecorder* Atlas::ADebugger::getEventRecorder()
+//{
+//	return nullptr;
+//}
+//
+//void Atlas::ADebugger::setEventRecorder(IEventRecorder* eventRecorder)
+//{
+//}
+
+Atlas::DebugEvent::DebugEvent(
+	EDebugEventType eventType,
+	std::string const& eventMessageString,
+	HighResolutionTimepoint eventTimePoint,
+	std::source_location eventLocation
+) : mEventType(eventType), mEventMessageString(eventMessageString), mEventTimePoint(eventTimePoint), mEventLocation(eventLocation) {
 }
 
-uint32_t Atlas::ADebugEvent::getEventType()
+bool Atlas::DebugEvent::isValid()
 {
+	return false;
+}
+
+Atlas::EDebugEventType Atlas::DebugEvent::getEventType() const {
 	return mEventType;
 }
 
-std::string Atlas::ADebugEvent::getEventMessageString()
-{
+std::string const& Atlas::DebugEvent::getEventMessageString() const {
 	return mEventMessageString;
 }
 
-std::string Atlas::ADebugEvent::getPrettyEventMessageString()
-{
-	return std::string();
+Atlas::HighResolutionTimepoint Atlas::DebugEvent::getEventTimePoint() const { 
+	return mEventTimePoint; 
 }
 
-Atlas::ADebugger::ADebugger(IEventRecorder* eventRecorder) : mEventRecorder(eventRecorder) {}
-
-Atlas::IEventRecorder* Atlas::ADebugger::getEventRecorder()
-{
-	return nullptr;
-}
-
-void Atlas::ADebugger::setEventRecorder(IEventRecorder* eventRecorder)
-{
+std::source_location Atlas::DebugEvent::getEventLocation() const {
+	return mEventLocation; 
 }

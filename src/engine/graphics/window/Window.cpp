@@ -31,8 +31,6 @@
 
 
 
-
-
 //Atlas::NullGameWindow::operator WindowDescription() const {
 //	return getWindowDescription();
 //}
@@ -125,6 +123,8 @@ void Atlas::GLFWGameWindow::setFlag(std::string const& flagName, unsigned int va
 #elif defined(ATLAS_USE_SDL2)
 
 #endif
+
+
 
 void Atlas::SDLGameWindow::init(const uint32_t cInitFlags)
 {

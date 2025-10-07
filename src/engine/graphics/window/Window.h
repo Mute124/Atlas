@@ -272,11 +272,24 @@ namespace Atlas {
 
 #elif defined(ATLAS_USE_SDL2)
 
+	using SDLEvent = SDL_Event;
+
 	struct GameWindowSettings {
 		bool enableEventPolling = true;
 		bool fullscreen = false;
 
 		uint32_t windowInitFlags;
+	};
+
+	class EventPoller {
+	public:
+		
+		int poll(SDLEvent& event) {
+			return SDL_PollEvent(&event);
+		}
+
+
+
 	};
 
 	class SDLGameWindow final : public AGameWindow {
@@ -303,6 +316,9 @@ namespace Atlas {
 		static inline uint32_t GetGraphicsAPIFlag();
 
 	public:
+
+		// SDLGameWindow(std::string const& title, uint32_t width, uint32_t height, int x, int y, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon);
+
 		explicit SDLGameWindow(const uint32_t cGraphicsAPIFlag);
 
 		SDLGameWindow() = default;
