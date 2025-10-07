@@ -438,7 +438,7 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 	vkb::DeviceBuilder deviceBuilder{ physicalDevice };
 
 	vkb::Device vkbDevice = deviceBuilder.build().value();
-	
+
 	// Get the VkDevice handle used in the rest of a vulkan application
 	mDevice = vkbDevice.device;
 	mGPUDevice = physicalDevice.physical_device;

@@ -9,14 +9,21 @@
  ***************************************************************************************************/
 #include <optional>
 #include <cstdint>
+#include <memory>
+#include <string>
 
 #include "VulkanInstance.h"
 #include "../core/Core.h"
 #include "../core/Version.h"
+#include "../debugging/Logging.h"
 
+#include <VkBootstrap.h>
 #include <vulkan/vulkan_core.h>
+#include <spdlog/common.h>
+#include <spdlog/spdlog.h>
 
-Atlas::VulkanInstance::VulkanInstance()
+
+Atlas::VulkanInstanceWrapper::VulkanInstanceWrapper()
 {
 #ifdef ATLAS_DEBUG
 	mbEnableValidationLayers = true;
@@ -24,30 +31,30 @@ Atlas::VulkanInstance::VulkanInstance()
 
 }
 
-Atlas::VulkanInstance::~VulkanInstance()
+Atlas::VulkanInstanceWrapper::~VulkanInstanceWrapper()
 {
 	this->shutdown();
 }
 
-void Atlas::VulkanInstance::setVersion(const Version& cVulkanVersionRef) { 
+void Atlas::VulkanInstanceWrapper::setVersion(const Version& cVulkanVersionRef) { 
 	mVulkanVersion = cVulkanVersionRef; 
 }
 
-void Atlas::VulkanInstance::setApplicationName(std::string_view appName)
+void Atlas::VulkanInstanceWrapper::setApplicationName(std::string_view appName)
 {
 	mApplicationName = appName;
 }
 
-void Atlas::VulkanInstance::setEnableValidationLayers(const bool cbEnableValidationLayers) {
+void Atlas::VulkanInstanceWrapper::setEnableValidationLayers(const bool cbEnableValidationLayers) {
 	mbEnableValidationLayers = cbEnableValidationLayers; 
 }
 
-void Atlas::VulkanInstance::setDebugCallback(VulkanDebugCallback debugMessengerCallback)
+void Atlas::VulkanInstanceWrapper::setDebugCallback(VulkanDebugCallback debugMessengerCallback)
 {
 	mDebugMessengerCallback = std::make_optional(debugMessengerCallback);
 }
 
-uint16_t Atlas::VulkanInstance::init() {
+uint16_t Atlas::VulkanInstanceWrapper::init() {
 	uint16_t initResult = 0;
 
 	vkb::InstanceBuilder instanceBuilder;
@@ -59,12 +66,18 @@ uint16_t Atlas::VulkanInstance::init() {
 	
 	instanceBuilder.set_engine_version(ATLAS_VERSION_MAJOR, ATLAS_VERSION_MINOR, ATLAS_VERSION_PATCH);
 	instanceBuilder.request_validation_layers(mbEnableValidationLayers);
-
+	
 	if (mDebugMessengerCallback.has_value()) {
 		instanceBuilder.set_debug_callback(mDebugMessengerCallback.value());
 	}
 	else {
+
+
+#ifdef ATLAS_USE_VULKAN_DEFAULT_DEBUG_MESSENGER
 		instanceBuilder.use_default_debug_messenger();
+#else
+		instanceBuilder.set_debug_callback(DefaultVulkanDebugCallback);
+#endif
 	}
 
 	instanceBuilder.require_api_version(mVulkanVersion.major, mVulkanVersion.minor, mVulkanVersion.patch);
@@ -92,24 +105,60 @@ uint16_t Atlas::VulkanInstance::init() {
 	return initResult;
 }
 
-void Atlas::VulkanInstance::shutdown()
+void Atlas::VulkanInstanceWrapper::shutdown()
 {
 	vkb::destroy_debug_utils_messenger(mVulkanInstance, mDebugMessenger);
 	vkDestroyInstance(mVulkanInstance, nullptr);
 }
 
-VkInstance& Atlas::VulkanInstance::getInstance() {
+VkInstance& Atlas::VulkanInstanceWrapper::getInstance() {
 	return mVulkanInstance;
 }
 
-VkDebugUtilsMessengerEXT& Atlas::VulkanInstance::getDebugMessenger() {
+VkDebugUtilsMessengerEXT& Atlas::VulkanInstanceWrapper::getDebugMessenger() {
 	return mDebugMessenger;
 }
 
-vkb::Instance& Atlas::VulkanInstance::getVulkanBootstrapInstance() {
+vkb::Instance& Atlas::VulkanInstanceWrapper::getVulkanBootstrapInstance() {
 	return *mVulkanBootstrapInstance;
 }
 
-Atlas::VulkanInstance::operator const VkInstance& () const {
+Atlas::VulkanInstanceWrapper::operator const VkInstance& () const {
 	return mVulkanInstance; 
+}
+
+Atlas::LogLevel Atlas::TranslateVulkanLogLevel(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity)
+{
+	LogLevel logLevel;
+
+	switch (messageSeverity)
+	{
+	case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
+		// Use LogLevel::trace here because the trace log level is meant for verbose logging (usually this is logged in a log file anyways).
+		logLevel = LogLevel::trace;
+		break;
+	case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
+		logLevel = LogLevel::info;
+		break;
+	case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
+		logLevel = LogLevel::warn;
+		break;
+	case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
+		logLevel = LogLevel::err;
+		break;
+	case VK_DEBUG_UTILS_MESSAGE_SEVERITY_FLAG_BITS_MAX_ENUM_EXT:
+		logLevel = LogLevel::critical;
+		break;
+	default:
+		logLevel = LogLevel::info;
+		break;
+	}
+
+	return logLevel;
+}
+
+VkBool32 Atlas::DefaultVulkanDebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
+{
+	spdlog::log(TranslateVulkanLogLevel(messageSeverity), pCallbackData->pMessage);	
+	return VK_FALSE;
 }

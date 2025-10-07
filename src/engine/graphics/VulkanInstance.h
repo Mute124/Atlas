@@ -5,7 +5,7 @@
  * 
  * @date September 2025
  * 
- * @since v
+ * @since v0.0.1
  ***************************************************************************************************/
 #pragma once
 
@@ -28,18 +28,31 @@
 	#define ATLAS_ENABLE_VALIDATION_LAYERS true
 #endif
 
-
 namespace Atlas {
 	using VulkanDebugCallback = PFN_vkDebugUtilsMessengerCallbackEXT;
 
-	class VulkanInstance {
+	/**
+	 * @brief Acts as a wrapper for VkInstance and it's debug messenger. Furthermore, this class handles it's own initialization and shutdown.
+	 * 
+	 * @since v0.0.1
+	 */
+	class VulkanInstanceWrapper {
 	private:
 
 		static inline const std::string_view scEngineName = "Atlas";
 
 		std::unique_ptr<vkb::Instance> mVulkanBootstrapInstance;
-
+		
+		/**
+		 * @brief According to the Khronos specification, @a VkInstance is an opaque handle to a Vulkan instance. By default, this is set to
+		 * @a VK_NULL_HANDLE.
+		 * 
+		 * @sa @link https://registry.khronos.org/vulkan/specs/latest/man/html/VkInstance.html @endlink
+		 * 
+		 * @since v0.0.1
+		 */
 		VkInstance mVulkanInstance = VK_NULL_HANDLE;
+
 		VkDebugUtilsMessengerEXT mDebugMessenger = VK_NULL_HANDLE;
 
 		std::optional<VulkanDebugCallback> mDebugMessengerCallback;
@@ -51,9 +64,9 @@ namespace Atlas {
 
 		friend class VulkanRenderingBackend;
 	public:
-		VulkanInstance();
+		VulkanInstanceWrapper();
 
-		~VulkanInstance();
+		~VulkanInstanceWrapper();
 
 		void setVersion(const Version& cVulkanVersionRef);
 
@@ -75,4 +88,54 @@ namespace Atlas {
 
 		explicit operator const VkInstance&() const;
 	};
+
+	/**
+	 * @brief Translates a vulkan debug log level to one that Atlas can use. For the most part, the Vulkan debug log levels are the same as the
+	 * Atlas ones, with @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT, @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT, and
+	 * @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT being the same as @a LogLevel::info, @a LogLevel::warn, and @a LogLevel::err in that order.
+	 * However, @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT and @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_FLAG_BITS_MAX_ENUM_EXT are translated to 
+	 * @a LogLevel::trace and @a LogLevel::critical, respectively. The default is @a LogLevel::info.
+	 * 
+	 * @param messageSeverity The Vulkan debug log level to translate.
+	 * 
+	 * @returns The translated log level. See the description for more information.
+	 * 
+	 * @since v0.0.1
+	 */
+	LogLevel TranslateVulkanLogLevel(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity);
+
+	/**
+	 * @brief The default Vulkan debug callback that Atlas uses if no custom debug callback is provided by the user in VulkanInstanceWrapper before it
+	 * is initialized. According to the Khronos specification on the @a PFN_vkDebugUtilsMessengerCallbackEXT object, this function should always return 
+	 * a value of @a VK_FALSE, which is what this function does. See the Khronos specification for more information (this is in the see also section of
+	 * the documentation). The message is logged via the usage of @a spdlog::log(). However, this means that some logger (more specifically a @a Spdlog
+	 * logger) must have been initialized before this function is called or it will crash. 
+	 * 
+	 * @remark While most of these parameters are not used, they are included for consistency with the specifications that are listed in the Khronos
+	 * specifications at the link in the <b>see also</b> section.
+	 * 
+	 * @pre A Spdlog logger must have been initialized before this function is called. This should be handled by the @ref SpdlogLogger class.
+	 * 
+	 * @param messageSeverity The Vulkan debug log level reported by the vulkan debug callback. This is translated to an Atlas log level using
+	 * the TranslateVulkanLogLevel function.
+	 * 
+	 * @param messageType The type of message reported by the vulkan debug callback.
+	 * 
+	 * @param pCallbackData A pointer to the vulkan debug callback data. Within this parameter, the message is located, which is what is passed to be
+	 * logged via @a spdlog::log().
+	 * 
+	 * @param pUserData A pointer to user data that was provided when the vulkan debug callback was set.
+	 * 
+	 * @returns Always returns @a VK_FALSE.
+	 * 
+	 * @sa @link https://registry.khronos.org/vulkan/specs/latest/man/html/PFN_vkDebugUtilsMessengerCallbackEXT.html @endlink
+	 * 
+	 * @todo Instead of logging via @a spdlog::log(), perhaps consider writing another function that will log using an already initialized Atlas logger.
+	 * As of right now, this is assuming that the user is using the @ref SpdlogLogger class, which is the default. However, the user should be able to
+	 * use another logger and still have this function work. 
+	 * 
+	 * @since v0.0.1
+	 */
+	[[nodiscard]] VkBool32 DefaultVulkanDebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType,
+		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
 }

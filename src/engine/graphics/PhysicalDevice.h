@@ -33,7 +33,7 @@ namespace Atlas {
 
 	public:
 
-		uint32_t init(VulkanInstance& cVulkanInstanceRef, PhysicalDeviceFeaturesAggregate const& cPhysicalDeviceFeatures) {
+		uint32_t init(VulkanInstanceWrapper& cVulkanInstanceRef, PhysicalDeviceFeaturesAggregate const& cPhysicalDeviceFeatures) {
 			vkb::PhysicalDeviceSelector selector{ cVulkanInstanceRef.getVulkanBootstrapInstance() };
 
 		}

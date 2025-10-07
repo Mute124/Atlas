@@ -218,7 +218,7 @@ namespace Atlas {
 
 		ImmediateSubmitInfo mImmediateSubmitInfo;
 
-		VulkanInstance mInstance;
+		VulkanInstanceWrapper mInstance;
 
 		// Vulkan stuff
 		//VkInstance mVulkanInstance = VK_NULL_HANDLE;

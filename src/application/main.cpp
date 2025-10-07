@@ -17,6 +17,7 @@
 //#include <core/AtlasEngine.h>
 
 #include <graphics/backend/VKDevice.h>
+#include <debugging/Logging.h>
 #include <io/IOManager.h>
 //class Person {
 //private:
@@ -81,7 +82,9 @@ int main(int argc, char* argv[]) {
 	//	ia >> p2;  // Deserialize
 	}*/
 
+	SpdlogLogger logger = SpdlogLogger("Atlas", "[multi_sink_example] [%^%l%$] %v", "logs/atlas.log");
 
+	logger.init();
 
 	// Setup the game window (this needs to be done before the rendering device is created)
 	SDLGameWindow* gameWindow = new SDLGameWindow;
