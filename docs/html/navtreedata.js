@@ -28,8 +28,6 @@ var NAVTREE =
     [ "Detailed Analysis Of Dependencies", "dc/dec/detailed-analysis-of-dependencies.html", null ],
     [ "building", "dd/da6/md_building.html", null ],
     [ "Todo List", "dd/da0/todo.html", null ],
-    [ "Bug List", "de/da5/bug.html", null ],
-    [ "Deprecated List", "da/d58/deprecated.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "What is Atlas", "index.html#what-is-Atlas", null ],
       [ "Architecture", "index.html#architecture", null ],
@@ -58,7 +56,8 @@ var NAVTREE =
         [ "Functions", "namespacemembers_func.html", null ],
         [ "Variables", "namespacemembers_vars.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
-        [ "Enumerations", "namespacemembers_enum.html", null ]
+        [ "Enumerations", "namespacemembers_enum.html", null ],
+        [ "Enumerator", "namespacemembers_eval.html", null ]
       ] ]
     ] ],
     [ "Concepts", "concepts.html", "concepts" ],
@@ -95,34 +94,26 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d0/dd1/class_game_object.html#ad512cf5b407f1abe3d75e3abb40c4b7f",
-"d1/d43/engine_2modding_2add__on_2scriptdictionary_2scriptdictionary_8cpp.html#a1d0570dd2d386ba327d909420632a512",
-"d1/dd3/structgw_1_1_obj_first_3_01_r_07_5_08_07_t_00_01_a0_08_4.html#a816b73bde7db5f110d17f76169a06563",
-"d2/d53/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_01const_01_4.html#afcc7a377388c804411dd4ee121726596",
-"d3/d34/structgw_1_1_wrapper_3_01void_07_t_1_1_5_08_07void_08_01const_01_4.html",
-"d3/db6/class_atlas_1_1_techstorm_engine.html#af440511dc83b2179d90b4ded041c199e",
-"d4/d3b/application_2add__on_2scriptstdstring_2scriptstdstring__utils_8cpp.html#a558ab0fa31f81fe4df4fc2832f09bab5",
-"d4/dc9/class_c_serialized_value.html#a8743d0419165e9007eb8cf7ffd81baa3",
-"d5/d37/class_atlas_1_1_b_project.html#ae721d18e16a8e5d6a3f720524943a445",
-"d6/d48/class_atlas_1_1_physics_engine_1_1_body_interface_holder.html",
-"d7/d30/class_atlas_1_1_state_machine.html#a6d8a773face3fece8e45521d40a5c79a",
-"d7/d84/class_atlas_1_1_input_registry.html#a0d9c1acf8073e22d5b2598c495db1f72",
-"d7/dc3/class_atlas_1_1_game_camera.html#ae1f4227833666ff45bee2969328b1947",
-"d8/d45/_audio_manager_8h_source.html",
-"d8/dd7/structgw_1_1_obj_last_3_01void_07_5_08_07_a0_00_01_t_08_4.html#aced13ff285f23401c689cf8fdc524d63",
-"d9/df5/application_2add__on_2autowrapper_2aswrappedcall_8h.html",
-"da/d87/class_atlas_1_1_vec3.html#ad7fdf87253ff14233b836329b7786f53",
-"db/d53/_render_event_args_8h.html",
-"db/ddc/application_2prototyping_2_terrain_8h.html",
-"dc/d5b/class_atlas_1_1_audio_device.html#ab60079a350d05c8e1158e2bfe94449ec",
-"dc/dbe/class_marching_cubes.html#a6ad2c48d46dc1cea0c73506acb1b51ed",
-"dd/d47/_application_utils_8h.html#a300ee1ee66363243a98010a32b32ad66",
-"de/d1b/imgui__impl__sdl3_8cpp.html#a02fe102aaf2bd58d47062febfe7a4698",
-"de/d98/class_c_script_builder.html#a37d580643da4fcc4fa5f15788968149b",
-"df/d3c/imgui__impl__vulkan_8cpp.html#a07d2fbf5c27393a6a107dea81fba770c",
-"df/d5f/imgui__impl__opengl3__loader_8h.html#ab18f061b993d901e1161a4de18e8fc6b",
-"df/de6/imgui__impl__sdlrenderer2_8h.html#a830035e48f7fc4fb17754e23c2530bc4",
-"globals_defs_a.html"
+"d0/dc5/scriptdictionary_8cpp.html#a355aeb65259681d4244961cd78084f89",
+"d1/d5d/imgui__impl__opengl2_8h.html#ab3eb126bcbf6a08e5e260bc80ebc6284",
+"d2/da4/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_00_01_a1_08_4.html#afd13b14bdd94667e22d3f28317a3c139",
+"d3/df5/_v_k_device_8cpp.html#a4ed1ac7ebe096fc975b54178b0b937ba",
+"d4/dc9/class_c_serialized_value.html#a51aa9f2503513cbb146af247234bd835",
+"d6/d1f/interface_framebuffer_descriptor.html#a2c56d16fb908893ac4ec0e0a8ddc3f71",
+"d7/d0d/namespace_shell.html#a862158f9224f5da1de15a73f7f6020e7",
+"d7/d58/scriptarray_8cpp.html#ab03c0853e33eda24a87a316ff0e833ba",
+"d8/d22/class_c_script_array.html#a9d0cb19caa89bdb834af07b1f1e23372",
+"d8/da0/class_atlas_1_1_game_threader.html#af3f8b756fdd035622252c12b8f697e94ada61a24931da06a82f5296b7465b243a",
+"d9/db9/imgui__impl__opengl3_8cpp.html#aae9cd16a14ad6048fa7d834b87f6c78a",
+"da/d84/_renderer_8cpp.html",
+"db/d38/class_atlas_1_1_memory_allocator.html#a47eb935134dfde334a7dab13b0f526c8",
+"dc/d25/struct_allocated_physics_resources.html#acd66edd73604bd6b072affe25e116b22",
+"dc/dfa/class_c_date_time.html#ae14c254963214c0d26e4655bfad1cd28",
+"de/d02/imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97",
+"de/ddc/struct_atlas_1_1_memory_functions_aggregator.html#a92253381c03a6839c6f968dc2f44397a",
+"df/d5f/imgui__impl__opengl3__loader_8h.html#a3282aa1f3b35c4e3ce04f194e5a3e281",
+"df/d8c/scriptstdstring_8cpp.html#a040c97c9829851613fdbc903863c6b8f",
+"functions.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

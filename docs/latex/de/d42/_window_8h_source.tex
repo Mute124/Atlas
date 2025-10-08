@@ -1,34 +1,326 @@
 \doxysection{Window.\+h}
-\hypertarget{_window_8h_source}{}\label{_window_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/renderer/window/Window.h@{C:/Dev/Techstorm-\/v5/src/engine/renderer/window/Window.h}}
+\hypertarget{_window_8h_source}{}\label{_window_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/window/Window.h@{C:/Dev/Techstorm-\/v5/src/engine/graphics/window/Window.h}}
 \mbox{\hyperlink{_window_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_window_decorations_8h}{WindowDecorations.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_window_8h}{IWindow.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <optional>}}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00006}\mbox{\hyperlink{class_atlas_1_1_window}{00006}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_window}{Window}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_i_window}{IWindow}}\ \{}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00008}\mbox{\hyperlink{class_atlas_1_1_window_a21c25f483ed6f4f5192474e0b9989601}{00008}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_window_decorations}{WindowDecorations}}\ \mbox{\hyperlink{class_atlas_1_1_window_a21c25f483ed6f4f5192474e0b9989601}{mDecorations}};}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00009}00009\ }
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00011}00011\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00012}00012\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_window_a4afa9a32bef0bc15f922f41ddb387b4e}{\string~Window}}();}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00013}00013\ }
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00014}\mbox{\hyperlink{class_atlas_1_1_window_ab669046b9534df06c4cc72af98aa5c2e}{00014}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_window_decorations}{WindowDecorations}}\ \textcolor{keyword}{const}\&\ \mbox{\hyperlink{class_atlas_1_1_window_ab669046b9534df06c4cc72af98aa5c2e}{GetDecorations}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_window_a21c25f483ed6f4f5192474e0b9989601}{mDecorations}};\ \}}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00015}00015\ }
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00016}00016\ }
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00017}00017\ }
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inherited\ via\ IWindow}}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_window_a602440700c0a2fb0f9213d00bf7f3371}{init}}(\mbox{\hyperlink{class_atlas_1_1_window_decorations}{WindowDecorations}}*\ windowDecorations)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00020}00020\ }
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_window_a997732f6c397520c66f09a5ca6b265b0}{update}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00022}00022\ }
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_window_a190e2236af28b2af0fab88a9fa275543}{shouldClose}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ Window.h}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00003}00003\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00004}00004\ \textcolor{comment}{\ *\ @brief\ Everything\ required\ to\ create\ a\ window.\ If\ you\ wish\ to\ create\ a\ window,\ you\ may\ use}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00005}00005\ \textcolor{comment}{\ *\ the\ GLFWGameWindow\ or\ the\ SDLGameWindow\ classes\ direction\ (if\ you\ dont\ wish\ to\ make\ your}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00006}00006\ \textcolor{comment}{\ *\ own\ window\ class).\ If\ you\ want\ to\ use\ a\ custom\ window\ class,\ you\ should\ inherit\ from}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00007}00007\ \textcolor{comment}{\ *\ AGameWindow\ or\ NullGameWindow,\ depending\ on\ your\ needs.}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00008}00008\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00009}00009\ \textcolor{comment}{\ *\ @date\ May\ 2025}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00010}00010\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00011}00011\ \textcolor{comment}{\ *\ @since\ v}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00012}00012\ \textcolor{comment}{\ ***************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00013}00013\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <any>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <variant>}}
 \DoxyCodeLine{\Hypertarget{_window_8h_source_l00024}00024\ }
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_window_a76b32d82066d1319bbaa35eb769cc0b5}{close}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00026}00026\ }
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00027}00027\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_window_8h_source_l00028}00028\ \}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ "{}../../core/Core.h"{}}\ \textcolor{comment}{//\ this\ include\ has\ to\ be\ put\ here\ because\ the\ GLFW\_INCLUDE\_VULKAN\ is\ defined\ in\ this\ file\ (of\ course\ if\ vulkan\ and\ GLFW3\ is\ being\ used!)}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00026}00026\ \textcolor{preprocessor}{\#include\ "{}../../core/Common.h"{}}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00028}00028\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00029}00029\ \textcolor{preprocessor}{\ \ \ \ \#include\ <GLFW/glfw3.h>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00031}00031\ \textcolor{preprocessor}{\#elif\ defined\ ATLAS\_USE\_SDL2}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00032}00032\ \textcolor{preprocessor}{\ \ \ \ \#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00033}00033\ \textcolor{preprocessor}{\#include\ <SDL2/SDL\_video.h>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00034}00034\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ATLAS\_USE\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00037}00037\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00038}00038\ \textcolor{preprocessor}{\#include\ <glm/fwd.hpp>}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00040}00040\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00052}\mbox{\hyperlink{namespace_atlas_a52e4cef3841c9e6e2f496d9bcc376d92}{00052}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_a52e4cef3841c9e6e2f496d9bcc376d92}{WindowSize}}\ =\ glm::vec<2,\ uint32\_t,\ glm::lowp>;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00053}00053\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00054}\mbox{\hyperlink{namespace_atlas_add46beb7fbf5f73401bc4664f52a3055}{00054}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{struct_atlas_1_1_rectangle}{WindowRectangle}}\ =\ \mbox{\hyperlink{struct_atlas_1_1_rectangle}{Rectangle<int>}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00056}\mbox{\hyperlink{struct_atlas_1_1_window_hint}{00056}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_window_hint}{WindowHint}}\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00057}\mbox{\hyperlink{struct_atlas_1_1_window_hint_a54413436db027e9ef938ef420acdd4ee}{00057}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{struct_atlas_1_1_window_hint_a54413436db027e9ef938ef420acdd4ee}{identifier}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00058}\mbox{\hyperlink{struct_atlas_1_1_window_hint_a7e06121134b7bf035be8171b81521513}{00058}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{struct_atlas_1_1_window_hint_a7e06121134b7bf035be8171b81521513}{value}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00059}00059\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00066}\mbox{\hyperlink{struct_atlas_1_1_window_description}{00066}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_window_description}{WindowDescription}}\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00068}\mbox{\hyperlink{struct_atlas_1_1_window_description_a451d327cdcbd17cd6610b779b1df24b8}{00068}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{struct_atlas_1_1_window_description_a451d327cdcbd17cd6610b779b1df24b8}{title}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00069}\mbox{\hyperlink{struct_atlas_1_1_window_description_aa0ede92fe971026b6ecb03d3ef2c551c}{00069}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{struct_atlas_1_1_window_description_aa0ede92fe971026b6ecb03d3ef2c551c}{iconPath}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00071}\mbox{\hyperlink{struct_atlas_1_1_window_description_a1e11f6ff616b6d2a79c28b185d904aa9}{00071}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_rectangle}{WindowRectangle}}\ \mbox{\hyperlink{struct_atlas_1_1_window_description_a1e11f6ff616b6d2a79c28b185d904aa9}{windowRectangle}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00073}\mbox{\hyperlink{struct_atlas_1_1_window_description_a7e862b46ce2bd4b1367fa8b01045baff}{00073}}\ \ \ \ \ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_atlas_1_1_window_description_a7e862b46ce2bd4b1367fa8b01045baff}{targetFPS}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00074}00074\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00087}\mbox{\hyperlink{class_atlas_1_1_a_game_window}{00087}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00088}00088\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00089}\mbox{\hyperlink{class_atlas_1_1_a_game_window_aded265b054ba56b8cf8b2a0691f8c8f3}{00089}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_aded265b054ba56b8cf8b2a0691f8c8f3}{sHasSetGraphicsAPIFlag}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00090}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a228dfc109e8c61f10c36672b1ea5d501}{00090}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ uint32\_t\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a228dfc109e8c61f10c36672b1ea5d501}{sGraphicsAPIFlag}}\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00092}\mbox{\hyperlink{class_atlas_1_1_a_game_window_ac0544bc87680c90062ad30b7cb4c8232}{00092}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_ac0544bc87680c90062ad30b7cb4c8232}{mWindowTitle}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00093}\mbox{\hyperlink{class_atlas_1_1_a_game_window_abc4e0a46591d0ed0e4703a8ee4501cde}{00093}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_abc4e0a46591d0ed0e4703a8ee4501cde}{mIconPath}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00095}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a318402df86c3f584a54f059e0492da53}{00095}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_rectangle}{WindowRectangle}}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a318402df86c3f584a54f059e0492da53}{mWindowRect}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00097}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a8855a025ea5ebb4b4b86a458fb761a41}{00097}}\ \ \ \ \ \ \ \ \ int16\_t\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a8855a025ea5ebb4b4b86a458fb761a41}{mTargetFPS}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00099}\mbox{\hyperlink{class_atlas_1_1_a_game_window_aef1b96388aba5cc4da6214248db97d8f}{00099}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_aef1b96388aba5cc4da6214248db97d8f}{mIsInitialized}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00101}\mbox{\hyperlink{class_atlas_1_1_a_game_window_ab47e2cf836e27667caa9b862c892a3d6}{00101}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_ab47e2cf836e27667caa9b862c892a3d6}{mIsOpen}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00103}\mbox{\hyperlink{class_atlas_1_1_a_game_window_ae5aa02809747e333e67f5b8e3e7af16d}{00103}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_ae5aa02809747e333e67f5b8e3e7af16d}{mShouldClose}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00105}00105\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00107}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a26f15f9a8b6409a5136290bd9ea3624d}{00107}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a26f15f9a8b6409a5136290bd9ea3624d}{AGameWindow}}(\textcolor{keyword}{const}\ uint32\_t\ cGraphicsAPIFlag)}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00108}00108\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_atlas_1_1_a_game_window_aded265b054ba56b8cf8b2a0691f8c8f3}{sHasSetGraphicsAPIFlag}}\ ==\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a228dfc109e8c61f10c36672b1ea5d501}{sGraphicsAPIFlag}}\ =\ cGraphicsAPIFlag;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_game_window_aded265b054ba56b8cf8b2a0691f8c8f3}{sHasSetGraphicsAPIFlag}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00113}00113\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00115}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a1a043f77d4674ebbda0c5c7b3e31f5b9}{00115}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a1a043f77d4674ebbda0c5c7b3e31f5b9}{AGameWindow}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00117}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a31101f7111961e9b3b0f8e92406a4331}{00117}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a31101f7111961e9b3b0f8e92406a4331}{\string~AGameWindow}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00119}\mbox{\hyperlink{class_atlas_1_1_a_game_window_abf4990887fad5062ea6e797a4f57e677}{00119}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_abf4990887fad5062ea6e797a4f57e677}{init}}(\textcolor{keyword}{const}\ uint32\_t\ cInitFlags)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00121}\mbox{\hyperlink{class_atlas_1_1_a_game_window_ae162b6b13f6a01f10a490a73332b1aac}{00121}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_ae162b6b13f6a01f10a490a73332b1aac}{update}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00123}\mbox{\hyperlink{class_atlas_1_1_a_game_window_abbb73446d364cddf264cf7946ce4a69b}{00123}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_abbb73446d364cddf264cf7946ce4a69b}{open}}(\textcolor{keyword}{const}\ uint32\_t\ cOpenFlags)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00125}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a082e5539318afb344e0a353d169de7c1}{00125}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a082e5539318afb344e0a353d169de7c1}{isOpen}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00127}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a212eab3f9da4e5899ac67b41c07a2208}{00127}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a212eab3f9da4e5899ac67b41c07a2208}{close}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00129}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a0f904ecdb01956a36cda913220de4f38}{00129}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a0f904ecdb01956a36cda913220de4f38}{shouldClose}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00131}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a13fb349df6958379bdf305bf672022ab}{00131}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a13fb349df6958379bdf305bf672022ab}{cleanup}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00133}\mbox{\hyperlink{class_atlas_1_1_a_game_window_aa4c0caf6b81913633e350e7d0c4b87b0}{00133}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_aa4c0caf6b81913633e350e7d0c4b87b0}{isInitialized}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00135}\mbox{\hyperlink{class_atlas_1_1_a_game_window_ae9cbbc59ba0151b205e94310b1691eb0}{00135}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_ae9cbbc59ba0151b205e94310b1691eb0}{setHint}}(\mbox{\hyperlink{struct_atlas_1_1_window_hint}{WindowHint}}\ \textcolor{keyword}{const}\&\ hint)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00137}\mbox{\hyperlink{class_atlas_1_1_a_game_window_ae7dab962f7944838d4a7fe7fcc269ad9}{00137}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_ae7dab962f7944838d4a7fe7fcc269ad9}{setIcon}}(std::string\ \textcolor{keyword}{const}\&\ newIconPath)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00139}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a83a4146733eb84540776fb0c75d6bfb5}{00139}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a83a4146733eb84540776fb0c75d6bfb5}{setWindowTitle}}(std::string\ \textcolor{keyword}{const}\&\ newWindowTitle)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00141}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a78b581cd505094bb6043573f12126acd}{00141}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a78b581cd505094bb6043573f12126acd}{setWindowPosition}}(\textcolor{keywordtype}{int}\ newX,\ \textcolor{keywordtype}{int}\ newY)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00143}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a37ee2f9a5b1d408a6aa974ffc0955015}{00143}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a37ee2f9a5b1d408a6aa974ffc0955015}{setWindowSize}}(int16\_t\ newWidth,\ int16\_t\ newHeight)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00145}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a1d2b328f5075cbfcc67a9e9ef3f40fc3}{00145}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a1d2b328f5075cbfcc67a9e9ef3f40fc3}{setTargetFPS}}(int16\_t\ newTargetFPS)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00147}\mbox{\hyperlink{class_atlas_1_1_a_game_window_a94d163fd9b5dfb7fdc96e08c63280d35}{00147}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_a94d163fd9b5dfb7fdc96e08c63280d35}{getUncastWindowHandle}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00149}\mbox{\hyperlink{class_atlas_1_1_a_game_window_ad903fe487224ceff663f8fffb8d7dbb7}{00149}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{struct_atlas_1_1_window_description}{WindowDescription}}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window_ad903fe487224ceff663f8fffb8d7dbb7}{getWindowDescription}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_window_description}{WindowDescription}}\ description\{\};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ description.\mbox{\hyperlink{struct_atlas_1_1_window_description_a451d327cdcbd17cd6610b779b1df24b8}{title}}\ =\ this-\/>\mbox{\hyperlink{class_atlas_1_1_a_game_window_ac0544bc87680c90062ad30b7cb4c8232}{mWindowTitle}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ description.iconPath\ =\ this-\/>\mbox{\hyperlink{class_atlas_1_1_a_game_window_abc4e0a46591d0ed0e4703a8ee4501cde}{mIconPath}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ description.windowRectangle\ =\ this-\/>\mbox{\hyperlink{class_atlas_1_1_a_game_window_a318402df86c3f584a54f059e0492da53}{mWindowRect}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ description.targetFPS\ =\ this-\/>\mbox{\hyperlink{class_atlas_1_1_a_game_window_a8855a025ea5ebb4b4b86a458fb761a41}{mTargetFPS}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ description;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00159}00159\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00160}00160\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00168}00168\ \ \ \ \ \textcolor{comment}{//class\ NullGameWindow\ :\ public\ AGameWindow\ \{}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00169}00169\ \ \ \ \ \textcolor{comment}{//protected:}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00171}00171\ \ \ \ \ \textcolor{comment}{//\ \ static\ inline\ bool\ sHasSetGraphicsAPIFlag\ =\ false;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00173}00173\ \ \ \ \ \textcolor{comment}{//\ \ std::string\ mWindowTitle;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00174}00174\ \ \ \ \ \textcolor{comment}{//\ \ std::string\ mIconPath;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00176}00176\ \ \ \ \ \textcolor{comment}{//\ \ WindowRectangle\ mWindowRect;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00178}00178\ \ \ \ \ \textcolor{comment}{//\ \ int16\_t\ mTargetFPS;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00180}00180\ \ \ \ \ \textcolor{comment}{//\ \ bool\ mIsInitialized\ =\ false;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00182}00182\ \ \ \ \ \textcolor{comment}{//\ \ bool\ mIsOpen\ =\ false;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00183}00183\ \ \ \ \ \textcolor{comment}{//public:}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00185}00185\ \ \ \ \ \textcolor{comment}{//\ \ static\ inline\ uint32\_t\ sGraphicsAPIFlag\ =\ -\/1;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00187}00187\ \ \ \ \ \textcolor{comment}{//\ \ using\ AGameWindow::AGameWindow;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00189}00189\ \ \ \ \ \textcolor{comment}{//\ \ NullGameWindow(NullGameWindow\ const\&)\ =\ delete;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00191}00191\ \ \ \ \ \textcolor{comment}{//\ \ NullGameWindow\&\ operator=(NullGameWindow\ const\&)\ =\ delete;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00193}00193\ \ \ \ \ \textcolor{comment}{//\ \ explicit\ NullGameWindow(const\ uint32\_t\ cGraphicsAPIFlag)}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00194}00194\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ :\ AGameWindow()}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00195}00195\ \ \ \ \ \textcolor{comment}{//\ \ \{}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00196}00196\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ if\ (sHasSetGraphicsAPIFlag\ ==\ false)\ \{}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00197}00197\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ sGraphicsAPIFlag\ =\ cGraphicsAPIFlag;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00198}00198\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ sHasSetGraphicsAPIFlag\ =\ true;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00199}00199\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00200}00200\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00202}00202\ \ \ \ \ \textcolor{comment}{//\ \ \string~NullGameWindow()\ override\ =\ default;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00204}00204\ \ \ \ \ \textcolor{comment}{//\ \ WindowDescription\ getWindowDescription()\ const\ override;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00207}00207\ \ \ \ \ \textcolor{comment}{//\ \ //explicit\ operator\ WindowDescription()\ const\ override;}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00208}00208\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00209}00209\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00211}00211\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00213}00213\ \ \ \ \ \textcolor{keyword}{struct\ }GameWindowSettings\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_game_window_settings_a7c24585d97e9b5e11f2460eca28b41af}{enableEventPolling}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_game_window_settings_ae03ea44d670f094754b69c0e61afa5dc}{fullscreen}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00217}00217\ \ \ \ \ \ \ \ \ GLFWmonitor*\ monitor\ =\ \textcolor{keyword}{nullptr};\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00218}00218\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00220}00220\ \ \ \ \ \textcolor{keyword}{class\ }GLFWGameWindow\ final\ :\ \textcolor{keyword}{public}\ AGameWindow\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00221}00221\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespace_atlas_a6eaa0d5e833c8de1e188d35c72be8743}{GetWindowConfigFlag}}(std::string\ \textcolor{keyword}{const}\&\ flagName);}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keyword}{const}\ std::unordered\_map<std::string,\ uint16\_t>\ sWindowFlagsTranslationMap\ =\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Resizable"{}},\ GLFW\_RESIZABLE\ \},}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Visible"{}},\ GLFW\_VISIBLE\ \},}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Decorated"{}},\ GLFW\_DECORATED\ \},}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Focused"{}},\ GLFW\_FOCUSED\ \},}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Auto\ Iconify"{}},\ GLFW\_AUTO\_ICONIFY\ \},}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Floating"{}},\ GLFW\_FLOATING\ \},}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Maximized"{}},\ GLFW\_MAXIMIZED\ \},}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Centered"{}},\ GLFW\_CENTER\_CURSOR\ \},}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Transparent"{}},\ GLFW\_TRANSPARENT\_FRAMEBUFFER\ \},}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Focus"{}},\ GLFW\_FOCUS\_ON\_SHOW\ \},}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{stringliteral}{"{}Scale\ to\ Monitor"{}},\ GLFW\_SCALE\_TO\_MONITOR\ \}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00244}00244\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00246}00246\ \ \ \ \ \ \ \ \ GLFWwindow*\ mGLFWWindowPointer\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00248}00248\ \ \ \ \ \ \ \ \ GameWindowSettings\ mGameWindowSettings;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00251}00251\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00253}00253\ \ \ \ \ \ \ \ \ GLFWGameWindow(std::string\ \textcolor{keyword}{const}\&\ title,\ uint32\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ uint32\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}},\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ windowConfigFlags,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ targetFPS,\ std::string\ \textcolor{keyword}{const}\&\ icon,\ GameWindowSettings\ \textcolor{keyword}{const}\&\ gameWindowSettings);}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \string~GLFWGameWindow();}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inherited\ via\ IWindow}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00259}00259\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ open()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ update()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ shouldClose()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ close(\textcolor{keywordtype}{bool}\ shouldCleanup)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00267}00267\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00268}00268\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ cleanup()\ \textcolor{keyword}{override};\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00270}00270\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ setFlag(std::string\ \textcolor{keyword}{const}\&\ flagName,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00271}00271\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00272}00272\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00273}00273\ \textcolor{preprocessor}{\#elif\ defined(ATLAS\_USE\_SDL2)}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00275}\mbox{\hyperlink{namespace_atlas_a064fdcf1f664dce58e28e64be01c49b3}{00275}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_a064fdcf1f664dce58e28e64be01c49b3}{SDLEvent}}\ =\ \mbox{\hyperlink{imgui__impl__sdl2_8h_a33fcc6aa445cb781bfca881e39e5333e}{SDL\_Event}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00277}\mbox{\hyperlink{struct_atlas_1_1_game_window_settings}{00277}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_game_window_settings}{GameWindowSettings}}\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00278}\mbox{\hyperlink{struct_atlas_1_1_game_window_settings_a7c24585d97e9b5e11f2460eca28b41af}{00278}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_game_window_settings_a7c24585d97e9b5e11f2460eca28b41af}{enableEventPolling}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00279}\mbox{\hyperlink{struct_atlas_1_1_game_window_settings_ae03ea44d670f094754b69c0e61afa5dc}{00279}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_game_window_settings_ae03ea44d670f094754b69c0e61afa5dc}{fullscreen}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00280}00280\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00281}\mbox{\hyperlink{struct_atlas_1_1_game_window_settings_a0d2956ec34cf55ae262d386e721bdb93}{00281}}\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_atlas_1_1_game_window_settings_a0d2956ec34cf55ae262d386e721bdb93}{windowInitFlags}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00282}00282\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00284}\mbox{\hyperlink{class_atlas_1_1_event_poller}{00284}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_event_poller}{EventPoller}}\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00285}00285\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00286}00286\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00287}\mbox{\hyperlink{class_atlas_1_1_event_poller_ac2cfd1afb9a83a075a610cda2ac5d0d9}{00287}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_event_poller_ac2cfd1afb9a83a075a610cda2ac5d0d9}{poll}}(\mbox{\hyperlink{namespace_atlas_a064fdcf1f664dce58e28e64be01c49b3}{SDLEvent}}\&\ event)\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ SDL\_PollEvent(\&event);}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00289}00289\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00293}00293\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00295}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window}{00295}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window}{SDLGameWindow}}\ final\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}\ \{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00296}00296\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00297}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_af2c53450b50dcda383bf6fb1fe800a8e}{00297}}\ \ \ \ \ \ \ \ \ std::unordered\_map<uint32\_t,\ std::function<int(\mbox{\hyperlink{imgui__impl__sdl2_8h_a33fcc6aa445cb781bfca881e39e5333e}{SDL\_Event}}\ \textcolor{keyword}{const}\&,\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window}{SDLGameWindow}}\&)>>\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_af2c53450b50dcda383bf6fb1fe800a8e}{mEventHandlers}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00299}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a847cfb69eb2d3eea49270bc65bc5df24}{00299}}\ \ \ \ \ \ \ \ \ SDL\_Window*\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a847cfb69eb2d3eea49270bc65bc5df24}{mSDLWindowPointer}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00301}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a09ab698dbfa1708dcf0a6358e6600b7d}{00301}}\ \ \ \ \ \ \ \ \ uint64\_t\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a09ab698dbfa1708dcf0a6358e6600b7d}{mFrameCount}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00303}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a73e6cbb20cbdaaa078e3d78e9201035c}{00303}}\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a73e6cbb20cbdaaa078e3d78e9201035c}{mSDLWindowFlags}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00305}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a679a35603cf1d793be58832a74dc9c32}{00305}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a679a35603cf1d793be58832a74dc9c32}{mShouldClose}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00314}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a6bebe34a1e1a25480f3453be2c382a2b}{00314}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a6bebe34a1e1a25480f3453be2c382a2b}{EventOccurred}}();}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00315}00315\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00316}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_ab318de011bdf558266789f12a09593c2}{00316}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ uint32\_t\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_ab318de011bdf558266789f12a09593c2}{GetGraphicsAPIFlag}}();}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00318}00318\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00319}00319\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SDLGameWindow(std::string\ const\&\ title,\ uint32\_t\ width,\ uint32\_t\ height,\ int\ x,\ int\ y,\ unsigned\ int\ windowConfigFlags,\ unsigned\ int\ targetFPS,\ std::string\ const\&\ icon);}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00321}00321\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00322}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a691f696e23c615953e16121e54d0b396}{00322}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a691f696e23c615953e16121e54d0b396}{SDLGameWindow}}(\textcolor{keyword}{const}\ uint32\_t\ cGraphicsAPIFlag);}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00324}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a6896ff280f753d79ac33be7368457304}{00324}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a6896ff280f753d79ac33be7368457304}{SDLGameWindow}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00325}00325\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00326}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_ac4102ff5110f14e467dc0c2d27fd7c24}{00326}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_ac4102ff5110f14e467dc0c2d27fd7c24}{\string~SDLGameWindow}}()\ \textcolor{keyword}{override}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00327}00327\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inherited\ via\ NullGameWindow}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00329}00329\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a3066e9b4c0dc9ef5295f1e32f7429eca}{init}}(\textcolor{keyword}{const}\ uint32\_t\ cInitFlags)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00330}00330\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a30e2379ad499cb4529a8985bd8dc4dad}{update}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00332}00332\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00333}00333\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a8814b6f99560d91a4d24f11e4314e698}{open}}(\textcolor{keyword}{const}\ uint32\_t\ cOpenFlags)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00334}00334\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a4fe6c2a44bf190b2c35d8b2e2443a392}{shouldClose}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a8d8419c6c76fc3cec5f89a5b3e65c9f8}{close}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_aa7bec14625a7bf3150b70dcc32c6199d}{cleanup}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00341}00341\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_aa2f276401f31163b7911d02b9abda401}{isOpen}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00342}00342\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00343}00343\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_ae50dc1f04ef5c2a22116bc63f163618c}{isInitialized}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00344}00344\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00345}00345\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a480dbd3c468241d0bb85fa9fe930179e}{setHint}}(\mbox{\hyperlink{struct_atlas_1_1_window_hint}{WindowHint}}\ \textcolor{keyword}{const}\&\ hint)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00346}00346\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00347}00347\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_ae28f01b38fa9c1f4406bad7ecb2b16f8}{setIcon}}(std::string\ \textcolor{keyword}{const}\&\ newIconPath)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00348}00348\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_abd7c26457cb33cabe1ac830185234a76}{setWindowTitle}}(std::string\ \textcolor{keyword}{const}\&\ newWindowTitle)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00351}00351\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_af87ffdc51acb8376f3feb1d6320c383a}{setWindowPosition}}(\textcolor{keywordtype}{int}\ newX,\ \textcolor{keywordtype}{int}\ newY)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00353}00353\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_ab08e5352d9693581789419733886efa1}{setWindowSize}}(int16\_t\ newWidth,\ int16\_t\ newHeight)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00355}00355\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a3e8f531a80cbdeab0d151f5bd2a30388}{setTargetFPS}}(int16\_t\ newTargetFPS)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00356}00356\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00357}\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_ac493253a6ada8963a6b385bb8a31bdd6}{00357}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_ac493253a6ada8963a6b385bb8a31bdd6}{getUncastWindowHandle}}()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window_a847cfb69eb2d3eea49270bc65bc5df24}{mSDLWindowPointer}};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00359}00359\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00360}00360\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00361}00361\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00362}00362\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00363}00363\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ATLAS\_USE\_GLFW3}}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00364}00364\ }
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00365}\mbox{\hyperlink{namespace_atlas_a6eaa0d5e833c8de1e188d35c72be8743}{00365}}\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespace_atlas_a6eaa0d5e833c8de1e188d35c72be8743}{GetWindowConfigFlag}}(std::string\ \textcolor{keyword}{const}\&\ flagName);}
+\DoxyCodeLine{\Hypertarget{_window_8h_source_l00366}00366\ \}}
 
 \end{DoxyCode}

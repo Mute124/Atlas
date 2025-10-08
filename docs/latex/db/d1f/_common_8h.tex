@@ -1,10 +1,5 @@
-\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/\+Common.h File Reference}
-\hypertarget{_common_8h}{}\label{_common_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/Common.h@{C:/Dev/Techstorm-\/v5/src/engine/Common.h}}
-
-
-Common includes and definitions that are used throughout the engine. There are going to be very limited amounts of actual engine includes, so this is not a replacement for that. Instead, this is a way to centralize the includes and definitions that are used throughout the engine.  
-
-
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/core/\+Common.h File Reference}
+\hypertarget{_common_8h}{}\label{_common_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/core/Common.h@{C:/Dev/Techstorm-\/v5/src/engine/core/Common.h}}
 {\ttfamily \#include $<$iostream$>$}\newline
 {\ttfamily \#include $<$cstdarg$>$}\newline
 {\ttfamily \#include $<$cstdint$>$}\newline
@@ -15,15 +10,19 @@ Common includes and definitions that are used throughout the engine. There are g
 {\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
 {\ttfamily \#include $<$unordered\+\_\+set$>$}\newline
 {\ttfamily \#include $<$set$>$}\newline
-{\ttfamily \#include "{}utils/\+Singleton.\+h"{}}\newline
-{\ttfamily \#include "{}input/\+Input.\+h"{}}\newline
 {\ttfamily \#include $<$chrono$>$}\newline
 {\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$glm/glm.\+hpp$>$}\newline
+{\ttfamily \#include "{}Core.\+h"{}}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_globals}{Atlas\+::\+Globals}}
-\begin{DoxyCompactList}\small\item\em Represents a 3D vector. It will wrap raylib\textquotesingle{}s Vector3 and Jolt\textquotesingle{}s RVec3 to allow seamless integration. This also wraps raylib\textquotesingle{}s vector math functions. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_rectangle}{Atlas\+::\+Rectangle$<$ T\+\_\+\+NUMERIC\+\_\+\+TYPE $>$}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_i_stringified_object}{Atlas\+::\+IStringified\+Object}}
+\begin{DoxyCompactList}\small\item\em An interface for classes that want to be printable. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_stringified_object}{Atlas\+::\+Stringified\+Object$<$ T\+\_\+\+CHILD $>$}}
+\begin{DoxyCompactList}\small\item\em An "{}inherit-\/and-\/forget"{} class that implements the IPretty\+Object interface for you. This class uses a data-\/driven approach to get the string representation of the object. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_reference_holder}{Atlas\+::\+Reference\+Holder$<$ T $>$}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
@@ -34,12 +33,14 @@ namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\#define \mbox{\hyperlink{_common_8h_ac7ecceb6a0eb822735497653d42ac408}{ATLAS\+\_\+\+PLATFORM\+\_\+\+UNKNOWN}}
+\#define \mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{ATLAS\+\_\+\+ASSERT}}(condition,  message)
+\begin{DoxyCompactList}\small\item\em If enabled (see the warning in the documentation), this will assert the specified condition by using the C++ assert function. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_common_8h_a299f2843b524a1346e4c9e0c09fdc9cc}{ATLAS\+\_\+\+STATIC\+\_\+\+ASSERT}}(condition,  message)
+\begin{DoxyCompactList}\small\item\em If enabled (see the warning in the documentation), this will do a static assertion for the specified condition by using the C++ static\+\_\+assert function. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_common_8h_a16f673d9e7a39c1b848adbccc23eb8a2}{ATLAS\+\_\+\+TYPE\+\_\+\+NAME}}(...)~\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+
 \item 
-\#define \mbox{\hyperlink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK}}(ptr)~if(ptr == nullptr) \{ return; \}
-\begin{DoxyCompactList}\small\item\em Macro to check if a pointer is null and return if it is. This is used to catch null pointer exceptions. \end{DoxyCompactList}\item 
-\#define \mbox{\hyperlink{_common_8h_a7e257ceb33faf65903288cf016bb7d87}{ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK\+\_\+\+RETURN}}(ptr)~if(ptr == nullptr) \{ return nullptr; \}
-\begin{DoxyCompactList}\small\item\em Macro to check if a pointer is null and return a null pointer if it is. This is used to catch null pointer exceptions. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_common_8h_a2fd96e43445fdeb56fec01232f04788f}{ATLAS\+\_\+\+STRINGIFY}}(...)~\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+
+\item 
 \#define \mbox{\hyperlink{_common_8h_a2409aa2a1a2ed9a03d428b3aa8c0c4c3}{ATLAS\+\_\+\+TOP\+\_\+\+LAYER\+\_\+\+DIR}}~static\+\_\+cast$<$std\+::string$>$(ATLAS\+\_\+\+TOP\+\_\+\+LAYER)
 \begin{DoxyCompactList}\small\item\em Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these will be in the build directory rather than the final distribution directory. \end{DoxyCompactList}\item 
 \#define \mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}}~static\+\_\+cast$<$std\+::string$>$(ATLAS\+\_\+\+TOP\+\_\+\+LAYER) + static\+\_\+cast$<$std\+::string$>$("{}/game/assets/"{});
@@ -56,34 +57,58 @@ namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \item 
 \#define \mbox{\hyperlink{_common_8h_a05798e0231584e6e6cdcabd194d95317}{ATLAS\+\_\+\+NULL\+\_\+\+JPEG}}~static\+\_\+cast$<$std\+::string$>$(\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}}) + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+jpeg"{})
 \item 
-\#define \mbox{\hyperlink{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb}{ATLAS\+\_\+\+NULL\+\_\+\+GIF}}~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+gif"{})
+\#define \mbox{\hyperlink{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb}{ATLAS\+\_\+\+NULL\+\_\+\+GIF}}~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+gif"{}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespace_atlas_a90dfcd6fcf4fd7ab785efeaf6934e38e}{Atlas\+::\+High\+Resolution\+Timepoint}} = std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8}{Atlas\+::\+EResult\+Code}} \+: uint32\+\_\+t \{ \mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8ad7c8c85bf79bbe1b7188497c32c3b0ca}{Atlas\+::\+Failed}} = 0
+, \mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8a26b63f278101527e06a5547719568bb5}{Atlas\+::\+Okay}}
+ \}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_adf4811a408b9ca01aec8b9a587b9a751}{Atlas\+::\+Get\+Global\+Value}} (const std\+::string \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}})
-\begin{DoxyCompactList}\small\item\em Gets a global variable and casts it to the specified type. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_aee18cc5dcd651a9551fb2302e723de8c}{Atlas\+::\+Set\+Global\+Value}} (const std\+::string \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}, std\+::any \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})
+{\footnotesize template$<$typename T $>$ }\\T \mbox{\hyperlink{namespace_atlas_ad505d4d3e017334c04787d7820f06ce7}{Atlas\+::\+Align\+Up}} (T \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}}, uint64\+\_\+t alignment)
 \end{DoxyCompactItemize}
 
 
-\doxysubsection{Detailed Description}
-Common includes and definitions that are used throughout the engine. There are going to be very limited amounts of actual engine includes, so this is not a replacement for that. Instead, this is a way to centralize the includes and definitions that are used throughout the engine. 
-
-\begin{DoxyRefDesc}{Todo}
-\item[\mbox{\hyperlink{todo__todo000002}{Todo}}]Add more haptic features\end{DoxyRefDesc}
-
-
-\begin{DoxyRemark}{Remarks}
-This file has a few configurations that are based on defines. ATLAS\+\_\+\+ENABLE\+\_\+\+HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas ATLAS\+\_\+\+ENABLE\+\_\+\+EXTENSIONS is used to enable/disable extensions. 
-\end{DoxyRemark}
-
-
-Definition in file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
-
-
-
 \doxysubsection{Macro Definition Documentation}
+\Hypertarget{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}\label{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83} 
+\index{Common.h@{Common.h}!ATLAS\_ASSERT@{ATLAS\_ASSERT}}
+\index{ATLAS\_ASSERT@{ATLAS\_ASSERT}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_ASSERT}{ATLAS\_ASSERT}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+ASSERT(\begin{DoxyParamCaption}\item[{}]{condition,  }\item[{}]{message }\end{DoxyParamCaption})}
+
+
+
+If enabled (see the warning in the documentation), this will assert the specified condition by using the C++ assert function. 
+
+\begin{DoxyWarning}{Warning}
+This macro function will only do anything if it is enabled (see this file\textquotesingle{}s documentation or the see also section for how it is enabled).
+\end{DoxyWarning}
+\begin{DoxyNote}{Note}
+The reason for why the assertions are wrapped is to give developers the ability to actually prevent \doxylink{namespace_atlas}{Atlas} from doing assertions
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em condition} & An expression that {\bfseries{MUST}} result in some kind of boolean value.\\
+\hline
+{\em message} & The message to display if the assertion fails.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00097}{97}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
 \Hypertarget{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}\label{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd} 
 \index{Common.h@{Common.h}!ATLAS\_ASSET\_DIR@{ATLAS\_ASSET\_DIR}}
 \index{ATLAS\_ASSET\_DIR@{ATLAS\_ASSET\_DIR}!Common.h@{Common.h}}
@@ -92,7 +117,7 @@ Definition in file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00092}{92}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00131}{131}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a3d7c2521ee61f3b347f0c56560ef58c7}\label{_common_8h_a3d7c2521ee61f3b347f0c56560ef58c7} 
 \index{Common.h@{Common.h}!ATLAS\_DATA\_DIR@{ATLAS\_DATA\_DIR}}
@@ -102,7 +127,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00092}{92}} of file \mbox
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00093}{93}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00132}{132}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a22bf313ce6cdc640a1feaf76dfc2897e}\label{_common_8h_a22bf313ce6cdc640a1feaf76dfc2897e} 
 \index{Common.h@{Common.h}!ATLAS\_GAME\_DIR@{ATLAS\_GAME\_DIR}}
@@ -112,51 +137,17 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00093}{93}} of file \mbox
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00094}{94}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
-
-\Hypertarget{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}\label{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7} 
-\index{Common.h@{Common.h}!ATLAS\_GENERATED\_NULL\_CHECK@{ATLAS\_GENERATED\_NULL\_CHECK}}
-\index{ATLAS\_GENERATED\_NULL\_CHECK@{ATLAS\_GENERATED\_NULL\_CHECK}!Common.h@{Common.h}}
-\doxysubsubsection{\texorpdfstring{ATLAS\_GENERATED\_NULL\_CHECK}{ATLAS\_GENERATED\_NULL\_CHECK}}
-{\footnotesize\ttfamily \#define ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK(\begin{DoxyParamCaption}\item[{}]{ptr }\end{DoxyParamCaption})~if(ptr == nullptr) \{ return; \}}
-
-
-
-Macro to check if a pointer is null and return if it is. This is used to catch null pointer exceptions. 
-
-\begin{DoxySince}{Since}
-v0.\+0.\+9 
-\end{DoxySince}
-
-
-Definition at line \mbox{\hyperlink{_common_8h_source_l00074}{74}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
-
-\Hypertarget{_common_8h_a7e257ceb33faf65903288cf016bb7d87}\label{_common_8h_a7e257ceb33faf65903288cf016bb7d87} 
-\index{Common.h@{Common.h}!ATLAS\_GENERATED\_NULL\_CHECK\_RETURN@{ATLAS\_GENERATED\_NULL\_CHECK\_RETURN}}
-\index{ATLAS\_GENERATED\_NULL\_CHECK\_RETURN@{ATLAS\_GENERATED\_NULL\_CHECK\_RETURN}!Common.h@{Common.h}}
-\doxysubsubsection{\texorpdfstring{ATLAS\_GENERATED\_NULL\_CHECK\_RETURN}{ATLAS\_GENERATED\_NULL\_CHECK\_RETURN}}
-{\footnotesize\ttfamily \#define ATLAS\+\_\+\+GENERATED\+\_\+\+NULL\+\_\+\+CHECK\+\_\+\+RETURN(\begin{DoxyParamCaption}\item[{}]{ptr }\end{DoxyParamCaption})~if(ptr == nullptr) \{ return nullptr; \}}
-
-
-
-Macro to check if a pointer is null and return a null pointer if it is. This is used to catch null pointer exceptions. 
-
-\begin{DoxySince}{Since}
-v0.\+0.\+9 
-\end{DoxySince}
-
-
-Definition at line \mbox{\hyperlink{_common_8h_source_l00082}{82}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00133}{133}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb}\label{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb} 
 \index{Common.h@{Common.h}!ATLAS\_NULL\_GIF@{ATLAS\_NULL\_GIF}}
 \index{ATLAS\_NULL\_GIF@{ATLAS\_NULL\_GIF}!Common.h@{Common.h}}
 \doxysubsubsection{\texorpdfstring{ATLAS\_NULL\_GIF}{ATLAS\_NULL\_GIF}}
-{\footnotesize\ttfamily \#define ATLAS\+\_\+\+NULL\+\_\+\+GIF~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+gif"{})}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+NULL\+\_\+\+GIF~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+gif"{}}
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00100}{100}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00139}{139}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a05798e0231584e6e6cdcabd194d95317}\label{_common_8h_a05798e0231584e6e6cdcabd194d95317} 
 \index{Common.h@{Common.h}!ATLAS\_NULL\_JPEG@{ATLAS\_NULL\_JPEG}}
@@ -166,7 +157,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00100}{100}} of file \mbo
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00099}{99}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00138}{138}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_adf75ba6fb29a4f5b02330c8732e65865}\label{_common_8h_adf75ba6fb29a4f5b02330c8732e65865} 
 \index{Common.h@{Common.h}!ATLAS\_NULL\_JPG@{ATLAS\_NULL\_JPG}}
@@ -176,7 +167,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00099}{99}} of file \mbox
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00098}{98}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00137}{137}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a0dc48dcd23c8eaa1849c023442491089}\label{_common_8h_a0dc48dcd23c8eaa1849c023442491089} 
 \index{Common.h@{Common.h}!ATLAS\_NULL\_PNG@{ATLAS\_NULL\_PNG}}
@@ -186,17 +177,47 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00098}{98}} of file \mbox
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00097}{97}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00136}{136}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
-\Hypertarget{_common_8h_ac7ecceb6a0eb822735497653d42ac408}\label{_common_8h_ac7ecceb6a0eb822735497653d42ac408} 
-\index{Common.h@{Common.h}!ATLAS\_PLATFORM\_UNKNOWN@{ATLAS\_PLATFORM\_UNKNOWN}}
-\index{ATLAS\_PLATFORM\_UNKNOWN@{ATLAS\_PLATFORM\_UNKNOWN}!Common.h@{Common.h}}
-\doxysubsubsection{\texorpdfstring{ATLAS\_PLATFORM\_UNKNOWN}{ATLAS\_PLATFORM\_UNKNOWN}}
-{\footnotesize\ttfamily \#define ATLAS\+\_\+\+PLATFORM\+\_\+\+UNKNOWN}
+\Hypertarget{_common_8h_a299f2843b524a1346e4c9e0c09fdc9cc}\label{_common_8h_a299f2843b524a1346e4c9e0c09fdc9cc} 
+\index{Common.h@{Common.h}!ATLAS\_STATIC\_ASSERT@{ATLAS\_STATIC\_ASSERT}}
+\index{ATLAS\_STATIC\_ASSERT@{ATLAS\_STATIC\_ASSERT}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_STATIC\_ASSERT}{ATLAS\_STATIC\_ASSERT}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+STATIC\+\_\+\+ASSERT(\begin{DoxyParamCaption}\item[{}]{condition,  }\item[{}]{message }\end{DoxyParamCaption})}
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00043}{43}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+If enabled (see the warning in the documentation), this will do a static assertion for the specified condition by using the C++ static\+\_\+assert function. 
+
+\begin{DoxyWarning}{Warning}
+This macro function will only do anything if it is enabled (see this file\textquotesingle{}s documentation or the see also section for how it is enabled).
+\end{DoxyWarning}
+\begin{DoxyNote}{Note}
+The reason for why the assertions are wrapped is to give developers the ability to actually prevent \doxylink{namespace_atlas}{Atlas} from doing assertions
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em condition} & An expression that {\bfseries{MUST}} result in some kind of boolean value.\\
+\hline
+{\em message} & The message to display if the assertion fails.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00115}{115}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_a2fd96e43445fdeb56fec01232f04788f}\label{_common_8h_a2fd96e43445fdeb56fec01232f04788f} 
+\index{Common.h@{Common.h}!ATLAS\_STRINGIFY@{ATLAS\_STRINGIFY}}
+\index{ATLAS\_STRINGIFY@{ATLAS\_STRINGIFY}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_STRINGIFY}{ATLAS\_STRINGIFY}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+STRINGIFY(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00121}{121}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a260c8698617a9ddbcc20044b59b0307b}\label{_common_8h_a260c8698617a9ddbcc20044b59b0307b} 
 \index{Common.h@{Common.h}!ATLAS\_TEMP\_DIR@{ATLAS\_TEMP\_DIR}}
@@ -206,7 +227,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00043}{43}} of file \mbox
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00095}{95}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00134}{134}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a2409aa2a1a2ed9a03d428b3aa8c0c4c3}\label{_common_8h_a2409aa2a1a2ed9a03d428b3aa8c0c4c3} 
 \index{Common.h@{Common.h}!ATLAS\_TOP\_LAYER\_DIR@{ATLAS\_TOP\_LAYER\_DIR}}
@@ -219,9 +240,19 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00095}{95}} of file \mbox
 Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these will be in the build directory rather than the final distribution directory. 
 
 \begin{DoxySince}{Since}
-v0.\+0.\+2 
+v0.\+0.\+1 
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00091}{91}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00130}{130}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_a16f673d9e7a39c1b848adbccc23eb8a2}\label{_common_8h_a16f673d9e7a39c1b848adbccc23eb8a2} 
+\index{Common.h@{Common.h}!ATLAS\_TYPE\_NAME@{ATLAS\_TYPE\_NAME}}
+\index{ATLAS\_TYPE\_NAME@{ATLAS\_TYPE\_NAME}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_TYPE\_NAME}{ATLAS\_TYPE\_NAME}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+TYPE\+\_\+\+NAME(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00119}{119}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 

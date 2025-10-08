@@ -1,69 +1,56 @@
-\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/dbg/\+Logging.h File Reference}
-\hypertarget{_logging_8h}{}\label{_logging_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/dbg/Logging.h@{C:/Dev/Techstorm-\/v5/src/engine/dbg/Logging.h}}
-{\ttfamily \#include "{}ELogging\+Mode.\+h"{}}\newline
-{\ttfamily \#include "{}ELog\+Level.\+h"{}}\newline
-{\ttfamily \#include $<$memory$>$}\newline
-{\ttfamily \#include $<$source\+\_\+location$>$}\newline
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/debugging/\+Logging.h File Reference}
+\hypertarget{_logging_8h}{}\label{_logging_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/debugging/Logging.h@{C:/Dev/Techstorm-\/v5/src/engine/debugging/Logging.h}}
 {\ttfamily \#include $<$string$>$}\newline
-{\ttfamily \#include $<$vadefs.\+h$>$}\newline
-{\ttfamily \#include $<$vector$>$}\newline
-{\ttfamily \#include $<$queue$>$}\newline
-{\ttfamily \#include $<$mutex$>$}\newline
-{\ttfamily \#include $<$spdlog/common.\+h$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$initializer\+\_\+list$>$}\newline
+{\ttfamily \#include $<$filesystem$>$}\newline
+{\ttfamily \#include "{}../core/\+Common.\+h"{}}\newline
+{\ttfamily \#include "{}../core/\+Memory\+Allocator.\+h"{}}\newline
+{\ttfamily \#include $<$spdlog/spdlog.\+h$>$}\newline
 {\ttfamily \#include $<$spdlog/logger.\+h$>$}\newline
 {\ttfamily \#include $<$spdlog/sinks/stdout\+\_\+color\+\_\+sinks.\+h$>$}\newline
-{\ttfamily \#include "{}../utils/\+Singleton.\+h"{}}\newline
+{\ttfamily \#include $<$spdlog/sinks/basic\+\_\+file\+\_\+sink.\+h$>$}\newline
+{\ttfamily \#include $<$spdlog/common.\+h$>$}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_console_sink}{Atlas\+::\+IConsole\+Sink}}
-\begin{DoxyCompactList}\small\item\em This is NOT what will print to the terminal, rather this is an interface where the logger will pass logging messages to. Use this for in-\/game consoles or something like that. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1abstract}{Atlas\+::abstract$<$ Console\+Sink $>$}}
-\begin{DoxyCompactList}\small\item\em Same thing as a gate, but for game objects. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_terminal_sink}{Atlas\+::\+Terminal\+Sink}}
-\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_logger_config}{Atlas\+::\+Logger\+Config}}
-\item 
+class \mbox{\hyperlink{class_atlas_1_1_i_logger}{Atlas\+::\+ILogger$<$ T\+\_\+\+LOG\+\_\+\+LEVELS\+\_\+\+TYPE $>$}}
+\begin{DoxyCompactList}\small\item\em Interface for logging that is responsible for handling any logging from the engine, game, or mods. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{Atlas\+::\+Spdlog\+Logger}}
+\begin{DoxyCompactList}\small\item\em A generic logger that uses the {\bfseries{Spdlog}} library. According to the spdlog documentation, you may call the {\itshape spdlog\+::log()} function to log messages {\bfseries{after}} the logger has been initialized because of how spdlog works. For more information, on how to use spdlog, please refer to their documentation. This class was designed to work in the same way as the multi-\/sink logger example provided in the spdlog documentation. Another important thing to note about this class is that, assuming you are not implementing a custom {\ttfamily PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} callback for Vulkan, this class should be initialized prior to the initialization and usage of \doxylink{namespace_atlas}{Atlas}\textquotesingle{} Vulkan API. Otherwise, you will get errors the second Vulkan starts sending messages to the callback. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Atlas\+::\+Spdlog\+Logger\+::\+Logger\+Sinks}}
+\begin{DoxyCompactList}\small\item\em A struct that bundles together the console sink and the file sink as it is required for the spdlog logger during it\textquotesingle{}s initialization. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_logger}{Atlas\+::\+Logger}}
-\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_logger_1_1_temporary_message}{Atlas\+::\+Logger\+::\+Temporary\+Message}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_logger_1_1_message_buffer}{Atlas\+::\+Logger\+::\+Message\+Buffer}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
 namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \end{DoxyCompactItemize}
-\doxysubsubsection*{Macros}
-\begin{DoxyCompactItemize}
-\item 
-\#define \mbox{\hyperlink{_logging_8h_af1a3fef733f40f7726503b1be888287e}{ATLAS\+\_\+\+DEFAULT\+\_\+\+LOG\+\_\+\+LEVEL}}~\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a2d3e4144aa384b18849ab9a8abad74d6}{Atlas\+::\+ELog\+Level\+::\+TRACE}}
-\end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-using \mbox{\hyperlink{namespace_atlas_a70fa409c8b4e697795350e0cc0bfbbfd}{Atlas\+::\+Default\+Color\+Sink}} = std\+::shared\+\_\+ptr$<$ spdlog\+::sinks\+::stdout\+\_\+color\+\_\+sink\+\_\+mt $>$
+using \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Atlas\+::\+Log\+Level}} = spdlog\+::level\+::level\+\_\+enum
 \end{DoxyCompactItemize}
-\doxysubsubsection*{Functions}
+\doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-std\+::string \mbox{\hyperlink{namespace_atlas_a4a3774487efaf3fd274897ab22f238be}{Atlas\+::\+Create\+Log\+File\+Name}} ()
+enum class \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{Atlas\+::\+ELog\+Level}} \+: int \{ \newline
+\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{Atlas\+::trace}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+TRACE
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{Atlas\+::debug}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+DEBUG
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{Atlas\+::info}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+INFO
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{Atlas\+::warn}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+WARN
+, \newline
+\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{Atlas\+::error}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+ERROR
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{Atlas\+::critical}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+CRITICAL
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808}{Atlas\+::off}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+OFF
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75}{Atlas\+::n\+Levels}}
+ \}
 \item 
-spdlog\+::level\+::level\+\_\+enum \mbox{\hyperlink{namespace_atlas_a5b792faf29085a5da63f88014b79aac5}{Atlas\+::\+Get\+Spdlog\+Level}} (\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}} \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}})
-\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Atlas\+::\+Log}} (std\+::string message, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}} \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}=\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079adc30ec20708ef7b0f641ef78b7880a15}{ELog\+Level\+::\+DEBUG}}, const std\+::source\+\_\+location \&location=std\+::source\+\_\+location\+::current())
+enum \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{Atlas\+::\+ESpdlog\+Init\+List\+Index}} \{ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba}{Atlas\+::\+Console\+Logger}} = 0
+, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0}{Atlas\+::\+File\+Logger}} = 1
+, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}{Atlas\+::\+Logger}} = 2
+, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}{Atlas\+::\+Max}} = Logger
+ \}
 \end{DoxyCompactItemize}
-
-
-\doxysubsection{Macro Definition Documentation}
-\Hypertarget{_logging_8h_af1a3fef733f40f7726503b1be888287e}\label{_logging_8h_af1a3fef733f40f7726503b1be888287e} 
-\index{Logging.h@{Logging.h}!ATLAS\_DEFAULT\_LOG\_LEVEL@{ATLAS\_DEFAULT\_LOG\_LEVEL}}
-\index{ATLAS\_DEFAULT\_LOG\_LEVEL@{ATLAS\_DEFAULT\_LOG\_LEVEL}!Logging.h@{Logging.h}}
-\doxysubsubsection{\texorpdfstring{ATLAS\_DEFAULT\_LOG\_LEVEL}{ATLAS\_DEFAULT\_LOG\_LEVEL}}
-{\footnotesize\ttfamily \#define ATLAS\+\_\+\+DEFAULT\+\_\+\+LOG\+\_\+\+LEVEL~\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a2d3e4144aa384b18849ab9a8abad74d6}{Atlas\+::\+ELog\+Level\+::\+TRACE}}}
-
-
-
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00018}{18}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
-

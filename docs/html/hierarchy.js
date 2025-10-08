@@ -1,26 +1,31 @@
 var hierarchy =
 [
+    [ "Atlas::ADevice", "d2/d87/class_atlas_1_1_a_device.html", null ],
+    [ "Atlas::AExtensionValidator", "dc/d76/class_atlas_1_1_a_extension_validator.html", null ],
+    [ "Atlas::AFile", "d7/d60/class_atlas_1_1_a_file.html", null ],
+    [ "Atlas::AGameWindow", "da/dde/class_atlas_1_1_a_game_window.html", [
+      [ "Atlas::SDLGameWindow", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html", null ]
+    ] ],
+    [ "Atlas::AllocatedImage", "d4/d61/struct_atlas_1_1_allocated_image.html", null ],
     [ "AllocatedPhysicsResources", "dc/d25/struct_allocated_physics_resources.html", null ],
-    [ "Atlas::AllocatedPhysicsResources", "df/df6/struct_atlas_1_1_allocated_physics_resources.html", null ],
-    [ "Atlas::AngelScriptAPI", "dc/dd0/class_atlas_1_1_angel_script_a_p_i.html", null ],
-    [ "Atlas::AngelScriptRegistry", "df/da4/class_atlas_1_1_angel_script_registry.html", null ],
+    [ "Atlas::APathSearcher", "d9/db0/class_atlas_1_1_a_path_searcher.html", [
+      [ "Atlas::RecursivePathSearcher", "d8/d98/class_atlas_1_1_recursive_path_searcher.html", null ]
+    ] ],
     [ "asIStringFactory", null, [
-      [ "CStdStringFactory", "dd/d3f/class_c_std_string_factory.html", null ],
       [ "CStdStringFactory", "dd/d3f/class_c_std_string_factory.html", null ]
     ] ],
     [ "Atlas::Application::AtlasApp", "de/d87/class_atlas_1_1_application_1_1_atlas_app.html", null ],
-    [ "Atlas::AudioDevice", "dc/d5b/class_atlas_1_1_audio_device.html", null ],
-    [ "Atlas::AudioDeviceConfig", "db/d92/class_atlas_1_1_audio_device_config.html", null ],
-    [ "Atlas::AudioManager", "da/d5f/class_atlas_1_1_audio_manager.html", null ],
+    [ "Atlas::AtlasEngineInitializer", "d6/daa/class_atlas_1_1_atlas_engine_initializer.html", null ],
+    [ "Atlas::AtlasSettings", "dd/df4/struct_atlas_1_1_atlas_settings.html", null ],
     [ "JPH::BodyActivationListener", null, [
-      [ "Atlas::MyBodyActivationListener", "d4/d38/class_atlas_1_1_my_body_activation_listener.html", null ],
       [ "MyBodyActivationListener", "d0/d3a/class_my_body_activation_listener.html", null ]
     ] ],
-    [ "Atlas::PhysicsEngine::BodyInterfaceHolder", "d6/d48/class_atlas_1_1_physics_engine_1_1_body_interface_holder.html", null ],
     [ "PhysicsEngine::BodyInterfaceHolder", "d4/d34/class_physics_engine_1_1_body_interface_holder.html", null ],
+    [ "BProject", null, [
+      [ "SamplesProject", "dc/dc3/class_samples_project.html", null ]
+    ] ],
     [ "CDebugger::BreakPoint", "d8/dfe/struct_c_debugger_1_1_break_point.html", null ],
     [ "JPH::BroadPhaseLayerInterface", null, [
-      [ "Atlas::BPLayerInterfaceImpl", "db/d4d/class_atlas_1_1_b_p_layer_interface_impl.html", null ],
       [ "BPLayerInterfaceImpl", "d9/d49/class_b_p_layer_interface_impl.html", null ]
     ] ],
     [ "CContextMgr", "dd/dbc/class_c_context_mgr.html", null ],
@@ -30,20 +35,9 @@ var hierarchy =
     [ "CircularMap< T >", "d0/db8/class_circular_map.html", null ],
     [ "CircularMap< Color >", "d0/db8/class_circular_map.html", null ],
     [ "CScriptDictionary::CIterator", "d5/dd4/class_c_script_dictionary_1_1_c_iterator.html", null ],
-    [ "Atlas::CleanupEventArgs", "de/dcc/struct_atlas_1_1_cleanup_event_args.html", null ],
     [ "Techstorm::DevTools::SetupTool::CMDLineArgumentsHandler", "d0/d85/class_techstorm_1_1_dev_tools_1_1_setup_tool_1_1_c_m_d_line_arguments_handler.html", null ],
+    [ "Atlas::Color", "d0/d66/class_atlas_1_1_color.html", null ],
     [ "Complex", "d4/d59/struct_complex.html", null ],
-    [ "Atlas::Component", "d6/dfa/class_atlas_1_1_component.html", [
-      [ "Atlas::ObjectPhysicsComponent", "d0/dfb/class_atlas_1_1_object_physics_component.html", null ],
-      [ "Atlas::RenderingComponent", "de/d73/class_atlas_1_1_rendering_component.html", null ],
-      [ "Atlas::TransformComponent", "dc/d08/class_atlas_1_1_transform_component.html", null ],
-      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
-      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
-      [ "Block::BlockRendererComponent", "d9/da4/class_block_1_1_block_renderer_component.html", null ]
-    ] ],
-    [ "Atlas::ComponentManager", "d5/d7c/class_atlas_1_1_component_manager.html", null ],
-    [ "Atlas::ModularObject::ComponentPointer", "d0/db2/class_atlas_1_1_modular_object_1_1_component_pointer.html", null ],
-    [ "Atlas::ComponentRegistry< T_COMPONENT_KEY, T_BASE_COMPONENT_TYPE >", "d3/d8b/class_atlas_1_1_component_registry.html", null ],
     [ "gw::Constructor< T >", "dc/d41/structgw_1_1_constructor.html", null ],
     [ "gw::Constructor< T()>", "df/d75/structgw_1_1_constructor_3_01_t_07_08_4.html", null ],
     [ "gw::Constructor< T(A0)>", "d0/dfe/structgw_1_1_constructor_3_01_t_07_a0_08_4.html", null ],
@@ -51,10 +45,8 @@ var hierarchy =
     [ "gw::Constructor< T(A0, A1, A2)>", "df/d43/structgw_1_1_constructor_3_01_t_07_a0_00_01_a1_00_01_a2_08_4.html", null ],
     [ "gw::Constructor< T(A0, A1, A2, A3)>", "d4/d00/structgw_1_1_constructor_3_01_t_07_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
     [ "JPH::ContactListener", null, [
-      [ "Atlas::ObjectContactListener", "d1/dda/class_atlas_1_1_object_contact_listener.html", null ],
       [ "MyContactListener", "d3/d3f/class_my_contact_listener.html", null ]
     ] ],
-    [ "Atlas::ContactListenerGateParams", "d9/ddf/struct_atlas_1_1_contact_listener_gate_params.html", null ],
     [ "CScriptAny", "dc/d2f/class_c_script_any.html", null ],
     [ "CScriptArray", "d8/d22/class_c_script_array.html", null ],
     [ "CScriptBuilder", "de/d98/class_c_script_builder.html", null ],
@@ -70,80 +62,48 @@ var hierarchy =
     [ "CStdStringFactoryCleaner", "d2/ddb/class_c_std_string_factory_cleaner.html", null ],
     [ "CUserType", "da/de0/struct_c_user_type.html", null ],
     [ "CUSTOMVERTEX", "d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html", null ],
-    [ "Atlas::DestroyEventArgs", "d4/d9d/struct_atlas_1_1_destroy_event_args.html", null ],
-    [ "Atlas::GameCamera::DirectionalInput", "d0/dd4/class_atlas_1_1_game_camera_1_1_directional_input.html", null ],
-    [ "Atlas::DrawableHook", "d4/d11/class_atlas_1_1_drawable_hook.html", null ],
-    [ "Atlas::DynamicObject", "dd/d28/class_atlas_1_1_dynamic_object.html", null ],
-    [ "Atlas::Entity", "d4/d48/class_atlas_1_1_entity.html", null ],
-    [ "std::exception", null, [
-      [ "Atlas::IException", "d1/d81/class_atlas_1_1_i_exception.html", [
-        [ "Atlas::FileSystemRegistry::AccessViolationException", "db/df1/class_atlas_1_1_file_system_registry_1_1_access_violation_exception.html", [
-          [ "Atlas::FileSystemRegistry::ForbiddenFileException", "d7/dab/class_atlas_1_1_file_system_registry_1_1_forbidden_file_exception.html", [
-            [ "Atlas::FileSystemRegistry::FileOutOfSandboxException", "d1/d85/class_atlas_1_1_file_system_registry_1_1_file_out_of_sandbox_exception.html", null ],
-            [ "Atlas::FileSystemRegistry::ForbiddenFileSearchException", "d3/d36/class_atlas_1_1_file_system_registry_1_1_forbidden_file_search_exception.html", null ]
-          ] ],
-          [ "Atlas::FileSystemRegistry::ImpatientUsageException", "d2/dd9/class_atlas_1_1_file_system_registry_1_1_impatient_usage_exception.html", null ],
-          [ "Atlas::FileSystemRegistry::MissingFileLoadFunctionException", "d0/ddc/class_atlas_1_1_file_system_registry_1_1_missing_file_load_function_exception.html", null ]
-        ] ],
-        [ "Atlas::InvalidValue", "de/df2/class_atlas_1_1_invalid_value.html", [
-          [ "Atlas::FileSystemRegistry::MissingFileException", "d9/d5f/class_atlas_1_1_file_system_registry_1_1_missing_file_exception.html", null ],
-          [ "Atlas::IGameObject::InvalidComponentNameException", "d4/d63/class_atlas_1_1_i_game_object_1_1_invalid_component_name_exception.html", null ],
-          [ "Atlas::IGameObject::InvalidGameObjectException", "df/dd0/class_atlas_1_1_i_game_object_1_1_invalid_game_object_exception.html", [
-            [ "Atlas::IGameObject::NullptrGameObjectException", "d6/d80/class_atlas_1_1_i_game_object_1_1_nullptr_game_object_exception.html", null ]
-          ] ],
-          [ "Atlas::InvalidArgument", "df/d7c/class_atlas_1_1_invalid_argument.html", [
-            [ "Atlas::ThreadSafeVariable< T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD >::MissingDefaultConstructorException", "de/d61/class_atlas_1_1_thread_safe_variable_1_1_missing_default_constructor_exception.html", null ],
-            [ "Atlas::ValueNotFoundException", "df/d64/class_atlas_1_1_value_not_found_exception.html", null ]
-          ] ]
-        ] ],
-        [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
-      ] ]
-    ] ],
-    [ "Atlas::File", "dd/d7a/class_atlas_1_1_file.html", null ],
+    [ "Atlas::DebugEvent", "d0/dfd/class_atlas_1_1_debug_event.html", null ],
+    [ "Atlas::DeletionQueue", "df/de4/class_atlas_1_1_deletion_queue.html", null ],
+    [ "Atlas::DescriptorAllocator", "d3/d61/class_atlas_1_1_descriptor_allocator.html", null ],
+    [ "Atlas::DescriptorLayoutBuilder", "d6/df2/class_atlas_1_1_descriptor_layout_builder.html", null ],
+    [ "Atlas::Device", "dc/d6f/class_atlas_1_1_device.html", null ],
+    [ "Atlas::DiscordIntegrationService", "dd/d8a/class_atlas_1_1_discord_integration_service.html", null ],
+    [ "Atlas::EngineModulesInfo", "d4/de2/struct_atlas_1_1_engine_modules_info.html", null ],
+    [ "Atlas::EventPoller", "d7/dd9/class_atlas_1_1_event_poller.html", null ],
+    [ "Atlas::IOManager::ExtensionHandlersAggregator", "d7/d02/struct_atlas_1_1_i_o_manager_1_1_extension_handlers_aggregator.html", null ],
+    [ "Atlas::FileCastAttempt< T_DATA_STORAGE_TYPE >", "d3/dc7/struct_atlas_1_1_file_cast_attempt.html", null ],
     [ "Rml::FileInterface", null, [
       [ "ShellFileInterface", "dc/d7b/class_shell_file_interface.html", null ]
     ] ],
-    [ "Atlas::FileMeta", "d7/d78/class_atlas_1_1_file_meta.html", null ],
-    [ "Atlas::FilePath", "df/dd5/class_atlas_1_1_file_path.html", null ],
+    [ "Atlas::FileSystemMap", "db/df2/class_atlas_1_1_file_system_map.html", null ],
+    [ "Atlas::FoundPathResult", "d5/dcd/struct_atlas_1_1_found_path_result.html", null ],
+    [ "Atlas::Frame", "d8/d02/class_atlas_1_1_frame.html", null ],
+    [ "Atlas::FrameData", "d7/d32/struct_atlas_1_1_frame_data.html", null ],
     [ "FrameResources", "da/d55/struct_frame_resources.html", null ],
-    [ "Atlas::GameCamera", "d7/dc3/class_atlas_1_1_game_camera.html", null ],
-    [ "Atlas::GameModel", "df/dec/class_atlas_1_1_game_model.html", null ],
     [ "GameObject", "d0/dd1/class_game_object.html", null ],
-    [ "Atlas::GameObjectRegistry", "d1/d4c/class_atlas_1_1_game_object_registry.html", null ],
-    [ "Atlas::GameState", "d1/daa/class_atlas_1_1_game_state.html", null ],
-    [ "Atlas::GameThread", "db/d6f/class_atlas_1_1_game_thread.html", null ],
+    [ "Atlas::GameThreadingStats", "d1/d35/struct_atlas_1_1_game_threading_stats.html", null ],
+    [ "Atlas::GameThreadScheduler", "d0/d9d/class_atlas_1_1_game_thread_scheduler.html", null ],
+    [ "Atlas::GameTimeManager", "dd/df4/class_atlas_1_1_game_time_manager.html", null ],
+    [ "Atlas::GameWindowSettings", "d1/d79/struct_atlas_1_1_game_window_settings.html", null ],
     [ "Generator", "d0/df5/class_generator.html", null ],
+    [ "GlobalContext", "d2/dc3/struct_global_context.html", null ],
     [ "GridCell", "d4/d3c/struct_grid_cell.html", null ],
+    [ "Atlas::GUIDecorations", "d2/d8e/struct_atlas_1_1_g_u_i_decorations.html", null ],
     [ "Atlas::IAtlasEngine", "d8/d96/class_atlas_1_1_i_atlas_engine.html", [
       [ "Atlas::AtlasEngine", "d3/d8d/class_atlas_1_1_atlas_engine.html", null ]
     ] ],
-    [ "Atlas::IAtlasSystem", "d8/d09/class_atlas_1_1_i_atlas_system.html", null ],
-    [ "Atlas::IComponent< T_OWNER_OBJECT >", "dd/d0f/class_atlas_1_1_i_component.html", null ],
-    [ "IConsole", null, [
-      [ "Atlas::Console", "d3/d9f/class_atlas_1_1_console.html", null ]
-    ] ],
-    [ "Atlas::IConsoleSink", "d0/dc9/class_atlas_1_1_i_console_sink.html", [
-      [ "Atlas::ConsoleSink", "d7/dd2/class_atlas_1_1_console_sink.html", null ]
-    ] ],
     [ "gw::Id< T >", "d0/d4c/structgw_1_1_id.html", null ],
-    [ "IError", null, [
-      [ "Atlas::FileIOFailure", "db/d34/class_atlas_1_1_file_i_o_failure.html", null ]
+    [ "Atlas::IGameThread< T_THREAD_TYPE >", "dd/dca/class_atlas_1_1_i_game_thread.html", null ],
+    [ "Atlas::IGameThread< std::jthread >", "dd/dca/class_atlas_1_1_i_game_thread.html", [
+      [ "Atlas::GameThread", "db/d6f/class_atlas_1_1_game_thread.html", [
+        [ "Atlas::PacedThread", "d9/df2/class_atlas_1_1_paced_thread.html", null ]
+      ] ]
     ] ],
-    [ "Atlas::IGameObject", "d8/d56/class_atlas_1_1_i_game_object.html", [
-      [ "Atlas::GameObject", "d0/d43/class_atlas_1_1_game_object.html", [
-        [ "Atlas::PlaneObject", "d6/d78/class_atlas_1_1_plane_object.html", null ],
-        [ "Block", "d2/df8/class_block.html", null ]
-      ] ],
-      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ],
-      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
-    ] ],
-    [ "IGate", null, [
-      [ "Atlas::ContactListenerGate", "d8/d75/class_atlas_1_1_contact_listener_gate.html", null ],
-      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
-    ] ],
-    [ "Atlas::IGUIContainer", "d5/d9b/class_atlas_1_1_i_g_u_i_container.html", null ],
-    [ "ILayerRegistry", null, [
-      [ "Techstorm::LayerRegistry< T >", "db/d5d/class_techstorm_1_1_layer_registry.html", null ]
+    [ "Atlas::ILogger< T_LOG_LEVELS_TYPE >", "de/d5c/class_atlas_1_1_i_logger.html", null ],
+    [ "Atlas::ILogger< LogLevel >", "de/d5c/class_atlas_1_1_i_logger.html", [
+      [ "Atlas::SpdlogLogger", "da/d62/class_atlas_1_1_spdlog_logger.html", [
+        [ "Atlas::Logger", "df/dca/class_atlas_1_1_logger.html", null ]
+      ] ]
     ] ],
     [ "RendererExtensions::Image", "df/d67/struct_renderer_extensions_1_1_image.html", null ],
     [ "ImDrawVertAllegro", "db/dae/struct_im_draw_vert_allegro.html", null ],
@@ -179,42 +139,25 @@ var hierarchy =
     [ "ImGui_ImplWGPU_InitInfo", "dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html", null ],
     [ "ImGui_ImplWGPU_RenderState", "da/d0a/struct_im_gui___impl_w_g_p_u___render_state.html", null ],
     [ "ImGui_ImplWin32_Data", "d5/d71/struct_im_gui___impl_win32___data.html", null ],
-    [ "Atlas::InputAction", "d6/d5c/class_atlas_1_1_input_action.html", [
-      [ "Atlas::GameCamera::CameraInputAction", "de/d72/class_atlas_1_1_game_camera_1_1_camera_input_action.html", null ],
-      [ "Atlas::SelfDeterminingInputAction", "d2/d1b/class_atlas_1_1_self_determining_input_action.html", null ]
+    [ "Atlas::ImmediateSubmitInfo", "db/df0/struct_atlas_1_1_immediate_submit_info.html", null ],
+    [ "Atlas::IOManager", "da/d0f/class_atlas_1_1_i_o_manager.html", null ],
+    [ "Atlas::IPathLoaderLogicGate", "d0/d55/class_atlas_1_1_i_path_loader_logic_gate.html", [
+      [ "Atlas::PathLoaderLogicGate", "dc/d2b/class_atlas_1_1_path_loader_logic_gate.html", null ]
     ] ],
-    [ "Atlas::InputRegistry::InputActionRegistry", "d2/df0/class_atlas_1_1_input_registry_1_1_input_action_registry.html", null ],
-    [ "Atlas::InputRegistry", "d7/d84/class_atlas_1_1_input_registry.html", null ],
-    [ "Atlas::IProject", "dd/daa/class_atlas_1_1_i_project.html", [
-      [ "Atlas::BProject", "d5/d37/class_atlas_1_1_b_project.html", [
-        [ "Project", "d9/d6e/class_project.html", null ],
-        [ "SamplesProject", "dc/dc3/class_samples_project.html", null ]
+    [ "Atlas::IStringifiedObject", "de/dc7/class_atlas_1_1_i_stringified_object.html", [
+      [ "Atlas::StringifiedObject< T_CHILD >", "d2/d7b/class_atlas_1_1_stringified_object.html", null ]
+    ] ],
+    [ "Atlas::ISymbol", "d2/dbe/class_atlas_1_1_i_symbol.html", null ],
+    [ "Atlas::SpdlogLogger::LoggerSinks", "d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html", null ],
+    [ "Atlas::MakeNonCopyable", "db/d6d/class_atlas_1_1_make_non_copyable.html", [
+      [ "Atlas::IMemoryAllocator", "dd/d41/class_atlas_1_1_i_memory_allocator.html", [
+        [ "Atlas::MemoryAllocator", "db/d38/class_atlas_1_1_memory_allocator.html", null ]
       ] ]
     ] ],
-    [ "Atlas::IProjectSettings", "db/d9d/class_atlas_1_1_i_project_settings.html", null ],
-    [ "ISandboxer", null, [
-      [ "Atlas::Sandboxer", "da/dc0/class_atlas_1_1_sandboxer.html", null ]
-    ] ],
-    [ "ITechstormEngine", null, [
-      [ "Atlas::TechstormEngine", "d3/db6/class_atlas_1_1_techstorm_engine.html", null ]
-    ] ],
-    [ "ITerminalSink", null, [
-      [ "Atlas::TerminalSink", "d9/dbb/class_atlas_1_1_terminal_sink.html", null ]
-    ] ],
-    [ "Atlas::IWindow", "d8/d18/class_atlas_1_1_i_window.html", [
-      [ "Atlas::Window", "d1/df6/class_atlas_1_1_window.html", null ]
-    ] ],
-    [ "Atlas::JSONFile", "d8/dc8/class_atlas_1_1_j_s_o_n_file.html", null ],
-    [ "Atlas::Language", "d4/d6b/class_atlas_1_1_language.html", null ],
-    [ "Atlas::LoggerConfig", "d5/d0c/struct_atlas_1_1_logger_config.html", null ],
     [ "MarchingCubes", "dc/dbe/class_marching_cubes.html", null ],
-    [ "Atlas::MemoryAllocator", "db/d38/class_atlas_1_1_memory_allocator.html", null ],
-    [ "Atlas::MemoryStatus", "dc/da5/class_atlas_1_1_memory_status.html", null ],
-    [ "Atlas::Logger::MessageBuffer", "d5/d1a/class_atlas_1_1_logger_1_1_message_buffer.html", null ],
-    [ "Atlas::Mod", "df/d6e/class_atlas_1_1_mod.html", null ],
-    [ "Atlas::ModLoader", "d9/dc9/class_atlas_1_1_mod_loader.html", null ],
-    [ "Atlas::ModManager", "d8/d41/class_atlas_1_1_mod_manager.html", null ],
-    [ "Atlas::ModularObject", "d0/d68/class_atlas_1_1_modular_object.html", null ],
+    [ "Atlas::MemoryBlock", "d3/dbd/struct_atlas_1_1_memory_block.html", null ],
+    [ "Atlas::MemoryCounter", "df/d51/class_atlas_1_1_memory_counter.html", null ],
+    [ "Atlas::MemoryFunctionsAggregator", "de/ddc/struct_atlas_1_1_memory_functions_aggregator.html", null ],
     [ "<NSCopying>", null, [
       [ "FramebufferDescriptor", "d6/d1f/interface_framebuffer_descriptor.html", null ]
     ] ],
@@ -231,13 +174,11 @@ var hierarchy =
     [ "NSView", null, [
       [ "KeyEventResponder", "d9/d62/interface_key_event_responder.html", null ]
     ] ],
-    [ "Atlas::ObjectHolder", "dc/d6e/class_atlas_1_1_object_holder.html", null ],
     [ "JPH::ObjectLayerPairFilter", null, [
-      [ "Atlas::ObjectLayerPairFilterImpl", "d1/dea/class_atlas_1_1_object_layer_pair_filter_impl.html", null ],
       [ "ObjectLayerPairFilterImpl", "de/d9a/class_object_layer_pair_filter_impl.html", null ]
     ] ],
+    [ "Atlas::ObjectOptions< T_BITSET_SIZE >", "da/da1/class_atlas_1_1_object_options.html", null ],
     [ "JPH::ObjectVsBroadPhaseLayerFilter", null, [
-      [ "Atlas::ObjectVsBroadPhaseLayerFilterImpl", "d2/dcc/class_atlas_1_1_object_vs_broad_phase_layer_filter_impl.html", null ],
       [ "ObjectVsBroadPhaseLayerFilterImpl", "d3/d37/class_object_vs_broad_phase_layer_filter_impl.html", null ]
     ] ],
     [ "gw::ObjFirst< T >", "dd/d63/structgw_1_1_obj_first.html", null ],
@@ -262,22 +203,25 @@ var hierarchy =
     [ "gw::ObjLast< void(*)(A0, A1, T)>", "da/d9b/structgw_1_1_obj_last_3_01void_07_5_08_07_a0_00_01_a1_00_01_t_08_4.html", null ],
     [ "gw::ObjLast< void(*)(A0, T)>", "d8/dd7/structgw_1_1_obj_last_3_01void_07_5_08_07_a0_00_01_t_08_4.html", null ],
     [ "gw::ObjLast< void(*)(T)>", "da/d20/structgw_1_1_obj_last_3_01void_07_5_08_07_t_08_4.html", null ],
-    [ "Atlas::OptionalReference< T >", "dc/da2/class_atlas_1_1_optional_reference.html", null ],
-    [ "Person", "d5/d4a/class_person.html", null ],
+    [ "Atlas::Parser", "da/d43/class_atlas_1_1_parser.html", null ],
+    [ "Atlas::Path", "d8/ddd/class_atlas_1_1_path.html", null ],
+    [ "Atlas::FileSystemMap::PathSearchResult", "d7/dc3/union_atlas_1_1_file_system_map_1_1_path_search_result.html", null ],
+    [ "Atlas::PathSearchResult", "d3/d77/struct_atlas_1_1_path_search_result.html", null ],
+    [ "Atlas::PhysicalDevice", "d3/d3c/class_atlas_1_1_physical_device.html", null ],
+    [ "Atlas::PhysicalDeviceFeaturesAggregate", "d6/d31/struct_atlas_1_1_physical_device_features_aggregate.html", null ],
+    [ "Atlas::Pipeline", "d6/d84/class_atlas_1_1_pipeline.html", null ],
     [ "Point", "d8/dc8/struct_point.html", null ],
-    [ "Atlas::PostUpdateEventArgs", "de/df4/struct_atlas_1_1_post_update_event_args.html", null ],
-    [ "Atlas::PreUpdateEventArgs", "de/d24/struct_atlas_1_1_pre_update_event_args.html", null ],
-    [ "Atlas::ProjectManager", "dc/d5d/class_atlas_1_1_project_manager.html", null ],
+    [ "Atlas::DescriptorAllocator::PoolSizeRatio", "d6/dec/struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio.html", null ],
     [ "gw::Proxy< T >", "d6/df0/classgw_1_1_proxy.html", null ],
+    [ "Atlas::Rectangle< T_NUMERIC_TYPE >", "d4/dd2/struct_atlas_1_1_rectangle.html", null ],
+    [ "Atlas::Rectangle< int >", "d4/dd2/struct_atlas_1_1_rectangle.html", null ],
     [ "Atlas::ReferenceHolder< T >", "d9/d0a/class_atlas_1_1_reference_holder.html", null ],
-    [ "Atlas::RegisteredFile", "d5/d07/class_atlas_1_1_registered_file.html", [
-      [ "Atlas::LoadedFile", "d9/d6c/class_atlas_1_1_loaded_file.html", null ]
+    [ "Atlas::Renderable", "d3/de8/class_atlas_1_1_renderable.html", [
+      [ "Atlas::BackgroundColor", "df/dbd/class_atlas_1_1_background_color.html", null ]
     ] ],
-    [ "Atlas::Registry< T_KEY, T_SET_TYPE, T_CONTAINER, T_ENTITY_TYPE, T_HASH, T_EQUAL >", "df/df5/class_atlas_1_1_registry.html", null ],
-    [ "Atlas::RenderArgs", "dc/df9/struct_atlas_1_1_render_args.html", null ],
-    [ "Atlas::Renderer", "dc/d71/class_atlas_1_1_renderer.html", null ],
-    [ "Atlas::RenderEventArgs", "d7/dd6/struct_atlas_1_1_render_event_args.html", null ],
-    [ "Atlas::RenderLayer", "d0/dfd/class_atlas_1_1_render_layer.html", null ],
+    [ "Atlas::RenderingBackend", "db/d46/class_atlas_1_1_rendering_backend.html", [
+      [ "Atlas::VulkanRenderingBackend", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html", null ]
+    ] ],
     [ "RenderResources", "d9/d42/struct_render_resources.html", null ],
     [ "Sample", "d4/d72/class_sample.html", null ],
     [ "SampleGroup", "d4/da6/class_sample_group.html", [
@@ -287,78 +231,46 @@ var hierarchy =
     [ "SArrayCache", "d1/dcb/struct_s_array_cache.html", null ],
     [ "CScriptBuilder::SClassMetadata", "df/d3a/struct_c_script_builder_1_1_s_class_metadata.html", null ],
     [ "SContextInfo", "d3/d89/struct_s_context_info.html", null ],
+    [ "Atlas::ScriptedObject", "d6/d16/class_atlas_1_1_scripted_object.html", [
+      [ "Atlas::EngineModule", "dc/dee/class_atlas_1_1_engine_module.html", [
+        [ "Atlas::ARenderer", "d7/d4e/class_atlas_1_1_a_renderer.html", [
+          [ "Atlas::VulkanRenderer", "d4/d2a/class_atlas_1_1_vulkan_renderer.html", null ]
+        ] ],
+        [ "Atlas::IGameThreader", "da/d6f/class_atlas_1_1_i_game_threader.html", [
+          [ "Atlas::GameThreader", "d8/da0/class_atlas_1_1_game_threader.html", null ]
+        ] ]
+      ] ]
+    ] ],
+    [ "Atlas::ScriptingSymbolExposer", "d3/d2e/class_atlas_1_1_scripting_symbol_exposer.html", null ],
     [ "SDictionaryCache", "dd/d49/struct_s_dictionary_cache.html", null ],
-    [ "Atlas::Serializable", "d5/daa/class_atlas_1_1_serializable.html", null ],
     [ "CSerializer::SExtraObject", "d7/d9e/struct_c_serializer_1_1_s_extra_object.html", null ],
     [ "SGridBuffer", "dc/da6/struct_s_grid_buffer.html", null ],
-    [ "Atlas::Singleton< T >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::IFrameManager< T >", "db/db8/class_atlas_1_1_i_frame_manager.html", null ],
-      [ "Atlas::abstract< ConsoleSink >", "dc/dba/class_atlas_1_1abstract.html", null ]
-    ] ],
+    [ "Atlas::Shader", "da/db7/class_atlas_1_1_shader.html", null ],
     [ "Techstorm::Singleton", null, [
-      [ "PhysicsEngine", "db/db4/class_physics_engine.html", null ],
-      [ "Techstorm::abstract< K, D, T >", "d6/d34/class_techstorm_1_1abstract.html", null ]
-    ] ],
-    [ "Atlas::Singleton< ConfigFileRegistry >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::ConfigFileRegistry", "d3/d1a/class_atlas_1_1_config_file_registry.html", null ]
-    ] ],
-    [ "Atlas::Singleton< FileSystemRegistry >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::FileSystemRegistry", "d4/de4/class_atlas_1_1_file_system_registry.html", null ]
-    ] ],
-    [ "Atlas::Singleton< FrameManager >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::Application::FrameManager", "dd/d1c/class_atlas_1_1_application_1_1_frame_manager.html", null ]
-    ] ],
-    [ "Atlas::Singleton< Globals >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::Globals", "d0/dfb/class_atlas_1_1_globals.html", null ]
-    ] ],
-    [ "Atlas::Singleton< GlobalsContainer >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::GlobalsContainer", "d6/d6d/class_atlas_1_1_globals_container.html", null ]
-    ] ],
-    [ "Atlas::Singleton< LocalizationRegistry >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::LocalizationRegistry", "d7/de3/class_atlas_1_1_localization_registry.html", null ]
-    ] ],
-    [ "Atlas::Singleton< Logger >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::Logger", "df/dca/class_atlas_1_1_logger.html", null ]
-    ] ],
-    [ "Atlas::Singleton< PhysicsEngine >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::PhysicsEngine", "d2/dec/class_atlas_1_1_physics_engine.html", null ]
-    ] ],
-    [ "Atlas::Singleton< ProjectReference >", "d6/dd4/class_atlas_1_1_singleton.html", [
-      [ "Atlas::BProject::ProjectReference", "da/d52/class_atlas_1_1_b_project_1_1_project_reference.html", null ]
+      [ "PhysicsEngine", "db/db4/class_physics_engine.html", null ]
     ] ],
     [ "CScriptBuilder::SMetadataDecl", "d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html", null ],
-    [ "Atlas::StateMachine", "d7/d30/class_atlas_1_1_state_machine.html", null ],
-    [ "Atlas::Logger::TemporaryMessage", "df/d3f/struct_atlas_1_1_logger_1_1_temporary_message.html", null ],
+    [ "Atlas::TaskHandle::Task", "db/d8e/class_atlas_1_1_task_handle_1_1_task.html", null ],
+    [ "Atlas::TaskHandle", "dd/d91/class_atlas_1_1_task_handle.html", null ],
+    [ "Atlas::Temporary< T >", "d4/de0/class_atlas_1_1_temporary.html", null ],
     [ "Terrain", "d1/dee/class_terrain.html", null ],
     [ "TerrainSector", "d4/d42/class_terrain_sector.html", null ],
-    [ "Atlas::TextureArgs", "d1/d00/struct_atlas_1_1_texture_args.html", null ],
-    [ "Atlas::TextureEventArgs", "d4/da5/struct_atlas_1_1_texture_event_args.html", null ],
-    [ "Atlas::ThreadGroup", "de/d4b/class_atlas_1_1_thread_group.html", null ],
+    [ "Atlas::ThreadLaunchInfo", "d0/d54/struct_atlas_1_1_thread_launch_info.html", null ],
     [ "Atlas::ThreadSafeVariable< T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< Atlas::AtlasEngine * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< Atlas::ConfigFileRegistry * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< Atlas::FileSystemRegistry * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< Atlas::InputRegistry * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< Atlas::IWindow * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< Atlas::Logger * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< Atlas::PhysicsEngine * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< Atlas::Renderer * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< GameSettings * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< ScriptingAPI * >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::ThreadSafeVariable< std::shared_ptr< Atlas::InputRegistry::InputActionRegistry > >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
-    [ "Atlas::Transform", "de/d42/class_atlas_1_1_transform.html", null ],
+    [ "Atlas::Timer", "dd/ded/class_atlas_1_1_timer.html", null ],
     [ "Terrain::TriangleStruct", "da/d89/struct_terrain_1_1_triangle_struct.html", null ],
     [ "Uniforms", "da/d5c/struct_uniforms.html", null ],
-    [ "Atlas::UpdateEventArgs", "de/d57/struct_atlas_1_1_update_event_args.html", null ],
-    [ "Atlas::ValidityCheckResult", "d8/db6/struct_atlas_1_1_validity_check_result.html", null ],
     [ "CScriptAny::valueStruct", "d9/de7/struct_c_script_any_1_1value_struct.html", null ],
-    [ "Atlas::Vec3", "da/d87/class_atlas_1_1_vec3.html", null ],
     [ "Vec3", "df/d8a/struct_vec3.html", null ],
+    [ "Atlas::Version", "de/dd8/struct_atlas_1_1_version.html", null ],
     [ "VERTEX_CONSTANT_BUFFER_DX10", "d0/d75/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x10.html", null ],
     [ "VERTEX_CONSTANT_BUFFER_DX11", "d8/d09/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x11.html", null ],
     [ "VERTEX_CONSTANT_BUFFER_DX12", "d2/d16/struct_v_e_r_t_e_x___c_o_n_s_t_a_n_t___b_u_f_f_e_r___d_x12.html", null ],
     [ "VertexContainer", "d0/dbd/struct_vertex_container.html", null ],
-    [ "Atlas::WindowDecorations", "d4/d08/class_atlas_1_1_window_decorations.html", null ],
+    [ "Atlas::VulkanInstanceWrapper", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html", null ],
+    [ "Atlas::VulkanSwapchain", "d6/d6d/class_atlas_1_1_vulkan_swapchain.html", null ],
+    [ "Atlas::WindowDescription", "d7/d4c/struct_atlas_1_1_window_description.html", null ],
+    [ "Atlas::WindowHint", "df/d5a/struct_atlas_1_1_window_hint.html", null ],
     [ "gw::Wrapper< T >", "dd/d92/structgw_1_1_wrapper.html", null ],
     [ "gw::Wrapper< R(*)(A0)>", "d8/ddb/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_08_4.html", null ],
     [ "gw::Wrapper< R(*)(A0, A1)>", "d2/da4/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_00_01_a1_08_4.html", null ],
@@ -410,6 +322,5 @@ var hierarchy =
     [ "gw::WrapperGlobal< void(T::*)(A0, A1, A2, A3) const >", "df/d6e/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_01const_01_4.html", null ],
     [ "gw::WrapperGlobal< void(T::*)(A0, A1, A2, A3)>", "d3/d50/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07_a0_00_01_a1_00_01_a2_00_01_a3_08_4.html", null ],
     [ "gw::WrapperGlobal< void(T::*)(void) const >", "d8/dbf/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07void_08_01const_01_4.html", null ],
-    [ "gw::WrapperGlobal< void(T::*)(void)>", "d7/de4/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07void_08_4.html", null ],
-    [ "Atlas::XMLFile", "d7/d24/class_atlas_1_1_x_m_l_file.html", null ]
+    [ "gw::WrapperGlobal< void(T::*)(void)>", "d7/de4/structgw_1_1_wrapper_global_3_01void_07_t_1_1_5_08_07void_08_4.html", null ]
 ];

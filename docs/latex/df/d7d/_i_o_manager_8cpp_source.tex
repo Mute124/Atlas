@@ -1,0 +1,59 @@
+\doxysection{IOManager.\+cpp}
+\hypertarget{_i_o_manager_8cpp_source}{}\label{_i_o_manager_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/io/IOManager.cpp@{C:/Dev/Techstorm-\/v5/src/engine/io/IOManager.cpp}}
+\mbox{\hyperlink{_i_o_manager_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_o_manager_8h}{IOManager.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_path_searcher_8h}{PathSearcher.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_o_common_8h}{IOCommon.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00009}\mbox{\hyperlink{class_atlas_1_1_i_o_manager_ae9767b9af695f4f70dc8aa8f3d6f51b1}{00009}}\ \mbox{\hyperlink{class_atlas_1_1_i_o_manager_a0ad24e8e65eeb8bb2f4bb53a1e9e2002}{Atlas::IOManager::IOManager}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\&\ cExecutablePath,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\&\ cCurrentWorkingDirectory)\ :\ mExecutablePath(cExecutablePath),\ mCurrentWorkingDirectory(cCurrentWorkingDirectory)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00010}00010\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00012}\mbox{\hyperlink{class_atlas_1_1_i_o_manager_a44d48b0159bef343088022398dc2d620}{00012}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_o_manager_a44d48b0159bef343088022398dc2d620}{Atlas::IOManager::setExecutablePath}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\&\ cExecutablePath)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00013}00013\ \ \ \ \ mExecutablePath\ =\ cExecutablePath;\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00014}00014\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00016}\mbox{\hyperlink{class_atlas_1_1_i_o_manager_a7ed7996e1bb3a5bbad72a39047c29066}{00016}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_o_manager_a7ed7996e1bb3a5bbad72a39047c29066}{Atlas::IOManager::setCurrentWorkingDirectory}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\&\ cCurrentWorkingDirectory)\ \{\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00017}00017\ \ \ \ \ mCurrentWorkingDirectory\ =\ cCurrentWorkingDirectory;}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00018}00018\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00020}\mbox{\hyperlink{class_atlas_1_1_i_o_manager_a1977065ea055184a92543bb38ac6ed9c}{00020}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_o_manager_a1977065ea055184a92543bb38ac6ed9c}{Atlas::IOManager::setPathSearcher}}(std::unique\_ptr<APathSearcher>\ cPathSearcher)}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00021}00021\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00023}00023\ \ \ \ \ \textcolor{keywordflow}{if}\ (cPathSearcher\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00025}00025\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00026}00026\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00027}00027\ \ \ \ \ mPathSearcher\ =\ std::move(cPathSearcher);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00028}00028\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00030}\mbox{\hyperlink{class_atlas_1_1_i_o_manager_a78883104f2bcef92350204fbcedc1454}{00030}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_o_manager_ae31e0c03405a58de767f7fd914332b3f}{Atlas::IOManager::search}}(\mbox{\hyperlink{class_atlas_1_1_a_path_searcher}{APathSearcher}}*\ cPathSearcher)}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{keywordflow}{if}\ (cPathSearcher\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00034}00034\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00036}00036\ \ \ \ \ cPathSearcher-\/>\mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a67e5278e6184c67557c917cf7abbab9e}{search}}();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00038}00038\ \ \ \ \ mFoundPaths\ =\ cPathSearcher-\/>\mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a1e102e474b3b8ea1cd6095d8a793437f}{getFoundPaths}}();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00039}00039\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00041}\mbox{\hyperlink{class_atlas_1_1_i_o_manager_ae31e0c03405a58de767f7fd914332b3f}{00041}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_o_manager_ae31e0c03405a58de767f7fd914332b3f}{Atlas::IOManager::search}}()}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00042}00042\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00043}00043\ \ \ \ \ search(mPathSearcher.get());}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00044}00044\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00046}\mbox{\hyperlink{class_atlas_1_1_i_o_manager_aba4856888116996a5a6868a9970bee30}{00046}}\ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Atlas::PathLocation}}\ \mbox{\hyperlink{class_atlas_1_1_i_o_manager_aba4856888116996a5a6868a9970bee30}{Atlas::IOManager::getExecutablePath}}()\textcolor{keyword}{\ const\ }\{\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00047}00047\ \ \ \ \ \textcolor{keywordflow}{return}\ mExecutablePath;\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00048}00048\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00050}\mbox{\hyperlink{class_atlas_1_1_i_o_manager_a62f15200d5f5dba7a8562dcdb20f9755}{00050}}\ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Atlas::PathLocation}}\ \mbox{\hyperlink{class_atlas_1_1_i_o_manager_a62f15200d5f5dba7a8562dcdb20f9755}{Atlas::IOManager::getCurrentWorkingDirectory}}()\textcolor{keyword}{\ const\ }\{\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00051}00051\ \ \ \ \ \textcolor{keywordflow}{return}\ mCurrentWorkingDirectory;\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00052}00052\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00053}00053\ }
+
+\end{DoxyCode}

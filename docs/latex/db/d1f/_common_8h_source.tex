@@ -1,405 +1,151 @@
 \doxysection{Common.\+h}
-\hypertarget{_common_8h_source}{}\label{_common_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/Common.h@{C:/Dev/Techstorm-\/v5/src/engine/Common.h}}
+\hypertarget{_common_8h_source}{}\label{_common_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/core/Common.h@{C:/Dev/Techstorm-\/v5/src/engine/core/Common.h}}
 \mbox{\hyperlink{_common_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00001}00001\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00010}00010\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00011}00011\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <iostream>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <cstdarg>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <thread>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <any>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <set>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00022}00022\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_singleton_8h}{utils/Singleton.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_input_8h}{input/Input.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <chrono>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00027}00027\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00028}00028\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00029}00029\ \textcolor{comment}{//\ Platform\ definitions}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00030}00030\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00031}00031\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00032}00032\ \textcolor{comment}{//\ find\ out\ what\ platform\ we\ are\ on}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00033}00033\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00034}00034\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_PLATFORM\_WINDOWS}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00035}00035\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00036}00036\ \textcolor{preprocessor}{\#elif\ \_\_APPLE\_\_}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00037}00037\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_PLATFORM\_MAC}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00038}00038\ \textcolor{preprocessor}{\ \ \ \ \#error\ "{}Mac\ support\ is\ not\ yet\ implemented."{}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00039}00039\ \textcolor{preprocessor}{\#elif\ \_\_linux\_\_}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00040}00040\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_PLATFORM\_LINUX}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00041}00041\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00042}00042\ \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00043}\mbox{\hyperlink{_common_8h_ac7ecceb6a0eb822735497653d42ac408}{00043}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_PLATFORM\_UNKNOWN}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00044}00044\ \textcolor{preprocessor}{\ \ \ \ \#error\ "{}Unknown\ platform."{}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00045}00045\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00046}00046\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00047}00047\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00048}00048\ \textcolor{comment}{//\ find\ out\ processor\ type}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00049}00049\ \textcolor{preprocessor}{\#ifdef\ \_\_x86\_64\_\_}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00050}00050\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_PROCESSOR\_X86\_64}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00051}00051\ \textcolor{preprocessor}{\#elif\ \_\_i386\_\_}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00052}00052\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_PROCESSOR\_X86}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00053}00053\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00054}00054\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00055}00055\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00056}00056\ \textcolor{comment}{//\ find\ out\ compiler\ type}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00057}00057\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00058}00058\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_COMPILER\_MSVC}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00059}00059\ \textcolor{preprocessor}{\#elif\ \_\_clang\_\_}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00060}00060\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_COMPILER\_CLANG}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00061}00061\ \textcolor{preprocessor}{\#elif\ \_\_GNUC\_\_}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00062}00062\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_COMPILER\_GCC}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00063}00063\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00064}00064\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00065}00065\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00066}00066\ \textcolor{comment}{//\ Macro\ definitions\ (helpers)}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00067}00067\ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00068}00068\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00069}00069\ \textcolor{preprocessor}{\#ifndef\ ATLAS\_GENERATED\_NULL\_CHECK}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00074}\mbox{\hyperlink{_common_8h_aad362596c1f6ffd16c0b9d62f95b1da7}{00074}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_GENERATED\_NULL\_CHECK(ptr)\ if(ptr\ ==\ nullptr)\ \{\ return;\ \}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00075}00075\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00076}00076\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00077}00077\ \textcolor{preprocessor}{\#ifndef\ ATLAS\_GENERATED\_NULL\_CHECK\_RETURN}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00082}\mbox{\hyperlink{_common_8h_a7e257ceb33faf65903288cf016bb7d87}{00082}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_GENERATED\_NULL\_CHECK\_RETURN(ptr)\ if(ptr\ ==\ nullptr)\ \{\ return\ nullptr;\ \}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00083}00083\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00084}00084\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00091}\mbox{\hyperlink{_common_8h_a2409aa2a1a2ed9a03d428b3aa8c0c4c3}{00091}}\ \textcolor{preprocessor}{\#define\ ATLAS\_TOP\_LAYER\_DIR\ static\_cast<std::string>(ATLAS\_TOP\_LAYER)}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00092}\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{00092}}\ \textcolor{preprocessor}{\#define\ ATLAS\_ASSET\_DIR\ static\_cast<std::string>(ATLAS\_TOP\_LAYER)\ +\ static\_cast<std::string>("{}/game/assets/"{});}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00093}\mbox{\hyperlink{_common_8h_a3d7c2521ee61f3b347f0c56560ef58c7}{00093}}\ \textcolor{preprocessor}{\#define\ ATLAS\_DATA\_DIR\ static\_cast<std::string>(ATLAS\_TOP\_LAYER)\ +\ static\_cast<std::string>("{}/game/data/"{});}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00094}\mbox{\hyperlink{_common_8h_a22bf313ce6cdc640a1feaf76dfc2897e}{00094}}\ \textcolor{preprocessor}{\#define\ ATLAS\_GAME\_DIR\ static\_cast<std::string>(ATLAS\_TOP\_LAYER)\ +\ static\_cast<std::string>("{}/game/"{});}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00095}\mbox{\hyperlink{_common_8h_a260c8698617a9ddbcc20044b59b0307b}{00095}}\ \textcolor{preprocessor}{\#define\ ATLAS\_TEMP\_DIR\ static\_cast<std::string>(ATLAS\_TOP\_LAYER)\ +\ static\_cast<std::string>("{}/temp/"{});}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00096}00096\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00097}\mbox{\hyperlink{_common_8h_a0dc48dcd23c8eaa1849c023442491089}{00097}}\ \textcolor{preprocessor}{\#define\ ATLAS\_NULL\_PNG\ ATLAS\_ASSET\_DIR\ +\ static\_cast<std::string>("{}/engine/null.png"{})}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00098}\mbox{\hyperlink{_common_8h_adf75ba6fb29a4f5b02330c8732e65865}{00098}}\ \textcolor{preprocessor}{\#define\ ATLAS\_NULL\_JPG\ ATLAS\_ASSET\_DIR\ +\ static\_cast<std::string>("{}/engine/null.jpg"{})}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00099}\mbox{\hyperlink{_common_8h_a05798e0231584e6e6cdcabd194d95317}{00099}}\ \textcolor{preprocessor}{\#define\ ATLAS\_NULL\_JPEG\ static\_cast<std::string>(ATLAS\_ASSET\_DIR)\ +\ static\_cast<std::string>("{}/engine/null.jpeg"{})}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00100}\mbox{\hyperlink{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb}{00100}}\ \textcolor{preprocessor}{\#define\ ATLAS\_NULL\_GIF\ ATLAS\_ASSET\_DIR\ +\ static\_cast<std::string>("{}/engine/null.gif"{})}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00101}00101\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00102}00102\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00103}00103\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00104}00104\ \ \ \ \ \textcolor{keyword}{using\ }std::string;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00105}00105\ \ \ \ \ \textcolor{keyword}{using\ }std::cout;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00106}00106\ \ \ \ \ \textcolor{keyword}{using\ }std::endl;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00107}00107\ \ \ \ \ \textcolor{keyword}{using\ }std::thread;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00108}00108\ \ \ \ \ \textcolor{keyword}{using\ }std::this\_thread::sleep\_for;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00109}00109\ \ \ \ \ \textcolor{keyword}{using\ }std::chrono::milliseconds;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00110}00110\ \ \ \ \ \textcolor{keyword}{using\ }std::chrono::seconds;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00111}00111\ \ \ \ \ \textcolor{keyword}{using\ }std::unordered\_map;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00112}00112\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00116}00116\ \ \ \ \ \textcolor{comment}{/*struct\ Vec3\ \{}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00117}00117\ \textcolor{comment}{\ \ \ \ \ \ \ \ float\ x;}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00118}00118\ \textcolor{comment}{\ \ \ \ \ \ \ \ float\ y;}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00119}00119\ \textcolor{comment}{\ \ \ \ \ \ \ \ float\ z;}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00120}00120\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00121}00121\ \textcolor{comment}{\ \ \ \ \ \ \ \ Vec3(float\ x,\ float\ y,\ float\ z)\ :\ x(x),\ y(y),\ z(z)\ \{\}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00122}00122\ \textcolor{comment}{\ \ \ \ \ \ \ \ explicit\ Vec3(Vector3\ const\&\ v)\ :\ x(v.x),\ y(v.y),\ z(v.z)\ \{\}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00123}00123\ \textcolor{comment}{\ \ \ \ \ \ \ \ explicit\ Vec3(JPH::RVec3\ const\&\ v)\ :\ x(v.GetX()),\ y(v.GetY()),\ z(v.GetZ())\ \{\}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00124}00124\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00125}00125\ \textcolor{comment}{\ \ \ \ \ \ \ \ operator\ Vector3()\ const\ \{\ return\ \{\ x,\ y,\ z\ \};\ \}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00126}00126\ \textcolor{comment}{\ \ \ \ \ \ \ \ operator\ JPH::RVec3()\ const\ \{\ return\ \{\ x,\ y,\ z\ \};\ \}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00127}00127\ \textcolor{comment}{\ \ \ \ \ \ \ \ }}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00133}00133\ \ \ \ \ \ \ \ \ float\ operator[](int\ index)\ const\ \{\ return\ (\&x)[index];\ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00134}00134\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00140}00140\ \ \ \ \ \ \ \ \ bool\ operator==(const\ Vec3\&\ other)\ const}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00141}00141\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ return\ x\ ==\ other.x\ \&\&\ y\ ==\ other.y\ \&\&\ z\ ==\ other.z;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00143}00143\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00144}00144\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00145}00145\ \ \ \ \ \ \ \ \ //\ math\ operators}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00146}00146\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00152}00152\ \ \ \ \ \ \ \ \ Vec3\&\ operator+=(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ x\ +=\ other.x;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ y\ +=\ other.y;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ z\ +=\ other.z;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00157}00157\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00158}00158\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00164}00164\ \ \ \ \ \ \ \ \ Vec3\&\ operator-\/=(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ x\ -\/=\ other.x;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ y\ -\/=\ other.y;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ z\ -\/=\ other.z;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00169}00169\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00170}00170\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00176}00176\ \ \ \ \ \ \ \ \ Vec3\&\ operator*=(const\ float\ scalar)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ x\ *=\ scalar;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ y\ *=\ scalar;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ z\ *=\ scalar;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00181}00181\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00182}00182\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00188}00188\ \ \ \ \ \ \ \ \ Vec3\&\ operator/=(const\ float\ scalar)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ x\ /=\ scalar;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ y\ /=\ scalar;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ z\ /=\ scalar;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00193}00193\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00194}00194\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00200}00200\ \ \ \ \ \ \ \ \ Vec3\ operator+(const\ Vec3\&\ scalar)\ const\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vec3(x\ +\ scalar.x,\ y\ +\ scalar.y,\ z\ +\ scalar.z);}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ Common.h}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00003}00003\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00004}00004\ \textcolor{comment}{\ *\ @brief\ Common\ includes\ and\ definitions\ that\ are\ used\ throughout\ the\ engine.\ There\ are\ going\ to}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00005}00005\ \textcolor{comment}{\ *\ be\ very\ limited\ amounts\ of\ actual\ engine\ includes,\ so\ this\ is\ not\ a\ replacement\ for\ that.}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00006}00006\ \textcolor{comment}{\ *\ Instead,\ this\ is\ a\ way\ to\ centralize\ the\ includes\ and\ definitions\ that\ are\ used\ throughout\ the}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00007}00007\ \textcolor{comment}{\ *\ engine\ and\ avoid\ include-\/hell}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00008}00008\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00009}00009\ \textcolor{comment}{\ *\ @details\ This\ file\ has\ a\ few\ configurations:}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00010}00010\ \textcolor{comment}{\ *\ -\/\ ATLAS\_ALLOW\_ASSERTS}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00011}00011\ \textcolor{comment}{\ *\ -\/\ ATLAS\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00012}00012\ \textcolor{comment}{\ *\ If\ ATLAS\_ALLOW\_ASSERTS\ or\ ATLAS\_DEBUG\ is\ defined,\ Atlas\ will\ turn\ on\ assertions.\ If\ you\ do\ not}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00013}00013\ \textcolor{comment}{\ *\ want\ Atlas\ to\ do\ assertions,\ make\ sure\ you\ undefine\ ATLAS\_ALLOW\_ASSERTS.\ }}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00014}00014\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00015}00015\ \textcolor{comment}{\ *\ @date\ May\ 2025}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00016}00016\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00017}00017\ \textcolor{comment}{\ *\ @since\ v0.0.1}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00018}00018\ \textcolor{comment}{\ ***************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00019}00019\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <cstdarg>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <any>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00034}00034\ \textcolor{preprocessor}{\#if\ defined(ATLAS\_ALLOW\_ASSERTS)\ ||\ defined(ATLAS\_DEBUG)}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00035}00035\ \textcolor{preprocessor}{\ \ \ \ \#include\ <cassert>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00036}00036\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00038}00038\ \textcolor{comment}{//\ Used\ for\ some\ of\ the\ math\ stuff}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00039}00039\ \textcolor{preprocessor}{\#include\ <glm/glm.hpp>}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00041}00041\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_core_8h}{Core.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00043}00043\ \textcolor{preprocessor}{\#if\ defined(ATLAS\_ALLOW\_ASSERTS)\ ||\ defined(ATLAS\_DEBUG)}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00060}00060\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_ASSERT(condition,\ message)\ assert(condition\ \&\&\ message)}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00078}00078\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_STATIC\_ASSERT(condition,\ message)\ static\_assert(condition\ \&\&\ message)}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00080}00080\ \textcolor{preprocessor}{\#else\ }}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00097}\mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{00097}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_ASSERT(condition,\ message)\ }}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00098}00098\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00115}\mbox{\hyperlink{_common_8h_a299f2843b524a1346e4c9e0c09fdc9cc}{00115}}\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_STATIC\_ASSERT(condition,\ message)\ }}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00117}00117\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ATLAS\_ALLOW\_ASSERTS\ ||\ ATLAS\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00119}\mbox{\hyperlink{_common_8h_a16f673d9e7a39c1b848adbccc23eb8a2}{00119}}\ \textcolor{preprocessor}{\#define\ ATLAS\_TYPE\_NAME(...)\ \_\_VA\_ARGS\_\_}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00121}\mbox{\hyperlink{_common_8h_a2fd96e43445fdeb56fec01232f04788f}{00121}}\ \textcolor{preprocessor}{\#define\ ATLAS\_STRINGIFY(...)\ \#\_\_VA\_ARGS\_\_}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00130}\mbox{\hyperlink{_common_8h_a2409aa2a1a2ed9a03d428b3aa8c0c4c3}{00130}}\ \textcolor{preprocessor}{\#define\ ATLAS\_TOP\_LAYER\_DIR\ static\_cast<std::string>(ATLAS\_TOP\_LAYER)}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00131}\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{00131}}\ \textcolor{preprocessor}{\#define\ ATLAS\_ASSET\_DIR\ static\_cast<std::string>(ATLAS\_TOP\_LAYER)\ +\ static\_cast<std::string>("{}/game/assets/"{});}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00132}\mbox{\hyperlink{_common_8h_a3d7c2521ee61f3b347f0c56560ef58c7}{00132}}\ \textcolor{preprocessor}{\#define\ ATLAS\_DATA\_DIR\ static\_cast<std::string>(ATLAS\_TOP\_LAYER)\ +\ static\_cast<std::string>("{}/game/data/"{});}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00133}\mbox{\hyperlink{_common_8h_a22bf313ce6cdc640a1feaf76dfc2897e}{00133}}\ \textcolor{preprocessor}{\#define\ ATLAS\_GAME\_DIR\ static\_cast<std::string>(ATLAS\_TOP\_LAYER)\ +\ static\_cast<std::string>("{}/game/"{});}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00134}\mbox{\hyperlink{_common_8h_a260c8698617a9ddbcc20044b59b0307b}{00134}}\ \textcolor{preprocessor}{\#define\ ATLAS\_TEMP\_DIR\ static\_cast<std::string>(ATLAS\_TOP\_LAYER)\ +\ static\_cast<std::string>("{}/temp/"{});}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00136}\mbox{\hyperlink{_common_8h_a0dc48dcd23c8eaa1849c023442491089}{00136}}\ \textcolor{preprocessor}{\#define\ ATLAS\_NULL\_PNG\ ATLAS\_ASSET\_DIR\ +\ static\_cast<std::string>("{}/engine/null.png"{})}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00137}\mbox{\hyperlink{_common_8h_adf75ba6fb29a4f5b02330c8732e65865}{00137}}\ \textcolor{preprocessor}{\#define\ ATLAS\_NULL\_JPG\ ATLAS\_ASSET\_DIR\ +\ static\_cast<std::string>("{}/engine/null.jpg"{})}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00138}\mbox{\hyperlink{_common_8h_a05798e0231584e6e6cdcabd194d95317}{00138}}\ \textcolor{preprocessor}{\#define\ ATLAS\_NULL\_JPEG\ static\_cast<std::string>(ATLAS\_ASSET\_DIR)\ +\ static\_cast<std::string>("{}/engine/null.jpeg"{})}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00139}\mbox{\hyperlink{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb}{00139}}\ \textcolor{preprocessor}{\#define\ ATLAS\_NULL\_GIF\ ATLAS\_ASSET\_DIR\ +\ static\_cast<std::string>("{}/engine/null.gif"{}}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00141}00141\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00143}00143\ \ \ \ \ \textcolor{keyword}{using\ }std::string;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00144}00144\ \ \ \ \ \textcolor{keyword}{using\ }std::cout;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00145}00145\ \ \ \ \ \textcolor{keyword}{using\ }std::endl;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00146}00146\ \ \ \ \ \textcolor{keyword}{using\ }std::thread;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00147}00147\ \ \ \ \ \textcolor{keyword}{using\ }std::this\_thread::sleep\_for;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00148}00148\ \ \ \ \ \textcolor{keyword}{using\ }std::chrono::milliseconds;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00149}00149\ \ \ \ \ \textcolor{keyword}{using\ }std::chrono::seconds;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00150}00150\ \ \ \ \ \textcolor{keyword}{using\ }std::unordered\_map;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00152}\mbox{\hyperlink{namespace_atlas_a90dfcd6fcf4fd7ab785efeaf6934e38e}{00152}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_a90dfcd6fcf4fd7ab785efeaf6934e38e}{HighResolutionTimepoint}}\ =\ std::chrono::high\_resolution\_clock::time\_point;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00154}\mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8}{00154}}\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8}{EResultCode}}\ :\ uint32\_t\ \{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00155}00155\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8ad7c8c85bf79bbe1b7188497c32c3b0ca}{Failed}}\ =\ 0,}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00156}00156\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8a26b63f278101527e06a5547719568bb5}{Okay}},}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00157}00157\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00158}00158\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00159}00159\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_NUMERIC\_TYPE>}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00160}\mbox{\hyperlink{struct_atlas_1_1_rectangle}{00160}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_rectangle}{Rectangle}}\ \{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00161}\mbox{\hyperlink{struct_atlas_1_1_rectangle_a6800f625977bdbee81e90b03ab025143}{00161}}\ \ \ \ \ \ \ \ \ T\_NUMERIC\_TYPE\ \mbox{\hyperlink{struct_atlas_1_1_rectangle_a6800f625977bdbee81e90b03ab025143}{x}};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00162}\mbox{\hyperlink{struct_atlas_1_1_rectangle_a113cc9aac2fb8dfeb6b65b5b8122f056}{00162}}\ \ \ \ \ \ \ \ \ T\_NUMERIC\_TYPE\ \mbox{\hyperlink{struct_atlas_1_1_rectangle_a113cc9aac2fb8dfeb6b65b5b8122f056}{y}};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00163}\mbox{\hyperlink{struct_atlas_1_1_rectangle_adc4de46b1fbf2c0fdbb9d26e3bd042b3}{00163}}\ \ \ \ \ \ \ \ \ T\_NUMERIC\_TYPE\ \mbox{\hyperlink{struct_atlas_1_1_rectangle_adc4de46b1fbf2c0fdbb9d26e3bd042b3}{width}};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00164}\mbox{\hyperlink{struct_atlas_1_1_rectangle_ab6331769ba3bd2821e20bdfe85b906f9}{00164}}\ \ \ \ \ \ \ \ \ T\_NUMERIC\_TYPE\ \mbox{\hyperlink{struct_atlas_1_1_rectangle_ab6331769ba3bd2821e20bdfe85b906f9}{height}};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00165}00165\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00176}\mbox{\hyperlink{class_atlas_1_1_i_stringified_object}{00176}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_i_stringified_object}{IStringifiedObject}}\ \{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00177}00177\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00178}\mbox{\hyperlink{class_atlas_1_1_i_stringified_object_a72767991c14385652f582d76b425a23e}{00178}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_i_stringified_object_a72767991c14385652f582d76b425a23e}{IStringifiedObject}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00180}\mbox{\hyperlink{class_atlas_1_1_i_stringified_object_ae2399f816e348751134240938caa7a34}{00180}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ std::string\ \mbox{\hyperlink{class_atlas_1_1_i_stringified_object_ae2399f816e348751134240938caa7a34}{toString}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00182}\mbox{\hyperlink{class_atlas_1_1_i_stringified_object_a75bdc83ce848f69d2ea5a34bc80b2db1}{00182}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{operator}\ std::string()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00183}00183\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00190}00190\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_CHILD>}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00191}\mbox{\hyperlink{class_atlas_1_1_stringified_object}{00191}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_stringified_object}{StringifiedObject}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_i_stringified_object}{IStringifiedObject}}\ \{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00192}00192\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00194}\mbox{\hyperlink{class_atlas_1_1_stringified_object_a2dc63bcba3a0c34fd9f7adfcca62e634}{00194}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_stringified_object_a2dc63bcba3a0c34fd9f7adfcca62e634}{StringifiedObject}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00196}\mbox{\hyperlink{class_atlas_1_1_stringified_object_a2f5c483abff8a1025ee3e406333213eb}{00196}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ std::string\ \mbox{\hyperlink{class_atlas_1_1_stringified_object_a2f5c483abff8a1025ee3e406333213eb}{toString}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_common_8h_a16f673d9e7a39c1b848adbccc23eb8a2}{ATLAS\_TYPE\_NAME}}(\textcolor{keyword}{typeid}(T\_CHILD).\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}());}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00198}00198\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00200}\mbox{\hyperlink{class_atlas_1_1_stringified_object_ab8d1703b6f022f0ad912c48e1a3a1ffd}{00200}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{operator}\ std::string()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_stringified_object_a2f5c483abff8a1025ee3e406333213eb}{toString}}();}
 \DoxyCodeLine{\Hypertarget{_common_8h_source_l00202}00202\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00203}00203\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00209}00209\ \ \ \ \ \ \ \ \ Vec3\ operator-\/(const\ Vec3\&\ scalar)\ const\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vec3(x\ -\/\ scalar.x,\ y\ -\/\ scalar.y,\ z\ -\/\ scalar.z);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00211}00211\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00203}00203\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00205}00205\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00206}\mbox{\hyperlink{class_atlas_1_1_reference_holder}{00206}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_reference_holder}{ReferenceHolder}}\ \{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00207}00207\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00208}\mbox{\hyperlink{class_atlas_1_1_reference_holder_abddbd6ccf82a325f20e8eef9b754dddd}{00208}}\ \ \ \ \ \ \ \ \ T\&\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_abddbd6ccf82a325f20e8eef9b754dddd}{mValue}};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00209}00209\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00211}\mbox{\hyperlink{class_atlas_1_1_reference_holder_af2131b75339a87a30f548e05da759270}{00211}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_af2131b75339a87a30f548e05da759270}{ReferenceHolder}}(T\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ :\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_abddbd6ccf82a325f20e8eef9b754dddd}{mValue}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \{\}}
 \DoxyCodeLine{\Hypertarget{_common_8h_source_l00212}00212\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00218}00218\ \ \ \ \ \ \ \ \ Vec3\ operator*(const\ float\ scalar)\ const\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vec3(x\ *\ scalar,\ y\ *\ scalar,\ z\ *\ scalar);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00220}00220\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00221}00221\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00227}00227\ \ \ \ \ \ \ \ \ Vec3\ operator/(const\ float\ scalar)\ const\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vec3(x\ /\ scalar,\ y\ /\ scalar,\ z\ /\ scalar);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00229}00229\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00236}00236\ \ \ \ \ \ \ \ \ Vec3\&\ operator=(Vec3\ const\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ other.x;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ other.y;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ other.z;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00241}00241\ \ \ \ \ \ \ \ \ \}\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00242}00242\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00248}00248\ \ \ \ \ \ \ \ \ Vec3\&\ operator=(JPH::RVec3\ const\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ other.x;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ other.y;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ other.z;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00253}00253\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00254}00254\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00260}00260\ \ \ \ \ \ \ \ \ Vec3\&\ operator=(Vector3\ const\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ other.x;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ other.y;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ other.z;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00265}00265\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00266}00266\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00267}00267\ \ \ \ \ \ \ \ \ //\ math\ functions}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00268}00268\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00269}00269\ \ \ \ \ \ \ \ \ //\ Non\ chainable}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00270}00270\ \ \ \ \ \ \ \ \ //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00271}00271\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00276}00276\ \ \ \ \ \ \ \ \ Vec3\ zero()\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vec3(0,\ 0,\ 0);\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00278}00278\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00279}00279\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00284}00284\ \ \ \ \ \ \ \ \ Vec3\ one()\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vec3(1,\ 1,\ 1);\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00286}00286\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00287}00287\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00292}00292\ \ \ \ \ \ \ \ \ Vec3\ perpendicular()\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ return\ (Vec3)Vector3Perpendicular(operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00294}00294\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00295}00295\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00301}00301\ \ \ \ \ \ \ \ \ Vec3\ perpendicular(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ return\ (Vec3)Vector3Perpendicular(other.operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00303}00303\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00304}00304\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00310}00310\ \ \ \ \ \ \ \ \ Vec3\ max(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vec3(x\ >\ other.x\ ?\ x\ :\ other.x,\ y\ >\ other.y\ ?\ y\ :\ other.y,\ z\ >\ other.z\ ?\ z\ :\ other.z);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00312}00312\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00313}00313\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00319}00319\ \ \ \ \ \ \ \ \ Vec3\ min(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vec3(x\ <\ other.x\ ?\ x\ :\ other.x,\ y\ <\ other.y\ ?\ y\ :\ other.y,\ z\ <\ other.z\ ?\ z\ :\ other.z);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00321}00321\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00322}00322\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00328}00328\ \ \ \ \ \ \ \ \ Vec3\ project(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ return\ (Vec3)Vector3Project(operator\ Vector3(),\ other.operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00330}00330\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00331}00331\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00338}00338\ \ \ \ \ \ \ \ \ Vec3\ unproject(const\ Matrix\&\ projection,\ const\ Matrix\&\ view)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ return\ (Vec3)Vector3Unproject(operator\ Vector3(),\ projection,\ view);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00340}00340\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00341}00341\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00347}00347\ \ \ \ \ \ \ \ \ Vec3\ reject(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ return\ (Vec3)Vector3Reject(operator\ Vector3(),\ other.operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00349}00349\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00350}00350\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00356}00356\ \ \ \ \ \ \ \ \ Vec3\ reflect(const\ Vec3\&\ normal)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ return\ (Vec3)Vector3Reflect(operator\ Vector3(),\ normal.operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00358}00358\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00359}00359\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00366}00366\ \ \ \ \ \ \ \ \ Vec3\ refract(const\ Vec3\&\ normal,\ float\ ratio)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ return\ (Vec3)Vector3Refract(operator\ Vector3(),\ normal.operator\ Vector3(),\ ratio);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00368}00368\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00369}00369\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00376}00376\ \ \ \ \ \ \ \ \ Vec3\ lerp(const\ Vec3\&\ other,\ float\ t)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ return\ (Vec3)Vector3Lerp(operator\ Vector3(),\ other.operator\ Vector3(),\ t);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00378}00378\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00379}00379\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00389}00389\ \ \ \ \ \ \ \ \ Vec3\ cubicHermite(const\ Vec3\&\ v1,\ const\ Vec3\&\ tangent1,\ const\ Vec3\&\ v2,\ const\ Vec3\&\ tangent2,\ float\ amount)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ return\ (Vec3)Vector3CubicHermite(v1.operator\ Vector3(),\ tangent1.operator\ Vector3(),\ v2.operator\ Vector3(),\ tangent2.operator\ Vector3(),\ amount);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00391}00391\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00392}00392\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00401}00401\ \ \ \ \ \ \ \ \ Vec3\ baryCenter(const\ Vec3\&\ p,\ const\ Vec3\&\ a,\ const\ Vec3\&\ b,\ const\ Vec3\&\ c)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ return\ (Vec3)Vector3Barycenter(p.operator\ Vector3(),\ a.operator\ Vector3(),\ b.operator\ Vector3(),\ c.operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00403}00403\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00410}00410\ \ \ \ \ \ \ \ \ float\ dot(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ return\ x\ *\ other.x\ +\ y\ *\ other.y\ +\ z\ *\ other.z;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00412}00412\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00413}00413\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00419}00419\ \ \ \ \ \ \ \ \ float\ distance(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ return\ sqrtf((x\ -\/\ other.x)\ *\ (x\ -\/\ other.x)\ +\ (y\ -\/\ other.y)\ *\ (y\ -\/\ other.y)\ +\ (z\ -\/\ other.z)\ *\ (z\ -\/\ other.z));}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00421}00421\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00422}00422\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00427}00427\ \ \ \ \ \ \ \ \ float\ length()\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vector3Length(operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00429}00429\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00430}00430\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00435}00435\ \ \ \ \ \ \ \ \ float\ lengthSquared()\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vector3LengthSqr(operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00437}00437\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00438}00438\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00444}00444\ \ \ \ \ \ \ \ \ float\ angle(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ return\ Vector3Angle(operator\ Vector3(),\ other.operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00446}00446\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00447}00447\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00448}00448\ \ \ \ \ \ \ \ \ //\ Chainable}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00449}00449\ \ \ \ \ \ \ \ \ //-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00450}00450\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00456}00456\ \ \ \ \ \ \ \ \ Vec3\&\ cross(const\ Vec3\&\ other)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ y\ *\ other.z\ -\/\ z\ *\ other.y;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00458}00458\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ z\ *\ other.x\ -\/\ x\ *\ other.z;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ x\ *\ other.y\ -\/\ y\ *\ other.x;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00461}00461\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00462}00462\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00467}00467\ \ \ \ \ \ \ \ \ Vec3\&\ negate()\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ -\/x;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ -\/y;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ -\/z;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00472}00472\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00473}00473\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00478}00478\ \ \ \ \ \ \ \ \ Vec3\&\ normalize()\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00479}00479\ \ \ \ \ \ \ \ \ \ \ \ \ float\ length\ =\ Vector3Length(operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00480}00480\ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ x\ /\ length;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ y\ =\ y\ /\ length;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ z\ =\ z\ /\ length;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00484}00484\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00485}00485\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00491}00491\ \ \ \ \ \ \ \ \ Vec3\&\ transform(Matrix\ const\&\ matrix)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ *this\ =\ Vector3Transform(operator\ Vector3(),\ matrix);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00494}00494\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00495}00495\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00501}00501\ \ \ \ \ \ \ \ \ Vec3\&\ rotateByQuaternion(Quaternion\ const\&\ quaternion)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ *this\ =\ Vector3RotateByQuaternion(operator\ Vector3(),\ quaternion);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00504}00504\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00505}00505\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00512}00512\ \ \ \ \ \ \ \ \ Vec3\&\ rotateByAxisAngle(const\ Vec3\&\ axis,\ float\ angle)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ *this\ =\ Vector3RotateByAxisAngle(operator\ Vector3(),\ axis.operator\ Vector3(),\ angle);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00515}00515\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00516}00516\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00523}00523\ \ \ \ \ \ \ \ \ Vec3\&\ clamp(const\ Vec3\&\ min,\ const\ Vec3\&\ max)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ *this\ =\ Vector3Clamp(operator\ Vector3(),\ min,\ max);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00526}00526\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00527}00527\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00534}00534\ \ \ \ \ \ \ \ \ Vec3\&\ clamp(float\ min,\ float\ max)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ *this\ =\ Vector3ClampValue(operator\ Vector3(),\ min,\ max);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00536}00536\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00537}00537\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00544}00544\ \ \ \ \ \ \ \ \ Vec3\&\ normalizedMoveTowards(const\ Vec3\&\ target,\ float\ distance)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ Vec3\ direction\ =\ target\ -\/\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ direction.normalize();}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ *this\ +=\ direction\ *\ distance;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00549}00549\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00550}00550\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00557}00557\ \ \ \ \ \ \ \ \ Vec3\&\ moveTowards(const\ Vec3\&\ target,\ float\ distance)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00558}00558\ \ \ \ \ \ \ \ \ \ \ \ \ *this\ =\ Vector3MoveTowards(operator\ Vector3(),\ target.operator\ Vector3(),\ distance);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00559}00559\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00560}00560\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00565}00565\ \ \ \ \ \ \ \ \ Vec3\&\ invert()\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00566}00566\ \ \ \ \ \ \ \ \ \ \ \ \ *this\ =\ Vector3Invert(operator\ Vector3());}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00567}00567\ \ \ \ \ \ \ \ \ \ \ \ \ return\ *this;}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00568}00568\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00569}00569\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00570}00570\ */}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00571}00571\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00572}00572\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00577}\mbox{\hyperlink{class_atlas_1_1_globals}{00577}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_globals}{Globals}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_singleton}{Singleton}}<Globals>\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00578}00578\ \ \ \ \ \textcolor{keyword}{public}:\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00584}\mbox{\hyperlink{class_atlas_1_1_globals_a0ca44a9cf2318a950f060a673d1b481a}{00584}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_globals_a0ca44a9cf2318a950f060a673d1b481a}{set}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ std::any\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_globals_a07d73de99dce9ea633e9af708ee2e872}{mGlobals}}[\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}]\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}};}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00586}00586\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00587}00587\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00594}00594\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00595}\mbox{\hyperlink{class_atlas_1_1_globals_a3eb31412ae02ac34134779555510c406}{00595}}\ \ \ \ \ \ \ \ \ T\ \mbox{\hyperlink{class_atlas_1_1_globals_a3eb31412ae02ac34134779555510c406}{get}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}})\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00596}00596\ \ \ \ \ \ \ \ \ \ \ \ \ T\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}};}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00597}00597\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00598}00598\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}}\ =\ std::any\_cast<T>(\mbox{\hyperlink{class_atlas_1_1_globals_a07d73de99dce9ea633e9af708ee2e872}{mGlobals}}[\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}]);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00599}00599\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00600}00600\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (std::bad\_any\_cast\&\ e)\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00601}00601\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ T();}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00602}00602\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00603}00603\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00604}00604\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00605}00605\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00606}00606\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00607}00607\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00608}\mbox{\hyperlink{class_atlas_1_1_globals_a07d73de99dce9ea633e9af708ee2e872}{00608}}\ \ \ \ \ \ \ \ \ std::unordered\_map<std::string,\ std::any>\ \mbox{\hyperlink{class_atlas_1_1_globals_a07d73de99dce9ea633e9af708ee2e872}{mGlobals}};}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00609}00609\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00610}00610\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00611}00611\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00612}\mbox{\hyperlink{class_atlas_1_1_reference_holder}{00612}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_reference_holder}{ReferenceHolder}}\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00613}00613\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00614}00614\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00615}\mbox{\hyperlink{class_atlas_1_1_reference_holder_af2131b75339a87a30f548e05da759270}{00615}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_af2131b75339a87a30f548e05da759270}{ReferenceHolder}}(T\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ :\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_abddbd6ccf82a325f20e8eef9b754dddd}{mValue}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \{\}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00616}00616\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00617}\mbox{\hyperlink{class_atlas_1_1_reference_holder_a1c72b6a0bc69ffc5f62d777dcc4eb9a5}{00617}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_a1c72b6a0bc69ffc5f62d777dcc4eb9a5}{set}}(T\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00618}00618\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_reference_holder_abddbd6ccf82a325f20e8eef9b754dddd}{mValue}}\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}};}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00619}00619\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00620}00620\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00621}\mbox{\hyperlink{class_atlas_1_1_reference_holder_a767c20f9d62ce861e37b83381ef08ea8}{00621}}\ \ \ \ \ \ \ \ \ T\&\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_a767c20f9d62ce861e37b83381ef08ea8}{get}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00622}00622\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_abddbd6ccf82a325f20e8eef9b754dddd}{mValue}};}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00623}00623\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00624}00624\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00625}00625\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00626}00626\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00627}\mbox{\hyperlink{class_atlas_1_1_reference_holder_abddbd6ccf82a325f20e8eef9b754dddd}{00627}}\ \ \ \ \ \ \ \ \ T\&\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_abddbd6ccf82a325f20e8eef9b754dddd}{mValue}};}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00628}00628\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00629}00629\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00636}00636\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00637}\mbox{\hyperlink{namespace_atlas_adf4811a408b9ca01aec8b9a587b9a751}{00637}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_adf4811a408b9ca01aec8b9a587b9a751}{GetGlobalValue}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}})}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00638}00638\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00639}00639\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_singleton_a035c506193c225c5b60eb7ad9242c245}{Globals::Instance}}().\mbox{\hyperlink{class_atlas_1_1_globals_a3eb31412ae02ac34134779555510c406}{get}}<T>(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}});}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00640}00640\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00641}00641\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00642}00642\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_aee18cc5dcd651a9551fb2302e723de8c}{SetGlobalValue}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ std::any\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}});}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00643}00643\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00646}00646\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_ENABLE\_HAPTICS}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00647}00647\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00651}00651\ \ \ \ \ \textcolor{keywordtype}{void}\ InitHaptics();}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00652}00652\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00656}00656\ \ \ \ \ \textcolor{keywordtype}{void}\ SetControllerRumble(\textcolor{keywordtype}{int}\ controllerIndex,\ \textcolor{keywordtype}{int}\ leftMotorSpeed,\ \textcolor{keywordtype}{int}\ rightMotorSpeed);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00657}00657\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00661}00661\ \ \ \ \ \textcolor{keywordtype}{void}\ StartRumblingController(\textcolor{keywordtype}{int}\ controllerIndex,\ \textcolor{keywordtype}{int}\ leftMotorSpeed,\ \textcolor{keywordtype}{int}\ rightMotorSpeed);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00662}00662\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00663}00663\ \ \ \ \ \textcolor{keywordtype}{void}\ StopRumblingController(\textcolor{keywordtype}{int}\ controllerIndex);}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00664}00664\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00665}00665\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00668}00668\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_ENABLE\_EXTENSIONS}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00669}00669\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00670}00670\ \ \ \ \ \textcolor{comment}{//\ Not\ yet\ implemented}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00671}00671\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_ENABLE\_DISCORD\_INTEGRATION}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00672}00672\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00673}00673\ \textcolor{preprocessor}{\#ifndef\ ATLAS\_SILENCE\_DISCORD\_INTEGRATION\_WARNING}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00674}00674\ \textcolor{preprocessor}{\#error\ "{}Discord\ integration\ is\ not\ yet\ implemented.\ To\ silence\ this\ warning,\ define\ ATLAS\_SILENCE\_DISCORD\_INTEGRATION\_WARNING."{}}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00675}00675\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00676}00676\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00677}00677\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00678}00678\ }
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00679}00679\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_common_8h_source_l00680}00680\ \}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00213}\mbox{\hyperlink{class_atlas_1_1_reference_holder_a1c72b6a0bc69ffc5f62d777dcc4eb9a5}{00213}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_a1c72b6a0bc69ffc5f62d777dcc4eb9a5}{set}}(T\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_reference_holder_abddbd6ccf82a325f20e8eef9b754dddd}{mValue}}\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00215}00215\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00217}\mbox{\hyperlink{class_atlas_1_1_reference_holder_a767c20f9d62ce861e37b83381ef08ea8}{00217}}\ \ \ \ \ \ \ \ \ T\&\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_a767c20f9d62ce861e37b83381ef08ea8}{get}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_reference_holder_abddbd6ccf82a325f20e8eef9b754dddd}{mValue}};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00219}00219\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00220}00220\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00221}00221\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00223}00223\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00224}\mbox{\hyperlink{namespace_atlas_ad505d4d3e017334c04787d7820f06ce7}{00224}}\ \ \ \ \ \textcolor{keyword}{inline}\ T\ \mbox{\hyperlink{namespace_atlas_ad505d4d3e017334c04787d7820f06ce7}{AlignUp}}(T\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}},\ uint64\_t\ alignment)\ \{}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ T((uint64\_t(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ +\ alignment\ -\/\ 1)\ \&\ \string~(alignment\ -\/\ 1));}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00226}00226\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_common_8h_source_l00227}00227\ \}}
 
 \end{DoxyCode}

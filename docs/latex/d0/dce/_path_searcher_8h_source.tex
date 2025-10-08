@@ -1,0 +1,93 @@
+\doxysection{Path\+Searcher.\+h}
+\hypertarget{_path_searcher_8h_source}{}\label{_path_searcher_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/io/PathSearcher.h@{C:/Dev/Techstorm-\/v5/src/engine/io/PathSearcher.h}}
+\mbox{\hyperlink{_path_searcher_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ PathSearcher.h}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00003}00003\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00004}00004\ \textcolor{comment}{\ *\ @brief\ .}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00005}00005\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00006}00006\ \textcolor{comment}{\ *\ @date\ September\ 2025}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00007}00007\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00008}00008\ \textcolor{comment}{\ *\ @since\ v}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00010}00010\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <regex>}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_o_common_8h}{IOCommon.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00022}00022\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00024}\mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025a}{00024}}\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025a}{EPathType}}\ :\ int8\_t}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00025}00025\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00026}00026\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da88183b946cc5f0e8c96b2e66e1c74a7e}{Unknown}}\ =\ -\/1,}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00027}00027\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025aa0b27918290ff5323bea1e3b78a9cf04e}{File}},}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00028}00028\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025aae73cda510e8bb947f7e61089e5581494}{Directory}}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00029}00029\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00031}\mbox{\hyperlink{struct_atlas_1_1_found_path_result}{00031}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_found_path_result}{FoundPathResult}}\ \{}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00032}\mbox{\hyperlink{struct_atlas_1_1_found_path_result_ad010f95541bc0dead5c5a79d0cfe6226}{00032}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_found_path_result_ad010f95541bc0dead5c5a79d0cfe6226}{isDirectory}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00033}\mbox{\hyperlink{struct_atlas_1_1_found_path_result_a1a0772b39b18759ae9f4d44a51be04dc}{00033}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_found_path_result_a1a0772b39b18759ae9f4d44a51be04dc}{isFile}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00035}\mbox{\hyperlink{struct_atlas_1_1_found_path_result_a0bbcab17771714229bc63c23d81c2ca4}{00035}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025a}{EPathType}}\ \mbox{\hyperlink{struct_atlas_1_1_found_path_result_a0bbcab17771714229bc63c23d81c2ca4}{pathType}}\ =\ \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025aa88183b946cc5f0e8c96b2e66e1c74a7e}{EPathType::Unknown}};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00036}\mbox{\hyperlink{struct_atlas_1_1_found_path_result_a10fc3b6542071b9401dc319cf2849477}{00036}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \mbox{\hyperlink{struct_atlas_1_1_found_path_result_a10fc3b6542071b9401dc319cf2849477}{path}};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00037}00037\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00039}\mbox{\hyperlink{struct_atlas_1_1_path_search_result}{00039}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_path_search_result}{PathSearchResult}}\ \{}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00041}00041\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00043}\mbox{\hyperlink{class_atlas_1_1_a_path_searcher}{00043}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_a_path_searcher}{APathSearcher}}\ \{}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00044}00044\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00045}\mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a3ec55c3f9291a08f76dea2394d52ee7a}{00045}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a3ec55c3f9291a08f76dea2394d52ee7a}{mRootSearchPath}};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00047}\mbox{\hyperlink{class_atlas_1_1_a_path_searcher_affb04bd586ce6a1a4725b7aa84cd6a02}{00047}}\ \ \ \ \ \ \ \ \ std::vector<std::regex>\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_affb04bd586ce6a1a4725b7aa84cd6a02}{mIgnoredRegexPatterns}};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00049}\mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a1cb52af4165347e92cc6364be50dbe2a}{00049}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a1cb52af4165347e92cc6364be50dbe2a}{mRootSearchPathSet}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00050}00050\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00051}\mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a532763d7a611e64e32acd530a9208a13}{00051}}\ \ \ \ \ \ \ \ \ std::vector<FoundPathResult>\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a532763d7a611e64e32acd530a9208a13}{mFoundPaths}};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00052}00052\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00054}\mbox{\hyperlink{class_atlas_1_1_a_path_searcher_acfc7bffb6f4b67a4207426c2a3b5cb3c}{00054}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_acfc7bffb6f4b67a4207426c2a3b5cb3c}{APathSearcher}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//explicit\ APathSearcher(std::unique\_ptr<IFileSystemIndexer>\ cFileSystemIndexer);}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a329f95e0d57d94141d21108122727be2}{\string~APathSearcher}}();}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00060}\mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a67e5278e6184c67557c917cf7abbab9e}{00060}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a67e5278e6184c67557c917cf7abbab9e}{search}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00061}00061\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_af98587dfd616ed5ca31b1aff34fa0c97}{setRootSearchPath}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\&\ cPath);}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00063}00063\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_ad1efb3943491a658df64e1f275ad40f2}{addIgnoredRegexPattern}}(std::regex\ \textcolor{keyword}{const}\&\ cPattern);}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_aaa9bd4ffc3db0c40d79cf9bc0826c675}{addIgnoredRegexPatterns}}(std::vector<std::regex>\ \textcolor{keyword}{const}\&\ cPatterns);}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_ac6b708dc66adf2b680cf535425dddc6a}{addFoundPath}}(\mbox{\hyperlink{struct_atlas_1_1_found_path_result}{FoundPathResult}}\ \textcolor{keyword}{const}\&\ cFoundPath);}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_ae161a919a3e6794af4e0026b537ded17}{clearIgnoredRegexPatterns}}();}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_aca70916da61762d3ae268c6274eddd16}{shouldIgnoreItem}}(\textcolor{keyword}{const}\ std::string\&\ cItemName)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00074}00074\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a88d03b47bf8b1d14027c892701e96f8c}{getRootSearchPath}}();}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00076}\mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a1e102e474b3b8ea1cd6095d8a793437f}{00076}}\ \ \ \ \ \ \ \ \ std::vector<FoundPathResult>\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a1e102e474b3b8ea1cd6095d8a793437f}{getFoundPaths}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher_a532763d7a611e64e32acd530a9208a13}{mFoundPaths}};\ \}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{comment}{//PathLocation\ getFullPath(const\ PathLocation\&\ path)\ \{\ return\ mRootSearchPath\ /\ path;\ \}}}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00079}00079\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00081}\mbox{\hyperlink{class_atlas_1_1_recursive_path_searcher}{00081}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_recursive_path_searcher}{RecursivePathSearcher}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_a_path_searcher}{APathSearcher}}\ \{}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00082}00082\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_recursive_path_searcher_a0a2f654d2f493fb411bbca00892f9f6e}{search}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\&\ cPath);}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00084}00084\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_recursive_path_searcher_a0a2f654d2f493fb411bbca00892f9f6e}{search}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00086}00086\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_path_searcher_8h_source_l00087}00087\ \}}
+
+\end{DoxyCode}

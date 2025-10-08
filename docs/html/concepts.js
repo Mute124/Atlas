@@ -1,6 +1,7 @@
 var concepts =
 [
     [ "Atlas", "d7/d54/namespace_atlas.html", [
-      [ "AtlasProject", "dc/dcd/concept_atlas_1_1_atlas_project.html", null ]
+      [ "Numerical", "d2/d43/concept_atlas_1_1_numerical.html", null ],
+      [ "ThreadTypeConcept", "da/d95/concept_atlas_1_1_thread_type_concept.html", null ]
     ] ]
 ];

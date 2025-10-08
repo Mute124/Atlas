@@ -5,747 +5,616 @@
 \item 
 namespace \mbox{\hyperlink{namespace_atlas_1_1_application}{Application}}
 \item 
-namespace \mbox{\hyperlink{namespace_atlas_1_1_broad_phase_layers}{Broad\+Phase\+Layers}}
-\item 
-namespace \mbox{\hyperlink{namespace_atlas_1_1_layers}{Layers}}
-\item 
 namespace \mbox{\hyperlink{namespace_atlas_1_1_tests}{Tests}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1abstract}{abstract}}
-\begin{DoxyCompactList}\small\item\em Same thing as a gate, but for game objects. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_allocated_physics_resources}{Allocated\+Physics\+Resources}}
-\begin{DoxyCompactList}\small\item\em This struct contains the allocated resources for the physics engine and is used to initialize the physics engine. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_angel_script_a_p_i}{Angel\+Script\+API}}
+class \mbox{\hyperlink{class_atlas_1_1_a_device}{ADevice}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_angel_script_registry}{Angel\+Script\+Registry}}
+class \mbox{\hyperlink{class_atlas_1_1_a_extension_validator}{AExtension\+Validator}}
 \item 
+class \mbox{\hyperlink{class_atlas_1_1_a_file}{AFile}}
+\begin{DoxyCompactList}\small\item\em An abstract class that represents a file and its data. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGame\+Window}}
+\begin{DoxyCompactList}\small\item\em An interface that allows the creation of custom window classes in an API-\/agnostic way. It contains some general pure virtual functions that are required to create a window. {\bfseries{This interface is what \doxylink{namespace_atlas}{Atlas} stores a pointer as when creating a window.}} \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_allocated_image}{Allocated\+Image}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_a_path_searcher}{APath\+Searcher}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_a_renderer}{ARenderer}}
+\begin{DoxyCompactList}\small\item\em A base class for all renderers. This class is responsible for {\bfseries{frontend}} rendering of your game. The rendering backend is responsible for the actual rendering. When using this class, you should inherit from it and implement the {\ttfamily init} and {\ttfamily update} methods. If you want this class to be multi-\/threaded by \doxylink{namespace_atlas}{Atlas}, you should make sure that the {\ttfamily init} and {\ttfamily update} methods are thread-\/safe. Additionally, make sure you set \doxylink{class_atlas_1_1_a_renderer_a6a77936bc8281507f5e205e8831a9852}{can\+Be\+Multi\+Threaded} to {\itshape true} if you want this to take effect. If you do not, \doxylink{namespace_atlas}{Atlas} will only run the {\ttfamily init} and {\ttfamily update} methods on the rendering thread instead of accounting for your renderer\textquotesingle{}s need to be multi-\/threaded. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+Engine}}
 \begin{DoxyCompactList}\small\item\em This is the core and heart of \doxylink{namespace_atlas}{Atlas}; it is responsible for just about everything that is required to run the engine. It contains multiple different modules that can be used to extend the engine. If you want to extend the engine, you can simply inherit the respective module and utilize the concepts of polymorphism to your advantage. Keep in mind that the modules are stored as a \doxylink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable} and can be used concurrently. That means the user can multi-\/thread these modules if they so choose. This is just a default implementation of the \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} and you do not have to use this class. However, if you would like to use a different implementation, you can simply inherit from \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} and override the virtual functions. But one thing must remain\+: the class must inherit from \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} or be a child of \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine}. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_audio_device}{Audio\+Device}}
-\begin{DoxyCompactList}\small\item\em An audio device is a physical {\bfseries{OUTPUT}} device that can be used to play audio. If you are looking for a {\bfseries{INPUT}} device, see Audio\+Capture\+Device. If you are looking for documentation on the forms of {\bfseries{OUTPUT}} devices, see this class\textquotesingle{}s details documentation. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_audio_device_config}{Audio\+Device\+Config}}
-\begin{DoxyCompactList}\small\item\em This class represents an audio device\textquotesingle{}s configuration. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_audio_manager}{Audio\+Manager}}
+class \mbox{\hyperlink{class_atlas_1_1_atlas_engine_initializer}{Atlas\+Engine\+Initializer}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_b_p_layer_interface_impl}{BPLayer\+Interface\+Impl}}
+struct \mbox{\hyperlink{struct_atlas_1_1_atlas_settings}{Atlas\+Settings}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_b_project}{BProject}}
-\begin{DoxyCompactList}\small\item\em This is the interface for the user\textquotesingle{}s project. This is the only interface that \doxylink{namespace_atlas}{Atlas} will call. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_cleanup_event_args}{Cleanup\+Event\+Args}}
-\begin{DoxyCompactList}\small\item\em Used by the Cleanup event for passing arguments to components to allow developers the ability to polymorph the arguments. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_component}{Component}}
-\begin{DoxyCompactList}\small\item\em A component is used to extend a system, but is mainly used to extend a game object with additional functionality (\doxylink{class_atlas_1_1_i_game_object}{IGame\+Object}). \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_component_manager}{Component\+Manager}}
+class \mbox{\hyperlink{class_atlas_1_1_background_color}{Background\+Color}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_component_registry}{Component\+Registry}}
+class \mbox{\hyperlink{class_atlas_1_1_color}{Color}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_config_file_registry}{Config\+File\+Registry}}
+class \mbox{\hyperlink{class_atlas_1_1_debug_event}{Debug\+Event}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_console}{Console}}
+class \mbox{\hyperlink{class_atlas_1_1_deletion_queue}{Deletion\+Queue}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_console_sink}{Console\+Sink}}
+class \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator}{Descriptor\+Allocator}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_contact_listener_gate}{Contact\+Listener\+Gate}}
+class \mbox{\hyperlink{class_atlas_1_1_descriptor_layout_builder}{Descriptor\+Layout\+Builder}}
 \item 
-struct \mbox{\hyperlink{struct_atlas_1_1_contact_listener_gate_params}{Contact\+Listener\+Gate\+Params}}
+class \mbox{\hyperlink{class_atlas_1_1_device}{Device}}
 \item 
-struct \mbox{\hyperlink{struct_atlas_1_1_destroy_event_args}{Destroy\+Event\+Args}}
-\begin{DoxyCompactList}\small\item\em Arguments for the destroy event. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_drawable_hook}{Drawable\+Hook}}
+class \mbox{\hyperlink{class_atlas_1_1_discord_integration_service}{Discord\+Integration\+Service}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_dynamic_object}{Dynamic\+Object}}
+class \mbox{\hyperlink{class_atlas_1_1_engine_module}{Engine\+Module}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_entity}{Entity}}
+struct \mbox{\hyperlink{struct_atlas_1_1_engine_modules_info}{Engine\+Modules\+Info}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_file}{File}}
+class \mbox{\hyperlink{class_atlas_1_1_event_poller}{Event\+Poller}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_file_i_o_failure}{File\+IOFailure}}
+struct \mbox{\hyperlink{struct_atlas_1_1_file_cast_attempt}{File\+Cast\+Attempt}}
+\begin{DoxyCompactList}\small\item\em A struct that holds the result of a file cast. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_system_map}{File\+System\+Map}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta}}
-\begin{DoxyCompactList}\small\item\em \doxylink{class_atlas_1_1_file}{File} meta is the attributes of a registered/loaded file. This is also used to search for files within the file system. ~\newline
- \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_file_path}{File\+Path}}
-\begin{DoxyCompactList}\small\item\em This class represents a file path. Since the file system is sandboxed, this contains the {\bfseries{full path}} and the {\bfseries{sandboxed path}}. A sandboxed path is a relative to the "{}game"{} dir. For example, if a file was in the "{}game/data"{} folder, the path would be "{}data"{}. This is to make usage of the file system much easier. When constructed, the sandboxed path is automatically resolved. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}}
-\begin{DoxyCompactList}\small\item\em The file system registry. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_game_camera}{Game\+Camera}}
-\begin{DoxyCompactList}\small\item\em Represents a camera wherein the world is rendered and viewed from. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_game_model}{Game\+Model}}
+struct \mbox{\hyperlink{struct_atlas_1_1_found_path_result}{Found\+Path\+Result}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_game_object}{Game\+Object}}
-\begin{DoxyCompactList}\small\item\em A game object that can be rendered to the screen. This already provides the basic rendering functionality. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_game_object_registry}{Game\+Object\+Registry}}
-\begin{DoxyCompactList}\small\item\em Stores and manages the states of all \doxylink{class_atlas_1_1_i_game_object}{IGame\+Object} (and the derivative classes thereof) in the world. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_game_state}{Game\+State}}
+class \mbox{\hyperlink{class_atlas_1_1_frame}{Frame}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_frame_data}{Frame\+Data}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_game_thread}{Game\+Thread}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_globals}{Globals}}
-\begin{DoxyCompactList}\small\item\em Represents a 3D vector. It will wrap raylib\textquotesingle{}s Vector3 and Jolt\textquotesingle{}s RVec3 to allow seamless integration. This also wraps raylib\textquotesingle{}s vector math functions. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_globals_container}{Globals\+Container}}
+class \mbox{\hyperlink{class_atlas_1_1_game_threader}{Game\+Threader}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_game_threading_stats}{Game\+Threading\+Stats}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{Game\+Thread\+Scheduler}}
+\begin{DoxyCompactList}\small\item\em Scheduler for running tasks on separate threads. It will take given tasks, and distribute them across threads. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_game_time_manager}{Game\+Time\+Manager}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_game_window_settings}{Game\+Window\+Settings}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_g_u_i_decorations}{GUIDecorations}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_atlas_system}{IAtlas\+System}}
+class \mbox{\hyperlink{class_atlas_1_1_i_game_thread}{IGame\+Thread}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_component}{IComponent}}
+class \mbox{\hyperlink{class_atlas_1_1_i_game_threader}{IGame\+Threader}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_console_sink}{IConsole\+Sink}}
-\begin{DoxyCompactList}\small\item\em This is NOT what will print to the terminal, rather this is an interface where the logger will pass logging messages to. Use this for in-\/game consoles or something like that. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_i_exception}{IException}}
+class \mbox{\hyperlink{class_atlas_1_1_i_logger}{ILogger}}
+\begin{DoxyCompactList}\small\item\em Interface for logging that is responsible for handling any logging from the engine, game, or mods. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_i_memory_allocator}{IMemory\+Allocator}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_frame_manager}{IFrame\+Manager}}
+struct \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{Immediate\+Submit\+Info}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGame\+Object}}
-\begin{DoxyCompactList}\small\item\em Represents an object that can be rendered in the screen and contains all the common properties of a game object. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_i_g_u_i_container}{IGUIContainer}}
+class \mbox{\hyperlink{class_atlas_1_1_i_o_manager}{IOManager}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_input_action}{Input\+Action}}
-\begin{DoxyCompactList}\small\item\em Serves as a search key/input category for the input system. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_input_registry}{Input\+Registry}}
-\begin{DoxyCompactList}\small\item\em The input registry is used to register Input\+Actions (\doxylink{class_atlas_1_1_input_action}{Input\+Action}) and their callbacks by using a Laissez-\/faire system. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_invalid_argument}{Invalid\+Argument}}
+class \mbox{\hyperlink{class_atlas_1_1_i_path_loader_logic_gate}{IPath\+Loader\+Logic\+Gate}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_invalid_value}{Invalid\+Value}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_i_project}{IProject}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_i_project_settings}{IProject\+Settings}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_i_window}{IWindow}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_j_s_o_n_file}{JSONFile}}
-\begin{DoxyCompactList}\small\item\em Represents a JSON file for \doxylink{namespace_atlas}{Atlas}\textquotesingle{} config system. Since there were issues with simply loading simdjson\+::ondemand\+::documents, this class was created to solve that. \textbackslash{}important This class will be STORED AS A POINTER in the file system. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_language}{Language}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_loaded_file}{Loaded\+File}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_localization_registry}{Localization\+Registry}}
+class \mbox{\hyperlink{class_atlas_1_1_i_stringified_object}{IStringified\+Object}}
+\begin{DoxyCompactList}\small\item\em An interface for classes that want to be printable. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_i_symbol}{ISymbol}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_logger}{Logger}}
 \item 
-struct \mbox{\hyperlink{struct_atlas_1_1_logger_config}{Logger\+Config}}
+class \mbox{\hyperlink{class_atlas_1_1_make_non_copyable}{Make\+Non\+Copyable}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_memory_allocator}{Memory\+Allocator}}
-\begin{DoxyCompactList}\small\item\em Handles memory allocation and deallocation. This class is also used to help manage the amount of memory used by the engine. This class can also set the memory limit of the engine (beware that this will cause the engine to crash if the limit is exceeded, so use with caution). \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_memory_status}{Memory\+Status}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_mod}{Mod}}
+struct \mbox{\hyperlink{struct_atlas_1_1_memory_block}{Memory\+Block}}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_memory_counter}{Memory\+Counter}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_mod_loader}{Mod\+Loader}}
+struct \mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator}{Memory\+Functions\+Aggregator}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_mod_manager}{Mod\+Manager}}
+class \mbox{\hyperlink{class_atlas_1_1_object_options}{Object\+Options}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_modular_object}{Modular\+Object}}
+class \mbox{\hyperlink{class_atlas_1_1_paced_thread}{Paced\+Thread}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_my_body_activation_listener}{My\+Body\+Activation\+Listener}}
+class \mbox{\hyperlink{class_atlas_1_1_parser}{Parser}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_object_contact_listener}{Object\+Contact\+Listener}}
+class \mbox{\hyperlink{class_atlas_1_1_path}{Path}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_object_holder}{Object\+Holder}}
+class \mbox{\hyperlink{class_atlas_1_1_path_loader_logic_gate}{Path\+Loader\+Logic\+Gate}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_object_layer_pair_filter_impl}{Object\+Layer\+Pair\+Filter\+Impl}}
-\begin{DoxyCompactList}\small\item\em Class that determines if two object layers can collide. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_object_physics_component}{Object\+Physics\+Component}}
+struct \mbox{\hyperlink{struct_atlas_1_1_path_search_result}{Path\+Search\+Result}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_object_vs_broad_phase_layer_filter_impl}{Object\+Vs\+Broad\+Phase\+Layer\+Filter\+Impl}}
-\begin{DoxyCompactList}\small\item\em Class that determines if an object layer can collide with a broadphase layer. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_optional_reference}{Optional\+Reference}}
+class \mbox{\hyperlink{class_atlas_1_1_physical_device}{Physical\+Device}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_physics_engine}{Physics\+Engine}}
-\begin{DoxyCompactList}\small\item\em Handles everything related to \doxylink{namespace_atlas}{Atlas}\textquotesingle{} physics engine. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_plane_object}{Plane\+Object}}
+struct \mbox{\hyperlink{struct_atlas_1_1_physical_device_features_aggregate}{Physical\+Device\+Features\+Aggregate}}
 \item 
-struct \mbox{\hyperlink{struct_atlas_1_1_post_update_event_args}{Post\+Update\+Event\+Args}}
-\begin{DoxyCompactList}\small\item\em Event arguments for the post update event. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_pre_update_event_args}{Pre\+Update\+Event\+Args}}
-\begin{DoxyCompactList}\small\item\em Used by the Pre\+Update event for passing arguments to components to allow developers the ability to polymorph the arguments. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_project_manager}{Project\+Manager}}
+class \mbox{\hyperlink{class_atlas_1_1_pipeline}{Pipeline}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_rectangle}{Rectangle}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_recursive_path_searcher}{Recursive\+Path\+Searcher}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_reference_holder}{Reference\+Holder}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}}
-\begin{DoxyCompactList}\small\item\em Represents a file that has been registered with the \doxylink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_registry}{Registry}}
-\begin{DoxyCompactList}\small\item\em This concept is used to ensure that the type is either a std\+::unordered\+\_\+set or std\+::set. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_render_args}{Render\+Args}}
+class \mbox{\hyperlink{class_atlas_1_1_renderable}{Renderable}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_renderer}{Renderer}}
-\begin{DoxyCompactList}\small\item\em Serves as the renderer for the game. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_render_event_args}{Render\+Event\+Args}}
-\begin{DoxyCompactList}\small\item\em Event arguments for the render event. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_rendering_component}{Rendering\+Component}}
+class \mbox{\hyperlink{class_atlas_1_1_rendering_backend}{Rendering\+Backend}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_render_layer}{Render\+Layer}}
+class \mbox{\hyperlink{class_atlas_1_1_scripted_object}{Scripted\+Object}}
+\begin{DoxyCompactList}\small\item\em An abstract class that provides the virtual functions needed to expose symbols to any potential mods/scripts. This class is supposed to be statically-\/typed, meaning it is supposed to be overriden instead of passing functions to it. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_scripting_symbol_exposer}{Scripting\+Symbol\+Exposer}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_sandboxer}{Sandboxer}}
-\begin{DoxyCompactList}\small\item\em This is what is used to determine if a path is safe or not. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_self_determining_input_action}{Self\+Determining\+Input\+Action}}
+class \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window}{SDLGame\+Window}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_serializable}{Serializable}}
-\begin{DoxyCompactList}\small\item\em This class is used to make an object serializable and deserializable. This class is intended to be inherited by other classes. If you want to make a class serializable, inherit this class and you must override the \doxylink{class_atlas_1_1_serializable_a567102d8313786f3d2af41333fb39d6c}{serialize\+Variables} function. Do {\bfseries{NOT}} touch the \doxylink{class_atlas_1_1_serializable_ab89808083e4325daf8af8723aa203de3}{serialize} function because that is what boost uses to serialize the object. In the \doxylink{class_atlas_1_1_serializable_a567102d8313786f3d2af41333fb39d6c}{serialize\+Variables} function, you should set the values. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_singleton}{Singleton}}
-\begin{DoxyCompactList}\small\item\em A singleton class, it does what singletons do. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_state_machine}{State\+Machine}}
+class \mbox{\hyperlink{class_atlas_1_1_shader}{Shader}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_techstorm_engine}{Techstorm\+Engine}}
+class \mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}}
+\begin{DoxyCompactList}\small\item\em A generic logger that uses the {\bfseries{Spdlog}} library. According to the spdlog documentation, you may call the {\itshape spdlog\+::log()} function to log messages {\bfseries{after}} the logger has been initialized because of how spdlog works. For more information, on how to use spdlog, please refer to their documentation. This class was designed to work in the same way as the multi-\/sink logger example provided in the spdlog documentation. Another important thing to note about this class is that, assuming you are not implementing a custom {\ttfamily PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} callback for Vulkan, this class should be initialized prior to the initialization and usage of \doxylink{namespace_atlas}{Atlas}\textquotesingle{} Vulkan API. Otherwise, you will get errors the second Vulkan starts sending messages to the callback. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_stringified_object}{Stringified\+Object}}
+\begin{DoxyCompactList}\small\item\em An "{}inherit-\/and-\/forget"{} class that implements the IPretty\+Object interface for you. This class uses a data-\/driven approach to get the string representation of the object. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_task_handle}{Task\+Handle}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_terminal_sink}{Terminal\+Sink}}
+class \mbox{\hyperlink{class_atlas_1_1_temporary}{Temporary}}
 \item 
-struct \mbox{\hyperlink{struct_atlas_1_1_texture_args}{Texture\+Args}}
-\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_texture_event_args}{Texture\+Event\+Args}}
-\begin{DoxyCompactList}\small\item\em Arguments for texture events. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_thread_group}{Thread\+Group}}
+struct \mbox{\hyperlink{struct_atlas_1_1_thread_launch_info}{Thread\+Launch\+Info}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}
-\begin{DoxyCompactList}\small\item\em This class wraps a variable (specified by T\+\_\+\+VARIABLE\+\_\+\+TYPE) and makes it thread-\/safe. When \doxylink{class_atlas_1_1_thread_safe_variable_a4007f83735117deb04971ae309f5f68f}{Thread\+Safe\+Variable\+::execute()} is called, it will lock this variable and execute the function that is passed to it. Furthermore, it will also lock when the \doxylink{class_atlas_1_1_thread_safe_variable_a7840da777c194e6f4b0bc78a163179e0}{set()} function, is called. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_transform}{Transform}}
+\begin{DoxyCompactList}\small\item\em This class wraps a variable (specified by T\+\_\+\+VARIABLE\+\_\+\+TYPE) and makes it thread-\/safe. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_timer}{Timer}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_transform_component}{Transform\+Component}}
-\begin{DoxyCompactList}\small\item\em A transform component represents an object\textquotesingle{}s transform. This includes rotation, position, etc. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_update_event_args}{Update\+Event\+Args}}
-\begin{DoxyCompactList}\small\item\em Update event arguments. \end{DoxyCompactList}\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_validity_check_result}{Validity\+Check\+Result}}
+struct \mbox{\hyperlink{struct_atlas_1_1_version}{Version}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_value_not_found_exception}{Value\+Not\+Found\+Exception}}
-\begin{DoxyCompactList}\small\item\em This exception is thrown when an ID is not found. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_vec3}{Vec3}}
-\begin{DoxyCompactList}\small\item\em Represents a 3D vector. It will wrap raylib\textquotesingle{}s Vector3 and Jolt\textquotesingle{}s RVec3 to allow seamless integration. This also wraps raylib\textquotesingle{}s vector math functions. This class contains many functions because it wraps around Raymath\textquotesingle{}s functions and Jolt\textquotesingle{}s functions. Furthermore, there is alot of math that can be done with vectors, so this class tries to wrap as much as possible and make it easier to work with. The reason that this class exists despite raylib\textquotesingle{}s Vector3 and Jolt\textquotesingle{}s RVec3 is because there may be future plans to add different renderers. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_window}{Window}}
+class \mbox{\hyperlink{class_atlas_1_1_vulkan_instance_wrapper}{Vulkan\+Instance\+Wrapper}}
+\begin{DoxyCompactList}\small\item\em Acts as a wrapper for Vk\+Instance and it\textquotesingle{}s debug messenger. Furthermore, this class handles it\textquotesingle{}s own initialization and shutdown. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_vulkan_renderer}{Vulkan\+Renderer}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_window_decorations}{Window\+Decorations}}
-\begin{DoxyCompactList}\small\item\em \doxylink{class_atlas_1_1_window}{Window} decorations are a set of parameters that are used to configure the window. This includes title, width, height, window config, and target FPS. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_x_m_l_file}{XMLFile}}
+class \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Vulkan\+Rendering\+Backend}}
+\begin{DoxyCompactList}\small\item\em A wrapper class for the usage of Vulkan as a rendering backend. This class handles the lifecycle of Vulkan and simplifies the usage of Vulkan to a simple API. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_vulkan_swapchain}{Vulkan\+Swapchain}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_window_description}{Window\+Description}}
+\begin{DoxyCompactList}\small\item\em A struct that contains all the information that a window needs. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_window_hint}{Window\+Hint}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Concepts}
 \begin{DoxyCompactItemize}
 \item 
-concept \mbox{\hyperlink{concept_atlas_1_1_atlas_project}{Atlas\+Project}}
-\begin{DoxyCompactList}\small\item\em Represents an atlas project interface. This concept ensures that the type is a child class of IAtlas\+Engine. \end{DoxyCompactList}\end{DoxyCompactItemize}
+concept \mbox{\hyperlink{concept_atlas_1_1_numerical}{Numerical}}
+\item 
+concept \mbox{\hyperlink{concept_atlas_1_1_thread_type_concept}{Thread\+Type\+Concept}}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-using \mbox{\hyperlink{namespace_atlas_a2f9b80e6cd8cd269ffbede51d81d26b6}{Internal\+Audio\+Device}} = ma\+\_\+device
+using \mbox{\hyperlink{namespace_atlas_a90dfcd6fcf4fd7ab785efeaf6934e38e}{High\+Resolution\+Timepoint}} = std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point
 \item 
-using \mbox{\hyperlink{namespace_atlas_ab3e1b45690b287e486c74fa696caaf10}{Internal\+Audio\+Context}} = ma\+\_\+context
+using \mbox{\hyperlink{namespace_atlas_ac98e9185bf8a8392b28e443b6ee1a278}{Alloc\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(size\+\_\+t \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}})
 \item 
-using \mbox{\hyperlink{namespace_atlas_a354652e760f721fa1494d71644bc8ca8}{Component\+Name}} = std\+::string
+using \mbox{\hyperlink{namespace_atlas_a0810df7523f86fbd70ce4a06398f7674}{Realloc\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}block\+Ptr, size\+\_\+t old\+Size, size\+\_\+t new\+Size)
 \item 
-using \mbox{\hyperlink{namespace_atlas_ab9064d006a69e0a0da7bb9b2dde7c47c}{Padded\+String}} = simdjson\+::padded\+\_\+string
+using \mbox{\hyperlink{namespace_atlas_a72cf222afb41a2a8d147b6360ec0cc8b}{Free\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}block\+Ptr)
 \item 
-using \mbox{\hyperlink{namespace_atlas_ad4eb39ae8b8b6a74c0f7135d6559cf9a}{JSONDocument}} = simdjson\+::ondemand\+::document
+using \mbox{\hyperlink{namespace_atlas_a49ed2279b082b65090203337d2923cfb}{Aligned\+Alloc\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(size\+\_\+t \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}, size\+\_\+t alignment)
 \item 
-using \mbox{\hyperlink{namespace_atlas_a30c03ddc598bf8537d152d570a96efbc}{JSONParser}} = simdjson\+::ondemand\+::parser
+using \mbox{\hyperlink{namespace_atlas_af456e30e8e0a59c371cf0cfa82aab9e7}{Aligned\+Free\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}block\+Ptr)
 \item 
-using \mbox{\hyperlink{namespace_atlas_aa71b3b8bda84ac958038e57ce411cab1}{JSONElement}} = simdjson\+::dom\+::element
+using \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} = spdlog\+::level\+::level\+\_\+enum
 \item 
-using \mbox{\hyperlink{namespace_atlas_a70fa409c8b4e697795350e0cc0bfbbfd}{Default\+Color\+Sink}} = std\+::shared\+\_\+ptr$<$ spdlog\+::sinks\+::stdout\+\_\+color\+\_\+sink\+\_\+mt $>$
+using \mbox{\hyperlink{namespace_atlas_afc221e3097be74d639bed4cca1dafd21}{Color\+Bit}} = uint8\+\_\+t
+\begin{DoxyCompactList}\small\item\em A single color value. Each color channel is a 8-\/bit value. \end{DoxyCompactList}\item 
+using \mbox{\hyperlink{namespace_atlas_a70c92d51cf7a5ffa6b87ef2d2db9506d}{Vulkan\+Debug\+Callback}} = PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT
 \item 
-{\footnotesize template$<$typename T $>$ }\\using \mbox{\hyperlink{namespace_atlas_ae6734b631f26472f14ae20db3ea1bed1}{Engine\+Comp}} = std\+::shared\+\_\+ptr$<$ T $>$
+using \mbox{\hyperlink{namespace_atlas_a52e4cef3841c9e6e2f496d9bcc376d92}{Window\+Size}} = glm\+::vec$<$ 2, uint32\+\_\+t, glm\+::lowp $>$
+\begin{DoxyCompactList}\small\item\em A using alias for a GLM low-\/precision 2D vector that can be used to store the size of a window. \end{DoxyCompactList}\item 
+using \mbox{\hyperlink{namespace_atlas_add46beb7fbf5f73401bc4664f52a3055}{Window\+Rectangle}} = \mbox{\hyperlink{struct_atlas_1_1_rectangle}{Rectangle}}$<$ int $>$
 \item 
-using \mbox{\hyperlink{namespace_atlas_a3d1a305d16c461b76dedabfa8a66d7cc}{Directory\+Files}} = std\+::vector$<$ std\+::string $>$
+using \mbox{\hyperlink{namespace_atlas_a064fdcf1f664dce58e28e64be01c49b3}{SDLEvent}} = \mbox{\hyperlink{imgui__impl__sdl2_8h_a33fcc6aa445cb781bfca881e39e5333e}{SDL\+\_\+\+Event}}
+\begin{DoxyCompactList}\small\item\em A null, non-\/copyable implementation of a game window. It does not do anything as it only provides stubs. Furthermore, this class is also used as the base class for the GLFWGame\+Window and \doxylink{class_atlas_1_1_s_d_l_game_window}{SDLGame\+Window} classes. \end{DoxyCompactList}\item 
+using \mbox{\hyperlink{namespace_atlas_a33c36cc6d06931324201eab6aae964a0}{File\+Stream}} = std\+::fstream
 \item 
-using \mbox{\hyperlink{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}{File\+Load\+Func\+Type}} = std\+::function$<$ std\+::any(std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta}} $>$)$>$
-\item 
-using \mbox{\hyperlink{namespace_atlas_a23da551e07626be8694155b8721b265f}{Game\+Settings}} = \mbox{\hyperlink{namespace_atlas_a23da551e07626be8694155b8721b265f}{Game\+Settings}} \{ const int c\+Max\+Threads=-\/1
-\begin{DoxyCompactList}\small\item\em Serves as the settings for the game. Please note that c\+Max\+Threads must be at least 2. If you want \doxylink{namespace_atlas}{Atlas} to decide, set c\+Max\+Threads to -\/1. \end{DoxyCompactList}\item 
-using \mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{Input\+Action\+Callback\+ID}} = int
-\item 
-using \mbox{\hyperlink{namespace_atlas_a2060a2f75d4506be764e1a2e824a3b37}{Depth}} = int
+using \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Path\+Location}} = std\+::filesystem\+::path
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum class \mbox{\hyperlink{namespace_atlas_a20ce4c27b35d28e3da624055478ee816}{EAudio\+Device\+Platform}} \+: int8\+\_\+t \{ \mbox{\hyperlink{namespace_atlas_a20ce4c27b35d28e3da624055478ee816ade3284c746092ac1b48ed4110f596b7b}{UNKNOWN\+\_\+\+DEVICE\+\_\+\+PLATFORM}} = -\/1
+enum class \mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8}{EResult\+Code}} \+: uint32\+\_\+t \{ \mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8ad7c8c85bf79bbe1b7188497c32c3b0ca}{Failed}} = 0
+, \mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8a26b63f278101527e06a5547719568bb5}{Okay}}
  \}
 \item 
-enum class \mbox{\hyperlink{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938}{EAudio\+Device\+Type}} \+: int8\+\_\+t \{ \mbox{\hyperlink{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938a0fb00fa57f4752b09c33de0346707734}{UNKNOWN\+\_\+\+DEVICE\+\_\+\+TYPE}} = -\/1
-, \mbox{\hyperlink{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938aca177e787bdf7be1b5ad29086075cf01}{PLAYBACK\+\_\+\+DEVICE\+\_\+\+TYPE}} = 1
-, \mbox{\hyperlink{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938a46c7b16b9518c387a8d23044258dc0d4}{DUPLEX\+\_\+\+DEVICE\+\_\+\+TYPE}} = 3
-, \mbox{\hyperlink{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938a74dd79befdec7590c4ea8055f3b5b67d}{LOOPBACK\+\_\+\+DEVICE\+\_\+\+TYPE}} = 4
- \}
-\begin{DoxyCompactList}\small\item\em This enum represents the different types of audio devices. It is also used to match the values of the ma\+\_\+device\+\_\+type enum, which is why PLAYBACK\+\_\+\+DEVICE\+\_\+\+TYPE is set to 1. This enum also inherits from int8\+\_\+t because there are only 4 possible values. \end{DoxyCompactList}\item 
-enum class \mbox{\hyperlink{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427}{ELogging\+Mode}} \+: uint8\+\_\+t \{ \newline
-\mbox{\hyperlink{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a696b031073e74bf2cb98e5ef201d4aa3}{UNKNOWN}} = 0
-, \mbox{\hyperlink{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a5c08a80a75a74a5f2ceea4402455801b}{TERMINAL\+\_\+\+ONLY}}
-, \mbox{\hyperlink{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427aaf87e944ac35c8c1296b3b366029c5b6}{CONSOLE\+\_\+\+ONLY}}
-, \mbox{\hyperlink{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427ae01fd8e0bc4c8033388d27b1fffc2e03}{FILE\+\_\+\+ONLY}}
+enum class \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}{EGame\+Thread\+Scheduler\+Status}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da88183b946cc5f0e8c96b2e66e1c74a7e}{Unknown}} = 0
+, \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da32b169f72b293ef80d35435e9894f8e2}{Initializing}}
+, \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da5bda814c4aedb126839228f1a3d92f09}{Running}}
+, \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516dac23e2b09ebe6bf4cb5e2a9abe85c0be2}{Stopped}}
 , \newline
-\mbox{\hyperlink{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a505c672b688c3c29043a51d52a6e6b4b}{FILE\+\_\+\+AND\+\_\+\+TERMINAL}}
-, \mbox{\hyperlink{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a36a219478596d8905895f8d2d380b7ef}{FILE\+\_\+\+AND\+\_\+\+CONSOLE}}
-, \mbox{\hyperlink{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a6c8bf8333e55fb880c317d03378cf684}{CONSOLE\+\_\+\+AND\+\_\+\+TERMINAL}}
-, \mbox{\hyperlink{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a5fb1f955b45e38e31789286a1790398d}{ALL}}
+\mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da075d9c9ae8c8f1c79c1a1965cd8c5a42}{Shutting\+Down}}
  \}
-\item 
+\begin{DoxyCompactList}\small\item\em The state of the scheduler. \end{DoxyCompactList}\item 
+enum class \mbox{\hyperlink{namespace_atlas_a2a1fc9c63985c88421113e17231695aa}{EDebug\+Event\+Type}} \+: uint8\+\_\+t \{ \newline
+\mbox{\hyperlink{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa88183b946cc5f0e8c96b2e66e1c74a7e}{Unknown}} = -\/1
+, \mbox{\hyperlink{namespace_atlas_a2a1fc9c63985c88421113e17231695aaadd4ec0ac4e58f7c32a01244ae91150b1}{Trace}}
+, \mbox{\hyperlink{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa4059b0251f66a18cb56f544728796875}{Info}}
+, \mbox{\hyperlink{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa0eaadb4fcb48a0a0ed7bc9868be9fbaa}{Warning}}
+, \newline
+\mbox{\hyperlink{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa902b0d55fddef6f8d651fe1035b7d4bd}{Error}}
+ \}
+\begin{DoxyCompactList}\small\item\em A list of debug event types in an order of increasing severity. \end{DoxyCompactList}\item 
 enum class \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}} \+: int \{ \newline
-\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a2d3e4144aa384b18849ab9a8abad74d6}{TRACE}} = 0
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079adc30ec20708ef7b0f641ef78b7880a15}{DEBUG}}
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a551b723eafd6a31d444fcb2f5920fbd3}{INFO}}
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a059e9861e0400dfbe05c98a841f3f96b}{WARNING}}
+\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{trace}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+TRACE
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{debug}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+DEBUG
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+INFO
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{warn}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+WARN
 , \newline
-\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079abb1ca97ec761fc37101737ba0aa2e7c5}{ERROR}}
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a19da7170bea36556dde582519795f3fc}{FATAL}}
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079ab50339a10e1de285ac99d4c3990b8693}{NONE}}
- \}
-\begin{DoxyCompactList}\small\item\em What level of logging to use. This will affect the output color, severity, etc. \end{DoxyCompactList}\item 
-enum class \mbox{\hyperlink{namespace_atlas_a8db949e6d304e138149d0c697ed389aa}{EReturn\+Code}} \+: int \{ \newline
-\mbox{\hyperlink{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa8a95d44f1a581d3abec3a3a1d6f92fe1}{SUCCESSFUL\+\_\+\+OPERATION}}
-, \mbox{\hyperlink{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa580f5f107dba3aaffb9cd457c554977a}{SUCCESSFUL\+\_\+\+OPERATION\+\_\+\+WITH\+\_\+\+WARNING}}
-, \mbox{\hyperlink{namespace_atlas_a8db949e6d304e138149d0c697ed389aaaa39792c4fe2be6d4b965945c0e47de5e}{SUCCESSFUL\+\_\+\+OPERATION\+\_\+\+WITH\+\_\+\+CAUGHT\+\_\+\+EXCEPTION}}
-, \mbox{\hyperlink{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa0a306e577f7923ac78d86a60bee66966}{ERROR\+\_\+\+UNKNOWN}} = -\/1
-, \newline
-\mbox{\hyperlink{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa4ac1b581e08caf741cabcce7dec6e4a4}{ERROR\+\_\+\+INVALID\+\_\+\+ARGS}} = -\/2
-, \mbox{\hyperlink{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa60484987e8a34a4a0c1ffcf7571f492a}{ERROR\+\_\+\+INVALID\+\_\+\+VALUE}} = -\/3
-, \mbox{\hyperlink{namespace_atlas_a8db949e6d304e138149d0c697ed389aaaa46683e297f0b59b2275eafd1c61293b}{ERROR\+\_\+\+FAILED\+\_\+\+TO\+\_\+\+INITIALIZE\+\_\+\+SYSTEM}} = -\/4
-, \mbox{\hyperlink{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa805129dcffec94474c766ecc531db6d0}{ERROR\+\_\+\+NULLPTR\+\_\+\+INITIALIZATION\+\_\+\+FAILURE}} = -\/5
+\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+ERROR
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{critical}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+CRITICAL
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808}{off}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+OFF
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75}{n\+Levels}}
  \}
 \item 
-enum class \mbox{\hyperlink{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1a}{EInput\+Thread}} \{ \mbox{\hyperlink{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1aa33801e0fa971429602386bbb94bee0a0}{INPUT\+\_\+\+THREAD\+\_\+\+RENDER}}
-, \mbox{\hyperlink{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1aa92029241da4f43b77406c39e523727b0}{INPUT\+\_\+\+THREAD\+\_\+\+UPDATE}}
-, \mbox{\hyperlink{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1aa7a20bae3252add57696152caf4d85d48}{INPUT\+\_\+\+THREAD\+\_\+\+WORKER}}
+enum \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{ESpdlog\+Init\+List\+Index}} \{ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba}{Console\+Logger}} = 0
+, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0}{File\+Logger}} = 1
+, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}{Logger}} = 2
+, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}{Max}} = Logger
  \}
 \item 
-enum class \mbox{\hyperlink{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88e}{EInput\+Trigger}} \{ \newline
-\mbox{\hyperlink{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88ea4d4d492eccd5ffa943f9c7278c171995}{INPUT\+\_\+\+TRIGGER\+\_\+\+PRESSED}}
-, \mbox{\hyperlink{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88ea6ef288157def0b4b0a97c80e805156c7}{INPUT\+\_\+\+TRIGGER\+\_\+\+RELEASED}}
-, \mbox{\hyperlink{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88ea1564a8c76f7b4fc7cd4956fedb29723b}{INPUT\+\_\+\+TRIGGER\+\_\+\+DOWN}}
-, \mbox{\hyperlink{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88eaf80f7288e88dab43dc40c1292831e1ae}{INPUT\+\_\+\+TRIGGER\+\_\+\+UP}}
+enum class \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{EVulkan\+Rendering\+Option}} \+: size\+\_\+t \{ \newline
+\mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa6c67501995e6d5d3144128067f1f4282}{Version\+\_\+\+Major}} = 0
+, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aada7848cca791c2d919d1e9892e25e272}{Version\+\_\+\+Minor}}
+, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa02982e4706ed9e943f19ecc18687442e}{Version\+\_\+\+Patch}}
+, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa1794572ee5d7553087b60f9a30f06fcb}{Enable\+\_\+\+Validation\+\_\+\+Layers}}
 , \newline
-\mbox{\hyperlink{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88eaecbcb28c1bd554fb19fe98a5c74aaf23}{INPUT\+\_\+\+TRIGGER\+\_\+\+REPEAT}}
+\mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa64f5a7769033d591e01f597ded975ae}{Use\+\_\+\+Dynamic\+\_\+\+Rendering}}
+, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa888450d033ce9f4213fd5072d7bde94f}{Use\+\_\+\+Default\+\_\+\+Instance\+\_\+\+Builder}}
+, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa0795e87406b10e332cda7ad99e8d3a3}{Enable\+\_\+\+Syncronization}}
+, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aad2e0fe07d9b303172b67134dec8c0380}{Enable\+\_\+\+Buffer\+\_\+\+Device\+\_\+\+Address}}
+, \newline
+\mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa9e397d933c540afd737155e3c80b6eb7}{Enable\+\_\+\+Descriptor\+\_\+\+Indexing}}
+, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaf54db95bd9f26035b7182f0886801cf2}{Swapchain\+\_\+\+Format}}
+, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa28a319434f29a2d9545758cd7547516e}{Fence\+\_\+\+Timeout}}
  \}
-\begin{DoxyCompactList}\small\item\em What sort of action should trigger the Input\+Action? \end{DoxyCompactList}\item 
-enum class \mbox{\hyperlink{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eae}{EInput\+Type}} \{ \mbox{\hyperlink{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eaeadb96d0096c7139c5ee3fd155a357fb77}{INPUT\+\_\+\+KEYBOARD}}
-, \mbox{\hyperlink{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eaeab569600ed95905ffd61f59ba74ca35ec}{INPUT\+\_\+\+MOUSE}}
-, \mbox{\hyperlink{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eaeae7bb3cb1d97b054348b144a429fa1b6e}{INPUT\+\_\+\+CONTROLLER}}
+\item 
+enum class \mbox{\hyperlink{namespace_atlas_ae87546dceedbbfc984b86121a7154b5a}{ELookup\+Type}} \{ \mbox{\hyperlink{namespace_atlas_ae87546dceedbbfc984b86121a7154b5aa63e4e92bb7d207ca577b11c07f827279}{Extension}}
+, \mbox{\hyperlink{namespace_atlas_ae87546dceedbbfc984b86121a7154b5aa1351017ac6423911223bc19a8cb7c653}{Filename}}
+, \mbox{\hyperlink{namespace_atlas_ae87546dceedbbfc984b86121a7154b5aa5aa4e1715e32bca15d81bdbccb759ff5}{Full\+Path}}
  \}
-\begin{DoxyCompactList}\small\item\em The enumeration for the different input device categories. This is here because the input system is going to be expanded in the future and it will be useful to maintaining developer sanity. \end{DoxyCompactList}\item 
-enum class \mbox{\hyperlink{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3}{ERender\+Layer\+Draw\+Time}} \+: uint8\+\_\+t \{ \mbox{\hyperlink{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a696b031073e74bf2cb98e5ef201d4aa3}{UNKNOWN}} = 0
-, \mbox{\hyperlink{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a3f92f542bd9ec48f912b9350e22736ac}{TEXTURE}} = 1
-, \mbox{\hyperlink{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3ac71c45515d9a92759e3cc0046bfdb059}{RENDER}} = 2
+\item 
+enum class \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025a}{EPath\+Type}} \+: int8\+\_\+t \{ \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025aa88183b946cc5f0e8c96b2e66e1c74a7e}{Unknown}} = -\/1
+, \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025aa0b27918290ff5323bea1e3b78a9cf04e}{File}}
+, \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025aae73cda510e8bb947f7e61089e5581494}{Directory}}
  \}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_adf4811a408b9ca01aec8b9a587b9a751}{Get\+Global\+Value}} (const std\+::string \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}})
-\begin{DoxyCompactList}\small\item\em Gets a global variable and casts it to the specified type. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_aee18cc5dcd651a9551fb2302e723de8c}{Set\+Global\+Value}} (const std\+::string \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}, std\+::any \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})
+{\footnotesize template$<$typename T $>$ }\\T \mbox{\hyperlink{namespace_atlas_ad505d4d3e017334c04787d7820f06ce7}{Align\+Up}} (T \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}}, uint64\+\_\+t alignment)
 \item 
-\mbox{\hyperlink{class_atlas_1_1_config_file_registry}{Config\+File\+Registry}} \& \mbox{\hyperlink{namespace_atlas_a19e6b5f5dd610b5bc867d30c3bed251d}{Get\+Config\+File\+Registry}} ()
-\begin{DoxyCompactList}\small\item\em Gets the config file registry. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_ab59cd60859cde46712ee41f24a093547}{Initialize\+Config\+Registry}} ()
-\begin{DoxyCompactList}\small\item\em Initializes the config registry. \end{DoxyCompactList}\item 
-libconfig\+::\+Setting \& \mbox{\hyperlink{namespace_atlas_aea78e3773f79ad0d706edfea919cfc63}{Lookup\+Config}} (const std\+::string \&file\+Name, const std\+::string \&lookup\+Target)
-\begin{DoxyCompactList}\small\item\em Looks up the config. \end{DoxyCompactList}\item 
-libconfig\+::\+Setting \& \mbox{\hyperlink{namespace_atlas_aa868baa972e322c4a9d6870ed1a76824}{Lookup\+Config}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}} $>$ file, const std\+::string \&lookup\+Target)
+{\footnotesize template$<$Numerical T\+\_\+\+NUMERICAL\+\_\+\+TYPE$>$ }\\T\+\_\+\+NUMERICAL\+\_\+\+TYPE \mbox{\hyperlink{namespace_atlas_a6f12a004dc20a0bd231f74ac3eb803a8}{Normalize}} (T\+\_\+\+NUMERICAL\+\_\+\+TYPE \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}}, T\+\_\+\+NUMERICAL\+\_\+\+TYPE min, T\+\_\+\+NUMERICAL\+\_\+\+TYPE max)
+\begin{DoxyCompactList}\small\item\em Normalizes a given value to be between a min and max value. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a05a2f5e774c38d9f67fbba5b96a79926}{Register\+Memory\+Functions}} (const \mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator}{Memory\+Functions\+Aggregator}} \&memory\+Functions\+Aggregator)
 \item 
-const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespace_atlas_a85dcb3d0c186dbbe3ca7f78845c60a21}{Get\+Config\+String}} (std\+::string file\+Name, std\+::string lookup\+Target)
-\begin{DoxyCompactList}\small\item\em Gets the config string. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a658a106e1df3b9b79fc59eaa38ee349e}{t}} ()
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a57b2793df7151657e8a1373ad49555c7}{Register\+Default\+Memory\+Functions}} ()
 \item 
-std\+::string \mbox{\hyperlink{namespace_atlas_a4a3774487efaf3fd274897ab22f238be}{Create\+Log\+File\+Name}} ()
+Vk\+Command\+Pool\+Create\+Info \mbox{\hyperlink{namespace_atlas_a0e2419043c2bf72f75e532ed563ff5af}{Create\+Command\+Pool\+Create\+Info}} (uint32\+\_\+t queue\+Family\+Index, Vk\+Command\+Pool\+Create\+Flags flags=0)
 \item 
-spdlog\+::level\+::level\+\_\+enum \mbox{\hyperlink{namespace_atlas_a5b792faf29085a5da63f88014b79aac5}{Get\+Spdlog\+Level}} (\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}} \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}})
+Vk\+Command\+Buffer\+Allocate\+Info \mbox{\hyperlink{namespace_atlas_adfa68c6d6cbe8c3db73e75525e66ef4a}{Create\+Command\+Buffer\+Allocate\+Info}} (Vk\+Command\+Pool pool, uint32\+\_\+t \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}}=1)
 \item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}{Log}} (std\+::string message, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}} \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}=\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079adc30ec20708ef7b0f641ef78b7880a15}{ELog\+Level\+::\+DEBUG}}, const std\+::source\+\_\+location \&location=std\+::source\+\_\+location\+::current())
+Vk\+Fence\+Create\+Info \mbox{\hyperlink{namespace_atlas_a2eb75a279d9d94185e007305c39ae665}{Create\+Fence\+Create\+Info}} (Vk\+Fence\+Create\+Flags flags=0)
 \item 
-bool \mbox{\hyperlink{namespace_atlas_a254f5a6dc4d6b4838489a9afd1c31709}{Is\+Path\+Sandboxed}} (std\+::string const \&path)
-\begin{DoxyCompactList}\small\item\em Checks if a path is within the sandbox by checking \mbox{[}path\mbox{]} against the current. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{namespace_atlas_af4aee03bf5c452a2b71ee0a1107104e0}{File\+System\+Is\+Properly\+Formatted}} (const char \texorpdfstring{$\ast$}{*}root\+Path, const char \texorpdfstring{$\ast$}{*}directory\+Map\+Path)
-\begin{DoxyCompactList}\small\item\em Checks if the file system is properly formatted. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_file_system_registry}{File\+System\+Registry}} \& \mbox{\hyperlink{namespace_atlas_a2cb0cf87e4174aa22214eb99c3b3e9cb}{Get\+File\+System\+Registry}} ()
-\begin{DoxyCompactList}\small\item\em Gets the file system registry. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_afa957c3a57e0cd460b645e62eb077137}{Initialize\+File\+Registry}} (const char \texorpdfstring{$\ast$}{*}root\+Path)
-\begin{DoxyCompactList}\small\item\em Initializes the file registry. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a5e7cd4a7e5ef777906b0bec063a11d8e}{Add\+File\+Registry\+Load\+Function}} (std\+::string extension, \mbox{\hyperlink{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}{File\+Load\+Func\+Type}} load\+Func)
-\begin{DoxyCompactList}\small\item\em Adds an extension load function to the file registry. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a29a6343014b963b902d0e0afb838dfdd}{Add\+File\+Registry\+Load\+On\+Register\+Extension}} (std\+::string const \&extension)
-\begin{DoxyCompactList}\small\item\em Flags an extension as one that should be loaded once it is registered. This only matters and has effects before the file registry is initialized. \end{DoxyCompactList}\item 
-std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta}} $>$ \mbox{\hyperlink{namespace_atlas_adfc00f339f3667f86dfa821fb6a2dd81}{Get\+File\+Meta}} (std\+::string key)
-\begin{DoxyCompactList}\small\item\em Gets the file meta. \end{DoxyCompactList}\item 
-std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}} $>$ \mbox{\hyperlink{namespace_atlas_a73f62e52350edd7a0496cba5d674774d}{Get\+File}} (std\+::string key, bool load\+If\+Not\+Loaded=true)
-\begin{DoxyCompactList}\small\item\em Gets the file. \end{DoxyCompactList}\item 
-std\+::string \mbox{\hyperlink{namespace_atlas_a26ee3194395538b80492eed99ef83618}{Get\+File\+Path}} (std\+::string key)
+Vk\+Semaphore\+Create\+Info \mbox{\hyperlink{namespace_atlas_aab351af6f4ce3b39a49ba2bac5777077}{Create\+Semaphore\+Create\+Info}} (Vk\+Semaphore\+Create\+Flags flags=0)
 \item 
-static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a2fb14e6c76bf6e577bdd65ffff7d7519}{Default\+Physics\+Trace}} (const char \texorpdfstring{$\ast$}{*}in\+FMT,...)
-\begin{DoxyCompactList}\small\item\em This is the already provided trace function for the physics engine. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+Engine}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{namespace_atlas_abf9672162529f95ec75b909111e6abba}{Get\+Atlas\+Engine}} ()
+Vk\+Semaphore\+Submit\+Info \mbox{\hyperlink{namespace_atlas_a06289b29f23886f16f108939d8158e9b}{Submit\+Semaphore\+Info}} (Vk\+Pipeline\+Stage\+Flags2 stage\+Mask, Vk\+Semaphore semaphore)
 \item 
-{\footnotesize template$<$typename T $>$ }\\T \& \mbox{\hyperlink{namespace_atlas_ae4147e1ed53261fedf1809ea1fd913ed}{Get\+Global}} (const std\+::string \&key)
+Vk\+Command\+Buffer\+Submit\+Info \mbox{\hyperlink{namespace_atlas_a84f02e043673e0eaaee2ab1d0452f4c0}{Submit\+Command\+Buffer\+Info}} (Vk\+Command\+Buffer cmd)
 \item 
-{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a51fdcf67897c4f8a2845255331167e28}{Set\+Global}} (const std\+::string \&key, const T \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})
+Vk\+Submit\+Info2 \mbox{\hyperlink{namespace_atlas_acc1dff74be875e4f9bd925cc13587d88}{Submit\+Info}} (Vk\+Command\+Buffer\+Submit\+Info \texorpdfstring{$\ast$}{*}cmd, Vk\+Semaphore\+Submit\+Info \texorpdfstring{$\ast$}{*}signal\+Semaphore\+Info, Vk\+Semaphore\+Submit\+Info \texorpdfstring{$\ast$}{*}wait\+Semaphore\+Info)
 \item 
-std\+::string \mbox{\hyperlink{namespace_atlas_a5c20927104cfd9d9b0a6d92b3d55fd65}{Get\+Date}} ()
+Vk\+Command\+Buffer\+Begin\+Info \mbox{\hyperlink{namespace_atlas_a4931baa2d3c987ef3cb127667dc442d8}{Create\+Command\+Buffer\+Begin\+Info}} (Vk\+Command\+Buffer\+Usage\+Flags flags)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3}{Transition\+Image}} (Vk\+Command\+Buffer cmd, Vk\+Image image, Vk\+Image\+Layout current\+Layout, Vk\+Image\+Layout new\+Layout)
+\item 
+Vk\+Image\+Subresource\+Range \mbox{\hyperlink{namespace_atlas_a87409471205b4bd1d6441b8ac33cea03}{Create\+Image\+Subresource\+Range}} (Vk\+Image\+Aspect\+Flags aspect\+Mask)
+\item 
+Vk\+Image\+Create\+Info \mbox{\hyperlink{namespace_atlas_aafca0d417a35bba15f288564c0b3032a}{Create\+Image\+Create\+Info}} (Vk\+Format \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e3b09934060e9d373139c3557730d37}{format}}, Vk\+Image\+Usage\+Flags usage\+Flags, Vk\+Extent3D extent)
+\item 
+Vk\+Image\+View\+Create\+Info \mbox{\hyperlink{namespace_atlas_a3a99392fc30f77bfa7f874d50622ae7e}{Create\+Image\+View\+Create\+Info}} (Vk\+Format \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e3b09934060e9d373139c3557730d37}{format}}, Vk\+Image image, Vk\+Image\+Aspect\+Flags aspect\+Flags)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a602acac644c10f3cf80105af54897150}{Copy\+Image\+To\+Image}} (Vk\+Command\+Buffer cmd, Vk\+Image source, Vk\+Image destination, Vk\+Extent2D src\+Size, Vk\+Extent2D dst\+Size)
+\item 
+bool \mbox{\hyperlink{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f}{Load\+Shader\+Module}} (const char \texorpdfstring{$\ast$}{*}file\+Path, Vk\+Device device, Vk\+Shader\+Module \texorpdfstring{$\ast$}{*}out\+Shader\+Module)
+\item 
+\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Vulkan\+Rendering\+Backend}} \& \mbox{\hyperlink{namespace_atlas_a041e9829fb1316716a724487d8d12b72}{get\+Loaded\+Rendering\+Backed}} ()
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_acdcca076db7097e823f49edf61e82522}{set\+Loaded\+Rendering\+Backend}} (\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Vulkan\+Rendering\+Backend}} \texorpdfstring{$\ast$}{*}backend)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a99f635979073f78d17b53016253bd978}{reset\+Loaded\+Rendering\+Backend}} ()
+\item 
+\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{namespace_atlas_a43d5dd37e72abb3a4d9e3b13f07c845d}{Translate\+Vulkan\+Log\+Level}} (Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT message\+Severity)
+\begin{DoxyCompactList}\small\item\em Translates a vulkan debug log level to one that \doxylink{namespace_atlas}{Atlas} can use. For the most part, the Vulkan debug log levels are the same as the \doxylink{namespace_atlas}{Atlas} ones, with {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+INFO\+\_\+\+BIT\+\_\+\+EXT}, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+WARNING\+\_\+\+BIT\+\_\+\+EXT}, and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+ERROR\+\_\+\+BIT\+\_\+\+EXT} being the same as {\itshape Log\+Level\+::info}, {\itshape Log\+Level\+::warn}, and {\itshape Log\+Level\+::err} in that order. However, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+VERBOSE\+\_\+\+BIT\+\_\+\+EXT} and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM\+\_\+\+EXT} are translated to {\itshape Log\+Level\+::trace} and {\itshape Log\+Level\+::critical}, respectively. The default is {\itshape Log\+Level\+::info}. \end{DoxyCompactList}\item 
+Vk\+Bool32 \mbox{\hyperlink{namespace_atlas_afaaad2137b7ca90a17d022d41cb33632}{Default\+Vulkan\+Debug\+Callback}} (Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT message\+Severity, Vk\+Debug\+Utils\+Message\+Type\+Flags\+EXT message\+Type, const Vk\+Debug\+Utils\+Messenger\+Callback\+Data\+EXT \texorpdfstring{$\ast$}{*}p\+Callback\+Data, \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}p\+User\+Data)
+\begin{DoxyCompactList}\small\item\em The default Vulkan debug callback that \doxylink{namespace_atlas}{Atlas} uses if no custom debug callback is provided by the user in \doxylink{class_atlas_1_1_vulkan_instance_wrapper}{Vulkan\+Instance\+Wrapper} before it is initialized. According to the Khronos specification on the {\itshape PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} object, this function should always return a value of {\itshape VK\+\_\+\+FALSE}, which is what this function does. See the Khronos specification for more information (this is in the see also section of the documentation). The message is logged via the usage of {\itshape spdlog\+::log()}. However, this means that some logger (more specifically a {\itshape Spdlog} logger) must have been initialized before this function is called or it will crash. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{namespace_atlas_a6eaa0d5e833c8de1e188d35c72be8743}{Get\+Window\+Config\+Flag}} (std\+::string const \&flag\+Name)
+\item 
+bool \mbox{\hyperlink{namespace_atlas_ace931dde37d1a3b3f4919d9f5565a44e}{Path\+Exists}} (\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Path\+Location}} const \&c\+Path)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespace_atlas_ac98e9185bf8a8392b28e443b6ee1a278}{Alloc\+Func}} \mbox{\hyperlink{namespace_atlas_a947beff0f867fc02816f89ee71ed8b3a}{Alloc}} = nullptr
+\item 
+\mbox{\hyperlink{namespace_atlas_a0810df7523f86fbd70ce4a06398f7674}{Realloc\+Func}} \mbox{\hyperlink{namespace_atlas_a84991fffe2488f755c2d2f38c2bf3b27}{Realloc}} = nullptr
+\item 
+\mbox{\hyperlink{namespace_atlas_a72cf222afb41a2a8d147b6360ec0cc8b}{Free\+Func}} \mbox{\hyperlink{namespace_atlas_a3cac8311b7a548ec71ec511bc8b38f99}{Free}} = nullptr
+\item 
+\mbox{\hyperlink{namespace_atlas_a49ed2279b082b65090203337d2923cfb}{Aligned\+Alloc\+Func}} \mbox{\hyperlink{namespace_atlas_a6c1c979baaf72c3c3e09d773abade963}{Alloc\+Aligned}} = nullptr
+\item 
+\mbox{\hyperlink{namespace_atlas_af456e30e8e0a59c371cf0cfa82aab9e7}{Aligned\+Free\+Func}} \mbox{\hyperlink{namespace_atlas_afc0aecdfa4dd521ec30bc1434959f1d6}{Free\+Aligned}} = nullptr
+\item 
+constexpr unsigned int \mbox{\hyperlink{namespace_atlas_a314364d52a78f11273971f50db3960e3}{FRAME\+\_\+\+OVERLAP}} = 2
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Typedef Documentation}
-\Hypertarget{namespace_atlas_a354652e760f721fa1494d71644bc8ca8}\label{namespace_atlas_a354652e760f721fa1494d71644bc8ca8} 
-\index{Atlas@{Atlas}!ComponentName@{ComponentName}}
-\index{ComponentName@{ComponentName}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{ComponentName}{ComponentName}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a354652e760f721fa1494d71644bc8ca8}{Atlas\+::\+Component\+Name}} = typedef std\+::string}
+\Hypertarget{namespace_atlas_a49ed2279b082b65090203337d2923cfb}\label{namespace_atlas_a49ed2279b082b65090203337d2923cfb} 
+\index{Atlas@{Atlas}!AlignedAllocFunc@{AlignedAllocFunc}}
+\index{AlignedAllocFunc@{AlignedAllocFunc}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{AlignedAllocFunc}{AlignedAllocFunc}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a49ed2279b082b65090203337d2923cfb}{Atlas\+::\+Aligned\+Alloc\+Func}} = typedef \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}\texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(size\+\_\+t \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}, size\+\_\+t alignment)}
 
 
 
-Definition at line \mbox{\hyperlink{_component_8h_source_l00017}{17}} of file \mbox{\hyperlink{_component_8h_source}{Component.\+h}}.
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00074}{74}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
 
-\Hypertarget{namespace_atlas_a70fa409c8b4e697795350e0cc0bfbbfd}\label{namespace_atlas_a70fa409c8b4e697795350e0cc0bfbbfd} 
-\index{Atlas@{Atlas}!DefaultColorSink@{DefaultColorSink}}
-\index{DefaultColorSink@{DefaultColorSink}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{DefaultColorSink}{DefaultColorSink}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a70fa409c8b4e697795350e0cc0bfbbfd}{Atlas\+::\+Default\+Color\+Sink}} = typedef std\+::shared\+\_\+ptr$<$spdlog\+::sinks\+::stdout\+\_\+color\+\_\+sink\+\_\+mt$>$}
-
-
-
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00042}{42}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
-
-\Hypertarget{namespace_atlas_a2060a2f75d4506be764e1a2e824a3b37}\label{namespace_atlas_a2060a2f75d4506be764e1a2e824a3b37} 
-\index{Atlas@{Atlas}!Depth@{Depth}}
-\index{Depth@{Depth}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{Depth}{Depth}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a2060a2f75d4506be764e1a2e824a3b37}{Atlas\+::\+Depth}} = typedef int}
+\Hypertarget{namespace_atlas_af456e30e8e0a59c371cf0cfa82aab9e7}\label{namespace_atlas_af456e30e8e0a59c371cf0cfa82aab9e7} 
+\index{Atlas@{Atlas}!AlignedFreeFunc@{AlignedFreeFunc}}
+\index{AlignedFreeFunc@{AlignedFreeFunc}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{AlignedFreeFunc}{AlignedFreeFunc}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_af456e30e8e0a59c371cf0cfa82aab9e7}{Atlas\+::\+Aligned\+Free\+Func}} = typedef \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}\texorpdfstring{$\ast$}{*} block\+Ptr)}
 
 
 
-Definition at line \mbox{\hyperlink{_render_layer_8h_source_l00007}{7}} of file \mbox{\hyperlink{_render_layer_8h_source}{Render\+Layer.\+h}}.
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00075}{75}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
 
-\Hypertarget{namespace_atlas_a3d1a305d16c461b76dedabfa8a66d7cc}\label{namespace_atlas_a3d1a305d16c461b76dedabfa8a66d7cc} 
-\index{Atlas@{Atlas}!DirectoryFiles@{DirectoryFiles}}
-\index{DirectoryFiles@{DirectoryFiles}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{DirectoryFiles}{DirectoryFiles}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a3d1a305d16c461b76dedabfa8a66d7cc}{Atlas\+::\+Directory\+Files}} = typedef std\+::vector$<$std\+::string$>$}
-
-
-
-Definition at line \mbox{\hyperlink{_file_system_8h_source_l00016}{16}} of file \mbox{\hyperlink{_file_system_8h_source}{File\+System.\+h}}.
-
-\Hypertarget{namespace_atlas_ae6734b631f26472f14ae20db3ea1bed1}\label{namespace_atlas_ae6734b631f26472f14ae20db3ea1bed1} 
-\index{Atlas@{Atlas}!EngineComp@{EngineComp}}
-\index{EngineComp@{EngineComp}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{EngineComp}{EngineComp}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-using \mbox{\hyperlink{namespace_atlas_ae6734b631f26472f14ae20db3ea1bed1}{Atlas\+::\+Engine\+Comp}} = typedef std\+::shared\+\_\+ptr$<$T$>$}
+\Hypertarget{namespace_atlas_ac98e9185bf8a8392b28e443b6ee1a278}\label{namespace_atlas_ac98e9185bf8a8392b28e443b6ee1a278} 
+\index{Atlas@{Atlas}!AllocFunc@{AllocFunc}}
+\index{AllocFunc@{AllocFunc}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{AllocFunc}{AllocFunc}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_ac98e9185bf8a8392b28e443b6ee1a278}{Atlas\+::\+Alloc\+Func}} = typedef \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}\texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(size\+\_\+t \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}})}
 
 
 
-Definition at line \mbox{\hyperlink{engine_8h_source_l00021}{21}} of file \mbox{\hyperlink{engine_8h_source}{engine.\+h}}.
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00070}{70}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
 
-\Hypertarget{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}\label{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b} 
-\index{Atlas@{Atlas}!FileLoadFuncType@{FileLoadFuncType}}
-\index{FileLoadFuncType@{FileLoadFuncType}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{FileLoadFuncType}{FileLoadFuncType}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}{Atlas\+::\+File\+Load\+Func\+Type}} = typedef std\+::function$<$std\+::any(std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{class_atlas_1_1_file_meta}{File\+Meta}}$>$)$>$}
-
-
-
-Definition at line \mbox{\hyperlink{_file_system_registry_8h_source_l00026}{26}} of file \mbox{\hyperlink{_file_system_registry_8h_source}{File\+System\+Registry.\+h}}.
-
-\Hypertarget{namespace_atlas_a23da551e07626be8694155b8721b265f}\label{namespace_atlas_a23da551e07626be8694155b8721b265f} 
-\index{Atlas@{Atlas}!GameSettings@{GameSettings}}
-\index{GameSettings@{GameSettings}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GameSettings}{GameSettings}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a23da551e07626be8694155b8721b265f}{Atlas\+::\+Game\+Settings}} = typedef \mbox{\hyperlink{namespace_atlas_a23da551e07626be8694155b8721b265f}{Game\+Settings}} \{ const int c\+Max\+Threads = -\/1}
+\Hypertarget{namespace_atlas_afc221e3097be74d639bed4cca1dafd21}\label{namespace_atlas_afc221e3097be74d639bed4cca1dafd21} 
+\index{Atlas@{Atlas}!ColorBit@{ColorBit}}
+\index{ColorBit@{ColorBit}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{ColorBit}{ColorBit}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_afc221e3097be74d639bed4cca1dafd21}{Atlas\+::\+Color\+Bit}} = typedef uint8\+\_\+t}
 
 
 
-Serves as the settings for the game. Please note that c\+Max\+Threads must be at least 2. If you want \doxylink{namespace_atlas}{Atlas} to decide, set c\+Max\+Threads to -\/1. 
+A single color value. Each color channel is a 8-\/bit value. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_color}{Color} 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_color_8h_source_l00030}{30}} of file \mbox{\hyperlink{_color_8h_source}{Color.\+h}}.
+
+\Hypertarget{namespace_atlas_a33c36cc6d06931324201eab6aae964a0}\label{namespace_atlas_a33c36cc6d06931324201eab6aae964a0} 
+\index{Atlas@{Atlas}!FileStream@{FileStream}}
+\index{FileStream@{FileStream}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{FileStream}{FileStream}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a33c36cc6d06931324201eab6aae964a0}{Atlas\+::\+File\+Stream}} = typedef std\+::fstream}
 
 
 
-Definition at line \mbox{\hyperlink{_game_settings_8h_source_l00009}{9}} of file \mbox{\hyperlink{_game_settings_8h_source}{Game\+Settings.\+h}}.
+Definition at line \mbox{\hyperlink{_file_8h_source_l00013}{13}} of file \mbox{\hyperlink{_file_8h_source}{File.\+h}}.
 
-\Hypertarget{namespace_atlas_a245de11d279bb7805a034dd0ae235167}\label{namespace_atlas_a245de11d279bb7805a034dd0ae235167} 
-\index{Atlas@{Atlas}!InputActionCallbackID@{InputActionCallbackID}}
-\index{InputActionCallbackID@{InputActionCallbackID}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{InputActionCallbackID}{InputActionCallbackID}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a245de11d279bb7805a034dd0ae235167}{Atlas\+::\+Input\+Action\+Callback\+ID}} = typedef int}
-
-
-
-Definition at line \mbox{\hyperlink{_input_registry_8h_source_l00017}{17}} of file \mbox{\hyperlink{_input_registry_8h_source}{Input\+Registry.\+h}}.
-
-\Hypertarget{namespace_atlas_ab3e1b45690b287e486c74fa696caaf10}\label{namespace_atlas_ab3e1b45690b287e486c74fa696caaf10} 
-\index{Atlas@{Atlas}!InternalAudioContext@{InternalAudioContext}}
-\index{InternalAudioContext@{InternalAudioContext}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{InternalAudioContext}{InternalAudioContext}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_ab3e1b45690b287e486c74fa696caaf10}{Atlas\+::\+Internal\+Audio\+Context}} = typedef ma\+\_\+context}
+\Hypertarget{namespace_atlas_a72cf222afb41a2a8d147b6360ec0cc8b}\label{namespace_atlas_a72cf222afb41a2a8d147b6360ec0cc8b} 
+\index{Atlas@{Atlas}!FreeFunc@{FreeFunc}}
+\index{FreeFunc@{FreeFunc}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{FreeFunc}{FreeFunc}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a72cf222afb41a2a8d147b6360ec0cc8b}{Atlas\+::\+Free\+Func}} = typedef \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}\texorpdfstring{$\ast$}{*} block\+Ptr)}
 
 
 
-Definition at line \mbox{\hyperlink{_audio_common_8h_source_l00028}{28}} of file \mbox{\hyperlink{_audio_common_8h_source}{Audio\+Common.\+h}}.
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00072}{72}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
 
-\Hypertarget{namespace_atlas_a2f9b80e6cd8cd269ffbede51d81d26b6}\label{namespace_atlas_a2f9b80e6cd8cd269ffbede51d81d26b6} 
-\index{Atlas@{Atlas}!InternalAudioDevice@{InternalAudioDevice}}
-\index{InternalAudioDevice@{InternalAudioDevice}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{InternalAudioDevice}{InternalAudioDevice}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a2f9b80e6cd8cd269ffbede51d81d26b6}{Atlas\+::\+Internal\+Audio\+Device}} = typedef ma\+\_\+device}
-
-
-
-Definition at line \mbox{\hyperlink{_audio_common_8h_source_l00027}{27}} of file \mbox{\hyperlink{_audio_common_8h_source}{Audio\+Common.\+h}}.
-
-\Hypertarget{namespace_atlas_ad4eb39ae8b8b6a74c0f7135d6559cf9a}\label{namespace_atlas_ad4eb39ae8b8b6a74c0f7135d6559cf9a} 
-\index{Atlas@{Atlas}!JSONDocument@{JSONDocument}}
-\index{JSONDocument@{JSONDocument}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{JSONDocument}{JSONDocument}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_ad4eb39ae8b8b6a74c0f7135d6559cf9a}{Atlas\+::\+JSONDocument}} = typedef simdjson\+::ondemand\+::document}
+\Hypertarget{namespace_atlas_a90dfcd6fcf4fd7ab785efeaf6934e38e}\label{namespace_atlas_a90dfcd6fcf4fd7ab785efeaf6934e38e} 
+\index{Atlas@{Atlas}!HighResolutionTimepoint@{HighResolutionTimepoint}}
+\index{HighResolutionTimepoint@{HighResolutionTimepoint}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{HighResolutionTimepoint}{HighResolutionTimepoint}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a90dfcd6fcf4fd7ab785efeaf6934e38e}{Atlas\+::\+High\+Resolution\+Timepoint}} = typedef std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point}
 
 
 
-Definition at line \mbox{\hyperlink{_j_s_o_n_file_8h_source_l00009}{9}} of file \mbox{\hyperlink{_j_s_o_n_file_8h_source}{JSONFile.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00152}{152}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
-\Hypertarget{namespace_atlas_aa71b3b8bda84ac958038e57ce411cab1}\label{namespace_atlas_aa71b3b8bda84ac958038e57ce411cab1} 
-\index{Atlas@{Atlas}!JSONElement@{JSONElement}}
-\index{JSONElement@{JSONElement}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{JSONElement}{JSONElement}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_aa71b3b8bda84ac958038e57ce411cab1}{Atlas\+::\+JSONElement}} = typedef simdjson\+::dom\+::element}
-
-
-
-Definition at line \mbox{\hyperlink{_j_s_o_n_file_8h_source_l00011}{11}} of file \mbox{\hyperlink{_j_s_o_n_file_8h_source}{JSONFile.\+h}}.
-
-\Hypertarget{namespace_atlas_a30c03ddc598bf8537d152d570a96efbc}\label{namespace_atlas_a30c03ddc598bf8537d152d570a96efbc} 
-\index{Atlas@{Atlas}!JSONParser@{JSONParser}}
-\index{JSONParser@{JSONParser}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{JSONParser}{JSONParser}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a30c03ddc598bf8537d152d570a96efbc}{Atlas\+::\+JSONParser}} = typedef simdjson\+::ondemand\+::parser}
+\Hypertarget{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}\label{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca} 
+\index{Atlas@{Atlas}!LogLevel@{LogLevel}}
+\index{LogLevel@{LogLevel}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{LogLevel}{LogLevel}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Atlas\+::\+Log\+Level}} = typedef spdlog\+::level\+::level\+\_\+enum}
 
 
 
-Definition at line \mbox{\hyperlink{_j_s_o_n_file_8h_source_l00010}{10}} of file \mbox{\hyperlink{_j_s_o_n_file_8h_source}{JSONFile.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00031}{31}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
-\Hypertarget{namespace_atlas_ab9064d006a69e0a0da7bb9b2dde7c47c}\label{namespace_atlas_ab9064d006a69e0a0da7bb9b2dde7c47c} 
-\index{Atlas@{Atlas}!PaddedString@{PaddedString}}
-\index{PaddedString@{PaddedString}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{PaddedString}{PaddedString}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_ab9064d006a69e0a0da7bb9b2dde7c47c}{Atlas\+::\+Padded\+String}} = typedef simdjson\+::padded\+\_\+string}
+\Hypertarget{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}\label{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582} 
+\index{Atlas@{Atlas}!PathLocation@{PathLocation}}
+\index{PathLocation@{PathLocation}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{PathLocation}{PathLocation}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Atlas\+::\+Path\+Location}} = typedef std\+::filesystem\+::path}
 
 
 
-Definition at line \mbox{\hyperlink{_j_s_o_n_file_8h_source_l00008}{8}} of file \mbox{\hyperlink{_j_s_o_n_file_8h_source}{JSONFile.\+h}}.
+Definition at line \mbox{\hyperlink{_i_o_common_8h_source_l00015}{15}} of file \mbox{\hyperlink{_i_o_common_8h_source}{IOCommon.\+h}}.
+
+\Hypertarget{namespace_atlas_a0810df7523f86fbd70ce4a06398f7674}\label{namespace_atlas_a0810df7523f86fbd70ce4a06398f7674} 
+\index{Atlas@{Atlas}!ReallocFunc@{ReallocFunc}}
+\index{ReallocFunc@{ReallocFunc}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{ReallocFunc}{ReallocFunc}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a0810df7523f86fbd70ce4a06398f7674}{Atlas\+::\+Realloc\+Func}} = typedef \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}\texorpdfstring{$\ast$}{*} (\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}\texorpdfstring{$\ast$}{*} block\+Ptr, size\+\_\+t old\+Size, size\+\_\+t new\+Size)}
+
+
+
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00071}{71}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
+
+\Hypertarget{namespace_atlas_a064fdcf1f664dce58e28e64be01c49b3}\label{namespace_atlas_a064fdcf1f664dce58e28e64be01c49b3} 
+\index{Atlas@{Atlas}!SDLEvent@{SDLEvent}}
+\index{SDLEvent@{SDLEvent}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{SDLEvent}{SDLEvent}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a064fdcf1f664dce58e28e64be01c49b3}{Atlas\+::\+SDLEvent}} = typedef \mbox{\hyperlink{imgui__impl__sdl2_8h_a33fcc6aa445cb781bfca881e39e5333e}{SDL\+\_\+\+Event}}}
+
+
+
+A null, non-\/copyable implementation of a game window. It does not do anything as it only provides stubs. Furthermore, this class is also used as the base class for the GLFWGame\+Window and \doxylink{class_atlas_1_1_s_d_l_game_window}{SDLGame\+Window} classes. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_window_8h_source_l00275}{275}} of file \mbox{\hyperlink{_window_8h_source}{Window.\+h}}.
+
+\Hypertarget{namespace_atlas_a70c92d51cf7a5ffa6b87ef2d2db9506d}\label{namespace_atlas_a70c92d51cf7a5ffa6b87ef2d2db9506d} 
+\index{Atlas@{Atlas}!VulkanDebugCallback@{VulkanDebugCallback}}
+\index{VulkanDebugCallback@{VulkanDebugCallback}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{VulkanDebugCallback}{VulkanDebugCallback}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a70c92d51cf7a5ffa6b87ef2d2db9506d}{Atlas\+::\+Vulkan\+Debug\+Callback}} = typedef PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT}
+
+
+
+Definition at line \mbox{\hyperlink{_vulkan_instance_8h_source_l00032}{32}} of file \mbox{\hyperlink{_vulkan_instance_8h_source}{Vulkan\+Instance.\+h}}.
+
+\Hypertarget{namespace_atlas_add46beb7fbf5f73401bc4664f52a3055}\label{namespace_atlas_add46beb7fbf5f73401bc4664f52a3055} 
+\index{Atlas@{Atlas}!WindowRectangle@{WindowRectangle}}
+\index{WindowRectangle@{WindowRectangle}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{WindowRectangle}{WindowRectangle}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_add46beb7fbf5f73401bc4664f52a3055}{Atlas\+::\+Window\+Rectangle}} = typedef \mbox{\hyperlink{struct_atlas_1_1_rectangle}{Rectangle}}$<$int$>$}
+
+
+
+Definition at line \mbox{\hyperlink{_window_8h_source_l00054}{54}} of file \mbox{\hyperlink{_window_8h_source}{Window.\+h}}.
+
+\Hypertarget{namespace_atlas_a52e4cef3841c9e6e2f496d9bcc376d92}\label{namespace_atlas_a52e4cef3841c9e6e2f496d9bcc376d92} 
+\index{Atlas@{Atlas}!WindowSize@{WindowSize}}
+\index{WindowSize@{WindowSize}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{WindowSize}{WindowSize}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a52e4cef3841c9e6e2f496d9bcc376d92}{Atlas\+::\+Window\+Size}} = typedef glm\+::vec$<$2, uint32\+\_\+t, glm\+::lowp$>$}
+
+
+
+A using alias for a GLM low-\/precision 2D vector that can be used to store the size of a window. 
+
+\begin{DoxyNote}{Note}
+There is no need for any real amount of precision as this is just used for storing the size of the window, so having a higher precision is not necessary and could be a performance hit.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_window_8h_source_l00052}{52}} of file \mbox{\hyperlink{_window_8h_source}{Window.\+h}}.
 
 
 
 \doxysubsection{Enumeration Type Documentation}
-\Hypertarget{namespace_atlas_a20ce4c27b35d28e3da624055478ee816}\label{namespace_atlas_a20ce4c27b35d28e3da624055478ee816} 
-\index{Atlas@{Atlas}!EAudioDevicePlatform@{EAudioDevicePlatform}}
-\index{EAudioDevicePlatform@{EAudioDevicePlatform}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{EAudioDevicePlatform}{EAudioDevicePlatform}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a20ce4c27b35d28e3da624055478ee816}{Atlas\+::\+EAudio\+Device\+Platform}} \+: int8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+\Hypertarget{namespace_atlas_a2a1fc9c63985c88421113e17231695aa}\label{namespace_atlas_a2a1fc9c63985c88421113e17231695aa} 
+\index{Atlas@{Atlas}!EDebugEventType@{EDebugEventType}}
+\index{EDebugEventType@{EDebugEventType}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{EDebugEventType}{EDebugEventType}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a2a1fc9c63985c88421113e17231695aa}{Atlas\+::\+EDebug\+Event\+Type}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
 
+
+
+A list of debug event types in an order of increasing severity. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
 \begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{UNKNOWN\_DEVICE\_PLATFORM@{UNKNOWN\_DEVICE\_PLATFORM}!Atlas@{Atlas}}\index{Atlas@{Atlas}!UNKNOWN\_DEVICE\_PLATFORM@{UNKNOWN\_DEVICE\_PLATFORM}}}\Hypertarget{namespace_atlas_a20ce4c27b35d28e3da624055478ee816ade3284c746092ac1b48ed4110f596b7b}\label{namespace_atlas_a20ce4c27b35d28e3da624055478ee816ade3284c746092ac1b48ed4110f596b7b} 
-UNKNOWN\+\_\+\+DEVICE\+\_\+\+PLATFORM&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Unknown@{Unknown}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Unknown@{Unknown}}}\Hypertarget{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa88183b946cc5f0e8c96b2e66e1c74a7e}\label{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa88183b946cc5f0e8c96b2e66e1c74a7e} 
+Unknown&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Trace@{Trace}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Trace@{Trace}}}\Hypertarget{namespace_atlas_a2a1fc9c63985c88421113e17231695aaadd4ec0ac4e58f7c32a01244ae91150b1}\label{namespace_atlas_a2a1fc9c63985c88421113e17231695aaadd4ec0ac4e58f7c32a01244ae91150b1} 
+Trace&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Info@{Info}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Info@{Info}}}\Hypertarget{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa4059b0251f66a18cb56f544728796875}\label{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa4059b0251f66a18cb56f544728796875} 
+Info&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Warning@{Warning}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Warning@{Warning}}}\Hypertarget{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa0eaadb4fcb48a0a0ed7bc9868be9fbaa}\label{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa0eaadb4fcb48a0a0ed7bc9868be9fbaa} 
+Warning&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Error@{Error}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Error@{Error}}}\Hypertarget{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa902b0d55fddef6f8d651fe1035b7d4bd}\label{namespace_atlas_a2a1fc9c63985c88421113e17231695aaa902b0d55fddef6f8d651fe1035b7d4bd} 
+Error&\\
 \hline
 
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{_e_audio_device_platform_8h_source_l00005}{5}} of file \mbox{\hyperlink{_e_audio_device_platform_8h_source}{EAudio\+Device\+Platform.\+h}}.
+Definition at line \mbox{\hyperlink{engine_2debugging_2debugger_8h_source_l00033}{33}} of file \mbox{\hyperlink{engine_2debugging_2debugger_8h_source}{Debugger.\+h}}.
 
-\Hypertarget{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938}\label{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938} 
-\index{Atlas@{Atlas}!EAudioDeviceType@{EAudioDeviceType}}
-\index{EAudioDeviceType@{EAudioDeviceType}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{EAudioDeviceType}{EAudioDeviceType}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938}{Atlas\+::\+EAudio\+Device\+Type}} \+: int8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
-
-
-
-This enum represents the different types of audio devices. It is also used to match the values of the ma\+\_\+device\+\_\+type enum, which is why PLAYBACK\+\_\+\+DEVICE\+\_\+\+TYPE is set to 1. This enum also inherits from int8\+\_\+t because there are only 4 possible values. 
-
-\begin{DoxyWarning}{Warning}
-If you are trying to set an audio device as a recording, please note that this is NOT the proper enum to use because this only applies to OUTPUT devices. 
-\end{DoxyWarning}
-The values are as follows\+: 
+\Hypertarget{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}\label{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d} 
+\index{Atlas@{Atlas}!EGameThreadSchedulerStatus@{EGameThreadSchedulerStatus}}
+\index{EGameThreadSchedulerStatus@{EGameThreadSchedulerStatus}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{EGameThreadSchedulerStatus}{EGameThreadSchedulerStatus}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}{Atlas\+::\+EGame\+Thread\+Scheduler\+Status}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
 
 
-\begin{DoxyItemize}
-\item {\bfseries{UNKNOWN\+\_\+\+DEVICE\+\_\+\+TYPE\+: }} ~\newline
-   With a value of -\/1, this represents an unknown device type. Typically, this is used when a device is not found, it is not initialized, or it is not available for some other reason. 
 
+The state of the scheduler. 
 
-\item {\bfseries{PLAYBACK\+\_\+\+DEVICE\+\_\+\+TYPE\+: }}   With a value of 1, this represents a playback device type. 
-
-
-\item {\bfseries{DUPLEX\+\_\+\+DEVICE\+\_\+\+TYPE\+: }}   With a value of 3, this represents a duplex device type. 
-
-
-\item {\bfseries{LOOPBACK\+\_\+\+DEVICE\+\_\+\+TYPE\+: }}   With a value of 4, this represents a loopback device type. 
-
-
-\end{DoxyItemize}\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{UNKNOWN\_DEVICE\_TYPE@{UNKNOWN\_DEVICE\_TYPE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!UNKNOWN\_DEVICE\_TYPE@{UNKNOWN\_DEVICE\_TYPE}}}\Hypertarget{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938a0fb00fa57f4752b09c33de0346707734}\label{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938a0fb00fa57f4752b09c33de0346707734} 
-UNKNOWN\+\_\+\+DEVICE\+\_\+\+TYPE&An unknown device type. \begin{DoxyRemark}{Remarks}
-This is typically used when a device is not found, it is not initialized, or it is not available for some other reason. 
+\begin{DoxyRemark}{Remarks}
+This enum class is useful for doing diagnostics on the scheduler.
 \end{DoxyRemark}
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Unknown@{Unknown}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Unknown@{Unknown}}}\Hypertarget{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da88183b946cc5f0e8c96b2e66e1c74a7e}\label{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da88183b946cc5f0e8c96b2e66e1c74a7e} 
+Unknown&The state of the scheduler is unknown. Typically this means that the scheduler is not initialized or something is wrong. \begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
 \\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{PLAYBACK\_DEVICE\_TYPE@{PLAYBACK\_DEVICE\_TYPE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!PLAYBACK\_DEVICE\_TYPE@{PLAYBACK\_DEVICE\_TYPE}}}\Hypertarget{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938aca177e787bdf7be1b5ad29086075cf01}\label{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938aca177e787bdf7be1b5ad29086075cf01} 
-PLAYBACK\+\_\+\+DEVICE\+\_\+\+TYPE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{DUPLEX\_DEVICE\_TYPE@{DUPLEX\_DEVICE\_TYPE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!DUPLEX\_DEVICE\_TYPE@{DUPLEX\_DEVICE\_TYPE}}}\Hypertarget{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938a46c7b16b9518c387a8d23044258dc0d4}\label{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938a46c7b16b9518c387a8d23044258dc0d4} 
-DUPLEX\+\_\+\+DEVICE\+\_\+\+TYPE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{LOOPBACK\_DEVICE\_TYPE@{LOOPBACK\_DEVICE\_TYPE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!LOOPBACK\_DEVICE\_TYPE@{LOOPBACK\_DEVICE\_TYPE}}}\Hypertarget{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938a74dd79befdec7590c4ea8055f3b5b67d}\label{namespace_atlas_a9de58d1cced21d88ab117aa07c5f3938a74dd79befdec7590c4ea8055f3b5b67d} 
-LOOPBACK\+\_\+\+DEVICE\+\_\+\+TYPE&\\
-\hline
-
-\end{DoxyEnumFields}
-
-
-Definition at line \mbox{\hyperlink{_e_audio_device_type_8h_source_l00054}{54}} of file \mbox{\hyperlink{_e_audio_device_type_8h_source}{EAudio\+Device\+Type.\+h}}.
-
-\Hypertarget{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1a}\label{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1a} 
-\index{Atlas@{Atlas}!EInputThread@{EInputThread}}
-\index{EInputThread@{EInputThread}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{EInputThread}{EInputThread}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1a}{Atlas\+::\+EInput\+Thread}}\hspace{0.3cm}{\ttfamily [strong]}}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_THREAD\_RENDER@{INPUT\_THREAD\_RENDER}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_THREAD\_RENDER@{INPUT\_THREAD\_RENDER}}}\Hypertarget{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1aa33801e0fa971429602386bbb94bee0a0}\label{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1aa33801e0fa971429602386bbb94bee0a0} 
-INPUT\+\_\+\+THREAD\+\_\+\+RENDER&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_THREAD\_UPDATE@{INPUT\_THREAD\_UPDATE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_THREAD\_UPDATE@{INPUT\_THREAD\_UPDATE}}}\Hypertarget{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1aa92029241da4f43b77406c39e523727b0}\label{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1aa92029241da4f43b77406c39e523727b0} 
-INPUT\+\_\+\+THREAD\+\_\+\+UPDATE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_THREAD\_WORKER@{INPUT\_THREAD\_WORKER}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_THREAD\_WORKER@{INPUT\_THREAD\_WORKER}}}\Hypertarget{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1aa7a20bae3252add57696152caf4d85d48}\label{namespace_atlas_a8f534104d1ff367cd8b3b56d40531c1aa7a20bae3252add57696152caf4d85d48} 
-INPUT\+\_\+\+THREAD\+\_\+\+WORKER&\\
-\hline
-
-\end{DoxyEnumFields}
-
-
-Definition at line \mbox{\hyperlink{_e_input_thread_8h_source_l00004}{4}} of file \mbox{\hyperlink{_e_input_thread_8h_source}{EInput\+Thread.\+h}}.
-
-\Hypertarget{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88e}\label{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88e} 
-\index{Atlas@{Atlas}!EInputTrigger@{EInputTrigger}}
-\index{EInputTrigger@{EInputTrigger}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{EInputTrigger}{EInputTrigger}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88e}{Atlas\+::\+EInput\+Trigger}}\hspace{0.3cm}{\ttfamily [strong]}}
-
-
-
-What sort of action should trigger the \doxylink{class_atlas_1_1_input_action}{Input\+Action}? 
-
-\begin{DoxyWarning}{Warning}
-Please pay attention when using this because any slight change in \doxylink{class_atlas_1_1_input_action}{Input\+Action} keys will give you entirely different input results.
-\end{DoxyWarning}
-What sort of action should trigger the \doxylink{class_atlas_1_1_input_action}{Input\+Action}? \begin{DoxyWarning}{Warning}
-Please pay attention when using this because any slight change in \doxylink{class_atlas_1_1_input_action}{Input\+Action} keys will give you entirely different input results. 
-\end{DoxyWarning}
-\begin{DoxySince}{Since}
-v0.\+0.\+6 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Initializing@{Initializing}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Initializing@{Initializing}}}\Hypertarget{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da32b169f72b293ef80d35435e9894f8e2}\label{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da32b169f72b293ef80d35435e9894f8e2} 
+Initializing&The scheduler is in the process of initializing. \begin{DoxySince}{Since}
+v0.\+0.\+10 
 \end{DoxySince}
-\begin{DoxySeeAlso}{See also}
-\doxylink{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eae}{EInput\+Type} 
-\end{DoxySeeAlso}
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_TRIGGER\_PRESSED@{INPUT\_TRIGGER\_PRESSED}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_TRIGGER\_PRESSED@{INPUT\_TRIGGER\_PRESSED}}}\Hypertarget{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88ea4d4d492eccd5ffa943f9c7278c171995}\label{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88ea4d4d492eccd5ffa943f9c7278c171995} 
-INPUT\+\_\+\+TRIGGER\+\_\+\+PRESSED&\\
+\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_TRIGGER\_RELEASED@{INPUT\_TRIGGER\_RELEASED}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_TRIGGER\_RELEASED@{INPUT\_TRIGGER\_RELEASED}}}\Hypertarget{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88ea6ef288157def0b4b0a97c80e805156c7}\label{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88ea6ef288157def0b4b0a97c80e805156c7} 
-INPUT\+\_\+\+TRIGGER\+\_\+\+RELEASED&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Running@{Running}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Running@{Running}}}\Hypertarget{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da5bda814c4aedb126839228f1a3d92f09}\label{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da5bda814c4aedb126839228f1a3d92f09} 
+Running&The scheduler is running. This does not mean that there is work to be done, just that the scheduler is running. \begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_TRIGGER\_DOWN@{INPUT\_TRIGGER\_DOWN}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_TRIGGER\_DOWN@{INPUT\_TRIGGER\_DOWN}}}\Hypertarget{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88ea1564a8c76f7b4fc7cd4956fedb29723b}\label{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88ea1564a8c76f7b4fc7cd4956fedb29723b} 
-INPUT\+\_\+\+TRIGGER\+\_\+\+DOWN&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Stopped@{Stopped}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Stopped@{Stopped}}}\Hypertarget{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516dac23e2b09ebe6bf4cb5e2a9abe85c0be2}\label{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516dac23e2b09ebe6bf4cb5e2a9abe85c0be2} 
+Stopped&The scheduler is stopped. This implies that the scheduler was once initialized and running, but is now stopped. \begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_TRIGGER\_UP@{INPUT\_TRIGGER\_UP}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_TRIGGER\_UP@{INPUT\_TRIGGER\_UP}}}\Hypertarget{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88eaf80f7288e88dab43dc40c1292831e1ae}\label{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88eaf80f7288e88dab43dc40c1292831e1ae} 
-INPUT\+\_\+\+TRIGGER\+\_\+\+UP&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_TRIGGER\_REPEAT@{INPUT\_TRIGGER\_REPEAT}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_TRIGGER\_REPEAT@{INPUT\_TRIGGER\_REPEAT}}}\Hypertarget{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88eaecbcb28c1bd554fb19fe98a5c74aaf23}\label{namespace_atlas_a3de63d593b09a1492bb3d240f65ef88eaecbcb28c1bd554fb19fe98a5c74aaf23} 
-INPUT\+\_\+\+TRIGGER\+\_\+\+REPEAT&\\
-\hline
-
-\end{DoxyEnumFields}
-
-
-Definition at line \mbox{\hyperlink{_e_input_trigger_8h_source_l00015}{15}} of file \mbox{\hyperlink{_e_input_trigger_8h_source}{EInput\+Trigger.\+h}}.
-
-\Hypertarget{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eae}\label{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eae} 
-\index{Atlas@{Atlas}!EInputType@{EInputType}}
-\index{EInputType@{EInputType}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{EInputType}{EInputType}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eae}{Atlas\+::\+EInput\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
-
-
-
-The enumeration for the different input device categories. This is here because the input system is going to be expanded in the future and it will be useful to maintaining developer sanity. 
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_KEYBOARD@{INPUT\_KEYBOARD}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_KEYBOARD@{INPUT\_KEYBOARD}}}\Hypertarget{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eaeadb96d0096c7139c5ee3fd155a357fb77}\label{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eaeadb96d0096c7139c5ee3fd155a357fb77} 
-INPUT\+\_\+\+KEYBOARD&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_MOUSE@{INPUT\_MOUSE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_MOUSE@{INPUT\_MOUSE}}}\Hypertarget{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eaeab569600ed95905ffd61f59ba74ca35ec}\label{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eaeab569600ed95905ffd61f59ba74ca35ec} 
-INPUT\+\_\+\+MOUSE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT\_CONTROLLER@{INPUT\_CONTROLLER}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INPUT\_CONTROLLER@{INPUT\_CONTROLLER}}}\Hypertarget{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eaeae7bb3cb1d97b054348b144a429fa1b6e}\label{namespace_atlas_ac597da9fe7e9baad81dcd94b291e5eaeae7bb3cb1d97b054348b144a429fa1b6e} 
-INPUT\+\_\+\+CONTROLLER&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ShuttingDown@{ShuttingDown}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ShuttingDown@{ShuttingDown}}}\Hypertarget{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da075d9c9ae8c8f1c79c1a1965cd8c5a42}\label{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da075d9c9ae8c8f1c79c1a1965cd8c5a42} 
+Shutting\+Down&The scheduler is shutting down. \begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+\\
 \hline
 
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{_e_input_type_8h_source_l00008}{8}} of file \mbox{\hyperlink{_e_input_type_8h_source}{EInput\+Type.\+h}}.
-
-\Hypertarget{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427}\label{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427} 
-\index{Atlas@{Atlas}!ELoggingMode@{ELoggingMode}}
-\index{ELoggingMode@{ELoggingMode}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{ELoggingMode}{ELoggingMode}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427}{Atlas\+::\+ELogging\+Mode}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{UNKNOWN@{UNKNOWN}!Atlas@{Atlas}}\index{Atlas@{Atlas}!UNKNOWN@{UNKNOWN}}}\Hypertarget{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a696b031073e74bf2cb98e5ef201d4aa3}\label{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a696b031073e74bf2cb98e5ef201d4aa3} 
-UNKNOWN&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{TERMINAL\_ONLY@{TERMINAL\_ONLY}!Atlas@{Atlas}}\index{Atlas@{Atlas}!TERMINAL\_ONLY@{TERMINAL\_ONLY}}}\Hypertarget{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a5c08a80a75a74a5f2ceea4402455801b}\label{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a5c08a80a75a74a5f2ceea4402455801b} 
-TERMINAL\+\_\+\+ONLY&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{CONSOLE\_ONLY@{CONSOLE\_ONLY}!Atlas@{Atlas}}\index{Atlas@{Atlas}!CONSOLE\_ONLY@{CONSOLE\_ONLY}}}\Hypertarget{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427aaf87e944ac35c8c1296b3b366029c5b6}\label{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427aaf87e944ac35c8c1296b3b366029c5b6} 
-CONSOLE\+\_\+\+ONLY&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{FILE\_ONLY@{FILE\_ONLY}!Atlas@{Atlas}}\index{Atlas@{Atlas}!FILE\_ONLY@{FILE\_ONLY}}}\Hypertarget{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427ae01fd8e0bc4c8033388d27b1fffc2e03}\label{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427ae01fd8e0bc4c8033388d27b1fffc2e03} 
-FILE\+\_\+\+ONLY&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{FILE\_AND\_TERMINAL@{FILE\_AND\_TERMINAL}!Atlas@{Atlas}}\index{Atlas@{Atlas}!FILE\_AND\_TERMINAL@{FILE\_AND\_TERMINAL}}}\Hypertarget{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a505c672b688c3c29043a51d52a6e6b4b}\label{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a505c672b688c3c29043a51d52a6e6b4b} 
-FILE\+\_\+\+AND\+\_\+\+TERMINAL&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{FILE\_AND\_CONSOLE@{FILE\_AND\_CONSOLE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!FILE\_AND\_CONSOLE@{FILE\_AND\_CONSOLE}}}\Hypertarget{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a36a219478596d8905895f8d2d380b7ef}\label{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a36a219478596d8905895f8d2d380b7ef} 
-FILE\+\_\+\+AND\+\_\+\+CONSOLE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{CONSOLE\_AND\_TERMINAL@{CONSOLE\_AND\_TERMINAL}!Atlas@{Atlas}}\index{Atlas@{Atlas}!CONSOLE\_AND\_TERMINAL@{CONSOLE\_AND\_TERMINAL}}}\Hypertarget{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a6c8bf8333e55fb880c317d03378cf684}\label{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a6c8bf8333e55fb880c317d03378cf684} 
-CONSOLE\+\_\+\+AND\+\_\+\+TERMINAL&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ALL@{ALL}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ALL@{ALL}}}\Hypertarget{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a5fb1f955b45e38e31789286a1790398d}\label{namespace_atlas_a338b5c7a4a376755ccfacbebc8fe3427a5fb1f955b45e38e31789286a1790398d} 
-ALL&\\
-\hline
-
-\end{DoxyEnumFields}
-
-
-Definition at line \mbox{\hyperlink{_e_logging_mode_8h_source_l00004}{4}} of file \mbox{\hyperlink{_e_logging_mode_8h_source}{ELogging\+Mode.\+h}}.
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00038}{38}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
 
 \Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079} 
 \index{Atlas@{Atlas}!ELogLevel@{ELogLevel}}
@@ -753,628 +622,736 @@ Definition at line \mbox{\hyperlink{_e_logging_mode_8h_source_l00004}{4}} of fil
 \doxysubsubsection{\texorpdfstring{ELogLevel}{ELogLevel}}
 {\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{Atlas\+::\+ELog\+Level}} \+: int\hspace{0.3cm}{\ttfamily [strong]}}
 
-
-
-What level of logging to use. This will affect the output color, severity, etc. 
-
-\begin{DoxyNote}{Note}
-This is not the same as spdlog\textquotesingle{}s log level. Also, this inherits from int to make it easier to compare. 
-\end{DoxyNote}
 \begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{TRACE@{TRACE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!TRACE@{TRACE}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079a2d3e4144aa384b18849ab9a8abad74d6}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079a2d3e4144aa384b18849ab9a8abad74d6} 
-TRACE&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{trace@{trace}!Atlas@{Atlas}}\index{Atlas@{Atlas}!trace@{trace}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182} 
+trace&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{DEBUG@{DEBUG}!Atlas@{Atlas}}\index{Atlas@{Atlas}!DEBUG@{DEBUG}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079adc30ec20708ef7b0f641ef78b7880a15}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079adc30ec20708ef7b0f641ef78b7880a15} 
-DEBUG&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{debug@{debug}!Atlas@{Atlas}}\index{Atlas@{Atlas}!debug@{debug}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d} 
+debug&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{INFO@{INFO}!Atlas@{Atlas}}\index{Atlas@{Atlas}!INFO@{INFO}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079a551b723eafd6a31d444fcb2f5920fbd3}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079a551b723eafd6a31d444fcb2f5920fbd3} 
-INFO&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{info@{info}!Atlas@{Atlas}}\index{Atlas@{Atlas}!info@{info}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c} 
+info&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{WARNING@{WARNING}!Atlas@{Atlas}}\index{Atlas@{Atlas}!WARNING@{WARNING}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079a059e9861e0400dfbe05c98a841f3f96b}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079a059e9861e0400dfbe05c98a841f3f96b} 
-WARNING&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{warn@{warn}!Atlas@{Atlas}}\index{Atlas@{Atlas}!warn@{warn}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb} 
+warn&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ERROR@{ERROR}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ERROR@{ERROR}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079abb1ca97ec761fc37101737ba0aa2e7c5}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079abb1ca97ec761fc37101737ba0aa2e7c5} 
-ERROR&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{error@{error}!Atlas@{Atlas}}\index{Atlas@{Atlas}!error@{error}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282} 
+error&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{FATAL@{FATAL}!Atlas@{Atlas}}\index{Atlas@{Atlas}!FATAL@{FATAL}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079a19da7170bea36556dde582519795f3fc}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079a19da7170bea36556dde582519795f3fc} 
-FATAL&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{critical@{critical}!Atlas@{Atlas}}\index{Atlas@{Atlas}!critical@{critical}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8} 
+critical&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{NONE@{NONE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!NONE@{NONE}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079ab50339a10e1de285ac99d4c3990b8693}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079ab50339a10e1de285ac99d4c3990b8693} 
-NONE&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{off@{off}!Atlas@{Atlas}}\index{Atlas@{Atlas}!off@{off}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808} 
+off&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{nLevels@{nLevels}!Atlas@{Atlas}}\index{Atlas@{Atlas}!nLevels@{nLevels}}}\Hypertarget{namespace_atlas_a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75}\label{namespace_atlas_a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75} 
+n\+Levels&\\
 \hline
 
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{_e_log_level_8h_source_l00009}{9}} of file \mbox{\hyperlink{_e_log_level_8h_source}{ELog\+Level.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00033}{33}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
-\Hypertarget{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3}\label{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3} 
-\index{Atlas@{Atlas}!ERenderLayerDrawTime@{ERenderLayerDrawTime}}
-\index{ERenderLayerDrawTime@{ERenderLayerDrawTime}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{ERenderLayerDrawTime}{ERenderLayerDrawTime}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3}{Atlas\+::\+ERender\+Layer\+Draw\+Time}} \+: uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+\Hypertarget{namespace_atlas_ae87546dceedbbfc984b86121a7154b5a}\label{namespace_atlas_ae87546dceedbbfc984b86121a7154b5a} 
+\index{Atlas@{Atlas}!ELookupType@{ELookupType}}
+\index{ELookupType@{ELookupType}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{ELookupType}{ELookupType}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_ae87546dceedbbfc984b86121a7154b5a}{Atlas\+::\+ELookup\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
 
 \begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{UNKNOWN@{UNKNOWN}!Atlas@{Atlas}}\index{Atlas@{Atlas}!UNKNOWN@{UNKNOWN}}}\Hypertarget{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a696b031073e74bf2cb98e5ef201d4aa3}\label{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a696b031073e74bf2cb98e5ef201d4aa3} 
-UNKNOWN&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Extension@{Extension}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Extension@{Extension}}}\Hypertarget{namespace_atlas_ae87546dceedbbfc984b86121a7154b5aa63e4e92bb7d207ca577b11c07f827279}\label{namespace_atlas_ae87546dceedbbfc984b86121a7154b5aa63e4e92bb7d207ca577b11c07f827279} 
+Extension&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{TEXTURE@{TEXTURE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!TEXTURE@{TEXTURE}}}\Hypertarget{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a3f92f542bd9ec48f912b9350e22736ac}\label{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3a3f92f542bd9ec48f912b9350e22736ac} 
-TEXTURE&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Filename@{Filename}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Filename@{Filename}}}\Hypertarget{namespace_atlas_ae87546dceedbbfc984b86121a7154b5aa1351017ac6423911223bc19a8cb7c653}\label{namespace_atlas_ae87546dceedbbfc984b86121a7154b5aa1351017ac6423911223bc19a8cb7c653} 
+Filename&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RENDER@{RENDER}!Atlas@{Atlas}}\index{Atlas@{Atlas}!RENDER@{RENDER}}}\Hypertarget{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3ac71c45515d9a92759e3cc0046bfdb059}\label{namespace_atlas_ae306caa996e9b0fe4afc2e7e80a533c3ac71c45515d9a92759e3cc0046bfdb059} 
-RENDER&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FullPath@{FullPath}!Atlas@{Atlas}}\index{Atlas@{Atlas}!FullPath@{FullPath}}}\Hypertarget{namespace_atlas_ae87546dceedbbfc984b86121a7154b5aa5aa4e1715e32bca15d81bdbccb759ff5}\label{namespace_atlas_ae87546dceedbbfc984b86121a7154b5aa5aa4e1715e32bca15d81bdbccb759ff5} 
+Full\+Path&\\
 \hline
 
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{_e_render_layer_draw_time_8h_source_l00005}{5}} of file \mbox{\hyperlink{_e_render_layer_draw_time_8h_source}{ERender\+Layer\+Draw\+Time.\+h}}.
+Definition at line \mbox{\hyperlink{_file_system_map_8h_source_l00020}{20}} of file \mbox{\hyperlink{_file_system_map_8h_source}{File\+System\+Map.\+h}}.
 
-\Hypertarget{namespace_atlas_a8db949e6d304e138149d0c697ed389aa}\label{namespace_atlas_a8db949e6d304e138149d0c697ed389aa} 
-\index{Atlas@{Atlas}!EReturnCode@{EReturnCode}}
-\index{EReturnCode@{EReturnCode}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{EReturnCode}{EReturnCode}}
-{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a8db949e6d304e138149d0c697ed389aa}{Atlas\+::\+EReturn\+Code}} \+: int\hspace{0.3cm}{\ttfamily [strong]}}
+\Hypertarget{namespace_atlas_ac7a903403074d900c92f0b564af3025a}\label{namespace_atlas_ac7a903403074d900c92f0b564af3025a} 
+\index{Atlas@{Atlas}!EPathType@{EPathType}}
+\index{EPathType@{EPathType}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{EPathType}{EPathType}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025a}{Atlas\+::\+EPath\+Type}} \+: int8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
 
 \begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{SUCCESSFUL\_OPERATION@{SUCCESSFUL\_OPERATION}!Atlas@{Atlas}}\index{Atlas@{Atlas}!SUCCESSFUL\_OPERATION@{SUCCESSFUL\_OPERATION}}}\Hypertarget{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa8a95d44f1a581d3abec3a3a1d6f92fe1}\label{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa8a95d44f1a581d3abec3a3a1d6f92fe1} 
-SUCCESSFUL\+\_\+\+OPERATION&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Unknown@{Unknown}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Unknown@{Unknown}}}\Hypertarget{namespace_atlas_ac7a903403074d900c92f0b564af3025aa88183b946cc5f0e8c96b2e66e1c74a7e}\label{namespace_atlas_ac7a903403074d900c92f0b564af3025aa88183b946cc5f0e8c96b2e66e1c74a7e} 
+Unknown&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{SUCCESSFUL\_OPERATION\_WITH\_WARNING@{SUCCESSFUL\_OPERATION\_WITH\_WARNING}!Atlas@{Atlas}}\index{Atlas@{Atlas}!SUCCESSFUL\_OPERATION\_WITH\_WARNING@{SUCCESSFUL\_OPERATION\_WITH\_WARNING}}}\Hypertarget{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa580f5f107dba3aaffb9cd457c554977a}\label{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa580f5f107dba3aaffb9cd457c554977a} 
-SUCCESSFUL\+\_\+\+OPERATION\+\_\+\+WITH\+\_\+\+WARNING&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{File@{File}!Atlas@{Atlas}}\index{Atlas@{Atlas}!File@{File}}}\Hypertarget{namespace_atlas_ac7a903403074d900c92f0b564af3025aa0b27918290ff5323bea1e3b78a9cf04e}\label{namespace_atlas_ac7a903403074d900c92f0b564af3025aa0b27918290ff5323bea1e3b78a9cf04e} 
+File&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{SUCCESSFUL\_OPERATION\_WITH\_CAUGHT\_EXCEPTION@{SUCCESSFUL\_OPERATION\_WITH\_CAUGHT\_EXCEPTION}!Atlas@{Atlas}}\index{Atlas@{Atlas}!SUCCESSFUL\_OPERATION\_WITH\_CAUGHT\_EXCEPTION@{SUCCESSFUL\_OPERATION\_WITH\_CAUGHT\_EXCEPTION}}}\Hypertarget{namespace_atlas_a8db949e6d304e138149d0c697ed389aaaa39792c4fe2be6d4b965945c0e47de5e}\label{namespace_atlas_a8db949e6d304e138149d0c697ed389aaaa39792c4fe2be6d4b965945c0e47de5e} 
-SUCCESSFUL\+\_\+\+OPERATION\+\_\+\+WITH\+\_\+\+CAUGHT\+\_\+\+EXCEPTION&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ERROR\_UNKNOWN@{ERROR\_UNKNOWN}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ERROR\_UNKNOWN@{ERROR\_UNKNOWN}}}\Hypertarget{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa0a306e577f7923ac78d86a60bee66966}\label{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa0a306e577f7923ac78d86a60bee66966} 
-ERROR\+\_\+\+UNKNOWN&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ERROR\_INVALID\_ARGS@{ERROR\_INVALID\_ARGS}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ERROR\_INVALID\_ARGS@{ERROR\_INVALID\_ARGS}}}\Hypertarget{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa4ac1b581e08caf741cabcce7dec6e4a4}\label{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa4ac1b581e08caf741cabcce7dec6e4a4} 
-ERROR\+\_\+\+INVALID\+\_\+\+ARGS&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ERROR\_INVALID\_VALUE@{ERROR\_INVALID\_VALUE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ERROR\_INVALID\_VALUE@{ERROR\_INVALID\_VALUE}}}\Hypertarget{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa60484987e8a34a4a0c1ffcf7571f492a}\label{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa60484987e8a34a4a0c1ffcf7571f492a} 
-ERROR\+\_\+\+INVALID\+\_\+\+VALUE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ERROR\_FAILED\_TO\_INITIALIZE\_SYSTEM@{ERROR\_FAILED\_TO\_INITIALIZE\_SYSTEM}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ERROR\_FAILED\_TO\_INITIALIZE\_SYSTEM@{ERROR\_FAILED\_TO\_INITIALIZE\_SYSTEM}}}\Hypertarget{namespace_atlas_a8db949e6d304e138149d0c697ed389aaaa46683e297f0b59b2275eafd1c61293b}\label{namespace_atlas_a8db949e6d304e138149d0c697ed389aaaa46683e297f0b59b2275eafd1c61293b} 
-ERROR\+\_\+\+FAILED\+\_\+\+TO\+\_\+\+INITIALIZE\+\_\+\+SYSTEM&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ERROR\_NULLPTR\_INITIALIZATION\_FAILURE@{ERROR\_NULLPTR\_INITIALIZATION\_FAILURE}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ERROR\_NULLPTR\_INITIALIZATION\_FAILURE@{ERROR\_NULLPTR\_INITIALIZATION\_FAILURE}}}\Hypertarget{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa805129dcffec94474c766ecc531db6d0}\label{namespace_atlas_a8db949e6d304e138149d0c697ed389aaa805129dcffec94474c766ecc531db6d0} 
-ERROR\+\_\+\+NULLPTR\+\_\+\+INITIALIZATION\+\_\+\+FAILURE&\\
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Directory@{Directory}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Directory@{Directory}}}\Hypertarget{namespace_atlas_ac7a903403074d900c92f0b564af3025aae73cda510e8bb947f7e61089e5581494}\label{namespace_atlas_ac7a903403074d900c92f0b564af3025aae73cda510e8bb947f7e61089e5581494} 
+Directory&\\
 \hline
 
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{_e_return_code_8h_source_l00004}{4}} of file \mbox{\hyperlink{_e_return_code_8h_source}{EReturn\+Code.\+h}}.
+Definition at line \mbox{\hyperlink{_path_searcher_8h_source_l00024}{24}} of file \mbox{\hyperlink{_path_searcher_8h_source}{Path\+Searcher.\+h}}.
+
+\Hypertarget{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8}\label{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8} 
+\index{Atlas@{Atlas}!EResultCode@{EResultCode}}
+\index{EResultCode@{EResultCode}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{EResultCode}{EResultCode}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8}{Atlas\+::\+EResult\+Code}} \+: uint32\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Failed@{Failed}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Failed@{Failed}}}\Hypertarget{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8ad7c8c85bf79bbe1b7188497c32c3b0ca}\label{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8ad7c8c85bf79bbe1b7188497c32c3b0ca} 
+Failed&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Okay@{Okay}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Okay@{Okay}}}\Hypertarget{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8a26b63f278101527e06a5547719568bb5}\label{namespace_atlas_a81cbb470bb667d0621e0e6572698f6a8a26b63f278101527e06a5547719568bb5} 
+Okay&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00154}{154}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}\label{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923} 
+\index{Atlas@{Atlas}!ESpdlogInitListIndex@{ESpdlogInitListIndex}}
+\index{ESpdlogInitListIndex@{ESpdlogInitListIndex}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{ESpdlogInitListIndex}{ESpdlogInitListIndex}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{Atlas\+::\+ESpdlog\+Init\+List\+Index}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ConsoleLogger@{ConsoleLogger}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ConsoleLogger@{ConsoleLogger}}}\Hypertarget{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba}\label{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba} 
+Console\+Logger&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileLogger@{FileLogger}!Atlas@{Atlas}}\index{Atlas@{Atlas}!FileLogger@{FileLogger}}}\Hypertarget{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0}\label{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0} 
+File\+Logger&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Logger@{Logger}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Logger@{Logger}}}\Hypertarget{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}\label{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a} 
+Logger&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Max@{Max}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Max@{Max}}}\Hypertarget{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}\label{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b} 
+Max&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00044}{44}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a} 
+\index{Atlas@{Atlas}!EVulkanRenderingOption@{EVulkanRenderingOption}}
+\index{EVulkanRenderingOption@{EVulkanRenderingOption}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{EVulkanRenderingOption}{EVulkanRenderingOption}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{Atlas\+::\+EVulkan\+Rendering\+Option}} \+: size\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Version\_Major@{Version\_Major}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Version\_Major@{Version\_Major}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa6c67501995e6d5d3144128067f1f4282}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa6c67501995e6d5d3144128067f1f4282} 
+Version\+\_\+\+Major&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Version\_Minor@{Version\_Minor}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Version\_Minor@{Version\_Minor}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aada7848cca791c2d919d1e9892e25e272}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aada7848cca791c2d919d1e9892e25e272} 
+Version\+\_\+\+Minor&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Version\_Patch@{Version\_Patch}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Version\_Patch@{Version\_Patch}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa02982e4706ed9e943f19ecc18687442e}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa02982e4706ed9e943f19ecc18687442e} 
+Version\+\_\+\+Patch&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Enable\_Validation\_Layers@{Enable\_Validation\_Layers}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Enable\_Validation\_Layers@{Enable\_Validation\_Layers}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa1794572ee5d7553087b60f9a30f06fcb}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa1794572ee5d7553087b60f9a30f06fcb} 
+Enable\+\_\+\+Validation\+\_\+\+Layers&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Use\_Dynamic\_Rendering@{Use\_Dynamic\_Rendering}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Use\_Dynamic\_Rendering@{Use\_Dynamic\_Rendering}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa64f5a7769033d591e01f597ded975ae}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa64f5a7769033d591e01f597ded975ae} 
+Use\+\_\+\+Dynamic\+\_\+\+Rendering&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Use\_Default\_Instance\_Builder@{Use\_Default\_Instance\_Builder}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Use\_Default\_Instance\_Builder@{Use\_Default\_Instance\_Builder}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa888450d033ce9f4213fd5072d7bde94f}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa888450d033ce9f4213fd5072d7bde94f} 
+Use\+\_\+\+Default\+\_\+\+Instance\+\_\+\+Builder&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Enable\_Syncronization@{Enable\_Syncronization}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Enable\_Syncronization@{Enable\_Syncronization}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa0795e87406b10e332cda7ad99e8d3a3}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa0795e87406b10e332cda7ad99e8d3a3} 
+Enable\+\_\+\+Syncronization&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Enable\_Buffer\_Device\_Address@{Enable\_Buffer\_Device\_Address}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Enable\_Buffer\_Device\_Address@{Enable\_Buffer\_Device\_Address}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aad2e0fe07d9b303172b67134dec8c0380}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aad2e0fe07d9b303172b67134dec8c0380} 
+Enable\+\_\+\+Buffer\+\_\+\+Device\+\_\+\+Address&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Enable\_Descriptor\_Indexing@{Enable\_Descriptor\_Indexing}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Enable\_Descriptor\_Indexing@{Enable\_Descriptor\_Indexing}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa9e397d933c540afd737155e3c80b6eb7}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa9e397d933c540afd737155e3c80b6eb7} 
+Enable\+\_\+\+Descriptor\+\_\+\+Indexing&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Swapchain\_Format@{Swapchain\_Format}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Swapchain\_Format@{Swapchain\_Format}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaf54db95bd9f26035b7182f0886801cf2}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaf54db95bd9f26035b7182f0886801cf2} 
+Swapchain\+\_\+\+Format&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Fence\_Timeout@{Fence\_Timeout}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Fence\_Timeout@{Fence\_Timeout}}}\Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa28a319434f29a2d9545758cd7547516e}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa28a319434f29a2d9545758cd7547516e} 
+Fence\+\_\+\+Timeout&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00186}{186}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{namespace_atlas_a5e7cd4a7e5ef777906b0bec063a11d8e}\label{namespace_atlas_a5e7cd4a7e5ef777906b0bec063a11d8e} 
-\index{Atlas@{Atlas}!AddFileRegistryLoadFunction@{AddFileRegistryLoadFunction}}
-\index{AddFileRegistryLoadFunction@{AddFileRegistryLoadFunction}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{AddFileRegistryLoadFunction()}{AddFileRegistryLoadFunction()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Add\+File\+Registry\+Load\+Function (\begin{DoxyParamCaption}\item[{std\+::string}]{extension,  }\item[{\mbox{\hyperlink{namespace_atlas_a12b098f8f301e25872f3c9b0a878e46b}{File\+Load\+Func\+Type}}}]{load\+Func }\end{DoxyParamCaption})}
+\Hypertarget{namespace_atlas_ad505d4d3e017334c04787d7820f06ce7}\label{namespace_atlas_ad505d4d3e017334c04787d7820f06ce7} 
+\index{Atlas@{Atlas}!AlignUp@{AlignUp}}
+\index{AlignUp@{AlignUp}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{AlignUp()}{AlignUp()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T Atlas\+::\+Align\+Up (\begin{DoxyParamCaption}\item[{T}]{value,  }\item[{uint64\+\_\+t}]{alignment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Adds an extension load function to the file registry. 
+Definition at line \mbox{\hyperlink{_common_8h_source_l00224}{224}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
+\Hypertarget{namespace_atlas_a602acac644c10f3cf80105af54897150}\label{namespace_atlas_a602acac644c10f3cf80105af54897150} 
+\index{Atlas@{Atlas}!CopyImageToImage@{CopyImageToImage}}
+\index{CopyImageToImage@{CopyImageToImage}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{CopyImageToImage()}{CopyImageToImage()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Copy\+Image\+To\+Image (\begin{DoxyParamCaption}\item[{Vk\+Command\+Buffer}]{cmd,  }\item[{Vk\+Image}]{source,  }\item[{Vk\+Image}]{destination,  }\item[{Vk\+Extent2D}]{src\+Size,  }\item[{Vk\+Extent2D}]{dst\+Size }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00882}{882}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00523}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw()}}.
+
+\Hypertarget{namespace_atlas_adfa68c6d6cbe8c3db73e75525e66ef4a}\label{namespace_atlas_adfa68c6d6cbe8c3db73e75525e66ef4a} 
+\index{Atlas@{Atlas}!CreateCommandBufferAllocateInfo@{CreateCommandBufferAllocateInfo}}
+\index{CreateCommandBufferAllocateInfo@{CreateCommandBufferAllocateInfo}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{CreateCommandBufferAllocateInfo()}{CreateCommandBufferAllocateInfo()}}
+{\footnotesize\ttfamily Vk\+Command\+Buffer\+Allocate\+Info Atlas\+::\+Create\+Command\+Buffer\+Allocate\+Info (\begin{DoxyParamCaption}\item[{Vk\+Command\+Pool}]{pool,  }\item[{uint32\+\_\+t}]{count = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00715}{715}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.
+
+
+
+Referenced by \mbox{\hyperlink{_frame_8cpp_source_l00006}{Atlas\+::\+Frame\+::init()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00256}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
+
+\Hypertarget{namespace_atlas_a4931baa2d3c987ef3cb127667dc442d8}\label{namespace_atlas_a4931baa2d3c987ef3cb127667dc442d8} 
+\index{Atlas@{Atlas}!CreateCommandBufferBeginInfo@{CreateCommandBufferBeginInfo}}
+\index{CreateCommandBufferBeginInfo@{CreateCommandBufferBeginInfo}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{CreateCommandBufferBeginInfo()}{CreateCommandBufferBeginInfo()}}
+{\footnotesize\ttfamily Vk\+Command\+Buffer\+Begin\+Info Atlas\+::\+Create\+Command\+Buffer\+Begin\+Info (\begin{DoxyParamCaption}\item[{Vk\+Command\+Buffer\+Usage\+Flags}]{flags }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00789}{789}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00523}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00333}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::\+Immediate\+Submit()}}.
+
+\Hypertarget{namespace_atlas_a0e2419043c2bf72f75e532ed563ff5af}\label{namespace_atlas_a0e2419043c2bf72f75e532ed563ff5af} 
+\index{Atlas@{Atlas}!CreateCommandPoolCreateInfo@{CreateCommandPoolCreateInfo}}
+\index{CreateCommandPoolCreateInfo@{CreateCommandPoolCreateInfo}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{CreateCommandPoolCreateInfo()}{CreateCommandPoolCreateInfo()}}
+{\footnotesize\ttfamily Vk\+Command\+Pool\+Create\+Info Atlas\+::\+Create\+Command\+Pool\+Create\+Info (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{queue\+Family\+Index,  }\item[{Vk\+Command\+Pool\+Create\+Flags}]{flags = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00705}{705}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00256}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
+
+\Hypertarget{namespace_atlas_a2eb75a279d9d94185e007305c39ae665}\label{namespace_atlas_a2eb75a279d9d94185e007305c39ae665} 
+\index{Atlas@{Atlas}!CreateFenceCreateInfo@{CreateFenceCreateInfo}}
+\index{CreateFenceCreateInfo@{CreateFenceCreateInfo}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{CreateFenceCreateInfo()}{CreateFenceCreateInfo()}}
+{\footnotesize\ttfamily Vk\+Fence\+Create\+Info Atlas\+::\+Create\+Fence\+Create\+Info (\begin{DoxyParamCaption}\item[{Vk\+Fence\+Create\+Flags}]{flags = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00727}{727}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00256}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
+
+\Hypertarget{namespace_atlas_aafca0d417a35bba15f288564c0b3032a}\label{namespace_atlas_aafca0d417a35bba15f288564c0b3032a} 
+\index{Atlas@{Atlas}!CreateImageCreateInfo@{CreateImageCreateInfo}}
+\index{CreateImageCreateInfo@{CreateImageCreateInfo}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{CreateImageCreateInfo()}{CreateImageCreateInfo()}}
+{\footnotesize\ttfamily Vk\+Image\+Create\+Info Atlas\+::\+Create\+Image\+Create\+Info (\begin{DoxyParamCaption}\item[{Vk\+Format}]{format,  }\item[{Vk\+Image\+Usage\+Flags}]{usage\+Flags,  }\item[{Vk\+Extent3D}]{extent }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00839}{839}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00462}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Swapchain()}}.
+
+\Hypertarget{namespace_atlas_a87409471205b4bd1d6441b8ac33cea03}\label{namespace_atlas_a87409471205b4bd1d6441b8ac33cea03} 
+\index{Atlas@{Atlas}!CreateImageSubresourceRange@{CreateImageSubresourceRange}}
+\index{CreateImageSubresourceRange@{CreateImageSubresourceRange}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{CreateImageSubresourceRange()}{CreateImageSubresourceRange()}}
+{\footnotesize\ttfamily Vk\+Image\+Subresource\+Range Atlas\+::\+Create\+Image\+Subresource\+Range (\begin{DoxyParamCaption}\item[{Vk\+Image\+Aspect\+Flags}]{aspect\+Mask }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00827}{827}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00608}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+Background()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00800}{Transition\+Image()}}.
+
+\Hypertarget{namespace_atlas_a3a99392fc30f77bfa7f874d50622ae7e}\label{namespace_atlas_a3a99392fc30f77bfa7f874d50622ae7e} 
+\index{Atlas@{Atlas}!CreateImageViewCreateInfo@{CreateImageViewCreateInfo}}
+\index{CreateImageViewCreateInfo@{CreateImageViewCreateInfo}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{CreateImageViewCreateInfo()}{CreateImageViewCreateInfo()}}
+{\footnotesize\ttfamily Vk\+Image\+View\+Create\+Info Atlas\+::\+Create\+Image\+View\+Create\+Info (\begin{DoxyParamCaption}\item[{Vk\+Format}]{format,  }\item[{Vk\+Image}]{image,  }\item[{Vk\+Image\+Aspect\+Flags}]{aspect\+Flags }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00863}{863}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00462}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Swapchain()}}.
+
+\Hypertarget{namespace_atlas_aab351af6f4ce3b39a49ba2bac5777077}\label{namespace_atlas_aab351af6f4ce3b39a49ba2bac5777077} 
+\index{Atlas@{Atlas}!CreateSemaphoreCreateInfo@{CreateSemaphoreCreateInfo}}
+\index{CreateSemaphoreCreateInfo@{CreateSemaphoreCreateInfo}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{CreateSemaphoreCreateInfo()}{CreateSemaphoreCreateInfo()}}
+{\footnotesize\ttfamily Vk\+Semaphore\+Create\+Info Atlas\+::\+Create\+Semaphore\+Create\+Info (\begin{DoxyParamCaption}\item[{Vk\+Semaphore\+Create\+Flags}]{flags = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00738}{738}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00256}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
+
+\Hypertarget{namespace_atlas_afaaad2137b7ca90a17d022d41cb33632}\label{namespace_atlas_afaaad2137b7ca90a17d022d41cb33632} 
+\index{Atlas@{Atlas}!DefaultVulkanDebugCallback@{DefaultVulkanDebugCallback}}
+\index{DefaultVulkanDebugCallback@{DefaultVulkanDebugCallback}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{DefaultVulkanDebugCallback()}{DefaultVulkanDebugCallback()}}
+{\footnotesize\ttfamily Vk\+Bool32 Atlas\+::\+Default\+Vulkan\+Debug\+Callback (\begin{DoxyParamCaption}\item[{Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT}]{message\+Severity,  }\item[{Vk\+Debug\+Utils\+Message\+Type\+Flags\+EXT}]{message\+Type,  }\item[{const Vk\+Debug\+Utils\+Messenger\+Callback\+Data\+EXT \texorpdfstring{$\ast$}{*}}]{p\+Callback\+Data,  }\item[{\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}}]{p\+User\+Data }\end{DoxyParamCaption})}
+
+
+
+The default Vulkan debug callback that \doxylink{namespace_atlas}{Atlas} uses if no custom debug callback is provided by the user in \doxylink{class_atlas_1_1_vulkan_instance_wrapper}{Vulkan\+Instance\+Wrapper} before it is initialized. According to the Khronos specification on the {\itshape PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} object, this function should always return a value of {\itshape VK\+\_\+\+FALSE}, which is what this function does. See the Khronos specification for more information (this is in the see also section of the documentation). The message is logged via the usage of {\itshape spdlog\+::log()}. However, this means that some logger (more specifically a {\itshape Spdlog} logger) must have been initialized before this function is called or it will crash. 
+
+\begin{DoxyRemark}{Remarks}
+While most of these parameters are not used, they are included for consistency with the specifications that are listed in the Khronos specifications at the link in the {\bfseries{see also}} section.
+\end{DoxyRemark}
+\begin{DoxyPrecond}{Precondition}
+A Spdlog logger must have been initialized before this function is called. This should be handled by the \doxylink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger} class.
+\end{DoxyPrecond}
 
 \begin{DoxyParams}{Parameters}
-{\em extension} & The extension.\\
+{\em message\+Severity} & The Vulkan debug log level reported by the vulkan debug callback. This is translated to an \doxylink{namespace_atlas}{Atlas} log level using the Translate\+Vulkan\+Log\+Level function.\\
 \hline
-{\em load\+Func} & The load function.\\
+{\em message\+Type} & The type of message reported by the vulkan debug callback.\\
 \hline
-\end{DoxyParams}
-
-
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00034}{34}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
-
-
-
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
-
-
-
-Referenced by \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, and \mbox{\hyperlink{engine_2_project_8cpp_source_l00073}{Atlas\+::\+BProject\+::pre\+Init()}}.
-
-\Hypertarget{namespace_atlas_a29a6343014b963b902d0e0afb838dfdd}\label{namespace_atlas_a29a6343014b963b902d0e0afb838dfdd} 
-\index{Atlas@{Atlas}!AddFileRegistryLoadOnRegisterExtension@{AddFileRegistryLoadOnRegisterExtension}}
-\index{AddFileRegistryLoadOnRegisterExtension@{AddFileRegistryLoadOnRegisterExtension}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{AddFileRegistryLoadOnRegisterExtension()}{AddFileRegistryLoadOnRegisterExtension()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Add\+File\+Registry\+Load\+On\+Register\+Extension (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{extension }\end{DoxyParamCaption})}
-
-
-
-Flags an extension as one that should be loaded once it is registered. This only matters and has effects before the file registry is initialized. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em extension} & The extension.\\
+{\em p\+Callback\+Data} & A pointer to the vulkan debug callback data. Within this parameter, the message is located, which is what is passed to be logged via {\itshape spdlog\+::log()}.\\
+\hline
+{\em p\+User\+Data} & A pointer to user data that was provided when the vulkan debug callback was set.\\
 \hline
 \end{DoxyParams}
-
-
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00040}{40}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
-
-
-
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
-
-\Hypertarget{namespace_atlas_a4a3774487efaf3fd274897ab22f238be}\label{namespace_atlas_a4a3774487efaf3fd274897ab22f238be} 
-\index{Atlas@{Atlas}!CreateLogFileName@{CreateLogFileName}}
-\index{CreateLogFileName@{CreateLogFileName}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{CreateLogFileName()}{CreateLogFileName()}}
-{\footnotesize\ttfamily std\+::string Atlas\+::\+Create\+Log\+File\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00038}{38}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
-
-
-
-References \mbox{\hyperlink{_common_8h_source_l00095}{ATLAS\+\_\+\+TEMP\+\_\+\+DIR}}.
-
-\Hypertarget{namespace_atlas_a2fb14e6c76bf6e577bdd65ffff7d7519}\label{namespace_atlas_a2fb14e6c76bf6e577bdd65ffff7d7519} 
-\index{Atlas@{Atlas}!DefaultPhysicsTrace@{DefaultPhysicsTrace}}
-\index{DefaultPhysicsTrace@{DefaultPhysicsTrace}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{DefaultPhysicsTrace()}{DefaultPhysicsTrace()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Default\+Physics\+Trace (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{in\+FMT,  }\item[{}]{... }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-This is the already provided trace function for the physics engine. 
-
-\begin{DoxyNote}{Note}
-Keep in mind this is used exclusively by the physics engine, so there is not much use besides that. 
-\end{DoxyNote}
+\begin{DoxyReturn}{Returns}
+Always returns {\itshape VK\+\_\+\+FALSE}.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\doxylink{}{https\+://registry.\+khronos.\+org/vulkan/specs/latest/man/html/\+PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT.\+html}
+\end{DoxySeeAlso}
 \begin{DoxyRefDesc}{Todo}
-\item[\mbox{\hyperlink{todo__todo000014}{Todo}}]TODO\+: Implement this more properly \end{DoxyRefDesc}
-
-\begin{DoxyParams}{Parameters}
-{\em in\+FMT} & The format string \\
-\hline
-{\em va\+Args} & Variable arguments for the trace. This is declared as "{}..."{}, which means it is a variable number of arguments. \\
-\hline
-\end{DoxyParams}
+\item[\mbox{\hyperlink{todo__todo000011}{Todo}}]Instead of logging via {\itshape spdlog\+::log()}, perhaps consider writing another function that will log using an already initialized \doxylink{namespace_atlas}{Atlas} logger. As of right now, this is assuming that the user is using the \doxylink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger} class, which is the default. However, the user should be able to use another logger and still have this function work. \end{DoxyRefDesc}
 
 
-Definition at line \mbox{\hyperlink{_physics_8cpp_source_l00078}{78}} of file \mbox{\hyperlink{_physics_8cpp_source}{Physics.\+cpp}}.
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00160}{160}} of file \mbox{\hyperlink{_vulkan_instance_8cpp_source}{Vulkan\+Instance.\+cpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{_physics_8cpp_source_l00023}{Atlas\+::\+Physics\+Engine\+::init()}}.
-
-\Hypertarget{namespace_atlas_af4aee03bf5c452a2b71ee0a1107104e0}\label{namespace_atlas_af4aee03bf5c452a2b71ee0a1107104e0} 
-\index{Atlas@{Atlas}!FileSystemIsProperlyFormatted@{FileSystemIsProperlyFormatted}}
-\index{FileSystemIsProperlyFormatted@{FileSystemIsProperlyFormatted}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{FileSystemIsProperlyFormatted()}{FileSystemIsProperlyFormatted()}}
-{\footnotesize\ttfamily bool Atlas\+::\+File\+System\+Is\+Properly\+Formatted (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{root\+Path,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{directory\+Map\+Path }\end{DoxyParamCaption})}
+References \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00130}{Translate\+Vulkan\+Log\+Level()}}.
 
 
 
-Checks if the file system is properly formatted. 
+Referenced by \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00057}{Atlas\+::\+Vulkan\+Instance\+Wrapper\+::init()}}.
 
-
-\begin{DoxyParams}{Parameters}
-{\em root\+Path} & The root path.\\
-\hline
-{\em directory\+Map\+Path} & The directory map path.\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A boolean value that denotes whether or not the file system is properly formatted.
-\end{DoxyReturn}
-
-
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00016}{16}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
-
-\Hypertarget{namespace_atlas_abf9672162529f95ec75b909111e6abba}\label{namespace_atlas_abf9672162529f95ec75b909111e6abba} 
-\index{Atlas@{Atlas}!GetAtlasEngine@{GetAtlasEngine}}
-\index{GetAtlasEngine@{GetAtlasEngine}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetAtlasEngine()}{GetAtlasEngine()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+Engine}} \texorpdfstring{$\ast$}{*} $>$ Atlas\+::\+Get\+Atlas\+Engine (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+\Hypertarget{namespace_atlas_a041e9829fb1316716a724487d8d12b72}\label{namespace_atlas_a041e9829fb1316716a724487d8d12b72} 
+\index{Atlas@{Atlas}!getLoadedRenderingBacked@{getLoadedRenderingBacked}}
+\index{getLoadedRenderingBacked@{getLoadedRenderingBacked}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{getLoadedRenderingBacked()}{getLoadedRenderingBacked()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Atlas\+::\+Vulkan\+Rendering\+Backend}} \& Atlas\+::get\+Loaded\+Rendering\+Backed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
-Definition at line \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{299}} of file \mbox{\hyperlink{engine_2_project_8cpp_source}{Project.\+cpp}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00961}{961}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00279}{Atlas\+::\+BProject\+::\+Get\+Project()}}.
+References \mbox{\hyperlink{_v_k_device_8cpp_source_l00066}{g\+Loaded\+Vulkan\+Backend}}.
+
+\Hypertarget{namespace_atlas_a6eaa0d5e833c8de1e188d35c72be8743}\label{namespace_atlas_a6eaa0d5e833c8de1e188d35c72be8743} 
+\index{Atlas@{Atlas}!GetWindowConfigFlag@{GetWindowConfigFlag}}
+\index{GetWindowConfigFlag@{GetWindowConfigFlag}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{GetWindowConfigFlag()}{GetWindowConfigFlag()}}
+{\footnotesize\ttfamily unsigned int Atlas\+::\+Get\+Window\+Config\+Flag (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{flag\+Name }\end{DoxyParamCaption})}
+
+\Hypertarget{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f}\label{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f} 
+\index{Atlas@{Atlas}!LoadShaderModule@{LoadShaderModule}}
+\index{LoadShaderModule@{LoadShaderModule}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{LoadShaderModule()}{LoadShaderModule()}}
+{\footnotesize\ttfamily bool Atlas\+::\+Load\+Shader\+Module (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{file\+Path,  }\item[{Vk\+Device}]{device,  }\item[{Vk\+Shader\+Module \texorpdfstring{$\ast$}{*}}]{out\+Shader\+Module }\end{DoxyParamCaption})}
 
 
 
-Referenced by \mbox{\hyperlink{_file_system_8cpp_source_l00034}{Add\+File\+Registry\+Load\+Function()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00040}{Add\+File\+Registry\+Load\+On\+Register\+Extension()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00052}{Get\+File()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00046}{Get\+File\+Meta()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00057}{Get\+File\+Path()}}, \mbox{\hyperlink{_game_camera_8cpp_source_l00025}{Atlas\+::\+Game\+Camera\+::init()}}, \mbox{\hyperlink{_window_8cpp_source_l00013}{Atlas\+::\+Window\+::init()}}, \mbox{\hyperlink{_file_system_8cpp_source_l00028}{Initialize\+File\+Registry()}}, \mbox{\hyperlink{_logging_8cpp_source_l00059}{Log()}}, \mbox{\hyperlink{_config_8cpp_source_l00122}{Lookup\+Config()}}, \mbox{\hyperlink{_config_8cpp_source_l00126}{Lookup\+Config()}}, \mbox{\hyperlink{project_2_project_8cpp_source_l00050}{Project\+::post\+Init()}}, and \mbox{\hyperlink{_application_utils_8h_source_l00161}{Atlas\+::\+Application\+::\+Frame\+Manager\+::\+Run\+Update\+Thread()}}.
-
-\Hypertarget{namespace_atlas_a19e6b5f5dd610b5bc867d30c3bed251d}\label{namespace_atlas_a19e6b5f5dd610b5bc867d30c3bed251d} 
-\index{Atlas@{Atlas}!GetConfigFileRegistry@{GetConfigFileRegistry}}
-\index{GetConfigFileRegistry@{GetConfigFileRegistry}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetConfigFileRegistry()}{GetConfigFileRegistry()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_config_file_registry}{Atlas\+::\+Config\+File\+Registry}} \& Atlas\+::\+Get\+Config\+File\+Registry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00916}{916}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
 
 
 
-Gets the config file registry. 
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00201}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Background\+Pipelines()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01005}{Atlas\+::\+Shader\+::load()}}.
 
-\begin{DoxyReturn}{Returns}
-
-\end{DoxyReturn}
-
-
-Definition at line \mbox{\hyperlink{_config_8cpp_source_l00116}{116}} of file \mbox{\hyperlink{_config_8cpp_source}{Config.\+cpp}}.
-
-
-
-References \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$ Config\+File\+Registry $>$\+::\+Instance()}}.
-
-\Hypertarget{namespace_atlas_a85dcb3d0c186dbbe3ca7f78845c60a21}\label{namespace_atlas_a85dcb3d0c186dbbe3ca7f78845c60a21} 
-\index{Atlas@{Atlas}!GetConfigString@{GetConfigString}}
-\index{GetConfigString@{GetConfigString}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetConfigString()}{GetConfigString()}}
-{\footnotesize\ttfamily const char \texorpdfstring{$\ast$}{*} Atlas\+::\+Get\+Config\+String (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+Name,  }\item[{std\+::string}]{lookup\+Target }\end{DoxyParamCaption})}
+\Hypertarget{namespace_atlas_a6f12a004dc20a0bd231f74ac3eb803a8}\label{namespace_atlas_a6f12a004dc20a0bd231f74ac3eb803a8} 
+\index{Atlas@{Atlas}!Normalize@{Normalize}}
+\index{Normalize@{Normalize}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{Normalize()}{Normalize()}}
+{\footnotesize\ttfamily template$<$Numerical T\+\_\+\+NUMERICAL\+\_\+\+TYPE$>$ \\
+T\+\_\+\+NUMERICAL\+\_\+\+TYPE Atlas\+::\+Normalize (\begin{DoxyParamCaption}\item[{T\+\_\+\+NUMERICAL\+\_\+\+TYPE}]{value,  }\item[{T\+\_\+\+NUMERICAL\+\_\+\+TYPE}]{min,  }\item[{T\+\_\+\+NUMERICAL\+\_\+\+TYPE}]{max }\end{DoxyParamCaption})}
 
 
 
-Gets the config string. 
+Normalizes a given value to be between a min and max value. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em file\+Name} & Name of the file.\\
+{\em value} & The value to normalize \\
 \hline
-{\em lookup\+Target} & The lookup target.\\
+{\em min} & The minimum value that can be returned \\
 \hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-
-\end{DoxyReturn}
-
-
-Definition at line \mbox{\hyperlink{_config_8cpp_source_l00131}{131}} of file \mbox{\hyperlink{_config_8cpp_source}{Config.\+cpp}}.
-
-
-
-References \mbox{\hyperlink{_config_8cpp_source_l00122}{Lookup\+Config()}}.
-
-\Hypertarget{namespace_atlas_a5c20927104cfd9d9b0a6d92b3d55fd65}\label{namespace_atlas_a5c20927104cfd9d9b0a6d92b3d55fd65} 
-\index{Atlas@{Atlas}!GetDate@{GetDate}}
-\index{GetDate@{GetDate}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetDate()}{GetDate()}}
-{\footnotesize\ttfamily std\+::string Atlas\+::\+Get\+Date (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\Hypertarget{namespace_atlas_a73f62e52350edd7a0496cba5d674774d}\label{namespace_atlas_a73f62e52350edd7a0496cba5d674774d} 
-\index{Atlas@{Atlas}!GetFile@{GetFile}}
-\index{GetFile@{GetFile}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetFile()}{GetFile()}}
-{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_registered_file}{Atlas\+::\+Registered\+File}} $>$ Atlas\+::\+Get\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{key,  }\item[{bool}]{load\+If\+Not\+Loaded = {\ttfamily true} }\end{DoxyParamCaption})}
-
-
-
-Gets the file. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em key} & The key.\\
-\hline
-{\em load\+If\+Not\+Loaded} & if set to {\ttfamily true} \mbox{[}load if not loaded\mbox{]}.\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-
-\end{DoxyReturn}
-
-
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00052}{52}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
-
-
-
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
-
-
-
-Referenced by \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\+Registry\+::config\+Lookup()}}, \mbox{\hyperlink{_game_model_8cpp_source_l00025}{Atlas\+::\+Game\+Model\+::\+Game\+Model()}}, \mbox{\hyperlink{_config_8h_source_l00090}{Atlas\+::\+Config\+File\+Registry\+::get\+Json\+File()}}, and \mbox{\hyperlink{_config_8cpp_source_l00041}{Atlas\+::\+Config\+File\+Registry\+::read\+Config\+File()}}.
-
-\Hypertarget{namespace_atlas_adfc00f339f3667f86dfa821fb6a2dd81}\label{namespace_atlas_adfc00f339f3667f86dfa821fb6a2dd81} 
-\index{Atlas@{Atlas}!GetFileMeta@{GetFileMeta}}
-\index{GetFileMeta@{GetFileMeta}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetFileMeta()}{GetFileMeta()}}
-{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_file_meta}{Atlas\+::\+File\+Meta}} $>$ Atlas\+::\+Get\+File\+Meta (\begin{DoxyParamCaption}\item[{std\+::string}]{key }\end{DoxyParamCaption})}
-
-
-
-Gets the file meta. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em key} & The key.\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A shared pointer to the found file meta 
-\end{DoxyReturn}
-
-
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00046}{46}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
-
-
-
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
-
-\Hypertarget{namespace_atlas_a26ee3194395538b80492eed99ef83618}\label{namespace_atlas_a26ee3194395538b80492eed99ef83618} 
-\index{Atlas@{Atlas}!GetFilePath@{GetFilePath}}
-\index{GetFilePath@{GetFilePath}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetFilePath()}{GetFilePath()}}
-{\footnotesize\ttfamily std\+::string Atlas\+::\+Get\+File\+Path (\begin{DoxyParamCaption}\item[{std\+::string}]{key }\end{DoxyParamCaption})}
-
-
-
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00057}{57}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
-
-
-
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
-
-
-
-Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00073}{Atlas\+::\+BProject\+::pre\+Init()}}.
-
-\Hypertarget{namespace_atlas_a2cb0cf87e4174aa22214eb99c3b3e9cb}\label{namespace_atlas_a2cb0cf87e4174aa22214eb99c3b3e9cb} 
-\index{Atlas@{Atlas}!GetFileSystemRegistry@{GetFileSystemRegistry}}
-\index{GetFileSystemRegistry@{GetFileSystemRegistry}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetFileSystemRegistry()}{GetFileSystemRegistry()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_file_system_registry}{Atlas\+::\+File\+System\+Registry}} \& Atlas\+::\+Get\+File\+System\+Registry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Gets the file system registry. 
-
-\begin{DoxyReturn}{Returns}
-A reference to the current file system registry singleton
-\end{DoxyReturn}
-
-
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00022}{22}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
-
-\Hypertarget{namespace_atlas_ae4147e1ed53261fedf1809ea1fd913ed}\label{namespace_atlas_ae4147e1ed53261fedf1809ea1fd913ed} 
-\index{Atlas@{Atlas}!GetGlobal@{GetGlobal}}
-\index{GetGlobal@{GetGlobal}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetGlobal()}{GetGlobal()}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-T \& Atlas\+::\+Get\+Global (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key }\end{DoxyParamCaption})}
-
-
-
-Definition at line \mbox{\hyperlink{_globals_8h_source_l00031}{31}} of file \mbox{\hyperlink{_globals_8h_source}{Globals.\+h}}.
-
-
-
-References \mbox{\hyperlink{_globals_8h_source_l00023}{Atlas\+::\+Globals\+Container\+::get()}}, and \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$ Globals\+Container $>$\+::\+Instance()}}.
-
-\Hypertarget{namespace_atlas_adf4811a408b9ca01aec8b9a587b9a751}\label{namespace_atlas_adf4811a408b9ca01aec8b9a587b9a751} 
-\index{Atlas@{Atlas}!GetGlobalValue@{GetGlobalValue}}
-\index{GetGlobalValue@{GetGlobalValue}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetGlobalValue()}{GetGlobalValue()}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Get\+Global\+Value (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name }\end{DoxyParamCaption})}
-
-
-
-Gets a global variable and casts it to the specified type. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em name} & The name of which it is stored under\\
+{\em max} & The maximum value that can be returned\\
 \hline
 \end{DoxyParams}
 
 \begin{DoxyTemplParams}{Template Parameters}
-{\em T} & What to cast the value to\\
+{\em T\+\_\+\+NUMERICAL\+\_\+\+TYPE} & The numerical type to use. This can be any numerical type\\
 \hline
 \end{DoxyTemplParams}
 \begin{DoxyReturn}{Returns}
-the value that is stored
+A normalized value of the given value
 \end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00637}{637}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_math_8h_source_l00035}{35}} of file \mbox{\hyperlink{_math_8h_source}{Math.\+h}}.
 
-
-
-References \mbox{\hyperlink{_common_8h_source_l00595}{Atlas\+::\+Globals\+::get()}}, and \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$ Globals $>$\+::\+Instance()}}.
-
-\Hypertarget{namespace_atlas_a5b792faf29085a5da63f88014b79aac5}\label{namespace_atlas_a5b792faf29085a5da63f88014b79aac5} 
-\index{Atlas@{Atlas}!GetSpdlogLevel@{GetSpdlogLevel}}
-\index{GetSpdlogLevel@{GetSpdlogLevel}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{GetSpdlogLevel()}{GetSpdlogLevel()}}
-{\footnotesize\ttfamily spdlog\+::level\+::level\+\_\+enum Atlas\+::\+Get\+Spdlog\+Level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}}}]{level }\end{DoxyParamCaption})}
-
-
-
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00055}{55}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+\Hypertarget{namespace_atlas_ace931dde37d1a3b3f4919d9f5565a44e}\label{namespace_atlas_ace931dde37d1a3b3f4919d9f5565a44e} 
+\index{Atlas@{Atlas}!PathExists@{PathExists}}
+\index{PathExists@{PathExists}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{PathExists()}{PathExists()}}
+{\footnotesize\ttfamily bool Atlas\+::\+Path\+Exists (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Path\+Location}} const \&}]{c\+Path }\end{DoxyParamCaption})}
 
 
 
-Referenced by \mbox{\hyperlink{_logging_8cpp_source_l00064}{Atlas\+::\+Logger\+::\+Init\+Spdlog()}}.
-
-\Hypertarget{namespace_atlas_ab59cd60859cde46712ee41f24a093547}\label{namespace_atlas_ab59cd60859cde46712ee41f24a093547} 
-\index{Atlas@{Atlas}!InitializeConfigRegistry@{InitializeConfigRegistry}}
-\index{InitializeConfigRegistry@{InitializeConfigRegistry}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{InitializeConfigRegistry()}{InitializeConfigRegistry()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Initialize\+Config\+Registry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+Definition at line \mbox{\hyperlink{_file_8cpp_source_l00088}{88}} of file \mbox{\hyperlink{_file_8cpp_source}{File.\+cpp}}.
 
 
 
-Initializes the config registry. 
+Referenced by \mbox{\hyperlink{_file_8cpp_source_l00037}{Atlas\+::\+AFile\+::open()}}.
+
+\Hypertarget{namespace_atlas_a57b2793df7151657e8a1373ad49555c7}\label{namespace_atlas_a57b2793df7151657e8a1373ad49555c7} 
+\index{Atlas@{Atlas}!RegisterDefaultMemoryFunctions@{RegisterDefaultMemoryFunctions}}
+\index{RegisterDefaultMemoryFunctions@{RegisterDefaultMemoryFunctions}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{RegisterDefaultMemoryFunctions()}{RegisterDefaultMemoryFunctions()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Register\+Default\+Memory\+Functions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
-Definition at line \mbox{\hyperlink{_config_8cpp_source_l00120}{120}} of file \mbox{\hyperlink{_config_8cpp_source}{Config.\+cpp}}.
+Definition at line \mbox{\hyperlink{_memory_allocator_8cpp_source_l00048}{48}} of file \mbox{\hyperlink{_memory_allocator_8cpp_source}{Memory\+Allocator.\+cpp}}.
+
+\Hypertarget{namespace_atlas_a05a2f5e774c38d9f67fbba5b96a79926}\label{namespace_atlas_a05a2f5e774c38d9f67fbba5b96a79926} 
+\index{Atlas@{Atlas}!RegisterMemoryFunctions@{RegisterMemoryFunctions}}
+\index{RegisterMemoryFunctions@{RegisterMemoryFunctions}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{RegisterMemoryFunctions()}{RegisterMemoryFunctions()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Register\+Memory\+Functions (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator}{Memory\+Functions\+Aggregator}} \&}]{memory\+Functions\+Aggregator }\end{DoxyParamCaption})}
 
 
 
-References \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, and \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$ Config\+File\+Registry $>$\+::\+Instance()}}.
-
-\Hypertarget{namespace_atlas_afa957c3a57e0cd460b645e62eb077137}\label{namespace_atlas_afa957c3a57e0cd460b645e62eb077137} 
-\index{Atlas@{Atlas}!InitializeFileRegistry@{InitializeFileRegistry}}
-\index{InitializeFileRegistry@{InitializeFileRegistry}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{InitializeFileRegistry()}{InitializeFileRegistry()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Initialize\+File\+Registry (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{root\+Path }\end{DoxyParamCaption})}
+Definition at line \mbox{\hyperlink{_memory_allocator_8cpp_source_l00035}{35}} of file \mbox{\hyperlink{_memory_allocator_8cpp_source}{Memory\+Allocator.\+cpp}}.
 
 
 
-Initializes the file registry. 
+References \mbox{\hyperlink{_memory_allocator_8cpp_source_l00026}{Alloc}}, \mbox{\hyperlink{_memory_allocator_8h_source_l00080}{Atlas\+::\+Memory\+Functions\+Aggregator\+::alloc}}, \mbox{\hyperlink{_memory_allocator_8cpp_source_l00030}{Alloc\+Aligned}}, \mbox{\hyperlink{_memory_allocator_8h_source_l00084}{Atlas\+::\+Memory\+Functions\+Aggregator\+::alloc\+Aligned}}, \mbox{\hyperlink{_memory_allocator_8cpp_source_l00028}{Free}}, \mbox{\hyperlink{_memory_allocator_8h_source_l00082}{Atlas\+::\+Memory\+Functions\+Aggregator\+::free}}, \mbox{\hyperlink{_memory_allocator_8cpp_source_l00031}{Free\+Aligned}}, \mbox{\hyperlink{_memory_allocator_8h_source_l00085}{Atlas\+::\+Memory\+Functions\+Aggregator\+::free\+Aligned}}, \mbox{\hyperlink{_memory_allocator_8cpp_source_l00027}{Realloc}}, and \mbox{\hyperlink{_memory_allocator_8h_source_l00081}{Atlas\+::\+Memory\+Functions\+Aggregator\+::realloc}}.
+
+\Hypertarget{namespace_atlas_a99f635979073f78d17b53016253bd978}\label{namespace_atlas_a99f635979073f78d17b53016253bd978} 
+\index{Atlas@{Atlas}!resetLoadedRenderingBackend@{resetLoadedRenderingBackend}}
+\index{resetLoadedRenderingBackend@{resetLoadedRenderingBackend}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{resetLoadedRenderingBackend()}{resetLoadedRenderingBackend()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::reset\+Loaded\+Rendering\+Backend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00977}{977}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_v_k_device_8cpp_source_l00966}{set\+Loaded\+Rendering\+Backend()}}.
+
+\Hypertarget{namespace_atlas_acdcca076db7097e823f49edf61e82522}\label{namespace_atlas_acdcca076db7097e823f49edf61e82522} 
+\index{Atlas@{Atlas}!setLoadedRenderingBackend@{setLoadedRenderingBackend}}
+\index{setLoadedRenderingBackend@{setLoadedRenderingBackend}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{setLoadedRenderingBackend()}{setLoadedRenderingBackend()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::set\+Loaded\+Rendering\+Backend (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Vulkan\+Rendering\+Backend}} \texorpdfstring{$\ast$}{*}}]{backend }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00966}{966}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_v_k_device_8cpp_source_l00066}{g\+Loaded\+Vulkan\+Backend}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00634}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::shutdown()}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00977}{reset\+Loaded\+Rendering\+Backend()}}.
+
+\Hypertarget{namespace_atlas_a84f02e043673e0eaaee2ab1d0452f4c0}\label{namespace_atlas_a84f02e043673e0eaaee2ab1d0452f4c0} 
+\index{Atlas@{Atlas}!SubmitCommandBufferInfo@{SubmitCommandBufferInfo}}
+\index{SubmitCommandBufferInfo@{SubmitCommandBufferInfo}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{SubmitCommandBufferInfo()}{SubmitCommandBufferInfo()}}
+{\footnotesize\ttfamily Vk\+Command\+Buffer\+Submit\+Info Atlas\+::\+Submit\+Command\+Buffer\+Info (\begin{DoxyParamCaption}\item[{Vk\+Command\+Buffer}]{cmd }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00760}{760}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00523}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00333}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::\+Immediate\+Submit()}}.
+
+\Hypertarget{namespace_atlas_acc1dff74be875e4f9bd925cc13587d88}\label{namespace_atlas_acc1dff74be875e4f9bd925cc13587d88} 
+\index{Atlas@{Atlas}!SubmitInfo@{SubmitInfo}}
+\index{SubmitInfo@{SubmitInfo}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{SubmitInfo()}{SubmitInfo()}}
+{\footnotesize\ttfamily Vk\+Submit\+Info2 Atlas\+::\+Submit\+Info (\begin{DoxyParamCaption}\item[{Vk\+Command\+Buffer\+Submit\+Info \texorpdfstring{$\ast$}{*}}]{cmd,  }\item[{Vk\+Semaphore\+Submit\+Info \texorpdfstring{$\ast$}{*}}]{signal\+Semaphore\+Info,  }\item[{Vk\+Semaphore\+Submit\+Info \texorpdfstring{$\ast$}{*}}]{wait\+Semaphore\+Info }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00771}{771}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00523}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00333}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::\+Immediate\+Submit()}}.
+
+\Hypertarget{namespace_atlas_a06289b29f23886f16f108939d8158e9b}\label{namespace_atlas_a06289b29f23886f16f108939d8158e9b} 
+\index{Atlas@{Atlas}!SubmitSemaphoreInfo@{SubmitSemaphoreInfo}}
+\index{SubmitSemaphoreInfo@{SubmitSemaphoreInfo}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{SubmitSemaphoreInfo()}{SubmitSemaphoreInfo()}}
+{\footnotesize\ttfamily Vk\+Semaphore\+Submit\+Info Atlas\+::\+Submit\+Semaphore\+Info (\begin{DoxyParamCaption}\item[{Vk\+Pipeline\+Stage\+Flags2}]{stage\+Mask,  }\item[{Vk\+Semaphore}]{semaphore }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00747}{747}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00523}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw()}}.
+
+\Hypertarget{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3}\label{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3} 
+\index{Atlas@{Atlas}!TransitionImage@{TransitionImage}}
+\index{TransitionImage@{TransitionImage}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{TransitionImage()}{TransitionImage()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Transition\+Image (\begin{DoxyParamCaption}\item[{Vk\+Command\+Buffer}]{cmd,  }\item[{Vk\+Image}]{image,  }\item[{Vk\+Image\+Layout}]{current\+Layout,  }\item[{Vk\+Image\+Layout}]{new\+Layout }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00800}{800}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_v_k_device_8cpp_source_l00827}{Create\+Image\+Subresource\+Range()}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00523}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw()}}.
+
+\Hypertarget{namespace_atlas_a43d5dd37e72abb3a4d9e3b13f07c845d}\label{namespace_atlas_a43d5dd37e72abb3a4d9e3b13f07c845d} 
+\index{Atlas@{Atlas}!TranslateVulkanLogLevel@{TranslateVulkanLogLevel}}
+\index{TranslateVulkanLogLevel@{TranslateVulkanLogLevel}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{TranslateVulkanLogLevel()}{TranslateVulkanLogLevel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Atlas\+::\+Log\+Level}} Atlas\+::\+Translate\+Vulkan\+Log\+Level (\begin{DoxyParamCaption}\item[{Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT}]{message\+Severity }\end{DoxyParamCaption})}
+
+
+
+Translates a vulkan debug log level to one that \doxylink{namespace_atlas}{Atlas} can use. For the most part, the Vulkan debug log levels are the same as the \doxylink{namespace_atlas}{Atlas} ones, with {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+INFO\+\_\+\+BIT\+\_\+\+EXT}, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+WARNING\+\_\+\+BIT\+\_\+\+EXT}, and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+ERROR\+\_\+\+BIT\+\_\+\+EXT} being the same as {\itshape Log\+Level\+::info}, {\itshape Log\+Level\+::warn}, and {\itshape Log\+Level\+::err} in that order. However, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+VERBOSE\+\_\+\+BIT\+\_\+\+EXT} and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM\+\_\+\+EXT} are translated to {\itshape Log\+Level\+::trace} and {\itshape Log\+Level\+::critical}, respectively. The default is {\itshape Log\+Level\+::info}. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em root\+Path} & The root path.\\
-\hline
-\end{DoxyParams}
-
-
-Definition at line \mbox{\hyperlink{_file_system_8cpp_source_l00028}{28}} of file \mbox{\hyperlink{_file_system_8cpp_source}{File\+System.\+cpp}}.
-
-
-
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
-
-\Hypertarget{namespace_atlas_a254f5a6dc4d6b4838489a9afd1c31709}\label{namespace_atlas_a254f5a6dc4d6b4838489a9afd1c31709} 
-\index{Atlas@{Atlas}!IsPathSandboxed@{IsPathSandboxed}}
-\index{IsPathSandboxed@{IsPathSandboxed}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{IsPathSandboxed()}{IsPathSandboxed()}}
-{\footnotesize\ttfamily bool Atlas\+::\+Is\+Path\+Sandboxed (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{path }\end{DoxyParamCaption})}
-
-
-
-Checks if a path is within the sandbox by checking \mbox{[}path\mbox{]} against the current. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em path} & \\
+{\em message\+Severity} & The Vulkan debug log level to translate.\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-
+The translated log level. See the description for more information.
 \end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_file_path_8cpp_source_l00004}{4}} of file \mbox{\hyperlink{_file_path_8cpp_source}{File\+Path.\+cpp}}.
-
-\Hypertarget{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f}\label{namespace_atlas_a53c9a6db76d92cdd29f74d218596485f} 
-\index{Atlas@{Atlas}!Log@{Log}}
-\index{Log@{Log}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{Log()}{Log()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Log (\begin{DoxyParamCaption}\item[{std\+::string}]{message,  }\item[{\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}}}]{level = {\ttfamily \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079adc30ec20708ef7b0f641ef78b7880a15}{ELog\+Level\+::\+DEBUG}}},  }\item[{const std\+::source\+\_\+location \&}]{location = {\ttfamily std\+:\+:source\+\_\+location\+:\+:current()} }\end{DoxyParamCaption})}
+Definition at line \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00130}{130}} of file \mbox{\hyperlink{_vulkan_instance_8cpp_source}{Vulkan\+Instance.\+cpp}}.
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00059}{59}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+Referenced by \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00160}{Default\+Vulkan\+Debug\+Callback()}}.
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespace_atlas_a947beff0f867fc02816f89ee71ed8b3a}\label{namespace_atlas_a947beff0f867fc02816f89ee71ed8b3a} 
+\index{Atlas@{Atlas}!Alloc@{Alloc}}
+\index{Alloc@{Alloc}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{Alloc}{Alloc}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_ac98e9185bf8a8392b28e443b6ee1a278}{Alloc\+Func}} Atlas\+::\+Alloc = nullptr}
 
 
 
-Referenced by \mbox{\hyperlink{_file_system_registry_8cpp_source_l00219}{Atlas\+::\+File\+System\+Registry\+::\+Missing\+File\+Load\+Function\+Exception\+::\+Access\+Violation\+Exception()}}, \mbox{\hyperlink{_config_8cpp_source_l00067}{Atlas\+::\+Config\+File\+Registry\+::config\+Lookup()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00176}{Atlas\+::\+File\+System\+Registry\+::get\+File()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00092}{Atlas\+::\+File\+System\+Registry\+::\+Get\+File\+Meta()}}, \mbox{\hyperlink{_config_8cpp_source_l00020}{Atlas\+::\+Config\+File\+Registry\+::init()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00042}{Atlas\+::\+File\+System\+Registry\+::init()}}, \mbox{\hyperlink{_window_8cpp_source_l00013}{Atlas\+::\+Window\+::init()}}, \mbox{\hyperlink{_atlas_app_8h_source_l00026}{Atlas\+::\+Application\+::\+Atlas\+App\+::init\+Window()}}, \mbox{\hyperlink{_application_utils_8h_source_l00212}{Atlas\+::\+Application\+::\+Frame\+Manager\+::launch\+Threads()}}, \mbox{\hyperlink{_config_8cpp_source_l00085}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+Config\+File()}}, \mbox{\hyperlink{_file_system_registry_8cpp_source_l00119}{Atlas\+::\+File\+System\+Registry\+::load\+File()}}, \mbox{\hyperlink{_config_8cpp_source_l00093}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+JSONFile()}}, \mbox{\hyperlink{_config_8cpp_source_l00101}{Atlas\+::\+Config\+File\+Registry\+::\+Load\+XMLFile()}}, \mbox{\hyperlink{engine_2_project_8cpp_source_l00073}{Atlas\+::\+BProject\+::pre\+Init()}}, \mbox{\hyperlink{_atlas_app_8h_source_l00015}{Atlas\+::\+Application\+::\+Atlas\+App\+::prepare\+Project()}}, \mbox{\hyperlink{_logging_8cpp_source_l00216}{Atlas\+::\+Logger\+::\+Raylib\+Log\+Callback()}}, and \mbox{\hyperlink{_file_system_registry_8cpp_source_l00063}{Atlas\+::\+File\+System\+Registry\+::register\+File()}}.
-
-\Hypertarget{namespace_atlas_aea78e3773f79ad0d706edfea919cfc63}\label{namespace_atlas_aea78e3773f79ad0d706edfea919cfc63} 
-\index{Atlas@{Atlas}!LookupConfig@{LookupConfig}}
-\index{LookupConfig@{LookupConfig}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{LookupConfig()}{LookupConfig()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily libconfig\+::\+Setting \& Atlas\+::\+Lookup\+Config (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Name,  }\item[{const std\+::string \&}]{lookup\+Target }\end{DoxyParamCaption})}
+Definition at line \mbox{\hyperlink{_memory_allocator_8cpp_source_l00026}{26}} of file \mbox{\hyperlink{_memory_allocator_8cpp_source}{Memory\+Allocator.\+cpp}}.
 
 
 
-Looks up the config. 
+Referenced by \mbox{\hyperlink{_memory_allocator_8cpp_source_l00035}{Register\+Memory\+Functions()}}.
 
-
-\begin{DoxyParams}{Parameters}
-{\em file\+Name} & Name of the file.\\
-\hline
-{\em lookup\+Target} & The lookup target.\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-
-\end{DoxyReturn}
-
-
-Definition at line \mbox{\hyperlink{_config_8cpp_source_l00122}{122}} of file \mbox{\hyperlink{_config_8cpp_source}{Config.\+cpp}}.
+\Hypertarget{namespace_atlas_a6c1c979baaf72c3c3e09d773abade963}\label{namespace_atlas_a6c1c979baaf72c3c3e09d773abade963} 
+\index{Atlas@{Atlas}!AllocAligned@{AllocAligned}}
+\index{AllocAligned@{AllocAligned}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{AllocAligned}{AllocAligned}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a49ed2279b082b65090203337d2923cfb}{Aligned\+Alloc\+Func}} Atlas\+::\+Alloc\+Aligned = nullptr}
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
+Definition at line \mbox{\hyperlink{_memory_allocator_8cpp_source_l00030}{30}} of file \mbox{\hyperlink{_memory_allocator_8cpp_source}{Memory\+Allocator.\+cpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{_config_8cpp_source_l00131}{Get\+Config\+String()}}, \mbox{\hyperlink{_window_8cpp_source_l00013}{Atlas\+::\+Window\+::init()}}, and \mbox{\hyperlink{_atlas_app_8h_source_l00026}{Atlas\+::\+Application\+::\+Atlas\+App\+::init\+Window()}}.
+Referenced by \mbox{\hyperlink{_memory_allocator_8cpp_source_l00035}{Register\+Memory\+Functions()}}.
 
-\Hypertarget{namespace_atlas_aa868baa972e322c4a9d6870ed1a76824}\label{namespace_atlas_aa868baa972e322c4a9d6870ed1a76824} 
-\index{Atlas@{Atlas}!LookupConfig@{LookupConfig}}
-\index{LookupConfig@{LookupConfig}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{LookupConfig()}{LookupConfig()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily libconfig\+::\+Setting \& Atlas\+::\+Lookup\+Config (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_atlas_1_1_registered_file}{Registered\+File}} $>$}]{file,  }\item[{const std\+::string \&}]{lookup\+Target }\end{DoxyParamCaption})}
-
-
-
-Definition at line \mbox{\hyperlink{_config_8cpp_source_l00126}{126}} of file \mbox{\hyperlink{_config_8cpp_source}{Config.\+cpp}}.
+\Hypertarget{namespace_atlas_a314364d52a78f11273971f50db3960e3}\label{namespace_atlas_a314364d52a78f11273971f50db3960e3} 
+\index{Atlas@{Atlas}!FRAME\_OVERLAP@{FRAME\_OVERLAP}}
+\index{FRAME\_OVERLAP@{FRAME\_OVERLAP}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{FRAME\_OVERLAP}{FRAME\_OVERLAP}}
+{\footnotesize\ttfamily constexpr unsigned int Atlas\+::\+FRAME\+\_\+\+OVERLAP = 2\hspace{0.3cm}{\ttfamily [constexpr]}}
 
 
 
-References \mbox{\hyperlink{engine_2_project_8cpp_source_l00299}{Get\+Atlas\+Engine()}}.
-
-\Hypertarget{namespace_atlas_a51fdcf67897c4f8a2845255331167e28}\label{namespace_atlas_a51fdcf67897c4f8a2845255331167e28} 
-\index{Atlas@{Atlas}!SetGlobal@{SetGlobal}}
-\index{SetGlobal@{SetGlobal}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{SetGlobal()}{SetGlobal()}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Set\+Global (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key,  }\item[{const T \&}]{value }\end{DoxyParamCaption})}
+Definition at line \mbox{\hyperlink{_frame_8h_source_l00030}{30}} of file \mbox{\hyperlink{_frame_8h_source}{Frame.\+h}}.
 
 
 
-Definition at line \mbox{\hyperlink{_globals_8h_source_l00038}{38}} of file \mbox{\hyperlink{_globals_8h_source}{Globals.\+h}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00128}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::get\+Current\+Frame()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00256}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00634}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::shutdown()}}.
+
+\Hypertarget{namespace_atlas_a3cac8311b7a548ec71ec511bc8b38f99}\label{namespace_atlas_a3cac8311b7a548ec71ec511bc8b38f99} 
+\index{Atlas@{Atlas}!Free@{Free}}
+\index{Free@{Free}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{Free}{Free}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a72cf222afb41a2a8d147b6360ec0cc8b}{Free\+Func}} Atlas\+::\+Free = nullptr}
 
 
 
-References \mbox{\hyperlink{_singleton_8h_source_l00025}{Atlas\+::\+Singleton$<$ Globals\+Container $>$\+::\+Instance()}}, and \mbox{\hyperlink{_globals_8h_source_l00014}{Atlas\+::\+Globals\+Container\+::set()}}.
-
-\Hypertarget{namespace_atlas_aee18cc5dcd651a9551fb2302e723de8c}\label{namespace_atlas_aee18cc5dcd651a9551fb2302e723de8c} 
-\index{Atlas@{Atlas}!SetGlobalValue@{SetGlobalValue}}
-\index{SetGlobalValue@{SetGlobalValue}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{SetGlobalValue()}{SetGlobalValue()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Set\+Global\+Value (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name,  }\item[{std\+::any \&}]{value }\end{DoxyParamCaption})}
+Definition at line \mbox{\hyperlink{_memory_allocator_8cpp_source_l00028}{28}} of file \mbox{\hyperlink{_memory_allocator_8cpp_source}{Memory\+Allocator.\+cpp}}.
 
 
 
-Definition at line \mbox{\hyperlink{_common_8cpp_source_l00016}{16}} of file \mbox{\hyperlink{_common_8cpp_source}{Common.\+cpp}}.
+Referenced by \mbox{\hyperlink{_memory_allocator_8cpp_source_l00035}{Register\+Memory\+Functions()}}.
 
-\Hypertarget{namespace_atlas_a658a106e1df3b9b79fc59eaa38ee349e}\label{namespace_atlas_a658a106e1df3b9b79fc59eaa38ee349e} 
-\index{Atlas@{Atlas}!t@{t}}
-\index{t@{t}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{t()}{t()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::t (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Definition at line \mbox{\hyperlink{_registry_8h_source_l00125}{125}} of file \mbox{\hyperlink{_registry_8h_source}{Registry.\+h}}.
+\Hypertarget{namespace_atlas_afc0aecdfa4dd521ec30bc1434959f1d6}\label{namespace_atlas_afc0aecdfa4dd521ec30bc1434959f1d6} 
+\index{Atlas@{Atlas}!FreeAligned@{FreeAligned}}
+\index{FreeAligned@{FreeAligned}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{FreeAligned}{FreeAligned}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_af456e30e8e0a59c371cf0cfa82aab9e7}{Aligned\+Free\+Func}} Atlas\+::\+Free\+Aligned = nullptr}
 
 
 
-Referenced by \mbox{\hyperlink{_thread_group_8cpp_source_l00013}{Atlas\+::\+Thread\+Group\+::add\+Thread()}}, \mbox{\hyperlink{_vec3_8cpp_source_l00194}{Atlas\+::\+Vec3\+::lerp()}}, and \mbox{\hyperlink{_thread_group_8cpp_source_l00020}{Atlas\+::\+Thread\+Group\+::stop\+All()}}.
+Definition at line \mbox{\hyperlink{_memory_allocator_8cpp_source_l00031}{31}} of file \mbox{\hyperlink{_memory_allocator_8cpp_source}{Memory\+Allocator.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_memory_allocator_8cpp_source_l00035}{Register\+Memory\+Functions()}}.
+
+\Hypertarget{namespace_atlas_a84991fffe2488f755c2d2f38c2bf3b27}\label{namespace_atlas_a84991fffe2488f755c2d2f38c2bf3b27} 
+\index{Atlas@{Atlas}!Realloc@{Realloc}}
+\index{Realloc@{Realloc}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{Realloc}{Realloc}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a0810df7523f86fbd70ce4a06398f7674}{Realloc\+Func}} Atlas\+::\+Realloc = nullptr}
+
+
+
+Definition at line \mbox{\hyperlink{_memory_allocator_8cpp_source_l00027}{27}} of file \mbox{\hyperlink{_memory_allocator_8cpp_source}{Memory\+Allocator.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_memory_allocator_8cpp_source_l00035}{Register\+Memory\+Functions()}}.
 

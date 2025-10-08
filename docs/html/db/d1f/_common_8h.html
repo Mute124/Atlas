@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Atlas: C:/Dev/Techstorm-v5/src/engine/Common.h File Reference</title>
+<title>Atlas: C:/Dev/Techstorm-v5/src/engine/core/Common.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -95,13 +95,12 @@ $(document).ready(function(){initNavTree('db/d1f/_common_8h.html','../../'); ini
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">Common.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Common includes and definitions that are used throughout the engine. There are going to be very limited amounts of actual engine includes, so this is not a replacement for that. Instead, this is a way to centralize the includes and definitions that are used throughout the engine.  
-<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;cstdarg&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
@@ -112,17 +111,22 @@ $(document).ready(function(){initNavTree('db/d1f/_common_8h.html','../../'); ini
 <code>#include &lt;unordered_map&gt;</code><br />
 <code>#include &lt;unordered_set&gt;</code><br />
 <code>#include &lt;set&gt;</code><br />
-<code>#include &quot;<a class="el" href="../../de/dec/_singleton_8h_source.html">utils/Singleton.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d2/d94/_input_8h_source.html">input/Input.h</a>&quot;</code><br />
 <code>#include &lt;chrono&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;glm/glm.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../d4/d09/_core_8h_source.html">Core.h</a>&quot;</code><br />
 </div>
 <p><a href="../../db/d1f/_common_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dfb/class_atlas_1_1_globals.html">Atlas::Globals</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a 3D vector. It will wrap raylib's Vector3 and Jolt's RVec3 to allow seamless integration. This also wraps raylib's vector math functions.  <a href="../../d0/dfb/class_atlas_1_1_globals.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dd2/struct_atlas_1_1_rectangle.html">Atlas::Rectangle&lt; T_NUMERIC_TYPE &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/class_atlas_1_1_i_stringified_object.html">Atlas::IStringifiedObject</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An interface for classes that want to be printable.  <a href="../../de/dc7/class_atlas_1_1_i_stringified_object.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d7b/class_atlas_1_1_stringified_object.html">Atlas::StringifiedObject&lt; T_CHILD &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An "inherit-and-forget" class that implements the IPrettyObject interface for you. This class uses a data-driven approach to get the string representation of the object.  <a href="../../d2/d7b/class_atlas_1_1_stringified_object.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d0a/class_atlas_1_1_reference_holder.html">Atlas::ReferenceHolder&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,14 +138,16 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ac7ecceb6a0eb822735497653d42ac408" id="r_ac7ecceb6a0eb822735497653d42ac408"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#ac7ecceb6a0eb822735497653d42ac408">ATLAS_PLATFORM_UNKNOWN</a></td></tr>
-<tr class="separator:ac7ecceb6a0eb822735497653d42ac408"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad362596c1f6ffd16c0b9d62f95b1da7" id="r_aad362596c1f6ffd16c0b9d62f95b1da7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#aad362596c1f6ffd16c0b9d62f95b1da7">ATLAS_GENERATED_NULL_CHECK</a>(ptr)&#160;&#160;&#160;if(ptr == nullptr) { return; }</td></tr>
-<tr class="memdesc:aad362596c1f6ffd16c0b9d62f95b1da7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to check if a pointer is null and return if it is. This is used to catch null pointer exceptions.  <br /></td></tr>
-<tr class="separator:aad362596c1f6ffd16c0b9d62f95b1da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e257ceb33faf65903288cf016bb7d87" id="r_a7e257ceb33faf65903288cf016bb7d87"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#a7e257ceb33faf65903288cf016bb7d87">ATLAS_GENERATED_NULL_CHECK_RETURN</a>(ptr)&#160;&#160;&#160;if(ptr == nullptr) { return nullptr; }</td></tr>
-<tr class="memdesc:a7e257ceb33faf65903288cf016bb7d87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to check if a pointer is null and return a null pointer if it is. This is used to catch null pointer exceptions.  <br /></td></tr>
-<tr class="separator:a7e257ceb33faf65903288cf016bb7d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18a4c37c962b54b7008c2a9bc69eac83" id="r_a18a4c37c962b54b7008c2a9bc69eac83"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#a18a4c37c962b54b7008c2a9bc69eac83">ATLAS_ASSERT</a>(condition,  message)</td></tr>
+<tr class="memdesc:a18a4c37c962b54b7008c2a9bc69eac83"><td class="mdescLeft">&#160;</td><td class="mdescRight">If enabled (see the warning in the documentation), this will assert the specified condition by using the C++ assert function.  <br /></td></tr>
+<tr class="separator:a18a4c37c962b54b7008c2a9bc69eac83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a299f2843b524a1346e4c9e0c09fdc9cc" id="r_a299f2843b524a1346e4c9e0c09fdc9cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#a299f2843b524a1346e4c9e0c09fdc9cc">ATLAS_STATIC_ASSERT</a>(condition,  message)</td></tr>
+<tr class="memdesc:a299f2843b524a1346e4c9e0c09fdc9cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">If enabled (see the warning in the documentation), this will do a static assertion for the specified condition by using the C++ static_assert function.  <br /></td></tr>
+<tr class="separator:a299f2843b524a1346e4c9e0c09fdc9cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16f673d9e7a39c1b848adbccc23eb8a2" id="r_a16f673d9e7a39c1b848adbccc23eb8a2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#a16f673d9e7a39c1b848adbccc23eb8a2">ATLAS_TYPE_NAME</a>(...)&#160;&#160;&#160;__VA_ARGS__</td></tr>
+<tr class="separator:a16f673d9e7a39c1b848adbccc23eb8a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fd96e43445fdeb56fec01232f04788f" id="r_a2fd96e43445fdeb56fec01232f04788f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#a2fd96e43445fdeb56fec01232f04788f">ATLAS_STRINGIFY</a>(...)&#160;&#160;&#160;#__VA_ARGS__</td></tr>
+<tr class="separator:a2fd96e43445fdeb56fec01232f04788f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2409aa2a1a2ed9a03d428b3aa8c0c4c3" id="r_a2409aa2a1a2ed9a03d428b3aa8c0c4c3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#a2409aa2a1a2ed9a03d428b3aa8c0c4c3">ATLAS_TOP_LAYER_DIR</a>&#160;&#160;&#160;static_cast&lt;std::string&gt;(ATLAS_TOP_LAYER)</td></tr>
 <tr class="memdesc:a2409aa2a1a2ed9a03d428b3aa8c0c4c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these will be in the build directory rather than the final distribution directory.  <br /></td></tr>
 <tr class="separator:a2409aa2a1a2ed9a03d428b3aa8c0c4c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,25 +165,70 @@ Macros</h2></td></tr>
 <tr class="separator:adf75ba6fb29a4f5b02330c8732e65865"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05798e0231584e6e6cdcabd194d95317" id="r_a05798e0231584e6e6cdcabd194d95317"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#a05798e0231584e6e6cdcabd194d95317">ATLAS_NULL_JPEG</a>&#160;&#160;&#160;static_cast&lt;std::string&gt;(<a class="el" href="../../db/d1f/_common_8h.html#af115c0ba9301089cf8dda6a7b8de6efd">ATLAS_ASSET_DIR</a>) + static_cast&lt;std::string&gt;(&quot;/engine/null.jpeg&quot;)</td></tr>
 <tr class="separator:a05798e0231584e6e6cdcabd194d95317"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3c90f8768bb5361d2083a2ed878c1bb" id="r_ac3c90f8768bb5361d2083a2ed878c1bb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#ac3c90f8768bb5361d2083a2ed878c1bb">ATLAS_NULL_GIF</a>&#160;&#160;&#160;<a class="el" href="../../db/d1f/_common_8h.html#af115c0ba9301089cf8dda6a7b8de6efd">ATLAS_ASSET_DIR</a> + static_cast&lt;std::string&gt;(&quot;/engine/null.gif&quot;)</td></tr>
+<tr class="memitem:ac3c90f8768bb5361d2083a2ed878c1bb" id="r_ac3c90f8768bb5361d2083a2ed878c1bb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d1f/_common_8h.html#ac3c90f8768bb5361d2083a2ed878c1bb">ATLAS_NULL_GIF</a>&#160;&#160;&#160;<a class="el" href="../../db/d1f/_common_8h.html#af115c0ba9301089cf8dda6a7b8de6efd">ATLAS_ASSET_DIR</a> + static_cast&lt;std::string&gt;(&quot;/engine/null.gif&quot;</td></tr>
 <tr class="separator:ac3c90f8768bb5361d2083a2ed878c1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a90dfcd6fcf4fd7ab785efeaf6934e38e" id="r_a90dfcd6fcf4fd7ab785efeaf6934e38e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a90dfcd6fcf4fd7ab785efeaf6934e38e">Atlas::HighResolutionTimepoint</a> = std::chrono::high_resolution_clock::time_point</td></tr>
+<tr class="separator:a90dfcd6fcf4fd7ab785efeaf6934e38e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a81cbb470bb667d0621e0e6572698f6a8" id="r_a81cbb470bb667d0621e0e6572698f6a8"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8">Atlas::EResultCode</a> : uint32_t { <a class="el" href="../../d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8ad7c8c85bf79bbe1b7188497c32c3b0ca">Atlas::Failed</a> = 0
+, <a class="el" href="../../d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8a26b63f278101527e06a5547719568bb5">Atlas::Okay</a>
+ }</td></tr>
+<tr class="separator:a81cbb470bb667d0621e0e6572698f6a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:adf4811a408b9ca01aec8b9a587b9a751" id="r_adf4811a408b9ca01aec8b9a587b9a751"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:adf4811a408b9ca01aec8b9a587b9a751"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#adf4811a408b9ca01aec8b9a587b9a751">Atlas::GetGlobalValue</a> (const std::string &amp;<a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a5c4947d4516dd7cfa3505ce3a648a4ef">name</a>)</td></tr>
-<tr class="memdesc:adf4811a408b9ca01aec8b9a587b9a751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a global variable and casts it to the specified type.  <br /></td></tr>
-<tr class="separator:adf4811a408b9ca01aec8b9a587b9a751"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee18cc5dcd651a9551fb2302e723de8c" id="r_aee18cc5dcd651a9551fb2302e723de8c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#aee18cc5dcd651a9551fb2302e723de8c">Atlas::SetGlobalValue</a> (const std::string &amp;<a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a5c4947d4516dd7cfa3505ce3a648a4ef">name</a>, std::any &amp;<a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a1b2be7bfa84f129a2690a62f3ad82d62">value</a>)</td></tr>
-<tr class="separator:aee18cc5dcd651a9551fb2302e723de8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad505d4d3e017334c04787d7820f06ce7" id="r_ad505d4d3e017334c04787d7820f06ce7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad505d4d3e017334c04787d7820f06ce7"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#ad505d4d3e017334c04787d7820f06ce7">Atlas::AlignUp</a> (T <a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a1b2be7bfa84f129a2690a62f3ad82d62">value</a>, uint64_t alignment)</td></tr>
+<tr class="separator:ad505d4d3e017334c04787d7820f06ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Common includes and definitions that are used throughout the engine. There are going to be very limited amounts of actual engine includes, so this is not a replacement for that. Instead, this is a way to centralize the includes and definitions that are used throughout the engine. </p>
-<dl class="todo"><dt><b><a class="el" href="../../dd/da0/todo.html#_todo000002">Todo:</a></b></dt><dd>Add more haptic features</dd></dl>
-<dl class="section remark"><dt>Remarks</dt><dd>This file has a few configurations that are based on defines. ATLAS_ENABLE_HAPTICS is used to enable/disable haptic features (ie. controller rumble), whereas ATLAS_ENABLE_EXTENSIONS is used to enable/disable extensions. </dd></dl>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a18a4c37c962b54b7008c2a9bc69eac83" name="a18a4c37c962b54b7008c2a9bc69eac83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18a4c37c962b54b7008c2a9bc69eac83">&#9670;&#160;</a></span>ATLAS_ASSERT</h2>
 
-<p class="definition">Definition in file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ATLAS_ASSERT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If enabled (see the warning in the documentation), this will assert the specified condition by using the C++ assert function. </p>
+<dl class="section warning"><dt>Warning</dt><dd>This macro function will only do anything if it is enabled (see this file's documentation or the see also section for how it is enabled).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The reason for why the assertions are wrapped is to give developers the ability to actually prevent <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a> from doing assertions</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">condition</td><td>An expression that <b>MUST</b> result in some kind of boolean value.</td></tr>
+    <tr><td class="paramname">message</td><td>The message to display if the assertion fails.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>v0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00097">97</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+
+</div>
+</div>
 <a id="af115c0ba9301089cf8dda6a7b8de6efd" name="af115c0ba9301089cf8dda6a7b8de6efd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af115c0ba9301089cf8dda6a7b8de6efd">&#9670;&#160;</a></span>ATLAS_ASSET_DIR</h2>
 
@@ -190,7 +241,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00092">92</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00131">131</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
 </div>
 </div>
@@ -206,7 +257,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00093">93</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00132">132</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
 </div>
 </div>
@@ -222,53 +273,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00094">94</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
-
-</div>
-</div>
-<a id="aad362596c1f6ffd16c0b9d62f95b1da7" name="aad362596c1f6ffd16c0b9d62f95b1da7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad362596c1f6ffd16c0b9d62f95b1da7">&#9670;&#160;</a></span>ATLAS_GENERATED_NULL_CHECK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ATLAS_GENERATED_NULL_CHECK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">ptr</td><td>)</td>
-          <td>&#160;&#160;&#160;if(ptr == nullptr) { return; }</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Macro to check if a pointer is null and return if it is. This is used to catch null pointer exceptions. </p>
-<dl class="section since"><dt>Since</dt><dd>v0.0.9 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00074">74</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
-
-</div>
-</div>
-<a id="a7e257ceb33faf65903288cf016bb7d87" name="a7e257ceb33faf65903288cf016bb7d87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e257ceb33faf65903288cf016bb7d87">&#9670;&#160;</a></span>ATLAS_GENERATED_NULL_CHECK_RETURN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ATLAS_GENERATED_NULL_CHECK_RETURN</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">ptr</td><td>)</td>
-          <td>&#160;&#160;&#160;if(ptr == nullptr) { return nullptr; }</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Macro to check if a pointer is null and return a null pointer if it is. This is used to catch null pointer exceptions. </p>
-<dl class="section since"><dt>Since</dt><dd>v0.0.9 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00082">82</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00133">133</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
 </div>
 </div>
@@ -279,12 +284,12 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ATLAS_NULL_GIF&#160;&#160;&#160;<a class="el" href="../../db/d1f/_common_8h.html#af115c0ba9301089cf8dda6a7b8de6efd">ATLAS_ASSET_DIR</a> + static_cast&lt;std::string&gt;(&quot;/engine/null.gif&quot;)</td>
+          <td class="memname">#define ATLAS_NULL_GIF&#160;&#160;&#160;<a class="el" href="../../db/d1f/_common_8h.html#af115c0ba9301089cf8dda6a7b8de6efd">ATLAS_ASSET_DIR</a> + static_cast&lt;std::string&gt;(&quot;/engine/null.gif&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00100">100</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00139">139</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
 </div>
 </div>
@@ -300,7 +305,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00099">99</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00138">138</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
 </div>
 </div>
@@ -316,7 +321,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00098">98</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00137">137</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
 </div>
 </div>
@@ -332,23 +337,69 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00097">97</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00136">136</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
 </div>
 </div>
-<a id="ac7ecceb6a0eb822735497653d42ac408" name="ac7ecceb6a0eb822735497653d42ac408"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7ecceb6a0eb822735497653d42ac408">&#9670;&#160;</a></span>ATLAS_PLATFORM_UNKNOWN</h2>
+<a id="a299f2843b524a1346e4c9e0c09fdc9cc" name="a299f2843b524a1346e4c9e0c09fdc9cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a299f2843b524a1346e4c9e0c09fdc9cc">&#9670;&#160;</a></span>ATLAS_STATIC_ASSERT</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ATLAS_PLATFORM_UNKNOWN</td>
+          <td class="memname">#define ATLAS_STATIC_ASSERT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00043">43</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p>If enabled (see the warning in the documentation), this will do a static assertion for the specified condition by using the C++ static_assert function. </p>
+<dl class="section warning"><dt>Warning</dt><dd>This macro function will only do anything if it is enabled (see this file's documentation or the see also section for how it is enabled).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The reason for why the assertions are wrapped is to give developers the ability to actually prevent <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a> from doing assertions</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">condition</td><td>An expression that <b>MUST</b> result in some kind of boolean value.</td></tr>
+    <tr><td class="paramname">message</td><td>The message to display if the assertion fails.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>v0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00115">115</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+
+</div>
+</div>
+<a id="a2fd96e43445fdeb56fec01232f04788f" name="a2fd96e43445fdeb56fec01232f04788f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fd96e43445fdeb56fec01232f04788f">&#9670;&#160;</a></span>ATLAS_STRINGIFY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ATLAS_STRINGIFY</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;#__VA_ARGS__</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00121">121</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
 </div>
 </div>
@@ -364,7 +415,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00095">95</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00134">134</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
 </div>
 </div>
@@ -381,9 +432,29 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Since the location of the shared libraries and executables can vary, this is a simple solution to this. During Distribution builds, the path is more exact, however the rest are not because these will be in the build directory rather than the final distribution directory. </p>
-<dl class="section since"><dt>Since</dt><dd>v0.0.2 </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>v0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00091">91</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00130">130</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
+
+</div>
+</div>
+<a id="a16f673d9e7a39c1b848adbccc23eb8a2" name="a16f673d9e7a39c1b848adbccc23eb8a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16f673d9e7a39c1b848adbccc23eb8a2">&#9670;&#160;</a></span>ATLAS_TYPE_NAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ATLAS_TYPE_NAME</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;__VA_ARGS__</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/d1f/_common_8h_source.html#l00119">119</a> of file <a class="el" href="../../db/d1f/_common_8h_source.html">Common.h</a>.</p>
 
 </div>
 </div>
@@ -392,8 +463,8 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../db/d1f/_common_8h.html">Common.h</a></li>
-    <li class="footer">Generated on Sat Feb 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_fdbc7b4b5b4c04d598adc44afc34d9a5.html">core</a></li><li class="navelem"><a class="el" href="../../db/d1f/_common_8h.html">Common.h</a></li>
+    <li class="footer">Generated on Tue Oct 7 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

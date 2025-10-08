@@ -1,0 +1,34 @@
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/\+Vulkan\+Instance.h File Reference}
+\hypertarget{_vulkan_instance_8h}{}\label{_vulkan_instance_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/VulkanInstance.h@{C:/Dev/Techstorm-\/v5/src/engine/graphics/VulkanInstance.h}}
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$optional$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$vulkan/vulkan.\+h$>$}\newline
+{\ttfamily \#include $<$vulkan/vulkan\+\_\+core.\+h$>$}\newline
+{\ttfamily \#include $<$Vk\+Bootstrap.\+h$>$}\newline
+{\ttfamily \#include "{}../core/\+Core.\+h"{}}\newline
+{\ttfamily \#include "{}../core/\+Version.\+h"{}}\newline
+{\ttfamily \#include "{}backend/\+Rendering\+Backend.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_vulkan_instance_wrapper}{Atlas\+::\+Vulkan\+Instance\+Wrapper}}
+\begin{DoxyCompactList}\small\item\em Acts as a wrapper for Vk\+Instance and it\textquotesingle{}s debug messenger. Furthermore, this class handles it\textquotesingle{}s own initialization and shutdown. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespace_atlas_a70c92d51cf7a5ffa6b87ef2d2db9506d}{Atlas\+::\+Vulkan\+Debug\+Callback}} = PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{namespace_atlas_a43d5dd37e72abb3a4d9e3b13f07c845d}{Atlas\+::\+Translate\+Vulkan\+Log\+Level}} (Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT message\+Severity)
+\begin{DoxyCompactList}\small\item\em Translates a vulkan debug log level to one that \doxylink{namespace_atlas}{Atlas} can use. For the most part, the Vulkan debug log levels are the same as the \doxylink{namespace_atlas}{Atlas} ones, with {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+INFO\+\_\+\+BIT\+\_\+\+EXT}, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+WARNING\+\_\+\+BIT\+\_\+\+EXT}, and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+ERROR\+\_\+\+BIT\+\_\+\+EXT} being the same as {\itshape Log\+Level\+::info}, {\itshape Log\+Level\+::warn}, and {\itshape Log\+Level\+::err} in that order. However, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+VERBOSE\+\_\+\+BIT\+\_\+\+EXT} and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM\+\_\+\+EXT} are translated to {\itshape Log\+Level\+::trace} and {\itshape Log\+Level\+::critical}, respectively. The default is {\itshape Log\+Level\+::info}. \end{DoxyCompactList}\item 
+Vk\+Bool32 \mbox{\hyperlink{namespace_atlas_afaaad2137b7ca90a17d022d41cb33632}{Atlas\+::\+Default\+Vulkan\+Debug\+Callback}} (Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT message\+Severity, Vk\+Debug\+Utils\+Message\+Type\+Flags\+EXT message\+Type, const Vk\+Debug\+Utils\+Messenger\+Callback\+Data\+EXT \texorpdfstring{$\ast$}{*}p\+Callback\+Data, \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}p\+User\+Data)
+\begin{DoxyCompactList}\small\item\em The default Vulkan debug callback that \doxylink{namespace_atlas}{Atlas} uses if no custom debug callback is provided by the user in \doxylink{class_atlas_1_1_vulkan_instance_wrapper}{Vulkan\+Instance\+Wrapper} before it is initialized. According to the Khronos specification on the {\itshape PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} object, this function should always return a value of {\itshape VK\+\_\+\+FALSE}, which is what this function does. See the Khronos specification for more information (this is in the see also section of the documentation). The message is logged via the usage of {\itshape spdlog\+::log()}. However, this means that some logger (more specifically a {\itshape Spdlog} logger) must have been initialized before this function is called or it will crash. \end{DoxyCompactList}\end{DoxyCompactItemize}

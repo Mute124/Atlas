@@ -1,0 +1,194 @@
+\doxysection{Game\+Thread\+Scheduler.\+h}
+\hypertarget{_game_thread_scheduler_8h_source}{}\label{_game_thread_scheduler_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/core/threading/GameThreadScheduler.h@{C:/Dev/Techstorm-\/v5/src/engine/core/threading/GameThreadScheduler.h}}
+\mbox{\hyperlink{_game_thread_scheduler_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ GameThreadScheduler.h}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00003}00003\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00004}00004\ \textcolor{comment}{\ *\ @brief\ Scheduler\ for\ running\ tasks\ on\ separate\ threads.}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00005}00005\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00006}00006\ \textcolor{comment}{\ *\ @date\ April\ 2025}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00007}00007\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00008}00008\ \textcolor{comment}{\ *\ @since\ v0.0.10}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00010}00010\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <condition\_variable>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <future>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <atomic>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_game_thread_8h}{GameThread.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00026}00026\ \textcolor{preprocessor}{\#include\ "{}../MakeNonCopyable.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00029}00029\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00038}\mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}{00038}}\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}{EGameThreadSchedulerStatus}}\ :\ uint8\_t\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da88183b946cc5f0e8c96b2e66e1c74a7e}{Unknown}}\ =\ 0,}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00051}00051\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da32b169f72b293ef80d35435e9894f8e2}{Initializing}},}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00058}00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da5bda814c4aedb126839228f1a3d92f09}{Running}},}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00065}00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516dac23e2b09ebe6bf4cb5e2a9abe85c0be2}{Stopped}},}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00072}00072\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da075d9c9ae8c8f1c79c1a1965cd8c5a42}{ShuttingDown}}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00073}00073\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00074}00074\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00092}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{00092}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{GameThreadScheduler}}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00093}00093\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00099}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae91e2b0024fc4258fce79b873a623795}{00099}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae91e2b0024fc4258fce79b873a623795}{Task}}\ =\ std::function<\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()>;}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00106}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a2ed60b5ac1874692c53a443fcc813d7a}{00106}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}{EGameThreadSchedulerStatus}}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a2ed60b5ac1874692c53a443fcc813d7a}{mStatus}}\ =\ \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da88183b946cc5f0e8c96b2e66e1c74a7e}{EGameThreadSchedulerStatus::Unknown}};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00113}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_afb52230c26bdd4a27a0b360f7c7fe509}{00113}}\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_afb52230c26bdd4a27a0b360f7c7fe509}{mThreadCount}};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00114}00114\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00124}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae98fd862f6d8217c8a5929ef1416f383}{00124}}\ \ \ \ \ \ \ \ \ std::vector<std::thread>\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae98fd862f6d8217c8a5929ef1416f383}{mWorkersVector}};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00135}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a6ed4e6108a086ed07cd3769d02c30675}{00135}}\ \ \ \ \ \ \ \ \ std::queue<Task>\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a6ed4e6108a086ed07cd3769d02c30675}{mTaskQueue}};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00142}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae08231085113e4a7584e903965a5112f}{00142}}\ \ \ \ \ \ \ \ \ std::mutex\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae08231085113e4a7584e903965a5112f}{mQueueMutex}};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00149}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a4ad3d40a180a62a3386f25dfb943e497}{00149}}\ \ \ \ \ \ \ \ \ std::condition\_variable\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a4ad3d40a180a62a3386f25dfb943e497}{mWorkAvailableConditional}};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00156}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff}{00156}}\ \ \ \ \ \ \ \ \ std::atomic<bool>\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff}{mIsRunning}};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00163}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a8ee1a690f9d537c01fd963bee0469bd2}{00163}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a8ee1a690f9d537c01fd963bee0469bd2}{isTaskQueueEmpty}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a6ed4e6108a086ed07cd3769d02c30675}{mTaskQueue}}.empty();}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00165}00165\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00167}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_af1ce1afaf4e585fd807d46ef026c3b47}{00167}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_af1ce1afaf4e585fd807d46ef026c3b47}{setStatus}}(\mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}{EGameThreadSchedulerStatus}}\ status)}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00168}00168\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a2ed60b5ac1874692c53a443fcc813d7a}{mStatus}}\ =\ status;}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00170}00170\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00172}00172\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Disable\ copy}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00174}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_afa6c0eb9838130ed252044dc446aca5f}{00174}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_afa6c0eb9838130ed252044dc446aca5f}{GameThreadScheduler}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{GameThreadScheduler}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00183}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_abe29809ccda5d50c992e32b89b74eacb}{00183}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_abe29809ccda5d50c992e32b89b74eacb}{GameThreadScheduler}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00194}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_aad5d87a8e7e0f0be677e074fd24f9abc}{00194}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_aad5d87a8e7e0f0be677e074fd24f9abc}{GameThreadScheduler}}(uint8\_t\ numThreads,\ \textcolor{keywordtype}{bool}\ callInit\ =\ \textcolor{keyword}{true})\ :\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_afb52230c26bdd4a27a0b360f7c7fe509}{mThreadCount}}(numThreads)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(callInit)}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a481665682956ac534baa5bfc2a99fb2c}{init}}(numThreads);}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00199}00199\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00208}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_aaa9fb8b4737765884265529a20601b50}{00208}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_aaa9fb8b4737765884265529a20601b50}{\string~GameThreadScheduler}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae08231085113e4a7584e903965a5112f}{mQueueMutex}});}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff}{mIsRunning}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a4ad3d40a180a62a3386f25dfb943e497}{mWorkAvailableConditional}}.notify\_all();}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae1788f3815c47b8d3b22020d3780db35}{joinAll}}();}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00217}00217\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00228}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a481665682956ac534baa5bfc2a99fb2c}{00228}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a481665682956ac534baa5bfc2a99fb2c}{init}}(uint8\_t\ numThreads)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff}{mIsRunning}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_af1ce1afaf4e585fd807d46ef026c3b47}{setStatus}}(\mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da32b169f72b293ef80d35435e9894f8e2}{EGameThreadSchedulerStatus::Initializing}});}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ numThreads;\ ++i)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae98fd862f6d8217c8a5929ef1416f383}{mWorkersVector}}.emplace\_back([\textcolor{keyword}{this}]()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(\textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae91e2b0024fc4258fce79b873a623795}{Task}}\ task;}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_lock<std::mutex>\ lock(\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae08231085113e4a7584e903965a5112f}{mQueueMutex}});}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a4ad3d40a180a62a3386f25dfb943e497}{mWorkAvailableConditional}}.wait(lock,\ [\textcolor{keyword}{this}]()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a8ee1a690f9d537c01fd963bee0469bd2}{isTaskQueueEmpty}}()\ ||\ !\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff}{mIsRunning}};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(!\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff}{mIsRunning}}\ \&\&\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a8ee1a690f9d537c01fd963bee0469bd2}{isTaskQueueEmpty}}())}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ task\ =\ std::move(\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a6ed4e6108a086ed07cd3769d02c30675}{mTaskQueue}}.front());}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a6ed4e6108a086ed07cd3769d02c30675}{mTaskQueue}}.pop();}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00251}00251\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ task();\ \textcolor{comment}{//\ Run\ task}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_af1ce1afaf4e585fd807d46ef026c3b47}{setStatus}}(\mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da5bda814c4aedb126839228f1a3d92f09}{EGameThreadSchedulerStatus::Running}});}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00258}00258\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00259}00259\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Func,\ \textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00300}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_affbc81ea67fdfb55931e62c695680472}{00300}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_affbc81ea67fdfb55931e62c695680472}{schedule}}(Func\&\&\ func,\ Args\&\&...\ args)\ -\/>\ std::future<std::invoke\_result\_t<Func,\ Args...>>\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Determine\ the\ return\ type\ of\ the\ callable\ object\ (Func)\ when\ invoked\ with\ the\ given\ arguments\ (Args...)}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }ReturnType\ =\ std::invoke\_result\_t<Func,\ Args...>;}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ a\ shared\ pointer\ to\ a\ packaged\ task\ that\ wraps\ the\ callable\ object\ (Func)\ and\ its\ arguments\ (Args...)}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ packaged\ task\ is\ a\ callable\ object\ that\ can\ be\ executed\ later,\ and\ its\ return\ value\ can\ be\ retrieved\ using\ a\ future}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ taskPtr\ =\ std::make\_shared<std::packaged\_task<ReturnType()>>(}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ std::bind\ to\ create\ a\ callable\ object\ that\ invokes\ the\ original\ callable\ object\ (Func)\ with\ the\ given\ arguments\ (Args...)}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ std::forward\ function\ is\ used\ to\ preserve\ the\ value\ category\ (lvalue\ or\ rvalue)\ of\ the\ original\ arguments}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::bind(std::forward<Func>(func),\ std::forward<Args>(args)...)}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00312}00312\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ a\ wrapper\ function\ that\ executes\ the\ packaged\ task\ when\ called}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ wrapper\ function\ is\ used\ to\ decouple\ the\ execution\ of\ the\ task\ from\ the\ scheduling\ mechanism}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ std::function<\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()>\ wrapper\ =\ [taskPtr]()\ \{\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (*taskPtr)();\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Acquire\ a\ lock\ on\ the\ scheduler's\ queue\ mutex\ to\ ensure\ thread-\/safe\ access\ to\ the\ queue}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae08231085113e4a7584e903965a5112f}{mQueueMutex}});}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00322}00322\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ make\ sure\ that\ the\ scheduler\ is\ not\ shutting\ down}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff}{mIsRunning}})\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Scheduler\ is\ shutting\ down,\ cannot\ schedule\ new\ tasks."{}});}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00327}00327\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Forward\ the\ callable\ object\ (Func)\ and\ its\ arguments\ (Args...)\ to\ the\ packaged\ task.}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ In\ other\ words,\ finally\ put\ the\ callable\ object\ (Func)\ and\ its\ arguments\ (Args...)\ into\ the\ queue\ for\ execution}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a6ed4e6108a086ed07cd3769d02c30675}{mTaskQueue}}.emplace(std::move(wrapper));}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ let\ worker\ threads\ know\ that\ there\ is\ a\ new\ task}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a4ad3d40a180a62a3386f25dfb943e497}{mWorkAvailableConditional}}.notify\_one();}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ taskPtr-\/>get\_future();}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00338}00338\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00339}00339\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00347}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae1788f3815c47b8d3b22020d3780db35}{00347}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae1788f3815c47b8d3b22020d3780db35}{joinAll}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(std::thread\&\ workerThread\ :\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae98fd862f6d8217c8a5929ef1416f383}{mWorkersVector}})\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(workerThread.joinable())}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ workerThread.join();}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00353}00353\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00363}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a258cc6ffe9b5a589c649a63307e96348}{00363}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a258cc6ffe9b5a589c649a63307e96348}{isRunning}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff}{mIsRunning}};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00365}00365\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00366}00366\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00374}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a54c0462e69ab5677aff7cfaf2ef46f4a}{00374}}\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a54c0462e69ab5677aff7cfaf2ef46f4a}{getThreadCount}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_afb52230c26bdd4a27a0b360f7c7fe509}{mThreadCount}};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00376}00376\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00377}00377\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00378}\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a6443120b3a4edd145bd68b07e297ace0}{00378}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{GameThreadScheduler}}\&\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a6443120b3a4edd145bd68b07e297ace0}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{GameThreadScheduler}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00379}00379\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00380}00380\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_scheduler_8h_source_l00381}00381\ \}}
+
+\end{DoxyCode}

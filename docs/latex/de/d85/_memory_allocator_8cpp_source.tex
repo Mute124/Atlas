@@ -2,5 +2,103 @@
 \hypertarget{_memory_allocator_8cpp_source}{}\label{_memory_allocator_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/core/MemoryAllocator.cpp@{C:/Dev/Techstorm-\/v5/src/engine/core/MemoryAllocator.cpp}}
 \mbox{\hyperlink{_memory_allocator_8cpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ MemoryAllocator.cpp}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00003}00003\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00004}00004\ \textcolor{comment}{\ *\ @brief\ .}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00005}00005\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00006}00006\ \textcolor{comment}{\ *\ @date\ August\ 2025}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00007}00007\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00008}00008\ \textcolor{comment}{\ *\ @since\ v}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <cstdlib>}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_memory_allocator_8h}{MemoryAllocator.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_common_8h}{Common.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_memory_counter_8h}{MemoryCounter.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#if\ defined(ATLAS\_DEBUG)\ \&\&\ !defined(ATLAS\_NO\_ALLOCATION\_COUNTER\_DEBUG)\ \&\&\ !defined(ATLAS\_NO\_MEMORY\_COUNTER)\ \&\&\ !defined(ATLAS\_ALLOCATION\_COUNTER\_DEBUG)}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\ \ \ \ \#define\ ATLAS\_ALLOCATION\_COUNTER\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00019}00019\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#pragma\ message(ATLAS\_REMINDER\ "{}MemoryAllocator.cpp:\ ATLAS\_ALLOCATION\_COUNTER\_DEBUG\ is\ enabled!\ This\ is\ not\ recommended\ for\ production\ builds\ as\ it\ will\ severely\ slow\ down\ the\ engine!\ Disable\ this\ in\ a\ release\ build\ by\ defining\ ATLAS\_NO\_ALLOCATION\_COUNTER\_DEBUG\ in\ your\ project's\ preprocessor\ definitions."{})}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ATLAS\_DEBUG\ \&\&\ !ATLAS\_NO\_ALLOCATION\_COUNTER\_DEBUG\ \&\&\ !ATLAS\_NO\_MEMORY\_COUNTER\ \&\&\ !ATLAS\_ALLOCATION\_COUNTER\_DEBUG\ }}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00023}00023\ \textcolor{preprocessor}{\#ifndef\ ATLAS\_EXCLUDE\_CUSTOM\_MEMORY\_ALLOCATOR}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00025}00025\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00026}\mbox{\hyperlink{namespace_atlas_a947beff0f867fc02816f89ee71ed8b3a}{00026}}\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ac98e9185bf8a8392b28e443b6ee1a278}{AllocFunc}}\ \mbox{\hyperlink{namespace_atlas_a947beff0f867fc02816f89ee71ed8b3a}{Alloc}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00027}\mbox{\hyperlink{namespace_atlas_a84991fffe2488f755c2d2f38c2bf3b27}{00027}}\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a0810df7523f86fbd70ce4a06398f7674}{ReallocFunc}}\ \mbox{\hyperlink{namespace_atlas_a84991fffe2488f755c2d2f38c2bf3b27}{Realloc}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00028}\mbox{\hyperlink{namespace_atlas_a3cac8311b7a548ec71ec511bc8b38f99}{00028}}\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a72cf222afb41a2a8d147b6360ec0cc8b}{FreeFunc}}\ \mbox{\hyperlink{namespace_atlas_a3cac8311b7a548ec71ec511bc8b38f99}{Free}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00030}\mbox{\hyperlink{namespace_atlas_a6c1c979baaf72c3c3e09d773abade963}{00030}}\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a49ed2279b082b65090203337d2923cfb}{AlignedAllocFunc}}\ \mbox{\hyperlink{namespace_atlas_a6c1c979baaf72c3c3e09d773abade963}{AllocAligned}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00031}\mbox{\hyperlink{namespace_atlas_afc0aecdfa4dd521ec30bc1434959f1d6}{00031}}\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_af456e30e8e0a59c371cf0cfa82aab9e7}{AlignedFreeFunc}}\ \mbox{\hyperlink{namespace_atlas_afc0aecdfa4dd521ec30bc1434959f1d6}{FreeAligned}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00033}00033\ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00035}\mbox{\hyperlink{namespace_atlas_a05a2f5e774c38d9f67fbba5b96a79926}{00035}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a05a2f5e774c38d9f67fbba5b96a79926}{Atlas::RegisterMemoryFunctions}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator}{MemoryFunctionsAggregator}}\&\ memoryFunctionsAggregator)}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00036}00036\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00037}00037\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a947beff0f867fc02816f89ee71ed8b3a}{Atlas::Alloc}}\ =\ memoryFunctionsAggregator.\mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator_a92253381c03a6839c6f968dc2f44397a}{alloc}};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00038}00038\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a3cac8311b7a548ec71ec511bc8b38f99}{Atlas::Free}}\ =\ memoryFunctionsAggregator.\mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator_ad12d5212c9bb688fecf9a7828007cb37}{free}};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00039}00039\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a84991fffe2488f755c2d2f38c2bf3b27}{Atlas::Realloc}}\ =\ memoryFunctionsAggregator.\mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator_ae8beac072deb746149fe3c15f83461f7}{realloc}};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00041}00041\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a6c1c979baaf72c3c3e09d773abade963}{Atlas::AllocAligned}}\ =\ memoryFunctionsAggregator.\mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator_a3aeaed3df5545ff84de58e7627c3b01b}{allocAligned}};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00042}00042\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_afc0aecdfa4dd521ec30bc1434959f1d6}{Atlas::FreeAligned}}\ =\ memoryFunctionsAggregator.\mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator_ae0ed4eec1cde574419787135e027a005}{freeAligned}};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00044}00044\ \ \ \ \ \textcolor{comment}{//\ TODO:\ Have\ this\ function\ test\ the\ functions\ to\ make\ sure\ they\ are\ valid\ before\ exiting\ the\ function.}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00046}00046\ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00048}\mbox{\hyperlink{namespace_atlas_a57b2793df7151657e8a1373ad49555c7}{00048}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a57b2793df7151657e8a1373ad49555c7}{Atlas::RegisterDefaultMemoryFunctions}}()}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00049}00049\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00051}00051\ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00053}00053\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00055}\mbox{\hyperlink{class_atlas_1_1_memory_allocator_af28aa4d105b523cab5e5d2802467d52b}{00055}}\ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{class_atlas_1_1_memory_allocator_af28aa4d105b523cab5e5d2802467d52b}{Atlas::MemoryAllocator::allocate}}(\textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}})}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00056}00056\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00057}00057\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_ALLOCATION\_COUNTER\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00058}00058\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Attempting\ to\ allocate\ "{}}\ <<\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}\ <<\ \textcolor{stringliteral}{"{}\ bytes\ of\ memory..."{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00059}00059\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ATLAS\_ALLOCATION\_COUNTER\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00061}00061\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Cannot\ allocate\ 0\ bytes\ of\ memory!"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00064}00064\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00065}00065\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::malloc(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}});}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00067}00067\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00068}00068\ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00070}\mbox{\hyperlink{class_atlas_1_1_memory_allocator_a47eb935134dfde334a7dab13b0f526c8}{00070}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_memory_allocator_a47eb935134dfde334a7dab13b0f526c8}{Atlas::MemoryAllocator::free}}(\textcolor{keywordtype}{void}*\ ptr,\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}})}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00071}00071\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00072}00072\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Cannot\ free\ 0\ bytes\ of\ memory!"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00075}00075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00076}00076\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ std::free(ptr);}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00078}00078\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00079}00079\ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00081}\mbox{\hyperlink{class_atlas_1_1_memory_allocator_af980b0b35bfb346cf3e0cbd62007b219}{00081}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_memory_allocator_af980b0b35bfb346cf3e0cbd62007b219}{Atlas::MemoryAllocator::isMemoryCapped}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00082}00082\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00083}00083\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00084}00084\ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00086}\mbox{\hyperlink{class_atlas_1_1_memory_allocator_aaa6ee4e6e07faba2303ae12e5f09080a}{00086}}\ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{class_atlas_1_1_memory_allocator_aaa6ee4e6e07faba2303ae12e5f09080a}{Atlas::MemoryAllocator::alignedAllocate}}(\textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}},\ \textcolor{keywordtype}{size\_t}\ alignment)}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00087}00087\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00089}00089\ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00091}\mbox{\hyperlink{class_atlas_1_1_memory_allocator_afbf52b5713a20efe69b2d773ec3a1fb4}{00091}}\ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{class_atlas_1_1_memory_allocator_afbf52b5713a20efe69b2d773ec3a1fb4}{Atlas::MemoryAllocator::reallocate}}(\textcolor{keywordtype}{void}*\ ptr,\ \textcolor{keywordtype}{size\_t}\ oldSize,\ \textcolor{keywordtype}{size\_t}\ newSize)}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00092}00092\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00093}00093\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00094}00094\ \}}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00096}\mbox{\hyperlink{class_atlas_1_1_memory_allocator_a2940df13469bd91619efc0cdf4fbcedd}{00096}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_memory_allocator_a2940df13469bd91619efc0cdf4fbcedd}{Atlas::MemoryAllocator::alignedFree}}(\textcolor{keywordtype}{void}*\ ptr,\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}})}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00097}00097\ \{}
+\DoxyCodeLine{\Hypertarget{_memory_allocator_8cpp_source_l00098}00098\ \}}
 
 \end{DoxyCode}

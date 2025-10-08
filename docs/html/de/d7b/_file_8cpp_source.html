@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Atlas: C:/Dev/Techstorm-v5/src/engine/fs/File.cpp Source File</title>
+<title>Atlas: C:/Dev/Techstorm-v5/src/engine/io/File.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -99,38 +99,138 @@ $(document).ready(function(){initNavTree('de/d7b/_file_8cpp_source.html','../../
   <div class="headertitle"><div class="title">File.cpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../de/d7b/_file_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="../../df/d0c/_file_8h.html">File.h</a>&quot;</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="../../d4/dff/_file_meta_8h.html">FileMeta.h</a>&quot;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="../../dd/d7a/class_atlas_1_1_file.html#a194d3c65678f233cd8b766fa0800259d">    5</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../dd/d7a/class_atlas_1_1_file.html#a194d3c65678f233cd8b766fa0800259d">Atlas::File::isLoaded</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="../../dd/d7a/class_atlas_1_1_file.html#ad8a79a086215b79ab8edd0e4b7f59645">mIsLoaded</a>; }</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="foldopen" id="foldopen00007" data-start="{" data-end="}">
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../dd/d7a/class_atlas_1_1_file.html#a7c86bce75be84c1f4dabe2e3d50d6bf0">    7</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/d7a/class_atlas_1_1_file.html#a7c86bce75be84c1f4dabe2e3d50d6bf0">Atlas::File::setLoadState</a>(<span class="keywordtype">bool</span> state)</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    mIsLoaded = state;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>}</div>
+<a href="../../de/d7b/_file_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/**************************************************************************************************</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * @file File.cpp</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * @brief .</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * @date September 2025</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * @since v</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> ***************************************************************************************************/</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;any&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;iosfwd&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;filesystem&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;<a class="code" href="../../df/d0c/_file_8h.html">File.h</a>&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;<a class="code" href="../../dd/d5e/_i_o_common_8h.html">IOCommon.h</a>&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#a617fc3c8347c9f98cc6e69d37cccc09c">   22</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#a617fc3c8347c9f98cc6e69d37cccc09c">Atlas::AFile::setFilePath</a>(<a class="code hl_typedef" href="../../d7/d54/namespace_atlas.html#a52d8af855ee540237a05cd2c41cbb582">PathLocation</a> <span class="keyword">const</span>&amp; cPath) { <a class="code hl_variable" href="../../d7/d60/class_atlas_1_1_a_file.html#a7409f51922075e69257935466eb85ced">mFilePath</a> = cPath; }</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#aced33fc0e60b5dcd9c3e91c127cb217d">   24</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#aced33fc0e60b5dcd9c3e91c127cb217d">Atlas::AFile::setFileSize</a>(<span class="keywordtype">size_t</span> cSize) { mFileSize = cSize; }</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#a82fa86c6a5e628e7989411bd2c36ebdf">   26</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#a82fa86c6a5e628e7989411bd2c36ebdf">Atlas::AFile::setFileType</a>(uint16_t cType) { mFileType = cType; }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#adbef1fa9ccd3ed20693aacde77a77f59">   28</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#adbef1fa9ccd3ed20693aacde77a77f59">Atlas::AFile::setIsLoaded</a>(<span class="keywordtype">bool</span> bIsLoaded) { mIsLoaded = bIsLoaded; }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="}">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#aaef96331e0554f18991c57694a5d97f2">   30</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#aaef96331e0554f18991c57694a5d97f2">Atlas::AFile::setFileData</a>(std::any <span class="keyword">const</span>&amp; cData) {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    mFileData = cData;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
 </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="foldopen" id="foldopen00012" data-start="{" data-end="}">
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../dd/d7a/class_atlas_1_1_file.html#af221e74b6fbc4034c325fd0abde70bf3">   12</a></span>std::shared_ptr&lt;Atlas::FileMeta&gt; <a class="code hl_function" href="../../dd/d7a/class_atlas_1_1_file.html#af221e74b6fbc4034c325fd0abde70bf3">Atlas::File::getFileMeta</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword"></span>{</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keywordflow">return</span> mFileMeta;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>}</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="}">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#adeb5df1917e712b00643e014d873e695">   34</a></span><a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#a0e206a86496598da2df0d66afb350e65">Atlas::AFile::AFile</a>(<a class="code hl_typedef" href="../../d7/d54/namespace_atlas.html#a52d8af855ee540237a05cd2c41cbb582">PathLocation</a> <span class="keyword">const</span>&amp; cPath, <span class="keywordtype">size_t</span> cSize, uint16_t cType, <span class="keywordtype">bool</span> bIsLoaded)</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    : mFilePath(cPath), mFileSize(cSize), mFileType(cType), mIsLoaded(bIsLoaded) {}</div>
+</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="foldopen" id="foldopen00037" data-start="{" data-end="}">
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#aa7757d04f628a99781d74be58107afb5">   37</a></span><a class="code hl_typedef" href="../../d7/d54/namespace_atlas.html#a33c36cc6d06931324201eab6aae964a0">Atlas::FileStream</a> <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#aa7757d04f628a99781d74be58107afb5">Atlas::AFile::open</a>(<a class="code hl_typedef" href="../../d7/d54/namespace_atlas.html#a52d8af855ee540237a05cd2c41cbb582">PathLocation</a> <span class="keyword">const</span>&amp; cFilePath) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../d7/d54/namespace_atlas.html#ace931dde37d1a3b3f4919d9f5565a44e">PathExists</a>(cFilePath)) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;File does not exist: &quot;</span> + cFilePath.string());</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">return</span> <a class="code hl_typedef" href="../../d7/d54/namespace_atlas.html#a33c36cc6d06931324201eab6aae964a0">FileStream</a>(cFilePath);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}</div>
+</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="foldopen" id="foldopen00045" data-start="{" data-end="}">
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#a5d52d310c4aa507def0b2b05844cc0a0">   45</a></span>uint16_t <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#a5d52d310c4aa507def0b2b05844cc0a0">Atlas::AFile::load</a>(<a class="code hl_typedef" href="../../d7/d54/namespace_atlas.html#a52d8af855ee540237a05cd2c41cbb582">PathLocation</a> <span class="keyword">const</span>&amp; cPath) {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    mFilePath = cPath;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    std::ifstream file(mFilePath, std::ios::app);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">if</span> (!file.is_open()) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="}">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#ae63244bcfb2709f8ec197307ab233863">   55</a></span>uint16_t <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#ae63244bcfb2709f8ec197307ab233863">Atlas::AFile::append</a>(std::string <span class="keyword">const</span>&amp; cData) {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    std::ofstream file(mFilePath, std::ios::app);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">if</span> (!file.is_open() || file.fail()) {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    file &lt;&lt; cData;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    file.close();</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// Since this is not a finished function, we return -1</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}</div>
+</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#a2efa84d7f71a4ab22f294d4fb6d607f7">   70</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#a2efa84d7f71a4ab22f294d4fb6d607f7">Atlas::AFile::isLoaded</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mIsLoaded; }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#aafbf839e84835a2221c69405e65b90e0">   72</a></span><a class="code hl_typedef" href="../../d7/d54/namespace_atlas.html#a52d8af855ee540237a05cd2c41cbb582">Atlas::PathLocation</a> <span class="keyword">const</span>&amp; <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#aafbf839e84835a2221c69405e65b90e0">Atlas::AFile::getFilePath</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mFilePath; }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#a19705f459d721049106290d3df87b8f0">   74</a></span><span class="keywordtype">size_t</span> <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#a19705f459d721049106290d3df87b8f0">Atlas::AFile::getFileSize</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mFileSize; }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#abe7f734616e1821611ff44a33498c091">   76</a></span>uint16_t <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#abe7f734616e1821611ff44a33498c091">Atlas::AFile::getFileType</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mFileType; }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#a453759fe11f3141f2c1f1d3a0e736dd5">   78</a></span>std::any <span class="keyword">const</span>&amp; <a class="code hl_function" href="../../d7/d60/class_atlas_1_1_a_file.html#a453759fe11f3141f2c1f1d3a0e736dd5">Atlas::AFile::getFileData</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> mFileData; }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="foldopen" id="foldopen00080" data-start="{" data-end="}">
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="../../d7/d60/class_atlas_1_1_a_file.html#aa95515b2846f817be971a7f0eb99ba46">   80</a></span>Atlas::AFile::operator size_t()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">return</span> getFileSize();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>}</div>
+</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>Atlas::AFile::operator bool()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">return</span> isValid();</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="foldopen" id="foldopen00088" data-start="{" data-end="}">
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="../../d7/d54/namespace_atlas.html#ace931dde37d1a3b3f4919d9f5565a44e">   88</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../d7/d54/namespace_atlas.html#ace931dde37d1a3b3f4919d9f5565a44e">Atlas::PathExists</a>(<a class="code hl_typedef" href="../../d7/d54/namespace_atlas.html#a52d8af855ee540237a05cd2c41cbb582">PathLocation</a> <span class="keyword">const</span>&amp; cPath)</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>{</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">return</span> std::filesystem::exists(cPath);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>}</div>
 </div>
 <div class="ttc" id="a_file_8h_html"><div class="ttname"><a href="../../df/d0c/_file_8h.html">File.h</a></div></div>
-<div class="ttc" id="a_file_meta_8h_html"><div class="ttname"><a href="../../d4/dff/_file_meta_8h.html">FileMeta.h</a></div></div>
-<div class="ttc" id="aclass_atlas_1_1_file_html_a194d3c65678f233cd8b766fa0800259d"><div class="ttname"><a href="../../dd/d7a/class_atlas_1_1_file.html#a194d3c65678f233cd8b766fa0800259d">Atlas::File::isLoaded</a></div><div class="ttdeci">bool isLoaded() const</div><div class="ttdoc">Returns if this file is still just a registered file or actually loaded and usable by the code.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00005">File.cpp:5</a></div></div>
-<div class="ttc" id="aclass_atlas_1_1_file_html_a7c86bce75be84c1f4dabe2e3d50d6bf0"><div class="ttname"><a href="../../dd/d7a/class_atlas_1_1_file.html#a7c86bce75be84c1f4dabe2e3d50d6bf0">Atlas::File::setLoadState</a></div><div class="ttdeci">void setLoadState(bool state)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00007">File.cpp:7</a></div></div>
-<div class="ttc" id="aclass_atlas_1_1_file_html_ad8a79a086215b79ab8edd0e4b7f59645"><div class="ttname"><a href="../../dd/d7a/class_atlas_1_1_file.html#ad8a79a086215b79ab8edd0e4b7f59645">Atlas::File::mIsLoaded</a></div><div class="ttdeci">bool mIsLoaded</div><div class="ttdoc">A flag indicating if the file has been loaded.</div><div class="ttdef"><b>Definition</b> <a href="../../df/d0c/_file_8h_source.html#l00014">File.h:14</a></div></div>
-<div class="ttc" id="aclass_atlas_1_1_file_html_af221e74b6fbc4034c325fd0abde70bf3"><div class="ttname"><a href="../../dd/d7a/class_atlas_1_1_file.html#af221e74b6fbc4034c325fd0abde70bf3">Atlas::File::getFileMeta</a></div><div class="ttdeci">std::shared_ptr&lt; FileMeta &gt; getFileMeta() const</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00012">File.cpp:12</a></div></div>
+<div class="ttc" id="a_i_o_common_8h_html"><div class="ttname"><a href="../../dd/d5e/_i_o_common_8h.html">IOCommon.h</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_a0e206a86496598da2df0d66afb350e65"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#a0e206a86496598da2df0d66afb350e65">Atlas::AFile::AFile</a></div><div class="ttdeci">AFile()=default</div><div class="ttdoc">A default constructor.</div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_a19705f459d721049106290d3df87b8f0"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#a19705f459d721049106290d3df87b8f0">Atlas::AFile::getFileSize</a></div><div class="ttdeci">size_t getFileSize() const</div><div class="ttdoc">Returns the value of mFileSize.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00074">File.cpp:74</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_a2efa84d7f71a4ab22f294d4fb6d607f7"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#a2efa84d7f71a4ab22f294d4fb6d607f7">Atlas::AFile::isLoaded</a></div><div class="ttdeci">bool isLoaded() const</div><div class="ttdoc">Returns the value of mIsLoaded.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00070">File.cpp:70</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_a453759fe11f3141f2c1f1d3a0e736dd5"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#a453759fe11f3141f2c1f1d3a0e736dd5">Atlas::AFile::getFileData</a></div><div class="ttdeci">std::any const &amp; getFileData() const</div><div class="ttdoc">Returns the value of mFileData.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00078">File.cpp:78</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_a5d52d310c4aa507def0b2b05844cc0a0"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#a5d52d310c4aa507def0b2b05844cc0a0">Atlas::AFile::load</a></div><div class="ttdeci">virtual uint16_t load(PathLocation const &amp;cPath)</div><div class="ttdoc">Loads the file's data.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00045">File.cpp:45</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_a617fc3c8347c9f98cc6e69d37cccc09c"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#a617fc3c8347c9f98cc6e69d37cccc09c">Atlas::AFile::setFilePath</a></div><div class="ttdeci">void setFilePath(PathLocation const &amp;cPath)</div><div class="ttdoc">Sets the file's path.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00022">File.cpp:22</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_a7409f51922075e69257935466eb85ced"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#a7409f51922075e69257935466eb85ced">Atlas::AFile::mFilePath</a></div><div class="ttdeci">PathLocation mFilePath</div><div class="ttdoc">The path location to the file on the user's disk.</div><div class="ttdef"><b>Definition</b> <a href="../../df/d0c/_file_8h_source.html#l00065">File.h:65</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_a82fa86c6a5e628e7989411bd2c36ebdf"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#a82fa86c6a5e628e7989411bd2c36ebdf">Atlas::AFile::setFileType</a></div><div class="ttdeci">void setFileType(uint16_t cType)</div><div class="ttdoc">Sets the file's type.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00026">File.cpp:26</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_aa7757d04f628a99781d74be58107afb5"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#aa7757d04f628a99781d74be58107afb5">Atlas::AFile::open</a></div><div class="ttdeci">FileStream open(PathLocation const &amp;cFilePath)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00037">File.cpp:37</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_aaef96331e0554f18991c57694a5d97f2"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#aaef96331e0554f18991c57694a5d97f2">Atlas::AFile::setFileData</a></div><div class="ttdeci">void setFileData(std::any const &amp;cData)</div><div class="ttdoc">Sets the file's data.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00030">File.cpp:30</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_aafbf839e84835a2221c69405e65b90e0"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#aafbf839e84835a2221c69405e65b90e0">Atlas::AFile::getFilePath</a></div><div class="ttdeci">PathLocation const &amp; getFilePath() const</div><div class="ttdoc">Returns the value of mFilePath.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00072">File.cpp:72</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_abe7f734616e1821611ff44a33498c091"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#abe7f734616e1821611ff44a33498c091">Atlas::AFile::getFileType</a></div><div class="ttdeci">uint16_t getFileType() const</div><div class="ttdoc">Returns the value of mFileType.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00076">File.cpp:76</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_aced33fc0e60b5dcd9c3e91c127cb217d"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#aced33fc0e60b5dcd9c3e91c127cb217d">Atlas::AFile::setFileSize</a></div><div class="ttdeci">void setFileSize(size_t cSize)</div><div class="ttdoc">Sets the file's size in bytes.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00024">File.cpp:24</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_adbef1fa9ccd3ed20693aacde77a77f59"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#adbef1fa9ccd3ed20693aacde77a77f59">Atlas::AFile::setIsLoaded</a></div><div class="ttdeci">void setIsLoaded(bool bIsLoaded)</div><div class="ttdoc">Sets whether or not the file has been loaded.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00028">File.cpp:28</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_file_html_ae63244bcfb2709f8ec197307ab233863"><div class="ttname"><a href="../../d7/d60/class_atlas_1_1_a_file.html#ae63244bcfb2709f8ec197307ab233863">Atlas::AFile::append</a></div><div class="ttdeci">virtual uint16_t append(std::string const &amp;cData)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00055">File.cpp:55</a></div></div>
+<div class="ttc" id="anamespace_atlas_html_a33c36cc6d06931324201eab6aae964a0"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#a33c36cc6d06931324201eab6aae964a0">Atlas::FileStream</a></div><div class="ttdeci">std::fstream FileStream</div><div class="ttdef"><b>Definition</b> <a href="../../df/d0c/_file_8h_source.html#l00013">File.h:13</a></div></div>
+<div class="ttc" id="anamespace_atlas_html_a52d8af855ee540237a05cd2c41cbb582"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#a52d8af855ee540237a05cd2c41cbb582">Atlas::PathLocation</a></div><div class="ttdeci">std::filesystem::path PathLocation</div><div class="ttdef"><b>Definition</b> <a href="../../dd/d5e/_i_o_common_8h_source.html#l00015">IOCommon.h:15</a></div></div>
+<div class="ttc" id="anamespace_atlas_html_ace931dde37d1a3b3f4919d9f5565a44e"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#ace931dde37d1a3b3f4919d9f5565a44e">Atlas::PathExists</a></div><div class="ttdeci">bool PathExists(PathLocation const &amp;cPath)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d7b/_file_8cpp_source.html#l00088">File.cpp:88</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_61e8c4930a2b0e7b78d347ba3b13742a.html">fs</a></li><li class="navelem"><a class="el" href="../../de/d7b/_file_8cpp.html">File.cpp</a></li>
-    <li class="footer">Generated on Sat Feb 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_c15f0e649f5c9a49dfe9bd090b501003.html">io</a></li><li class="navelem"><a class="el" href="../../de/d7b/_file_8cpp.html">File.cpp</a></li>
+    <li class="footer">Generated on Tue Oct 7 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

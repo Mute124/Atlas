@@ -1,0 +1,577 @@
+\doxysection{serializer.\+cpp}
+\hypertarget{serializer_8cpp_source}{}\label{serializer_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/application/add\_on/serializer/serializer.cpp@{C:/Dev/Techstorm-\/v5/src/application/add\_on/serializer/serializer.cpp}}
+\mbox{\hyperlink{serializer_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00001}00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00002}00002\ \textcolor{comment}{//\ CSerializer}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00003}00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00004}00004\ \textcolor{comment}{//\ This\ code\ was\ based\ on\ the\ CScriptReloader\ written\ by\ FDsagizi}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00005}00005\ \textcolor{comment}{//\ http://www.gamedev.net/topic/604890-\/dynamic-\/reloading-\/script/}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <assert.h>}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <string.h>}\ \textcolor{comment}{//\ strstr}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <stdio.h>}\ \ \textcolor{comment}{//\ sprintf}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{serializer_8h}{serializer.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00013}00013\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00015}00015\ BEGIN\_AS\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00019}\mbox{\hyperlink{class_c_serializer_ace5f6439ccbef236f8748debe1a0a3cd}{00019}}\ \mbox{\hyperlink{class_c_serializer_ace5f6439ccbef236f8748debe1a0a3cd}{CSerializer::CSerializer}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00020}00020\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00021}00021\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00022}00022\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00024}\mbox{\hyperlink{class_c_serializer_ab4ae5e97af4a7870a66e84108bed078e}{00024}}\ \mbox{\hyperlink{class_c_serializer_ab4ae5e97af4a7870a66e84108bed078e}{CSerializer::\string~CSerializer}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00026}00026\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a5b0e06b41bc61c0588c3000b6db8d58c}{Clear}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{comment}{//\ Delete\ the\ user\ types}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00029}00029\ \ \ \ \ std::map<std::string,\ CUserType*>::iterator\ it;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00030}00030\ \ \ \ \ \textcolor{keywordflow}{for}\ (it\ =\ \mbox{\hyperlink{class_c_serializer_af46461faa7d8a506dc8d4eeb5e993ba5}{m\_userTypes}}.begin();\ it\ !=\ \mbox{\hyperlink{class_c_serializer_af46461faa7d8a506dc8d4eeb5e993ba5}{m\_userTypes}}.end();\ it++)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ it-\/>second;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00032}00032\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00034}\mbox{\hyperlink{class_c_serializer_a5b0e06b41bc61c0588c3000b6db8d58c}{00034}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serializer_a5b0e06b41bc61c0588c3000b6db8d58c}{CSerializer::Clear}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00035}00035\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//\ Extra\ objects\ need\ to\ be\ released,\ since\ they\ are\ not\ stored\ in\ }}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{comment}{//\ the\ module\ and\ we\ cannot\ rely\ on\ the\ application\ releasing\ them}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}.size();\ i++)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00039}00039\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_c_serializer_1_1_s_extra_object}{SExtraObject}}\&\ o\ =\ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}[i];}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i2\ =\ 0;\ i2\ <\ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size();\ i2++)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i2]-\/>m\_originalPtr\ ==\ o.\mbox{\hyperlink{struct_c_serializer_1_1_s_extra_object_a24a5e616df37ae585fcc9d0cea20fcde}{originalObject}}\ \&\&\ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i2]-\/>m\_restorePtr)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}asIScriptObject*\textcolor{keyword}{>}(\mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i2]-\/>m\_restorePtr)-\/>Release();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00046}00046\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00047}00047\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}.resize(0);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{comment}{//\ Clean\ the\ serialized\ values\ before\ we\ remove\ the\ user\ types}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00050}00050\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_ac4d2c90f0c2ee9235348394dc96e5f28}{Uninit}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00052}00052\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}})}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>Release();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00054}00054\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00055}00055\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00057}\mbox{\hyperlink{class_c_serializer_ac620599decdaa3b922f04b3538c08531}{00057}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serializer_ac620599decdaa3b922f04b3538c08531}{CSerializer::AddUserType}}(\mbox{\hyperlink{struct_c_user_type}{CUserType}}\ *ref,\ \textcolor{keyword}{const}\ std::string\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}})}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00058}00058\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00059}00059\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_af46461faa7d8a506dc8d4eeb5e993ba5}{m\_userTypes}}[\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}]\ =\ ref;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00060}00060\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00062}\mbox{\hyperlink{class_c_serializer_a87bcb1fc2bd5d3b45001af791b0c5ad9}{00062}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_serializer_a87bcb1fc2bd5d3b45001af791b0c5ad9}{CSerializer::Store}}(asIScriptModule\ *mod)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00063}00063\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00064}00064\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a9807204d9a6c7ad778bcae60904ee0f5}{m\_mod}}\ =\ mod;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00066}00066\ \ \ \ \ \textcolor{comment}{//\ The\ engine\ must\ not\ be\ destroyed\ before\ we're\ completed,\ so\ we'll\ hold\ on\ to\ a\ reference}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00067}00067\ \ \ \ \ mod-\/>GetEngine()-\/>AddRef();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00068}00068\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}\ )\ \mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>Release();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00069}00069\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}\ =\ mod-\/>GetEngine();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00071}00071\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}\ =\ \textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00073}00073\ \ \ \ \ \textcolor{comment}{//\ First\ store\ global\ variables}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00074}00074\ \ \ \ \ asUINT\ i;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00075}00075\ \ \ \ \ \textcolor{keywordflow}{for}(\ i\ =\ 0;\ i\ <\ mod-\/>GetGlobalVarCount();\ i++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00076}00076\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ *nameSpace;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ typeId;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ mod-\/>GetGlobalVar(i,\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ \&nameSpace,\ \&typeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_c_serializer_a4ca4672f09c538a3eb58046d8a58bbf8}{CSerializedValue}}(\&\mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ nameSpace,\ mod-\/>GetAddressOfGlobalVar(i),\ typeId));}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00081}00081\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00083}00083\ \ \ \ \ \textcolor{comment}{//\ Second\ store\ extra\ objects}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00084}00084\ \ \ \ \ \textcolor{keywordflow}{for}(\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}.size();\ i++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}(\&\mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}},\ \textcolor{stringliteral}{"{}"{}},\ \textcolor{stringliteral}{"{}"{}},\ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}[i].originalObject,\ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}[i].originalTypeId));}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00087}00087\ \ \ \ \ \textcolor{comment}{//\ For\ the\ handles\ that\ were\ stored,\ we\ need\ to\ substitute\ the\ stored\ pointer}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{comment}{//\ that\ is\ still\ pointing\ to\ the\ original\ object\ to\ an\ internal\ reference\ so}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00089}00089\ \ \ \ \ \textcolor{comment}{//\ it\ can\ be\ restored\ later\ on.}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00090}00090\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a5d4eb9858c807d9e2536d7518c9bf4fb}{ReplaceHandles}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00092}00092\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00093}00093\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00095}00095\ \textcolor{comment}{//\ Retrieve\ all\ global\ variables\ after\ reload\ script.}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00096}\mbox{\hyperlink{class_c_serializer_a5e8d6804389021c05cf3df968c1e15e5}{00096}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_serializer_a5e8d6804389021c05cf3df968c1e15e5}{CSerializer::Restore}}(asIScriptModule\ *mod)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00097}00097\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00098}00098\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a9807204d9a6c7ad778bcae60904ee0f5}{m\_mod}}\ =\ mod;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{comment}{//\ The\ engine\ must\ not\ be\ destroyed\ before\ we're\ completed,\ so\ we'll\ hold\ on\ to\ a\ reference}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00101}00101\ \ \ \ \ mod-\/>GetEngine()-\/>AddRef();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00102}00102\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}\ )\ \mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>Release();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00103}00103\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}\ =\ mod-\/>GetEngine();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00105}00105\ \ \ \ \ \textcolor{comment}{//\ First\ restore\ extra\ objects,\ i.e.\ the\ ones\ that\ are\ not\ directly\ seen\ from\ the\ module's\ global\ variables}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00106}00106\ \ \ \ \ asUINT\ i;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00107}00107\ \ \ \ \ \textcolor{keywordflow}{for}(\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}.size();\ i++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00108}00108\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_c_serializer_1_1_s_extra_object}{SExtraObject}}\ \&o\ =\ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}[i];}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ asITypeInfo\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_serializer_a9807204d9a6c7ad778bcae60904ee0f5}{m\_mod}}-\/>GetTypeInfoByName(\ o.\mbox{\hyperlink{struct_c_serializer_1_1_s_extra_object_a4c8a7873b57211fe48b771cb382ac6ad}{originalClassName}}.c\_str()\ );}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ i2\ =\ 0;\ i2\ <\ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size();\ i2++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i2]-\/>m\_originalPtr\ ==\ o.\mbox{\hyperlink{struct_c_serializer_1_1_s_extra_object_a24a5e616df37ae585fcc9d0cea20fcde}{originalObject}}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ a\ new\ script\ object,\ but\ don't\ call\ its\ constructor\ as\ we\ will\ initialize\ the\ members.}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calling\ the\ constructor\ may\ have\ unwanted\ side\ effects\ if\ for\ example\ the\ constructor\ changes}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ any\ outside\ entities,\ such\ as\ setting\ global\ variables\ to\ point\ to\ new\ objects,\ etc.}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ *newPtr\ =\ \mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>CreateUninitializedScriptObject(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ );}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i2]-\/>Restore(\ newPtr,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetTypeId()\ );\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00125}00125\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00127}00127\ \ \ \ \ \textcolor{comment}{//\ Second\ restore\ the\ global\ variables}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00128}00128\ \ \ \ \ asUINT\ varCount\ =\ mod-\/>GetGlobalVarCount();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00129}00129\ \ \ \ \ \textcolor{keywordflow}{for}(\ i\ =\ 0;\ i\ <\ varCount;\ i++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00130}00130\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ *nameSpace;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ typeId;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ mod-\/>GetGlobalVar(i,\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ \&nameSpace,\ \&typeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *v\ =\ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_aaa9d8be7c288aa81de5a657aa3ae1318}{FindByName}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ nameSpace);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ v\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ v-\/>\mbox{\hyperlink{class_c_serialized_value_a58a55335e58683ad02bc78a2ce2eef27}{Restore}}(mod-\/>GetAddressOfGlobalVar(i),\ typeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00138}00138\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00140}00140\ \ \ \ \ \textcolor{comment}{//\ The\ handles\ that\ were\ restored\ needs\ to\ be\ }}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00141}00141\ \ \ \ \ \textcolor{comment}{//\ updated\ to\ point\ to\ their\ final\ objects.}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00142}00142\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_ad07c4b78db6a79181f02d455a43d12ae}{RestoreHandles}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00144}00144\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00145}00145\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00147}\mbox{\hyperlink{class_c_serializer_af34a154a3afece327db8ae346ba2aa0f}{00147}}\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{class_c_serializer_af34a154a3afece327db8ae346ba2aa0f}{CSerializer::GetPointerToRestoredObject}}(\textcolor{keywordtype}{void}\ *ptr)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00148}00148\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00149}00149\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_a3215999697b735b2e097ae6fcb28f7ef}{GetPointerToRestoredObject}}(\ ptr\ );}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00150}00150\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00152}\mbox{\hyperlink{class_c_serializer_a402c3558201bb7c6a677e4c5d52ec41e}{00152}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serializer_a402c3558201bb7c6a677e4c5d52ec41e}{CSerializer::AddExtraObjectToStore}}(\ asIScriptObject\ *\textcolor{keywordtype}{object}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00153}00153\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00154}00154\ \ \ \ \ \textcolor{keywordflow}{if}(\ !\textcolor{keywordtype}{object}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00157}00157\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ object\ hasn't\ been\ included\ already}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00158}00158\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ i=0;\ i\ <\ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}.size();\ i++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}[i].originalObject\ ==\ \textcolor{keywordtype}{object}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00162}00162\ \ \ \ \ \mbox{\hyperlink{struct_c_serializer_1_1_s_extra_object}{SExtraObject}}\ o;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00163}00163\ \ \ \ \ o.\mbox{\hyperlink{struct_c_serializer_1_1_s_extra_object_a24a5e616df37ae585fcc9d0cea20fcde}{originalObject}}\ \ \ \ =\ object;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00164}00164\ \ \ \ \ o.\mbox{\hyperlink{struct_c_serializer_1_1_s_extra_object_a4c8a7873b57211fe48b771cb382ac6ad}{originalClassName}}\ =\ \textcolor{keywordtype}{object}-\/>GetObjectType()-\/>GetName();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00165}00165\ \ \ \ \ o.\mbox{\hyperlink{struct_c_serializer_1_1_s_extra_object_a19e3ab4219a023a90379509e3a6b2546}{originalTypeId}}\ \ \ \ =\ \textcolor{keywordtype}{object}-\/>GetTypeId();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00167}00167\ \ \ \ \ \mbox{\hyperlink{class_c_serializer_a3e747b0912879a320e14dba06bed1a84}{m\_extraObjects}}.push\_back(\ o\ );}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00168}00168\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00173}\mbox{\hyperlink{class_c_serialized_value_a55158683a388b037fab406a44743cec6}{00173}}\ \mbox{\hyperlink{class_c_serialized_value_a55158683a388b037fab406a44743cec6}{CSerializedValue::CSerializedValue}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00174}00174\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00175}00175\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a1493f597804d5bd6aae80f283f2faf24}{Init}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00176}00176\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00178}\mbox{\hyperlink{class_c_serialized_value_a4a17ff539b11fc3bf358dde412850040}{00178}}\ \mbox{\hyperlink{class_c_serialized_value_a55158683a388b037fab406a44743cec6}{CSerializedValue::CSerializedValue}}(\mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *parent,\ \textcolor{keyword}{const}\ std::string\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ \textcolor{keyword}{const}\ std::string\ \&nameSpace,\ \textcolor{keywordtype}{void}\ *ref,\ \textcolor{keywordtype}{int}\ typeId)\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00179}00179\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00180}00180\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a1493f597804d5bd6aae80f283f2faf24}{Init}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00182}00182\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a9e8c24673d33d1a994b0c460bca4e1f6}{m\_name}}\ \ \ \ \ \ \ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00183}00183\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a51aa9f2503513cbb146af247234bd835}{m\_nameSpace}}\ \ =\ nameSpace;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00184}00184\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}\ =\ parent-\/>\mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00185}00185\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a1ce92f7cc0a6ef1b9295664c30fe9432}{Store}}(ref,\ typeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00186}00186\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00188}\mbox{\hyperlink{class_c_serialized_value_a1493f597804d5bd6aae80f283f2faf24}{00188}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serialized_value_a1493f597804d5bd6aae80f283f2faf24}{CSerializedValue::Init}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00189}00189\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00190}00190\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a8fa6ba0c3a7c8555240b25a50f82ef59}{m\_handlePtr}}\ \ \ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00191}00191\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}}\ \ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00192}00192\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ \ \ \ \ \ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00193}00193\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_afab6067d2a24f2248780e46a9dce0012}{m\_isInit}}\ \ \ \ \ \ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00194}00194\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}\ \ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00195}00195\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0145fbc20178a9c722709a3e40618c6e}{m\_userData}}\ \ \ \ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00196}00196\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_ad39435527a66e13c5038e6210b36c1a1}{m\_originalPtr}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00197}00197\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00199}\mbox{\hyperlink{class_c_serialized_value_ac4d2c90f0c2ee9235348394dc96e5f28}{00199}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serialized_value_ac4d2c90f0c2ee9235348394dc96e5f28}{CSerializedValue::Uninit}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00200}00200\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00201}00201\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_afab6067d2a24f2248780e46a9dce0012}{m\_isInit}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00203}00203\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a77035394150be9192042026780edbf9e}{ClearChildren}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00205}00205\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a0145fbc20178a9c722709a3e40618c6e}{m\_userData}}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00206}00206\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_c_user_type}{CUserType}}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_af46461faa7d8a506dc8d4eeb5e993ba5}{m\_userTypes}}[\mbox{\hyperlink{class_c_serialized_value_a4db1d1aae7118e8a70404d1a07523a6e}{m\_typeName}}];}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>CleanupUserData(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0145fbc20178a9c722709a3e40618c6e}{m\_userData}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00211}00211\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00212}00212\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00214}\mbox{\hyperlink{class_c_serialized_value_a77035394150be9192042026780edbf9e}{00214}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serialized_value_a77035394150be9192042026780edbf9e}{CSerializedValue::ClearChildren}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00215}00215\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00216}00216\ \ \ \ \ \textcolor{comment}{//\ If\ this\ value\ is\ for\ an\ object\ handle\ that\ created\ an\ object\ during\ the\ restore}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00217}00217\ \ \ \ \ \textcolor{comment}{//\ then\ it\ is\ necessary\ to\ release\ the\ handle\ here,\ so\ we\ won't\ get\ a\ memory\ leak}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00218}00218\ \ \ \ \ \textcolor{keywordflow}{if}(\ (\mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ \&\ asTYPEID\_OBJHANDLE)\ \&\&\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size()\ ==\ 1\ \&\&\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[0]-\/>m\_restorePtr\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00219}00219\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>ReleaseScriptObject(\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[0]-\/>\mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}},\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>GetTypeInfoById(\mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[0]-\/>m\_typeId));}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00221}00221\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00223}00223\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ n\ =\ 0;\ n\ <\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size();\ n++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[n];}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00225}00225\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.clear();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00226}00226\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00228}\mbox{\hyperlink{class_c_serialized_value_a7812c628658b0da38531cbb3a42727ff}{00228}}\ \mbox{\hyperlink{class_c_serialized_value_a7812c628658b0da38531cbb3a42727ff}{CSerializedValue::\string~CSerializedValue}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00229}00229\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00230}00230\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_ac4d2c90f0c2ee9235348394dc96e5f28}{Uninit}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00231}00231\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00233}\mbox{\hyperlink{class_c_serialized_value_aaa9d8be7c288aa81de5a657aa3ae1318}{00233}}\ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *\mbox{\hyperlink{class_c_serialized_value_aaa9d8be7c288aa81de5a657aa3ae1318}{CSerializedValue::FindByName}}(\textcolor{keyword}{const}\ std::string\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ \textcolor{keyword}{const}\ std::string\ \&nameSpace)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00234}00234\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00235}00235\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size();\ i++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i]-\/>\mbox{\hyperlink{class_c_serialized_value_a9e8c24673d33d1a994b0c460bca4e1f6}{m\_name}}\ \ \ \ \ \ ==\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}\ \&\&}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i]-\/>\mbox{\hyperlink{class_c_serialized_value_a51aa9f2503513cbb146af247234bd835}{m\_nameSpace}}\ ==\ nameSpace\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i];}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00240}00240\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00241}00241\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00243}\mbox{\hyperlink{class_c_serialized_value_a77f3af638cfd6e6e53d8fcc653d3f82a}{00243}}\ \textcolor{keywordtype}{void}\ \ \mbox{\hyperlink{class_c_serialized_value_a77f3af638cfd6e6e53d8fcc653d3f82a}{CSerializedValue::GetAllPointersOfChildren}}(std::vector<void*>\ *ptrs)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00244}00244\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00245}00245\ \ \ \ \ ptrs-\/>push\_back(\mbox{\hyperlink{class_c_serialized_value_ad39435527a66e13c5038e6210b36c1a1}{m\_originalPtr}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00247}00247\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size();\ ++i\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00248}00248\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i]-\/>\mbox{\hyperlink{class_c_serialized_value_a77f3af638cfd6e6e53d8fcc653d3f82a}{GetAllPointersOfChildren}}(ptrs);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00249}00249\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00251}\mbox{\hyperlink{class_c_serialized_value_ad48ee62b7f146e6cbbbe01a4307f10da}{00251}}\ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *\mbox{\hyperlink{class_c_serialized_value_ad48ee62b7f146e6cbbbe01a4307f10da}{CSerializedValue::FindByPtr}}(\textcolor{keywordtype}{void}\ *ptr)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00252}00252\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00253}00253\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_ad39435527a66e13c5038e6210b36c1a1}{m\_originalPtr}}\ ==\ ptr\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00256}00256\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size();\ i++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00257}00257\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *find\ =\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i]-\/>\mbox{\hyperlink{class_c_serialized_value_ad48ee62b7f146e6cbbbe01a4307f10da}{FindByPtr}}(ptr);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ find\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ find;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00261}00261\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00263}00263\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00264}00264\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00266}\mbox{\hyperlink{class_c_serialized_value_a3215999697b735b2e097ae6fcb28f7ef}{00266}}\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{class_c_serialized_value_a3215999697b735b2e097ae6fcb28f7ef}{CSerializedValue::GetPointerToRestoredObject}}(\textcolor{keywordtype}{void}\ *ptr)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00267}00267\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00268}00268\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_ad39435527a66e13c5038e6210b36c1a1}{m\_originalPtr}}\ ==\ ptr\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00271}00271\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size();\ ++i\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00272}00272\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ *ret\ =\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i]-\/>\mbox{\hyperlink{class_c_serialized_value_a3215999697b735b2e097ae6fcb28f7ef}{GetPointerToRestoredObject}}(ptr);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ ret\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00276}00276\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00277}00277\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00278}00278\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00279}00279\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00280}00280\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00281}00281\ \textcolor{comment}{//\ find\ variable\ by\ ptr\ but\ looking\ only\ at\ those\ in\ the\ references,\ which\ will\ create\ a\ new\ object}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00282}\mbox{\hyperlink{class_c_serialized_value_adcb9fca9006a9924ce0c3158c7c3180d}{00282}}\ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *\mbox{\hyperlink{class_c_serialized_value_adcb9fca9006a9924ce0c3158c7c3180d}{CSerializedValue::FindByPtrInHandles}}(\textcolor{keywordtype}{void}\ *ptr)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00283}00283\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00284}00284\ \ \ \ \ \textcolor{comment}{//\ if\ this\ handle\ created\ object}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00285}00285\ \ \ \ \ \textcolor{keywordflow}{if}(\ (\mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ \&\ asTYPEID\_OBJHANDLE)\ \&\&\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size()\ ==\ 1\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00286}00286\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[0]-\/>\mbox{\hyperlink{class_c_serialized_value_ad39435527a66e13c5038e6210b36c1a1}{m\_originalPtr}}\ ==\ ptr\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00289}00289\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00291}00291\ \ \ \ \ \textcolor{keywordflow}{if}(\ !(\mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ \&\ asTYPEID\_OBJHANDLE)\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00292}00292\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size();\ i++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *find\ =\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i]-\/>\mbox{\hyperlink{class_c_serialized_value_adcb9fca9006a9924ce0c3158c7c3180d}{FindByPtrInHandles}}(ptr);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ find\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ find;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00298}00298\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00299}00299\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00301}00301\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00302}00302\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00304}\mbox{\hyperlink{class_c_serialized_value_a1ce92f7cc0a6ef1b9295664c30fe9432}{00304}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serialized_value_a1ce92f7cc0a6ef1b9295664c30fe9432}{CSerializedValue::Store}}(\textcolor{keywordtype}{void}\ *ref,\ \textcolor{keywordtype}{int}\ typeId)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00305}00305\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00306}00306\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_afab6067d2a24f2248780e46a9dce0012}{m\_isInit}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00307}00307\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_ac95712970e78726e2bdf8406e24f6d47}{SetType}}(typeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00308}00308\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_ad39435527a66e13c5038e6210b36c1a1}{m\_originalPtr}}\ =\ ref;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00309}00309\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00310}00310\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ \&\ asTYPEID\_OBJHANDLE\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00311}00311\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00312}00312\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a8fa6ba0c3a7c8555240b25a50f82ef59}{m\_handlePtr}}\ =\ *(\textcolor{keywordtype}{void}**)ref;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00313}00313\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00314}00314\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ \&\ asTYPEID\_SCRIPTOBJECT\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00315}00315\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00316}00316\ \ \ \ \ \ \ \ \ asIScriptObject\ *obj\ =\ (asIScriptObject\ *)ref;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00317}00317\ \ \ \ \ \ \ \ \ asITypeInfo\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ obj-\/>GetObjectType();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00318}00318\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_ac95712970e78726e2bdf8406e24f6d47}{SetType}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetTypeId());}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00319}00319\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Store\ children\ }}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00321}00321\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ asUINT\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetPropertyCount();\ i++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ \{\ \ \ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ childId;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *childName;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetProperty(i,\ \&childName,\ \&childId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00326}00326\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.push\_back(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_c_serialized_value_a55158683a388b037fab406a44743cec6}{CSerializedValue}}(\textcolor{keyword}{this},\ childName,\ \textcolor{stringliteral}{"{}"{}},\ obj-\/>GetAddressOfProperty(i),\ childId));}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00329}00329\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00330}00330\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00331}00331\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>GetSizeOfPrimitiveType(\mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00333}00333\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}\ ==\ 0\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00335}00335\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ it\ is\ user\ type(\ string,\ array,\ etc\ ...\ )}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_af46461faa7d8a506dc8d4eeb5e993ba5}{m\_userTypes}}[\mbox{\hyperlink{class_c_serialized_value_a4db1d1aae7118e8a70404d1a07523a6e}{m\_typeName}}]\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_af46461faa7d8a506dc8d4eeb5e993ba5}{m\_userTypes}}[\mbox{\hyperlink{class_c_serialized_value_a4db1d1aae7118e8a70404d1a07523a6e}{m\_typeName}}]-\/>Store(\textcolor{keyword}{this},\ \mbox{\hyperlink{class_c_serialized_value_ad39435527a66e13c5038e6210b36c1a1}{m\_originalPtr}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ POD-\/types\ can\ be\ stored\ without\ need\ for\ user\ type}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asITypeInfo\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_serialized_value_a8743d0419165e9007eb8cf7ffd81baa3}{GetType}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ \&\&\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetFlags()\ \&\ asOBJ\_POD)\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}\ =\ \mbox{\hyperlink{class_c_serialized_value_a8743d0419165e9007eb8cf7ffd81baa3}{GetType}}()-\/>GetSize();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ It\ is\ not\ necessary\ to\ report\ an\ error\ here\ if\ it\ is\ not\ a\ POD-\/type\ as\ that\ will\ be\ done\ when\ restoring}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00349}00349\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a058401708f2e547d9bb18ff71650ca72}{m\_mem}}.resize(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ memcpy(\&\mbox{\hyperlink{class_c_serialized_value_a058401708f2e547d9bb18ff71650ca72}{m\_mem}}[0],\ ref,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00354}00354\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00355}00355\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00356}00356\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00357}00357\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00358}\mbox{\hyperlink{class_c_serialized_value_a58a55335e58683ad02bc78a2ce2eef27}{00358}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serialized_value_a58a55335e58683ad02bc78a2ce2eef27}{CSerializedValue::Restore}}(\textcolor{keywordtype}{void}\ *ref,\ \textcolor{keywordtype}{int}\ typeId)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00359}00359\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00360}00360\ \ \ \ \ \textcolor{keywordflow}{if}(\ !\mbox{\hyperlink{class_c_serialized_value_afab6067d2a24f2248780e46a9dce0012}{m\_isInit}}\ ||\ !ref\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00362}00362\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00363}00363\ \ \ \ \ \textcolor{comment}{//\ Verify\ that\ the\ stored\ type\ matched\ the\ new\ type\ of\ the\ value\ being\ restored}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00364}00364\ \ \ \ \ \textcolor{keywordflow}{if}(\ typeId\ <=\ asTYPEID\_DOUBLE\ \&\&\ typeId\ !=\ \mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ )\ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ TODO:\ We\ may\ try\ to\ do\ a\ type\ conversion\ for\ primitives}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00365}00365\ \ \ \ \ \textcolor{keywordflow}{if}(\ (typeId\ \&\ \string~asTYPEID\_MASK\_SEQNBR)\ \string^\ (\mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ \&\ \string~asTYPEID\_MASK\_SEQNBR)\ )\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00366}00366\ \ \ \ \ asITypeInfo\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>GetTypeInfoById(typeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00367}00367\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ \&\&\ \mbox{\hyperlink{class_c_serialized_value_a4db1d1aae7118e8a70404d1a07523a6e}{m\_typeName}}\ !=\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetName()\ )\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00369}00369\ \ \ \ \ \textcolor{comment}{//\ Set\ the\ new\ pointer\ and\ type}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00370}00370\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}}\ =\ ref;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00371}00371\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_ac95712970e78726e2bdf8406e24f6d47}{SetType}}(typeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00372}00372\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00373}00373\ \ \ \ \ \textcolor{comment}{//\ Restore\ the\ value}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00374}00374\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ \&\ asTYPEID\_OBJHANDLE\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00375}00375\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00376}00376\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ need\ create\ objects}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00377}00377\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size()\ ==\ 1\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00378}00378\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ asITypeInfo\ *ctype\ =\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[0]-\/>GetType();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00380}00380\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ ctype-\/>GetFactoryCount()\ ==\ 0\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ There\ are\ no\ factories,\ so\ assume\ the\ same\ pointer\ is\ going\ to\ be\ used}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[0]-\/>m\_restorePtr\ =\ \mbox{\hyperlink{class_c_serialized_value_a8fa6ba0c3a7c8555240b25a50f82ef59}{m\_handlePtr}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00385}00385\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Increase\ the\ refCount\ for\ the\ object\ as\ it\ will\ be\ released\ upon\ clean-\/up}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>AddRefScriptObject(\mbox{\hyperlink{class_c_serialized_value_a8fa6ba0c3a7c8555240b25a50f82ef59}{m\_handlePtr}},\ ctype);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ a\ new\ script\ object,\ but\ don't\ call\ its\ constructor\ as\ we\ will\ initialize\ the\ members.\ }}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calling\ the\ constructor\ may\ have\ unwanted\ side\ effects\ if\ for\ example\ the\ constructor\ changes}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ any\ outside\ entities,\ such\ as\ setting\ global\ variables\ to\ point\ to\ new\ objects,\ etc.}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ newObject\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetFlags()\ \&\ asOBJ\_SCRIPT\_OBJECT\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ newObject\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>CreateUninitializedScriptObject(ctype);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Allocate\ an\ unitialized\ object\ for\ the\ custom\ type}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_af46461faa7d8a506dc8d4eeb5e993ba5}{m\_userTypes}}[\mbox{\hyperlink{class_c_serialized_value_a4db1d1aae7118e8a70404d1a07523a6e}{m\_typeName}}])}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ newObject\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_af46461faa7d8a506dc8d4eeb5e993ba5}{m\_userTypes}}[\mbox{\hyperlink{class_c_serialized_value_a4db1d1aae7118e8a70404d1a07523a6e}{m\_typeName}}]-\/>AllocateUnitializedMemory(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ str\ =\ \textcolor{stringliteral}{"{}Cannot\ allocate\ memory\ for\ type\ '"{}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\ +=\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetName();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str\ +=\ \textcolor{stringliteral}{"{}'"{}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>WriteMessage(\textcolor{stringliteral}{"{}"{}},\ 0,\ 0,\ asMSGTYPE\_ERROR,\ str.c\_str());}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00409}00409\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[0]-\/>Restore(newObject,\ ctype-\/>GetTypeId());}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00412}00412\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00413}00413\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00414}00414\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ \&\ asTYPEID\_SCRIPTOBJECT\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00415}00415\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00416}00416\ \ \ \ \ \ \ \ \ asIScriptObject\ *obj\ =\ (asIScriptObject\ *)ref;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00418}00418\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Retrieve\ children}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00419}00419\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ asUINT\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetPropertyCount()\ ;\ i++\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00420}00420\ \ \ \ \ \ \ \ \ \{\ \ \ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *nameProperty;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ptypeId;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetProperty(i,\ \&nameProperty,\ \&ptypeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *var\ =\ \mbox{\hyperlink{class_c_serialized_value_aaa9d8be7c288aa81de5a657aa3ae1318}{FindByName}}(nameProperty,\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ var\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var-\/>\mbox{\hyperlink{class_c_serialized_value_a58a55335e58683ad02bc78a2ce2eef27}{Restore}}(obj-\/>GetAddressOfProperty(i),\ ptypeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00428}00428\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00429}00429\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00430}00430\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00431}00431\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00432}00432\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a058401708f2e547d9bb18ff71650ca72}{m\_mem}}.size()\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00433}00433\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ POD\ values\ can\ be\ restored\ with\ direct\ copy}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ memcpy(ref,\ \&\mbox{\hyperlink{class_c_serialized_value_a058401708f2e547d9bb18ff71650ca72}{m\_mem}}[0],\ \mbox{\hyperlink{class_c_serialized_value_a058401708f2e547d9bb18ff71650ca72}{m\_mem}}.size());}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00436}00436\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00437}00437\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_af46461faa7d8a506dc8d4eeb5e993ba5}{m\_userTypes}}[\mbox{\hyperlink{class_c_serialized_value_a4db1d1aae7118e8a70404d1a07523a6e}{m\_typeName}}]\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00438}00438\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ user\ type\ restore}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_af46461faa7d8a506dc8d4eeb5e993ba5}{m\_userTypes}}[\mbox{\hyperlink{class_c_serialized_value_a4db1d1aae7118e8a70404d1a07523a6e}{m\_typeName}}]-\/>Restore(\textcolor{keyword}{this},\ \mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00441}00441\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00442}00442\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00443}00443\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ str\ =\ \textcolor{stringliteral}{"{}Cannot\ restore\ type\ '"{}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ str\ +=\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetName();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ str\ +=\ \textcolor{stringliteral}{"{}'"{}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>WriteMessage(\textcolor{stringliteral}{"{}"{}},\ 0,\ 0,\ asMSGTYPE\_ERROR,\ str.c\_str());}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00448}00448\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00449}00449\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00450}00450\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00451}00451\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00452}\mbox{\hyperlink{class_c_serialized_value_aeefb44cd21c266c6a84c1e41ac949671}{00452}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serialized_value_aeefb44cd21c266c6a84c1e41ac949671}{CSerializedValue::CancelDuplicates}}(\mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *from)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00453}00453\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00454}00454\ \ \ \ \ std::vector<void*>\ ptrs;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00455}00455\ \ \ \ \ from-\/>\mbox{\hyperlink{class_c_serialized_value_a77f3af638cfd6e6e53d8fcc653d3f82a}{GetAllPointersOfChildren}}(\&ptrs);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00456}00456\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00457}00457\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ ptrs.size();\ ++i\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00458}00458\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00459}00459\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *find\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_adcb9fca9006a9924ce0c3158c7c3180d}{FindByPtrInHandles}}(ptrs[i]);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00460}00460\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00461}00461\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(\ find\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00462}00462\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cancel\ create\ object}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ find-\/>\mbox{\hyperlink{class_c_serialized_value_a77035394150be9192042026780edbf9e}{ClearChildren}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00465}00465\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ next\ link\ to\ this\ ptr}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ find\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_adcb9fca9006a9924ce0c3158c7c3180d}{FindByPtrInHandles}}(ptrs[i]);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00468}00468\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00469}00469\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00470}00470\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00471}00471\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00472}\mbox{\hyperlink{class_c_serialized_value_a5d4eb9858c807d9e2536d7518c9bf4fb}{00472}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serialized_value_a5d4eb9858c807d9e2536d7518c9bf4fb}{CSerializedValue::ReplaceHandles}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00473}00473\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00474}00474\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a8fa6ba0c3a7c8555240b25a50f82ef59}{m\_handlePtr}}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00475}00475\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00476}00476\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ object\ that\ the\ handle\ is\ referring\ to}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00477}00477\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *handle\_to\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_ad48ee62b7f146e6cbbbe01a4307f10da}{FindByPtr}}(\mbox{\hyperlink{class_c_serialized_value_a8fa6ba0c3a7c8555240b25a50f82ef59}{m\_handlePtr}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00478}00478\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00479}00479\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ object\ hasn't\ been\ stored\ yet...}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00480}00480\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ handle\_to\ ==\ 0\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00481}00481\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Store\ the\ object\ now}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ asITypeInfo\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_serialized_value_a8743d0419165e9007eb8cf7ffd81baa3}{GetType}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *need\_create\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_c_serialized_value_a55158683a388b037fab406a44743cec6}{CSerializedValue}}(\textcolor{keyword}{this},\ \mbox{\hyperlink{class_c_serialized_value_a9e8c24673d33d1a994b0c460bca4e1f6}{m\_name}},\ \mbox{\hyperlink{class_c_serialized_value_a51aa9f2503513cbb146af247234bd835}{m\_nameSpace}},\ \mbox{\hyperlink{class_c_serialized_value_a8fa6ba0c3a7c8555240b25a50f82ef59}{m\_handlePtr}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetTypeId());\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00485}00485\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00486}00486\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Make\ sure\ all\ other\ handles\ that\ point\ to\ the\ same\ object\ }}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00487}00487\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ are\ updated,\ so\ we\ don't\ end\ up\ creating\ duplicates\ }}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00488}00488\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_aeefb44cd21c266c6a84c1e41ac949671}{CancelDuplicates}}(need\_create);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00489}00489\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00490}00490\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.push\_back(need\_create);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00491}00491\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00492}00492\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00493}00493\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00494}00494\ \ \ \ \ \textcolor{comment}{//\ Replace\ the\ handles\ in\ the\ children\ too}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00495}00495\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size();\ ++i\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00496}00496\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i]-\/>\mbox{\hyperlink{class_c_serialized_value_a5d4eb9858c807d9e2536d7518c9bf4fb}{ReplaceHandles}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00497}00497\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00498}00498\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00499}\mbox{\hyperlink{class_c_serialized_value_ad07c4b78db6a79181f02d455a43d12ae}{00499}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serialized_value_ad07c4b78db6a79181f02d455a43d12ae}{CSerializedValue::RestoreHandles}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00500}00500\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00501}00501\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ \&\ asTYPEID\_OBJHANDLE\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00502}00502\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00503}00503\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a8fa6ba0c3a7c8555240b25a50f82ef59}{m\_handlePtr}}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00504}00504\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ object\ the\ handle\ is\ supposed\ to\ point\ to}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value}{CSerializedValue}}\ *handleTo\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_a81ba3be165acfbfe8aa950c5c02d5a5d}{m\_root}}.\mbox{\hyperlink{class_c_serialized_value_ad48ee62b7f146e6cbbbe01a4307f10da}{FindByPtr}}(\mbox{\hyperlink{class_c_serialized_value_a8fa6ba0c3a7c8555240b25a50f82ef59}{m\_handlePtr}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00507}00507\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00508}00508\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}}\ \&\&\ handleTo\ \&\&\ handleTo-\/>\mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asITypeInfo\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>GetTypeInfoById(\mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00511}00511\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ handle\ is\ already\ pointing\ to\ something\ it\ must\ be\ released\ first}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ *(\textcolor{keywordtype}{void}**)\mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>ReleaseScriptObject(*(\textcolor{keywordtype}{void}**)\mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00515}00515\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Update\ the\ internal\ pointer}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *(\textcolor{keywordtype}{void}**)\mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}}\ =\ handleTo-\/>\mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00518}00518\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Increase\ the\ reference}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>AddRefScriptObject(handleTo-\/>\mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}});}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00522}00522\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00523}00523\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00524}00524\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ handle\ is\ pointing\ to\ something,\ we\ must\ release\ it\ to\ restore\ the\ null\ pointer}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}}\ \&\&\ *(\textcolor{keywordtype}{void}**)\mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}}\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>ReleaseScriptObject(*(\textcolor{keywordtype}{void}**)\mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}},\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>GetTypeInfoById(\mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}));}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *(\textcolor{keywordtype}{void}**)\mbox{\hyperlink{class_c_serialized_value_a6577a549b2ba075038794b32a2142f2e}{m\_restorePtr}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00531}00531\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00532}00532\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00533}00533\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00534}00534\ \ \ \ \ \textcolor{comment}{//\ Do\ the\ same\ for\ the\ children}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00535}00535\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}.size();\ ++i\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00536}00536\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a25711cdf0f93825f511cd4024115449c}{m\_children}}[i]-\/>\mbox{\hyperlink{class_c_serialized_value_ad07c4b78db6a79181f02d455a43d12ae}{RestoreHandles}}();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00537}00537\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00538}00538\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00539}\mbox{\hyperlink{class_c_serialized_value_ac95712970e78726e2bdf8406e24f6d47}{00539}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serialized_value_ac95712970e78726e2bdf8406e24f6d47}{CSerializedValue::SetType}}(\textcolor{keywordtype}{int}\ typeId)}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00540}00540\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00541}00541\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a090e1c565f821d3b4eeb6a418eb0a97f}{m\_typeId}}\ =\ typeId;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00542}00542\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00543}00543\ \ \ \ \ asITypeInfo\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>GetTypeInfoById(typeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00544}00544\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00545}00545\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}})}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00546}00546\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00547}00547\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a4db1d1aae7118e8a70404d1a07523a6e}{m\_typeName}}\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetName();}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00548}00548\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_ae1c23c1d4ea7060cff56c2a29f0a011a}{m\_typeDecl}}\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>GetTypeDeclaration(typeId,\ \textcolor{keyword}{true});\ \textcolor{comment}{//\ For\ templates\ we\ need\ the\ full\ declaration,\ not\ just\ the\ name}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00549}00549\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00550}00550\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00551}00551\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00552}\mbox{\hyperlink{class_c_serialized_value_a8743d0419165e9007eb8cf7ffd81baa3}{00552}}\ asITypeInfo\ *\mbox{\hyperlink{class_c_serialized_value_a8743d0419165e9007eb8cf7ffd81baa3}{CSerializedValue::GetType}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00553}00553\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00554}00554\ \ \ \ \ \textcolor{keywordflow}{if}(\ !\mbox{\hyperlink{class_c_serialized_value_a4db1d1aae7118e8a70404d1a07523a6e}{m\_typeName}}.empty()\ )}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00555}00555\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00556}00556\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ newTypeId\ =\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_a9807204d9a6c7ad778bcae60904ee0f5}{m\_mod}}-\/>GetTypeIdByDecl(\mbox{\hyperlink{class_c_serialized_value_ae1c23c1d4ea7060cff56c2a29f0a011a}{m\_typeDecl}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00557}00557\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_c_serialized_value_a0871a4a6bdd01aebe227fda42a1b5e66}{m\_serializer}}-\/>\mbox{\hyperlink{class_c_serializer_ae89342ebfec2abb602c71775dde0246a}{m\_engine}}-\/>GetTypeInfoById(newTypeId);}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00558}00558\ \ \ \ \ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00559}00559\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00560}00560\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00561}00561\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00563}\mbox{\hyperlink{class_c_serialized_value_abffa48b34e94e7d7c6f29d72185404d6}{00563}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_serialized_value_abffa48b34e94e7d7c6f29d72185404d6}{CSerializedValue::SetUserData}}(\textcolor{keywordtype}{void}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}})}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00564}00564\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00565}00565\ \ \ \ \ \mbox{\hyperlink{class_c_serialized_value_a0145fbc20178a9c722709a3e40618c6e}{m\_userData}}\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_abd87654504355b4c1bb002dcb1d4d16a}{data}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00566}00566\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00567}00567\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00568}\mbox{\hyperlink{class_c_serialized_value_a18a3f3e42a01f6812da163a0443092b3}{00568}}\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{class_c_serialized_value_a18a3f3e42a01f6812da163a0443092b3}{CSerializedValue::GetUserData}}()}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00569}00569\ \{}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00570}00570\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_c_serialized_value_a0145fbc20178a9c722709a3e40618c6e}{m\_userData}};}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00571}00571\ \}}
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00572}00572\ }
+\DoxyCodeLine{\Hypertarget{serializer_8cpp_source_l00573}00573\ END\_AS\_NAMESPACE}
+
+\end{DoxyCode}

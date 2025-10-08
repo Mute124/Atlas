@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Atlas: C:/Dev/Techstorm-v5/src/engine/renderer/Renderer.h File Reference</title>
+<title>Atlas: C:/Dev/Techstorm-v5/src/engine/graphics/Renderer.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -99,18 +99,19 @@ $(document).ready(function(){initNavTree('d3/da0/_renderer_8h.html','../../'); i
 <div class="contents">
 <div class="textblock"><code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
-<code>#include &quot;<a class="el" href="../../de/dec/_singleton_8h_source.html">../utils/Singleton.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d9/dfc/_game_object_registry_8h_source.html">../objects/GameObjectRegistry.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d3/d41/_game_camera_8h_source.html">GameCamera.h</a>&quot;</code><br />
-<code>#include &lt;gtest/gtest.h&gt;</code><br />
 <code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../d4/d09/_core_8h_source.html">../core/Core.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../dd/d7a/_module_8h_source.html">../core/Module.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../de/d42/_window_8h_source.html">window/Window.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../df/dc6/_rendering_backend_8h_source.html">backend/RenderingBackend.h</a>&quot;</code><br />
 </div>
 <p><a href="../../d3/da0/_renderer_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d71/class_atlas_1_1_renderer.html">Atlas::Renderer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serves as the renderer for the game.  <a href="../../dc/d71/class_atlas_1_1_renderer.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d4e/class_atlas_1_1_a_renderer.html">Atlas::ARenderer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A base class for all renderers. This class is responsible for <b>frontend</b> rendering of your game. The rendering backend is responsible for the actual rendering. When using this class, you should inherit from it and implement the <code>init</code> and <code>update</code> methods. If you want this class to be multi-threaded by <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a>, you should make sure that the <code>init</code> and <code>update</code> methods are thread-safe. Additionally, make sure you set <a class="el" href="../../d7/d4e/class_atlas_1_1_a_renderer.html#a6a77936bc8281507f5e205e8831a9852">canBeMultiThreaded</a> to <em>true</em> if you want this to take effect. If you do not, <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a> will only run the <code>init</code> and <code>update</code> methods on the rendering thread instead of accounting for your renderer's need to be multi-threaded.  <a href="../../d7/d4e/class_atlas_1_1_a_renderer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -123,8 +124,8 @@ Namespaces</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_eedbc0f69b08006c72429a8d2b33a57d.html">renderer</a></li><li class="navelem"><a class="el" href="../../d3/da0/_renderer_8h.html">Renderer.h</a></li>
-    <li class="footer">Generated on Sat Feb 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_169bc07725411c2c359378f17aa1abb6.html">graphics</a></li><li class="navelem"><a class="el" href="../../d3/da0/_renderer_8h.html">Renderer.h</a></li>
+    <li class="footer">Generated on Tue Oct 7 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

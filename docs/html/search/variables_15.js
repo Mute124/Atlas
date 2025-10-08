@@ -3,11 +3,11 @@ var searchData=
   ['v1_0',['v1',['../da/d89/struct_terrain_1_1_triangle_struct.html#ad195102b92c8cdd4d1e15a0e7ada00b6',1,'Terrain::TriangleStruct']]],
   ['v2_1',['v2',['../da/d89/struct_terrain_1_1_triangle_struct.html#a7309c27a7064df9b95e2b2a4d4903f83',1,'Terrain::TriangleStruct']]],
   ['v3_2',['v3',['../da/d89/struct_terrain_1_1_triangle_struct.html#ae3ecda6e790e80eccc414b74cf76354c',1,'Terrain::TriangleStruct']]],
-  ['value_3',['value',['../d6/df0/classgw_1_1_proxy.html#aa17f7bf04eaeef73d6916af05fb60a71',1,'gw::Proxy::value'],['../dc/d2f/class_c_script_any.html#ab314930b07362472f64856bd9578bdce',1,'CScriptAny::value'],['../d4/d3c/struct_grid_cell.html#a21e9299446be3f3db429efa8c7cd1ed5',1,'GridCell::value']]],
+  ['value_3',['value',['../d6/df0/classgw_1_1_proxy.html#aa17f7bf04eaeef73d6916af05fb60a71',1,'gw::Proxy::value'],['../dc/d2f/class_c_script_any.html#ab314930b07362472f64856bd9578bdce',1,'CScriptAny::value'],['../d4/d3c/struct_grid_cell.html#a21e9299446be3f3db429efa8c7cd1ed5',1,'GridCell::value'],['../df/d5a/struct_atlas_1_1_window_hint.html#a7e06121134b7bf035be8171b81521513',1,'Atlas::WindowHint::value']]],
   ['valueflt_4',['valueFlt',['../d9/de7/struct_c_script_any_1_1value_struct.html#a507e289c1396373969d331a1fdc3c930',1,'CScriptAny::valueStruct']]],
   ['valueint_5',['valueInt',['../d9/de7/struct_c_script_any_1_1value_struct.html#a80e98b21a0dbc3a1bd0e16a41a38de74',1,'CScriptAny::valueStruct']]],
   ['valueobj_6',['valueObj',['../d9/de7/struct_c_script_any_1_1value_struct.html#a7c683b0c7b45ff155c56dc1c13d7226d',1,'CScriptAny::valueStruct']]],
-  ['varmetadatamap_7',['varmetadatamap',['../de/d98/class_c_script_builder.html#ad5e7f86bb80dc432133d24188f803233',1,'CScriptBuilder::varMetadataMap'],['../df/d3a/struct_c_script_builder_1_1_s_class_metadata.html#ae00ccb62c09a9a2bca7d44d66bc42202',1,'CScriptBuilder::SClassMetadata::varMetadataMap']]],
+  ['varmetadatamap_7',['varmetadatamap',['../de/d98/class_c_script_builder.html#add4e9ca36cb137421ea3f7b9f960464b',1,'CScriptBuilder::varMetadataMap'],['../df/d3a/struct_c_script_builder_1_1_s_class_metadata.html#afc1c2d8c9c28b945d5709d8edecf8a74',1,'CScriptBuilder::SClassMetadata::varMetadataMap']]],
   ['vbo_8',['VBO',['../d7/d58/class_chunk.html#af737ae6fa949e082a322002f353270a7',1,'Chunk']]],
   ['vbohandle_9',['VboHandle',['../dc/d45/struct_im_gui___impl_open_g_l3___data.html#a53b57a562a470fa751e2f8fe78576ebd',1,'ImGui_ImplOpenGL3_Data']]],
   ['vertex_10',['vertex',['../d4/d3c/struct_grid_cell.html#a39931466771fa90feda4780660ec628f',1,'GridCell']]],
@@ -20,5 +20,7 @@ var searchData=
   ['vertexmap_17',['vertexMap',['../d0/dbd/struct_vertex_container.html#aa53f97ae057974b5bfcbaf8a245fecca',1,'VertexContainer']]],
   ['vertices_18',['vertices',['../d7/d58/class_chunk.html#a6e84333e5a8487b551990aef37916493',1,'Chunk']]],
   ['viewport_19',['Viewport',['../d4/d6c/union_im_g_l3_w_procs.html#ae65c541ae10af47f8d00dfc7badbce10',1,'ImGL3WProcs']]],
-  ['vulkaninitinfo_20',['VulkanInitInfo',['../d2/d86/struct_im_gui___impl_vulkan___data.html#a153eeace4576f5dcebc5eef676ae0580',1,'ImGui_ImplVulkan_Data']]]
+  ['vulkan12features_20',['vulkan12Features',['../d6/d31/struct_atlas_1_1_physical_device_features_aggregate.html#aff0ba249b37872e5dcb4a7026028f719',1,'Atlas::PhysicalDeviceFeaturesAggregate']]],
+  ['vulkan13features_21',['vulkan13Features',['../d6/d31/struct_atlas_1_1_physical_device_features_aggregate.html#aa4479ada6424656eebec377dd913da64',1,'Atlas::PhysicalDeviceFeaturesAggregate']]],
+  ['vulkaninitinfo_22',['VulkanInitInfo',['../d2/d86/struct_im_gui___impl_vulkan___data.html#a153eeace4576f5dcebc5eef676ae0580',1,'ImGui_ImplVulkan_Data']]]
 ];

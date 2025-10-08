@@ -2,88 +2,94 @@
 \hypertarget{_atlas_engine_8h_source}{}\label{_atlas_engine_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/core/AtlasEngine.h@{C:/Dev/Techstorm-\/v5/src/engine/core/AtlasEngine.h}}
 \mbox{\hyperlink{_atlas_engine_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00002}00002\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00004}00004\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_atlas_engine_8h}{IAtlasEngine.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00006}00006\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}../conf/Config.h"{}}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}../dbg/Logging.h"{}}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}../fs/FileSystemRegistry.h"{}}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}../GameSettings.h"{}}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}../input/InputRegistry.h"{}}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}../modding/ScriptingAPI.h"{}}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../physics/Physics.h"{}}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}../renderer/Renderer.h"{}}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}../renderer/window/IWindow.h"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ AtlasEngine.h}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00003}00003\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00004}00004\ \textcolor{comment}{\ *\ @brief\ This\ file\ contains\ the\ declaration\ of\ the\ @ref\ AtlasEngine\ class.}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00005}00005\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00006}00006\ \textcolor{comment}{\ *\ @date\ April\ 2025}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00007}00007\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00008}00008\ \textcolor{comment}{\ *\ @since\ v}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00010}00010\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <string>}}
 \DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00016}00016\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_thread_safe_variable_8h}{ThreadSafeVariable.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00018}00018\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00019}00019\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00037}\mbox{\hyperlink{class_atlas_1_1_atlas_engine}{00037}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_atlas_engine}{AtlasEngine}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine}{IAtlasEngine}}\ \{}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00047}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a3153612a6df7ddbed63c77d8def4bc54}{00047}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<ConfigFileRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a3153612a6df7ddbed63c77d8def4bc54}{configFileRegistry}}\ =\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<ConfigFileRegistry*>}}(\textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00056}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a52585249327a7ae8b7d412b3593f5fac}{00056}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<ScriptingAPI*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a52585249327a7ae8b7d412b3593f5fac}{scriptingAPI}}\ =\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<ScriptingAPI*>}}(\textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00057}00057\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00066}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a0b06386bd884f2e134ae1dff2c308a11}{00066}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<IWindow*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a0b06386bd884f2e134ae1dff2c308a11}{window}}\ =\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<IWindow*>}}(\textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00067}00067\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00076}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a716e26cd0190e0132580eeb6df5e4112}{00076}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<Renderer*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a716e26cd0190e0132580eeb6df5e4112}{renderer}}\ =\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<Renderer*>}}(\textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00077}00077\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00088}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a1fd73d50b57f28d58a6d522f626b889d}{00088}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<GameSettings*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a1fd73d50b57f28d58a6d522f626b889d}{gameSettings}}\ =\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<GameSettings*>}}(\textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00089}00089\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00100}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a8ed0f2010d2af76f3a733b4d29542a80}{00100}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<FileSystemRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a8ed0f2010d2af76f3a733b4d29542a80}{fileSystemRegistry}}\ =\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<FileSystemRegistry*>}}(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_core_8h}{Core.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_version_8h}{Version.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_atlas_engine_8h}{IAtlasEngine.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00022}00022\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_memory_allocator_8h}{MemoryAllocator.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ "{}../graphics/Renderer.h"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ "{}../graphics/window/Window.h"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00027}00027\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_game_threader_8h}{threading/GameThreader.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00028}00028\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_thread_safe_variable_8h}{threading/ThreadSafeVariable.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00030}00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_module_8h}{Module.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00032}00032\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00033}\mbox{\hyperlink{struct_atlas_1_1_atlas_settings}{00033}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_atlas_settings}{AtlasSettings}}\ \{}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{comment}{//AbstractMemoryAllocator*\ memoryAllocator;}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00036}\mbox{\hyperlink{struct_atlas_1_1_atlas_settings_ab2d1f2bbd26b3506ab40ba4be3d52cfe}{00036}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_atlas_settings_ab2d1f2bbd26b3506ab40ba4be3d52cfe}{isThreaded}}\ =\ \textcolor{keyword}{true};\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00037}00037\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00039}\mbox{\hyperlink{struct_atlas_1_1_engine_modules_info}{00039}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_engine_modules_info}{EngineModulesInfo}}\ \{}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00040}\mbox{\hyperlink{struct_atlas_1_1_engine_modules_info_aea8e5d9ff907ff627d3e235c15ac9999}{00040}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_renderer}{ARenderer}}*\ \mbox{\hyperlink{struct_atlas_1_1_engine_modules_info_aea8e5d9ff907ff627d3e235c15ac9999}{gameRenderingModule}};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00041}\mbox{\hyperlink{struct_atlas_1_1_engine_modules_info_ad8e58eae926710cb8502b84693983d96}{00041}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_i_game_threader}{IGameThreader}}*\ \mbox{\hyperlink{struct_atlas_1_1_engine_modules_info_ad8e58eae926710cb8502b84693983d96}{gameThreader}};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00042}00042\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00063}\mbox{\hyperlink{class_atlas_1_1_atlas_engine}{00063}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_atlas_engine}{AtlasEngine}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine}{IAtlasEngine}}\ \{}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00064}00064\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00065}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a15db3bd8595c7b8f2a2695ac0c69569c}{00065}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{struct_atlas_1_1_version}{Version}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a15db3bd8595c7b8f2a2695ac0c69569c}{sAtlasVersion}}\ =\ \mbox{\hyperlink{struct_atlas_1_1_version}{Version}}(\mbox{\hyperlink{_core_8h_a9a675bea8d07f6b50d9d30ae8da22b8c}{ATLAS\_VERSION\_MAJOR}},\ \mbox{\hyperlink{_core_8h_ab124dadcd2e3f9efe3c367021dc36127}{ATLAS\_VERSION\_MINOR}},\ \mbox{\hyperlink{_core_8h_a1d23d0b4891ae15249065d41f66598d6}{ATLAS\_VERSION\_PATCH}});}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00066}00066\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00067}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a5742ea4ff6208f8fb4e139922ac99f65}{00067}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a5742ea4ff6208f8fb4e139922ac99f65}{mIsThreaded}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00074}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a7d97edbcbe797c9544a5747e3d212a62}{00074}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a7d97edbcbe797c9544a5747e3d212a62}{mShouldIdlebeforeRunning}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a62c2a14740f92ef26d39aeab583fd4e8}{initWithThreading}}();}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_ab4eadc688f4a3bfead89ae139179becd}{initWithoutThreading}}();}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a68e8236f92872c96f6923b8cbbadf8bf}{runRenderer}}();}
 \DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00101}00101\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00110}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a5577c5b6905aec15c3e967f8ea5ad454}{00110}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<PhysicsEngine*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a5577c5b6905aec15c3e967f8ea5ad454}{physicsEngine}}\ =\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<PhysicsEngine*>}}(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00102}00102\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00104}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a124914ed6689a2cda5c6e373165090d4}{00104}}\ \ \ \ \ \ \ \ \ std::shared\_ptr<ARenderer>\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a124914ed6689a2cda5c6e373165090d4}{mGameRenderingModule}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00105}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a553184864f2769aeb5fd04267ca1fdd7}{00105}}\ \ \ \ \ \ \ \ \ std::shared\_ptr<IGameThreader>\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a553184864f2769aeb5fd04267ca1fdd7}{mGameThreader}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::shared\_ptr<AbstractMemoryAllocator>\ memoryAllocator\ =\ nullptr;}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a72f30fbe8d0088421731a437771ae1ed}{setRenderer}}(std::shared\_ptr<ARenderer>\ renderer)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a7cbf3cad7e1e94c59d32b82dca886911}{setGameThreader}}(std::shared\_ptr<IGameThreader>\ gameThreader)\ \textcolor{keyword}{override};}
 \DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00111}00111\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00120}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a89ce6a1501448093d93134d018a23372}{00120}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<InputRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a89ce6a1501448093d93134d018a23372}{inputRegistry}}\ =\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<InputRegistry*>}}(\textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00121}00121\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00130}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a675fa449b73a90280d0bcffe6d28b55e}{00130}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<Logger*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a675fa449b73a90280d0bcffe6d28b55e}{logger}}\ =\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<Logger*>}}(\textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00131}00131\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00132}00132\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00156}00156\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a1991949e739bcfc11d92e15bcb422ed3}{AtlasEngine}}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<ConfigFileRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a3153612a6df7ddbed63c77d8def4bc54}{configFileRegistry}},\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<ScriptingAPI*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a52585249327a7ae8b7d412b3593f5fac}{scriptingAPI}},}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<IWindow*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a0b06386bd884f2e134ae1dff2c308a11}{window}},\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<Renderer*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a716e26cd0190e0132580eeb6df5e4112}{renderer}},\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<GameSettings*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a1fd73d50b57f28d58a6d522f626b889d}{gameSettings}},}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<FileSystemRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a8ed0f2010d2af76f3a733b4d29542a80}{fileSystemRegistry}},\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<PhysicsEngine*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a5577c5b6905aec15c3e967f8ea5ad454}{physicsEngine}},}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<InputRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a89ce6a1501448093d93134d018a23372}{inputRegistry}},\ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<Logger*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a675fa449b73a90280d0bcffe6d28b55e}{logger}});}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00160}00160\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00164}\mbox{\hyperlink{class_atlas_1_1_atlas_engine_a1991949e739bcfc11d92e15bcb422ed3}{00164}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a1991949e739bcfc11d92e15bcb422ed3}{AtlasEngine}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00165}00165\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00178}00178\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<ConfigFileRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a76ddcf45fdb48d0cb4cd9e48e0e8df04}{getConfigFileRegistry}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00179}00179\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00192}00192\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<ScriptingAPI*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_aab40af2a9ab459f3df76fbd2c7ba3cd2}{getScriptingAPI}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00193}00193\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00206}00206\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<IWindow*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_aa2fdb0ad117b66d880febc4d32301012}{getWindow}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00207}00207\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00220}00220\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<Renderer*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_add7c52e6b24bbc4eae340640acdca05f}{getRenderer}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00221}00221\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00226}00226\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<GameSettings*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a69221c3b9e698014cdba8e59df7b5de8}{getGameSettings}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00227}00227\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00232}00232\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<FileSystemRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a44331bfdb213dc1a0070b48501a2c068}{getFileSystemRegistry}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00233}00233\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00238}00238\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<PhysicsEngine*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a3c951b1c34512a0550dee972821fafbb}{getPhysicsEngine}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00239}00239\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00244}00244\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<InputRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_ab3e7d989ab65bf33db259ced1ce77ff5}{getInputRegistry}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00245}00245\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00250}00250\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<Logger*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a46d8bc999bea07b645ea8b27343e5961}{getLogger}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00251}00251\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a6a3e0b0716b23ed668ccbae49ed7d3b2}{setConfigFileRegistry}}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<ConfigFileRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a3153612a6df7ddbed63c77d8def4bc54}{configFileRegistry}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00257}00257\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a076a3c6e898b142f2e2e892ed476b993}{setScriptingAPI}}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<ScriptingAPI*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a52585249327a7ae8b7d412b3593f5fac}{scriptingAPI}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00263}00263\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00268}00268\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_abe4025e6975198e981848e77e03e602c}{setWindow}}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<IWindow*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a0b06386bd884f2e134ae1dff2c308a11}{window}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00269}00269\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a7ec680855939270f1760834c7a772194}{setRenderer}}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<Renderer*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a716e26cd0190e0132580eeb6df5e4112}{renderer}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00275}00275\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a0fa1effc3a73620dfea11119f000339c}{setGameSettings}}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<GameSettings*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a1fd73d50b57f28d58a6d522f626b889d}{gameSettings}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00281}00281\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a930c1a1c580d06ba04c0c423cb44cd1b}{setFileSystemRegistry}}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<FileSystemRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a8ed0f2010d2af76f3a733b4d29542a80}{fileSystemRegistry}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00287}00287\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a739c99a1c42c7f1b0389cfd400691eb2}{setPhysicsEngine}}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<PhysicsEngine*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a5577c5b6905aec15c3e967f8ea5ad454}{physicsEngine}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00293}00293\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00298}00298\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a711e2da3bb51786d543db2d51b381186}{setInputRegistry}}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<InputRegistry*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a89ce6a1501448093d93134d018a23372}{inputRegistry}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00299}00299\ }
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00304}00304\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a347318105ee87c0d7f52d8dd26ac02d2}{setLogger}}(\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{ThreadSafeVariable<Logger*>}}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a675fa449b73a90280d0bcffe6d28b55e}{logger}})\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00305}00305\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00306}00306\ \}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{comment}{//void\ setMemoryAllocator(std::shared\_ptr<AbstractMemoryAllocator>\ allocator)\ override;}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a075c6a2f21401591dd7be64007274646}{threadEngine}}(\textcolor{keyword}{const}\ int8\_t\ cAllowedThreadCount)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_aa7827f667f55c4bff6d2180f9d315100}{init}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a9e4df038680eea053da4f2bc93cf0132}{run}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a2e1fb6fa87a2cbeec91addf0978f5178}{cleanup}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inherited\ via\ IAtlasEngine}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a752c0d50ee2f52d572c706f347121848}{exit}}(\textcolor{keyword}{const}\ uint32\_t\ exitCode)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00141}00141\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a912b0955bd9d52b88c064042e202ecd8}{isThreaded}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_ac7e10ee1bedde257c3e95776fe8d9e1d}{shouldExit}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inherited\ via\ IAtlasEngine}}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a1c01040c6fac62b0e14af363b138db6a}{update}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00146}00146\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_version}{Version}}\&\ \mbox{\hyperlink{class_atlas_1_1_atlas_engine_a51cbea7ea0e7b369a4661676bce06203}{getVersion}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00148}00148\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{_atlas_engine_8h_source_l00150}00150\ \}}
 
 \end{DoxyCode}

@@ -1,15 +1,51 @@
-\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/renderer/window/\+Window.h File Reference}
-\hypertarget{_window_8h}{}\label{_window_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/renderer/window/Window.h@{C:/Dev/Techstorm-\/v5/src/engine/renderer/window/Window.h}}
-{\ttfamily \#include "{}Window\+Decorations.\+h"{}}\newline
-{\ttfamily \#include "{}IWindow.\+h"{}}\newline
-{\ttfamily \#include $<$optional$>$}\newline
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/window/\+Window.h File Reference}
+\hypertarget{_window_8h}{}\label{_window_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/window/Window.h@{C:/Dev/Techstorm-\/v5/src/engine/graphics/window/Window.h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+set$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$any$>$}\newline
+{\ttfamily \#include $<$variant$>$}\newline
+{\ttfamily \#include "{}../../core/\+Core.\+h"{}}\newline
+{\ttfamily \#include "{}../../core/\+Common.\+h"{}}\newline
+{\ttfamily \#include $<$SDL2/\+SDL.\+h$>$}\newline
+{\ttfamily \#include $<$SDL2/\+SDL\+\_\+video.\+h$>$}\newline
+{\ttfamily \#include $<$glm/glm.\+hpp$>$}\newline
+{\ttfamily \#include $<$glm/fwd.\+hpp$>$}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_window}{Atlas\+::\+Window}}
+struct \mbox{\hyperlink{struct_atlas_1_1_window_hint}{Atlas\+::\+Window\+Hint}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_window_description}{Atlas\+::\+Window\+Description}}
+\begin{DoxyCompactList}\small\item\em A struct that contains all the information that a window needs. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_a_game_window}{Atlas\+::\+AGame\+Window}}
+\begin{DoxyCompactList}\small\item\em An interface that allows the creation of custom window classes in an API-\/agnostic way. It contains some general pure virtual functions that are required to create a window. {\bfseries{This interface is what \doxylink{namespace_atlas}{Atlas} stores a pointer as when creating a window.}} \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_game_window_settings}{Atlas\+::\+Game\+Window\+Settings}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_event_poller}{Atlas\+::\+Event\+Poller}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window}{Atlas\+::\+SDLGame\+Window}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
 namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespace_atlas_a52e4cef3841c9e6e2f496d9bcc376d92}{Atlas\+::\+Window\+Size}} = glm\+::vec$<$ 2, uint32\+\_\+t, glm\+::lowp $>$
+\begin{DoxyCompactList}\small\item\em A using alias for a GLM low-\/precision 2D vector that can be used to store the size of a window. \end{DoxyCompactList}\item 
+using \mbox{\hyperlink{namespace_atlas_add46beb7fbf5f73401bc4664f52a3055}{Atlas\+::\+Window\+Rectangle}} = \mbox{\hyperlink{struct_atlas_1_1_rectangle}{Rectangle}}$<$ int $>$
+\item 
+using \mbox{\hyperlink{namespace_atlas_a064fdcf1f664dce58e28e64be01c49b3}{Atlas\+::\+SDLEvent}} = \mbox{\hyperlink{imgui__impl__sdl2_8h_a33fcc6aa445cb781bfca881e39e5333e}{SDL\+\_\+\+Event}}
+\begin{DoxyCompactList}\small\item\em A null, non-\/copyable implementation of a game window. It does not do anything as it only provides stubs. Furthermore, this class is also used as the base class for the GLFWGame\+Window and \doxylink{class_atlas_1_1_s_d_l_game_window}{SDLGame\+Window} classes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \mbox{\hyperlink{namespace_atlas_a6eaa0d5e833c8de1e188d35c72be8743}{Atlas\+::\+Get\+Window\+Config\+Flag}} (std\+::string const \&flag\+Name)
 \end{DoxyCompactItemize}

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Atlas: C:/Dev/Techstorm-v5/src/engine/dbg/Logging.h File Reference</title>
+<title>Atlas: C:/Dev/Techstorm-v5/src/engine/debugging/Logging.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -94,45 +94,38 @@ $(document).ready(function(){initNavTree('da/def/_logging_8h.html','../../'); in
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle"><div class="title">Logging.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="../../d1/d4b/_e_logging_mode_8h_source.html">ELoggingMode.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../da/d41/_e_log_level_8h_source.html">ELogLevel.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;source_location&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vadefs.h&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;queue&gt;</code><br />
-<code>#include &lt;mutex&gt;</code><br />
-<code>#include &lt;spdlog/common.h&gt;</code><br />
+<code>#include &lt;initializer_list&gt;</code><br />
+<code>#include &lt;filesystem&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../db/d1f/_common_8h_source.html">../core/Common.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../df/dc2/_memory_allocator_8h_source.html">../core/MemoryAllocator.h</a>&quot;</code><br />
+<code>#include &lt;spdlog/spdlog.h&gt;</code><br />
 <code>#include &lt;spdlog/logger.h&gt;</code><br />
 <code>#include &lt;spdlog/sinks/stdout_color_sinks.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="../../de/dec/_singleton_8h_source.html">../utils/Singleton.h</a>&quot;</code><br />
+<code>#include &lt;spdlog/sinks/basic_file_sink.h&gt;</code><br />
+<code>#include &lt;spdlog/common.h&gt;</code><br />
 </div>
 <p><a href="../../da/def/_logging_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dc9/class_atlas_1_1_i_console_sink.html">Atlas::IConsoleSink</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is NOT what will print to the terminal, rather this is an interface where the logger will pass logging messages to. Use this for in-game consoles or something like that.  <a href="../../d0/dc9/class_atlas_1_1_i_console_sink.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d5c/class_atlas_1_1_i_logger.html">Atlas::ILogger&lt; T_LOG_LEVELS_TYPE &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface for logging that is responsible for handling any logging from the engine, game, or mods.  <a href="../../de/d5c/class_atlas_1_1_i_logger.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dba/class_atlas_1_1abstract.html">Atlas::abstract&lt; ConsoleSink &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same thing as a gate, but for game objects.  <a href="../../dc/dba/class_atlas_1_1abstract.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d62/class_atlas_1_1_spdlog_logger.html">Atlas::SpdlogLogger</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A generic logger that uses the <b>Spdlog</b> library. According to the spdlog documentation, you may call the <em>spdlog::log()</em> function to log messages <b>after</b> the logger has been initialized because of how spdlog works. For more information, on how to use spdlog, please refer to their documentation. This class was designed to work in the same way as the multi-sink logger example provided in the spdlog documentation. Another important thing to note about this class is that, assuming you are not implementing a custom <code>PFN_vkDebugUtilsMessengerCallbackEXT</code> callback for Vulkan, this class should be initialized prior to the initialization and usage of <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a>' Vulkan API. Otherwise, you will get errors the second Vulkan starts sending messages to the callback.  <a href="../../da/d62/class_atlas_1_1_spdlog_logger.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dbb/class_atlas_1_1_terminal_sink.html">Atlas::TerminalSink</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d0c/struct_atlas_1_1_logger_config.html">Atlas::LoggerConfig</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html">Atlas::SpdlogLogger::LoggerSinks</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A struct that bundles together the console sink and the file sink as it is required for the spdlog logger during it's initialization.  <a href="../../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dca/class_atlas_1_1_logger.html">Atlas::Logger</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d3f/struct_atlas_1_1_logger_1_1_temporary_message.html">Atlas::Logger::TemporaryMessage</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1a/class_atlas_1_1_logger_1_1_message_buffer.html">Atlas::Logger::MessageBuffer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -140,49 +133,40 @@ Namespaces</h2></td></tr>
 <tr class="memitem:d7/d54/namespace_atlas" id="r_d7/d54/namespace_atlas"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:af1a3fef733f40f7726503b1be888287e" id="r_af1a3fef733f40f7726503b1be888287e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/def/_logging_8h.html#af1a3fef733f40f7726503b1be888287e">ATLAS_DEFAULT_LOG_LEVEL</a>&#160;&#160;&#160;<a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079a2d3e4144aa384b18849ab9a8abad74d6">Atlas::ELogLevel::TRACE</a></td></tr>
-<tr class="separator:af1a3fef733f40f7726503b1be888287e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a70fa409c8b4e697795350e0cc0bfbbfd" id="r_a70fa409c8b4e697795350e0cc0bfbbfd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a70fa409c8b4e697795350e0cc0bfbbfd">Atlas::DefaultColorSink</a> = std::shared_ptr&lt; spdlog::sinks::stdout_color_sink_mt &gt;</td></tr>
-<tr class="separator:a70fa409c8b4e697795350e0cc0bfbbfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a714ef4c7821c3b3ffcee3470d3de7aca" id="r_a714ef4c7821c3b3ffcee3470d3de7aca"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a714ef4c7821c3b3ffcee3470d3de7aca">Atlas::LogLevel</a> = spdlog::level::level_enum</td></tr>
+<tr class="separator:a714ef4c7821c3b3ffcee3470d3de7aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a4a3774487efaf3fd274897ab22f238be" id="r_a4a3774487efaf3fd274897ab22f238be"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a4a3774487efaf3fd274897ab22f238be">Atlas::CreateLogFileName</a> ()</td></tr>
-<tr class="separator:a4a3774487efaf3fd274897ab22f238be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b792faf29085a5da63f88014b79aac5" id="r_a5b792faf29085a5da63f88014b79aac5"><td class="memItemLeft" align="right" valign="top">spdlog::level::level_enum&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a5b792faf29085a5da63f88014b79aac5">Atlas::GetSpdlogLevel</a> (<a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079">ELogLevel</a> <a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a2b536fca24f51d6a849aed325793e661">level</a>)</td></tr>
-<tr class="separator:a5b792faf29085a5da63f88014b79aac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53c9a6db76d92cdd29f74d218596485f" id="r_a53c9a6db76d92cdd29f74d218596485f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a53c9a6db76d92cdd29f74d218596485f">Atlas::Log</a> (std::string message, <a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079">ELogLevel</a> <a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a2b536fca24f51d6a849aed325793e661">level</a>=<a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079adc30ec20708ef7b0f641ef78b7880a15">ELogLevel::DEBUG</a>, const std::source_location &amp;location=std::source_location::current())</td></tr>
-<tr class="separator:a53c9a6db76d92cdd29f74d218596485f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a1fcbd080475f59176eb93a9910024079" id="r_a1fcbd080475f59176eb93a9910024079"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079">Atlas::ELogLevel</a> : int { <br />
+&#160;&#160;<a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182">Atlas::trace</a> = SPDLOG_LEVEL_TRACE
+, <a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d">Atlas::debug</a> = SPDLOG_LEVEL_DEBUG
+, <a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c">Atlas::info</a> = SPDLOG_LEVEL_INFO
+, <a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb">Atlas::warn</a> = SPDLOG_LEVEL_WARN
+, <br />
+&#160;&#160;<a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282">Atlas::error</a> = SPDLOG_LEVEL_ERROR
+, <a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8">Atlas::critical</a> = SPDLOG_LEVEL_CRITICAL
+, <a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808">Atlas::off</a> = SPDLOG_LEVEL_OFF
+, <a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75">Atlas::nLevels</a>
+<br />
+ }</td></tr>
+<tr class="separator:a1fcbd080475f59176eb93a9910024079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1ca4de7ceed7394355d22ea16375923" id="r_aa1ca4de7ceed7394355d22ea16375923"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#aa1ca4de7ceed7394355d22ea16375923">Atlas::ESpdlogInitListIndex</a> { <a class="el" href="../../d7/d54/namespace_atlas.html#aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba">Atlas::ConsoleLogger</a> = 0
+, <a class="el" href="../../d7/d54/namespace_atlas.html#aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0">Atlas::FileLogger</a> = 1
+, <a class="el" href="../../d7/d54/namespace_atlas.html#aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a">Atlas::Logger</a> = 2
+, <a class="el" href="../../d7/d54/namespace_atlas.html#aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b">Atlas::Max</a> = Logger
+ }</td></tr>
+<tr class="separator:aa1ca4de7ceed7394355d22ea16375923"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="af1a3fef733f40f7726503b1be888287e" name="af1a3fef733f40f7726503b1be888287e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1a3fef733f40f7726503b1be888287e">&#9670;&#160;</a></span>ATLAS_DEFAULT_LOG_LEVEL</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ATLAS_DEFAULT_LOG_LEVEL&#160;&#160;&#160;<a class="el" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079a2d3e4144aa384b18849ab9a8abad74d6">Atlas::ELogLevel::TRACE</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../da/def/_logging_8h_source.html#l00018">18</a> of file <a class="el" href="../../da/def/_logging_8h_source.html">Logging.h</a>.</p>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_95000645af4f697fd74c2878fe19712e.html">dbg</a></li><li class="navelem"><a class="el" href="../../da/def/_logging_8h.html">Logging.h</a></li>
-    <li class="footer">Generated on Sat Feb 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_9e53d3f025e3bccbc0c887211228f598.html">debugging</a></li><li class="navelem"><a class="el" href="../../da/def/_logging_8h.html">Logging.h</a></li>
+    <li class="footer">Generated on Tue Oct 7 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

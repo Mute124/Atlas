@@ -1,25 +1,98 @@
 \doxysection{File.\+h}
-\hypertarget{_file_8h_source}{}\label{_file_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/fs/File.h@{C:/Dev/Techstorm-\/v5/src/engine/fs/File.h}}
+\hypertarget{_file_8h_source}{}\label{_file_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/io/File.h@{C:/Dev/Techstorm-\/v5/src/engine/io/File.h}}
 \mbox{\hyperlink{_file_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{_file_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_file_meta_8h}{FileMeta.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00005}00005\ }
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00006}00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00007}\mbox{\hyperlink{class_atlas_1_1_file}{00007}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_file}{File}}\ \{}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00014}\mbox{\hyperlink{class_atlas_1_1_file_ad8a79a086215b79ab8edd0e4b7f59645}{00014}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_file_ad8a79a086215b79ab8edd0e4b7f59645}{mIsLoaded}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00015}00015\ }
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00019}\mbox{\hyperlink{class_atlas_1_1_file_ae5384409c6137051213cef68a5b64954}{00019}}\ \ \ \ \ \ \ \ \ std::shared\_ptr<FileMeta>\ \mbox{\hyperlink{class_atlas_1_1_file_ae5384409c6137051213cef68a5b64954}{mFileMeta}}\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00020}00020\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00021}00021\ }
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_file_a194d3c65678f233cd8b766fa0800259d}{isLoaded}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_a7c86bce75be84c1f4dabe2e3d50d6bf0}{setLoadState}}(\textcolor{keywordtype}{bool}\ state);}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00028}00028\ }
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00029}00029\ \ \ \ \ \ \ \ \ std::shared\_ptr<FileMeta>\ \mbox{\hyperlink{class_atlas_1_1_file_af221e74b6fbc4034c325fd0abde70bf3}{getFileMeta}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00030}00030\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_file_8h_source_l00031}00031\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <any>}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <iosfwd>}\ \textcolor{comment}{//\ This\ is\ just\ to\ avoid\ a\ transitive\ include\ for\ std::fstream}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_o_common_8h}{IOCommon.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00012}00012\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00013}\mbox{\hyperlink{namespace_atlas_a33c36cc6d06931324201eab6aae964a0}{00013}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_a33c36cc6d06931324201eab6aae964a0}{FileStream}}\ =\ std::fstream;}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00022}00022\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_DATA\_STORAGE\_TYPE>}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00023}\mbox{\hyperlink{struct_atlas_1_1_file_cast_attempt}{00023}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_file_cast_attempt}{FileCastAttempt}}\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00030}\mbox{\hyperlink{struct_atlas_1_1_file_cast_attempt_a0e7fe1c251bf6acfefbf18ffbf05a80e}{00030}}\ \ \ \ \ \ \ \ \ T\_DATA\_STORAGE\_TYPE\ \mbox{\hyperlink{struct_atlas_1_1_file_cast_attempt_a0e7fe1c251bf6acfefbf18ffbf05a80e}{castResult}};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00031}00031\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00037}\mbox{\hyperlink{struct_atlas_1_1_file_cast_attempt_a9311a43e58e93e364174db35033c6cf3}{00037}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_file_cast_attempt_a9311a43e58e93e364174db35033c6cf3}{wasSuccessful}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00038}00038\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00048}\mbox{\hyperlink{class_atlas_1_1_a_file}{00048}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_a_file}{AFile}}\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00049}00049\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00058}\mbox{\hyperlink{class_atlas_1_1_a_file_ae583377c84ae8f4f47255d4b6bca464b}{00058}}\ \ \ \ \ \ \ \ \ std::any\ \mbox{\hyperlink{class_atlas_1_1_a_file_ae583377c84ae8f4f47255d4b6bca464b}{mFileData}};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00065}\mbox{\hyperlink{class_atlas_1_1_a_file_a7409f51922075e69257935466eb85ced}{00065}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \mbox{\hyperlink{class_atlas_1_1_a_file_a7409f51922075e69257935466eb85ced}{mFilePath}};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00072}\mbox{\hyperlink{class_atlas_1_1_a_file_ab9bdbbae02d81c783f8cbb582ac5f894}{00072}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_atlas_1_1_a_file_ab9bdbbae02d81c783f8cbb582ac5f894}{mFileSize}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00079}\mbox{\hyperlink{class_atlas_1_1_a_file_a11f1c27b537e1ac87ba697aa1b0c4cc0}{00079}}\ \ \ \ \ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_a_file_a11f1c27b537e1ac87ba697aa1b0c4cc0}{mFileType}}\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00086}\mbox{\hyperlink{class_atlas_1_1_a_file_ab4b02ddbf5c649717b01f1f5b79dcba2}{00086}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_file_ab4b02ddbf5c649717b01f1f5b79dcba2}{mIsLoaded}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00088}00088\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ below\ functions\ are\ protected\ because\ they\ are\ meant\ to\ be\ used\ internally\ by\ derived\ classes\ only.}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_file_a617fc3c8347c9f98cc6e69d37cccc09c}{setFilePath}}(\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ cPath);}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00102}00102\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_file_aced33fc0e60b5dcd9c3e91c127cb217d}{setFileSize}}(\textcolor{keywordtype}{size\_t}\ cSize);}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_file_a82fa86c6a5e628e7989411bd2c36ebdf}{setFileType}}(uint16\_t\ cType);}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_file_adbef1fa9ccd3ed20693aacde77a77f59}{setIsLoaded}}(\textcolor{keywordtype}{bool}\ bIsLoaded);}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00141}00141\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_file_aaef96331e0554f18991c57694a5d97f2}{setFileData}}(std::any\ \textcolor{keyword}{const}\&\ cData);}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00153}00153\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_file_a0e206a86496598da2df0d66afb350e65}{AFile}}(\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ cPath,\ \textcolor{keywordtype}{size\_t}\ cSize,\ uint16\_t\ cType,\ \textcolor{keywordtype}{bool}\ bIsLoaded);}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00155}00155\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00156}00156\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00162}\mbox{\hyperlink{class_atlas_1_1_a_file_a0e206a86496598da2df0d66afb350e65}{00162}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_file_a0e206a86496598da2df0d66afb350e65}{AFile}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00169}\mbox{\hyperlink{class_atlas_1_1_a_file_aa5f192bf6bd1cb9ab871fc67f18c796d}{00169}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_file_aa5f192bf6bd1cb9ab871fc67f18c796d}{\string~AFile}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00171}00171\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a33c36cc6d06931324201eab6aae964a0}{FileStream}}\ \mbox{\hyperlink{class_atlas_1_1_a_file_aa7757d04f628a99781d74be58107afb5}{open}}(\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ cFilePath);}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_a_file_a5d52d310c4aa507def0b2b05844cc0a0}{load}}(\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ cPath);}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00184}00184\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_a_file_ae63244bcfb2709f8ec197307ab233863}{append}}(std::string\ \textcolor{keyword}{const}\&\ cData);}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00193}\mbox{\hyperlink{class_atlas_1_1_a_file_ac521ca51ad7dfa85f7db73a7115367cd}{00193}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_a_file_ac521ca51ad7dfa85f7db73a7115367cd}{parse}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00204}\mbox{\hyperlink{class_atlas_1_1_a_file_af4fb85e7aba8bc95b19be33ab1a69ceb}{00204}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_file_af4fb85e7aba8bc95b19be33ab1a69ceb}{isValid}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00213}00213\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_file_a2efa84d7f71a4ab22f294d4fb6d607f7}{isLoaded}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00222}00222\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ \mbox{\hyperlink{class_atlas_1_1_a_file_aafbf839e84835a2221c69405e65b90e0}{getFilePath}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_atlas_1_1_a_file_a19705f459d721049106290d3df87b8f0}{getFileSize}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00240}00240\ \ \ \ \ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_a_file_abe7f734616e1821611ff44a33498c091}{getFileType}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00249}00249\ \ \ \ \ \ \ \ \ std::any\ \textcolor{keyword}{const}\&\ \mbox{\hyperlink{class_atlas_1_1_a_file_a453759fe11f3141f2c1f1d3a0e736dd5}{getFileData}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_CONVERT\_TO>}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00263}\mbox{\hyperlink{class_atlas_1_1_a_file_a144c896470e162fe7bae5ccd4bf312e0}{00263}}\ \ \ \ \ \ \ \ \ T\_CONVERT\_TO\ \mbox{\hyperlink{class_atlas_1_1_a_file_a144c896470e162fe7bae5ccd4bf312e0}{castAs}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::any\_cast<T\_CONVERT\_TO>(\mbox{\hyperlink{class_atlas_1_1_a_file_ae583377c84ae8f4f47255d4b6bca464b}{mFileData}});}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00265}00265\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Operators}}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \textcolor{keyword}{operator}\ size\_t()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00277}00277\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00285}\mbox{\hyperlink{class_atlas_1_1_a_file_acca56b05c06a98df25d5739e86d51be8}{00285}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}(\textcolor{keyword}{false})\ \textcolor{keyword}{operator}\ \textcolor{keywordtype}{bool}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00286}00286\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00288}00288\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespace_atlas_ace931dde37d1a3b3f4919d9f5565a44e}{PathExists}}(\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ cPath);}
+\DoxyCodeLine{\Hypertarget{_file_8h_source_l00289}00289\ \}}
 
 \end{DoxyCode}

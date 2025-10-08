@@ -1,0 +1,318 @@
+\doxysection{Atlas\+::ARenderer Class Reference}
+\hypertarget{class_atlas_1_1_a_renderer}{}\label{class_atlas_1_1_a_renderer}\index{Atlas::ARenderer@{Atlas::ARenderer}}
+
+
+A base class for all renderers. This class is responsible for {\bfseries{frontend}} rendering of your game. The rendering backend is responsible for the actual rendering. When using this class, you should inherit from it and implement the {\ttfamily init} and {\ttfamily update} methods. If you want this class to be multi-\/threaded by \doxylink{namespace_atlas}{Atlas}, you should make sure that the {\ttfamily init} and {\ttfamily update} methods are thread-\/safe. Additionally, make sure you set \doxylink{class_atlas_1_1_a_renderer_a6a77936bc8281507f5e205e8831a9852}{can\+Be\+Multi\+Threaded} to {\itshape true} if you want this to take effect. If you do not, \doxylink{namespace_atlas}{Atlas} will only run the {\ttfamily init} and {\ttfamily update} methods on the rendering thread instead of accounting for your renderer\textquotesingle{}s need to be multi-\/threaded.  
+
+
+
+
+{\ttfamily \#include $<$Renderer.\+h$>$}
+
+Inheritance diagram for Atlas\+::ARenderer\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=4.000000cm]{d7/d4e/class_atlas_1_1_a_renderer}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_atlas_1_1_a_renderer_a3038f22e5a3693b8ad6e12cd24e76d29}{ARenderer}} (\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGame\+Window}} \texorpdfstring{$\ast$}{*}game\+Window, \mbox{\hyperlink{class_atlas_1_1_rendering_backend}{Rendering\+Backend}} \texorpdfstring{$\ast$}{*}backend)
+\begin{DoxyCompactList}\small\item\em Sets the main game window and rendering backend to the specified parameters. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_a_renderer_a157a57bd9693a192788108691ea4a4fa}{init}} ()=0
+\begin{DoxyCompactList}\small\item\em This is one of the most important methods in this class. It is responsible for initializing the renderer, ensuring that all setup is done correctly. It should initialize the main game window using whatever methods are needed to do so. It should also initialize the rendering backend. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_a_renderer_a6fa31d6e04038e52d2a43095364c531a}{update}} ()=0
+\item 
+virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_a_renderer_ae552c93afbcf074b5f83598525b1f4b6}{cleanup}} ()=0
+\item 
+virtual bool \mbox{\hyperlink{class_atlas_1_1_a_renderer_a4f9316698f47e165277205152ceb4e06}{should\+Exit}} ()=0
+\item 
+bool \mbox{\hyperlink{class_atlas_1_1_a_renderer_a6a77936bc8281507f5e205e8831a9852}{can\+Be\+Multi\+Threaded}} () const
+\item 
+bool \mbox{\hyperlink{class_atlas_1_1_a_renderer_a7c03a5efcd24d4f57d55fe4a5aaade06}{is\+Initialized}} () const
+\item 
+{\footnotesize template$<$typename T\+\_\+\+BACKEND\+\_\+\+TYPE $>$ }\\T\+\_\+\+BACKEND\+\_\+\+TYPE \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_atlas_1_1_a_renderer_a0e33286d759c9b433fd620cac8c0da53}{cast\+Rendering\+Backend\+As}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_atlas_1_1_engine_module}{Atlas\+::\+Engine\+Module}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \mbox{\hyperlink{class_atlas_1_1_engine_module_a07225aaa62ecd6ad6327650cffd73015}{is\+Ready}} ()
+\item 
+virtual bool \mbox{\hyperlink{class_atlas_1_1_engine_module_aaef780820846b14fddf4140dd984ef3d}{is\+Enabled}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_atlas_1_1_scripted_object}{Atlas\+::\+Scripted\+Object}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_scripted_object_a9ffc63eb4b8326d5e49ecdb59f3a943d}{expose\+Scripting\+Symbols}} ()
+\begin{DoxyCompactList}\small\item\em A virtual function that is called when scripting is initializing. Override this if the child class needs to contribute symbols to the overall scripting API. This can include functions, globals, etc. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_atlas_1_1_scripted_object_a45c2c52c54ae2d6407b65118431eba90}{is\+Scripting\+Allowed}} () const
+\begin{DoxyCompactList}\small\item\em Returns whether or not this object is allowed to be scripted. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_scripted_object_af8c459583743d71e371693bd46f8291f}{disallow\+Scripting}} ()
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_scripted_object_accb6e05d55bafa08c85c6bc8e1ddc239}{allow\+Scripting}} ()
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_scripted_object_a2956ed16fb8fdf71f5679dfcd60b5d88}{toggle\+Scripting}} ()
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_scripted_object_a6f49e824ad66d0e8144ed43dd390da2b}{set\+Scripting\+Allowed}} (const bool cb\+Allowed)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGame\+Window}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_atlas_1_1_a_renderer_aed824ca8dc16c6438683d3324465076b}{main\+Game\+Window}} = nullptr
+\begin{DoxyCompactList}\small\item\em A polymorphic pointer to the main window that the renderer is rendering to. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_rendering_backend}{Rendering\+Backend}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_atlas_1_1_a_renderer_af8c0e48db6842bbda78cdf8cdf7372cf}{rendering\+Backend}} = nullptr
+\begin{DoxyCompactList}\small\item\em A polymorphic pointer to the rendering backend that the renderer is using. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_atlas_1_1_a_renderer_a5e70d0458e1fbd1d97be0b53792da771}{ARenderer}} (\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGame\+Window}} \texorpdfstring{$\ast$}{*}game\+Window, \mbox{\hyperlink{class_atlas_1_1_rendering_backend}{Rendering\+Backend}} \texorpdfstring{$\ast$}{*}backend, bool \mbox{\hyperlink{class_atlas_1_1_a_renderer_a6a77936bc8281507f5e205e8831a9852}{can\+Be\+Multi\+Threaded}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_atlas_1_1_a_renderer_a4e27bb5bd6ebf00268adc9275c338582}{m\+Is\+Initialized}} = false
+\begin{DoxyCompactList}\small\item\em Whether or not the renderer has been initialized. \end{DoxyCompactList}\item 
+const bool \mbox{\hyperlink{class_atlas_1_1_a_renderer_a82579b66b47e3b0599a69673b9c11845}{m\+Can\+Be\+Multi\+Threaded}} = false
+\begin{DoxyCompactList}\small\item\em Signals to \doxylink{namespace_atlas}{Atlas} whether or not the renderer can be multi-\/threaded. By default it is set to {\itshape false}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A base class for all renderers. This class is responsible for {\bfseries{frontend}} rendering of your game. The rendering backend is responsible for the actual rendering. When using this class, you should inherit from it and implement the {\ttfamily init} and {\ttfamily update} methods. If you want this class to be multi-\/threaded by \doxylink{namespace_atlas}{Atlas}, you should make sure that the {\ttfamily init} and {\ttfamily update} methods are thread-\/safe. Additionally, make sure you set \doxylink{class_atlas_1_1_a_renderer_a6a77936bc8281507f5e205e8831a9852}{can\+Be\+Multi\+Threaded} to {\itshape true} if you want this to take effect. If you do not, \doxylink{namespace_atlas}{Atlas} will only run the {\ttfamily init} and {\ttfamily update} methods on the rendering thread instead of accounting for your renderer\textquotesingle{}s need to be multi-\/threaded. 
+
+\begin{DoxyNote}{Note}
+Terms used in this class\textquotesingle{}s documentation\+:
+\begin{DoxyItemize}
+\item {\bfseries{renderer thread}}\+: The thread that \doxylink{namespace_atlas}{Atlas} uses to draw your game to the screen.
+\item {\bfseries{rendering backend}}\+: API wrapper that \doxylink{namespace_atlas}{Atlas} uses to draw your game to the screen. For example, Vulkan, Raylib, and Open\+GL are all rendering APIs.
+\item {\bfseries{the renderer}}\+: Either your implementation of this interface class, a wrapper around one, or this class.
+\end{DoxyItemize}
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_engine_module}{Engine\+Module} to read the documentation of this class\textquotesingle{}s parent. 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00041}{41}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_atlas_1_1_a_renderer_a5e70d0458e1fbd1d97be0b53792da771}\label{class_atlas_1_1_a_renderer_a5e70d0458e1fbd1d97be0b53792da771} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!ARenderer@{ARenderer}}
+\index{ARenderer@{ARenderer}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{ARenderer()}{ARenderer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Atlas\+::\+ARenderer\+::\+ARenderer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGame\+Window}} \texorpdfstring{$\ast$}{*}}]{game\+Window,  }\item[{\mbox{\hyperlink{class_atlas_1_1_rendering_backend}{Rendering\+Backend}} \texorpdfstring{$\ast$}{*}}]{backend,  }\item[{bool}]{can\+Be\+Multi\+Threaded }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00007}{7}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_a_renderer_a3038f22e5a3693b8ad6e12cd24e76d29}\label{class_atlas_1_1_a_renderer_a3038f22e5a3693b8ad6e12cd24e76d29} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!ARenderer@{ARenderer}}
+\index{ARenderer@{ARenderer}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{ARenderer()}{ARenderer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Atlas\+::\+ARenderer\+::\+ARenderer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGame\+Window}} \texorpdfstring{$\ast$}{*}}]{game\+Window,  }\item[{\mbox{\hyperlink{class_atlas_1_1_rendering_backend}{Rendering\+Backend}} \texorpdfstring{$\ast$}{*}}]{backend }\end{DoxyParamCaption})}
+
+
+
+Sets the main game window and rendering backend to the specified parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em game\+Window} & \\
+\hline
+{\em backend} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00012}{12}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_atlas_1_1_a_renderer_a6a77936bc8281507f5e205e8831a9852}\label{class_atlas_1_1_a_renderer_a6a77936bc8281507f5e205e8831a9852} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!canBeMultiThreaded@{canBeMultiThreaded}}
+\index{canBeMultiThreaded@{canBeMultiThreaded}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{canBeMultiThreaded()}{canBeMultiThreaded()}}
+{\footnotesize\ttfamily bool Atlas\+::\+ARenderer\+::can\+Be\+Multi\+Threaded (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00017}{17}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_a_renderer_a0e33286d759c9b433fd620cac8c0da53}\label{class_atlas_1_1_a_renderer_a0e33286d759c9b433fd620cac8c0da53} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!castRenderingBackendAs@{castRenderingBackendAs}}
+\index{castRenderingBackendAs@{castRenderingBackendAs}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{castRenderingBackendAs()}{castRenderingBackendAs()}}
+{\footnotesize\ttfamily template$<$typename T\+\_\+\+BACKEND\+\_\+\+TYPE $>$ \\
+T\+\_\+\+BACKEND\+\_\+\+TYPE \texorpdfstring{$\ast$}{*} Atlas\+::\+ARenderer\+::cast\+Rendering\+Backend\+As (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00120}{120}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+
+
+
+References \mbox{\hyperlink{_rendering_backend_8h_source_l00133}{Atlas\+::\+Rendering\+Backend\+::cast\+As()}}.
+
+\Hypertarget{class_atlas_1_1_a_renderer_ae552c93afbcf074b5f83598525b1f4b6}\label{class_atlas_1_1_a_renderer_ae552c93afbcf074b5f83598525b1f4b6} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!cleanup@{cleanup}}
+\index{cleanup@{cleanup}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{cleanup()}{cleanup()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+ARenderer\+::cleanup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_atlas_1_1_vulkan_renderer_a576d35e91ccabac5b471e6b95d66f36e}{Atlas\+::\+Vulkan\+Renderer}}.
+
+\Hypertarget{class_atlas_1_1_a_renderer_a157a57bd9693a192788108691ea4a4fa}\label{class_atlas_1_1_a_renderer_a157a57bd9693a192788108691ea4a4fa} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!init@{init}}
+\index{init@{init}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+ARenderer\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+This is one of the most important methods in this class. It is responsible for initializing the renderer, ensuring that all setup is done correctly. It should initialize the main game window using whatever methods are needed to do so. It should also initialize the rendering backend. 
+
+\begin{DoxySince}{Since}
+v 
+\end{DoxySince}
+
+
+Implemented in \mbox{\hyperlink{class_atlas_1_1_vulkan_renderer_afe98e1e8e8fc87479106ead8781d2ef9}{Atlas\+::\+Vulkan\+Renderer}}.
+
+\Hypertarget{class_atlas_1_1_a_renderer_a7c03a5efcd24d4f57d55fe4a5aaade06}\label{class_atlas_1_1_a_renderer_a7c03a5efcd24d4f57d55fe4a5aaade06} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!isInitialized@{isInitialized}}
+\index{isInitialized@{isInitialized}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{isInitialized()}{isInitialized()}}
+{\footnotesize\ttfamily bool Atlas\+::\+ARenderer\+::is\+Initialized (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line \mbox{\hyperlink{_renderer_8cpp_source_l00021}{21}} of file \mbox{\hyperlink{_renderer_8cpp_source}{Renderer.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_a_renderer_a4f9316698f47e165277205152ceb4e06}\label{class_atlas_1_1_a_renderer_a4f9316698f47e165277205152ceb4e06} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!shouldExit@{shouldExit}}
+\index{shouldExit@{shouldExit}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{shouldExit()}{shouldExit()}}
+{\footnotesize\ttfamily virtual bool Atlas\+::\+ARenderer\+::should\+Exit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_atlas_1_1_vulkan_renderer_af8f40d4bac17adc254b51fad106647ab}{Atlas\+::\+Vulkan\+Renderer}}.
+
+\Hypertarget{class_atlas_1_1_a_renderer_a6fa31d6e04038e52d2a43095364c531a}\label{class_atlas_1_1_a_renderer_a6fa31d6e04038e52d2a43095364c531a} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!update@{update}}
+\index{update@{update}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+ARenderer\+::update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_atlas_1_1_vulkan_renderer_aae2802e30ffe7702848fa97194ef5157}{Atlas\+::\+Vulkan\+Renderer}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_atlas_1_1_a_renderer_aed824ca8dc16c6438683d3324465076b}\label{class_atlas_1_1_a_renderer_aed824ca8dc16c6438683d3324465076b} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!mainGameWindow@{mainGameWindow}}
+\index{mainGameWindow@{mainGameWindow}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{mainGameWindow}{mainGameWindow}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGame\+Window}}\texorpdfstring{$\ast$}{*} Atlas\+::\+ARenderer\+::main\+Game\+Window = nullptr}
+
+
+
+A polymorphic pointer to the main window that the renderer is rendering to. 
+
+\begin{DoxyNote}{Note}
+This is something that you should set before the renderer\textquotesingle{}s {\ttfamily init} method is called.
+
+You should not change this value after the renderer\textquotesingle{}s {\ttfamily init} method is called. Furthermore, the window\textquotesingle{}s initialization should be done in the renderer\textquotesingle{}s {\ttfamily init} method. Typically, this is simply calling {\ttfamily main\+Game\+Window-\/\texorpdfstring{$>$}{>}\doxylink{class_atlas_1_1_a_renderer_a157a57bd9693a192788108691ea4a4fa}{init()}}. It is also recommended that you do not open the window in the renderer\textquotesingle{}s {\ttfamily init} method yet in order ensure that any necessary initialization is done before the window is opened (even if that initialization is not done by the renderer).
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00077}{77}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+
+\Hypertarget{class_atlas_1_1_a_renderer_a82579b66b47e3b0599a69673b9c11845}\label{class_atlas_1_1_a_renderer_a82579b66b47e3b0599a69673b9c11845} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!mCanBeMultiThreaded@{mCanBeMultiThreaded}}
+\index{mCanBeMultiThreaded@{mCanBeMultiThreaded}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{mCanBeMultiThreaded}{mCanBeMultiThreaded}}
+{\footnotesize\ttfamily const bool Atlas\+::\+ARenderer\+::m\+Can\+Be\+Multi\+Threaded = false\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Signals to \doxylink{namespace_atlas}{Atlas} whether or not the renderer can be multi-\/threaded. By default it is set to {\itshape false}. 
+
+\begin{DoxyNote}{Note}
+This should be set before the renderer\textquotesingle{}s {\ttfamily init} method is called.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00061}{61}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+
+\Hypertarget{class_atlas_1_1_a_renderer_a4e27bb5bd6ebf00268adc9275c338582}\label{class_atlas_1_1_a_renderer_a4e27bb5bd6ebf00268adc9275c338582} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!mIsInitialized@{mIsInitialized}}
+\index{mIsInitialized@{mIsInitialized}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{mIsInitialized}{mIsInitialized}}
+{\footnotesize\ttfamily bool Atlas\+::\+ARenderer\+::m\+Is\+Initialized = false\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Whether or not the renderer has been initialized. 
+
+\begin{DoxyRemark}{Remarks}
+This does not neccesarily mean that the renderer is ready to be used.
+\end{DoxyRemark}
+\begin{DoxyNote}{Note}
+This should only be modified by the renderer\textquotesingle{}s {\ttfamily init} method.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00052}{52}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+
+\Hypertarget{class_atlas_1_1_a_renderer_af8c0e48db6842bbda78cdf8cdf7372cf}\label{class_atlas_1_1_a_renderer_af8c0e48db6842bbda78cdf8cdf7372cf} 
+\index{Atlas::ARenderer@{Atlas::ARenderer}!renderingBackend@{renderingBackend}}
+\index{renderingBackend@{renderingBackend}!Atlas::ARenderer@{Atlas::ARenderer}}
+\doxysubsubsection{\texorpdfstring{renderingBackend}{renderingBackend}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_rendering_backend}{Rendering\+Backend}}\texorpdfstring{$\ast$}{*} Atlas\+::\+ARenderer\+::rendering\+Backend = nullptr}
+
+
+
+A polymorphic pointer to the rendering backend that the renderer is using. 
+
+This is the API wrapper that \doxylink{namespace_atlas}{Atlas} uses to draw your game to the screen. All triangles should be drawn using this backend.
+
+\begin{DoxyNote}{Note}
+This is something that you should set before the renderer\textquotesingle{}s {\ttfamily init} method is called.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_renderer_8h_source_l00088}{88}} of file \mbox{\hyperlink{_renderer_8h_source}{Renderer.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/\mbox{\hyperlink{_renderer_8h}{Renderer.\+h}}\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/\mbox{\hyperlink{_renderer_8cpp}{Renderer.\+cpp}}\end{DoxyCompactItemize}

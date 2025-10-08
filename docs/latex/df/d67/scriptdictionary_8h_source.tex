@@ -1,0 +1,246 @@
+\doxysection{scriptdictionary.\+h}
+\hypertarget{scriptdictionary_8h_source}{}\label{scriptdictionary_8h_source}\index{C:/Dev/Techstorm-\/v5/src/application/add\_on/scriptdictionary/scriptdictionary.h@{C:/Dev/Techstorm-\/v5/src/application/add\_on/scriptdictionary/scriptdictionary.h}}
+\mbox{\hyperlink{scriptdictionary_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00001}00001\ \textcolor{preprocessor}{\#ifndef\ SCRIPTDICTIONARY\_H}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00002}00002\ \textcolor{preprocessor}{\#define\ SCRIPTDICTIONARY\_H}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00004}00004\ \textcolor{comment}{//\ The\ dictionary\ class\ relies\ on\ the\ script\ string\ object,\ thus\ the\ script}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00005}00005\ \textcolor{comment}{//\ string\ type\ must\ be\ registered\ with\ the\ engine\ before\ registering\ the}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00006}00006\ \textcolor{comment}{//\ dictionary\ type}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00008}00008\ \textcolor{preprocessor}{\#ifndef\ ANGELSCRIPT\_H}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00009}00009\ \textcolor{comment}{//\ Avoid\ having\ to\ inform\ include\ path\ if\ header\ is\ already\ include\ before}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <angelscript.h>}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00011}00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00013}00013\ \textcolor{comment}{//\ By\ default\ the\ CScriptDictionary\ use\ the\ std::string\ for\ the\ keys.}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00014}00014\ \textcolor{comment}{//\ If\ the\ application\ uses\ a\ custom\ string\ type,\ then\ this\ typedef}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00015}00015\ \textcolor{comment}{//\ can\ be\ changed\ accordingly.}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00017}\mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{00017}}\ \textcolor{keyword}{typedef}\ std::string\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00019}00019\ \textcolor{comment}{//\ Forward\ declare\ CScriptDictValue\ so\ we\ can\ typedef\ the\ internal\ map\ type}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00020}00020\ BEGIN\_AS\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00021}00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_script_dict_value}{CScriptDictValue}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00022}00022\ END\_AS\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00024}00024\ \textcolor{comment}{//\ C++11\ introduced\ the\ std::unordered\_map\ which\ is\ a\ hash\ map\ which\ is}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00025}00025\ \textcolor{comment}{//\ is\ generally\ more\ performatic\ for\ lookups\ than\ the\ std::map\ which\ is\ a}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00026}00026\ \textcolor{comment}{//\ binary\ tree.}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00027}00027\ \textcolor{comment}{//\ TODO:\ memory:\ The\ map\ allocator\ should\ use\ the\ asAllocMem\ and\ asFreeMem}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00028}00028\ \textcolor{preprocessor}{\#if\ AS\_CAN\_USE\_CPP11}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00030}00030\ \textcolor{keyword}{typedef}\ std::unordered\_map<dictKey\_t,\ AS\_NAMESPACE\_QUALIFIER\ CScriptDictValue>\ \mbox{\hyperlink{scriptdictionary_8h_a8ed279ed35122401f4cb7e116ea2cc0b}{dictMap\_t}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00031}00031\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00032}00032\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00033}\mbox{\hyperlink{scriptdictionary_8h_a8ed279ed35122401f4cb7e116ea2cc0b}{00033}}\ \textcolor{keyword}{typedef}\ std::map<dictKey\_t,\ AS\_NAMESPACE\_QUALIFIER\ CScriptDictValue>\ \mbox{\hyperlink{scriptdictionary_8h_a8ed279ed35122401f4cb7e116ea2cc0b}{dictMap\_t}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00034}00034\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00037}00037\ \textcolor{preprocessor}{\#ifdef\ \_MSC\_VER}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00038}00038\ \textcolor{comment}{//\ Turn\ off\ annoying\ warnings\ about\ truncated\ symbol\ names}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00039}00039\ \textcolor{preprocessor}{\#pragma\ warning\ (disable:4786)}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00040}00040\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00045}00045\ \textcolor{comment}{//\ Sometimes\ it\ may\ be\ desired\ to\ use\ the\ same\ method\ names\ as\ used\ by\ C++\ STL.}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00046}00046\ \textcolor{comment}{//\ This\ may\ for\ example\ reduce\ time\ when\ converting\ code\ from\ script\ to\ C++\ or}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00047}00047\ \textcolor{comment}{//\ back.}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00048}00048\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00049}00049\ \textcolor{comment}{//\ \ 0\ =\ off}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00050}00050\ \textcolor{comment}{//\ \ 1\ =\ on}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00052}00052\ \textcolor{preprocessor}{\#ifndef\ AS\_USE\_STLNAMES}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00053}\mbox{\hyperlink{scriptdictionary_8h_a661a176585a8590c8ea1018aa22788a6}{00053}}\ \textcolor{preprocessor}{\#define\ AS\_USE\_STLNAMES\ 0}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00054}00054\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00057}00057\ BEGIN\_AS\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00059}00059\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_script_array}{CScriptArray}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00060}00060\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00062}\mbox{\hyperlink{class_c_script_dict_value}{00062}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_script_dict_value}{CScriptDictValue}}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00063}00063\ \{}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00064}00064\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00065}00065\ \ \ \ \ \textcolor{comment}{//\ This\ class\ must\ not\ be\ declared\ as\ local\ variable\ in\ C++,\ because\ it\ needs}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00066}00066\ \ \ \ \ \textcolor{comment}{//\ to\ receive\ the\ script\ engine\ pointer\ in\ all\ operations.\ The\ engine\ pointer}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00067}00067\ \ \ \ \ \textcolor{comment}{//\ is\ not\ kept\ as\ member\ in\ order\ to\ keep\ the\ size\ down}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00068}00068\ \ \ \ \ \mbox{\hyperlink{class_c_script_dict_value_a60193fccfccd3afb6f41f8d7bfaf8863}{CScriptDictValue}}();}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00069}00069\ \ \ \ \ \mbox{\hyperlink{class_c_script_dict_value_a60193fccfccd3afb6f41f8d7bfaf8863}{CScriptDictValue}}(asIScriptEngine\ *engine,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}},\ \textcolor{keywordtype}{int}\ typeId);}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00071}00071\ \ \ \ \ \textcolor{comment}{//\ Destructor\ must\ not\ be\ called\ without\ first\ calling\ FreeValue,\ otherwise\ a\ memory\ leak\ will\ occur}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00072}00072\ \ \ \ \ \mbox{\hyperlink{class_c_script_dict_value_a60ad93d89e502577a1d941f528ea3d47}{\string~CScriptDictValue}}();}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00074}00074\ \ \ \ \ \textcolor{comment}{//\ Replace\ the\ stored\ value}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00075}00075\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dict_value_ae04fbec1567208c893e8dbb8741300fe}{Set}}(asIScriptEngine\ *engine,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}},\ \textcolor{keywordtype}{int}\ typeId);}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00076}00076\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dict_value_ae04fbec1567208c893e8dbb8741300fe}{Set}}(asIScriptEngine\ *engine,\ \textcolor{keyword}{const}\ asINT64\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00077}00077\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dict_value_ae04fbec1567208c893e8dbb8741300fe}{Set}}(asIScriptEngine\ *engine,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00078}00078\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dict_value_ae04fbec1567208c893e8dbb8741300fe}{Set}}(asIScriptEngine\ *engine,\ \mbox{\hyperlink{class_c_script_dict_value}{CScriptDictValue}}\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00080}00080\ \ \ \ \ \textcolor{comment}{//\ Gets\ the\ stored\ value.\ Returns\ false\ if\ the\ value\ isn't\ compatible\ with\ the\ informed\ typeId}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00081}00081\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dict_value_a870bba9dfa8e30fc2ac6b2082570d99a}{Get}}(asIScriptEngine\ *engine,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}},\ \textcolor{keywordtype}{int}\ typeId)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00082}00082\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dict_value_a870bba9dfa8e30fc2ac6b2082570d99a}{Get}}(asIScriptEngine\ *engine,\ asINT64\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00083}00083\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dict_value_a870bba9dfa8e30fc2ac6b2082570d99a}{Get}}(asIScriptEngine\ *engine,\ \textcolor{keywordtype}{double}\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00085}00085\ \ \ \ \ \textcolor{comment}{//\ Returns\ the\ address\ of\ the\ stored\ value\ for\ inspection}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00086}00086\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{class_c_script_dict_value_adc0ce90e9a9322e85ce2303813aa15c2}{GetAddressOfValue}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00088}00088\ \ \ \ \ \textcolor{comment}{//\ Returns\ the\ type\ id\ of\ the\ stored\ value}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00089}00089\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \mbox{\hyperlink{class_c_script_dict_value_a82ca7a0d0fec46ecd49eb9c852461d58}{GetTypeId}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00091}00091\ \ \ \ \ \textcolor{comment}{//\ Free\ the\ stored\ value}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00092}00092\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dict_value_aa0097577af2cd01456fc183d4d20119e}{FreeValue}}(asIScriptEngine\ *engine);}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00094}00094\ \ \ \ \ \textcolor{comment}{//\ GC\ callback}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00095}00095\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dict_value_a9922a7e634dc5b3b88b16777a4ed5172}{EnumReferences}}(asIScriptEngine\ *engine);}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00097}00097\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00098}\mbox{\hyperlink{class_c_script_dict_value_a4968bf65a5be4b65fe0e889754947ca3}{00098}}\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00100}00100\ \ \ \ \ \textcolor{keyword}{union}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00101}00101\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00102}\mbox{\hyperlink{class_c_script_dict_value_a79df005b1c0aadcc66dd947d2de1b5a1}{00102}}\ \ \ \ \ \ \ \ \ asINT64\ \mbox{\hyperlink{class_c_script_dict_value_a79df005b1c0aadcc66dd947d2de1b5a1}{m\_valueInt}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00103}\mbox{\hyperlink{class_c_script_dict_value_a3f8878996b87bb6687eb1a6c48d2c81b}{00103}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \ \mbox{\hyperlink{class_c_script_dict_value_a3f8878996b87bb6687eb1a6c48d2c81b}{m\_valueFlt}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00104}\mbox{\hyperlink{class_c_script_dict_value_ab7f6708bde618abca693642ebdcf81a2}{00104}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ *\mbox{\hyperlink{class_c_script_dict_value_ab7f6708bde618abca693642ebdcf81a2}{m\_valueObj}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00105}00105\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00106}\mbox{\hyperlink{class_c_script_dict_value_a89252bbcf99d0acb743dac5acdbc1278}{00106}}\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_dict_value_a89252bbcf99d0acb743dac5acdbc1278}{m\_typeId}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00107}00107\ \};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00109}\mbox{\hyperlink{class_c_script_dictionary}{00109}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00110}00110\ \{}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00111}00111\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00112}00112\ \ \ \ \ \textcolor{comment}{//\ Factory\ functions}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00113}00113\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}}\ *\mbox{\hyperlink{class_c_script_dictionary_a187a2ddc0cfccf43a3cbfaee3063ace5}{Create}}(asIScriptEngine\ *\mbox{\hyperlink{class_c_script_dictionary_ab6ed6041b441e60f57f0a18a5525eac6}{engine}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00115}00115\ \ \ \ \ \textcolor{comment}{//\ Called\ from\ the\ script\ to\ instantiate\ a\ dictionary\ from\ an\ initialization\ list}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00116}00116\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}}\ *\mbox{\hyperlink{class_c_script_dictionary_a187a2ddc0cfccf43a3cbfaee3063ace5}{Create}}(asBYTE\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00118}00118\ \ \ \ \ \textcolor{comment}{//\ Reference\ counting}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00119}00119\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_af7e742d3c67b483a90036bfa0d3fee83}{AddRef}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00120}00120\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_a2bd3fe33f25fe37f4afb6e800108a1a3}{Release}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00122}00122\ \ \ \ \ \textcolor{comment}{//\ Reassign\ the\ dictionary}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00123}00123\ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}}\ \&\mbox{\hyperlink{class_c_script_dictionary_ac5f2a21866040417eb4cc1499bfb2545}{operator\ =}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}}\ \&other);}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00125}00125\ \ \ \ \ \textcolor{comment}{//\ Sets\ a\ key/value\ pair}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00126}00126\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_a4473d54546532f306691e0c2c7d8b5db}{Set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}},\ \textcolor{keywordtype}{int}\ typeId);}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00127}00127\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_a4473d54546532f306691e0c2c7d8b5db}{Set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key,\ \textcolor{keyword}{const}\ asINT64\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00128}00128\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_a4473d54546532f306691e0c2c7d8b5db}{Set}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00130}00130\ \ \ \ \ \textcolor{comment}{//\ Gets\ the\ stored\ value.\ Returns\ false\ if\ the\ value\ isn't\ compatible\ with\ the\ informed\ typeId}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00131}00131\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dictionary_a1e6e31579b02eb2231b40e6cde7638f4}{Get}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key,\ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}},\ \textcolor{keywordtype}{int}\ typeId)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00132}00132\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dictionary_a1e6e31579b02eb2231b40e6cde7638f4}{Get}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key,\ asINT64\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00133}00133\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dictionary_a1e6e31579b02eb2231b40e6cde7638f4}{Get}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key,\ \textcolor{keywordtype}{double}\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00135}00135\ \ \ \ \ \textcolor{comment}{//\ Index\ accessors.\ If\ the\ dictionary\ is\ not\ const\ it\ inserts\ the\ value\ if\ it\ doesn't\ already\ exist}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00136}00136\ \ \ \ \ \textcolor{comment}{//\ If\ the\ dictionary\ is\ const\ then\ a\ script\ exception\ is\ set\ if\ it\ doesn't\ exist\ and\ a\ null\ pointer\ is\ returned}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00137}00137\ \ \ \ \ \mbox{\hyperlink{class_c_script_dict_value}{CScriptDictValue}}\ *\mbox{\hyperlink{class_c_script_dictionary_a692c35e95d739d89719aee747dc6f98e}{operator[]}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key);}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00138}00138\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_c_script_dict_value}{CScriptDictValue}}\ *\mbox{\hyperlink{class_c_script_dictionary_a692c35e95d739d89719aee747dc6f98e}{operator[]}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00140}00140\ \ \ \ \ \textcolor{comment}{//\ Returns\ the\ type\ id\ of\ the\ stored\ value,\ or\ negative\ if\ it\ doesn't\ exist}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00141}00141\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_dictionary_a10472d3b8aba0393dba271de9f409ce2}{GetTypeId}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00143}00143\ \ \ \ \ \textcolor{comment}{//\ Returns\ true\ if\ the\ key\ is\ set}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00144}00144\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dictionary_a7033e3ac21167ebacb70032039dd8f8b}{Exists}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00146}00146\ \ \ \ \ \textcolor{comment}{//\ Returns\ true\ if\ there\ are\ no\ key/value\ pairs\ in\ the\ dictionary}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00147}00147\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dictionary_a9b5711ea60781dbb07ff668126135b07}{IsEmpty}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00149}00149\ \ \ \ \ \textcolor{comment}{//\ Returns\ the\ number\ of\ key/value\ pairs\ in\ the\ dictionary}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00150}00150\ \ \ \ \ asUINT\ \mbox{\hyperlink{class_c_script_dictionary_ad065f30e9ce87280d066881fd897bee5}{GetSize}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00152}00152\ \ \ \ \ \textcolor{comment}{//\ Deletes\ the\ key}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00153}00153\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dictionary_ae4175bc55d79102b35c97da39e030ba4}{Delete}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key);}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00155}00155\ \ \ \ \ \textcolor{comment}{//\ Deletes\ all\ keys}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00156}00156\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_ae40e805d72bb0e80f993f3e8f61b268b}{DeleteAll}}();}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00158}00158\ \ \ \ \ \textcolor{comment}{//\ Get\ an\ array\ of\ all\ keys}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00159}00159\ \ \ \ \ \mbox{\hyperlink{class_c_script_array}{CScriptArray}}\ *\mbox{\hyperlink{class_c_script_dictionary_a2abde7564fe45dc55ebb0b3abcb47187}{GetKeys}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00161}00161\ \ \ \ \ \textcolor{comment}{//\ STL\ style\ iterator}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00162}\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator}{00162}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator}{CIterator}}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00163}00163\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00164}00164\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a691350a40cbdb9823b484980b0073138}{operator++}}();\ \ \ \ \textcolor{comment}{//\ Pre-\/increment}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a691350a40cbdb9823b484980b0073138}{operator++}}(\textcolor{keywordtype}{int});\ \textcolor{comment}{//\ Post-\/increment}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ needed\ to\ support\ C++11\ range-\/for}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00169}00169\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator}{CIterator}}\ \&\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_aa9a82145a180d91acb7eac9a578a25ce}{operator*}}();}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a53279051dcdf2810a6fcbbb2900732d4}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator}{CIterator}}\ \&other)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a13c4468b5fcfd6b56e3323adcf208eb7}{operator!=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator}{CIterator}}\ \&other)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Accessors}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a5a071b06b9c70a36b2df8846d57579c9}{GetKey}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00176}00176\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a5b960715b9bb220cb02a4d0269a393f7}{GetTypeId}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a7078cb98ad05dd9cbe89f1dd85ec1ffc}{GetValue}}(asINT64\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a7078cb98ad05dd9cbe89f1dd85ec1ffc}{GetValue}}(\textcolor{keywordtype}{double}\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a7078cb98ad05dd9cbe89f1dd85ec1ffc}{GetValue}}(\textcolor{keywordtype}{void}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}},\ \textcolor{keywordtype}{int}\ typeId)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00180}00180\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *\ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_af976d9e8a413c0b20257f9dde6c465ce}{GetAddressOfValue}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00182}00182\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00183}\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a4968bf65a5be4b65fe0e889754947ca3}{00183}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00185}\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a172fe4ed659c2c5932a0be966c3554f7}{00185}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a172fe4ed659c2c5932a0be966c3554f7}{CIterator}}();}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00186}00186\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a172fe4ed659c2c5932a0be966c3554f7}{CIterator}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}}\ \&\mbox{\hyperlink{class_c_script_dictionary_afbb244ca06f055a512724f2d62abfe16}{dict}},}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dictMap\_t::const\_iterator\ it);}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00189}\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a54c6152f2fd2e5997c06d0babf976037}{00189}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator}{CIterator}}\ \&\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a54c6152f2fd2e5997c06d0babf976037}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator}{CIterator}}\ \&)\ \{\textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};\}\ \textcolor{comment}{//\ Not\ used}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00191}\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a304cb9bc40311431848dfd4ebccaeb67}{00191}}\ \ \ \ \ \ \ \ \ dictMap\_t::const\_iterator\ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a304cb9bc40311431848dfd4ebccaeb67}{m\_it}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00192}\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a3c595b1aa91007c7bde31f00424511b8}{00192}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}}\ \&\mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator_a3c595b1aa91007c7bde31f00424511b8}{m\_dict}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00193}00193\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00195}00195\ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator}{CIterator}}\ \mbox{\hyperlink{class_c_script_dictionary_a2557a9641079d0511c2886e45ab5ac53}{begin}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00196}00196\ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator}{CIterator}}\ \mbox{\hyperlink{class_c_script_dictionary_abf298e42d957764f852d2cb54035267a}{end}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00197}00197\ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_1_1_c_iterator}{CIterator}}\ \mbox{\hyperlink{class_c_script_dictionary_a46b87b90cd2b1e217ea8e00e6ae1c217}{find}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{scriptdictionary_8h_ad77d99fe369085759edc6fec3e32a5ee}{dictKey\_t}}\ \&key)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00199}00199\ \ \ \ \ \textcolor{comment}{//\ Garbage\ collections\ behaviours}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00200}00200\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_dictionary_a0f4e14c79b20131efdde5c81182600a0}{GetRefCount}}();}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00201}00201\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_ae0cfa062e0d43819226ac0971fbd4025}{SetGCFlag}}();}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00202}00202\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_dictionary_ad3d2ce948787251c245db2407803cc4a}{GetGCFlag}}();}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00203}00203\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_a94affb998a7bade4f1bebd019acb0fa0}{EnumReferences}}(asIScriptEngine\ *\mbox{\hyperlink{class_c_script_dictionary_ab6ed6041b441e60f57f0a18a5525eac6}{engine}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00204}00204\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_a6d659726db347b5284cfc35e0e194948}{ReleaseAllReferences}}(asIScriptEngine\ *\mbox{\hyperlink{class_c_script_dictionary_ab6ed6041b441e60f57f0a18a5525eac6}{engine}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00206}00206\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00207}00207\ \ \ \ \ \textcolor{comment}{//\ Since\ the\ dictionary\ uses\ the\ asAllocMem\ and\ asFreeMem\ functions\ to\ allocate\ memory}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00208}00208\ \ \ \ \ \textcolor{comment}{//\ the\ constructors\ are\ made\ protected\ so\ that\ the\ application\ cannot\ allocate\ it}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00209}00209\ \ \ \ \ \textcolor{comment}{//\ manually\ in\ a\ different\ way}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00210}00210\ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}}(asIScriptEngine\ *\mbox{\hyperlink{class_c_script_dictionary_ab6ed6041b441e60f57f0a18a5525eac6}{engine}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00211}00211\ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary}{CScriptDictionary}}(asBYTE\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00213}00213\ \ \ \ \ \textcolor{comment}{//\ We\ don't\ want\ anyone\ to\ call\ the\ destructor\ directly,\ it\ should\ be\ called\ through\ the\ Release\ method}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00214}00214\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_c_script_dictionary_a9c962fd4168676f4eb8c13a00a83e1ce}{\string~CScriptDictionary}}();}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00216}00216\ \ \ \ \ \textcolor{comment}{//\ Cache\ the\ object\ types\ needed}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00217}00217\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_dictionary_ab3384967559ecee89a4e4088aaa78481}{Init}}(asIScriptEngine\ *\mbox{\hyperlink{class_c_script_dictionary_ab6ed6041b441e60f57f0a18a5525eac6}{engine}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00219}00219\ \ \ \ \ \textcolor{comment}{//\ Our\ properties}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00220}\mbox{\hyperlink{class_c_script_dictionary_ab6ed6041b441e60f57f0a18a5525eac6}{00220}}\ \ \ \ \ asIScriptEngine\ *\mbox{\hyperlink{class_c_script_dictionary_ab6ed6041b441e60f57f0a18a5525eac6}{engine}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00221}\mbox{\hyperlink{class_c_script_dictionary_a3f790dc358e619649a6a043b27fc5a91}{00221}}\ \ \ \ \ \textcolor{keyword}{mutable}\ \textcolor{keywordtype}{int}\ \ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_a3f790dc358e619649a6a043b27fc5a91}{refCount}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00222}\mbox{\hyperlink{class_c_script_dictionary_a0f8b5eb3ed516e0581b1533e981484cf}{00222}}\ \ \ \ \ \textcolor{keyword}{mutable}\ \textcolor{keywordtype}{bool}\ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_a0f8b5eb3ed516e0581b1533e981484cf}{gcFlag}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00223}\mbox{\hyperlink{class_c_script_dictionary_afbb244ca06f055a512724f2d62abfe16}{00223}}\ \ \ \ \ \mbox{\hyperlink{scriptdictionary_8h_a8ed279ed35122401f4cb7e116ea2cc0b}{dictMap\_t}}\ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_dictionary_afbb244ca06f055a512724f2d62abfe16}{dict}};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00224}00224\ \};}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00226}00226\ \textcolor{comment}{//\ This\ function\ will\ determine\ the\ configuration\ of\ the\ engine}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00227}00227\ \textcolor{comment}{//\ and\ use\ one\ of\ the\ two\ functions\ below\ to\ register\ the\ dictionary\ object}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00228}00228\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{scriptdictionary_8h_abf884a3f2b4b07a009c5fc055b48f901}{RegisterScriptDictionary}}(asIScriptEngine\ *\mbox{\hyperlink{class_c_script_dictionary_ab6ed6041b441e60f57f0a18a5525eac6}{engine}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00230}00230\ \textcolor{comment}{//\ Call\ this\ function\ to\ register\ the\ math\ functions}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00231}00231\ \textcolor{comment}{//\ using\ native\ calling\ conventions}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00232}00232\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{scriptdictionary_8h_a7c41a379d66a350e692e11acfea995cb}{RegisterScriptDictionary\_Native}}(asIScriptEngine\ *\mbox{\hyperlink{class_c_script_dictionary_ab6ed6041b441e60f57f0a18a5525eac6}{engine}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00234}00234\ \textcolor{comment}{//\ Use\ this\ one\ instead\ if\ native\ calling\ conventions}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00235}00235\ \textcolor{comment}{//\ are\ not\ supported\ on\ the\ target\ platform}}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00236}00236\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{scriptdictionary_8h_af8fc6fbf1a623e6c2ff14605df4e0570}{RegisterScriptDictionary\_Generic}}(asIScriptEngine\ *\mbox{\hyperlink{class_c_script_dictionary_ab6ed6041b441e60f57f0a18a5525eac6}{engine}});}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00238}00238\ END\_AS\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{scriptdictionary_8h_source_l00240}00240\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

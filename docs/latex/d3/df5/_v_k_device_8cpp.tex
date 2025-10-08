@@ -1,0 +1,80 @@
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/backend/\+VKDevice.cpp File Reference}
+\hypertarget{_v_k_device_8cpp}{}\label{_v_k_device_8cpp}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/backend/VKDevice.cpp@{C:/Dev/Techstorm-\/v5/src/engine/graphics/backend/VKDevice.cpp}}
+{\ttfamily \#include "{}VKDevice.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Vulkan\+Instance.\+h"{}}\newline
+{\ttfamily \#include "{}Rendering\+Backend.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Frame.\+h"{}}\newline
+{\ttfamily \#include "{}../../core/\+Core.\+h"{}}\newline
+{\ttfamily \#include "{}../window/\+Window.\+h"{}}\newline
+{\ttfamily \#include "{}vk\+\_\+mem\+\_\+alloc.\+h"{}}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$ostream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$span$>$}\newline
+{\ttfamily \#include $<$bitset$>$}\newline
+{\ttfamily \#include $<$SDL2/\+SDL\+\_\+video.\+h$>$}\newline
+{\ttfamily \#include $<$vulkan/vulkan.\+h$>$}\newline
+{\ttfamily \#include $<$vulkan/vulkan\+\_\+core.\+h$>$}\newline
+{\ttfamily \#include $<$Vk\+Bootstrap.\+h$>$}\newline
+{\ttfamily \#include $<$SDL\+\_\+vulkan.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_global_context}{Global\+Context}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_v_k_device_8cpp_abea80547807da765ebe9fce1c6dd6a8d}{VMA\+\_\+\+IMPLEMENTATION}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{struct_global_context}{Global\+Context}} $>$ \mbox{\hyperlink{_v_k_device_8cpp_a4ed1ac7ebe096fc975b54178b0b937ba}{g\+Global\+Context}}
+\item 
+\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Atlas\+::\+Vulkan\+Rendering\+Backend}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}{g\+Loaded\+Vulkan\+Backend}} = nullptr
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_v_k_device_8cpp_abea80547807da765ebe9fce1c6dd6a8d}\label{_v_k_device_8cpp_abea80547807da765ebe9fce1c6dd6a8d} 
+\index{VKDevice.cpp@{VKDevice.cpp}!VMA\_IMPLEMENTATION@{VMA\_IMPLEMENTATION}}
+\index{VMA\_IMPLEMENTATION@{VMA\_IMPLEMENTATION}!VKDevice.cpp@{VKDevice.cpp}}
+\doxysubsubsection{\texorpdfstring{VMA\_IMPLEMENTATION}{VMA\_IMPLEMENTATION}}
+{\footnotesize\ttfamily \#define VMA\+\_\+\+IMPLEMENTATION}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00017}{17}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{_v_k_device_8cpp_a4ed1ac7ebe096fc975b54178b0b937ba}\label{_v_k_device_8cpp_a4ed1ac7ebe096fc975b54178b0b937ba} 
+\index{VKDevice.cpp@{VKDevice.cpp}!gGlobalContext@{gGlobalContext}}
+\index{gGlobalContext@{gGlobalContext}!VKDevice.cpp@{VKDevice.cpp}}
+\doxysubsubsection{\texorpdfstring{gGlobalContext}{gGlobalContext}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{struct_global_context}{Global\+Context}}$>$ g\+Global\+Context}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00063}{63}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+\Hypertarget{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}\label{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861} 
+\index{VKDevice.cpp@{VKDevice.cpp}!gLoadedVulkanBackend@{gLoadedVulkanBackend}}
+\index{gLoadedVulkanBackend@{gLoadedVulkanBackend}!VKDevice.cpp@{VKDevice.cpp}}
+\doxysubsubsection{\texorpdfstring{gLoadedVulkanBackend}{gLoadedVulkanBackend}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Atlas\+::\+Vulkan\+Rendering\+Backend}}\texorpdfstring{$\ast$}{*} g\+Loaded\+Vulkan\+Backend = nullptr}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00066}{66}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00961}{Atlas\+::get\+Loaded\+Rendering\+Backed()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00966}{Atlas\+::set\+Loaded\+Rendering\+Backend()}}.
+

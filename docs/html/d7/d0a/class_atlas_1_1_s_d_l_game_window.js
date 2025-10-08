@@ -1,0 +1,28 @@
+var class_atlas_1_1_s_d_l_game_window =
+[
+    [ "SDLGameWindow", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a691f696e23c615953e16121e54d0b396", null ],
+    [ "SDLGameWindow", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a6896ff280f753d79ac33be7368457304", null ],
+    [ "~SDLGameWindow", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#ac4102ff5110f14e467dc0c2d27fd7c24", null ],
+    [ "cleanup", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#aa7bec14625a7bf3150b70dcc32c6199d", null ],
+    [ "close", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a8d8419c6c76fc3cec5f89a5b3e65c9f8", null ],
+    [ "EventOccurred", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a6bebe34a1e1a25480f3453be2c382a2b", null ],
+    [ "GetGraphicsAPIFlag", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#ab318de011bdf558266789f12a09593c2", null ],
+    [ "getUncastWindowHandle", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#ac493253a6ada8963a6b385bb8a31bdd6", null ],
+    [ "init", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a3066e9b4c0dc9ef5295f1e32f7429eca", null ],
+    [ "isInitialized", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#ae50dc1f04ef5c2a22116bc63f163618c", null ],
+    [ "isOpen", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#aa2f276401f31163b7911d02b9abda401", null ],
+    [ "open", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a8814b6f99560d91a4d24f11e4314e698", null ],
+    [ "setHint", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a480dbd3c468241d0bb85fa9fe930179e", null ],
+    [ "setIcon", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#ae28f01b38fa9c1f4406bad7ecb2b16f8", null ],
+    [ "setTargetFPS", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a3e8f531a80cbdeab0d151f5bd2a30388", null ],
+    [ "setWindowPosition", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#af87ffdc51acb8376f3feb1d6320c383a", null ],
+    [ "setWindowSize", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#ab08e5352d9693581789419733886efa1", null ],
+    [ "setWindowTitle", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#abd7c26457cb33cabe1ac830185234a76", null ],
+    [ "shouldClose", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a4fe6c2a44bf190b2c35d8b2e2443a392", null ],
+    [ "update", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a30e2379ad499cb4529a8985bd8dc4dad", null ],
+    [ "mEventHandlers", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#af2c53450b50dcda383bf6fb1fe800a8e", null ],
+    [ "mFrameCount", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a09ab698dbfa1708dcf0a6358e6600b7d", null ],
+    [ "mSDLWindowFlags", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a73e6cbb20cbdaaa078e3d78e9201035c", null ],
+    [ "mSDLWindowPointer", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a847cfb69eb2d3eea49270bc65bc5df24", null ],
+    [ "mShouldClose", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a679a35603cf1d793be58832a74dc9c32", null ]
+];

@@ -1,9 +1,8 @@
 var class_atlas_1_1_thread_safe_variable =
 [
-    [ "MissingDefaultConstructorException", "de/d61/class_atlas_1_1_thread_safe_variable_1_1_missing_default_constructor_exception.html", "de/d61/class_atlas_1_1_thread_safe_variable_1_1_missing_default_constructor_exception" ],
     [ "ThreadSafeVariable", "d0/dbd/class_atlas_1_1_thread_safe_variable.html#a2f5e04589a1e79eff2ce1984eba181b2", null ],
     [ "ThreadSafeVariable", "d0/dbd/class_atlas_1_1_thread_safe_variable.html#a3f8477829be431a5419f4e661c57b775", null ],
-    [ "ThreadSafeVariable", "d0/dbd/class_atlas_1_1_thread_safe_variable.html#a0bbe31714764ed04126c25a37cea38ee", null ],
+    [ "ThreadSafeVariable", "d0/dbd/class_atlas_1_1_thread_safe_variable.html#a5e5732a035adb2502a39227c3cd5c2e3", null ],
     [ "execute", "d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4007f83735117deb04971ae309f5f68f", null ],
     [ "get", "d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4f3bdb27e59b6eca106cb4f50470c6be", null ],
     [ "getAsReference", "d0/dbd/class_atlas_1_1_thread_safe_variable.html#a5be41a264d05b32fa2d08560d107f00e", null ],

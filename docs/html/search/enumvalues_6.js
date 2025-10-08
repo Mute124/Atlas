@@ -1,6 +1,11 @@
 var searchData=
 [
-  ['glfwclientapi_5fopengl_0',['GlfwClientApi_OpenGL',['../de/d02/imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189',1,'imgui_impl_glfw.cpp']]],
-  ['glfwclientapi_5funknown_1',['GlfwClientApi_Unknown',['../de/d02/imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97',1,'imgui_impl_glfw.cpp']]],
-  ['glfwclientapi_5fvulkan_2',['GlfwClientApi_Vulkan',['../de/d02/imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5',1,'imgui_impl_glfw.cpp']]]
+  ['imgui_5fimplsdl2_5fgamepadmode_5fautoall_0',['ImGui_ImplSDL2_GamepadMode_AutoAll',['../da/d87/imgui__impl__sdl2_8h.html#af1099ff56d96b2bcfb890e460bf42962ae964181dca65c8617f2a6b5fe91b5854',1,'imgui_impl_sdl2.h']]],
+  ['imgui_5fimplsdl2_5fgamepadmode_5fautofirst_1',['ImGui_ImplSDL2_GamepadMode_AutoFirst',['../da/d87/imgui__impl__sdl2_8h.html#af1099ff56d96b2bcfb890e460bf42962a00a8cfe37f745df046ef81056c2a88fb',1,'imgui_impl_sdl2.h']]],
+  ['imgui_5fimplsdl2_5fgamepadmode_5fmanual_2',['ImGui_ImplSDL2_GamepadMode_Manual',['../da/d87/imgui__impl__sdl2_8h.html#af1099ff56d96b2bcfb890e460bf42962a4120a8d146187a06ba625b77b077f5b4',1,'imgui_impl_sdl2.h']]],
+  ['imgui_5fimplsdl3_5fgamepadmode_5fautoall_3',['ImGui_ImplSDL3_GamepadMode_AutoAll',['../d2/dd4/imgui__impl__sdl3_8h.html#ad480fd2f529e7f698bbf12d024b373bdad7e8e5b43dc7593ffc191ebd11e5c063',1,'imgui_impl_sdl3.h']]],
+  ['imgui_5fimplsdl3_5fgamepadmode_5fautofirst_4',['ImGui_ImplSDL3_GamepadMode_AutoFirst',['../d2/dd4/imgui__impl__sdl3_8h.html#ad480fd2f529e7f698bbf12d024b373bdaf01800b5937cac0863b5077ac1d630ff',1,'imgui_impl_sdl3.h']]],
+  ['imgui_5fimplsdl3_5fgamepadmode_5fmanual_5',['ImGui_ImplSDL3_GamepadMode_Manual',['../d2/dd4/imgui__impl__sdl3_8h.html#ad480fd2f529e7f698bbf12d024b373bda6ab67002cee0908a818242a0e62b0136',1,'imgui_impl_sdl3.h']]],
+  ['info_6',['info',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c',1,'Atlas::info'],['../d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aaa4059b0251f66a18cb56f544728796875',1,'Atlas::Info']]],
+  ['initializing_7',['Initializing',['../d7/d54/namespace_atlas.html#a6588f04f9df5f98750a8239e6f0c516da32b169f72b293ef80d35435e9894f8e2',1,'Atlas']]]
 ];

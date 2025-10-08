@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['project_5ftypename_0',['PROJECT_TYPENAME',['../d1/def/project_2_project_8h.html#ad07ec4803fb514a35902f4d7b85638df',1,'project.h']]]
+  ['rlights_5fimplementation_0',['rlights_implementation',['../da/da6/_chunk_testing_8h.html#a2b623fe0eac7d5119008fb456fdc49f8',1,'RLIGHTS_IMPLEMENTATION:&#160;ChunkTesting.h'],['../d0/d02/_prototype_physics_terrain_8h.html#a2b623fe0eac7d5119008fb456fdc49f8',1,'RLIGHTS_IMPLEMENTATION:&#160;PrototypePhysicsTerrain.h'],['../da/d9c/_prototyping_terrain_8h.html#a2b623fe0eac7d5119008fb456fdc49f8',1,'RLIGHTS_IMPLEMENTATION:&#160;PrototypingTerrain.h']]]
 ];

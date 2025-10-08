@@ -1,6 +1,53 @@
 \doxysection{Game\+Thread.\+cpp}
-\hypertarget{_game_thread_8cpp_source}{}\label{_game_thread_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/core/GameThread.cpp@{C:/Dev/Techstorm-\/v5/src/engine/core/GameThread.cpp}}
+\hypertarget{_game_thread_8cpp_source}{}\label{_game_thread_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/core/threading/GameThread.cpp@{C:/Dev/Techstorm-\/v5/src/engine/core/threading/GameThread.cpp}}
 \mbox{\hyperlink{_game_thread_8cpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_game_thread_8h}{GameThread.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#ifndef\ ATLAS\_ENABLE\_THREADING}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00005}\mbox{\hyperlink{class_atlas_1_1_game_thread_a4e7358f0746b541303f858f87eae7c3b}{00005}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_a4e7358f0746b541303f858f87eae7c3b}{Atlas::GameThread::setIdleState}}(\textcolor{keywordtype}{bool}\ newState)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00006}00006\ \ \ \ \ this-\/>\mbox{\hyperlink{class_atlas_1_1_game_thread_a3de69c2164a24e3cfa3aff20c661f72f}{mIsIdle}}.store(newState);}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00007}00007\ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00009}\mbox{\hyperlink{class_atlas_1_1_game_thread_aa74cad8e413c5bf1f85fbbe125e41162}{00009}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_aa74cad8e413c5bf1f85fbbe125e41162}{Atlas::GameThread::setIsReady}}(\textcolor{keywordtype}{bool}\ newReadinessState)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00010}00010\ \ \ \ \ this-\/>mIsReady.store(newReadinessState);}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00011}00011\ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00013}\mbox{\hyperlink{class_atlas_1_1_game_thread_a401681865ded41c011c8aa32f0f53958}{00013}}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_a401681865ded41c011c8aa32f0f53958}{Atlas::GameThread::GameThread}}(\mbox{\hyperlink{struct_atlas_1_1_thread_launch_info}{ThreadLaunchInfo}}\ \textcolor{keyword}{const}\&\ launchInfo)\ :\ mThreadFunction(launchInfo.threadFunction)\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00015}00015\ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00017}\mbox{\hyperlink{class_atlas_1_1_game_thread_ab1c9605467190ed7bb833db18acb701c}{00017}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_ab1c9605467190ed7bb833db18acb701c}{Atlas::GameThread::isIdle}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00018}00018\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>mIsIdle;}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00019}00019\ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00021}\mbox{\hyperlink{class_atlas_1_1_game_thread_a559cb369b369ddc0950573ebaaf064ac}{00021}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_a559cb369b369ddc0950573ebaaf064ac}{Atlas::GameThread::isDetached}}()}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00022}00022\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00023}00023\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00024}00024\ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00026}\mbox{\hyperlink{class_atlas_1_1_game_thread_aa9edb6343c4b21c721b1dce05663e6a5}{00026}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_aa9edb6343c4b21c721b1dce05663e6a5}{Atlas::GameThread::isReady}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00027}00027\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>mIsReady;}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00028}00028\ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00030}\mbox{\hyperlink{class_atlas_1_1_game_thread_aeac66820412ffd8f8c709911d217da83}{00030}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_aeac66820412ffd8f8c709911d217da83}{Atlas::GameThread::isJoinable}}()}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>mThread.joinable();}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00033}00033\ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00035}\mbox{\hyperlink{class_atlas_1_1_game_thread_af940f041471c62320d74d2f90f22b3c6}{00035}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_af940f041471c62320d74d2f90f22b3c6}{Atlas::GameThread::detach}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00036}00036\ \ \ \ \ this-\/>mThread.detach();}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00037}00037\ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00039}\mbox{\hyperlink{class_atlas_1_1_game_thread_abd4108db1da22e1f8856769c9fe834de}{00039}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_abd4108db1da22e1f8856769c9fe834de}{Atlas::GameThread::join}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00040}00040\ \ \ \ \ this-\/>mThread.join();}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00041}00041\ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00043}\mbox{\hyperlink{class_atlas_1_1_game_thread_adfeda654652b8b82d806ceccc6435559}{00043}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_thread_adfeda654652b8b82d806ceccc6435559}{Atlas::GameThread::execute}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00044}00044\ \ \ \ \ this-\/>mThread\ =\ std::jthread(this-\/>mThreadFunction);}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00045}00045\ \}}
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_game_thread_8cpp_source_l00047}00047\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

@@ -1,12 +1,8 @@
 var class_atlas_1_1_logger =
 [
-    [ "MessageBuffer", "d5/d1a/class_atlas_1_1_logger_1_1_message_buffer.html", "d5/d1a/class_atlas_1_1_logger_1_1_message_buffer" ],
-    [ "TemporaryMessage", "df/d3f/struct_atlas_1_1_logger_1_1_temporary_message.html", "df/d3f/struct_atlas_1_1_logger_1_1_temporary_message" ],
-    [ "~Logger", "df/dca/class_atlas_1_1_logger.html#acda967f299ad40a73dc26942387f4211", null ],
-    [ "init", "df/dca/class_atlas_1_1_logger.html#a6e8f9c7e9635767554cb14d8489c97ac", null ],
-    [ "InitSpdlog", "df/dca/class_atlas_1_1_logger.html#a21b9c453200b30d30435b0ce084b1b05", null ],
-    [ "log", "df/dca/class_atlas_1_1_logger.html#a2b8515898dc56c34780f4b7adbab664e", null ],
-    [ "RaylibLogCallback", "df/dca/class_atlas_1_1_logger.html#a92ca3690d016f52c563bd0c37122a363", null ],
-    [ "mConfig", "df/dca/class_atlas_1_1_logger.html#a76e51c465714b8b19f0fe7ade285eea9", null ],
-    [ "mLogger", "df/dca/class_atlas_1_1_logger.html#a07c1f09583117a95012bd38e448d28a2", null ]
+    [ "Logger", "df/dca/class_atlas_1_1_logger.html#a758e8496b17fa141f91ff3f7611520ec", null ],
+    [ "SpdlogLogger", "df/dca/class_atlas_1_1_logger.html#a0d9050484259217f3c32081a0a4e3314", null ],
+    [ "SpdlogLogger", "df/dca/class_atlas_1_1_logger.html#a90310a255176e362f715beac1b122325", null ],
+    [ "SpdlogLogger", "df/dca/class_atlas_1_1_logger.html#aaf18feeb492d288362a12f09dd1320ef", null ],
+    [ "SpdlogLogger", "df/dca/class_atlas_1_1_logger.html#ab3b8d77a88482daac7d46be8e2794802", null ]
 ];

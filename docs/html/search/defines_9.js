@@ -1,4 +1,9 @@
 var searchData=
 [
-  ['rlights_5fimplementation_0',['rlights_implementation',['../da/da6/_chunk_testing_8h.html#a2b623fe0eac7d5119008fb456fdc49f8',1,'RLIGHTS_IMPLEMENTATION:&#160;ChunkTesting.h'],['../d0/d02/_prototype_physics_terrain_8h.html#a2b623fe0eac7d5119008fb456fdc49f8',1,'RLIGHTS_IMPLEMENTATION:&#160;PrototypePhysicsTerrain.h'],['../da/d9c/_prototyping_terrain_8h.html#a2b623fe0eac7d5119008fb456fdc49f8',1,'RLIGHTS_IMPLEMENTATION:&#160;PrototypingTerrain.h']]]
+  ['screen_5fheight_0',['screen_height',['../da/da6/_chunk_testing_8h.html#a6974d08a74da681b3957b2fead2608b8',1,'SCREEN_HEIGHT:&#160;ChunkTesting.h'],['../da/d9c/_prototyping_terrain_8h.html#a6974d08a74da681b3957b2fead2608b8',1,'SCREEN_HEIGHT:&#160;PrototypingTerrain.h']]],
+  ['screen_5fwidth_1',['screen_width',['../da/da6/_chunk_testing_8h.html#a2cd109632a6dcccaa80b43561b1ab700',1,'SCREEN_WIDTH:&#160;ChunkTesting.h'],['../da/d9c/_prototyping_terrain_8h.html#a2cd109632a6dcccaa80b43561b1ab700',1,'SCREEN_WIDTH:&#160;PrototypingTerrain.h']]],
+  ['sdl_5fhas_5fcapture_5fand_5fglobal_5fmouse_2',['sdl_has_capture_and_global_mouse',['../d1/dbb/imgui__impl__sdl2_8cpp.html#a313b5bc58c0de4eb53710ddc720e094d',1,'SDL_HAS_CAPTURE_AND_GLOBAL_MOUSE:&#160;imgui_impl_sdl2.cpp'],['../de/d1b/imgui__impl__sdl3_8cpp.html#a313b5bc58c0de4eb53710ddc720e094d',1,'SDL_HAS_CAPTURE_AND_GLOBAL_MOUSE:&#160;imgui_impl_sdl3.cpp']]],
+  ['sdl_5fhas_5fvulkan_3',['SDL_HAS_VULKAN',['../d1/dbb/imgui__impl__sdl2_8cpp.html#aea2eeaab96a591241a01aa9cda35be47',1,'imgui_impl_sdl2.cpp']]],
+  ['sdlk_5fapostrophe_4',['SDLK_APOSTROPHE',['../de/d1b/imgui__impl__sdl3_8cpp.html#afc3a107ed10170a65c0aab45cd9465b5',1,'imgui_impl_sdl3.cpp']]],
+  ['sdlk_5fgrave_5',['SDLK_GRAVE',['../de/d1b/imgui__impl__sdl3_8cpp.html#a4262c604c55ccdb079e6ffce695b3e29',1,'imgui_impl_sdl3.cpp']]]
 ];

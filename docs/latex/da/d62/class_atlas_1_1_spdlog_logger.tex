@@ -1,0 +1,1045 @@
+\doxysection{Atlas\+::Spdlog\+Logger Class Reference}
+\hypertarget{class_atlas_1_1_spdlog_logger}{}\label{class_atlas_1_1_spdlog_logger}\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+
+
+A generic logger that uses the {\bfseries{Spdlog}} library. According to the spdlog documentation, you may call the {\itshape spdlog\+::log()} function to log messages {\bfseries{after}} the logger has been initialized because of how spdlog works. For more information, on how to use spdlog, please refer to their documentation. This class was designed to work in the same way as the multi-\/sink logger example provided in the spdlog documentation. Another important thing to note about this class is that, assuming you are not implementing a custom {\ttfamily PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} callback for Vulkan, this class should be initialized prior to the initialization and usage of \doxylink{namespace_atlas}{Atlas}\textquotesingle{} Vulkan API. Otherwise, you will get errors the second Vulkan starts sending messages to the callback.  
+
+
+
+
+{\ttfamily \#include $<$Logging.\+h$>$}
+
+Inheritance diagram for Atlas\+::Spdlog\+Logger\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{da/d62/class_atlas_1_1_spdlog_logger}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}}
+\begin{DoxyCompactList}\small\item\em A struct that bundles together the console sink and the file sink as it is required for the spdlog logger during it\textquotesingle{}s initialization. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a1a11b82c8001b7ab41c814bdb278ca44}{Console\+Color\+Sink}} = spdlog\+::sinks\+::stdout\+\_\+color\+\_\+sink\+\_\+mt
+\begin{DoxyCompactList}\small\item\em The standard spdlog console color sink. \end{DoxyCompactList}\item 
+using \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a491f33de1bbd8d4ab0072037206631de}{Basic\+File\+Sink}} = spdlog\+::sinks\+::basic\+\_\+file\+\_\+sink\+\_\+mt
+\begin{DoxyCompactList}\small\item\em The standard spdlog basic file sink. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab3b8d77a88482daac7d46be8e2794802}{Spdlog\+Logger}} (std\+::string const \&logger\+Name, std\+::string const \&message\+Format\+Pattern, std\+::string const \&log\+File\+Path, bool truncate\+Messages, std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} $>$ sinks\+Log\+Levels)
+\begin{DoxyCompactList}\small\item\em An explicit and verbose constructor for the {\itshape \doxylink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}} class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_aaf18feeb492d288362a12f09dd1320ef}{Spdlog\+Logger}} (std\+::string const \&logger\+Name, std\+::string const \&message\+Format\+Pattern, std\+::string const \&log\+File\+Path, bool truncate\+Messages)
+\begin{DoxyCompactList}\small\item\em An explicit constructor for the {\itshape \doxylink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}} class that will also set the value of {\ttfamily m\+Truncate\+Messages}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a90310a255176e362f715beac1b122325}{Spdlog\+Logger}} (std\+::string const \&logger\+Name, std\+::string const \&message\+Format\+Pattern, std\+::string const \&log\+File\+Path)
+\begin{DoxyCompactList}\small\item\em An explicit constructor for the {\itshape \doxylink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}} class. This constructor will be suitable for most use cases. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{Spdlog\+Logger}} ()=default
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init}} () override
+\begin{DoxyCompactList}\small\item\em Initializes the logger and the spdlog library. This function must be called before the logger can be used. Once this function is called, this logger will be able to log messages. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a048f36f760683536b48fcf3ac5b577ee}{set\+This\+As\+Default\+Logger}} ()
+\begin{DoxyCompactList}\small\item\em Pretty much the same as {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_a048f36f760683536b48fcf3ac5b577ee}{set\+This\+As\+Default\+Logger()}}, but sets this logger instance as the default logger. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log}} (std\+::string const \&message, \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} log\+Level) override
+\begin{DoxyCompactList}\small\item\em A more explicit logging function where the message and log level must be specified. This function will only log using {\bfseries{this}} logger instance, not the default logger. This function is inherited from {\ttfamily \doxylink{class_atlas_1_1_i_logger}{ILogger}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a44ad5338e76b4ed4018a8a026bdc605e}{info}} (std\+::string const \&message)
+\begin{DoxyCompactList}\small\item\em Logs a message at the {\ttfamily Log\+Level\+::info} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a3db2ed9de7187d362eabd64b4f6716e3}{error}} (std\+::string const \&message)
+\begin{DoxyCompactList}\small\item\em Logs a message at the {\ttfamily Log\+Level\+::err} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a64670a9cd5e4162d13ff1210b7647d29}{warn}} (std\+::string const \&message)
+\begin{DoxyCompactList}\small\item\em Logs a message at the {\ttfamily Log\+Level\+::warn} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a56c5e203cfc953f41db4aee73df64a05}{debug}} (std\+::string const \&message)
+\begin{DoxyCompactList}\small\item\em Logs a message at the {\ttfamily Log\+Level\+::debug} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_accc54231c6278a659d953e507aa671e3}{trace}} (std\+::string const \&message)
+\begin{DoxyCompactList}\small\item\em Logs a message at the {\ttfamily Log\+Level\+::trace} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_aff9ad0d8ab39550a3c4557be645d9d72}{critical}} (std\+::string const \&message)
+\begin{DoxyCompactList}\small\item\em Logs a message at the {\ttfamily Log\+Level\+::critical} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a8a001b288c8b569a46ebcfb5a9e38d6a}{close}} () override
+\begin{DoxyCompactList}\small\item\em Closes the logger. Currently, this function does nothing. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a847d0d8b160cfd9c417816b8359602ba}{set\+Console\+Log\+Level}} (\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} log\+Level)
+\begin{DoxyCompactList}\small\item\em Sets the console sink\textquotesingle{}s log level. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401}{set\+File\+Log\+Level}} (\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} log\+Level)
+\begin{DoxyCompactList}\small\item\em Sets the file sink\textquotesingle{}s log level. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_abb24eea31c334fe48a98cb24e39d60c1}{set\+Logger\+Level}} (\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} log\+Level)
+\begin{DoxyCompactList}\small\item\em Sets the logger\textquotesingle{}s log level. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a3788989ab87cccf9863093b393ebd60c}{should\+Truncate\+Message}} () const
+\begin{DoxyCompactList}\small\item\em Returns whether or not the logger should truncate the message, derived from the {\ttfamily mb\+Truncate\+Messages} flag. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_atlas_1_1_i_logger}{Atlas\+::\+ILogger$<$ Log\+Level $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_atlas_1_1_i_logger_aa7f12b2219a865d19fabc3e1cc5f5829}{\texorpdfstring{$\sim$}{\string~}\+ILogger}} ()=default
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0acbb90a254043a8c7ae3054af10db45}{Set\+Default\+Logger}} (\mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}} \texorpdfstring{$\ast$}{*}logger)
+\begin{DoxyCompactList}\small\item\em Sets the logger that will be used as the default logger for {\ttfamily spdlog\+::log()} or the other namespace-\/scope logging functions for {\ttfamily spdlog}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a5733ebe1b82cbc4b4c1285468fe537d4}{display}} (std\+::string const \&message) override
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a42515bd7df0a84362b1b1e4905a83da7}{set\+Level}} (\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} log\+Level) override
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_af450fb0c93980c5855e5acde4bc2c3a2}{init\+Console\+Sink}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the console sink in the {\ttfamily \doxylink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}} struct that will be used by the spdlog logger. This function will set the console sink\textquotesingle{}s log level to {\ttfamily m\+Console\+Log\+Level} and will set the sink\textquotesingle{}s pattern to {\itshape m\+Message\+Format\+Pattern}. This is called by the {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init()}} function. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a71588f48cdaf11ea8e7bc26ca22c561d}{init\+File\+Sink}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the file sink in the {\itshape \doxylink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}} struct that will be used by the spdlog logger. This function will set the file sink\textquotesingle{}s log level to the value of {\itshape m\+File\+Log\+Level}. ~\newline
+ \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae9277712f23a818140a38f0d86d250d6}{init\+Internal\+Spdlog\+Logger}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the {\itshape spdlog} logger instance. Once this function is called (assuming that everything went okay up to this point), the {\itshape spdlog} logger instance can be used to log messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae393d73cafa6d8d14201d95fddc5efb1}{Extract\+Log\+Level}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} $>$ log\+Levels, int \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a3d1dfcec5b856f4ead855b5bf4b767eb}{mb\+Truncate\+Messages}} = \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}{SHOULD\+\_\+\+TRUNCATE\+\_\+\+FILE\+\_\+\+LOGS}}
+\begin{DoxyCompactList}\small\item\em A flag that indicates whether or not the log messages should be truncated if they are too long. This is used by the file sink when writing to the log file. If the message is too long, it will be truncated. By default, this flag is set to false. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_af146ce1820f984db41b91d018950f16c}{mb\+Is\+Fully\+Initialized}} = false
+\begin{DoxyCompactList}\small\item\em A flag that indicates whether or not the logger is initialized and can be used without error. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a676dc4718412d2285c1f9c5cfafa10af}{mb\+Use\+File\+Sink}} = false
+\item 
+\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31}{m\+Console\+Log\+Level}} = \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL}}
+\begin{DoxyCompactList}\small\item\em The minimum log level for a message to be logged to the console. By default, this is set to {\itshape warn}. You can change this value by calling {\itshape \doxylink{class_atlas_1_1_spdlog_logger_a847d0d8b160cfd9c417816b8359602ba}{set\+Console\+Log\+Level()}}. However, this is {\bfseries{not}} recommended to be done {\bfseries{after}} initializing the logger because you would have to shutdown the logger and reinitialize it for it to take effect. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507}{m\+File\+Log\+Level}} = \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL}}
+\begin{DoxyCompactList}\small\item\em The minimum log level for a message to be logged (written) to the log file. By default, this is set to {\itshape trace}. You can change this value by calling {\itshape \doxylink{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401}{set\+File\+Log\+Level()}}. However, this is {\bfseries{not}} recommended to be done {\bfseries{after}} initializing the logger because you would have to shutdown the logger and reinitialize it for it to take effect. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385}{m\+Logger\+Level}} = \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL}}
+\begin{DoxyCompactList}\small\item\em The minimum log level for a message to be logged. By default, this is set to {\itshape debug}. You can change this value by calling {\itshape \doxylink{class_atlas_1_1_spdlog_logger_a42515bd7df0a84362b1b1e4905a83da7}{set\+Level()}}. However, this is {\bfseries{not}} recommended to be done {\bfseries{after}} initializing the logger because you would have to shutdown the logger and reinitialize it for it to take effect. \end{DoxyCompactList}\item 
+const std\+::string \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_acfa432f18c08ad3c43a1be29b9162c12}{m\+Logger\+Name}} = "{}Atlas"{}
+\begin{DoxyCompactList}\small\item\em The name of the logger that will be passed to the spdlog logger library when it is initialized. There is not much need to change this value unless you are doing something special. By default, this is set to "{}\+Atlas"{}. \end{DoxyCompactList}\item 
+const std\+::string \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46}{m\+Log\+File\+Path}}
+\begin{DoxyCompactList}\small\item\em The path to the log file that will be written to when a message is successfully passed to the file sink. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe90a0bfa09b3330a}{m\+Message\+Format\+Pattern}}
+\begin{DoxyCompactList}\small\item\em The pattern that will be used to format the messages that are passed to the logger. The value of this should be set PRIOR to calling {\itshape \doxylink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init()}}. Furthermore, please use the pattern flags that Spdlog provides (see this variable\textquotesingle{}s see also section in the documentation for a link to the Spdlog documentation that explains the pattern flags). \end{DoxyCompactList}\item 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}} $>$ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a99e3157484727e52f5f93330026c2f76}{m\+Logging\+Sinks}} = nullptr
+\begin{DoxyCompactList}\small\item\em A unique pointer to the {\itshape \doxylink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}} aggregator struct. \end{DoxyCompactList}\item 
+std\+::unique\+\_\+ptr$<$ spdlog\+::logger $>$ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960}{m\+Internal\+Spdlog\+Logger\+Ptr}} = nullptr
+\begin{DoxyCompactList}\small\item\em A unique pointer to the {\itshape spdlog} logger instance. All logging is done through this instance, so this must be initialized before any logging can be done. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr bool \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}{SHOULD\+\_\+\+TRUNCATE\+\_\+\+FILE\+\_\+\+LOGS}} = false
+\item 
+static constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL}} = Log\+Level\+::warn
+\item 
+static constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL}} = Log\+Level\+::trace
+\item 
+static constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL}} = Log\+Level\+::debug
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A generic logger that uses the {\bfseries{Spdlog}} library. According to the spdlog documentation, you may call the {\itshape spdlog\+::log()} function to log messages {\bfseries{after}} the logger has been initialized because of how spdlog works. For more information, on how to use spdlog, please refer to their documentation. This class was designed to work in the same way as the multi-\/sink logger example provided in the spdlog documentation. Another important thing to note about this class is that, assuming you are not implementing a custom {\ttfamily PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} callback for Vulkan, this class should be initialized prior to the initialization and usage of \doxylink{namespace_atlas}{Atlas}\textquotesingle{} Vulkan API. Otherwise, you will get errors the second Vulkan starts sending messages to the callback. 
+
+To initialize this class in a case where you immediately have the initialization variables, consider the following code\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger}}\ logger\ =\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger}}(\textcolor{stringliteral}{"{}Atlas"{}},\ \textcolor{stringliteral}{"{}[Some\ Logger]\ [\%\string^\%l\%\$]\ \%v"{}},\ \textcolor{stringliteral}{"{}log.txt"{}});}
+\DoxyCodeLine{logger.init();}
+
+\end{DoxyCode}
+
+
+If you do not have the initialization variables but need to set them later, you may make {\ttfamily logger} a pointer to get around the lack of a default constructor. However, keep in mind that a default constructor may be implemented later on.
+
+\begin{DoxyNote}{Note}
+While most of the variables that are required for initialization within this class, there are a couple that must absolutely be set because there is no default value for them. More specifically, the values of the following variables that do not have a default value must be set PRIOR to calling \doxylink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init()}\+:
+\begin{DoxyItemize}
+\item \doxylink{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe90a0bfa09b3330a}{m\+Message\+Format\+Pattern}
+\item \doxylink{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46}{m\+Log\+File\+Path} Please refer to the documentation of those variables for more information about them.
+\end{DoxyItemize}
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_i_logger}{ILogger} The interface that this class publicly implements.
+
+\href{https://github.com/gabime/spdlog?tab=readme-ov-file\#logger-with-multi-sinks&mdash;each-with-a-different-format-and-log-level}{\texttt{ https\+://github.\+com/gabime/spdlog?tab=readme-\/ov-\/file\#logger-\/with-\/multi-\/sinks---each-\/with-\/a-\/different-\/format-\/and-\/log-\/level}} for what this class\textquotesingle{} \doxylink{generateheader_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} functionality is based on.
+\end{DoxySeeAlso}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000006}{Todo}}]Consider adding a constructor that doesn\textquotesingle{}t require the message format pattern and log file path to be passed. For the log file path (\doxylink{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46}{m\+Log\+File\+Path}), maybe a function should exist that automatically generates a file path for you? Or maybe a function should exist that automatically generates a log file name for you? And for the message format pattern, the one that is provided in the Spdlog documentation could be used as a default value. \end{DoxyRefDesc}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00116}{116}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{class_atlas_1_1_spdlog_logger_a491f33de1bbd8d4ab0072037206631de}\label{class_atlas_1_1_spdlog_logger_a491f33de1bbd8d4ab0072037206631de} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!BasicFileSink@{BasicFileSink}}
+\index{BasicFileSink@{BasicFileSink}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{BasicFileSink}{BasicFileSink}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a491f33de1bbd8d4ab0072037206631de}{Atlas\+::\+Spdlog\+Logger\+::\+Basic\+File\+Sink}} =  spdlog\+::sinks\+::basic\+\_\+file\+\_\+sink\+\_\+mt}
+
+
+
+The standard spdlog basic file sink. 
+
+\begin{DoxyNote}{Note}
+This is just to make the code more readable
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00134}{134}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a1a11b82c8001b7ab41c814bdb278ca44}\label{class_atlas_1_1_spdlog_logger_a1a11b82c8001b7ab41c814bdb278ca44} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!ConsoleColorSink@{ConsoleColorSink}}
+\index{ConsoleColorSink@{ConsoleColorSink}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{ConsoleColorSink}{ConsoleColorSink}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a1a11b82c8001b7ab41c814bdb278ca44}{Atlas\+::\+Spdlog\+Logger\+::\+Console\+Color\+Sink}} =  spdlog\+::sinks\+::stdout\+\_\+color\+\_\+sink\+\_\+mt}
+
+
+
+The standard spdlog console color sink. 
+
+\begin{DoxyNote}{Note}
+This is just to make the code more readable
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00125}{125}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_atlas_1_1_spdlog_logger_ab3b8d77a88482daac7d46be8e2794802}\label{class_atlas_1_1_spdlog_logger_ab3b8d77a88482daac7d46be8e2794802} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!SpdlogLogger@{SpdlogLogger}}
+\index{SpdlogLogger@{SpdlogLogger}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{SpdlogLogger()}{SpdlogLogger()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Atlas\+::\+Spdlog\+Logger\+::\+Spdlog\+Logger (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{logger\+Name,  }\item[{std\+::string const \&}]{message\+Format\+Pattern,  }\item[{std\+::string const \&}]{log\+File\+Path,  }\item[{bool}]{truncate\+Messages,  }\item[{std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} $>$}]{sinks\+Log\+Levels }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+An explicit and verbose constructor for the {\itshape \doxylink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}} class. 
+
+\begin{DoxyNote}{Note}
+If the value of {\ttfamily log\+File\+Path} is empty, the file sink will not be initialized. If {\ttfamily log\+File\+Path} is not a valid path, an exception will be thrown when {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init()}} is called.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em logger\+Name} & What the logger will be called.\\
+\hline
+{\em message\+Format\+Pattern} & The pattern that will be used to format the messages that are passed to the logger.\\
+\hline
+{\em log\+File\+Path} & The path to the log file.\\
+\hline
+{\em truncate\+Messages} & Whether or not to truncate the messages that are passed to the logger.\\
+\hline
+{\em sinks\+Log\+Levels} & An initializer list of log levels that will be used to set the log level for each sink. Unless you are implementing more than the default sinks, this should have 3 entries in accordance with the {\ttfamily ESpdlog\+Init\+List\+Index} enum class.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00050}{50}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_aaf18feeb492d288362a12f09dd1320ef}\label{class_atlas_1_1_spdlog_logger_aaf18feeb492d288362a12f09dd1320ef} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!SpdlogLogger@{SpdlogLogger}}
+\index{SpdlogLogger@{SpdlogLogger}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{SpdlogLogger()}{SpdlogLogger()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Atlas\+::\+Spdlog\+Logger\+::\+Spdlog\+Logger (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{logger\+Name,  }\item[{std\+::string const \&}]{message\+Format\+Pattern,  }\item[{std\+::string const \&}]{log\+File\+Path,  }\item[{bool}]{truncate\+Messages }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+An explicit constructor for the {\itshape \doxylink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}} class that will also set the value of {\ttfamily m\+Truncate\+Messages}. 
+
+\begin{DoxyNote}{Note}
+If the value of {\ttfamily log\+File\+Path} is empty, the file sink will not be initialized. If {\ttfamily log\+File\+Path} is not a valid path, an exception will be thrown when {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init()}} is called.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em logger\+Name} & What the logger will be called.\\
+\hline
+{\em message\+Format\+Pattern} & The pattern that will be used to format the messages that are passed to the logger.\\
+\hline
+{\em log\+File\+Path} & The path to the log file.\\
+\hline
+{\em truncate\+Messages} & Whether or not to truncate the messages that are passed to the logger.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00058}{58}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_logging_8h_source_l00178}{DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL}}, \mbox{\hyperlink{_logging_8h_source_l00179}{DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL}}, and \mbox{\hyperlink{_logging_8h_source_l00180}{DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a90310a255176e362f715beac1b122325}\label{class_atlas_1_1_spdlog_logger_a90310a255176e362f715beac1b122325} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!SpdlogLogger@{SpdlogLogger}}
+\index{SpdlogLogger@{SpdlogLogger}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{SpdlogLogger()}{SpdlogLogger()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Atlas\+::\+Spdlog\+Logger\+::\+Spdlog\+Logger (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{logger\+Name,  }\item[{std\+::string const \&}]{message\+Format\+Pattern,  }\item[{std\+::string const \&}]{log\+File\+Path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+An explicit constructor for the {\itshape \doxylink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}} class. This constructor will be suitable for most use cases. 
+
+\begin{DoxyNote}{Note}
+If the value of {\ttfamily log\+File\+Path} is empty, the file sink will not be initialized. If {\ttfamily log\+File\+Path} is not a valid path, an exception will be thrown when {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init()}} is called.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em logger\+Name} & What the logger will be called.\\
+\hline
+{\em message\+Format\+Pattern} & The pattern that will be used to format the messages that are passed to the logger.\\
+\hline
+{\em log\+File\+Path} & The path to the log file.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00063}{63}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}\label{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!SpdlogLogger@{SpdlogLogger}}
+\index{SpdlogLogger@{SpdlogLogger}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{SpdlogLogger()}{SpdlogLogger()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Atlas\+::\+Spdlog\+Logger\+::\+Spdlog\+Logger (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_atlas_1_1_spdlog_logger_a8a001b288c8b569a46ebcfb5a9e38d6a}\label{class_atlas_1_1_spdlog_logger_a8a001b288c8b569a46ebcfb5a9e38d6a} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!close@{close}}
+\index{close@{close}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Closes the logger. Currently, this function does nothing. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Implements \mbox{\hyperlink{class_atlas_1_1_i_logger_a26f8b9ce5fdfc043e621b08872d505f9}{Atlas\+::\+ILogger$<$ Log\+Level $>$}}.
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00136}{136}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_aff9ad0d8ab39550a3c4557be645d9d72}\label{class_atlas_1_1_spdlog_logger_aff9ad0d8ab39550a3c4557be645d9d72} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!critical@{critical}}
+\index{critical@{critical}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{critical()}{critical()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::critical (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{message }\end{DoxyParamCaption})}
+
+
+
+Logs a message at the {\ttfamily Log\+Level\+::critical} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message that will be logged.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00131}{131}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a56c5e203cfc953f41db4aee73df64a05}\label{class_atlas_1_1_spdlog_logger_a56c5e203cfc953f41db4aee73df64a05} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!debug@{debug}}
+\index{debug@{debug}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{debug()}{debug()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::debug (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{message }\end{DoxyParamCaption})}
+
+
+
+Logs a message at the {\ttfamily Log\+Level\+::debug} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message that will be logged.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00121}{121}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a5733ebe1b82cbc4b4c1285468fe537d4}\label{class_atlas_1_1_spdlog_logger_a5733ebe1b82cbc4b4c1285468fe537d4} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!display@{display}}
+\index{display@{display}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{display()}{display()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::display (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{message }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_atlas_1_1_i_logger_a432fd47afd2ac9b163d0993cefae2cfc}{Atlas\+::\+ILogger$<$ Log\+Level $>$}}.
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00023}{23}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a3db2ed9de7187d362eabd64b4f6716e3}\label{class_atlas_1_1_spdlog_logger_a3db2ed9de7187d362eabd64b4f6716e3} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!error@{error}}
+\index{error@{error}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{error()}{error()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::error (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{message }\end{DoxyParamCaption})}
+
+
+
+Logs a message at the {\ttfamily Log\+Level\+::err} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message that will be logged.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00111}{111}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_ae393d73cafa6d8d14201d95fddc5efb1}\label{class_atlas_1_1_spdlog_logger_ae393d73cafa6d8d14201d95fddc5efb1} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!ExtractLogLevel@{ExtractLogLevel}}
+\index{ExtractLogLevel@{ExtractLogLevel}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{ExtractLogLevel()}{ExtractLogLevel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Atlas\+::\+Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::\+Extract\+Log\+Level (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} $>$}]{log\+Levels,  }\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00015}{15}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a44ad5338e76b4ed4018a8a026bdc605e}\label{class_atlas_1_1_spdlog_logger_a44ad5338e76b4ed4018a8a026bdc605e} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!info@{info}}
+\index{info@{info}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{info()}{info()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::info (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{message }\end{DoxyParamCaption})}
+
+
+
+Logs a message at the {\ttfamily Log\+Level\+::info} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message that will be logged.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00106}{106}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}\label{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!init@{init}}
+\index{init@{init}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Initializes the logger and the spdlog library. This function must be called before the logger can be used. Once this function is called, this logger will be able to log messages. 
+
+\begin{DoxyPrecond}{Precondition}
+The required user-\/defined initialization variables {\ttfamily m\+Logger\+Name}, {\ttfamily m\+Message\+Format\+Pattern}, and {\ttfamily m\+Log\+File\+Path} must be set before calling this function. If it is not, behavior is undefined and exceptions may be thrown depending on what is not set.
+\end{DoxyPrecond}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Implements \mbox{\hyperlink{class_atlas_1_1_i_logger_ad7a8731d137d5326867bc2cd22b18859}{Atlas\+::\+ILogger$<$ Log\+Level $>$}}.
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00078}{78}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00052}{main()}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_af450fb0c93980c5855e5acde4bc2c3a2}\label{class_atlas_1_1_spdlog_logger_af450fb0c93980c5855e5acde4bc2c3a2} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!initConsoleSink@{initConsoleSink}}
+\index{initConsoleSink@{initConsoleSink}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{initConsoleSink()}{initConsoleSink()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::init\+Console\+Sink (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initializes the console sink in the {\ttfamily \doxylink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}} struct that will be used by the spdlog logger. This function will set the console sink\textquotesingle{}s log level to {\ttfamily m\+Console\+Log\+Level} and will set the sink\textquotesingle{}s pattern to {\itshape m\+Message\+Format\+Pattern}. This is called by the {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init()}} function. 
+
+\begin{DoxyNote}{Note}
+Just because this function has been called, does not mean that the console sink is ready to be used because spdlog requires the console sink to be initialized before the {\ttfamily spdlog\+::logger} instance can be initialized. In the case of this class, the {\ttfamily spdlog\+::logger} instance is stored as \doxylink{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960}{m\+Internal\+Spdlog\+Logger\+Ptr}. In other words, the variable \doxylink{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960}{m\+Internal\+Spdlog\+Logger\+Ptr} must be initialized before any logging can be done.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000008}{Todo}}]Implement some checks to make sure that the console sink is not already initialized and that the pattern is not empty. Doing so should make the initialization of the console sink more robust and less error-\/prone. \end{DoxyRefDesc}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00031}{31}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a71588f48cdaf11ea8e7bc26ca22c561d}\label{class_atlas_1_1_spdlog_logger_a71588f48cdaf11ea8e7bc26ca22c561d} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!initFileSink@{initFileSink}}
+\index{initFileSink@{initFileSink}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{initFileSink()}{initFileSink()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::init\+File\+Sink (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initializes the file sink in the {\itshape \doxylink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}} struct that will be used by the spdlog logger. This function will set the file sink\textquotesingle{}s log level to the value of {\itshape m\+File\+Log\+Level}. ~\newline
+ 
+
+\begin{DoxyNote}{Note}
+Just because this function has been called, does not mean that the file sink is ready to be used because spdlog requires the file sink to be initialized before the {\ttfamily spdlog\+::logger} instance can be initialized.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00038}{38}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_ae9277712f23a818140a38f0d86d250d6}\label{class_atlas_1_1_spdlog_logger_ae9277712f23a818140a38f0d86d250d6} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!initInternalSpdlogLogger@{initInternalSpdlogLogger}}
+\index{initInternalSpdlogLogger@{initInternalSpdlogLogger}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{initInternalSpdlogLogger()}{initInternalSpdlogLogger()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::init\+Internal\+Spdlog\+Logger (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initializes the {\itshape spdlog} logger instance. Once this function is called (assuming that everything went okay up to this point), the {\itshape spdlog} logger instance can be used to log messages. 
+
+\begin{DoxyPrecond}{Precondition}
+The console sink and the file sink {\bfseries{must}} be initialized {\bfseries{PRIOR}} to calling this function.
+\end{DoxyPrecond}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00044}{44}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}\label{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!log@{log}}
+\index{log@{log}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{log()}{log()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::log (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{message,  }\item[{\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}}}]{log\+Level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+A more explicit logging function where the message and log level must be specified. This function will only log using {\bfseries{this}} logger instance, not the default logger. This function is inherited from {\ttfamily \doxylink{class_atlas_1_1_i_logger}{ILogger}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & A const reference to the message that will be logged.\\
+\hline
+{\em log\+Level} & The log level of the message that will be logged.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Implements \mbox{\hyperlink{class_atlas_1_1_i_logger_a837a5e59e71f067dd89612d9f6317d63}{Atlas\+::\+ILogger$<$ Log\+Level $>$}}.
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00101}{101}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a847d0d8b160cfd9c417816b8359602ba}\label{class_atlas_1_1_spdlog_logger_a847d0d8b160cfd9c417816b8359602ba} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!setConsoleLogLevel@{setConsoleLogLevel}}
+\index{setConsoleLogLevel@{setConsoleLogLevel}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{setConsoleLogLevel()}{setConsoleLogLevel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::set\+Console\+Log\+Level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}}}]{log\+Level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the console sink\textquotesingle{}s log level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em log\+Level} & The minimum log level that the console sink will log.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00491}{491}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+References \mbox{\hyperlink{_logging_8h_source_l00211}{m\+Console\+Log\+Level}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a0acbb90a254043a8c7ae3054af10db45}\label{class_atlas_1_1_spdlog_logger_a0acbb90a254043a8c7ae3054af10db45} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!SetDefaultLogger@{SetDefaultLogger}}
+\index{SetDefaultLogger@{SetDefaultLogger}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{SetDefaultLogger()}{SetDefaultLogger()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::\+Set\+Default\+Logger (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}} \texorpdfstring{$\ast$}{*}}]{logger }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Sets the logger that will be used as the default logger for {\ttfamily spdlog\+::log()} or the other namespace-\/scope logging functions for {\ttfamily spdlog}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em logger} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00069}{69}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_logging_8h_source_l00273}{m\+Internal\+Spdlog\+Logger\+Ptr}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401}\label{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!setFileLogLevel@{setFileLogLevel}}
+\index{setFileLogLevel@{setFileLogLevel}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{setFileLogLevel()}{setFileLogLevel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::set\+File\+Log\+Level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}}}]{log\+Level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the file sink\textquotesingle{}s log level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em log\+Level} & The minimum log level that the file sink will log.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00502}{502}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+References \mbox{\hyperlink{_logging_8h_source_l00220}{m\+File\+Log\+Level}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a42515bd7df0a84362b1b1e4905a83da7}\label{class_atlas_1_1_spdlog_logger_a42515bd7df0a84362b1b1e4905a83da7} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!setLevel@{setLevel}}
+\index{setLevel@{setLevel}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{setLevel()}{setLevel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::set\+Level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}}}]{log\+Level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_atlas_1_1_i_logger_aee4ff31cd94219160054d49b145b3209}{Atlas\+::\+ILogger$<$ Log\+Level $>$}}.
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00027}{27}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_abb24eea31c334fe48a98cb24e39d60c1}\label{class_atlas_1_1_spdlog_logger_abb24eea31c334fe48a98cb24e39d60c1} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!setLoggerLevel@{setLoggerLevel}}
+\index{setLoggerLevel@{setLoggerLevel}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{setLoggerLevel()}{setLoggerLevel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::set\+Logger\+Level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}}}]{log\+Level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the logger\textquotesingle{}s log level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em log\+Level} & The minimum log level that the logger will log.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00513}{513}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+References \mbox{\hyperlink{_logging_8h_source_l00229}{m\+Logger\+Level}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a048f36f760683536b48fcf3ac5b577ee}\label{class_atlas_1_1_spdlog_logger_a048f36f760683536b48fcf3ac5b577ee} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!setThisAsDefaultLogger@{setThisAsDefaultLogger}}
+\index{setThisAsDefaultLogger@{setThisAsDefaultLogger}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{setThisAsDefaultLogger()}{setThisAsDefaultLogger()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::set\+This\+As\+Default\+Logger (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pretty much the same as {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_a048f36f760683536b48fcf3ac5b577ee}{set\+This\+As\+Default\+Logger()}}, but sets this logger instance as the default logger. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_spdlog_logger_a0acbb90a254043a8c7ae3054af10db45}{Set\+Default\+Logger} 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00097}{97}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00052}{main()}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a3788989ab87cccf9863093b393ebd60c}\label{class_atlas_1_1_spdlog_logger_a3788989ab87cccf9863093b393ebd60c} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!shouldTruncateMessage@{shouldTruncateMessage}}
+\index{shouldTruncateMessage@{shouldTruncateMessage}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{shouldTruncateMessage()}{shouldTruncateMessage()}}
+{\footnotesize\ttfamily bool Atlas\+::\+Spdlog\+Logger\+::should\+Truncate\+Message (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns whether or not the logger should truncate the message, derived from the {\ttfamily mb\+Truncate\+Messages} flag. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the logger should truncate the message, {\ttfamily false} otherwise.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00141}{141}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_accc54231c6278a659d953e507aa671e3}\label{class_atlas_1_1_spdlog_logger_accc54231c6278a659d953e507aa671e3} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!trace@{trace}}
+\index{trace@{trace}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{trace()}{trace()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::trace (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{message }\end{DoxyParamCaption})}
+
+
+
+Logs a message at the {\ttfamily Log\+Level\+::trace} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message that will be logged.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00126}{126}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a64670a9cd5e4162d13ff1210b7647d29}\label{class_atlas_1_1_spdlog_logger_a64670a9cd5e4162d13ff1210b7647d29} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!warn@{warn}}
+\index{warn@{warn}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{warn()}{warn()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Spdlog\+Logger\+::warn (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{message }\end{DoxyParamCaption})}
+
+
+
+Logs a message at the {\ttfamily Log\+Level\+::warn} log level using this class\textquotesingle{} {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log()}} function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message that will be logged.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00116}{116}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}\label{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!DEFAULT\_CONSOLE\_SINK\_LEVEL@{DEFAULT\_CONSOLE\_SINK\_LEVEL}}
+\index{DEFAULT\_CONSOLE\_SINK\_LEVEL@{DEFAULT\_CONSOLE\_SINK\_LEVEL}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_CONSOLE\_SINK\_LEVEL}{DEFAULT\_CONSOLE\_SINK\_LEVEL}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::\+DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL = Log\+Level\+::warn\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00178}{178}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_logging_8cpp_source_l00058}{Spdlog\+Logger()}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}\label{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!DEFAULT\_FILE\_SINK\_LEVEL@{DEFAULT\_FILE\_SINK\_LEVEL}}
+\index{DEFAULT\_FILE\_SINK\_LEVEL@{DEFAULT\_FILE\_SINK\_LEVEL}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_FILE\_SINK\_LEVEL}{DEFAULT\_FILE\_SINK\_LEVEL}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::\+DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL = Log\+Level\+::trace\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00179}{179}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_logging_8cpp_source_l00058}{Spdlog\+Logger()}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}\label{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!DEFAULT\_LOGGER\_LEVEL@{DEFAULT\_LOGGER\_LEVEL}}
+\index{DEFAULT\_LOGGER\_LEVEL@{DEFAULT\_LOGGER\_LEVEL}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_LOGGER\_LEVEL}{DEFAULT\_LOGGER\_LEVEL}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::\+DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL = Log\+Level\+::debug\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00180}{180}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_logging_8cpp_source_l00058}{Spdlog\+Logger()}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_af146ce1820f984db41b91d018950f16c}\label{class_atlas_1_1_spdlog_logger_af146ce1820f984db41b91d018950f16c} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mbIsFullyInitialized@{mbIsFullyInitialized}}
+\index{mbIsFullyInitialized@{mbIsFullyInitialized}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mbIsFullyInitialized}{mbIsFullyInitialized}}
+{\footnotesize\ttfamily bool Atlas\+::\+Spdlog\+Logger\+::mb\+Is\+Fully\+Initialized = false\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A flag that indicates whether or not the logger is initialized and can be used without error. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00200}{200}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a3d1dfcec5b856f4ead855b5bf4b767eb}\label{class_atlas_1_1_spdlog_logger_a3d1dfcec5b856f4ead855b5bf4b767eb} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mbTruncateMessages@{mbTruncateMessages}}
+\index{mbTruncateMessages@{mbTruncateMessages}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mbTruncateMessages}{mbTruncateMessages}}
+{\footnotesize\ttfamily bool Atlas\+::\+Spdlog\+Logger\+::mb\+Truncate\+Messages = \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}{SHOULD\+\_\+\+TRUNCATE\+\_\+\+FILE\+\_\+\+LOGS}}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A flag that indicates whether or not the log messages should be truncated if they are too long. This is used by the file sink when writing to the log file. If the message is too long, it will be truncated. By default, this flag is set to false. 
+
+@important If you want messages to be truncated, this flag should be set to true {\bfseries{BEFORE}} calling {\itshape \doxylink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init()}}. On a public scope, this should be done by the {\ttfamily \doxylink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}} constructor that accepts a {\ttfamily truncate\+Messages} parameter.
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00193}{193}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a676dc4718412d2285c1f9c5cfafa10af}\label{class_atlas_1_1_spdlog_logger_a676dc4718412d2285c1f9c5cfafa10af} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mbUseFileSink@{mbUseFileSink}}
+\index{mbUseFileSink@{mbUseFileSink}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mbUseFileSink}{mbUseFileSink}}
+{\footnotesize\ttfamily bool Atlas\+::\+Spdlog\+Logger\+::mb\+Use\+File\+Sink = false\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00202}{202}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31}\label{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mConsoleLogLevel@{mConsoleLogLevel}}
+\index{mConsoleLogLevel@{mConsoleLogLevel}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mConsoleLogLevel}{mConsoleLogLevel}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::m\+Console\+Log\+Level = \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL}}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The minimum log level for a message to be logged to the console. By default, this is set to {\itshape warn}. You can change this value by calling {\itshape \doxylink{class_atlas_1_1_spdlog_logger_a847d0d8b160cfd9c417816b8359602ba}{set\+Console\+Log\+Level()}}. However, this is {\bfseries{not}} recommended to be done {\bfseries{after}} initializing the logger because you would have to shutdown the logger and reinitialize it for it to take effect. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00211}{211}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_logging_8h_source_l00491}{set\+Console\+Log\+Level()}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507}\label{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mFileLogLevel@{mFileLogLevel}}
+\index{mFileLogLevel@{mFileLogLevel}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mFileLogLevel}{mFileLogLevel}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::m\+File\+Log\+Level = \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL}}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The minimum log level for a message to be logged (written) to the log file. By default, this is set to {\itshape trace}. You can change this value by calling {\itshape \doxylink{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401}{set\+File\+Log\+Level()}}. However, this is {\bfseries{not}} recommended to be done {\bfseries{after}} initializing the logger because you would have to shutdown the logger and reinitialize it for it to take effect. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00220}{220}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_logging_8h_source_l00502}{set\+File\+Log\+Level()}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960}\label{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mInternalSpdlogLoggerPtr@{mInternalSpdlogLoggerPtr}}
+\index{mInternalSpdlogLoggerPtr@{mInternalSpdlogLoggerPtr}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mInternalSpdlogLoggerPtr}{mInternalSpdlogLoggerPtr}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$spdlog\+::logger$>$ Atlas\+::\+Spdlog\+Logger\+::m\+Internal\+Spdlog\+Logger\+Ptr = nullptr\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A unique pointer to the {\itshape spdlog} logger instance. All logging is done through this instance, so this must be initialized before any logging can be done. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00273}{273}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_logging_8cpp_source_l00069}{Set\+Default\+Logger()}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46}\label{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mLogFilePath@{mLogFilePath}}
+\index{mLogFilePath@{mLogFilePath}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mLogFilePath}{mLogFilePath}}
+{\footnotesize\ttfamily const std\+::string Atlas\+::\+Spdlog\+Logger\+::m\+Log\+File\+Path\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The path to the log file that will be written to when a message is successfully passed to the file sink. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000007}{Todo}}]Implement this with a {\itshape std\+::filesystem\+::path} variable. \end{DoxyRefDesc}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00246}{246}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385}\label{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mLoggerLevel@{mLoggerLevel}}
+\index{mLoggerLevel@{mLoggerLevel}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mLoggerLevel}{mLoggerLevel}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::m\+Logger\+Level = \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL}}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The minimum log level for a message to be logged. By default, this is set to {\itshape debug}. You can change this value by calling {\itshape \doxylink{class_atlas_1_1_spdlog_logger_a42515bd7df0a84362b1b1e4905a83da7}{set\+Level()}}. However, this is {\bfseries{not}} recommended to be done {\bfseries{after}} initializing the logger because you would have to shutdown the logger and reinitialize it for it to take effect. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00229}{229}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_logging_8h_source_l00513}{set\+Logger\+Level()}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_acfa432f18c08ad3c43a1be29b9162c12}\label{class_atlas_1_1_spdlog_logger_acfa432f18c08ad3c43a1be29b9162c12} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mLoggerName@{mLoggerName}}
+\index{mLoggerName@{mLoggerName}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mLoggerName}{mLoggerName}}
+{\footnotesize\ttfamily const std\+::string Atlas\+::\+Spdlog\+Logger\+::m\+Logger\+Name = "{}Atlas"{}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The name of the logger that will be passed to the spdlog logger library when it is initialized. There is not much need to change this value unless you are doing something special. By default, this is set to "{}\+Atlas"{}. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00237}{237}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a99e3157484727e52f5f93330026c2f76}\label{class_atlas_1_1_spdlog_logger_a99e3157484727e52f5f93330026c2f76} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mLoggingSinks@{mLoggingSinks}}
+\index{mLoggingSinks@{mLoggingSinks}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mLoggingSinks}{mLoggingSinks}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}}$>$ Atlas\+::\+Spdlog\+Logger\+::m\+Logging\+Sinks = nullptr\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A unique pointer to the {\itshape \doxylink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}} aggregator struct. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00265}{265}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe90a0bfa09b3330a}\label{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe90a0bfa09b3330a} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mMessageFormatPattern@{mMessageFormatPattern}}
+\index{mMessageFormatPattern@{mMessageFormatPattern}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mMessageFormatPattern}{mMessageFormatPattern}}
+{\footnotesize\ttfamily std\+::string Atlas\+::\+Spdlog\+Logger\+::m\+Message\+Format\+Pattern\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The pattern that will be used to format the messages that are passed to the logger. The value of this should be set PRIOR to calling {\itshape \doxylink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init()}}. Furthermore, please use the pattern flags that Spdlog provides (see this variable\textquotesingle{}s see also section in the documentation for a link to the Spdlog documentation that explains the pattern flags). 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\href{https://github.com/gabime/spdlog/wiki/Custom-formatting}{\texttt{ https\+://github.\+com/gabime/spdlog/wiki/\+Custom-\/formatting}} Spdlog documentation on custom formatting. Please use the same pattern flags that Spdlog provides to \doxylink{imgui__impl__opengl3__loader_8h_a1e3b09934060e9d373139c3557730d37}{format} the messages that are passed to the logger. 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00258}{258}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}\label{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!SHOULD\_TRUNCATE\_FILE\_LOGS@{SHOULD\_TRUNCATE\_FILE\_LOGS}}
+\index{SHOULD\_TRUNCATE\_FILE\_LOGS@{SHOULD\_TRUNCATE\_FILE\_LOGS}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{SHOULD\_TRUNCATE\_FILE\_LOGS}{SHOULD\_TRUNCATE\_FILE\_LOGS}}
+{\footnotesize\ttfamily constexpr bool Atlas\+::\+Spdlog\+Logger\+::\+SHOULD\+\_\+\+TRUNCATE\+\_\+\+FILE\+\_\+\+LOGS = false\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00176}{176}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/debugging/\mbox{\hyperlink{_logging_8h}{Logging.\+h}}\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/debugging/\mbox{\hyperlink{_logging_8cpp}{Logging.\+cpp}}\end{DoxyCompactItemize}

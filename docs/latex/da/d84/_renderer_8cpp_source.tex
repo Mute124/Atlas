@@ -1,156 +1,30 @@
 \doxysection{Renderer.\+cpp}
-\hypertarget{_renderer_8cpp_source}{}\label{_renderer_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/renderer/Renderer.cpp@{C:/Dev/Techstorm-\/v5/src/engine/renderer/Renderer.cpp}}
+\hypertarget{_renderer_8cpp_source}{}\label{_renderer_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/Renderer.cpp@{C:/Dev/Techstorm-\/v5/src/engine/graphics/Renderer.cpp}}
 \mbox{\hyperlink{_renderer_8cpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_renderer_8h}{Renderer.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00002}00002\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <iostream>}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00004}00004\ \textcolor{comment}{/*}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00005}00005\ \textcolor{comment}{//\ unused,\ but\ here\ for\ a\ bit}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00006}00006\ \textcolor{comment}{Camera\ ConvertCamera(Atlas::CameraData*\ data)\ \{}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00007}00007\ \textcolor{comment}{\ \ \ \ using\ namespace\ Atlas;}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00008}00008\ \textcolor{comment}{\ \ \ \ Camera\ cam\ =\ Camera();}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00009}00009\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00010}00010\ \textcolor{comment}{\ \ \ \ //\ convert\ vectors\ in\ data\ to\ raylib\ vectors}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00011}00011\ \textcolor{comment}{\ \ \ \ Vector3\ position\ =\ \{\ data-\/>position.x,\ data-\/>position.y,\ data-\/>position.z\ \};}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00012}00012\ \textcolor{comment}{\ \ \ \ Vector3\ target\ =\ \{\ data-\/>target.x,\ data-\/>target.y,\ data-\/>target.z\ \};}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00013}00013\ \textcolor{comment}{\ \ \ \ Vector3\ up\ =\ \{\ data-\/>up.x,\ data-\/>up.y,\ data-\/>up.z\ \};}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00014}00014\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00015}00015\ \textcolor{comment}{\ \ \ \ cam.position\ =\ position;}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00016}00016\ \textcolor{comment}{\ \ \ \ cam.target\ =\ target;}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00017}00017\ \textcolor{comment}{\ \ \ \ cam.up\ =\ up;}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00018}00018\ \textcolor{comment}{\ \ \ \ cam.fovy\ =\ data-\/>fovy;}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00019}00019\ \textcolor{comment}{\ \ \ \ cam.projection\ =\ data-\/>projection;}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00020}00020\ \textcolor{comment}{}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00021}00021\ \textcolor{comment}{\ \ \ \ return\ cam;}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00022}00022\ \textcolor{comment}{\}}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00023}00023\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rendering_backend_8h}{backend/RenderingBackend.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_window_8h}{window/Window.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}../core/Core.h"{}}}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00007}\mbox{\hyperlink{class_atlas_1_1_a_renderer_a5e70d0458e1fbd1d97be0b53792da771}{00007}}\ \mbox{\hyperlink{class_atlas_1_1_a_renderer_a5e70d0458e1fbd1d97be0b53792da771}{Atlas::ARenderer::ARenderer}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow,\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend}{RenderingBackend}}*\ backend,\ \textcolor{keywordtype}{bool}\ canBeMultiThreaded)}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00008}00008\ \ \ \ \ :\ mainGameWindow(gameWindow),\ renderingBackend(backend),\ mCanBeMultiThreaded(canBeMultiThreaded)}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00010}00010\ \}}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00012}\mbox{\hyperlink{class_atlas_1_1_a_renderer_a3038f22e5a3693b8ad6e12cd24e76d29}{00012}}\ \mbox{\hyperlink{class_atlas_1_1_a_renderer_a5e70d0458e1fbd1d97be0b53792da771}{Atlas::ARenderer::ARenderer}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow,\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend}{RenderingBackend}}*\ backend)}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00013}00013\ \ \ \ \ :\ mainGameWindow(gameWindow),\ renderingBackend(backend)}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00014}00014\ \{}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00015}00015\ \}}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00017}\mbox{\hyperlink{class_atlas_1_1_a_renderer_a6a77936bc8281507f5e205e8831a9852}{00017}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_renderer_a6a77936bc8281507f5e205e8831a9852}{Atlas::ARenderer::canBeMultiThreaded}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00018}00018\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>mCanBeMultiThreaded;\ }
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00019}00019\ \}}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00021}\mbox{\hyperlink{class_atlas_1_1_a_renderer_a7c03a5efcd24d4f57d55fe4a5aaade06}{00021}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_renderer_a7c03a5efcd24d4f57d55fe4a5aaade06}{Atlas::ARenderer::isInitialized}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>mIsInitialized;\ }
+\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00023}00023\ \}}
 \DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00024}00024\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00025}00025\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00029}\mbox{\hyperlink{class_atlas_1_1_renderer_aaf5fc139ec0c1add636838ad386df8f9}{00029}}\ \mbox{\hyperlink{class_atlas_1_1_renderer_aaf5fc139ec0c1add636838ad386df8f9}{Atlas::Renderer::Renderer}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00030}00030\ \ \ \ \ \textcolor{comment}{//initialize();}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00031}00031\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_renderer_a9b84bf1e5525d9adc2502c3f9a0f5b7a}{mCamera}}\ =\ \mbox{\hyperlink{class_atlas_1_1_game_camera}{GameCamera}}();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00032}00032\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_renderer_a9b84bf1e5525d9adc2502c3f9a0f5b7a}{mCamera}}.\mbox{\hyperlink{class_atlas_1_1_game_camera_a706a3ca60813878866f24a8c7bb14cb3}{setPosition}}(Vector3\{0.0f,\ 10.0f,\ 4.0f\});}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00033}00033\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_renderer_a9b84bf1e5525d9adc2502c3f9a0f5b7a}{mCamera}}.\mbox{\hyperlink{class_atlas_1_1_game_camera_ad6ab6c7993ac2f063f9681548688ee7c}{setTarget}}(Vector3\{0.0f,\ 2.0f,\ 0.0f\});}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00034}00034\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_renderer_a9b84bf1e5525d9adc2502c3f9a0f5b7a}{mCamera}}.\mbox{\hyperlink{class_atlas_1_1_game_camera_a7b4d3d3a8a862b72dea008b0b1c632f0}{setUp}}(Vector3\{0.0f,\ 1.0f,\ 0.0f\});}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00035}00035\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_renderer_a9b84bf1e5525d9adc2502c3f9a0f5b7a}{mCamera}}.\mbox{\hyperlink{class_atlas_1_1_game_camera_a9829cbe79dacf91512c4551103a16286}{setFovy}}(60.0f);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00036}00036\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_renderer_a9b84bf1e5525d9adc2502c3f9a0f5b7a}{mCamera}}.\mbox{\hyperlink{class_atlas_1_1_game_camera_a1f1ca6e4179f14b18de635f89f395e77}{setProjection}}(CAMERA\_PERSPECTIVE);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00037}00037\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00038}00038\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00039}00039\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00040}\mbox{\hyperlink{class_atlas_1_1_renderer_a3e136cc21a8132d5a94287f07e8b1f85}{00040}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_a3e136cc21a8132d5a94287f07e8b1f85}{Atlas::Renderer::init}}()}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00041}00041\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00042}00042\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Initializing\ renderer"{}}\ <<\ std::endl;}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00043}00043\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00044}00044\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00045}00045\ \ \ \ \ \textcolor{comment}{//\ TODO:\ Implement\ Renderer::initialize}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00046}00046\ \ \ \ \ Vector2\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}\ =\ \{\ GetScreenWidth(),\ GetScreenHeight()\ \};}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00047}00047\ \ \ \ \ this-\/>mScreenBuffer\ =\ LoadRenderTexture(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}.x,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}.y);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00048}00048\ \ \ \ \ mCamera.init();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00049}00049\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00050}00050\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00051}\mbox{\hyperlink{class_atlas_1_1_renderer_ade8b1f2086970ad251510384b8764bef}{00051}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_ade8b1f2086970ad251510384b8764bef}{Atlas::Renderer::render}}(\mbox{\hyperlink{class_atlas_1_1_game_camera}{GameCamera}}\&\ cam)}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00052}00052\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00053}00053\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_RENDERER\_2D}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00054}00054\ \ \ \ \ render2D(cam);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00055}00055\ \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00056}00056\ \ \ \ \ render3D(cam);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00057}00057\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00058}00058\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00059}00059\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00060}\mbox{\hyperlink{class_atlas_1_1_renderer_ae907927dfc7dd306512d45ec8b821b6b}{00060}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_ae907927dfc7dd306512d45ec8b821b6b}{Atlas::Renderer::texture}}(\mbox{\hyperlink{class_atlas_1_1_game_camera}{GameCamera}}\&\ cam)}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00061}00061\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00062}00062\ \ \ \ \ std::scoped\_lock<std::mutex>\ lock(this-\/>mMutex);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00063}00063\ \ \ \ \ BeginTextureMode(this-\/>mScreenBuffer);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00064}00064\ \ \ \ \ ClearBackground(this-\/>mBackgroundColor);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00065}00065\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_RENDERER\_2D}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00066}00066\ \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00067}00067\ \ \ \ \ BeginMode3D(cam.\mbox{\hyperlink{class_atlas_1_1_game_camera_a7d4b2c3096e0fc63b11959a48a2106c5}{getCameraData}}());}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00068}00068\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00069}00069\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00070}00070\ \ \ \ \ mGameObjects.texture();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00071}00071\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00072}00072\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_RENDERER\_2D}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00073}00073\ \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00074}00074\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00075}00075\ \ \ \ \ \textcolor{comment}{//DrawCube(Vector3\{\ 0.0f,\ 0.0f,\ 0.0f\ \},\ 1.0f,\ 1.0f,\ 1.0f,\ RED);}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00076}00076\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00077}00077\ \ \ \ \ EndMode3D();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00078}00078\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00079}00079\ \ \ \ \ EndTextureMode();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00080}00080\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00081}00081\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00082}\mbox{\hyperlink{class_atlas_1_1_renderer_a0794088a8736cbb4f1b08e610c1ea660}{00082}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_a0794088a8736cbb4f1b08e610c1ea660}{Atlas::Renderer::update}}()}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00083}00083\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00084}00084\ \ \ \ \ updateCamera();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00085}00085\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00086}00086\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00087}\mbox{\hyperlink{class_atlas_1_1_renderer_a23b9e5f673f716ebdffdcbde23e2fd79}{00087}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_a23b9e5f673f716ebdffdcbde23e2fd79}{Atlas::Renderer::drawFBO}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{comment}{//\ TODO:\ Allow\ FBO\ shaders}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00089}00089\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00090}00090\ \ \ \ \ DrawTextureRec(this-\/>mScreenBuffer.texture,\ Rectangle\{\ 0,\ 0,\ (float)(this-\/>mScreenBuffer.texture.width),\ -\/(float)(this-\/>mScreenBuffer.texture.height)\ \},\ Vector2\{\ 0,\ 0\ \},\ this-\/>mFBOTint);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00091}00091\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00092}00092\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00093}\mbox{\hyperlink{class_atlas_1_1_renderer_a7c6e747ccf1187ad51299779f82f68db}{00093}}\ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_a7c6e747ccf1187ad51299779f82f68db}{Atlas::Renderer::addStandaloneDrawCall}}(std::function<\textcolor{keywordtype}{void}()>\ drawCall)\ \{\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00094}00094\ \ \ \ \ \ mGameObjects.addStandaloneDrawCall(drawCall);\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00095}00095\ \ \ \ \ \ \textcolor{comment}{//this-\/>mDrawCalls.push\_back(drawCall);\ }}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00096}00096\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00097}00097\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00098}\mbox{\hyperlink{class_atlas_1_1_renderer_a940a1f7f175261fbcbf99d33b58e2064}{00098}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_a940a1f7f175261fbcbf99d33b58e2064}{Atlas::Renderer::addGameObject}}(\mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGameObject}}*\ gameObject)}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00099}00099\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00100}00100\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00101}00101\ \ \ \ \ this-\/>mGameObjects.addGameObject(gameObject);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00102}00102\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00103}00103\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00104}\mbox{\hyperlink{class_atlas_1_1_renderer_af5374ec4da3b6ad8d03c045e38553f50}{00104}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_af5374ec4da3b6ad8d03c045e38553f50}{Atlas::Renderer::removeGameObject}}(\mbox{\hyperlink{class_atlas_1_1_i_game_object}{IGameObject}}*\ gameObject)}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00105}00105\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00106}00106\ \ \ \ \ \textcolor{comment}{//this-\/>mGameObjects.erase(std::remove(this-\/>mGameObjects.begin(),\ this-\/>mGameObjects.end(),\ gameObject),\ this-\/>mGameObjects.end());}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00107}00107\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00108}00108\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00109}\mbox{\hyperlink{class_atlas_1_1_renderer_a8de52d4c83ff3bf786a2c9c25a882a01}{00109}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_a8de52d4c83ff3bf786a2c9c25a882a01}{Atlas::Renderer::addGameObjectGate}}(IGameObjectGate*\ gameObjectGate)\ \{\}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00110}00110\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00111}\mbox{\hyperlink{class_atlas_1_1_renderer_ac02e9382439306b154cc0d923ce21c07}{00111}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_ac02e9382439306b154cc0d923ce21c07}{Atlas::Renderer::removeGameObjectGate}}(IGameObjectGate*\ gameObjectGate)\ \{\}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00112}00112\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00113}\mbox{\hyperlink{class_atlas_1_1_renderer_a5967d9d18f0e60160b195f7a630ac884}{00113}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_a5967d9d18f0e60160b195f7a630ac884}{Atlas::Renderer::updateObjects}}()}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00114}00114\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00115}00115\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ std::scoped\_lock<std::mutex>\ lock(this-\/>mMutex);}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00117}00117\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ mGameObjects.update();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00119}00119\ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&\ e)\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ std::cout\ <<\ e.what()\ <<\ std::endl;}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00121}00121\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00122}00122\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00123}00123\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00124}00124\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00125}\mbox{\hyperlink{class_atlas_1_1_renderer_ac0622fb1f5ffa5be5506c60698b002e3}{00125}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_ac0622fb1f5ffa5be5506c60698b002e3}{Atlas::Renderer::updateCamera}}()}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00126}00126\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00127}00127\ \ \ \ \ mCamera.update();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00128}00128\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00129}00129\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00130}\mbox{\hyperlink{class_atlas_1_1_renderer_a971fea43b91b30cb3567e9a7ca4a6920}{00130}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_a971fea43b91b30cb3567e9a7ca4a6920}{Atlas::Renderer::cleanup}}()}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00131}00131\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00132}00132\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00133}00133\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00134}00134\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_RENDERER\_2D}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00135}00135\ \textcolor{keywordtype}{void}\ Atlas::Renderer::render2D(\mbox{\hyperlink{class_atlas_1_1_game_camera}{GameCamera}}\&\ cam)}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00136}00136\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00137}00137\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00138}00138\ \textcolor{preprocessor}{\#else}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00139}\mbox{\hyperlink{class_atlas_1_1_renderer_af5ccc0f67b99d9d98d5c387b57a72a9d}{00139}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderer_af5ccc0f67b99d9d98d5c387b57a72a9d}{Atlas::Renderer::render3D}}(\mbox{\hyperlink{class_atlas_1_1_game_camera}{GameCamera}}\&\ cam)}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00140}00140\ \{}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00141}00141\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00142}00142\ \ \ \ \ \textcolor{comment}{//UpdateCamera(\&cam.mCameraData,\ CAMERA\_FIRST\_PERSON);}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00143}00143\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00144}00144\ \ \ \ \ \textcolor{comment}{//texture(cam);}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00145}00145\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00146}00146\ \ \ \ \ BeginDrawing();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00147}00147\ \ \ \ \ drawFBO();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00148}00148\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00149}00149\ \ \ \ \ mGameObjects.render();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00150}00150\ \ \ \ \ EndDrawing();}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00151}00151\ \}}
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00152}00152\ }
-\DoxyCodeLine{\Hypertarget{_renderer_8cpp_source_l00153}00153\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

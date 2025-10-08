@@ -1,0 +1,1218 @@
+\doxysection{scriptbuilder.\+cpp}
+\hypertarget{scriptbuilder_8cpp_source}{}\label{scriptbuilder_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/application/add\_on/scriptbuilder/scriptbuilder.cpp@{C:/Dev/Techstorm-\/v5/src/application/add\_on/scriptbuilder/scriptbuilder.cpp}}
+\mbox{\hyperlink{scriptbuilder_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{scriptbuilder_8h}{scriptbuilder.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <assert.h>}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <windows.h>}\ \textcolor{comment}{//\ MultiByteToWideChar()}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00007}00007\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)\ \&\&\ !defined(\_WIN32\_WCE)\ \&\&\ !defined(\_\_S3E\_\_)}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <direct.h>}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#ifdef\ \_WIN32\_WCE}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <windows.h>}\ \textcolor{comment}{//\ For\ GetModuleFileName()}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#if\ defined(\_\_S3E\_\_)\ ||\ defined(\_\_APPLE\_\_)\ ||\ defined(\_\_GNUC\_\_)}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <unistd.h>}\ \textcolor{comment}{//\ For\ getcwd()}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00019}00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00021}00021\ BEGIN\_AS\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00023}00023\ \textcolor{comment}{//\ Helper\ functions}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00024}00024\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{scriptbuilder_8cpp_a4760a69cad489f52b6f269f66f4c39e2}{GetCurrentDir}}();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00025}00025\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{scriptbuilder_8cpp_a60111cfc54238e378af2d330b3e9dd88}{GetAbsolutePath}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \&path);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00028}\mbox{\hyperlink{class_c_script_builder_a184392f51cb59b151bcbe6b9b27f8bd9}{00028}}\ \mbox{\hyperlink{class_c_script_builder_a184392f51cb59b151bcbe6b9b27f8bd9}{CScriptBuilder::CScriptBuilder}}()}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00029}00029\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00030}00030\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00031}00031\ \ \ \ \ \textcolor{keyword}{module}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00033}00033\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_adb389ba420f1de62fea2aa2816e91344}{includeCallback}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00034}00034\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a788e4dd9e9763ec2a5e5f28cb1089d37}{includeParam}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00036}00036\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a5e73916ca44d7ab1715f6a094d91f8e6}{pragmaCallback}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00037}00037\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a6dfa2d94d1313674010297478f929641}{pragmaParam}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00038}00038\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00040}\mbox{\hyperlink{class_c_script_builder_a9fffee23786ec3e1c1edc038bb3a6d7e}{00040}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_builder_a9fffee23786ec3e1c1edc038bb3a6d7e}{CScriptBuilder::SetIncludeCallback}}(\mbox{\hyperlink{scriptbuilder_8h_ae4e0454e038902556525a212d3a701d1}{INCLUDECALLBACK\_t}}\ callback,\ \textcolor{keywordtype}{void}\ *userParam)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00041}00041\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00042}00042\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_adb389ba420f1de62fea2aa2816e91344}{includeCallback}}\ =\ callback;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00043}00043\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a788e4dd9e9763ec2a5e5f28cb1089d37}{includeParam}}\ \ \ =\ userParam;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00044}00044\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00046}\mbox{\hyperlink{class_c_script_builder_a29a233c45895709f153bf7609f608a14}{00046}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_builder_a29a233c45895709f153bf7609f608a14}{CScriptBuilder::SetPragmaCallback}}(\mbox{\hyperlink{scriptbuilder_8h_ae2d769c1beb9cdd1197b2213fd498d48}{PRAGMACALLBACK\_t}}\ callback,\ \textcolor{keywordtype}{void}\ *userParam)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00047}00047\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00048}00048\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a5e73916ca44d7ab1715f6a094d91f8e6}{pragmaCallback}}\ =\ callback;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00049}00049\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a6dfa2d94d1313674010297478f929641}{pragmaParam}}\ =\ userParam;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00050}00050\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00052}\mbox{\hyperlink{class_c_script_builder_a84e7c2825e0e53b10d758878a3f833c7}{00052}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_a84e7c2825e0e53b10d758878a3f833c7}{CScriptBuilder::StartNewModule}}(asIScriptEngine\ *inEngine,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *moduleName)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00053}00053\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00054}00054\ \ \ \ \ \textcolor{keywordflow}{if}(inEngine\ ==\ 0\ )\ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00056}00056\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}\ =\ inEngine;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{module}\ =\ inEngine-\/>GetModule(moduleName,\ asGM\_ALWAYS\_CREATE);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00058}00058\ \ \ \ \ \textcolor{keywordflow}{if}(\ module\ ==\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00061}00061\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ad234fac4f6f2245f0d187d1d8c840e88}{ClearAll}}();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00064}00064\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00066}\mbox{\hyperlink{class_c_script_builder_ab49bdca757d988c53af21b9ac9d2a0f6}{00066}}\ asIScriptEngine\ *\mbox{\hyperlink{class_c_script_builder_ab49bdca757d988c53af21b9ac9d2a0f6}{CScriptBuilder::GetEngine}}()}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00067}00067\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00068}00068\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00069}00069\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00071}\mbox{\hyperlink{class_c_script_builder_a682f074f5195324b58a418b1a943bb40}{00071}}\ asIScriptModule\ *\mbox{\hyperlink{class_c_script_builder_a682f074f5195324b58a418b1a943bb40}{CScriptBuilder::GetModule}}()}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00072}00072\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00073}00073\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{module};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00074}00074\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00076}\mbox{\hyperlink{class_c_script_builder_a37d580643da4fcc4fa5f15788968149b}{00076}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_a37d580643da4fcc4fa5f15788968149b}{CScriptBuilder::GetSectionCount}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00077}00077\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int})(\mbox{\hyperlink{class_c_script_builder_aafe2cb8509a4cfb96d2e58b352fa0b8b}{includedScripts}}.size());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00079}00079\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00081}\mbox{\hyperlink{class_c_script_builder_a4752eb022c2f552fc8ce6123cc1a51c3}{00081}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_c_script_builder_a4752eb022c2f552fc8ce6123cc1a51c3}{CScriptBuilder::GetSectionName}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ idx)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00082}00082\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00083}00083\ \ \ \ \ \textcolor{keywordflow}{if}(\ idx\ >=\ \mbox{\hyperlink{class_c_script_builder_aafe2cb8509a4cfb96d2e58b352fa0b8b}{includedScripts}}.size()\ )\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00085}00085\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00086}00086\ \ \ \ \ set<string,\ ci\_less>::const\_iterator\ it\ =\ \mbox{\hyperlink{class_c_script_builder_aafe2cb8509a4cfb96d2e58b352fa0b8b}{includedScripts}}.begin();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00087}00087\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00088}00088\ \ \ \ \ set<string>::const\_iterator\ it\ =\ \mbox{\hyperlink{class_c_script_builder_aafe2cb8509a4cfb96d2e58b352fa0b8b}{includedScripts}}.begin();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00089}00089\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{while}(\ idx-\/-\/\ >\ 0\ )\ it++;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00091}00091\ \ \ \ \ \textcolor{keywordflow}{return}\ *it;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00092}00092\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00094}00094\ \textcolor{comment}{//\ Returns\ 1\ if\ the\ section\ was\ included}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00095}00095\ \textcolor{comment}{//\ Returns\ 0\ if\ the\ section\ was\ not\ included\ because\ it\ had\ already\ been\ included\ before}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00096}00096\ \textcolor{comment}{//\ Returns\ <0\ if\ there\ was\ an\ error}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00097}\mbox{\hyperlink{class_c_script_builder_a0907f970813155f58dec78f4de43ff0e}{00097}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_a0907f970813155f58dec78f4de43ff0e}{CScriptBuilder::AddSectionFromFile}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00098}00098\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{comment}{//\ The\ file\ name\ stored\ in\ the\ set\ should\ be\ the\ fully\ resolved\ name\ because}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{comment}{//\ it\ is\ possible\ to\ name\ the\ same\ file\ in\ multiple\ ways\ using\ relative\ paths.}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00101}00101\ \ \ \ \ \textcolor{keywordtype}{string}\ fullpath\ =\ \mbox{\hyperlink{scriptbuilder_8cpp_a60111cfc54238e378af2d330b3e9dd88}{GetAbsolutePath}}(filename);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a395b2129be42ee9f8935556babba5782}{IncludeIfNotAlreadyIncluded}}(fullpath.c\_str())\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00104}00104\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r\ =\ \mbox{\hyperlink{class_c_script_builder_a9e9b1be2409e79ad73908422561397a3}{LoadScriptSection}}(fullpath.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ r\ <\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00110}00110\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00112}00112\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00113}00113\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00115}00115\ \textcolor{comment}{//\ Returns\ 1\ if\ the\ section\ was\ included}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00116}00116\ \textcolor{comment}{//\ Returns\ 0\ if\ the\ section\ was\ not\ included\ because\ it\ had\ already\ been\ included\ before}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00117}00117\ \textcolor{comment}{//\ Returns\ <0\ if\ there\ was\ an\ error}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00118}\mbox{\hyperlink{class_c_script_builder_ad7a4e8117dfb095317f386dca05b8f11}{00118}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_ad7a4e8117dfb095317f386dca05b8f11}{CScriptBuilder::AddSectionFromMemory}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *sectionName,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *scriptCode,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ scriptLength,\ \textcolor{keywordtype}{int}\ lineOffset)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00119}00119\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00120}00120\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a395b2129be42ee9f8935556babba5782}{IncludeIfNotAlreadyIncluded}}(sectionName)\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00121}00121\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r\ =\ \mbox{\hyperlink{class_c_script_builder_a55d0a20616ed860dbc449f6bd9612e85}{ProcessScriptSection}}(scriptCode,\ scriptLength,\ sectionName,\ lineOffset);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ r\ <\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00127}00127\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00129}00129\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00130}00130\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00132}\mbox{\hyperlink{class_c_script_builder_ae075d9180af198ef0c7a42f1d4297b87}{00132}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_ae075d9180af198ef0c7a42f1d4297b87}{CScriptBuilder::BuildModule}}()}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00133}00133\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00134}00134\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_c_script_builder_a28c0ece1322c4c30e9bc1f363d01dfc5}{Build}}();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00135}00135\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00137}\mbox{\hyperlink{class_c_script_builder_ab2d9ea83814daecc6705495588814c6c}{00137}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_builder_ab2d9ea83814daecc6705495588814c6c}{CScriptBuilder::DefineWord}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *word)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00138}00138\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00139}00139\ \ \ \ \ \textcolor{keywordtype}{string}\ sword\ =\ word;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00140}00140\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a83c116cb8287d6637741857b9e44e18a}{definedWords}}.find(sword)\ ==\ \mbox{\hyperlink{class_c_script_builder_a83c116cb8287d6637741857b9e44e18a}{definedWords}}.end()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00141}00141\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a83c116cb8287d6637741857b9e44e18a}{definedWords}}.insert(sword);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00143}00143\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00144}00144\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00146}\mbox{\hyperlink{class_c_script_builder_ad234fac4f6f2245f0d187d1d8c840e88}{00146}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_builder_ad234fac4f6f2245f0d187d1d8c840e88}{CScriptBuilder::ClearAll}}()}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00147}00147\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00148}00148\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_aafe2cb8509a4cfb96d2e58b352fa0b8b}{includedScripts}}.clear();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00150}00150\ \textcolor{preprocessor}{\#if\ AS\_PROCESS\_METADATA\ ==\ 1}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00151}00151\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_adc829390e3b09f726ca0639d4033848b}{currentClass}}\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00152}00152\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a8f16fb8258f3186117ea3766de3c65b5}{currentNamespace}}\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00154}00154\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ad2d5f49aeb1760e90757482d68aa7199}{foundDeclarations}}.clear();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00155}00155\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ad5e69195528585dad7bb2d7151c2f89b}{typeMetadataMap}}.clear();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00156}00156\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a68d644ac04693f4251b39adddfa21872}{funcMetadataMap}}.clear();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00157}00157\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_add4e9ca36cb137421ea3f7b9f960464b}{varMetadataMap}}.clear();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00158}00158\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00159}00159\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00161}\mbox{\hyperlink{class_c_script_builder_a395b2129be42ee9f8935556babba5782}{00161}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_c_script_builder_a395b2129be42ee9f8935556babba5782}{CScriptBuilder::IncludeIfNotAlreadyIncluded}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00162}00162\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00163}00163\ \ \ \ \ \textcolor{keywordtype}{string}\ scriptFile\ =\ filename;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00164}00164\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_aafe2cb8509a4cfb96d2e58b352fa0b8b}{includedScripts}}.find(scriptFile)\ !=\ \mbox{\hyperlink{class_c_script_builder_aafe2cb8509a4cfb96d2e58b352fa0b8b}{includedScripts}}.end()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00165}00165\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Already\ included}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00168}00168\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00170}00170\ \ \ \ \ \textcolor{comment}{//\ Add\ the\ file\ to\ the\ set\ of\ included\ sections}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00171}00171\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_aafe2cb8509a4cfb96d2e58b352fa0b8b}{includedScripts}}.insert(scriptFile);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00173}00173\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00174}00174\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00176}\mbox{\hyperlink{class_c_script_builder_a9e9b1be2409e79ad73908422561397a3}{00176}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_a9e9b1be2409e79ad73908422561397a3}{CScriptBuilder::LoadScriptSection}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filename)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00177}00177\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00178}00178\ \ \ \ \ \textcolor{comment}{//\ Open\ the\ script\ file}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00179}00179\ \ \ \ \ \textcolor{keywordtype}{string}\ scriptFile\ =\ filename;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00180}00180\ \textcolor{preprocessor}{\#if\ \_MSC\_VER\ >=\ 1500\ \&\&\ !defined(\_\_S3E\_\_)}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00181}00181\ \textcolor{preprocessor}{\ \ \#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00182}00182\ \ \ \ \ \textcolor{comment}{//\ Convert\ the\ filename\ from\ UTF8\ to\ UTF16}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00183}00183\ \ \ \ \ \textcolor{keywordtype}{wchar\_t}\ bufUTF16\_name[10000]\ =\ \{0\};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00184}00184\ \ \ \ \ \textcolor{keywordtype}{wchar\_t}\ bufUTF16\_mode[10]\ =\ \{0\};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00185}00185\ \ \ \ \ MultiByteToWideChar(CP\_UTF8,\ 0,\ filename,\ -\/1,\ bufUTF16\_name,\ 10000);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00186}00186\ \ \ \ \ MultiByteToWideChar(CP\_UTF8,\ 0,\ \textcolor{stringliteral}{"{}rb"{}},\ -\/1,\ bufUTF16\_mode,\ 10);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00188}00188\ \ \ \ \ FILE\ *f\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00189}00189\ \ \ \ \ \_wfopen\_s(\&f,\ bufUTF16\_name,\ bufUTF16\_mode);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00190}00190\ \textcolor{preprocessor}{\ \ \#else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00191}00191\ \ \ \ \ FILE*\ f\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00192}00192\ \ \ \ \ fopen\_s(\&f,\ scriptFile.c\_str(),\ \textcolor{stringliteral}{"{}rb"{}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00193}00193\ \textcolor{preprocessor}{\ \ \#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00194}00194\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00195}00195\ \ \ \ \ FILE\ *f\ =\ fopen(scriptFile.c\_str(),\ \textcolor{stringliteral}{"{}rb"{}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00196}00196\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00197}00197\ \ \ \ \ \textcolor{keywordflow}{if}(\ f\ ==\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00198}00198\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Write\ a\ message\ to\ the\ engine's\ message\ callback}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ msg\ =\ \textcolor{stringliteral}{"{}Failed\ to\ open\ script\ file\ '"{}}\ +\ \mbox{\hyperlink{scriptbuilder_8cpp_a60111cfc54238e378af2d330b3e9dd88}{GetAbsolutePath}}(scriptFile)\ +\ \textcolor{stringliteral}{"{}'"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>WriteMessage(filename,\ 0,\ 0,\ asMSGTYPE\_ERROR,\ msg.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ Write\ the\ file\ where\ this\ one\ was\ included\ from}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00206}00206\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00208}00208\ \ \ \ \ \textcolor{comment}{//\ Determine\ size\ of\ the\ file}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00209}00209\ \ \ \ \ fseek(f,\ 0,\ SEEK\_END);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00210}00210\ \ \ \ \ \textcolor{keywordtype}{int}\ len\ =\ ftell(f);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00211}00211\ \ \ \ \ fseek(f,\ 0,\ SEEK\_SET);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00213}00213\ \ \ \ \ \textcolor{comment}{//\ On\ Win32\ it\ is\ possible\ to\ do\ the\ following\ instead}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00214}00214\ \ \ \ \ \textcolor{comment}{//\ int\ len\ =\ \_filelength(\_fileno(f));}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00216}00216\ \ \ \ \ \textcolor{comment}{//\ Read\ the\ entire\ file}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00217}00217\ \ \ \ \ \textcolor{keywordtype}{string}\ code;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00218}00218\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ c\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00219}00219\ \ \ \ \ \textcolor{keywordflow}{if}(\ len\ >\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00220}00220\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ code.resize(len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ c\ =\ fread(\&code[0],\ len,\ 1,\ f);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00223}00223\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00225}00225\ \ \ \ \ fclose(f);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00227}00227\ \ \ \ \ \textcolor{keywordflow}{if}(\ c\ ==\ 0\ \&\&\ len\ >\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00228}00228\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Write\ a\ message\ to\ the\ engine's\ message\ callback}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ msg\ =\ \textcolor{stringliteral}{"{}Failed\ to\ load\ script\ file\ '"{}}\ +\ \mbox{\hyperlink{scriptbuilder_8cpp_a60111cfc54238e378af2d330b3e9dd88}{GetAbsolutePath}}(scriptFile)\ +\ \textcolor{stringliteral}{"{}'"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>WriteMessage(filename,\ 0,\ 0,\ asMSGTYPE\_ERROR,\ msg.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00233}00233\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00235}00235\ \ \ \ \ \textcolor{comment}{//\ Process\ the\ script\ section\ even\ if\ it\ is\ zero\ length\ so\ that\ the\ name\ is\ registered}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00236}00236\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_c_script_builder_a55d0a20616ed860dbc449f6bd9612e85}{ProcessScriptSection}}(code.c\_str(),\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int})(code.length()),\ filename,\ 0);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00237}00237\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00239}\mbox{\hyperlink{class_c_script_builder_a55d0a20616ed860dbc449f6bd9612e85}{00239}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_a55d0a20616ed860dbc449f6bd9612e85}{CScriptBuilder::ProcessScriptSection}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *script,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a011fc24f10426c01349e94a4edd4b0d5}{length}},\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *sectionname,\ \textcolor{keywordtype}{int}\ lineOffset)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00240}00240\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00241}00241\ \ \ \ \ vector<string>\ includes;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00243}00243\ \ \ \ \ \textcolor{comment}{//\ Perform\ a\ superficial\ parsing\ of\ the\ script\ first\ to\ store\ the\ metadata}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00244}00244\ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a011fc24f10426c01349e94a4edd4b0d5}{length}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00245}00245\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.assign(script,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a011fc24f10426c01349e94a4edd4b0d5}{length}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00246}00246\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00247}00247\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}\ =\ script;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00249}00249\ \ \ \ \ \textcolor{comment}{//\ First\ perform\ the\ checks\ for\ \#if\ directives\ to\ exclude\ code\ that\ shouldn't\ be\ compiled}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00250}00250\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00251}00251\ \ \ \ \ \textcolor{keywordtype}{int}\ nested\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00252}00252\ \ \ \ \ \textcolor{keywordflow}{while}(\ pos\ <\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00253}00253\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ asUINT\ len\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00255}00255\ \ \ \ \ \ \ \ \ asETokenClass\ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ t\ ==\ asTC\_UNKNOWN\ \&\&\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'\#'}\ \&\&\ (pos\ +\ 1\ <\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size())\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ start\ =\ pos++;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00259}00259\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Is\ this\ an\ \#if\ directive?}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ token;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ token.assign(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00267}00267\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ token\ ==\ \textcolor{stringliteral}{"{}if"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ t\ ==\ asTC\_WHITESPACE\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ t\ ==\ asTC\_IDENTIFIER\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ word;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ word.assign(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00281}00281\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Overwrite\ the\ \#if\ directive\ with\ space\ characters\ to\ avoid\ compiler\ error}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ae744620b788b3bd86671cb60a983a3c8}{OverwriteCode}}(start,\ pos-\/start);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00285}00285\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Has\ this\ identifier\ been\ defined\ by\ the\ application\ or\ not?}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a83c116cb8287d6637741857b9e44e18a}{definedWords}}.find(word)\ ==\ \mbox{\hyperlink{class_c_script_builder_a83c116cb8287d6637741857b9e44e18a}{definedWords}}.end()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Exclude\ all\ the\ code\ until\ and\ including\ the\ \#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ =\ \mbox{\hyperlink{class_c_script_builder_ac89afeb792d4dd2a06d0a6eb5eb82aeb}{ExcludeCode}}(pos);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nested++;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ token\ ==\ \textcolor{stringliteral}{"{}endif"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Only\ remove\ the\ \#endif\ if\ there\ was\ a\ matching\ \#if}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ nested\ >\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ae744620b788b3bd86671cb60a983a3c8}{OverwriteCode}}(start,\ pos-\/start);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nested-\/-\/;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00310}00310\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00311}00311\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00312}00312\ \textcolor{preprocessor}{\#if\ AS\_PROCESS\_METADATA\ ==\ 1}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00313}00313\ \ \ \ \ \textcolor{comment}{//\ Preallocate\ memory}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00314}00314\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ declaration;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00315}00315\ \ \ \ \ vector<string>\ metadata;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00316}00316\ \ \ \ \ declaration.reserve(100);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00317}00317\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00319}00319\ \ \ \ \ \textcolor{comment}{//\ Then\ check\ for\ meta\ data\ and\ pre-\/processor\ directives}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00320}00320\ \ \ \ \ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00321}00321\ \ \ \ \ \textcolor{keywordflow}{while}(\ pos\ <\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00322}00322\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ asUINT\ len\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ asETokenClass\ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ t\ ==\ asTC\_COMMENT\ ||\ t\ ==\ asTC\_WHITESPACE\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00326}00326\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00330}00330\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ token;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00331}00331\ \ \ \ \ \ \ \ \ token.assign(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00332}00332\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00333}00333\ \textcolor{preprocessor}{\#if\ AS\_PROCESS\_METADATA\ ==\ 1}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Skip\ possible\ decorators\ before\ class\ and\ interface\ declarations}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (token\ ==\ \textcolor{stringliteral}{"{}shared"{}}\ ||\ token\ ==\ \textcolor{stringliteral}{"{}abstract"{}}\ ||\ token\ ==\ \textcolor{stringliteral}{"{}mixin"{}}\ ||\ token\ ==\ \textcolor{stringliteral}{"{}external"{}})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00336}00336\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ class\ or\ interface\ so\ the\ metadata\ for\ members\ can\ be\ gathered}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_adc829390e3b09f726ca0639d4033848b}{currentClass}}\ ==\ \textcolor{stringliteral}{"{}"{}}\ \&\&\ (token\ ==\ \textcolor{stringliteral}{"{}class"{}}\ ||\ token\ ==\ \textcolor{stringliteral}{"{}interface"{}})\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ the\ identifier\ after\ "{}class"{}}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ pos\ >=\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ asTC\_UNKNOWN;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}(t\ ==\ asTC\_COMMENT\ ||\ t\ ==\ asTC\_WHITESPACE);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ t\ ==\ asTC\_IDENTIFIER\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_adc829390e3b09f726ca0639d4033848b}{currentClass}}\ =\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.substr(pos,len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Search\ until\ first\ \{\ or\ ;\ is\ encountered}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(\ pos\ <\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.length()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00364}00364\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ start\ of\ class\ section\ encountered\ stop}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'\{'}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{';'})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ class\ declaration\ has\ ended\ and\ there\ are\ no\ children}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_adc829390e3b09f726ca0639d4033848b}{currentClass}}\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00378}00378\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ next\ symbol}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00383}00383\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00385}00385\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00386}00386\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00387}00387\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ end\ of\ class}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00388}00388\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_adc829390e3b09f726ca0639d4033848b}{currentClass}}\ !=\ \textcolor{stringliteral}{"{}"{}}\ \&\&\ token\ ==\ \textcolor{stringliteral}{"{}\}"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00389}00389\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_adc829390e3b09f726ca0639d4033848b}{currentClass}}\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00393}00393\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00394}00394\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00395}00395\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ namespace\ so\ the\ metadata\ for\ members\ can\ be\ gathered}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00396}00396\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ token\ ==\ \textcolor{stringliteral}{"{}namespace"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00397}00397\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ the\ identifier\ after\ "{}namespace"{}}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}(t\ ==\ asTC\_COMMENT\ ||\ t\ ==\ asTC\_WHITESPACE);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00404}00404\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a8f16fb8258f3186117ea3766de3c65b5}{currentNamespace}}\ !=\ \textcolor{stringliteral}{"{}"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a8f16fb8258f3186117ea3766de3c65b5}{currentNamespace}}\ +=\ \textcolor{stringliteral}{"{}::"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a8f16fb8258f3186117ea3766de3c65b5}{currentNamespace}}\ +=\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.substr(pos,len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00408}00408\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Search\ until\ first\ \{\ is\ encountered}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(\ pos\ <\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.length()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00413}00413\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ start\ of\ namespace\ section\ encountered\ stop}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'\{'}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00416}00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00417}00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00420}00420\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ next\ symbol}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00424}00424\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00426}00426\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00427}00427\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00428}00428\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ end\ of\ namespace}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00429}00429\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a8f16fb8258f3186117ea3766de3c65b5}{currentNamespace}}\ !=\ \textcolor{stringliteral}{"{}"{}}\ \&\&\ token\ ==\ \textcolor{stringliteral}{"{}\}"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00430}00430\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ found\ =\ \mbox{\hyperlink{class_c_script_builder_a8f16fb8258f3186117ea3766de3c65b5}{currentNamespace}}.rfind(\ \textcolor{stringliteral}{"{}::"{}}\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ found\ !=\ string::npos\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a8f16fb8258f3186117ea3766de3c65b5}{currentNamespace}}.erase(\ found\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a8f16fb8258f3186117ea3766de3c65b5}{currentNamespace}}\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00442}00442\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00443}00443\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00444}00444\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Is\ this\ the\ start\ of\ metadata?}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00445}00445\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ token\ ==\ \textcolor{stringliteral}{"{}["{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00446}00446\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ the\ metadata\ string}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ =\ \mbox{\hyperlink{class_c_script_builder_a68a171ec74f66f3bb5c3dba8202b5800}{ExtractMetadata}}(pos,\ metadata);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00449}00449\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Determine\ what\ this\ metadata\ is\ for}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_aeadc66c9e4f9fadc188f168d198272d4}{ExtractDeclaration}}(pos,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ declaration,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00453}00453\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00454}00454\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Store\ away\ the\ declaration\ in\ a\ map\ for\ lookup\ after\ the\ build\ has\ completed}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00455}00455\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ >\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00456}00456\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl}{SMetadataDecl}}\ decl(metadata,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ declaration,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}},\ \mbox{\hyperlink{class_c_script_builder_adc829390e3b09f726ca0639d4033848b}{currentClass}},\ \mbox{\hyperlink{class_c_script_builder_a8f16fb8258f3186117ea3766de3c65b5}{currentNamespace}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00458}00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ad2d5f49aeb1760e90757482d68aa7199}{foundDeclarations}}.push\_back(decl);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00460}00460\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00461}00461\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00462}00462\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00463}00463\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Is\ this\ a\ preprocessor\ directive?}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00464}00464\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ token\ ==\ \textcolor{stringliteral}{"{}\#"{}}\ \&\&\ (pos\ +\ 1\ <\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size())\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00465}00465\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ start\ =\ pos++;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00467}00467\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ ==\ asTC\_IDENTIFIER)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ token.assign(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00472}00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (token\ ==\ \textcolor{stringliteral}{"{}include"{}})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00473}00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00475}00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ ==\ asTC\_WHITESPACE)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00477}00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00479}00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00480}00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00481}00481\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ ==\ asTC\_VALUE\ \&\&\ len\ >\ 2\ \&\&\ (\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'"{}'}\ ||\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'\(\backslash\)''}))}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ the\ include\ file}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ includefile;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00486}00486\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ includefile.assign(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos\ +\ 1],\ len\ -\/\ 2);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00487}00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00488}00488\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00489}00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Make\ sure\ the\ includeFile\ doesn't\ contain\ any\ line\ breaks}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00490}00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ p\ =\ includefile.find(\textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p\ !=\ string::npos)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ Show\ the\ correct\ line\ number\ for\ the\ error}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ str\ =\ \textcolor{stringliteral}{"{}Invalid\ file\ name\ for\ \#include;\ it\ contains\ a\ line-\/break:\ '"{}}\ +\ includefile.substr(0,\ p)\ +\ \textcolor{stringliteral}{"{}'"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>WriteMessage(sectionname,\ 0,\ 0,\ asMSGTYPE\_ERROR,\ str.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Store\ it\ for\ later\ processing}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ includes.push\_back(includefile);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00501}00501\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Overwrite\ the\ include\ directive\ with\ space\ characters\ to\ avoid\ compiler\ error}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ae744620b788b3bd86671cb60a983a3c8}{OverwriteCode}}(start,\ pos\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (token\ ==\ \textcolor{stringliteral}{"{}pragma"{}})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00508}00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Read\ until\ the\ end\ of\ the\ line}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ pos\ <\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ \&\&\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ !=\ \textcolor{charliteral}{'\(\backslash\)n'};\ pos++);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00512}00512\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Call\ the\ pragma\ callback}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ pragmaText(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[start\ +\ 7],\ pos\ -\/\ start\ -\/\ 7);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r\ =\ \mbox{\hyperlink{class_c_script_builder_a5e73916ca44d7ab1715f6a094d91f8e6}{pragmaCallback}}\ ?\ \mbox{\hyperlink{class_c_script_builder_a5e73916ca44d7ab1715f6a094d91f8e6}{pragmaCallback}}(pragmaText,\ *\textcolor{keyword}{this},\ \mbox{\hyperlink{class_c_script_builder_a6dfa2d94d1313674010297478f929641}{pragmaParam}})\ :\ -\/1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (r\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ Report\ the\ correct\ line\ number}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>WriteMessage(sectionname,\ 0,\ 0,\ asMSGTYPE\_ERROR,\ \textcolor{stringliteral}{"{}Invalid\ \#pragma\ directive"{}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00522}00522\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Overwrite\ the\ pragma\ directive\ with\ space\ characters\ to\ avoid\ compiler\ error}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ae744620b788b3bd86671cb60a983a3c8}{OverwriteCode}}(start,\ pos\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ lines\ starting\ with\ \#!,\ e.g.\ shebang\ interpreter\ directive.\ These\ will\ be\ treated\ as\ comments\ and\ removed\ by\ the\ preprocessor}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'!'})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Read\ until\ the\ end\ of\ the\ line}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ pos\ <\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ \&\&\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ !=\ \textcolor{charliteral}{'\(\backslash\)n'};\ pos++);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00535}00535\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Overwrite\ the\ directive\ with\ space\ characters\ to\ avoid\ compiler\ error}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ae744620b788b3bd86671cb60a983a3c8}{OverwriteCode}}(start,\ pos\ -\/\ start);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00540}00540\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00541}00541\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ search\ for\ metadata/includes\ within\ statement\ blocks\ or\ between\ tokens\ in\ statements}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00542}00542\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00543}00543\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00544}00544\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ =\ \mbox{\hyperlink{class_c_script_builder_a28c1dbb2929fe0848e740354e59ae3c0}{SkipStatement}}(pos);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00545}00545\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00546}00546\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00547}00547\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00548}00548\ \ \ \ \ \textcolor{comment}{//\ Build\ the\ actual\ script}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00549}00549\ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>SetEngineProperty(asEP\_COPY\_SCRIPT\_SECTIONS,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00550}00550\ \ \ \ \ \textcolor{keyword}{module}-\/>AddScriptSection(sectionname,\ modifiedScript.c\_str(),\ modifiedScript.size(),\ lineOffset);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00551}00551\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00552}00552\ \ \ \ \ \textcolor{keywordflow}{if}(\ includes.size()\ >\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00553}00553\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00554}00554\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ callback\ has\ been\ set,\ then\ call\ it\ for\ each\ included\ file}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00555}00555\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_adb389ba420f1de62fea2aa2816e91344}{includeCallback}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00556}00556\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ (int)includes.size();\ n++\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00558}00558\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00559}00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r\ =\ \mbox{\hyperlink{class_c_script_builder_adb389ba420f1de62fea2aa2816e91344}{includeCallback}}(includes[n].c\_str(),\ sectionname,\ \textcolor{keyword}{this},\ \mbox{\hyperlink{class_c_script_builder_a788e4dd9e9763ec2a5e5f28cb1089d37}{includeParam}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ r\ <\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00561}00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00562}00562\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00563}00563\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00564}00564\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00565}00565\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00566}00566\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ By\ default\ we\ try\ to\ load\ the\ included\ file\ from\ the\ relative\ directory\ of\ the\ current\ file}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00567}00567\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00568}00568\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Determine\ the\ path\ of\ the\ current\ script\ so\ that\ we\ can\ resolve\ relative\ paths\ for\ includes}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00569}00569\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ path\ =\ sectionname;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00570}00570\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ posOfSlash\ =\ path.find\_last\_of(\textcolor{stringliteral}{"{}/\(\backslash\)\(\backslash\)"{}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00571}00571\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ posOfSlash\ !=\ string::npos\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00572}00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.resize(posOfSlash+1);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00575}00575\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00576}00576\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Load\ the\ included\ scripts}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ (int)includes.size();\ n++\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00579}00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ include\ is\ a\ relative\ path,\ then\ prepend\ the\ path\ of\ the\ originating\ script}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00580}00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ includes[n].find\_first\_of(\textcolor{stringliteral}{"{}/\(\backslash\)\(\backslash\)"{}})\ !=\ 0\ \&\&}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00581}00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ includes[n].find\_first\_of(\textcolor{stringliteral}{"{}:"{}})\ ==\ string::npos\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00582}00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ includes[n]\ =\ path\ +\ includes[n];}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00585}00585\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Include\ the\ script\ section}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r\ =\ \mbox{\hyperlink{class_c_script_builder_a0907f970813155f58dec78f4de43ff0e}{AddSectionFromFile}}(includes[n].c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00588}00588\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ r\ <\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00589}00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00590}00590\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00591}00591\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00592}00592\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00593}00593\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00594}00594\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00595}00595\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00596}00596\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00597}\mbox{\hyperlink{class_c_script_builder_a28c0ece1322c4c30e9bc1f363d01dfc5}{00597}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_a28c0ece1322c4c30e9bc1f363d01dfc5}{CScriptBuilder::Build}}()}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00598}00598\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00599}00599\ \ \ \ \ \textcolor{keywordtype}{int}\ r\ =\ \textcolor{keyword}{module}-\/>Build();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00600}00600\ \ \ \ \ \textcolor{keywordflow}{if}(\ r\ <\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00601}00601\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ r;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00602}00602\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00603}00603\ \textcolor{preprocessor}{\#if\ AS\_PROCESS\_METADATA\ ==\ 1}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00604}00604\ \ \ \ \ \textcolor{comment}{//\ After\ the\ script\ has\ been\ built,\ the\ metadata\ strings\ should\ be}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00605}00605\ \ \ \ \ \textcolor{comment}{//\ stored\ for\ later\ lookup\ by\ function\ id,\ type\ id,\ and\ variable\ index}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00606}00606\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ (int)\mbox{\hyperlink{class_c_script_builder_ad2d5f49aeb1760e90757482d68aa7199}{foundDeclarations}}.size();\ n++\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00607}00607\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00608}00608\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl}{SMetadataDecl}}\ *decl\ =\ \&\mbox{\hyperlink{class_c_script_builder_ad2d5f49aeb1760e90757482d68aa7199}{foundDeclarations}}[n];}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00609}00609\ \ \ \ \ \ \ \ \ \textcolor{keyword}{module}-\/>SetDefaultNamespace(decl-\/>nameSpace.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00610}00610\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_ac99fd2b84dcb554a9dc84027812825db}{type}}\ ==\ \mbox{\hyperlink{class_c_script_builder_a7896ced3aaf7126630fedb5082f6e02daf81ec49b3b4e59085f6bf56253162d41}{MDT\_TYPE}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00611}00611\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00612}00612\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ type\ id}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00613}00613\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ typeId\ =\ \textcolor{keyword}{module}-\/>GetTypeIdByDecl(decl-\/>declaration.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00614}00614\ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ typeId\ >=\ 0\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00615}00615\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ typeId\ >=\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00616}00616\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ad5e69195528585dad7bb2d7151c2f89b}{typeMetadataMap}}.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(typeId,\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00617}00617\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00618}00618\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_ac99fd2b84dcb554a9dc84027812825db}{type}}\ ==\ \mbox{\hyperlink{class_c_script_builder_a7896ced3aaf7126630fedb5082f6e02dac8efe0955e2badf1e97a3c953b63b863}{MDT\_FUNC}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00619}00619\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00620}00620\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_acd03867c2cfc853143d983532b1d2264}{parentClass}}\ ==\ \textcolor{stringliteral}{"{}"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00621}00621\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00622}00622\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ function\ id}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00623}00623\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asIScriptFunction\ *func\ =\ \textcolor{keyword}{module}-\/>GetFunctionByDecl(decl-\/>declaration.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00624}00624\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ func\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00625}00625\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ func\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00626}00626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a68d644ac04693f4251b39adddfa21872}{funcMetadataMap}}.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(func-\/>GetId(),\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00627}00627\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00628}00628\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00629}00629\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00630}00630\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ method\ id}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00631}00631\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ typeId\ =\ \textcolor{keyword}{module}-\/>GetTypeIdByDecl(decl-\/>parentClass.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00632}00632\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ typeId\ >\ 0\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00633}00633\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ map<int,\ SClassMetadata>::iterator\ it\ =\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00634}00634\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ it\ ==\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.end()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00635}00635\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00636}00636\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.insert(map<int,\ SClassMetadata>::value\_type(typeId,\ \mbox{\hyperlink{struct_c_script_builder_1_1_s_class_metadata}{SClassMetadata}}(decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_acd03867c2cfc853143d983532b1d2264}{parentClass}})));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00637}00637\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it\ =\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00638}00638\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00639}00639\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00640}00640\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asITypeInfo\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>GetTypeInfoById(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00641}00641\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asIScriptFunction\ *func\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetMethodByDecl(decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a6705f0458ee30bdb96aae748f3dd184c}{declaration}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00642}00642\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ func\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00643}00643\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ func\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00644}00644\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it-\/>second.funcMetadataMap.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(func-\/>GetId(),\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00645}00645\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00646}00646\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00647}00647\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_ac99fd2b84dcb554a9dc84027812825db}{type}}\ ==\ \mbox{\hyperlink{class_c_script_builder_a7896ced3aaf7126630fedb5082f6e02daa7303ba2f2cf12927eda454584ef99db}{MDT\_VIRTPROP}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00648}00648\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00649}00649\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_acd03867c2cfc853143d983532b1d2264}{parentClass}}\ ==\ \textcolor{stringliteral}{"{}"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00650}00650\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00651}00651\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ global\ virtual\ property\ accessors}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00652}00652\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asIScriptFunction\ *func\ =\ \textcolor{keyword}{module}-\/>GetFunctionByName(("{}get\_"{}\ +\ decl-\/>declaration).c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00653}00653\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ func\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00654}00654\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a68d644ac04693f4251b39adddfa21872}{funcMetadataMap}}.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(func-\/>GetId(),\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00655}00655\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ func\ =\ \textcolor{keyword}{module}-\/>GetFunctionByName(("{}set\_"{}\ +\ decl-\/>declaration).c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00656}00656\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ func\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00657}00657\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a68d644ac04693f4251b39adddfa21872}{funcMetadataMap}}.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(func-\/>GetId(),\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00658}00658\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00659}00659\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00660}00660\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00661}00661\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ method\ virtual\ property\ accessors}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00662}00662\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ typeId\ =\ \textcolor{keyword}{module}-\/>GetTypeIdByDecl(decl-\/>parentClass.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00663}00663\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ typeId\ >\ 0\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00664}00664\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ map<int,\ SClassMetadata>::iterator\ it\ =\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00665}00665\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ it\ ==\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.end()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00666}00666\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00667}00667\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.insert(map<int,\ SClassMetadata>::value\_type(typeId,\ \mbox{\hyperlink{struct_c_script_builder_1_1_s_class_metadata}{SClassMetadata}}(decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_acd03867c2cfc853143d983532b1d2264}{parentClass}})));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00668}00668\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it\ =\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00669}00669\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00670}00670\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00671}00671\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asITypeInfo\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>GetTypeInfoById(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00672}00672\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asIScriptFunction\ *func\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetMethodByName((\textcolor{stringliteral}{"{}get\_"{}}\ +\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a6705f0458ee30bdb96aae748f3dd184c}{declaration}}).c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00673}00673\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ func\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00674}00674\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it-\/>second.funcMetadataMap.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(func-\/>GetId(),\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00675}00675\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ func\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetMethodByName((\textcolor{stringliteral}{"{}set\_"{}}\ +\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a6705f0458ee30bdb96aae748f3dd184c}{declaration}}).c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00676}00676\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ func\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00677}00677\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it-\/>second.funcMetadataMap.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(func-\/>GetId(),\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00678}00678\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00679}00679\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00680}00680\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_ac99fd2b84dcb554a9dc84027812825db}{type}}\ ==\ \mbox{\hyperlink{class_c_script_builder_a7896ced3aaf7126630fedb5082f6e02daf577795dc17912dd6a1c382ddcc4c16f}{MDT\_VAR}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00681}00681\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00682}00682\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_acd03867c2cfc853143d983532b1d2264}{parentClass}}\ ==\ \textcolor{stringliteral}{"{}"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00683}00683\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00684}00684\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ global\ variable\ index}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00685}00685\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ varIdx\ =\ \textcolor{keyword}{module}-\/>GetGlobalVarIndexByName(decl-\/>declaration.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00686}00686\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ varIdx\ >=\ 0\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00687}00687\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ varIdx\ >=\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00688}00688\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_add4e9ca36cb137421ea3f7b9f960464b}{varMetadataMap}}.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(varIdx,\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00689}00689\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00690}00690\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00691}00691\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00692}00692\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ typeId\ =\ \textcolor{keyword}{module}-\/>GetTypeIdByDecl(decl-\/>parentClass.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00693}00693\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ typeId\ >\ 0\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00694}00694\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00695}00695\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ the\ classes\ if\ needed}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00696}00696\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ map<int,\ SClassMetadata>::iterator\ it\ =\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00697}00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ it\ ==\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.end()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00698}00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00699}00699\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.insert(map<int,\ SClassMetadata>::value\_type(typeId,\ \mbox{\hyperlink{struct_c_script_builder_1_1_s_class_metadata}{SClassMetadata}}(decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_acd03867c2cfc853143d983532b1d2264}{parentClass}})));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00700}00700\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it\ =\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00701}00701\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00702}00702\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00703}00703\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ the\ variable\ to\ class}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00704}00704\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asITypeInfo\ *objectType\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>GetTypeInfoById(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00705}00705\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ idx\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00706}00706\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00707}00707\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Search\ through\ all\ properties\ to\ get\ proper\ declaration}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00708}00708\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ asUINT\ i\ =\ 0;\ i\ <\ (asUINT)objectType-\/>GetPropertyCount();\ ++i\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00709}00709\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00710}00710\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00711}00711\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ objectType-\/>GetProperty(i,\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00712}00712\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a6705f0458ee30bdb96aae748f3dd184c}{declaration}}\ ==\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00713}00713\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00714}00714\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idx\ =\ i;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00715}00715\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00716}00716\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00717}00717\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00718}00718\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00719}00719\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ found,\ add\ it}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00720}00720\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(\ idx\ >=\ 0\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00721}00721\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ idx\ >=\ 0\ )\ it-\/>second.varMetadataMap.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(idx,\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00722}00722\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00723}00723\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00724}00724\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_ac99fd2b84dcb554a9dc84027812825db}{type}}\ ==\ \mbox{\hyperlink{class_c_script_builder_a7896ced3aaf7126630fedb5082f6e02da7cbf2c83a6be14d91c33145710092c3c}{MDT\_FUNC\_OR\_VAR}})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00725}00725\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00726}00726\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_acd03867c2cfc853143d983532b1d2264}{parentClass}}\ ==\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00727}00727\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00728}00728\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ global\ variable\ index}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00729}00729\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ varIdx\ =\ \textcolor{keyword}{module}-\/>GetGlobalVarIndexByName(decl-\/>name.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00730}00730\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (varIdx\ >=\ 0)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00731}00731\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_add4e9ca36cb137421ea3f7b9f960464b}{varMetadataMap}}.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(varIdx,\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00732}00732\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00733}00733\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00734}00734\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asIScriptFunction\ *func\ =\ \textcolor{keyword}{module}-\/>GetFunctionByDecl(decl-\/>declaration.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00735}00735\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(func);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00736}00736\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (func)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00737}00737\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a68d644ac04693f4251b39adddfa21872}{funcMetadataMap}}.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(func-\/>GetId(),\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00738}00738\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00739}00739\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00740}00740\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00741}00741\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00742}00742\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ typeId\ =\ \textcolor{keyword}{module}-\/>GetTypeIdByDecl(decl-\/>parentClass.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00743}00743\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ assert(typeId\ >\ 0);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00744}00744\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00745}00745\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ the\ classes\ if\ needed}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00746}00746\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ map<int,\ SClassMetadata>::iterator\ it\ =\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00747}00747\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.end())}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00748}00748\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00749}00749\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.insert(map<int,\ SClassMetadata>::value\_type(typeId,\ \mbox{\hyperlink{struct_c_script_builder_1_1_s_class_metadata}{SClassMetadata}}(decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_acd03867c2cfc853143d983532b1d2264}{parentClass}})));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00750}00750\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it\ =\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00751}00751\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00752}00752\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00753}00753\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ the\ variable\ to\ class}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00754}00754\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asITypeInfo\ *objectType\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>GetTypeInfoById(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00755}00755\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ idx\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00756}00756\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00757}00757\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Search\ through\ all\ properties\ to\ get\ proper\ declaration}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00758}00758\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (asUINT\ i\ =\ 0;\ i\ <\ (asUINT)objectType-\/>GetPropertyCount();\ ++i)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00759}00759\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00760}00760\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00761}00761\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ objectType-\/>GetProperty(i,\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00762}00762\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a089fea3603df6da1c7193d2bd04b102c}{name}}\ ==\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00763}00763\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00764}00764\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idx\ =\ i;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00765}00765\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00766}00766\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00767}00767\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00768}00768\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00769}00769\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ found,\ add\ it}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00770}00770\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (idx\ >=\ 0)\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00771}00771\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it-\/>second.varMetadataMap.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(idx,\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00772}00772\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00773}00773\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00774}00774\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Look\ for\ the\ matching\ method\ instead}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00775}00775\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asITypeInfo\ *\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>GetTypeInfoById(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00776}00776\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ asIScriptFunction\ *func\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}-\/>GetMethodByDecl(decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a6705f0458ee30bdb96aae748f3dd184c}{declaration}}.c\_str());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00777}00777\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (func)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00778}00778\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it-\/>second.funcMetadataMap.insert(map<\textcolor{keywordtype}{int},\ vector<string>\ >::value\_type(func-\/>GetId(),\ decl-\/>\mbox{\hyperlink{struct_c_script_builder_1_1_s_metadata_decl_a178a438270b764186bc2c0a5ed0812b2}{metadata}}));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00779}00779\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00780}00780\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00781}00781\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00782}00782\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00783}00783\ \ \ \ \ \textcolor{keyword}{module}-\/>SetDefaultNamespace("{}"{});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00784}00784\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00785}00785\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00786}00786\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00787}00787\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00788}00788\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00789}\mbox{\hyperlink{class_c_script_builder_a28c1dbb2929fe0848e740354e59ae3c0}{00789}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_a28c1dbb2929fe0848e740354e59ae3c0}{CScriptBuilder::SkipStatement}}(\textcolor{keywordtype}{int}\ pos)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00790}00790\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00791}00791\ \ \ \ \ asUINT\ len\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00792}00792\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00793}00793\ \ \ \ \ \textcolor{comment}{//\ Skip\ until\ ;\ or\ \{\ whichever\ comes\ first}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00794}00794\ \ \ \ \ \textcolor{keywordflow}{while}(\ pos\ <\ (\textcolor{keywordtype}{int})\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.length()\ \&\&\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ !=\ \textcolor{charliteral}{';'}\ \&\&\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ !=\ \textcolor{charliteral}{'\{'}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00795}00795\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00796}00796\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00797}00797\ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00798}00798\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00799}00799\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00800}00800\ \ \ \ \ \textcolor{comment}{//\ Skip\ entire\ statement\ block}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00801}00801\ \ \ \ \ \textcolor{keywordflow}{if}(\ pos\ <\ (\textcolor{keywordtype}{int})\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.length()\ \&\&\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'\{'}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00802}00802\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00803}00803\ \ \ \ \ \ \ \ \ pos\ +=\ 1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00804}00804\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00805}00805\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ end\ of\ the\ statement\ block}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00806}00806\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00807}00807\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}(\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}\ >\ 0\ \&\&\ pos\ <\ (\textcolor{keywordtype}{int})\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00808}00808\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00809}00809\ \ \ \ \ \ \ \ \ \ \ \ \ asETokenClass\ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00810}00810\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ t\ ==\ asTC\_KEYWORD\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00811}00811\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00812}00812\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'\{'}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00813}00813\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}++;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00814}00814\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'\}'}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00815}00815\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00816}00816\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00817}00817\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00818}00818\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00819}00819\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00820}00820\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00821}00821\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00822}00822\ \ \ \ \ \ \ \ \ pos\ +=\ 1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00823}00823\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00824}00824\ \ \ \ \ \textcolor{keywordflow}{return}\ pos;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00825}00825\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00826}00826\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00827}00827\ \textcolor{comment}{//\ Overwrite\ all\ code\ with\ blanks\ until\ the\ matching\ \#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00828}\mbox{\hyperlink{class_c_script_builder_ac89afeb792d4dd2a06d0a6eb5eb82aeb}{00828}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_ac89afeb792d4dd2a06d0a6eb5eb82aeb}{CScriptBuilder::ExcludeCode}}(\textcolor{keywordtype}{int}\ pos)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00829}00829\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00830}00830\ \ \ \ \ asUINT\ len\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00831}00831\ \ \ \ \ \textcolor{keywordtype}{int}\ nested\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00832}00832\ \ \ \ \ \textcolor{keywordflow}{while}(\ pos\ <\ (\textcolor{keywordtype}{int})\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00833}00833\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00834}00834\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00835}00835\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'\#'}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00836}00836\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00837}00837\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ =\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00838}00838\ \ \ \ \ \ \ \ \ \ \ \ \ pos++;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00839}00839\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00840}00840\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Is\ it\ an\ \#if\ or\ \#endif\ directive?}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00841}00841\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00842}00842\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ token;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00843}00843\ \ \ \ \ \ \ \ \ \ \ \ \ token.assign(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00844}00844\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ae744620b788b3bd86671cb60a983a3c8}{OverwriteCode}}(pos,\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00845}00845\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00846}00846\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ token\ ==\ \textcolor{stringliteral}{"{}if"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00847}00847\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00848}00848\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nested++;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00849}00849\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00850}00850\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ token\ ==\ \textcolor{stringliteral}{"{}endif"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00851}00851\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00852}00852\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ nested-\/-\/\ ==\ 0\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00853}00853\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00854}00854\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00855}00855\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00856}00856\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00857}00857\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00858}00858\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00859}00859\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ !=\ \textcolor{charliteral}{'\(\backslash\)n'}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00860}00860\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00861}00861\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ae744620b788b3bd86671cb60a983a3c8}{OverwriteCode}}(pos,\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00862}00862\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00863}00863\ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00864}00864\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00865}00865\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00866}00866\ \ \ \ \ \textcolor{keywordflow}{return}\ pos;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00867}00867\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00868}00868\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00869}00869\ \textcolor{comment}{//\ Overwrite\ all\ characters\ except\ line\ breaks\ with\ blanks}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00870}\mbox{\hyperlink{class_c_script_builder_ae744620b788b3bd86671cb60a983a3c8}{00870}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_c_script_builder_ae744620b788b3bd86671cb60a983a3c8}{CScriptBuilder::OverwriteCode}}(\textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{int}\ len)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00871}00871\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00872}00872\ \ \ \ \ \textcolor{keywordtype}{char}\ *code\ =\ \&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[start];}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00873}00873\ \ \ \ \ \textcolor{keywordflow}{for}(\ \textcolor{keywordtype}{int}\ n\ =\ 0;\ n\ <\ len;\ n++\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00874}00874\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00875}00875\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ *code\ !=\ \textcolor{charliteral}{'\(\backslash\)n'}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00876}00876\ \ \ \ \ \ \ \ \ \ \ \ \ *code\ =\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00877}00877\ \ \ \ \ \ \ \ \ code++;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00878}00878\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00879}00879\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00880}00880\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00881}00881\ \textcolor{preprocessor}{\#if\ AS\_PROCESS\_METADATA\ ==\ 1}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00882}\mbox{\hyperlink{class_c_script_builder_a68a171ec74f66f3bb5c3dba8202b5800}{00882}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_a68a171ec74f66f3bb5c3dba8202b5800}{CScriptBuilder::ExtractMetadata}}(\textcolor{keywordtype}{int}\ pos,\ vector<string>\ \&metadata)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00883}00883\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00884}00884\ \ \ \ \ metadata.clear();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00885}00885\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00886}00886\ \ \ \ \ \textcolor{comment}{//\ Extract\ all\ metadata.\ They\ can\ be\ separated\ by\ whitespace\ and\ comments}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00887}00887\ \ \ \ \ \textcolor{keywordflow}{for}\ (;;)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00888}00888\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00889}00889\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ metadataString\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00890}00890\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00891}00891\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Overwrite\ the\ metadata\ with\ space\ characters\ to\ allow\ compilation}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00892}00892\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ =\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00893}00893\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00894}00894\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Skip\ opening\ brackets}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00895}00895\ \ \ \ \ \ \ \ \ pos\ +=\ 1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00896}00896\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00897}00897\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00898}00898\ \ \ \ \ \ \ \ \ asUINT\ len\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00899}00899\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}\ >\ 0\ \&\&\ pos\ <\ (\textcolor{keywordtype}{int})\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size())}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00900}00900\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00901}00901\ \ \ \ \ \ \ \ \ \ \ \ \ asETokenClass\ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00902}00902\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ ==\ asTC\_KEYWORD)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00903}00903\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00904}00904\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{'['})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00905}00905\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}++;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00906}00906\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ ==\ \textcolor{charliteral}{']'})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00907}00907\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00908}00908\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00909}00909\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00910}00910\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Copy\ the\ metadata\ to\ our\ buffer}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00911}00911\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a2b536fca24f51d6a849aed325793e661}{level}}\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00912}00912\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metadataString.append(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00913}00913\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00914}00914\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Overwrite\ the\ metadata\ with\ space\ characters\ to\ allow\ compilation}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00915}00915\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ !=\ asTC\_WHITESPACE)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00916}00916\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_script_builder_ae744620b788b3bd86671cb60a983a3c8}{OverwriteCode}}(pos,\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00917}00917\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00918}00918\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00919}00919\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00920}00920\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00921}00921\ \ \ \ \ \ \ \ \ metadata.push\_back(metadataString);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00922}00922\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00923}00923\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ more\ metadata.\ Possibly\ separated\ by\ comments}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00924}00924\ \ \ \ \ \ \ \ \ asETokenClass\ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00925}00925\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (t\ ==\ asTC\_COMMENT\ ||\ t\ ==\ asTC\_WHITESPACE)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00926}00926\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00927}00927\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00928}00928\ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00929}00929\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00930}00930\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00931}00931\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos]\ !=\ \textcolor{charliteral}{'['})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00932}00932\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00933}00933\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00934}00934\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00935}00935\ \ \ \ \ \textcolor{keywordflow}{return}\ pos;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00936}00936\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00937}00937\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00938}\mbox{\hyperlink{class_c_script_builder_aeadc66c9e4f9fadc188f168d198272d4}{00938}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_c_script_builder_aeadc66c9e4f9fadc188f168d198272d4}{CScriptBuilder::ExtractDeclaration}}(\textcolor{keywordtype}{int}\ pos,\ \textcolor{keywordtype}{string}\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}},\ \textcolor{keywordtype}{string}\ \&declaration,\ \textcolor{keywordtype}{int}\ \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00939}00939\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00940}00940\ \ \ \ \ declaration\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00941}00941\ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00942}00942\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00943}00943\ \ \ \ \ \textcolor{keywordtype}{int}\ start\ =\ pos;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00944}00944\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00945}00945\ \ \ \ \ std::string\ token;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00946}00946\ \ \ \ \ asUINT\ len\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00947}00947\ \ \ \ \ asETokenClass\ t\ =\ asTC\_WHITESPACE;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00948}00948\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00949}00949\ \ \ \ \ \textcolor{comment}{//\ Skip\ white\ spaces,\ comments,\ and\ leading\ decorators}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00950}00950\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00951}00951\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00952}00952\ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00953}00953\ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00954}00954\ \ \ \ \ \ \ \ \ token.assign(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00955}00955\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (\ t\ ==\ asTC\_WHITESPACE\ ||\ t\ ==\ asTC\_COMMENT\ ||\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00956}00956\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ token\ ==\ \textcolor{stringliteral}{"{}private"{}}\ ||\ token\ ==\ \textcolor{stringliteral}{"{}protected"{}}\ ||\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00957}00957\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ token\ ==\ \textcolor{stringliteral}{"{}shared"{}}\ ||\ token\ ==\ \textcolor{stringliteral}{"{}external"{}}\ ||\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00958}00958\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ token\ ==\ \textcolor{stringliteral}{"{}final"{}}\ ||\ token\ ==\ \textcolor{stringliteral}{"{}abstract"{}}\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00959}00959\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00960}00960\ \ \ \ \ \textcolor{comment}{//\ We're\ expecting,\ either\ a\ class,\ interface,\ function,\ or\ variable\ declaration}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00961}00961\ \ \ \ \ \textcolor{keywordflow}{if}(\ t\ ==\ asTC\_KEYWORD\ ||\ t\ ==\ asTC\_IDENTIFIER\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00962}00962\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00963}00963\ \ \ \ \ \ \ \ \ token.assign(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00964}00964\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ token\ ==\ \textcolor{stringliteral}{"{}interface"{}}\ ||\ token\ ==\ \textcolor{stringliteral}{"{}class"{}}\ ||\ token\ ==\ \textcolor{stringliteral}{"{}enum"{}}\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00965}00965\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00966}00966\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Skip\ white\ spaces\ and\ comments}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00967}00967\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00968}00968\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00969}00969\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00970}00970\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00971}00971\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (\ t\ ==\ asTC\_WHITESPACE\ ||\ t\ ==\ asTC\_COMMENT\ );}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00972}00972\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00973}00973\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ t\ ==\ asTC\_IDENTIFIER\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00974}00974\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00975}00975\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_script_builder_a7896ced3aaf7126630fedb5082f6e02daf81ec49b3b4e59085f6bf56253162d41}{MDT\_TYPE}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00976}00976\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ declaration.assign(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00977}00977\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00978}00978\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pos;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00979}00979\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00980}00980\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00981}00981\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00982}00982\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00983}00983\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ function\ declarations,\ store\ everything\ up\ to\ the\ start\ of\ the\ }}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00984}00984\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ statement\ block,\ except\ for\ succeeding\ decorators\ (final,\ override,\ etc)}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00985}00985\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00986}00986\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ variable\ declaration\ store\ just\ the\ name\ as\ there\ can\ only\ be\ one}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00987}00987\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00988}00988\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We'll\ only\ know\ if\ the\ declaration\ is\ a\ variable\ or\ function\ declaration}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00989}00989\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ when\ we\ see\ the\ statement\ block,\ or\ absense\ of\ a\ statement\ block.}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00990}00990\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ hasParenthesis\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00991}00991\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ nestedParenthesis\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00992}00992\ \ \ \ \ \ \ \ \ \ \ \ \ declaration.append(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00993}00993\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00994}00994\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(;\ pos\ <\ (int)\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size();)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00995}00995\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00996}00996\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t\ =\ \mbox{\hyperlink{class_c_script_builder_a9f2c02d7ac5c8bec9d0687ce09003174}{engine}}-\/>ParseToken(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ \mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}.size()\ -\/\ pos,\ \&len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00997}00997\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ token.assign(\&\mbox{\hyperlink{class_c_script_builder_a3d64e19a8324ea350b660840caf306d5}{modifiedScript}}[pos],\ len);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00998}00998\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ ==\ asTC\_KEYWORD)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l00999}00999\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01000}01000\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (token\ ==\ \textcolor{stringliteral}{"{}\{"{}}\ \&\&\ nestedParenthesis\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01001}01001\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01002}01002\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (hasParenthesis)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01003}01003\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01004}01004\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We've\ found\ the\ end\ of\ a\ function\ signature}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01005}01005\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_script_builder_a7896ced3aaf7126630fedb5082f6e02dac8efe0955e2badf1e97a3c953b63b863}{MDT\_FUNC}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01006}01006\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01007}01007\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01008}01008\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01009}01009\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We've\ found\ a\ virtual\ property.\ Just\ keep\ the\ name}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01010}01010\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ declaration\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01011}01011\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_script_builder_a7896ced3aaf7126630fedb5082f6e02daa7303ba2f2cf12927eda454584ef99db}{MDT\_VIRTPROP}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01012}01012\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01013}01013\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pos;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01014}01014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01015}01015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((token\ ==\ \textcolor{stringliteral}{"{}="{}}\ \&\&\ !hasParenthesis)\ ||\ token\ ==\ \textcolor{stringliteral}{"{};"{}})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01016}01016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01017}01017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (hasParenthesis)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01018}01018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01019}01019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ declaration\ is\ ambigous.\ It\ can\ be\ a\ variable\ with\ initialization,\ or\ a\ function\ prototype}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01020}01020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_script_builder_a7896ced3aaf7126630fedb5082f6e02da7cbf2c83a6be14d91c33145710092c3c}{MDT\_FUNC\_OR\_VAR}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01021}01021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01022}01022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01023}01023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01024}01024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Substitute\ the\ declaration\ with\ just\ the\ name}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01025}01025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ declaration\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01026}01026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a63267399cd2a2ee217572c11d2e54f07}{type}}\ =\ \mbox{\hyperlink{class_c_script_builder_a7896ced3aaf7126630fedb5082f6e02daf577795dc17912dd6a1c382ddcc4c16f}{MDT\_VAR}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01027}01027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01028}01028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pos;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01029}01029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01030}01030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (token\ ==\ \textcolor{stringliteral}{"{}("{}})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01031}01031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01032}01032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nestedParenthesis++;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01033}01033\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01034}01034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ the\ first\ parenthesis\ we\ encounter.\ If\ the\ parenthesis\ isn't\ followed}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01035}01035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ by\ a\ statement\ block,\ then\ this\ is\ a\ variable\ declaration,\ in\ which\ case\ we}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01036}01036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ should\ only\ store\ the\ type\ and\ name\ of\ the\ variable,\ not\ the\ initialization\ parameters.}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01037}01037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hasParenthesis\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01038}01038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01039}01039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (token\ ==\ \textcolor{stringliteral}{"{})"{}})}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01040}01040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01041}01041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nestedParenthesis-\/-\/;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01042}01042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01043}01043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01044}01044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ t\ ==\ asTC\_IDENTIFIER\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01045}01045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01046}01046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}}\ =\ token;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01047}01047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01048}01048\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01049}01049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Skip\ trailing\ decorators}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01050}01050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ !hasParenthesis\ ||\ nestedParenthesis\ >\ 0\ ||\ t\ !=\ asTC\_IDENTIFIER\ ||\ (token\ !=\ \textcolor{stringliteral}{"{}final"{}}\ \&\&\ token\ !=\ \textcolor{stringliteral}{"{}override"{}}\ \&\&\ token\ !=\ \textcolor{stringliteral}{"{}delete"{}}\ \&\&\ token\ !=\ \textcolor{stringliteral}{"{}property"{}}))}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01051}01051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ declaration\ +=\ token;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01052}01052\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01053}01053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ len;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01054}01054\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01055}01055\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01056}01056\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01057}01057\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01058}01058\ \ \ \ \ \textcolor{keywordflow}{return}\ start;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01059}01059\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01060}01060\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01061}\mbox{\hyperlink{class_c_script_builder_a9582e8dbe860d0aa2b7e168e38da4e99}{01061}}\ vector<string>\ \mbox{\hyperlink{class_c_script_builder_a9582e8dbe860d0aa2b7e168e38da4e99}{CScriptBuilder::GetMetadataForType}}(\textcolor{keywordtype}{int}\ typeId)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01062}01062\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01063}01063\ \ \ \ \ map<int,vector<string>\ >::iterator\ it\ =\ \mbox{\hyperlink{class_c_script_builder_ad5e69195528585dad7bb2d7151c2f89b}{typeMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01064}01064\ \ \ \ \ \textcolor{keywordflow}{if}(\ it\ !=\ \mbox{\hyperlink{class_c_script_builder_ad5e69195528585dad7bb2d7151c2f89b}{typeMetadataMap}}.end()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01065}01065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ it-\/>second;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01066}01066\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01067}01067\ \ \ \ \ \textcolor{keywordflow}{return}\ vector<string>();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01068}01068\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01069}01069\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01070}\mbox{\hyperlink{class_c_script_builder_a2f49c791080299edb6d038434c004ff4}{01070}}\ vector<string>\ \mbox{\hyperlink{class_c_script_builder_a2f49c791080299edb6d038434c004ff4}{CScriptBuilder::GetMetadataForFunc}}(asIScriptFunction\ *func)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01071}01071\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01072}01072\ \ \ \ \ \textcolor{keywordflow}{if}(\ func\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01073}01073\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01074}01074\ \ \ \ \ \ \ \ \ map<int,vector<string>\ >::iterator\ it\ =\ \mbox{\hyperlink{class_c_script_builder_a68d644ac04693f4251b39adddfa21872}{funcMetadataMap}}.find(func-\/>GetId());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01075}01075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ it\ !=\ \mbox{\hyperlink{class_c_script_builder_a68d644ac04693f4251b39adddfa21872}{funcMetadataMap}}.end()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01076}01076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ it-\/>second;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01077}01077\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01078}01078\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01079}01079\ \ \ \ \ \textcolor{keywordflow}{return}\ vector<string>();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01080}01080\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01081}01081\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01082}\mbox{\hyperlink{class_c_script_builder_a9fecf1420ee255875d77550393a05729}{01082}}\ vector<string>\ \mbox{\hyperlink{class_c_script_builder_a9fecf1420ee255875d77550393a05729}{CScriptBuilder::GetMetadataForVar}}(\textcolor{keywordtype}{int}\ varIdx)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01083}01083\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01084}01084\ \ \ \ \ map<int,vector<string>\ >::iterator\ it\ =\ \mbox{\hyperlink{class_c_script_builder_add4e9ca36cb137421ea3f7b9f960464b}{varMetadataMap}}.find(varIdx);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01085}01085\ \ \ \ \ \textcolor{keywordflow}{if}(\ it\ !=\ \mbox{\hyperlink{class_c_script_builder_add4e9ca36cb137421ea3f7b9f960464b}{varMetadataMap}}.end()\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01086}01086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ it-\/>second;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01087}01087\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01088}01088\ \ \ \ \ \textcolor{keywordflow}{return}\ vector<string>();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01089}01089\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01090}01090\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01091}\mbox{\hyperlink{class_c_script_builder_a954705ebf098e1893ef9d2ae9c1f56e8}{01091}}\ vector<string>\ \mbox{\hyperlink{class_c_script_builder_a954705ebf098e1893ef9d2ae9c1f56e8}{CScriptBuilder::GetMetadataForTypeProperty}}(\textcolor{keywordtype}{int}\ typeId,\ \textcolor{keywordtype}{int}\ varIdx)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01092}01092\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01093}01093\ \ \ \ \ map<int,\ SClassMetadata>::iterator\ typeIt\ =\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01094}01094\ \ \ \ \ \textcolor{keywordflow}{if}(typeIt\ ==\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.end())\ \textcolor{keywordflow}{return}\ vector<string>();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01095}01095\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01096}01096\ \ \ \ \ map<int,\ vector<string>\ >::iterator\ propIt\ =\ typeIt-\/>second.varMetadataMap.find(varIdx);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01097}01097\ \ \ \ \ \textcolor{keywordflow}{if}(propIt\ ==\ typeIt-\/>second.varMetadataMap.end())\ \textcolor{keywordflow}{return}\ vector<string>();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01098}01098\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01099}01099\ \ \ \ \ \textcolor{keywordflow}{return}\ propIt-\/>second;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01100}01100\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01101}01101\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01102}\mbox{\hyperlink{class_c_script_builder_ae40d0290a149188a7a157e81e9f22e3e}{01102}}\ vector<string>\ \mbox{\hyperlink{class_c_script_builder_ae40d0290a149188a7a157e81e9f22e3e}{CScriptBuilder::GetMetadataForTypeMethod}}(\textcolor{keywordtype}{int}\ typeId,\ asIScriptFunction\ *method)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01103}01103\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01104}01104\ \ \ \ \ \textcolor{keywordflow}{if}(\ method\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01105}01105\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01106}01106\ \ \ \ \ \ \ \ \ map<int,\ SClassMetadata>::iterator\ typeIt\ =\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.find(typeId);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01107}01107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (typeIt\ ==\ \mbox{\hyperlink{class_c_script_builder_a517e69cbc011e431a6b6a91997cc5d47}{classMetadataMap}}.end())\ \textcolor{keywordflow}{return}\ vector<string>();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01108}01108\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01109}01109\ \ \ \ \ \ \ \ \ map<int,\ vector<string>\ >::iterator\ methodIt\ =\ typeIt-\/>second.funcMetadataMap.find(method-\/>GetId());}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01110}01110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(methodIt\ ==\ typeIt-\/>second.funcMetadataMap.end())\ \textcolor{keywordflow}{return}\ vector<string>();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01111}01111\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01112}01112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ methodIt-\/>second;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01113}01113\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01114}01114\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01115}01115\ \ \ \ \ \textcolor{keywordflow}{return}\ vector<string>();}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01116}01116\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01117}01117\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01118}01118\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01119}\mbox{\hyperlink{scriptbuilder_8cpp_a60111cfc54238e378af2d330b3e9dd88}{01119}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{scriptbuilder_8cpp_a60111cfc54238e378af2d330b3e9dd88}{GetAbsolutePath}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \&file)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01120}01120\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01121}01121\ \ \ \ \ \textcolor{keywordtype}{string}\ str\ =\ file;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01122}01122\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01123}01123\ \ \ \ \ \textcolor{comment}{//\ If\ this\ is\ a\ relative\ path,\ complement\ it\ with\ the\ current\ path}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01124}01124\ \ \ \ \ \textcolor{keywordflow}{if}(\ !((str.length()\ >\ 0\ \&\&\ (str[0]\ ==\ \textcolor{charliteral}{'/'}\ ||\ str[0]\ ==\ \textcolor{charliteral}{'\(\backslash\)\(\backslash\)'}))\ ||}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01125}01125\ \ \ \ \ \ \ \ \ \ \ str.find(\textcolor{stringliteral}{"{}:"{}})\ !=\ string::npos)\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01126}01126\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01127}01127\ \ \ \ \ \ \ \ \ str\ =\ \mbox{\hyperlink{scriptbuilder_8cpp_a4760a69cad489f52b6f269f66f4c39e2}{GetCurrentDir}}()\ +\ \textcolor{stringliteral}{"{}/"{}}\ +\ str;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01128}01128\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01129}01129\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01130}01130\ \ \ \ \ \textcolor{comment}{//\ Replace\ backslashes\ for\ forward\ slashes}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01131}01131\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01132}01132\ \ \ \ \ \textcolor{keywordflow}{while}(\ (pos\ =\ str.find(\textcolor{stringliteral}{"{}\(\backslash\)\(\backslash\)"{}},\ pos))\ !=\ string::npos\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01133}01133\ \ \ \ \ \ \ \ \ str[pos]\ =\ \textcolor{charliteral}{'/'};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01134}01134\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01135}01135\ \ \ \ \ \textcolor{comment}{//\ Replace\ /./\ with\ /}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01136}01136\ \ \ \ \ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01137}01137\ \ \ \ \ \textcolor{keywordflow}{while}(\ (pos\ =\ str.find(\textcolor{stringliteral}{"{}/./"{}},\ pos))\ !=\ string::npos\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01138}01138\ \ \ \ \ \ \ \ \ str.erase(pos+1,\ 2);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01139}01139\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01140}01140\ \ \ \ \ \textcolor{comment}{//\ For\ each\ /../\ remove\ the\ parent\ dir\ and\ the\ /../}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01141}01141\ \ \ \ \ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01142}01142\ \ \ \ \ \textcolor{keywordflow}{while}(\ (pos\ =\ str.find(\textcolor{stringliteral}{"{}/../"{}}))\ !=\ string::npos\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01143}01143\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01144}01144\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pos2\ =\ str.rfind(\textcolor{stringliteral}{"{}/"{}},\ pos-\/1);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01145}01145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ pos2\ !=\ string::npos\ )}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01146}01146\ \ \ \ \ \ \ \ \ \ \ \ \ str.erase(pos2,\ pos+3-\/pos2);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01147}01147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01148}01148\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01149}01149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ path\ is\ invalid}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01150}01150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01151}01151\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01152}01152\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01153}01153\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01154}01154\ \ \ \ \ \textcolor{keywordflow}{return}\ str;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01155}01155\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01156}01156\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01157}\mbox{\hyperlink{scriptbuilder_8cpp_a4760a69cad489f52b6f269f66f4c39e2}{01157}}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{scriptbuilder_8cpp_a4760a69cad489f52b6f269f66f4c39e2}{GetCurrentDir}}()}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01158}01158\ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01159}01159\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}}[1024];}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01160}01160\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)\ ||\ defined(\_WIN32)}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01161}01161\ \textcolor{preprocessor}{\ \ \ \ \#ifdef\ \_WIN32\_WCE}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01162}01162\ \ \ \ \ \textcolor{keyword}{static}\ TCHAR\ apppath[MAX\_PATH]\ =\ TEXT(\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01163}01163\ \ \ \ \ \textcolor{keywordflow}{if}\ (!apppath[0])}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01164}01164\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01165}01165\ \ \ \ \ \ \ \ \ GetModuleFileName(NULL,\ apppath,\ MAX\_PATH);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01166}01166\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01167}01167\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ appLen\ =\ \_tcslen(apppath);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01168}01168\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01169}01169\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Look\ for\ the\ last\ backslash\ in\ the\ path,\ which\ would\ be\ the\ end}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01170}01170\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ of\ the\ path\ itself\ and\ the\ start\ of\ the\ filename.\ \ We\ only\ want}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01171}01171\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ path\ part\ of\ the\ exe's\ full-\/path\ filename}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01172}01172\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Safety\ is\ that\ we\ make\ sure\ not\ to\ walk\ off\ the\ front\ of\ the}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01173}01173\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ array\ (in\ case\ the\ path\ is\ nothing\ more\ than\ a\ filename)}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01174}01174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (appLen\ >\ 1)}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01175}01175\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01176}01176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (apppath[appLen-\/1]\ ==\ TEXT(\textcolor{charliteral}{'\(\backslash\)\(\backslash\)'}))}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01177}01177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01178}01178\ \ \ \ \ \ \ \ \ \ \ \ \ appLen-\/-\/;}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01179}01179\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01180}01180\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01181}01181\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Terminate\ the\ string\ after\ the\ trailing\ backslash}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01182}01182\ \ \ \ \ \ \ \ \ apppath[appLen]\ =\ TEXT(\textcolor{charliteral}{'\(\backslash\)0'});}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01183}01183\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01184}01184\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#ifdef\ \_UNICODE}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01185}01185\ \ \ \ \ wcstombs(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}},\ apppath,\ min(1024,\ wcslen(apppath)*\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{wchar\_t})));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01186}01186\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01187}01187\ \ \ \ \ memcpy(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}},\ apppath,\ min(1024,\ strlen(apppath)));}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01188}01188\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01189}01189\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01190}01190\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01191}01191\ \textcolor{preprocessor}{\ \ \ \ \#elif\ defined(\_\_S3E\_\_)}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01192}01192\ \ \ \ \ \textcolor{comment}{//\ Marmalade\ uses\ its\ own\ portable\ C\ library}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01193}01193\ \ \ \ \ \textcolor{keywordflow}{return}\ getcwd(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}},\ (\textcolor{keywordtype}{int})1024);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01194}01194\ \textcolor{preprocessor}{\ \ \ \ \#elif\ \_XBOX\_VER\ >=\ 200}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01195}01195\ \ \ \ \ \textcolor{comment}{//\ XBox\ 360\ doesn't\ support\ the\ getcwd\ function,\ just\ use\ the\ root\ folder}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01196}01196\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}game:/"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01197}01197\ \textcolor{preprocessor}{\ \ \ \ \#elif\ defined(\_M\_ARM)}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01198}01198\ \ \ \ \ \textcolor{comment}{//\ TODO:\ How\ to\ determine\ current\ working\ dir\ on\ Windows\ Phone?}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01199}01199\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01200}01200\ \textcolor{preprocessor}{\ \ \ \ \#else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01201}01201\ \ \ \ \ \textcolor{keywordflow}{return}\ \_getcwd(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}},\ (\textcolor{keywordtype}{int})1024);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01202}01202\ \textcolor{preprocessor}{\ \ \ \ \#endif\ }\textcolor{comment}{//\ \_MSC\_VER}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01203}01203\ \textcolor{preprocessor}{\#elif\ defined(\_\_APPLE\_\_)\ ||\ defined(\_\_linux\_\_)}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01204}01204\ \ \ \ \ \textcolor{keywordflow}{return}\ getcwd(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}},\ 1024);}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01205}01205\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01206}01206\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01207}01207\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01208}01208\ \}}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01209}01209\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01210}01210\ END\_AS\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01211}01211\ }
+\DoxyCodeLine{\Hypertarget{scriptbuilder_8cpp_source_l01212}01212\ }
+
+\end{DoxyCode}

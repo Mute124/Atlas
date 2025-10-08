@@ -1,0 +1,588 @@
+\doxysection{Atlas\+::Game\+Thread\+Scheduler Class Reference}
+\hypertarget{class_atlas_1_1_game_thread_scheduler}{}\label{class_atlas_1_1_game_thread_scheduler}\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+
+
+Scheduler for running tasks on separate threads. It will take given tasks, and distribute them across threads.  
+
+
+
+
+{\ttfamily \#include $<$Game\+Thread\+Scheduler.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_afa6c0eb9838130ed252044dc446aca5f}{Game\+Thread\+Scheduler}} (const \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{Game\+Thread\+Scheduler}} \&)=delete
+\item 
+\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_abe29809ccda5d50c992e32b89b74eacb}{Game\+Thread\+Scheduler}} ()=default
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_aad5d87a8e7e0f0be677e074fd24f9abc}{Game\+Thread\+Scheduler}} (uint8\+\_\+t num\+Threads, bool call\+Init=true)
+\begin{DoxyCompactList}\small\item\em Initializes this class with the specified amount of threads. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_aaa9fb8b4737765884265529a20601b50}{\texorpdfstring{$\sim$}{\string~}\+Game\+Thread\+Scheduler}} ()
+\begin{DoxyCompactList}\small\item\em The default deconstructor that joins all threads (if they are joinable) and cleans up everything. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a481665682956ac534baa5bfc2a99fb2c}{init}} (uint8\+\_\+t num\+Threads)
+\begin{DoxyCompactList}\small\item\em Initializes this class with the specified amount of threads. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Func , typename... Args$>$ }\\auto \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_affbc81ea67fdfb55931e62c695680472}{schedule}} (Func \&\&func, Args \&\&... args) -\/$>$ std\+::future$<$ std\+::invoke\+\_\+result\+\_\+t$<$ Func, Args... $>$ $>$
+\begin{DoxyCompactList}\small\item\em Schedules a task to be executed. The templates are not really necessary, see this function\textquotesingle{}s details section in the documentation for more information. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae1788f3815c47b8d3b22020d3780db35}{join\+All}} ()
+\begin{DoxyCompactList}\small\item\em Joins all worker threads in this scheduler if they are joinable. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a258cc6ffe9b5a589c649a63307e96348}{is\+Running}} () const
+\begin{DoxyCompactList}\small\item\em Checks if this scheduler is running. The outcome of this function is based on the value of the m\+Is\+Running member variable and does not imply that there are tasks to be done, just that the scheduler is running and initialized. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a54c0462e69ab5677aff7cfaf2ef46f4a}{get\+Thread\+Count}} () const
+\begin{DoxyCompactList}\small\item\em Returns the number of worker threads in this scheduler. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{Game\+Thread\+Scheduler}} \& \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a6443120b3a4edd145bd68b07e297ace0}{operator=}} (const \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{Game\+Thread\+Scheduler}} \&)=delete
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae91e2b0024fc4258fce79b873a623795}{Task}} = std\+::function$<$ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()$>$
+\begin{DoxyCompactList}\small\item\em A task to be executed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a8ee1a690f9d537c01fd963bee0469bd2}{is\+Task\+Queue\+Empty}} () const
+\begin{DoxyCompactList}\small\item\em Returns whether or not the task queue is empty. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_af1ce1afaf4e585fd807d46ef026c3b47}{set\+Status}} (\mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}{EGame\+Thread\+Scheduler\+Status}} status)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}{EGame\+Thread\+Scheduler\+Status}} \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a2ed60b5ac1874692c53a443fcc813d7a}{m\+Status}} = \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da88183b946cc5f0e8c96b2e66e1c74a7e}{EGame\+Thread\+Scheduler\+Status\+::\+Unknown}}
+\begin{DoxyCompactList}\small\item\em The current status of the scheduler. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_afb52230c26bdd4a27a0b360f7c7fe509}{m\+Thread\+Count}}
+\begin{DoxyCompactList}\small\item\em Number of threads in this scheduler. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::thread $>$ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae98fd862f6d8217c8a5929ef1416f383}{m\+Workers\+Vector}}
+\begin{DoxyCompactList}\small\item\em A vector that contains all the worker threads. \end{DoxyCompactList}\item 
+std\+::queue$<$ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae91e2b0024fc4258fce79b873a623795}{Task}} $>$ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a6ed4e6108a086ed07cd3769d02c30675}{m\+Task\+Queue}}
+\begin{DoxyCompactList}\small\item\em A queue of tasks assigned to this scheduler. All tasks are executed in the order they are added to the queue. Additionally, the threads get their tasks from this queue. \end{DoxyCompactList}\item 
+std\+::mutex \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae08231085113e4a7584e903965a5112f}{m\+Queue\+Mutex}}
+\begin{DoxyCompactList}\small\item\em The mutex that is used to the tasks queue to be thread-\/safe. \end{DoxyCompactList}\item 
+std\+::condition\+\_\+variable \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a4ad3d40a180a62a3386f25dfb943e497}{m\+Work\+Available\+Conditional}}
+\begin{DoxyCompactList}\small\item\em Signals to workers that there are tasks available in the task queue. \end{DoxyCompactList}\item 
+std\+::atomic$<$ bool $>$ \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff}{m\+Is\+Running}}
+\begin{DoxyCompactList}\small\item\em Whether or not this scheduler is running. This does not necessarily mean that there are tasks being executed or in the queue. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Scheduler for running tasks on separate threads. It will take given tasks, and distribute them across threads. 
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{namespace_atlas}{Atlas} must have multi-\/threading enabled for this to even be used.
+\end{DoxyPrecond}
+\begin{DoxyNote}{Note}
+Everything is thread-\/safe.
+
+This class {\bfseries{CANNOT}} be copied.
+\end{DoxyNote}
+@important This class does not ensure the proper order of execution of tasks, so be careful when using it.
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10
+\end{DoxySince}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]Refactor this so that it works with \doxylink{class_atlas_1_1_game_thread}{Atlas\+::\+Game\+Thread} instead of std\+::thread. See \doxylink{class_atlas_1_1_game_thread_scheduler_ae98fd862f6d8217c8a5929ef1416f383}{m\+Workers\+Vector} for the todo comment \end{DoxyRefDesc}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00092}{92}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+\doxysubsection{Member Typedef Documentation}
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_ae91e2b0024fc4258fce79b873a623795}\label{class_atlas_1_1_game_thread_scheduler_ae91e2b0024fc4258fce79b873a623795} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!Task@{Task}}
+\index{Task@{Task}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{Task}{Task}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae91e2b0024fc4258fce79b873a623795}{Atlas\+::\+Game\+Thread\+Scheduler\+::\+Task}} =  std\+::function$<$\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()$>$\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A task to be executed. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00099}{99}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_afa6c0eb9838130ed252044dc446aca5f}\label{class_atlas_1_1_game_thread_scheduler_afa6c0eb9838130ed252044dc446aca5f} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!GameThreadScheduler@{GameThreadScheduler}}
+\index{GameThreadScheduler@{GameThreadScheduler}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{GameThreadScheduler()}{GameThreadScheduler()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Atlas\+::\+Game\+Thread\+Scheduler\+::\+Game\+Thread\+Scheduler (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{Game\+Thread\+Scheduler}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_abe29809ccda5d50c992e32b89b74eacb}\label{class_atlas_1_1_game_thread_scheduler_abe29809ccda5d50c992e32b89b74eacb} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!GameThreadScheduler@{GameThreadScheduler}}
+\index{GameThreadScheduler@{GameThreadScheduler}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{GameThreadScheduler()}{GameThreadScheduler()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Atlas\+::\+Game\+Thread\+Scheduler\+::\+Game\+Thread\+Scheduler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+Default constructor. 
+
+\begin{DoxyNote}{Note}
+This constructor is simply defined by = default because there is nothing that can be done without knowing how many threads to create.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_aad5d87a8e7e0f0be677e074fd24f9abc}\label{class_atlas_1_1_game_thread_scheduler_aad5d87a8e7e0f0be677e074fd24f9abc} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!GameThreadScheduler@{GameThreadScheduler}}
+\index{GameThreadScheduler@{GameThreadScheduler}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{GameThreadScheduler()}{GameThreadScheduler()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Atlas\+::\+Game\+Thread\+Scheduler\+::\+Game\+Thread\+Scheduler (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{num\+Threads,  }\item[{bool}]{call\+Init = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Initializes this class with the specified amount of threads. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Threads} & How many worker threads should be made?\\
+\hline
+\end{DoxyParams}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000003}{Todo}}]Call the \doxylink{class_atlas_1_1_game_thread_scheduler_a481665682956ac534baa5bfc2a99fb2c}{init} function here. Also, add a boolean parameter that the user can use to define whether or not they want to call said function\end{DoxyRefDesc}
+
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00194}{194}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+References \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00228}{init()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_aaa9fb8b4737765884265529a20601b50}\label{class_atlas_1_1_game_thread_scheduler_aaa9fb8b4737765884265529a20601b50} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!````~GameThreadScheduler@{\texorpdfstring{$\sim$}{\string~}GameThreadScheduler}}
+\index{````~GameThreadScheduler@{\texorpdfstring{$\sim$}{\string~}GameThreadScheduler}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}GameThreadScheduler()}{\string~GameThreadScheduler()}}
+{\footnotesize\ttfamily Atlas\+::\+Game\+Thread\+Scheduler\+::\texorpdfstring{$\sim$}{\string~}\+Game\+Thread\+Scheduler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The default deconstructor that joins all threads (if they are joinable) and cleans up everything. 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000004}{Todo}}]Check to see if this completes the rest of the tasks before shutting down. I suspect that it will not complete the tasks in the queue, and this is something that must be fixed if it is true.\end{DoxyRefDesc}
+
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00208}{208}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+References \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00347}{join\+All()}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00156}{m\+Is\+Running}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00142}{m\+Queue\+Mutex}}, and \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00149}{m\+Work\+Available\+Conditional}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_a54c0462e69ab5677aff7cfaf2ef46f4a}\label{class_atlas_1_1_game_thread_scheduler_a54c0462e69ab5677aff7cfaf2ef46f4a} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!getThreadCount@{getThreadCount}}
+\index{getThreadCount@{getThreadCount}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{getThreadCount()}{getThreadCount()}}
+{\footnotesize\ttfamily uint8\+\_\+t Atlas\+::\+Game\+Thread\+Scheduler\+::get\+Thread\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the number of worker threads in this scheduler. 
+
+\begin{DoxyReturn}{Returns}
+An 8-\/bit unsigned integer representing the number of worker threads that this scheduler created on initialization.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00374}{374}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+References \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00113}{m\+Thread\+Count}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_a481665682956ac534baa5bfc2a99fb2c}\label{class_atlas_1_1_game_thread_scheduler_a481665682956ac534baa5bfc2a99fb2c} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!init@{init}}
+\index{init@{init}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Game\+Thread\+Scheduler\+::init (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{num\+Threads }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initializes this class with the specified amount of threads. 
+
+\begin{DoxyNote}{Note}
+This must be called before this class can be used.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Threads} & The amount of worker threads to create.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00228}{228}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da32b169f72b293ef80d35435e9894f8e2}{Atlas\+::\+Initializing}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00163}{is\+Task\+Queue\+Empty()}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00156}{m\+Is\+Running}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00142}{m\+Queue\+Mutex}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00135}{m\+Task\+Queue}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00149}{m\+Work\+Available\+Conditional}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00124}{m\+Workers\+Vector}}, \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da5bda814c4aedb126839228f1a3d92f09}{Atlas\+::\+Running}}, and \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00167}{set\+Status()}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00194}{Game\+Thread\+Scheduler()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_a258cc6ffe9b5a589c649a63307e96348}\label{class_atlas_1_1_game_thread_scheduler_a258cc6ffe9b5a589c649a63307e96348} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!isRunning@{isRunning}}
+\index{isRunning@{isRunning}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{isRunning()}{isRunning()}}
+{\footnotesize\ttfamily bool Atlas\+::\+Game\+Thread\+Scheduler\+::is\+Running (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks if this scheduler is running. The outcome of this function is based on the value of the m\+Is\+Running member variable and does not imply that there are tasks to be done, just that the scheduler is running and initialized. 
+
+\begin{DoxyReturn}{Returns}
+{\itshape true} if the scheduler is running, {\itshape false} otherwise
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00363}{363}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+References \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00156}{m\+Is\+Running}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_a8ee1a690f9d537c01fd963bee0469bd2}\label{class_atlas_1_1_game_thread_scheduler_a8ee1a690f9d537c01fd963bee0469bd2} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!isTaskQueueEmpty@{isTaskQueueEmpty}}
+\index{isTaskQueueEmpty@{isTaskQueueEmpty}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{isTaskQueueEmpty()}{isTaskQueueEmpty()}}
+{\footnotesize\ttfamily bool Atlas\+::\+Game\+Thread\+Scheduler\+::is\+Task\+Queue\+Empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Returns whether or not the task queue is empty. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00163}{163}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+References \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00135}{m\+Task\+Queue}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00228}{init()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_ae1788f3815c47b8d3b22020d3780db35}\label{class_atlas_1_1_game_thread_scheduler_ae1788f3815c47b8d3b22020d3780db35} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!joinAll@{joinAll}}
+\index{joinAll@{joinAll}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{joinAll()}{joinAll()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Game\+Thread\+Scheduler\+::join\+All (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Joins all worker threads in this scheduler if they are joinable. 
+
+\begin{DoxyPrecond}{Precondition}
+\doxylink{namespace_atlas}{Atlas} must have multi-\/threading enabled and this scheduler must have been initialized
+\end{DoxyPrecond}
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00347}{347}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+References \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00124}{m\+Workers\+Vector}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00208}{\texorpdfstring{$\sim$}{\string~}\+Game\+Thread\+Scheduler()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_a6443120b3a4edd145bd68b07e297ace0}\label{class_atlas_1_1_game_thread_scheduler_a6443120b3a4edd145bd68b07e297ace0} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!operator=@{operator=}}
+\index{operator=@{operator=}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{Game\+Thread\+Scheduler}} \& Atlas\+::\+Game\+Thread\+Scheduler\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler}{Game\+Thread\+Scheduler}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_affbc81ea67fdfb55931e62c695680472}\label{class_atlas_1_1_game_thread_scheduler_affbc81ea67fdfb55931e62c695680472} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!schedule@{schedule}}
+\index{schedule@{schedule}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{schedule()}{schedule()}}
+{\footnotesize\ttfamily template$<$typename Func , typename... Args$>$ \\
+auto Atlas\+::\+Game\+Thread\+Scheduler\+::schedule (\begin{DoxyParamCaption}\item[{Func \&\&}]{func,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ std\+::future$<$std\+::invoke\+\_\+result\+\_\+t$<$Func, Args...$>$$>$ \hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Schedules a task to be executed. The templates are not really necessary, see this function\textquotesingle{}s details section in the documentation for more information. 
+
+This function does not require you to use the templates. You can simply pass the function and the function\textquotesingle{}s arguments when you call this function. For example, consider the following\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{scheduler.schedule(add,\ 5,\ 7);}
+
+\end{DoxyCode}
+
+
+or
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{scheduler.schedule([](\textcolor{keywordtype}{int}\ a,\ \textcolor{keywordtype}{int}\ b)\ \{\ \textcolor{keywordflow}{return}\ a\ +\ b;\ \},\ 5,\ 7);}
+
+\end{DoxyCode}
+
+
+\begin{DoxyPrecond}{Precondition}
+For this function to work, the below must be true\+:
+\begin{DoxyEnumerate}
+\item The function must be callable. This means that it must have a return type and it must have arguments.
+\item \doxylink{namespace_atlas}{Atlas} must have multi-\/threading enabled
+\item \doxylink{namespace_atlas}{Atlas} must be initialized
+\item \doxylink{namespace_atlas}{Atlas} must not be shutting down or in the process of shutting down
+\item This scheduler must be initialized
+\item This scheduler must not be shutting down or in the process of shutting down
+\end{DoxyEnumerate}
+\end{DoxyPrecond}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if any of the above conditions are not met\\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyNote}{Note}
+This can be described as a template task scheduler with future return
+
+This class is thread-\/safe
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em func} & The function to be executed. It can be any callable object\\
+\hline
+{\em ...\+args} & The arguments to be passed to the function\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A future that will contain the return value of the function
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+10
+\end{DoxySince}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000005}{Todo}}]Review the code in this function to see where some checks need to be added to avoid problems. \end{DoxyRefDesc}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00300}{300}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+References \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00156}{m\+Is\+Running}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00142}{m\+Queue\+Mutex}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00135}{m\+Task\+Queue}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00149}{m\+Work\+Available\+Conditional}}, and \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_af1ce1afaf4e585fd807d46ef026c3b47}\label{class_atlas_1_1_game_thread_scheduler_af1ce1afaf4e585fd807d46ef026c3b47} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!setStatus@{setStatus}}
+\index{setStatus@{setStatus}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{setStatus()}{setStatus()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Game\+Thread\+Scheduler\+::set\+Status (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}{EGame\+Thread\+Scheduler\+Status}}}]{status }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00167}{167}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+References \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00106}{m\+Status}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00228}{init()}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff}\label{class_atlas_1_1_game_thread_scheduler_a7736a191809e4a77107007f00f1f24ff} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!mIsRunning@{mIsRunning}}
+\index{mIsRunning@{mIsRunning}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{mIsRunning}{mIsRunning}}
+{\footnotesize\ttfamily std\+::atomic$<$bool$>$ Atlas\+::\+Game\+Thread\+Scheduler\+::m\+Is\+Running\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Whether or not this scheduler is running. This does not necessarily mean that there are tasks being executed or in the queue. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00156}{156}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00228}{init()}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00363}{is\+Running()}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00300}{schedule()}}, and \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00208}{\texorpdfstring{$\sim$}{\string~}\+Game\+Thread\+Scheduler()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_ae08231085113e4a7584e903965a5112f}\label{class_atlas_1_1_game_thread_scheduler_ae08231085113e4a7584e903965a5112f} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!mQueueMutex@{mQueueMutex}}
+\index{mQueueMutex@{mQueueMutex}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{mQueueMutex}{mQueueMutex}}
+{\footnotesize\ttfamily std\+::mutex Atlas\+::\+Game\+Thread\+Scheduler\+::m\+Queue\+Mutex\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The mutex that is used to the tasks queue to be thread-\/safe. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00142}{142}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00228}{init()}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00300}{schedule()}}, and \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00208}{\texorpdfstring{$\sim$}{\string~}\+Game\+Thread\+Scheduler()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_a2ed60b5ac1874692c53a443fcc813d7a}\label{class_atlas_1_1_game_thread_scheduler_a2ed60b5ac1874692c53a443fcc813d7a} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!mStatus@{mStatus}}
+\index{mStatus@{mStatus}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{mStatus}{mStatus}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516d}{EGame\+Thread\+Scheduler\+Status}} Atlas\+::\+Game\+Thread\+Scheduler\+::m\+Status = \mbox{\hyperlink{namespace_atlas_a6588f04f9df5f98750a8239e6f0c516da88183b946cc5f0e8c96b2e66e1c74a7e}{EGame\+Thread\+Scheduler\+Status\+::\+Unknown}}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The current status of the scheduler. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00106}{106}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00167}{set\+Status()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_a6ed4e6108a086ed07cd3769d02c30675}\label{class_atlas_1_1_game_thread_scheduler_a6ed4e6108a086ed07cd3769d02c30675} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!mTaskQueue@{mTaskQueue}}
+\index{mTaskQueue@{mTaskQueue}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{mTaskQueue}{mTaskQueue}}
+{\footnotesize\ttfamily std\+::queue$<$\mbox{\hyperlink{class_atlas_1_1_game_thread_scheduler_ae91e2b0024fc4258fce79b873a623795}{Task}}$>$ Atlas\+::\+Game\+Thread\+Scheduler\+::m\+Task\+Queue\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A queue of tasks assigned to this scheduler. All tasks are executed in the order they are added to the queue. Additionally, the threads get their tasks from this queue. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_game_thread_scheduler_ae08231085113e4a7584e903965a5112f}{m\+Queue\+Mutex} The mutex that is used to make this object thread-\/safe.
+
+\doxylink{class_atlas_1_1_game_thread_scheduler_a4ad3d40a180a62a3386f25dfb943e497}{m\+Work\+Available\+Conditional} The way threads know if there are tasks in the queue available. 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00135}{135}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00228}{init()}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00163}{is\+Task\+Queue\+Empty()}}, and \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00300}{schedule()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_afb52230c26bdd4a27a0b360f7c7fe509}\label{class_atlas_1_1_game_thread_scheduler_afb52230c26bdd4a27a0b360f7c7fe509} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!mThreadCount@{mThreadCount}}
+\index{mThreadCount@{mThreadCount}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{mThreadCount}{mThreadCount}}
+{\footnotesize\ttfamily uint8\+\_\+t Atlas\+::\+Game\+Thread\+Scheduler\+::m\+Thread\+Count\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Number of threads in this scheduler. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00113}{113}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00374}{get\+Thread\+Count()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_a4ad3d40a180a62a3386f25dfb943e497}\label{class_atlas_1_1_game_thread_scheduler_a4ad3d40a180a62a3386f25dfb943e497} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!mWorkAvailableConditional@{mWorkAvailableConditional}}
+\index{mWorkAvailableConditional@{mWorkAvailableConditional}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{mWorkAvailableConditional}{mWorkAvailableConditional}}
+{\footnotesize\ttfamily std\+::condition\+\_\+variable Atlas\+::\+Game\+Thread\+Scheduler\+::m\+Work\+Available\+Conditional\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Signals to workers that there are tasks available in the task queue. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00149}{149}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00228}{init()}}, \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00300}{schedule()}}, and \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00208}{\texorpdfstring{$\sim$}{\string~}\+Game\+Thread\+Scheduler()}}.
+
+\Hypertarget{class_atlas_1_1_game_thread_scheduler_ae98fd862f6d8217c8a5929ef1416f383}\label{class_atlas_1_1_game_thread_scheduler_ae98fd862f6d8217c8a5929ef1416f383} 
+\index{Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}!mWorkersVector@{mWorkersVector}}
+\index{mWorkersVector@{mWorkersVector}!Atlas::GameThreadScheduler@{Atlas::GameThreadScheduler}}
+\doxysubsubsection{\texorpdfstring{mWorkersVector}{mWorkersVector}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::thread$>$ Atlas\+::\+Game\+Thread\+Scheduler\+::m\+Workers\+Vector\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector that contains all the worker threads. 
+
+\begin{DoxyNote}{Note}
+The size of this vector is equal to m\+Thread\+Count. If not, something is wrong.
+\end{DoxyNote}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000002}{Todo}}]Instead of using std\+::thread, implement this so that it works with \doxylink{class_atlas_1_1_game_thread}{Atlas\+::\+Game\+Thread}\end{DoxyRefDesc}
+
+
+\begin{DoxySince}{Since}
+v0.\+0.\+10 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00124}{124}} of file \mbox{\hyperlink{_game_thread_scheduler_8h_source}{Game\+Thread\+Scheduler.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00228}{init()}}, and \mbox{\hyperlink{_game_thread_scheduler_8h_source_l00347}{join\+All()}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/core/threading/\mbox{\hyperlink{_game_thread_scheduler_8h}{Game\+Thread\+Scheduler.\+h}}\end{DoxyCompactItemize}

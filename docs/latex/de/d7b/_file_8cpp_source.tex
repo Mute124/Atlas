@@ -1,21 +1,97 @@
 \doxysection{File.\+cpp}
-\hypertarget{_file_8cpp_source}{}\label{_file_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/fs/File.cpp@{C:/Dev/Techstorm-\/v5/src/engine/fs/File.cpp}}
+\hypertarget{_file_8cpp_source}{}\label{_file_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/io/File.cpp@{C:/Dev/Techstorm-\/v5/src/engine/io/File.cpp}}
 \mbox{\hyperlink{_file_8cpp}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_file_8h}{File.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_file_meta_8h}{FileMeta.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00004}00004\ }
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00005}\mbox{\hyperlink{class_atlas_1_1_file_a194d3c65678f233cd8b766fa0800259d}{00005}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_file_a194d3c65678f233cd8b766fa0800259d}{Atlas::File::isLoaded}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_file_ad8a79a086215b79ab8edd0e4b7f59645}{mIsLoaded}};\ \}}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00006}00006\ }
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00007}\mbox{\hyperlink{class_atlas_1_1_file_a7c86bce75be84c1f4dabe2e3d50d6bf0}{00007}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_a7c86bce75be84c1f4dabe2e3d50d6bf0}{Atlas::File::setLoadState}}(\textcolor{keywordtype}{bool}\ state)}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00008}00008\ \{}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00009}00009\ \ \ \ \ mIsLoaded\ =\ state;}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00010}00010\ \}}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00011}00011\ }
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00012}\mbox{\hyperlink{class_atlas_1_1_file_af221e74b6fbc4034c325fd0abde70bf3}{00012}}\ std::shared\_ptr<Atlas::FileMeta>\ \mbox{\hyperlink{class_atlas_1_1_file_af221e74b6fbc4034c325fd0abde70bf3}{Atlas::File::getFileMeta}}()\textcolor{keyword}{\ const}}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00013}00013\ \textcolor{keyword}{}\{}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00014}00014\ \ \ \ \ \textcolor{keywordflow}{return}\ mFileMeta;}
-\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00015}00015\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ File.cpp}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00003}00003\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00004}00004\ \textcolor{comment}{\ *\ @brief\ .}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00005}00005\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00006}00006\ \textcolor{comment}{\ *\ @date\ September\ 2025}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00007}00007\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00008}00008\ \textcolor{comment}{\ *\ @since\ v}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <any>}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <iosfwd>}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_file_8h}{File.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_o_common_8h}{IOCommon.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00022}\mbox{\hyperlink{class_atlas_1_1_a_file_a617fc3c8347c9f98cc6e69d37cccc09c}{00022}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_file_a617fc3c8347c9f98cc6e69d37cccc09c}{Atlas::AFile::setFilePath}}(\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ cPath)\ \{\ \mbox{\hyperlink{class_atlas_1_1_a_file_a7409f51922075e69257935466eb85ced}{mFilePath}}\ =\ cPath;\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00024}\mbox{\hyperlink{class_atlas_1_1_a_file_aced33fc0e60b5dcd9c3e91c127cb217d}{00024}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_file_aced33fc0e60b5dcd9c3e91c127cb217d}{Atlas::AFile::setFileSize}}(\textcolor{keywordtype}{size\_t}\ cSize)\ \{\ mFileSize\ =\ cSize;\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00026}\mbox{\hyperlink{class_atlas_1_1_a_file_a82fa86c6a5e628e7989411bd2c36ebdf}{00026}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_file_a82fa86c6a5e628e7989411bd2c36ebdf}{Atlas::AFile::setFileType}}(uint16\_t\ cType)\ \{\ mFileType\ =\ cType;\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00028}\mbox{\hyperlink{class_atlas_1_1_a_file_adbef1fa9ccd3ed20693aacde77a77f59}{00028}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_file_adbef1fa9ccd3ed20693aacde77a77f59}{Atlas::AFile::setIsLoaded}}(\textcolor{keywordtype}{bool}\ bIsLoaded)\ \{\ mIsLoaded\ =\ bIsLoaded;\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00030}\mbox{\hyperlink{class_atlas_1_1_a_file_aaef96331e0554f18991c57694a5d97f2}{00030}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_file_aaef96331e0554f18991c57694a5d97f2}{Atlas::AFile::setFileData}}(std::any\ \textcolor{keyword}{const}\&\ cData)\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00031}00031\ \ \ \ \ mFileData\ =\ cData;}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00032}00032\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00034}\mbox{\hyperlink{class_atlas_1_1_a_file_adeb5df1917e712b00643e014d873e695}{00034}}\ \mbox{\hyperlink{class_atlas_1_1_a_file_a0e206a86496598da2df0d66afb350e65}{Atlas::AFile::AFile}}(\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ cPath,\ \textcolor{keywordtype}{size\_t}\ cSize,\ uint16\_t\ cType,\ \textcolor{keywordtype}{bool}\ bIsLoaded)}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00035}00035\ \ \ \ \ :\ mFilePath(cPath),\ mFileSize(cSize),\ mFileType(cType),\ mIsLoaded(bIsLoaded)\ \{\}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00037}\mbox{\hyperlink{class_atlas_1_1_a_file_aa7757d04f628a99781d74be58107afb5}{00037}}\ \mbox{\hyperlink{namespace_atlas_a33c36cc6d06931324201eab6aae964a0}{Atlas::FileStream}}\ \mbox{\hyperlink{class_atlas_1_1_a_file_aa7757d04f628a99781d74be58107afb5}{Atlas::AFile::open}}(\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ cFilePath)\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{namespace_atlas_ace931dde37d1a3b3f4919d9f5565a44e}{PathExists}}(cFilePath))\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}File\ does\ not\ exist:\ "{}}\ +\ cFilePath.string());}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00040}00040\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00042}00042\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a33c36cc6d06931324201eab6aae964a0}{FileStream}}(cFilePath);}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00043}00043\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00045}\mbox{\hyperlink{class_atlas_1_1_a_file_a5d52d310c4aa507def0b2b05844cc0a0}{00045}}\ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_a_file_a5d52d310c4aa507def0b2b05844cc0a0}{Atlas::AFile::load}}(\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ cPath)\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00046}00046\ \ \ \ \ mFilePath\ =\ cPath;}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00048}00048\ \ \ \ \ std::ifstream\ file(mFilePath,\ std::ios::app);}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00050}00050\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file.is\_open())\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00052}00052\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00053}00053\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00055}\mbox{\hyperlink{class_atlas_1_1_a_file_ae63244bcfb2709f8ec197307ab233863}{00055}}\ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_a_file_ae63244bcfb2709f8ec197307ab233863}{Atlas::AFile::append}}(std::string\ \textcolor{keyword}{const}\&\ cData)\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00056}00056\ \ \ \ \ std::ofstream\ file(mFilePath,\ std::ios::app);}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00058}00058\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file.is\_open()\ ||\ file.fail())\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00060}00060\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00062}00062\ \ \ \ \ file\ <<\ cData;}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00064}00064\ \ \ \ \ file.close();}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00066}00066\ \ \ \ \ \textcolor{comment}{//\ Since\ this\ is\ not\ a\ finished\ function,\ we\ return\ -\/1}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00067}00067\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00068}00068\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00070}\mbox{\hyperlink{class_atlas_1_1_a_file_a2efa84d7f71a4ab22f294d4fb6d607f7}{00070}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_file_a2efa84d7f71a4ab22f294d4fb6d607f7}{Atlas::AFile::isLoaded}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ mIsLoaded;\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00072}\mbox{\hyperlink{class_atlas_1_1_a_file_aafbf839e84835a2221c69405e65b90e0}{00072}}\ \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Atlas::PathLocation}}\ \textcolor{keyword}{const}\&\ \mbox{\hyperlink{class_atlas_1_1_a_file_aafbf839e84835a2221c69405e65b90e0}{Atlas::AFile::getFilePath}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ mFilePath;\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00074}\mbox{\hyperlink{class_atlas_1_1_a_file_a19705f459d721049106290d3df87b8f0}{00074}}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_atlas_1_1_a_file_a19705f459d721049106290d3df87b8f0}{Atlas::AFile::getFileSize}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ mFileSize;\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00076}\mbox{\hyperlink{class_atlas_1_1_a_file_abe7f734616e1821611ff44a33498c091}{00076}}\ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_a_file_abe7f734616e1821611ff44a33498c091}{Atlas::AFile::getFileType}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ mFileType;\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00078}\mbox{\hyperlink{class_atlas_1_1_a_file_a453759fe11f3141f2c1f1d3a0e736dd5}{00078}}\ std::any\ \textcolor{keyword}{const}\&\ \mbox{\hyperlink{class_atlas_1_1_a_file_a453759fe11f3141f2c1f1d3a0e736dd5}{Atlas::AFile::getFileData}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ mFileData;\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00080}\mbox{\hyperlink{class_atlas_1_1_a_file_aa95515b2846f817be971a7f0eb99ba46}{00080}}\ Atlas::AFile::operator\ size\_t()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{keywordflow}{return}\ getFileSize();}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00082}00082\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00084}00084\ Atlas::AFile::operator\ bool()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{keywordflow}{return}\ isValid();}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00086}00086\ \}}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00088}\mbox{\hyperlink{namespace_atlas_ace931dde37d1a3b3f4919d9f5565a44e}{00088}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespace_atlas_ace931dde37d1a3b3f4919d9f5565a44e}{Atlas::PathExists}}(\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{PathLocation}}\ \textcolor{keyword}{const}\&\ cPath)}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00089}00089\ \{}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{return}\ std::filesystem::exists(cPath);}
+\DoxyCodeLine{\Hypertarget{_file_8cpp_source_l00091}00091\ \}}
 
 \end{DoxyCode}

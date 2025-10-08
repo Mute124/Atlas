@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Atlas: C:/Dev/Techstorm-v5/src/engine/core/GameThread.cpp Source File</title>
+<title>Atlas: C:/Dev/Techstorm-v5/src/engine/core/threading/GameThread.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.7</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -99,13 +99,93 @@ $(document).ready(function(){initNavTree('da/d8e/_game_thread_8cpp_source.html',
   <div class="headertitle"><div class="title">GameThread.cpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../da/d8e/_game_thread_8cpp.html">Go to the documentation of this file.</a><div class="fragment"> </div><!-- fragment --></div><!-- contents -->
+<a href="../../da/d8e/_game_thread_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="../../d6/df9/_game_thread_8h.html">GameThread.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#ifndef ATLAS_ENABLE_THREADING</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="foldopen" id="foldopen00005" data-start="{" data-end="}">
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="../../db/d6f/class_atlas_1_1_game_thread.html#a4e7358f0746b541303f858f87eae7c3b">    5</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../db/d6f/class_atlas_1_1_game_thread.html#a4e7358f0746b541303f858f87eae7c3b">Atlas::GameThread::setIdleState</a>(<span class="keywordtype">bool</span> newState) {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    this-&gt;<a class="code hl_variable" href="../../db/d6f/class_atlas_1_1_game_thread.html#a3de69c2164a24e3cfa3aff20c661f72f">mIsIdle</a>.store(newState);</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>}</div>
+</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00009" data-start="{" data-end="}">
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="../../db/d6f/class_atlas_1_1_game_thread.html#aa74cad8e413c5bf1f85fbbe125e41162">    9</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../db/d6f/class_atlas_1_1_game_thread.html#aa74cad8e413c5bf1f85fbbe125e41162">Atlas::GameThread::setIsReady</a>(<span class="keywordtype">bool</span> newReadinessState) {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    this-&gt;mIsReady.store(newReadinessState);</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>}</div>
+</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="}">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="../../db/d6f/class_atlas_1_1_game_thread.html#a401681865ded41c011c8aa32f0f53958">   13</a></span><a class="code hl_function" href="../../db/d6f/class_atlas_1_1_game_thread.html#a401681865ded41c011c8aa32f0f53958">Atlas::GameThread::GameThread</a>(<a class="code hl_struct" href="../../d0/d54/struct_atlas_1_1_thread_launch_info.html">ThreadLaunchInfo</a> <span class="keyword">const</span>&amp; launchInfo) : mThreadFunction(launchInfo.threadFunction) {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>}</div>
+</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="}">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="../../db/d6f/class_atlas_1_1_game_thread.html#ab1c9605467190ed7bb833db18acb701c">   17</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../db/d6f/class_atlas_1_1_game_thread.html#ab1c9605467190ed7bb833db18acb701c">Atlas::GameThread::isIdle</a>() {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordflow">return</span> this-&gt;mIsIdle;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>}</div>
+</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="}">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="../../db/d6f/class_atlas_1_1_game_thread.html#a559cb369b369ddc0950573ebaaf064ac">   21</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../db/d6f/class_atlas_1_1_game_thread.html#a559cb369b369ddc0950573ebaaf064ac">Atlas::GameThread::isDetached</a>()</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>{</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>}</div>
+</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="}">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="../../db/d6f/class_atlas_1_1_game_thread.html#aa9edb6343c4b21c721b1dce05663e6a5">   26</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../db/d6f/class_atlas_1_1_game_thread.html#aa9edb6343c4b21c721b1dce05663e6a5">Atlas::GameThread::isReady</a>() {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordflow">return</span> this-&gt;mIsReady;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}</div>
+</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="}">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="../../db/d6f/class_atlas_1_1_game_thread.html#aeac66820412ffd8f8c709911d217da83">   30</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../db/d6f/class_atlas_1_1_game_thread.html#aeac66820412ffd8f8c709911d217da83">Atlas::GameThread::isJoinable</a>()</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>{</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">return</span> this-&gt;mThread.joinable();</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
+</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="../../db/d6f/class_atlas_1_1_game_thread.html#af940f041471c62320d74d2f90f22b3c6">   35</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../db/d6f/class_atlas_1_1_game_thread.html#af940f041471c62320d74d2f90f22b3c6">Atlas::GameThread::detach</a>() {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    this-&gt;mThread.detach();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>}</div>
+</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="}">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="../../db/d6f/class_atlas_1_1_game_thread.html#abd4108db1da22e1f8856769c9fe834de">   39</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../db/d6f/class_atlas_1_1_game_thread.html#abd4108db1da22e1f8856769c9fe834de">Atlas::GameThread::join</a>() {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    this-&gt;mThread.join();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>}</div>
+</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="../../db/d6f/class_atlas_1_1_game_thread.html#adfeda654652b8b82d806ceccc6435559">   43</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../db/d6f/class_atlas_1_1_game_thread.html#adfeda654652b8b82d806ceccc6435559">Atlas::GameThread::execute</a>() {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    this-&gt;mThread = std::jthread(this-&gt;mThreadFunction);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
+</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="a_game_thread_8h_html"><div class="ttname"><a href="../../d6/df9/_game_thread_8h.html">GameThread.h</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_a3de69c2164a24e3cfa3aff20c661f72f"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#a3de69c2164a24e3cfa3aff20c661f72f">Atlas::GameThread::mIsIdle</a></div><div class="ttdeci">std::atomic&lt; bool &gt; mIsIdle</div><div class="ttdef"><b>Definition</b> <a href="../../d6/df9/_game_thread_8h_source.html#l00072">GameThread.h:72</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_a401681865ded41c011c8aa32f0f53958"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#a401681865ded41c011c8aa32f0f53958">Atlas::GameThread::GameThread</a></div><div class="ttdeci">GameThread(ThreadLaunchInfo const &amp;launchInfo)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d8e/_game_thread_8cpp_source.html#l00013">GameThread.cpp:13</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_a4e7358f0746b541303f858f87eae7c3b"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#a4e7358f0746b541303f858f87eae7c3b">Atlas::GameThread::setIdleState</a></div><div class="ttdeci">void setIdleState(bool newState)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d8e/_game_thread_8cpp_source.html#l00005">GameThread.cpp:5</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_a559cb369b369ddc0950573ebaaf064ac"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#a559cb369b369ddc0950573ebaaf064ac">Atlas::GameThread::isDetached</a></div><div class="ttdeci">bool isDetached() override</div><div class="ttdef"><b>Definition</b> <a href="../../da/d8e/_game_thread_8cpp_source.html#l00021">GameThread.cpp:21</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_aa74cad8e413c5bf1f85fbbe125e41162"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#aa74cad8e413c5bf1f85fbbe125e41162">Atlas::GameThread::setIsReady</a></div><div class="ttdeci">void setIsReady(bool newReadinessState)</div><div class="ttdef"><b>Definition</b> <a href="../../da/d8e/_game_thread_8cpp_source.html#l00009">GameThread.cpp:9</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_aa9edb6343c4b21c721b1dce05663e6a5"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#aa9edb6343c4b21c721b1dce05663e6a5">Atlas::GameThread::isReady</a></div><div class="ttdeci">bool isReady() override</div><div class="ttdef"><b>Definition</b> <a href="../../da/d8e/_game_thread_8cpp_source.html#l00026">GameThread.cpp:26</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_ab1c9605467190ed7bb833db18acb701c"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#ab1c9605467190ed7bb833db18acb701c">Atlas::GameThread::isIdle</a></div><div class="ttdeci">bool isIdle() override</div><div class="ttdef"><b>Definition</b> <a href="../../da/d8e/_game_thread_8cpp_source.html#l00017">GameThread.cpp:17</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_abd4108db1da22e1f8856769c9fe834de"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#abd4108db1da22e1f8856769c9fe834de">Atlas::GameThread::join</a></div><div class="ttdeci">void join() override</div><div class="ttdef"><b>Definition</b> <a href="../../da/d8e/_game_thread_8cpp_source.html#l00039">GameThread.cpp:39</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_adfeda654652b8b82d806ceccc6435559"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#adfeda654652b8b82d806ceccc6435559">Atlas::GameThread::execute</a></div><div class="ttdeci">virtual void execute() override</div><div class="ttdef"><b>Definition</b> <a href="../../da/d8e/_game_thread_8cpp_source.html#l00043">GameThread.cpp:43</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_aeac66820412ffd8f8c709911d217da83"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#aeac66820412ffd8f8c709911d217da83">Atlas::GameThread::isJoinable</a></div><div class="ttdeci">bool isJoinable() override</div><div class="ttdef"><b>Definition</b> <a href="../../da/d8e/_game_thread_8cpp_source.html#l00030">GameThread.cpp:30</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_game_thread_html_af940f041471c62320d74d2f90f22b3c6"><div class="ttname"><a href="../../db/d6f/class_atlas_1_1_game_thread.html#af940f041471c62320d74d2f90f22b3c6">Atlas::GameThread::detach</a></div><div class="ttdeci">void detach() override</div><div class="ttdef"><b>Definition</b> <a href="../../da/d8e/_game_thread_8cpp_source.html#l00035">GameThread.cpp:35</a></div></div>
+<div class="ttc" id="astruct_atlas_1_1_thread_launch_info_html"><div class="ttname"><a href="../../d0/d54/struct_atlas_1_1_thread_launch_info.html">Atlas::ThreadLaunchInfo</a></div><div class="ttdef"><b>Definition</b> <a href="../../d6/df9/_game_thread_8h_source.html#l00026">GameThread.h:26</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_fdbc7b4b5b4c04d598adc44afc34d9a5.html">core</a></li><li class="navelem"><a class="el" href="../../da/d8e/_game_thread_8cpp.html">GameThread.cpp</a></li>
-    <li class="footer">Generated on Sat Feb 15 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_fdbc7b4b5b4c04d598adc44afc34d9a5.html">core</a></li><li class="navelem"><a class="el" href="../../dir_492b1da82a8b3b934838ae1aad60ab0c.html">threading</a></li><li class="navelem"><a class="el" href="../../da/d8e/_game_thread_8cpp.html">GameThread.cpp</a></li>
+    <li class="footer">Generated on Tue Oct 7 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -1,12 +1,229 @@
 \doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/core/\+Memory\+Allocator.h File Reference}
 \hypertarget{_memory_allocator_8h}{}\label{_memory_allocator_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/core/MemoryAllocator.h@{C:/Dev/Techstorm-\/v5/src/engine/core/MemoryAllocator.h}}
+
+
+Provides definitions to handle memory allocation and deallocation within the engine.  
+
+
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include "{}Make\+Non\+Copyable.\+h"{}}\newline
+{\ttfamily \#include "{}Memory\+Counter.\+h"{}}\newline
+{\ttfamily \#include "{}Common.\+h"{}}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
+struct \mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator}{Atlas\+::\+Memory\+Functions\+Aggregator}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_memory_block}{Atlas\+::\+Memory\+Block}}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_i_memory_allocator}{Atlas\+::\+IMemory\+Allocator}}
+\item 
 class \mbox{\hyperlink{class_atlas_1_1_memory_allocator}{Atlas\+::\+Memory\+Allocator}}
-\begin{DoxyCompactList}\small\item\em Handles memory allocation and deallocation. This class is also used to help manage the amount of memory used by the engine. This class can also set the memory limit of the engine (beware that this will cause the engine to crash if the limit is exceeded, so use with caution). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
 namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_memory_allocator_8h_ab7024b0a85f8d06ee67eeb616fd54180}{ATLAS\+\_\+\+CONVERT\+\_\+\+KB\+\_\+\+TO\+\_\+\+BYTES}}(kb)~(kb \texorpdfstring{$\ast$}{*} 1024)
+\begin{DoxyCompactList}\small\item\em Converts kilobytes to bytes. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_memory_allocator_8h_a8d626c93881653af2a993d239a12272b}{ATLAS\+\_\+\+CONVERT\+\_\+\+MB\+\_\+\+TO\+\_\+\+BYTES}}(mb)~(mb \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024)
+\begin{DoxyCompactList}\small\item\em Converts megabytes to bytes. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_memory_allocator_8h_a2d474b524e6213fdc00b9728c7a46cca}{ATLAS\+\_\+\+CONVERT\+\_\+\+GB\+\_\+\+TO\+\_\+\+BYTES}}(gb)~(gb \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024)
+\begin{DoxyCompactList}\small\item\em Converts gigabytes to bytes. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_memory_allocator_8h_a013a8d32a0328c12bde513856c85b0e0}{ATLAS\+\_\+\+MINIMUM\+\_\+\+MEMORY\+\_\+\+USAGE}}~\mbox{\hyperlink{_memory_allocator_8h_a8d626c93881653af2a993d239a12272b}{ATLAS\+\_\+\+CONVERT\+\_\+\+MB\+\_\+\+TO\+\_\+\+BYTES}}(100)
+\begin{DoxyCompactList}\small\item\em The minimum amount of memory that the engine can use in bytes. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_memory_allocator_8h_a73d8fced8d05b9f56d14beffa3db7875}{ATLAS\+\_\+\+INTERNAL\+\_\+\+ALLOC}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}})~\mbox{\hyperlink{namespace_atlas_a947beff0f867fc02816f89ee71ed8b3a}{Atlas\+::\+Alloc}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}})
+\item 
+\#define \mbox{\hyperlink{_memory_allocator_8h_afd758ac1dd18b24ed3ef4a540623a401}{ATLAS\+\_\+\+INTERNAL\+\_\+\+FREE}}(ptr)~\mbox{\hyperlink{namespace_atlas_a3cac8311b7a548ec71ec511bc8b38f99}{Atlas\+::\+Free}}(ptr)
+\item 
+\#define \mbox{\hyperlink{_memory_allocator_8h_ad97b272b98f12f6a476cb78e42384a56}{ATLAS\+\_\+\+OVERRIDE\+\_\+\+MEMORY\+\_\+\+ALLOCATOR}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespace_atlas_ac98e9185bf8a8392b28e443b6ee1a278}{Atlas\+::\+Alloc\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(size\+\_\+t \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}})
+\item 
+using \mbox{\hyperlink{namespace_atlas_a0810df7523f86fbd70ce4a06398f7674}{Atlas\+::\+Realloc\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}block\+Ptr, size\+\_\+t old\+Size, size\+\_\+t new\+Size)
+\item 
+using \mbox{\hyperlink{namespace_atlas_a72cf222afb41a2a8d147b6360ec0cc8b}{Atlas\+::\+Free\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}block\+Ptr)
+\item 
+using \mbox{\hyperlink{namespace_atlas_a49ed2279b082b65090203337d2923cfb}{Atlas\+::\+Aligned\+Alloc\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}(\texorpdfstring{$\ast$}{*})(size\+\_\+t \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}, size\+\_\+t alignment)
+\item 
+using \mbox{\hyperlink{namespace_atlas_af456e30e8e0a59c371cf0cfa82aab9e7}{Atlas\+::\+Aligned\+Free\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}block\+Ptr)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a05a2f5e774c38d9f67fbba5b96a79926}{Atlas\+::\+Register\+Memory\+Functions}} (const \mbox{\hyperlink{struct_atlas_1_1_memory_functions_aggregator}{Memory\+Functions\+Aggregator}} \&memory\+Functions\+Aggregator)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a57b2793df7151657e8a1373ad49555c7}{Atlas\+::\+Register\+Default\+Memory\+Functions}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides definitions to handle memory allocation and deallocation within the engine. 
+
+\begin{DoxyNote}{Note}
+The code is similar to Jolt Physics\textquotesingle{} memory allocator code. (Thank you Jolt Physics!)
+
+This file is not yet implemented.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+9 
+\end{DoxySince}
+
+
+Definition in file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
+
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_memory_allocator_8h_a2d474b524e6213fdc00b9728c7a46cca}\label{_memory_allocator_8h_a2d474b524e6213fdc00b9728c7a46cca} 
+\index{MemoryAllocator.h@{MemoryAllocator.h}!ATLAS\_CONVERT\_GB\_TO\_BYTES@{ATLAS\_CONVERT\_GB\_TO\_BYTES}}
+\index{ATLAS\_CONVERT\_GB\_TO\_BYTES@{ATLAS\_CONVERT\_GB\_TO\_BYTES}!MemoryAllocator.h@{MemoryAllocator.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_CONVERT\_GB\_TO\_BYTES}{ATLAS\_CONVERT\_GB\_TO\_BYTES}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+CONVERT\+\_\+\+GB\+\_\+\+TO\+\_\+\+BYTES(\begin{DoxyParamCaption}\item[{}]{gb }\end{DoxyParamCaption})~(gb \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024)}
+
+
+
+Converts gigabytes to bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gb} & The gigabytes to convert.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of bytes. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00050}{50}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
+
+\Hypertarget{_memory_allocator_8h_ab7024b0a85f8d06ee67eeb616fd54180}\label{_memory_allocator_8h_ab7024b0a85f8d06ee67eeb616fd54180} 
+\index{MemoryAllocator.h@{MemoryAllocator.h}!ATLAS\_CONVERT\_KB\_TO\_BYTES@{ATLAS\_CONVERT\_KB\_TO\_BYTES}}
+\index{ATLAS\_CONVERT\_KB\_TO\_BYTES@{ATLAS\_CONVERT\_KB\_TO\_BYTES}!MemoryAllocator.h@{MemoryAllocator.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_CONVERT\_KB\_TO\_BYTES}{ATLAS\_CONVERT\_KB\_TO\_BYTES}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+CONVERT\+\_\+\+KB\+\_\+\+TO\+\_\+\+BYTES(\begin{DoxyParamCaption}\item[{}]{kb }\end{DoxyParamCaption})~(kb \texorpdfstring{$\ast$}{*} 1024)}
+
+
+
+Converts kilobytes to bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em kb} & The kilobytes to convert.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of bytes.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+9 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00030}{30}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
+
+\Hypertarget{_memory_allocator_8h_a8d626c93881653af2a993d239a12272b}\label{_memory_allocator_8h_a8d626c93881653af2a993d239a12272b} 
+\index{MemoryAllocator.h@{MemoryAllocator.h}!ATLAS\_CONVERT\_MB\_TO\_BYTES@{ATLAS\_CONVERT\_MB\_TO\_BYTES}}
+\index{ATLAS\_CONVERT\_MB\_TO\_BYTES@{ATLAS\_CONVERT\_MB\_TO\_BYTES}!MemoryAllocator.h@{MemoryAllocator.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_CONVERT\_MB\_TO\_BYTES}{ATLAS\_CONVERT\_MB\_TO\_BYTES}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+CONVERT\+\_\+\+MB\+\_\+\+TO\+\_\+\+BYTES(\begin{DoxyParamCaption}\item[{}]{mb }\end{DoxyParamCaption})~(mb \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024)}
+
+
+
+Converts megabytes to bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mb} & The megabytes to convert.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of bytes.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+9 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00041}{41}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
+
+\Hypertarget{_memory_allocator_8h_a73d8fced8d05b9f56d14beffa3db7875}\label{_memory_allocator_8h_a73d8fced8d05b9f56d14beffa3db7875} 
+\index{MemoryAllocator.h@{MemoryAllocator.h}!ATLAS\_INTERNAL\_ALLOC@{ATLAS\_INTERNAL\_ALLOC}}
+\index{ATLAS\_INTERNAL\_ALLOC@{ATLAS\_INTERNAL\_ALLOC}!MemoryAllocator.h@{MemoryAllocator.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_INTERNAL\_ALLOC}{ATLAS\_INTERNAL\_ALLOC}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+INTERNAL\+\_\+\+ALLOC(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}} }\end{DoxyParamCaption})~\mbox{\hyperlink{namespace_atlas_a947beff0f867fc02816f89ee71ed8b3a}{Atlas\+::\+Alloc}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}})}
+
+
+
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00096}{96}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
+
+\Hypertarget{_memory_allocator_8h_afd758ac1dd18b24ed3ef4a540623a401}\label{_memory_allocator_8h_afd758ac1dd18b24ed3ef4a540623a401} 
+\index{MemoryAllocator.h@{MemoryAllocator.h}!ATLAS\_INTERNAL\_FREE@{ATLAS\_INTERNAL\_FREE}}
+\index{ATLAS\_INTERNAL\_FREE@{ATLAS\_INTERNAL\_FREE}!MemoryAllocator.h@{MemoryAllocator.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_INTERNAL\_FREE}{ATLAS\_INTERNAL\_FREE}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+INTERNAL\+\_\+\+FREE(\begin{DoxyParamCaption}\item[{}]{ptr }\end{DoxyParamCaption})~\mbox{\hyperlink{namespace_atlas_a3cac8311b7a548ec71ec511bc8b38f99}{Atlas\+::\+Free}}(ptr)}
+
+
+
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00097}{97}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
+
+\Hypertarget{_memory_allocator_8h_a013a8d32a0328c12bde513856c85b0e0}\label{_memory_allocator_8h_a013a8d32a0328c12bde513856c85b0e0} 
+\index{MemoryAllocator.h@{MemoryAllocator.h}!ATLAS\_MINIMUM\_MEMORY\_USAGE@{ATLAS\_MINIMUM\_MEMORY\_USAGE}}
+\index{ATLAS\_MINIMUM\_MEMORY\_USAGE@{ATLAS\_MINIMUM\_MEMORY\_USAGE}!MemoryAllocator.h@{MemoryAllocator.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_MINIMUM\_MEMORY\_USAGE}{ATLAS\_MINIMUM\_MEMORY\_USAGE}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+MINIMUM\+\_\+\+MEMORY\+\_\+\+USAGE~\mbox{\hyperlink{_memory_allocator_8h_a8d626c93881653af2a993d239a12272b}{ATLAS\+\_\+\+CONVERT\+\_\+\+MB\+\_\+\+TO\+\_\+\+BYTES}}(100)}
+
+
+
+The minimum amount of memory that the engine can use in bytes. 
+
+\begin{DoxyRemark}{Remarks}
+This is used to ensure that the engine has enough memory to run.
+\end{DoxyRemark}
+\begin{DoxyWarning}{Warning}
+The engine will crash if the memory limit is exceeded.
+\end{DoxyWarning}
+\begin{DoxyNote}{Note}
+This value is set to 100MB by default.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+9 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00063}{63}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
+
+\Hypertarget{_memory_allocator_8h_ad97b272b98f12f6a476cb78e42384a56}\label{_memory_allocator_8h_ad97b272b98f12f6a476cb78e42384a56} 
+\index{MemoryAllocator.h@{MemoryAllocator.h}!ATLAS\_OVERRIDE\_MEMORY\_ALLOCATOR@{ATLAS\_OVERRIDE\_MEMORY\_ALLOCATOR}}
+\index{ATLAS\_OVERRIDE\_MEMORY\_ALLOCATOR@{ATLAS\_OVERRIDE\_MEMORY\_ALLOCATOR}!MemoryAllocator.h@{MemoryAllocator.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_OVERRIDE\_MEMORY\_ALLOCATOR}{ATLAS\_OVERRIDE\_MEMORY\_ALLOCATOR}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+OVERRIDE\+\_\+\+MEMORY\+\_\+\+ALLOCATOR}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ *\textcolor{keyword}{operator}\ \textcolor{keyword}{new}\ (\textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}})\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_memory_allocator_8h_a73d8fced8d05b9f56d14beffa3db7875}{ATLAS\_INTERNAL\_ALLOC}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}});\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \textcolor{keyword}{operator}\ \textcolor{keyword}{delete}\ (\textcolor{keywordtype}{void}\ *ptr)\ \textcolor{keyword}{noexcept}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \mbox{\hyperlink{_memory_allocator_8h_afd758ac1dd18b24ed3ef4a540623a401}{ATLAS\_INTERNAL\_FREE}}(ptr);\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ *\textcolor{keyword}{operator}\ \textcolor{keyword}{new}[]\ (\textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}})\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_memory_allocator_8h_a73d8fced8d05b9f56d14beffa3db7875}{ATLAS\_INTERNAL\_ALLOC}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}});\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \textcolor{keyword}{operator}\ \textcolor{keyword}{delete}[]\ (\textcolor{keywordtype}{void}\ *ptr)\ \textcolor{keyword}{noexcept}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \mbox{\hyperlink{_memory_allocator_8h_afd758ac1dd18b24ed3ef4a540623a401}{ATLAS\_INTERNAL\_FREE}}(ptr);\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ *\textcolor{keyword}{operator}\ \textcolor{keyword}{new}\ (\textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}},\ std::align\_val\_t\ alignment)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a6c1c979baaf72c3c3e09d773abade963}{Atlas::AllocAligned}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}},\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(alignment));\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \textcolor{keyword}{operator}\ \textcolor{keyword}{delete}\ (\textcolor{keywordtype}{void}\ *ptr,\ [[maybe\_unused]]\ std::align\_val\_t\ alignment)\ \textcolor{keyword}{noexcept}\ \ \ \{\ \mbox{\hyperlink{namespace_atlas_afc0aecdfa4dd521ec30bc1434959f1d6}{Atlas::FreeAligned}}(ptr);\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ *\textcolor{keyword}{operator}\ \textcolor{keyword}{new}[]\ (\textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}},\ std::align\_val\_t\ alignment)\ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a6c1c979baaf72c3c3e09d773abade963}{Atlas::AllocAligned}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}},\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(alignment));\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \textcolor{keyword}{operator}\ \textcolor{keyword}{delete}[]\ (\textcolor{keywordtype}{void}\ *ptr,\ [[maybe\_unused]]\ std::align\_val\_t\ alignment)\ \textcolor{keyword}{noexcept}\ \{\ \mbox{\hyperlink{namespace_atlas_afc0aecdfa4dd521ec30bc1434959f1d6}{Atlas::FreeAligned}}(ptr);\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ *\textcolor{keyword}{operator}\ \textcolor{keyword}{new}\ ([[maybe\_unused]]\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}},\ \textcolor{keywordtype}{void}\ *ptr)\ \textcolor{keyword}{noexcept}\ \ \{\ \textcolor{keywordflow}{return}\ ptr;\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \textcolor{keyword}{operator}\ \textcolor{keyword}{delete}\ ([[maybe\_unused]]\ \textcolor{keywordtype}{void}\ *ptr,\ [[maybe\_unused]]\ \textcolor{keywordtype}{void}\ *place)\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{comment}{/*\ Do\ nothing\ */}\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ *\textcolor{keyword}{operator}\ \textcolor{keyword}{new}[]\ ([[maybe\_unused]]\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}},\ \textcolor{keywordtype}{void}\ *ptr)\ \textcolor{keyword}{noexcept}\ \ \ \ \{\ \textcolor{keywordflow}{return}\ ptr;\ \}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \textcolor{keyword}{operator}\ \textcolor{keyword}{delete}[]\ ([[maybe\_unused]]\ \textcolor{keywordtype}{void}\ *ptr,\ [[maybe\_unused]]\ \textcolor{keywordtype}{void}\ *place)\ \textcolor{keyword}{noexcept}\ \{\ \textcolor{comment}{/*\ Do\ nothing\ */}\ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{_memory_allocator_8h_source_l00103}{103}} of file \mbox{\hyperlink{_memory_allocator_8h_source}{Memory\+Allocator.\+h}}.
+

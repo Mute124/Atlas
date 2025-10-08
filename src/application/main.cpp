@@ -86,6 +86,8 @@ int main(int argc, char* argv[]) {
 
 	logger.init();
 
+	logger.setThisAsDefaultLogger();
+
 	// Setup the game window (this needs to be done before the rendering device is created)
 	SDLGameWindow* gameWindow = new SDLGameWindow;
 

@@ -1,0 +1,1007 @@
+\doxysection{VKDevice.\+cpp}
+\hypertarget{_v_k_device_8cpp_source}{}\label{_v_k_device_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/backend/VKDevice.cpp@{C:/Dev/Techstorm-\/v5/src/engine/graphics/backend/VKDevice.cpp}}
+\mbox{\hyperlink{_v_k_device_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ VKDevice.cpp}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00003}00003\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00004}00004\ \textcolor{comment}{\ *\ @brief\ .}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00005}00005\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00006}00006\ \textcolor{comment}{\ *\ @date\ September\ 2025}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00007}00007\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00008}00008\ \textcolor{comment}{\ *\ @since\ v}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_v_k_device_8h}{VKDevice.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}../VulkanInstance.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rendering_backend_8h}{RenderingBackend.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../Frame.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}../../core/Core.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}../window/Window.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00017}\mbox{\hyperlink{_v_k_device_8cpp_abea80547807da765ebe9fce1c6dd6a8d}{00017}}\ \textcolor{preprocessor}{\#define\ VMA\_IMPLEMENTATION}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}vk\_mem\_alloc.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00019}00019\ \textcolor{comment}{//\#include\ "{}vk\_mem\_alloc.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <ostream>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00032}00032\ \textcolor{comment}{//\ This\ avoids\ the\ transitive\ include\ of\ string\_view\ on\ MSVC\ compilers}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00033}00033\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_COMPILER\_MSVC}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00034}00034\ \textcolor{preprocessor}{\ \ \ \ \#include\ <\_\_msvc\_string\_view.hpp>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00035}00035\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ATLAS\_COMPILER\_MSVC}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00037}00037\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_SDL2}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00038}00038\ \textcolor{preprocessor}{\ \ \ \ \#include\ <SDL2/SDL\_video.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00039}00039\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ATLAS\_USE\_SDL2}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00041}00041\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00042}00042\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00043}00043\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan\_core.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00046}00046\ \textcolor{preprocessor}{\ \ \ \ \#include\ <VkBootstrap.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00048}00048\ \textcolor{preprocessor}{\ \ \ \ \#ifdef\ ATLAS\_USE\_SDL2}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00049}00049\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#include\ <SDL\_vulkan.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00050}00050\ \textcolor{preprocessor}{\ \ \ \ \#endif\ }\textcolor{comment}{//\ ATLAS\_USE\_SDL2}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00053}00053\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ATLAS\_USE\_VULKAN}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00057}00057\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00059}\mbox{\hyperlink{struct_global_context}{00059}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_global_context}{GlobalContext}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00061}00061\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00063}\mbox{\hyperlink{_v_k_device_8cpp_a4ed1ac7ebe096fc975b54178b0b937ba}{00063}}\ std::unique\_ptr<GlobalContext>\ \mbox{\hyperlink{_v_k_device_8cpp_a4ed1ac7ebe096fc975b54178b0b937ba}{gGlobalContext}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00066}\mbox{\hyperlink{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}{00066}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Atlas::VulkanRenderingBackend}}*\ \mbox{\hyperlink{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}{gLoadedVulkanBackend}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00068}\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ab3bf785503136dbef3cd3f521bf01de8}{00068}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ab3bf785503136dbef3cd3f521bf01de8}{Atlas::DescriptorAllocator::init\_pool}}(VkDevice\ device,\ uint32\_t\ maxSets,\ std::span<PoolSizeRatio>\ poolRatios)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00069}00069\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00070}00070\ \ \ \ \ std::vector<VkDescriptorPoolSize>\ poolSizes;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00072}00072\ \ \ \ \ \textcolor{keywordflow}{for}\ (\mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio}{PoolSizeRatio}}\ ratio\ :\ poolRatios)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ poolSizes.push\_back(VkDescriptorPoolSize\{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ .type\ =\ ratio.type,}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ .descriptorCount\ =\ uint32\_t(ratio.ratio\ *\ maxSets)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00077}00077\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00079}00079\ \ \ \ \ VkDescriptorPoolCreateInfo\ pool\_info\ =\ \{\ .sType\ =\ VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_POOL\_CREATE\_INFO\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00080}00080\ \ \ \ \ pool\_info.flags\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00081}00081\ \ \ \ \ pool\_info.maxSets\ =\ maxSets;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00082}00082\ \ \ \ \ pool\_info.poolSizeCount\ =\ (uint32\_t)poolSizes.size();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00083}00083\ \ \ \ \ pool\_info.pPoolSizes\ =\ poolSizes.data();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00085}00085\ \ \ \ \ vkCreateDescriptorPool(device,\ \&pool\_info,\ \textcolor{keyword}{nullptr},\ \&\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ab5ace759ece0b8bc10b91b5ab5673c7a}{pool}});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00086}00086\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00088}\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_a00c1ddf1a380fff47b2b8266026ede29}{00088}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_a00c1ddf1a380fff47b2b8266026ede29}{Atlas::DescriptorAllocator::clear\_descriptors}}(VkDevice\ device)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00089}00089\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00090}00090\ \ \ \ \ vkResetDescriptorPool(device,\ pool,\ 0);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00091}00091\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00093}\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_aec0ee24b4aa78fd0e584151d5a7bc75c}{00093}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_aec0ee24b4aa78fd0e584151d5a7bc75c}{Atlas::DescriptorAllocator::destroy\_pool}}(VkDevice\ device)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00094}00094\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00095}00095\ \ \ \ \ vkDestroyDescriptorPool(device,\ pool,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00096}00096\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00098}\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ad5762b4d93baa98387d458991b76ac89}{00098}}\ VkDescriptorSet\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ad5762b4d93baa98387d458991b76ac89}{Atlas::DescriptorAllocator::allocate}}(VkDevice\ device,\ VkDescriptorSetLayout\ layout)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00099}00099\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00100}00100\ \ \ \ \ VkDescriptorSetAllocateInfo\ allocInfo\ =\ \{\ .sType\ =\ VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_SET\_ALLOCATE\_INFO\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00101}00101\ \ \ \ \ allocInfo.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00102}00102\ \ \ \ \ allocInfo.descriptorPool\ =\ pool;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00103}00103\ \ \ \ \ allocInfo.descriptorSetCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00104}00104\ \ \ \ \ allocInfo.pSetLayouts\ =\ \&layout;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00106}00106\ \ \ \ \ VkDescriptorSet\ ds;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00107}00107\ \ \ \ \ vkAllocateDescriptorSets(device,\ \&allocInfo,\ \&ds);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00109}00109\ \ \ \ \ \textcolor{keywordflow}{return}\ ds;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00110}00110\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00112}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a739fba5d12bfe91225e8af67fbd1dbfc}{00112}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a739fba5d12bfe91225e8af67fbd1dbfc}{Atlas::VulkanRenderingBackend::setApplicationName}}(std::string\_view\ applicationName)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00113}00113\ \ \ \ \ mApplicationName\ =\ applicationName;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00114}00114\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00116}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa7474902df6303176229db0815932077}{00116}}\ std::string\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa7474902df6303176229db0815932077}{Atlas::VulkanRenderingBackend::getApplicationName}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00117}00117\ \ \ \ \ \textcolor{keywordflow}{return}\ mApplicationName;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00118}00118\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00120}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4a4d7df71d1f65b6bfc5960c405fc5ec}{00120}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4a4d7df71d1f65b6bfc5960c405fc5ec}{Atlas::VulkanRenderingBackend::setFenceTimeout}}(uint64\_t\ lengthInNS)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00121}00121\ \ \ \ \ mFencesTimeoutNS\ =\ lengthInNS;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00122}00122\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00124}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a1bc2561775116cd9d0a8ea177998d1ab}{00124}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a1bc2561775116cd9d0a8ea177998d1ab}{Atlas::VulkanRenderingBackend::setNextImageTimeout}}(uint64\_t\ lengthInNS)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00125}00125\ \ \ \ \ mNextImageTimeoutNS\ =\ lengthInNS;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00126}00126\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00128}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a838ab59d0d565cb75eca87a70481401f}{00128}}\ \mbox{\hyperlink{struct_atlas_1_1_frame_data}{Atlas::FrameData}}\&\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a838ab59d0d565cb75eca87a70481401f}{Atlas::VulkanRenderingBackend::getCurrentFrame}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00129}00129\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00130}00130\ \ \ \ \ \textcolor{keywordflow}{return}\ mFrameDataArray[mCurrentFrameNumber\ \%\ \mbox{\hyperlink{namespace_atlas_a314364d52a78f11273971f50db3960e3}{FRAME\_OVERLAP}}];}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00131}00131\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00133}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa1e976efc27162979998896c39d25a6c}{00133}}\ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa1e976efc27162979998896c39d25a6c}{Atlas::VulkanRenderingBackend::initInstance}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_version}{APIVersion}}\&\ cAPIVersionRef,\ \textcolor{keywordtype}{bool}\ cbEnableValidationLayers,\ std::string\ \textcolor{keyword}{const}\&\ appName)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00134}00134\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00135}00135\ \ \ \ \ \textcolor{comment}{//vkb::InstanceBuilder\ instanceBuilder;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00137}00137\ \ \ \ \ \textcolor{comment}{//auto\ instanceReturn\ =\ instanceBuilder.set\_app\_name(appName.c\_str())}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00138}00138\ \ \ \ \ \textcolor{comment}{//\ \ .request\_validation\_layers(cbEnableValidationLayers)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00139}00139\ \ \ \ \ \textcolor{comment}{//\ \ .use\_default\_debug\_messenger()}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00140}00140\ \ \ \ \ \textcolor{comment}{//\ \ .require\_api\_version(cAPIVersionRef.major,\ cAPIVersionRef.minor,\ cAPIVersionRef.patch)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00141}00141\ \ \ \ \ \textcolor{comment}{//\ \ .build();}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00143}00143\ \ \ \ \ \textcolor{comment}{//vkb::Instance\ vulkanInstance\ =\ instanceReturn.value();}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00144}00144\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00145}00145\ \ \ \ \ \textcolor{comment}{//this-\/>mVulkanInstance\ =\ vulkanInstance.instance;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00146}00146\ \ \ \ \ \textcolor{comment}{//this-\/>mDebugMessenger\ =\ vulkanInstance.debug\_messenger;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00148}00148\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00149}00149\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00151}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a706ab6e52f11f4df9e5029f9c1e3ce6a}{00151}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a706ab6e52f11f4df9e5029f9c1e3ce6a}{Atlas::VulkanRenderingBackend::initDescriptors}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00152}00152\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00153}00153\ \ \ \ \ \textcolor{comment}{//create\ a\ descriptor\ pool\ that\ will\ hold\ 10\ sets\ with\ 1\ image\ each}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00154}00154\ \ \ \ \ std::vector<DescriptorAllocator::PoolSizeRatio>\ sizes\ =}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00155}00155\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \{\ VK\_DESCRIPTOR\_TYPE\_STORAGE\_IMAGE,\ 1\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00157}00157\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00159}00159\ \ \ \ \ mGlobalDescriptorAllocator.init\_pool(mDevice,\ 10,\ sizes);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00161}00161\ \ \ \ \ \textcolor{comment}{//make\ the\ descriptor\ set\ layout\ for\ our\ compute\ draw}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00162}00162\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_descriptor_layout_builder}{DescriptorLayoutBuilder}}\ builder;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ builder.\mbox{\hyperlink{class_atlas_1_1_descriptor_layout_builder_a2d42882b2b088d742f7ef3b8e9319a8d}{addBinding}}(0,\ VK\_DESCRIPTOR\_TYPE\_STORAGE\_IMAGE);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00165}00165\ \ \ \ \ \ \ \ \ mDrawImageDescriptorLayout\ =\ builder.\mbox{\hyperlink{class_atlas_1_1_descriptor_layout_builder_a8b6a37c16066ab55bdcb1c67455023af}{build}}(mDevice,\ VK\_SHADER\_STAGE\_COMPUTE\_BIT);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00166}00166\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00168}00168\ \ \ \ \ \textcolor{comment}{//\ other\ code}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00169}00169\ \ \ \ \ \textcolor{comment}{//allocate\ a\ descriptor\ set\ for\ our\ draw\ image}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00170}00170\ \ \ \ \ mDrawImageDescriptors\ =\ mGlobalDescriptorAllocator.allocate(mDevice,\ mDrawImageDescriptorLayout);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00172}00172\ \ \ \ \ VkDescriptorImageInfo\ imgInfo\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00173}00173\ \ \ \ \ imgInfo.imageLayout\ =\ VK\_IMAGE\_LAYOUT\_GENERAL;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00174}00174\ \ \ \ \ imgInfo.imageView\ =\ mDrawImage.imageView;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00176}00176\ \ \ \ \ VkWriteDescriptorSet\ drawImageWrite\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00177}00177\ \ \ \ \ drawImageWrite.sType\ =\ VK\_STRUCTURE\_TYPE\_WRITE\_DESCRIPTOR\_SET;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00178}00178\ \ \ \ \ drawImageWrite.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00180}00180\ \ \ \ \ drawImageWrite.dstBinding\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00181}00181\ \ \ \ \ drawImageWrite.dstSet\ =\ mDrawImageDescriptors;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00182}00182\ \ \ \ \ drawImageWrite.descriptorCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00183}00183\ \ \ \ \ drawImageWrite.descriptorType\ =\ VK\_DESCRIPTOR\_TYPE\_STORAGE\_IMAGE;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00184}00184\ \ \ \ \ drawImageWrite.pImageInfo\ =\ \&imgInfo;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00186}00186\ \ \ \ \ vkUpdateDescriptorSets(mDevice,\ 1,\ \&drawImageWrite,\ 0,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00188}00188\ \ \ \ \ \textcolor{comment}{//make\ sure\ both\ the\ descriptor\ allocator\ and\ the\ new\ layout\ get\ cleaned\ up\ properly}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00189}00189\ \ \ \ \ mMainDeletionQueue.push([\&]()\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ mGlobalDescriptorAllocator.destroy\_pool(mDevice);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ vkDestroyDescriptorSetLayout(mDevice,\ mDrawImageDescriptorLayout,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00193}00193\ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00194}00194\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00196}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4c2cee7a925d2f6a43cef42270ed29f1}{00196}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4c2cee7a925d2f6a43cef42270ed29f1}{Atlas::VulkanRenderingBackend::initPipelines}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00197}00197\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00198}00198\ \ \ \ \ initBackgroundPipelines();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00199}00199\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00201}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_adec9a0e49b1ba1c47bda7f64e4c1ba67}{00201}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_adec9a0e49b1ba1c47bda7f64e4c1ba67}{Atlas::VulkanRenderingBackend::initBackgroundPipelines}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00202}00202\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00203}00203\ \ \ \ \ VkPipelineLayoutCreateInfo\ computeLayout\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00204}00204\ \ \ \ \ computeLayout.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_LAYOUT\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00205}00205\ \ \ \ \ computeLayout.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00206}00206\ \ \ \ \ computeLayout.pSetLayouts\ =\ \&mDrawImageDescriptorLayout;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00207}00207\ \ \ \ \ computeLayout.setLayoutCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00209}00209\ \ \ \ \ vkCreatePipelineLayout(mDevice,\ \&computeLayout,\ \textcolor{keyword}{nullptr},\ \&mGradientPipelineLayout);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00210}00210\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00211}00211\ \ \ \ \ \textcolor{comment}{//layout\ code}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00212}00212\ \ \ \ \ VkShaderModule\ computeDrawShader;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00213}00213\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f}{LoadShaderModule}}(\textcolor{stringliteral}{"{}C:/Dev/Techstorm-\/v5/shaders/gradient.comp.spv"{}},\ mDevice,\ \&computeDrawShader))}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00214}00214\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Error\ when\ building\ the\ compute\ shader\ \(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00216}00216\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00217}00217\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00218}00218\ \ \ \ \ VkPipelineShaderStageCreateInfo\ stageinfo\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00219}00219\ \ \ \ \ stageinfo.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_SHADER\_STAGE\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00220}00220\ \ \ \ \ stageinfo.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00221}00221\ \ \ \ \ stageinfo.stage\ =\ VK\_SHADER\_STAGE\_COMPUTE\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00222}00222\ \ \ \ \ stageinfo.module\ =\ computeDrawShader;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00223}00223\ \ \ \ \ stageinfo.pName\ =\ \textcolor{stringliteral}{"{}main"{}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00225}00225\ \ \ \ \ VkComputePipelineCreateInfo\ computePipelineCreateInfo\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00226}00226\ \ \ \ \ computePipelineCreateInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_COMPUTE\_PIPELINE\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00227}00227\ \ \ \ \ computePipelineCreateInfo.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00228}00228\ \ \ \ \ computePipelineCreateInfo.layout\ =\ mGradientPipelineLayout;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00229}00229\ \ \ \ \ computePipelineCreateInfo.stage\ =\ stageinfo;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00231}00231\ \ \ \ \ vkCreateComputePipelines(mDevice,\ VK\_NULL\_HANDLE,\ 1,\ \&computePipelineCreateInfo,\ \textcolor{keyword}{nullptr},\ \&mGradientPipeline);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00233}00233\ \ \ \ \ vkDestroyShaderModule(mDevice,\ computeDrawShader,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00235}00235\ \ \ \ \ mMainDeletionQueue.push([\&]()\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ vkDestroyPipelineLayout(mDevice,\ mGradientPipelineLayout,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ vkDestroyPipeline(mDevice,\ mGradientPipeline,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00238}00238\ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00239}00239\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00241}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5b02c546f8d3a08dc8659988f06a6650}{00241}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5b02c546f8d3a08dc8659988f06a6650}{Atlas::VulkanRenderingBackend::initVMAAllocator}}(vkb::Instance\ \textcolor{keyword}{const}\&\ cVkBootstrapInstanceRef)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00242}00242\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00243}00243\ \ \ \ \ \textcolor{comment}{//\ initialize\ the\ memory\ allocator\ (this\ can\ be\ a\ function)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00244}00244\ \ \ \ \ VmaAllocatorCreateInfo\ allocatorInfo\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00245}00245\ \ \ \ \ allocatorInfo.physicalDevice\ =\ mGPUDevice;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00246}00246\ \ \ \ \ allocatorInfo.device\ =\ mDevice;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00247}00247\ \ \ \ \ allocatorInfo.instance\ =\ cVkBootstrapInstanceRef;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00248}00248\ \ \ \ \ allocatorInfo.flags\ =\ VMA\_ALLOCATOR\_CREATE\_BUFFER\_DEVICE\_ADDRESS\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00249}00249\ \ \ \ \ vmaCreateAllocator(\&allocatorInfo,\ \&mVMAAllocator);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00251}00251\ \ \ \ \ mMainDeletionQueue.push([\&]()\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00252}00252\ \ \ \ \ \ \ \ \ vmaDestroyAllocator(mVMAAllocator);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00253}00253\ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00254}00254\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00256}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae8a36fa0c0e480e5250194db2e930a4c}{00256}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae8a36fa0c0e480e5250194db2e930a4c}{Atlas::VulkanRenderingBackend::initCommands}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00257}00257\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00258}00258\ \ \ \ \ \textcolor{comment}{//create\ a\ command\ pool\ for\ commands\ submitted\ to\ the\ graphics\ queue.}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00259}00259\ \ \ \ \ \textcolor{comment}{//we\ also\ want\ the\ pool\ to\ allow\ for\ resetting\ of\ individual\ command\ buffers}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00260}00260\ \ \ \ \ VkCommandPoolCreateInfo\ commandPoolInfo\ =\ \mbox{\hyperlink{namespace_atlas_a0e2419043c2bf72f75e532ed563ff5af}{CreateCommandPoolCreateInfo}}(mGraphicsQueueFamily,\ VK\_COMMAND\_POOL\_CREATE\_RESET\_COMMAND\_BUFFER\_BIT);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00262}00262\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{namespace_atlas_a314364d52a78f11273971f50db3960e3}{FRAME\_OVERLAP}};\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ vkCreateCommandPool(mDevice,\ \&commandPoolInfo,\ \textcolor{keyword}{nullptr},\ \&mFrameDataArray.at(i).commandPool);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ allocate\ the\ default\ command\ buffer\ that\ we\ will\ use\ for\ rendering}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00267}00267\ \ \ \ \ \ \ \ \ VkCommandBufferAllocateInfo\ cmdAllocInfo\ =\ \mbox{\hyperlink{namespace_atlas_adfa68c6d6cbe8c3db73e75525e66ef4a}{CreateCommandBufferAllocateInfo}}(mFrameDataArray.at(i).commandPool,\ 1);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00269}00269\ \ \ \ \ \ \ \ \ vkAllocateCommandBuffers(mDevice,\ \&cmdAllocInfo,\ \&mFrameDataArray.at(i).mainCommandBuffer);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00270}00270\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00273}00273\ \ \ \ \ \textcolor{comment}{//VkCommandBufferAllocateInfo\ cmdAllocInfo\ =\ CreateCommandBufferAllocateInfo(mImmediateSubmitInfo.commandPool,\ 1);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00275}00275\ \ \ \ \ \textcolor{comment}{//vkAllocateCommandBuffers(mDevice,\ \&cmdAllocInfo,\ \&mImmediateSubmitInfo.commandBuffer);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00277}00277\ \ \ \ \ \textcolor{comment}{//mMainDeletionQueue.push([=]()\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00278}00278\ \ \ \ \ \textcolor{comment}{//\ \ vkDestroyCommandPool(mDevice,\ mImmediateSubmitInfo.commandPool,\ nullptr);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00279}00279\ \ \ \ \ \textcolor{comment}{//\});}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00280}00280\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00281}00281\ \ \ \ \ \textcolor{comment}{//create\ syncronization\ structures}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00282}00282\ \ \ \ \ \textcolor{comment}{//one\ fence\ to\ control\ when\ the\ gpu\ has\ finished\ rendering\ the\ frame,}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00283}00283\ \ \ \ \ \textcolor{comment}{//and\ 2\ semaphores\ to\ syncronize\ rendering\ with\ swapchain}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00284}00284\ \ \ \ \ \textcolor{comment}{//we\ want\ the\ fence\ to\ start\ signalled\ so\ we\ can\ wait\ on\ it\ on\ the\ first\ frame}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00285}00285\ \ \ \ \ VkFenceCreateInfo\ fenceCreateInfo\ =\ \mbox{\hyperlink{namespace_atlas_a2eb75a279d9d94185e007305c39ae665}{CreateFenceCreateInfo}}(VK\_FENCE\_CREATE\_SIGNALED\_BIT);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00286}00286\ \ \ \ \ VkSemaphoreCreateInfo\ semaphoreCreateInfo\ =\ \mbox{\hyperlink{namespace_atlas_aab351af6f4ce3b39a49ba2bac5777077}{CreateSemaphoreCreateInfo}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00288}00288\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{namespace_atlas_a314364d52a78f11273971f50db3960e3}{FRAME\_OVERLAP}};\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ vkCreateFence(mDevice,\ \&fenceCreateInfo,\ \textcolor{keyword}{nullptr},\ \&mFrameDataArray.at(i).renderFence);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ vkCreateSemaphore(mDevice,\ \&semaphoreCreateInfo,\ \textcolor{keyword}{nullptr},\ \&mFrameDataArray.at(i).swapchainSemaphore);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ vkCreateSemaphore(mDevice,\ \&semaphoreCreateInfo,\ \textcolor{keyword}{nullptr},\ \&mFrameDataArray.at(i).renderSemaphore);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00293}00293\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00295}00295\ \ \ \ \ vkCreateFence(mDevice,\ \&fenceCreateInfo,\ \textcolor{keyword}{nullptr},\ \&mImmediateSubmitInfo.fence);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00296}00296\ \ \ \ \ mMainDeletionQueue.push([=]()\ \{\ vkDestroyFence(mDevice,\ mImmediateSubmitInfo.fence,\ \textcolor{keyword}{nullptr});\ \});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00297}00297\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00299}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ac95335e7cac9b5b353cd487c0be773a3}{00299}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ac95335e7cac9b5b353cd487c0be773a3}{Atlas::VulkanRenderingBackend::createSwapchain}}(uint32\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ uint32\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}})}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00300}00300\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00301}00301\ \ \ \ \ vkb::SwapchainBuilder\ swapchainBuilder\{\ mGPUDevice,\ mDevice,\ mSurface\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00302}00302\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00303}00303\ \ \ \ \ mSwapchainImageFormat\ =\ VK\_FORMAT\_B8G8R8A8\_UNORM;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00305}00305\ \ \ \ \ vkb::Swapchain\ vkbSwapchain\ =\ swapchainBuilder}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00306}00306\ \ \ \ \ \ \ \ \ \textcolor{comment}{//.use\_default\_format\_selection()}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ .set\_desired\_format(VkSurfaceFormatKHR\{\ .format\ =\ mSwapchainImageFormat,\ .colorSpace\ =\ VK\_COLOR\_SPACE\_SRGB\_NONLINEAR\_KHR\ \})}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{comment}{//use\ vsync\ present\ mode}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00309}00309\ \ \ \ \ \ \ \ \ .set\_desired\_present\_mode(VK\_PRESENT\_MODE\_FIFO\_KHR)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00310}00310\ \ \ \ \ \ \ \ \ .set\_desired\_extent(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}})}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00311}00311\ \ \ \ \ \ \ \ \ .add\_image\_usage\_flags(VK\_IMAGE\_USAGE\_TRANSFER\_DST\_BIT)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00312}00312\ \ \ \ \ \ \ \ \ .build()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00313}00313\ \ \ \ \ \ \ \ \ .value();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00314}00314\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00315}00315\ \ \ \ \ mSwapchainExtent\ =\ vkbSwapchain.extent;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00316}00316\ \ \ \ \ \textcolor{comment}{//store\ swapchain\ and\ its\ related\ images}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00317}00317\ \ \ \ \ mSwapchain\ =\ vkbSwapchain.swapchain;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00318}00318\ \ \ \ \ mSwapchainImages\ =\ vkbSwapchain.get\_images().value();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00319}00319\ \ \ \ \ mSwapchainImageViews\ =\ vkbSwapchain.get\_image\_views().value();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00320}00320\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00321}00321\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00322}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a214c275935ac01f290114ee5b4fb0056}{00322}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a214c275935ac01f290114ee5b4fb0056}{Atlas::VulkanRenderingBackend::destroySwapchain}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00323}00323\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00324}00324\ \ \ \ \ vkDestroySwapchainKHR(mDevice,\ mSwapchain,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00325}00325\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00326}00326\ \ \ \ \ \textcolor{comment}{//\ destroy\ swapchain\ resources}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00327}00327\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ mSwapchainImageViews.size();\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00328}00328\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ \ vkDestroyImageView(mDevice,\ mSwapchainImageViews[i],\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00330}00330\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00331}00331\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00332}00332\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00333}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_af7a5250af778f7c29efbbf6ca2a2425e}{00333}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_af7a5250af778f7c29efbbf6ca2a2425e}{Atlas::VulkanRenderingBackend::ImmediateSubmit}}(std::function<\textcolor{keywordtype}{void}(VkCommandBuffer\ cmd)>\&\&\ function)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00334}00334\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00335}00335\ \ \ \ \ \mbox{\hyperlink{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}{VK\_CHECK}}(vkResetFences(mDevice,\ 1,\ \&mImmediateSubmitInfo.fence));}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00336}00336\ \ \ \ \ \mbox{\hyperlink{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}{VK\_CHECK}}(vkResetCommandBuffer(mImmediateSubmitInfo.commandBuffer,\ 0));}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00337}00337\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00338}00338\ \ \ \ \ VkCommandBuffer\ cmd\ =\ mImmediateSubmitInfo.commandBuffer;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00339}00339\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00340}00340\ \ \ \ \ VkCommandBufferBeginInfo\ cmdBeginInfo\ =\ \mbox{\hyperlink{namespace_atlas_a4931baa2d3c987ef3cb127667dc442d8}{CreateCommandBufferBeginInfo}}(VK\_COMMAND\_BUFFER\_USAGE\_ONE\_TIME\_SUBMIT\_BIT);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00342}00342\ \ \ \ \ \mbox{\hyperlink{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}{VK\_CHECK}}(vkBeginCommandBuffer(cmd,\ \&cmdBeginInfo));}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00343}00343\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00344}00344\ \ \ \ \ function(cmd);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00346}00346\ \ \ \ \ \mbox{\hyperlink{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}{VK\_CHECK}}(vkEndCommandBuffer(cmd));}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00348}00348\ \ \ \ \ VkCommandBufferSubmitInfo\ cmdinfo\ =\ \mbox{\hyperlink{namespace_atlas_a84f02e043673e0eaaee2ab1d0452f4c0}{SubmitCommandBufferInfo}}(cmd);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00349}00349\ \ \ \ \ VkSubmitInfo2\ submit\ =\ \mbox{\hyperlink{namespace_atlas_acc1dff74be875e4f9bd925cc13587d88}{SubmitInfo}}(\&cmdinfo,\ \textcolor{keyword}{nullptr},\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00351}00351\ \ \ \ \ \textcolor{comment}{//\ submit\ command\ buffer\ to\ the\ queue\ and\ execute\ it.}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00352}00352\ \ \ \ \ \textcolor{comment}{//\ \ \_renderFence\ will\ now\ block\ until\ the\ graphic\ commands\ finish\ execution}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00353}00353\ \ \ \ \ \mbox{\hyperlink{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}{VK\_CHECK}}(vkQueueSubmit2(mGraphicsQueue,\ 1,\ \&submit,\ mImmediateSubmitInfo.fence));}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00355}00355\ \ \ \ \ \textcolor{keyword}{constexpr}\ uint64\_t\ cTimeout\ =\ 9999999999;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00356}00356\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00357}00357\ \ \ \ \ \mbox{\hyperlink{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}{VK\_CHECK}}(vkWaitForFences(mDevice,\ 1,\ \&mImmediateSubmitInfo.fence,\ \textcolor{keyword}{true},\ cTimeout));}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00358}00358\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00360}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa855ce8024b024a6028349e0c350011c}{00360}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa855ce8024b024a6028349e0c350011c}{Atlas::VulkanRenderingBackend::init}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00361}00361\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00363}00363\ \ \ \ \ \mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{ATLAS\_ASSERT}}(gameWindow\ !=\ \textcolor{keyword}{nullptr},\ \textcolor{stringliteral}{"{}Window\ must\ be\ set\ up\ prior\ to\ Vulkan\ init"{}});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00364}00364\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00365}00365\ \ \ \ \ \textcolor{keywordflow}{if}\ (canInitialize(gameWindow)\ ==\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Window\ must\ be\ set\ up\ and\ open\ prior\ to\ Vulkan\ init"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00368}00368\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00369}00369\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00370}00370\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ cbEnableValidationLayers\ =\ isErrorCheckingEnabled();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00371}00371\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_version}{APIVersion}}\ cApiVersion\ =\ getAPIVersion();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00372}00372\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00373}00373\ \ \ \ \ \textcolor{comment}{//vkb::InstanceBuilder\ instanceBuilder;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00374}00374\ \ \ \ \ \textcolor{comment}{//instanceBuilder.set\_app\_name(mApplicationName.c\_str());}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00375}00375\ \ \ \ \ \textcolor{comment}{//instanceBuilder.request\_validation\_layers(cbEnableValidationLayers);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00376}00376\ \ \ \ \ \textcolor{comment}{//instanceBuilder.use\_default\_debug\_messenger();\ //\ TODO:\ allow\ the\ user\ to\ set\ what\ messenger\ to\ use}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00377}00377\ \ \ \ \ \textcolor{comment}{//instanceBuilder.require\_api\_version(cApiVersion.major,\ cApiVersion.minor,\ cApiVersion.patch);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00378}00378\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00385}00385\ \ \ \ \ \textcolor{comment}{//auto\ instanceReturn\ =\ instanceBuilder.build();}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00386}00386\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00387}00387\ \ \ \ \ \textcolor{comment}{//vkb::Instance\ vulkanBootstrapInstance\ =\ instanceReturn.value();}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00388}00388\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00389}00389\ \ \ \ \ \textcolor{comment}{//this-\/>mVulkanInstance\ =\ vulkanBootstrapInstance.instance;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00390}00390\ \ \ \ \ \textcolor{comment}{//this-\/>mDebugMessenger\ =\ vulkanBootstrapInstance.debug\_messenger;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00391}00391\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00392}00392\ \ \ \ \ mInstance.setVersion(cApiVersion);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00393}00393\ \ \ \ \ mInstance.setApplicationName(mApplicationName);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00394}00394\ \ \ \ \ mInstance.setEnableValidationLayers(cbEnableValidationLayers);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00396}00396\ \ \ \ \ mInstance.init();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00398}00398\ \ \ \ \ vkb::Instance\ \textcolor{keyword}{const}\&\ cVkBootstrapInstanceRef\ =\ mInstance.getVulkanBootstrapInstance();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00399}00399\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00400}00400\ \ \ \ \ \textcolor{comment}{//\ Device\ init}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00401}00401\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00402}00402\ \ \ \ \ \textcolor{comment}{//\ If\ vulkan\ is\ being\ used\ with\ SDL2,\ this\ has\ to\ be\ done\ here.}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00403}00403\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_SDL2}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00404}00404\ \ \ \ \ \textcolor{comment}{//\ directly\ passing\ the\ window\ cast\ to\ avoid\ memory\ issues.}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00405}00405\ \ \ \ \ SDL\_Vulkan\_CreateSurface(\textcolor{keyword}{static\_cast<}SDL\_Window*\textcolor{keyword}{>}(gameWindow-\/>\mbox{\hyperlink{class_atlas_1_1_a_game_window_a94d163fd9b5dfb7fdc96e08c63280d35}{getUncastWindowHandle}}()),\ cVkBootstrapInstanceRef,\ \&mSurface);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00406}00406\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ ATLAS\_USE\_SDL2}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00407}00407\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00408}00408\ \ \ \ \ \textcolor{comment}{//\ Vulkan\ 1.3\ features}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00409}00409\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00410}00410\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ cbEnableDynamicRendering\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00411}00411\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ cbEnableSynchronization2\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00412}00412\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00413}00413\ \ \ \ \ VkPhysicalDeviceVulkan13Features\ features\{\ .sType\ =\ VK\_STRUCTURE\_TYPE\_PHYSICAL\_DEVICE\_VULKAN\_1\_3\_FEATURES\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00414}00414\ \ \ \ \ features.dynamicRendering\ =\ cbEnableDynamicRendering;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00415}00415\ \ \ \ \ features.synchronization2\ =\ cbEnableSynchronization2;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00416}00416\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00417}00417\ \ \ \ \ \textcolor{comment}{//\ Vulkan\ 1.2\ features}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00418}00418\ \ \ \ \ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00419}00419\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00420}00420\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ cbEnableBufferDeviceAddress\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00421}00421\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ cbEnableDescriptorIndexing\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00422}00422\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00423}00423\ \ \ \ \ VkPhysicalDeviceVulkan12Features\ features12\{\ .sType\ =\ VK\_STRUCTURE\_TYPE\_PHYSICAL\_DEVICE\_VULKAN\_1\_2\_FEATURES\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00424}00424\ \ \ \ \ features12.bufferDeviceAddress\ =\ cbEnableBufferDeviceAddress;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00425}00425\ \ \ \ \ features12.descriptorIndexing\ =\ cbEnableDescriptorIndexing;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00426}00426\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00427}00427\ \ \ \ \ \textcolor{comment}{//\ use\ vkbootstrap\ to\ select\ a\ gpu.\ }}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00428}00428\ \ \ \ \ \textcolor{comment}{//We\ want\ a\ gpu\ that\ can\ write\ to\ the\ SDL\ surface\ and\ supports\ vulkan\ 1.3\ with\ the\ correct\ features}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00429}00429\ \ \ \ \ vkb::PhysicalDeviceSelector\ selector\{\ cVkBootstrapInstanceRef\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00430}00430\ \ \ \ \ selector.set\_minimum\_version(cApiVersion.\mbox{\hyperlink{struct_atlas_1_1_version_acdc05afb080204054483474a51104457}{major}},\ cApiVersion.\mbox{\hyperlink{struct_atlas_1_1_version_a09336201287cb1bbc0f230f02811f853}{minor}});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00431}00431\ \ \ \ \ selector.set\_required\_features\_13(features);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00432}00432\ \ \ \ \ selector.set\_required\_features\_12(features12);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00433}00433\ \ \ \ \ selector.set\_surface(mSurface);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00434}00434\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00435}00435\ \ \ \ \ vkb::PhysicalDevice\ physicalDevice\ =\ selector.select().value();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00436}00436\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00437}00437\ \ \ \ \ \textcolor{comment}{//create\ the\ final\ vulkan\ device}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00438}00438\ \ \ \ \ vkb::DeviceBuilder\ deviceBuilder\{\ physicalDevice\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00439}00439\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00440}00440\ \ \ \ \ vkb::Device\ vkbDevice\ =\ deviceBuilder.build().value();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00441}00441\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00442}00442\ \ \ \ \ \textcolor{comment}{//\ Get\ the\ VkDevice\ handle\ used\ in\ the\ rest\ of\ a\ vulkan\ application}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00443}00443\ \ \ \ \ mDevice\ =\ vkbDevice.device;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00444}00444\ \ \ \ \ mGPUDevice\ =\ physicalDevice.physical\_device;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00445}00445\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00446}00446\ \ \ \ \ mGraphicsQueue\ =\ vkbDevice.get\_queue(vkb::QueueType::graphics).value();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00447}00447\ \ \ \ \ mGraphicsQueueFamily\ =\ vkbDevice.get\_queue\_index(vkb::QueueType::graphics).value();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00448}00448\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00449}00449\ \ \ \ \ initVMAAllocator(cVkBootstrapInstanceRef);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00450}00450\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00451}00451\ \ \ \ \ initSwapchain(gameWindow);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00452}00452\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00453}00453\ \ \ \ \ initCommands();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00454}00454\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00455}00455\ \ \ \ \ initDescriptors();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00456}00456\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00457}00457\ \ \ \ \ initPipelines();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00458}00458\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00459}00459\ \ \ \ \ mIsInitialized\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00460}00460\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00461}00461\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00462}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a820ddb6ef9a24e50b8939e40e15711ef}{00462}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a820ddb6ef9a24e50b8939e40e15711ef}{Atlas::VulkanRenderingBackend::initSwapchain}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00463}00463\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00464}00464\ \ \ \ \ \textcolor{comment}{//\ swapchain\ init}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00465}00465\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00466}00466\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_window_description}{WindowDescription}}\ activeWindowDescription\ =\ gameWindow-\/>\mbox{\hyperlink{class_atlas_1_1_a_game_window_ad903fe487224ceff663f8fffb8d7dbb7}{getWindowDescription}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00467}00467\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00468}00468\ \ \ \ \ createSwapchain(activeWindowDescription.\mbox{\hyperlink{struct_atlas_1_1_window_description_a1e11f6ff616b6d2a79c28b185d904aa9}{windowRectangle}}.\mbox{\hyperlink{struct_atlas_1_1_rectangle_adc4de46b1fbf2c0fdbb9d26e3bd042b3}{width}},\ activeWindowDescription.\mbox{\hyperlink{struct_atlas_1_1_window_description_a1e11f6ff616b6d2a79c28b185d904aa9}{windowRectangle}}.\mbox{\hyperlink{struct_atlas_1_1_rectangle_ab6331769ba3bd2821e20bdfe85b906f9}{height}});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00469}00469\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00470}00470\ \ \ \ \ \textcolor{comment}{//draw\ image\ size\ will\ match\ the\ window}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00471}00471\ \ \ \ \ VkExtent3D\ drawImageExtent\ =\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00472}00472\ \ \ \ \ \ \ \ \ activeWindowDescription.\mbox{\hyperlink{struct_atlas_1_1_window_description_a1e11f6ff616b6d2a79c28b185d904aa9}{windowRectangle}}.\mbox{\hyperlink{struct_atlas_1_1_rectangle_adc4de46b1fbf2c0fdbb9d26e3bd042b3}{width}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00473}00473\ \ \ \ \ \ \ \ \ activeWindowDescription.\mbox{\hyperlink{struct_atlas_1_1_window_description_a1e11f6ff616b6d2a79c28b185d904aa9}{windowRectangle}}.\mbox{\hyperlink{struct_atlas_1_1_rectangle_ab6331769ba3bd2821e20bdfe85b906f9}{height}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00474}00474\ \ \ \ \ \ \ \ \ 1}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00475}00475\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00476}00476\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00477}00477\ \ \ \ \ \textcolor{comment}{//hardcoding\ the\ draw\ format\ to\ 32\ bit\ float}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00478}00478\ \ \ \ \ mDrawImage.imageFormat\ =\ VK\_FORMAT\_R16G16B16A16\_SFLOAT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00479}00479\ \ \ \ \ mDrawImage.imageExtent\ =\ drawImageExtent;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00480}00480\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00481}00481\ \ \ \ \ VkImageUsageFlags\ drawImageUsages\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00482}00482\ \ \ \ \ drawImageUsages\ |=\ VK\_IMAGE\_USAGE\_TRANSFER\_SRC\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00483}00483\ \ \ \ \ drawImageUsages\ |=\ VK\_IMAGE\_USAGE\_TRANSFER\_DST\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00484}00484\ \ \ \ \ drawImageUsages\ |=\ VK\_IMAGE\_USAGE\_STORAGE\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00485}00485\ \ \ \ \ drawImageUsages\ |=\ VK\_IMAGE\_USAGE\_COLOR\_ATTACHMENT\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00486}00486\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00487}00487\ \ \ \ \ VkImageCreateInfo\ rimg\_info\ =\ \mbox{\hyperlink{namespace_atlas_aafca0d417a35bba15f288564c0b3032a}{CreateImageCreateInfo}}(mDrawImage.imageFormat,\ drawImageUsages,\ drawImageExtent);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00488}00488\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00489}00489\ \ \ \ \ \textcolor{comment}{//for\ the\ draw\ image,\ we\ want\ to\ allocate\ it\ from\ gpu\ local\ memory}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00490}00490\ \ \ \ \ VmaAllocationCreateInfo\ rimg\_allocinfo\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00491}00491\ \ \ \ \ rimg\_allocinfo.usage\ =\ VMA\_MEMORY\_USAGE\_GPU\_ONLY;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00492}00492\ \ \ \ \ rimg\_allocinfo.requiredFlags\ =\ VkMemoryPropertyFlags(VK\_MEMORY\_PROPERTY\_DEVICE\_LOCAL\_BIT);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00493}00493\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00494}00494\ \ \ \ \ \textcolor{comment}{//allocate\ and\ create\ the\ image}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00495}00495\ \ \ \ \ vmaCreateImage(mVMAAllocator,\ \&rimg\_info,\ \&rimg\_allocinfo,\ \&mDrawImage.image,\ \&mDrawImage.allocation,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00496}00496\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00497}00497\ \ \ \ \ \textcolor{comment}{//build\ a\ image-\/view\ for\ the\ draw\ image\ to\ use\ for\ rendering}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00498}00498\ \ \ \ \ VkImageViewCreateInfo\ rview\_info\ =\ \mbox{\hyperlink{namespace_atlas_a3a99392fc30f77bfa7f874d50622ae7e}{CreateImageViewCreateInfo}}(mDrawImage.imageFormat,\ mDrawImage.image,\ VK\_IMAGE\_ASPECT\_COLOR\_BIT);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00499}00499\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00500}00500\ \ \ \ \ vkCreateImageView(mDevice,\ \&rview\_info,\ \textcolor{keyword}{nullptr},\ \&mDrawImage.imageView);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00501}00501\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00502}00502\ \ \ \ \ \textcolor{comment}{//add\ to\ deletion\ queues}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00503}00503\ \ \ \ \ mMainDeletionQueue.push([=]()\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00504}00504\ \ \ \ \ \ \ \ \ vkDestroyImageView(mDevice,\ mDrawImage.imageView,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00505}00505\ \ \ \ \ \ \ \ \ vmaDestroyImage(mVMAAllocator,\ mDrawImage.image,\ mDrawImage.allocation);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00506}00506\ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00507}00507\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00508}00508\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00509}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aae467e194099352e5a6917730f4ff7a6}{00509}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aae467e194099352e5a6917730f4ff7a6}{Atlas::VulkanRenderingBackend::update}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00510}00510\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00511}00511\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00512}00512\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00513}00513\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00514}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a391b6a51c7ac0ee943c5edc0aba6945f}{00514}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a391b6a51c7ac0ee943c5edc0aba6945f}{Atlas::VulkanRenderingBackend::resetFences}}(\textcolor{keyword}{const}\ uint32\_t\ cFenceCount,\ \mbox{\hyperlink{struct_atlas_1_1_frame_data}{FrameData}}\&\ currentFrame)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00515}00515\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00516}00516\ \ \ \ \ vkWaitForFences(mDevice,\ cFenceCount,\ \&currentFrame.\mbox{\hyperlink{struct_atlas_1_1_frame_data_a2c3f18f3b149bc09824119266e94ced6}{renderFence}},\ \textcolor{keyword}{true},\ mFencesTimeoutNS);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00517}00517\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00518}00518\ \ \ \ \ currentFrame.\mbox{\hyperlink{struct_atlas_1_1_frame_data_a26862c2636d9cfc40feb939d8341ccba}{deletionQueue}}.\mbox{\hyperlink{class_atlas_1_1_deletion_queue_acab3370abe393e9144c27bb8dbbec391}{flush}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00519}00519\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00520}00520\ \ \ \ \ vkResetFences(mDevice,\ cFenceCount,\ \&currentFrame.\mbox{\hyperlink{struct_atlas_1_1_frame_data_a2c3f18f3b149bc09824119266e94ced6}{renderFence}});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00521}00521\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00522}00522\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00523}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ac304e7d22e7b98cd7d2b67a835d948c7}{00523}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ac304e7d22e7b98cd7d2b67a835d948c7}{Atlas::VulkanRenderingBackend::draw}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00524}00524\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00525}00525\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{static}\ uint32\_t\ cFenceCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00526}00526\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00527}00527\ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_frame_data}{FrameData}}\&\ currentFrame\ =\ getCurrentFrame();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00528}00528\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00529}00529\ \ \ \ \ resetFences(cFenceCount,\ currentFrame);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00530}00530\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00531}00531\ \ \ \ \ \textcolor{comment}{//request\ image\ from\ the\ swapchain}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00532}00532\ \ \ \ \ uint32\_t\ swapchainImageIndex;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00533}00533\ \ \ \ \ vkAcquireNextImageKHR(mDevice,\ mSwapchain,\ mNextImageTimeoutNS,\ currentFrame.\mbox{\hyperlink{struct_atlas_1_1_frame_data_a8971d263042b0df2eb3767699599b227}{swapchainSemaphore}},\ \textcolor{keyword}{nullptr},\ \&swapchainImageIndex);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00534}00534\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00535}00535\ \ \ \ \ \textcolor{comment}{//\ reset\ command\ buffer}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00536}00536\ \ \ \ \ VkCommandBufferResetFlags\ cmdResetFlags\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00537}00537\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00538}00538\ \ \ \ \ \textcolor{comment}{//naming\ it\ cmd\ for\ shorter\ writing}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00539}00539\ \ \ \ \ VkCommandBuffer\ cmd\ =\ currentFrame.\mbox{\hyperlink{struct_atlas_1_1_frame_data_a92effe1a58b74ad59fee9557feca31cf}{mainCommandBuffer}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00540}00540\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00541}00541\ \ \ \ \ \textcolor{comment}{//\ now\ that\ we\ are\ sure\ that\ the\ commands\ finished\ executing,\ we\ can\ safely}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00542}00542\ \ \ \ \ \textcolor{comment}{//\ reset\ the\ command\ buffer\ to\ begin\ recording\ again.}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00543}00543\ \ \ \ \ vkResetCommandBuffer(cmd,\ cmdResetFlags);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00544}00544\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00545}00545\ \ \ \ \ \textcolor{comment}{//begin\ the\ command\ buffer\ recording.\ We\ will\ use\ this\ command\ buffer\ exactly\ once,\ so\ we\ want\ to\ let\ vulkan\ know\ that}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00546}00546\ \ \ \ \ VkCommandBufferBeginInfo\ cmdBeginInfo\ =\ \mbox{\hyperlink{namespace_atlas_a4931baa2d3c987ef3cb127667dc442d8}{CreateCommandBufferBeginInfo}}(VK\_COMMAND\_BUFFER\_USAGE\_ONE\_TIME\_SUBMIT\_BIT);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00547}00547\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00548}00548\ \ \ \ \ mDrawExtent.width\ =\ mDrawImage.imageExtent.width;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00549}00549\ \ \ \ \ mDrawExtent.height\ =\ mDrawImage.imageExtent.height;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00550}00550\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00551}00551\ \ \ \ \ vkBeginCommandBuffer(cmd,\ \&cmdBeginInfo);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00552}00552\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00553}00553\ \ \ \ \ \textcolor{comment}{//\ transition\ our\ main\ draw\ image\ into\ general\ layout\ so\ we\ can\ write\ into\ it}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00554}00554\ \ \ \ \ \textcolor{comment}{//\ we\ will\ overwrite\ it\ all\ so\ we\ dont\ care\ about\ what\ was\ the\ older\ layout}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00555}00555\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3}{TransitionImage}}(cmd,\ mDrawImage.image,\ VK\_IMAGE\_LAYOUT\_UNDEFINED,\ VK\_IMAGE\_LAYOUT\_GENERAL);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00556}00556\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00557}00557\ \ \ \ \ drawBackground(cmd);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00558}00558\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00559}00559\ \ \ \ \ \textcolor{comment}{//transition\ the\ draw\ image\ and\ the\ swapchain\ image\ into\ their\ correct\ transfer\ layouts}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00560}00560\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3}{TransitionImage}}(cmd,\ mDrawImage.image,\ VK\_IMAGE\_LAYOUT\_GENERAL,\ VK\_IMAGE\_LAYOUT\_TRANSFER\_SRC\_OPTIMAL);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00561}00561\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3}{TransitionImage}}(cmd,\ mSwapchainImages[swapchainImageIndex],\ VK\_IMAGE\_LAYOUT\_UNDEFINED,\ VK\_IMAGE\_LAYOUT\_TRANSFER\_DST\_OPTIMAL);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00563}00563\ \ \ \ \ \textcolor{comment}{//\ execute\ a\ copy\ from\ the\ draw\ image\ into\ the\ swapchain}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00564}00564\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a602acac644c10f3cf80105af54897150}{CopyImageToImage}}(cmd,\ mDrawImage.image,\ mSwapchainImages[swapchainImageIndex],\ mDrawExtent,\ mSwapchainExtent);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00565}00565\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00566}00566\ \ \ \ \ \textcolor{comment}{//\ set\ swapchain\ image\ layout\ to\ Present\ so\ we\ can\ show\ it\ on\ the\ screen}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00567}00567\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3}{TransitionImage}}(cmd,\ mSwapchainImages[swapchainImageIndex],\ VK\_IMAGE\_LAYOUT\_TRANSFER\_DST\_OPTIMAL,\ VK\_IMAGE\_LAYOUT\_PRESENT\_SRC\_KHR);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00568}00568\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00569}00569\ \ \ \ \ \textcolor{comment}{//finalize\ the\ command\ buffer\ (we\ can\ no\ longer\ add\ commands,\ but\ it\ can\ now\ be\ executed)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00570}00570\ \ \ \ \ vkEndCommandBuffer(cmd);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00571}00571\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00572}00572\ \ \ \ \ \textcolor{comment}{//prepare\ the\ submission\ to\ the\ queue.\ }}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00573}00573\ \ \ \ \ \textcolor{comment}{//we\ want\ to\ wait\ on\ the\ \_presentSemaphore,\ as\ that\ semaphore\ is\ signaled\ when\ the\ swapchain\ is\ ready}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00574}00574\ \ \ \ \ \textcolor{comment}{//we\ will\ signal\ the\ \_renderSemaphore,\ to\ signal\ that\ rendering\ has\ finished}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00575}00575\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00576}00576\ \ \ \ \ VkCommandBufferSubmitInfo\ cmdinfo\ =\ \mbox{\hyperlink{namespace_atlas_a84f02e043673e0eaaee2ab1d0452f4c0}{SubmitCommandBufferInfo}}(cmd);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00577}00577\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00578}00578\ \ \ \ \ VkSemaphoreSubmitInfo\ waitInfo\ =\ \mbox{\hyperlink{namespace_atlas_a06289b29f23886f16f108939d8158e9b}{SubmitSemaphoreInfo}}(VK\_PIPELINE\_STAGE\_2\_COLOR\_ATTACHMENT\_OUTPUT\_BIT\_KHR,\ currentFrame.\mbox{\hyperlink{struct_atlas_1_1_frame_data_a8971d263042b0df2eb3767699599b227}{swapchainSemaphore}});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00579}00579\ \ \ \ \ VkSemaphoreSubmitInfo\ signalInfo\ =\ \mbox{\hyperlink{namespace_atlas_a06289b29f23886f16f108939d8158e9b}{SubmitSemaphoreInfo}}(VK\_PIPELINE\_STAGE\_2\_ALL\_GRAPHICS\_BIT,\ currentFrame.\mbox{\hyperlink{struct_atlas_1_1_frame_data_ad2f227a1057473ade8d6e3ff18370264}{renderSemaphore}});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00580}00580\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00581}00581\ \ \ \ \ VkSubmitInfo2\ submit\ =\ \mbox{\hyperlink{namespace_atlas_acc1dff74be875e4f9bd925cc13587d88}{SubmitInfo}}(\&cmdinfo,\ \&signalInfo,\ \&waitInfo);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00582}00582\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00583}00583\ \ \ \ \ \textcolor{comment}{//submit\ command\ buffer\ to\ the\ queue\ and\ execute\ it.}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00584}00584\ \ \ \ \ \textcolor{comment}{//\ \_renderFence\ will\ now\ block\ until\ the\ graphic\ commands\ finish\ execution}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00585}00585\ \ \ \ \ vkQueueSubmit2(mGraphicsQueue,\ 1,\ \&submit,\ currentFrame.\mbox{\hyperlink{struct_atlas_1_1_frame_data_a2c3f18f3b149bc09824119266e94ced6}{renderFence}});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00586}00586\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00587}00587\ \ \ \ \ \textcolor{comment}{//\ prepare\ present}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00588}00588\ \ \ \ \ \textcolor{comment}{//\ this\ will\ put\ the\ image\ we\ just\ rendered\ to\ into\ the\ visible\ window.}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00589}00589\ \ \ \ \ \textcolor{comment}{//\ we\ want\ to\ wait\ on\ the\ \_renderSemaphore\ for\ that,\ }}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00590}00590\ \ \ \ \ \textcolor{comment}{//\ as\ its\ necessary\ that\ drawing\ commands\ have\ finished\ before\ the\ image\ is\ displayed\ to\ the\ user}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00591}00591\ \ \ \ \ VkPresentInfoKHR\ presentInfo\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00592}00592\ \ \ \ \ presentInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_PRESENT\_INFO\_KHR;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00593}00593\ \ \ \ \ presentInfo.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00594}00594\ \ \ \ \ presentInfo.pSwapchains\ =\ \&mSwapchain;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00595}00595\ \ \ \ \ presentInfo.swapchainCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00596}00596\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00597}00597\ \ \ \ \ presentInfo.pWaitSemaphores\ =\ \&currentFrame.\mbox{\hyperlink{struct_atlas_1_1_frame_data_ad2f227a1057473ade8d6e3ff18370264}{renderSemaphore}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00598}00598\ \ \ \ \ presentInfo.waitSemaphoreCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00599}00599\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00600}00600\ \ \ \ \ presentInfo.pImageIndices\ =\ \&swapchainImageIndex;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00601}00601\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00602}00602\ \ \ \ \ vkQueuePresentKHR(mGraphicsQueue,\ \&presentInfo);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00603}00603\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00604}00604\ \ \ \ \ \textcolor{comment}{//increase\ the\ number\ of\ frames\ drawn}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00605}00605\ \ \ \ \ mCurrentFrameNumber++;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00606}00606\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00607}00607\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00608}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_afd0f02bf0e403d35d4300bdda9682ba5}{00608}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_afd0f02bf0e403d35d4300bdda9682ba5}{Atlas::VulkanRenderingBackend::drawBackground}}(VkCommandBuffer\ cmd)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00609}00609\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00610}00610\ \ \ \ \ \textcolor{comment}{//make\ a\ clear-\/color\ from\ frame\ number.\ This\ will\ flash\ with\ a\ 120\ frame\ period.}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00611}00611\ \ \ \ \ VkClearColorValue\ clearValue;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00612}00612\ \ \ \ \ \textcolor{keywordtype}{float}\ flash\ =\ std::abs(std::sin(mCurrentFrameNumber\ /\ 120.f));}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00613}00613\ \ \ \ \ clearValue\ =\ \{\ \{\ 0.0f,\ 0.0f,\ flash,\ 1.0f\ \}\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00614}00614\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00615}00615\ \ \ \ \ VkImageSubresourceRange\ clearRange\ =\ \mbox{\hyperlink{namespace_atlas_a87409471205b4bd1d6441b8ac33cea03}{CreateImageSubresourceRange}}(VK\_IMAGE\_ASPECT\_COLOR\_BIT);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00616}00616\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00617}00617\ \ \ \ \ \textcolor{comment}{//clear\ image}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00618}00618\ \ \ \ \ vkCmdClearColorImage(cmd,\ mDrawImage.image,\ VK\_IMAGE\_LAYOUT\_GENERAL,\ \&clearValue,\ 1,\ \&clearRange);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00619}00619\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00620}00620\ \ \ \ \ \textcolor{comment}{//\ bind\ the\ gradient\ drawing\ compute\ pipeline}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00621}00621\ \ \ \ \ vkCmdBindPipeline(cmd,\ VK\_PIPELINE\_BIND\_POINT\_COMPUTE,\ mGradientPipeline);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00622}00622\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00623}00623\ \ \ \ \ \textcolor{comment}{//\ bind\ the\ descriptor\ set\ containing\ the\ draw\ image\ for\ the\ compute\ pipeline}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00624}00624\ \ \ \ \ vkCmdBindDescriptorSets(cmd,\ VK\_PIPELINE\_BIND\_POINT\_COMPUTE,\ mGradientPipelineLayout,\ 0,\ 1,\ \&mDrawImageDescriptors,\ 0,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00625}00625\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00626}00626\ \ \ \ \ \textcolor{comment}{//\ execute\ the\ compute\ pipeline\ dispatch.\ We\ are\ using\ 16x16\ workgroup\ size\ so\ we\ need\ to\ divide\ by\ it}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00627}00627\ \ \ \ \ vkCmdDispatch(cmd,\ std::ceil(mDrawExtent.width\ /\ 16.0),\ std::ceil(mDrawExtent.height\ /\ 16.0),\ 1);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00628}00628\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00629}00629\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00630}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4ed9f09a76e96ffd70d8b0f3cdc64e0a}{00630}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4ed9f09a76e96ffd70d8b0f3cdc64e0a}{Atlas::VulkanRenderingBackend::present}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00631}00631\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00632}00632\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00633}00633\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00634}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a407d054ec95d389cf07ea5cb5deae474}{00634}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a407d054ec95d389cf07ea5cb5deae474}{Atlas::VulkanRenderingBackend::shutdown}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00635}00635\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00636}00636\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00637}00637\ \ \ \ \ \textcolor{comment}{//\ No\ need\ to\ worry\ about\ cleaning\ up\ if\ not\ initialized,\ hence\ the\ check}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00638}00638\ \ \ \ \ \textcolor{keywordflow}{if}\ (mIsInitialized)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00639}00639\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00640}00640\ \ \ \ \ \ \ \ \ vkDeviceWaitIdle(mDevice);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00641}00641\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00642}00642\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{namespace_atlas_a314364d52a78f11273971f50db3960e3}{FRAME\_OVERLAP}};\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00643}00643\ \ \ \ \ \ \ \ \ \ \ \ \ vkDestroyCommandPool(mDevice,\ mFrameDataArray.at(i).commandPool,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00644}00644\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00645}00645\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//destroy\ sync\ objects}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00646}00646\ \ \ \ \ \ \ \ \ \ \ \ \ vkDestroyFence(mDevice,\ mFrameDataArray.at(i).renderFence,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00647}00647\ \ \ \ \ \ \ \ \ \ \ \ \ vkDestroySemaphore(mDevice,\ mFrameDataArray.at(i).renderSemaphore,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00648}00648\ \ \ \ \ \ \ \ \ \ \ \ \ vkDestroySemaphore(mDevice,\ mFrameDataArray.at(i).swapchainSemaphore,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00649}00649\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00650}00650\ \ \ \ \ \ \ \ \ \ \ \ \ mFrameDataArray.at(i).deletionQueue.flush();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00651}00651\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00652}00652\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00653}00653\ \ \ \ \ \ \ \ \ mMainDeletionQueue.flush();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00654}00654\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00655}00655\ \ \ \ \ \ \ \ \ destroySwapchain();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00656}00656\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00657}00657\ \ \ \ \ \ \ \ \ vkDestroySurfaceKHR(mInstance.getInstance(),\ mSurface,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00658}00658\ \ \ \ \ \ \ \ \ vkDestroyDevice(mDevice,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00659}00659\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00660}00660\ \ \ \ \ \ \ \ \ mInstance.shutdown();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00661}00661\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00662}00662\ \ \ \ \ \ \ \ \ \textcolor{comment}{//vkb::destroy\_debug\_utils\_messenger(mVulkanInstance,\ mDebugMessenger);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00663}00663\ \ \ \ \ \ \ \ \ \textcolor{comment}{//vkDestroyInstance(mVulkanInstance,\ nullptr);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00664}00664\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00665}00665\ \ \ \ \ \ \ \ \ mIsInitialized\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00666}00666\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00667}00667\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00668}00668\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00669}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a597ab69885b16541eb061f6e71dc43d6}{00669}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a597ab69885b16541eb061f6e71dc43d6}{Atlas::VulkanRenderingBackend::shouldUseDefaultInstanceBuilder}}(\textcolor{keywordtype}{bool}\ bUseDefaultInstanceBuilder)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00670}00670\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00671}00671\ \ \ \ \ mbUseDefaultInstanceBuilder\ =\ bUseDefaultInstanceBuilder;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00672}00672\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00673}00673\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00674}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_acc9931cd0eee1fc185c03cd194e37575}{00674}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_acc9931cd0eee1fc185c03cd194e37575}{Atlas::VulkanRenderingBackend::checkValidationLayerSupport}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00675}00675\ \ \ \ \ \textcolor{comment}{//uint32\_t\ layerCount;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00676}00676\ \ \ \ \ \textcolor{comment}{//vkEnumerateInstanceLayerProperties(\&layerCount,\ nullptr);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00677}00677\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00678}00678\ \ \ \ \ \textcolor{comment}{//std::vector<VkLayerProperties>\ availableLayers(layerCount);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00679}00679\ \ \ \ \ \textcolor{comment}{//vkEnumerateInstanceLayerProperties(\&layerCount,\ availableLayers.data());}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00680}00680\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00681}00681\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00682}00682\ \ \ \ \ \textcolor{comment}{//for\ (const\ char*\ layerName\ :\ this-\/>mValidationLayers)\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00683}00683\ \ \ \ \ \textcolor{comment}{//\ \ bool\ layerFound\ =\ false;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00684}00684\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00685}00685\ \ \ \ \ \textcolor{comment}{//\ \ for\ (const\ auto\&\ layerProperties\ :\ availableLayers)\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00686}00686\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ if\ (strcmp(layerName,\ layerProperties.layerName)\ ==\ 0)\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00687}00687\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ layerFound\ =\ true;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00688}00688\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ break;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00689}00689\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00690}00690\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00691}00691\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00692}00692\ \ \ \ \ \textcolor{comment}{//\ \ if\ (!layerFound)\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00693}00693\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ false;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00694}00694\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00695}00695\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00696}00696\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00697}00697\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00698}00698\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00699}00699\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00700}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a3888ac8c01aeceaa67ab9ee78db6321f}{00700}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a3888ac8c01aeceaa67ab9ee78db6321f}{Atlas::VulkanRenderingBackend::canInitialize}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00701}00701\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00702}00702\ \ \ \ \ \textcolor{keywordflow}{return}\ gameWindow-\/>\mbox{\hyperlink{class_atlas_1_1_a_game_window_aa4c0caf6b81913633e350e7d0c4b87b0}{isInitialized}}()\ \&\&\ gameWindow-\/>\mbox{\hyperlink{class_atlas_1_1_a_game_window_a082e5539318afb344e0a353d169de7c1}{isOpen}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00703}00703\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00704}00704\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00705}\mbox{\hyperlink{namespace_atlas_a0e2419043c2bf72f75e532ed563ff5af}{00705}}\ VkCommandPoolCreateInfo\ \mbox{\hyperlink{namespace_atlas_a0e2419043c2bf72f75e532ed563ff5af}{Atlas::CreateCommandPoolCreateInfo}}(uint32\_t\ queueFamilyIndex,\ VkCommandPoolCreateFlags\ flags)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00706}00706\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00707}00707\ \ \ \ \ VkCommandPoolCreateInfo\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00708}00708\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.sType\ =\ VK\_STRUCTURE\_TYPE\_COMMAND\_POOL\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00709}00709\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00710}00710\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.queueFamilyIndex\ =\ queueFamilyIndex;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00711}00711\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.flags\ =\ flags;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00712}00712\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00713}00713\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00714}00714\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00715}\mbox{\hyperlink{namespace_atlas_adfa68c6d6cbe8c3db73e75525e66ef4a}{00715}}\ VkCommandBufferAllocateInfo\ \mbox{\hyperlink{namespace_atlas_adfa68c6d6cbe8c3db73e75525e66ef4a}{Atlas::CreateCommandBufferAllocateInfo}}(VkCommandPool\ pool,\ uint32\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}})}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00716}00716\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00717}00717\ \ \ \ \ VkCommandBufferAllocateInfo\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00718}00718\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.sType\ =\ VK\_STRUCTURE\_TYPE\_COMMAND\_BUFFER\_ALLOCATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00719}00719\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00720}00720\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00721}00721\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.commandPool\ =\ pool;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00722}00722\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.commandBufferCount\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00723}00723\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.level\ =\ VK\_COMMAND\_BUFFER\_LEVEL\_PRIMARY;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00724}00724\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00725}00725\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00726}00726\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00727}\mbox{\hyperlink{namespace_atlas_a2eb75a279d9d94185e007305c39ae665}{00727}}\ VkFenceCreateInfo\ \mbox{\hyperlink{namespace_atlas_a2eb75a279d9d94185e007305c39ae665}{Atlas::CreateFenceCreateInfo}}(VkFenceCreateFlags\ flags)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00728}00728\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00729}00729\ \ \ \ \ VkFenceCreateInfo\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00730}00730\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.sType\ =\ VK\_STRUCTURE\_TYPE\_FENCE\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00731}00731\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00732}00732\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00733}00733\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.flags\ =\ flags;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00734}00734\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00735}00735\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00736}00736\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00737}00737\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00738}\mbox{\hyperlink{namespace_atlas_aab351af6f4ce3b39a49ba2bac5777077}{00738}}\ VkSemaphoreCreateInfo\ \mbox{\hyperlink{namespace_atlas_aab351af6f4ce3b39a49ba2bac5777077}{Atlas::CreateSemaphoreCreateInfo}}(VkSemaphoreCreateFlags\ flags)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00739}00739\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00740}00740\ \ \ \ \ VkSemaphoreCreateInfo\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00741}00741\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.sType\ =\ VK\_STRUCTURE\_TYPE\_SEMAPHORE\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00742}00742\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00743}00743\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.flags\ =\ flags;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00744}00744\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00745}00745\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00746}00746\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00747}\mbox{\hyperlink{namespace_atlas_a06289b29f23886f16f108939d8158e9b}{00747}}\ VkSemaphoreSubmitInfo\ \mbox{\hyperlink{namespace_atlas_a06289b29f23886f16f108939d8158e9b}{Atlas::SubmitSemaphoreInfo}}(VkPipelineStageFlags2\ stageMask,\ VkSemaphore\ semaphore)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00748}00748\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00749}00749\ \ \ \ \ VkSemaphoreSubmitInfo\ submitInfo\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00750}00750\ \ \ \ \ submitInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_SEMAPHORE\_SUBMIT\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00751}00751\ \ \ \ \ submitInfo.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00752}00752\ \ \ \ \ submitInfo.semaphore\ =\ semaphore;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00753}00753\ \ \ \ \ submitInfo.stageMask\ =\ stageMask;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00754}00754\ \ \ \ \ submitInfo.deviceIndex\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00755}00755\ \ \ \ \ submitInfo.value\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00756}00756\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00757}00757\ \ \ \ \ \textcolor{keywordflow}{return}\ submitInfo;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00758}00758\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00759}00759\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00760}\mbox{\hyperlink{namespace_atlas_a84f02e043673e0eaaee2ab1d0452f4c0}{00760}}\ VkCommandBufferSubmitInfo\ \mbox{\hyperlink{namespace_atlas_a84f02e043673e0eaaee2ab1d0452f4c0}{Atlas::SubmitCommandBufferInfo}}(VkCommandBuffer\ cmd)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00761}00761\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00762}00762\ \ \ \ \ VkCommandBufferSubmitInfo\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00763}00763\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.sType\ =\ VK\_STRUCTURE\_TYPE\_COMMAND\_BUFFER\_SUBMIT\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00764}00764\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00765}00765\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.commandBuffer\ =\ cmd;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00766}00766\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.deviceMask\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00767}00767\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00768}00768\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00769}00769\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00770}00770\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00771}\mbox{\hyperlink{namespace_atlas_acc1dff74be875e4f9bd925cc13587d88}{00771}}\ VkSubmitInfo2\ \mbox{\hyperlink{namespace_atlas_acc1dff74be875e4f9bd925cc13587d88}{Atlas::SubmitInfo}}(VkCommandBufferSubmitInfo*\ cmd,\ VkSemaphoreSubmitInfo*\ signalSemaphoreInfo,\ VkSemaphoreSubmitInfo*\ waitSemaphoreInfo)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00772}00772\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00773}00773\ \ \ \ \ VkSubmitInfo2\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00774}00774\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.sType\ =\ VK\_STRUCTURE\_TYPE\_SUBMIT\_INFO\_2;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00775}00775\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00776}00776\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00777}00777\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.waitSemaphoreInfoCount\ =\ waitSemaphoreInfo\ ==\ \textcolor{keyword}{nullptr}\ ?\ 0\ :\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00778}00778\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pWaitSemaphoreInfos\ =\ waitSemaphoreInfo;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00779}00779\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00780}00780\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.signalSemaphoreInfoCount\ =\ signalSemaphoreInfo\ ==\ \textcolor{keyword}{nullptr}\ ?\ 0\ :\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00781}00781\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pSignalSemaphoreInfos\ =\ signalSemaphoreInfo;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00782}00782\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00783}00783\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.commandBufferInfoCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00784}00784\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pCommandBufferInfos\ =\ cmd;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00785}00785\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00786}00786\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00787}00787\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00788}00788\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00789}\mbox{\hyperlink{namespace_atlas_a4931baa2d3c987ef3cb127667dc442d8}{00789}}\ VkCommandBufferBeginInfo\ \mbox{\hyperlink{namespace_atlas_a4931baa2d3c987ef3cb127667dc442d8}{Atlas::CreateCommandBufferBeginInfo}}(VkCommandBufferUsageFlags\ flags)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00790}00790\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00791}00791\ \ \ \ \ VkCommandBufferBeginInfo\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00792}00792\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.sType\ =\ VK\_STRUCTURE\_TYPE\_COMMAND\_BUFFER\_BEGIN\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00793}00793\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00794}00794\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00795}00795\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pInheritanceInfo\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00796}00796\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.flags\ =\ flags;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00797}00797\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00798}00798\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00799}00799\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00800}\mbox{\hyperlink{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3}{00800}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3}{Atlas::TransitionImage}}(VkCommandBuffer\ cmd,\ VkImage\ image,\ VkImageLayout\ currentLayout,\ VkImageLayout\ newLayout)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00801}00801\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00802}00802\ \ \ \ \ VkImageMemoryBarrier2\ imageBarrier\{\ .sType\ =\ VK\_STRUCTURE\_TYPE\_IMAGE\_MEMORY\_BARRIER\_2\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00803}00803\ \ \ \ \ imageBarrier.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00804}00804\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00805}00805\ \ \ \ \ imageBarrier.srcStageMask\ =\ VK\_PIPELINE\_STAGE\_2\_ALL\_COMMANDS\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00806}00806\ \ \ \ \ imageBarrier.srcAccessMask\ =\ VK\_ACCESS\_2\_MEMORY\_WRITE\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00807}00807\ \ \ \ \ imageBarrier.dstStageMask\ =\ VK\_PIPELINE\_STAGE\_2\_ALL\_COMMANDS\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00808}00808\ \ \ \ \ imageBarrier.dstAccessMask\ =\ VK\_ACCESS\_2\_MEMORY\_WRITE\_BIT\ |\ VK\_ACCESS\_2\_MEMORY\_READ\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00809}00809\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00810}00810\ \ \ \ \ imageBarrier.oldLayout\ =\ currentLayout;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00811}00811\ \ \ \ \ imageBarrier.newLayout\ =\ newLayout;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00812}00812\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00813}00813\ \ \ \ \ VkImageAspectFlags\ aspectMask\ =\ (newLayout\ ==\ VK\_IMAGE\_LAYOUT\_DEPTH\_ATTACHMENT\_OPTIMAL)\ ?\ VK\_IMAGE\_ASPECT\_DEPTH\_BIT\ :\ VK\_IMAGE\_ASPECT\_COLOR\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00814}00814\ \ \ \ \ imageBarrier.subresourceRange\ =\ \mbox{\hyperlink{namespace_atlas_a87409471205b4bd1d6441b8ac33cea03}{CreateImageSubresourceRange}}(aspectMask);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00815}00815\ \ \ \ \ imageBarrier.image\ =\ image;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00816}00816\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00817}00817\ \ \ \ \ VkDependencyInfo\ depInfo\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00818}00818\ \ \ \ \ depInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_DEPENDENCY\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00819}00819\ \ \ \ \ depInfo.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00820}00820\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00821}00821\ \ \ \ \ depInfo.imageMemoryBarrierCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00822}00822\ \ \ \ \ depInfo.pImageMemoryBarriers\ =\ \&imageBarrier;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00823}00823\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00824}00824\ \ \ \ \ vkCmdPipelineBarrier2(cmd,\ \&depInfo);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00825}00825\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00826}00826\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00827}\mbox{\hyperlink{namespace_atlas_a87409471205b4bd1d6441b8ac33cea03}{00827}}\ VkImageSubresourceRange\ \mbox{\hyperlink{namespace_atlas_a87409471205b4bd1d6441b8ac33cea03}{Atlas::CreateImageSubresourceRange}}(VkImageAspectFlags\ aspectMask)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00828}00828\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00829}00829\ \ \ \ \ VkImageSubresourceRange\ subImage\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00830}00830\ \ \ \ \ subImage.aspectMask\ =\ aspectMask;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00831}00831\ \ \ \ \ subImage.baseMipLevel\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00832}00832\ \ \ \ \ subImage.levelCount\ =\ VK\_REMAINING\_MIP\_LEVELS;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00833}00833\ \ \ \ \ subImage.baseArrayLayer\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00834}00834\ \ \ \ \ subImage.layerCount\ =\ VK\_REMAINING\_ARRAY\_LAYERS;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00835}00835\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00836}00836\ \ \ \ \ \textcolor{keywordflow}{return}\ subImage;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00837}00837\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00838}00838\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00839}\mbox{\hyperlink{namespace_atlas_aafca0d417a35bba15f288564c0b3032a}{00839}}\ VkImageCreateInfo\ \mbox{\hyperlink{namespace_atlas_aafca0d417a35bba15f288564c0b3032a}{Atlas::CreateImageCreateInfo}}(VkFormat\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e3b09934060e9d373139c3557730d37}{format}},\ VkImageUsageFlags\ usageFlags,\ VkExtent3D\ extent)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00840}00840\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00841}00841\ \ \ \ \ VkImageCreateInfo\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00842}00842\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.sType\ =\ VK\_STRUCTURE\_TYPE\_IMAGE\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00843}00843\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00844}00844\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00845}00845\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.imageType\ =\ VK\_IMAGE\_TYPE\_2D;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00846}00846\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00847}00847\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.format\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e3b09934060e9d373139c3557730d37}{format}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00848}00848\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.extent\ =\ extent;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00849}00849\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00850}00850\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.mipLevels\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00851}00851\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.arrayLayers\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00852}00852\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00853}00853\ \ \ \ \ \textcolor{comment}{//for\ MSAA.\ we\ will\ not\ be\ using\ it\ by\ default,\ so\ default\ it\ to\ 1\ sample\ per\ pixel.}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00854}00854\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.samples\ =\ VK\_SAMPLE\_COUNT\_1\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00855}00855\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00856}00856\ \ \ \ \ \textcolor{comment}{//optimal\ tiling,\ which\ means\ the\ image\ is\ stored\ on\ the\ best\ gpu\ format}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00857}00857\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.tiling\ =\ VK\_IMAGE\_TILING\_OPTIMAL;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00858}00858\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.usage\ =\ usageFlags;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00859}00859\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00860}00860\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00861}00861\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00862}00862\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00863}\mbox{\hyperlink{namespace_atlas_a3a99392fc30f77bfa7f874d50622ae7e}{00863}}\ VkImageViewCreateInfo\ \mbox{\hyperlink{namespace_atlas_a3a99392fc30f77bfa7f874d50622ae7e}{Atlas::CreateImageViewCreateInfo}}(VkFormat\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e3b09934060e9d373139c3557730d37}{format}},\ VkImage\ image,\ VkImageAspectFlags\ aspectFlags)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00864}00864\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00865}00865\ \ \ \ \ \textcolor{comment}{//\ build\ a\ image-\/view\ for\ the\ depth\ image\ to\ use\ for\ rendering}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00866}00866\ \ \ \ \ VkImageViewCreateInfo\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00867}00867\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.sType\ =\ VK\_STRUCTURE\_TYPE\_IMAGE\_VIEW\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00868}00868\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00869}00869\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00870}00870\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.viewType\ =\ VK\_IMAGE\_VIEW\_TYPE\_2D;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00871}00871\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.image\ =\ image;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00872}00872\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.format\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e3b09934060e9d373139c3557730d37}{format}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00873}00873\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.subresourceRange.baseMipLevel\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00874}00874\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.subresourceRange.levelCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00875}00875\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.subresourceRange.baseArrayLayer\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00876}00876\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.subresourceRange.layerCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00877}00877\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.subresourceRange.aspectMask\ =\ aspectFlags;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00878}00878\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00879}00879\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00880}00880\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00881}00881\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00882}\mbox{\hyperlink{namespace_atlas_a602acac644c10f3cf80105af54897150}{00882}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a602acac644c10f3cf80105af54897150}{Atlas::CopyImageToImage}}(VkCommandBuffer\ cmd,\ VkImage\ source,\ VkImage\ destination,\ VkExtent2D\ srcSize,\ VkExtent2D\ dstSize)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00883}00883\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00884}00884\ \ \ \ \ VkImageBlit2\ blitRegion\{\ .sType\ =\ VK\_STRUCTURE\_TYPE\_IMAGE\_BLIT\_2,\ .pNext\ =\ \textcolor{keyword}{nullptr}\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00885}00885\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00886}00886\ \ \ \ \ blitRegion.srcOffsets[1].x\ =\ srcSize.width;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00887}00887\ \ \ \ \ blitRegion.srcOffsets[1].y\ =\ srcSize.height;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00888}00888\ \ \ \ \ blitRegion.srcOffsets[1].z\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00889}00889\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00890}00890\ \ \ \ \ blitRegion.dstOffsets[1].x\ =\ dstSize.width;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00891}00891\ \ \ \ \ blitRegion.dstOffsets[1].y\ =\ dstSize.height;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00892}00892\ \ \ \ \ blitRegion.dstOffsets[1].z\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00893}00893\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00894}00894\ \ \ \ \ blitRegion.srcSubresource.aspectMask\ =\ VK\_IMAGE\_ASPECT\_COLOR\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00895}00895\ \ \ \ \ blitRegion.srcSubresource.baseArrayLayer\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00896}00896\ \ \ \ \ blitRegion.srcSubresource.layerCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00897}00897\ \ \ \ \ blitRegion.srcSubresource.mipLevel\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00898}00898\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00899}00899\ \ \ \ \ blitRegion.dstSubresource.aspectMask\ =\ VK\_IMAGE\_ASPECT\_COLOR\_BIT;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00900}00900\ \ \ \ \ blitRegion.dstSubresource.baseArrayLayer\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00901}00901\ \ \ \ \ blitRegion.dstSubresource.layerCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00902}00902\ \ \ \ \ blitRegion.dstSubresource.mipLevel\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00903}00903\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00904}00904\ \ \ \ \ VkBlitImageInfo2\ blitInfo\{\ .sType\ =\ VK\_STRUCTURE\_TYPE\_BLIT\_IMAGE\_INFO\_2,\ .pNext\ =\ \textcolor{keyword}{nullptr}\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00905}00905\ \ \ \ \ blitInfo.dstImage\ =\ destination;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00906}00906\ \ \ \ \ blitInfo.dstImageLayout\ =\ VK\_IMAGE\_LAYOUT\_TRANSFER\_DST\_OPTIMAL;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00907}00907\ \ \ \ \ blitInfo.srcImage\ =\ source;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00908}00908\ \ \ \ \ blitInfo.srcImageLayout\ =\ VK\_IMAGE\_LAYOUT\_TRANSFER\_SRC\_OPTIMAL;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00909}00909\ \ \ \ \ blitInfo.filter\ =\ VK\_FILTER\_LINEAR;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00910}00910\ \ \ \ \ blitInfo.regionCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00911}00911\ \ \ \ \ blitInfo.pRegions\ =\ \&blitRegion;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00912}00912\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00913}00913\ \ \ \ \ vkCmdBlitImage2(cmd,\ \&blitInfo);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00914}00914\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00915}00915\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00916}\mbox{\hyperlink{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f}{00916}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f}{Atlas::LoadShaderModule}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ filePath,\ VkDevice\ device,\ VkShaderModule*\ outShaderModule)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00917}00917\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00918}00918\ \ \ \ \ \textcolor{comment}{//\ open\ the\ file.\ With\ cursor\ at\ the\ end}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00919}00919\ \ \ \ \ std::ifstream\ file(filePath,\ std::ios::ate\ |\ std::ios::binary);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00920}00920\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00921}00921\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file.is\_open())\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00922}00922\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00923}00923\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00924}00924\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00925}00925\ \ \ \ \ \textcolor{comment}{//\ find\ what\ the\ size\ of\ the\ file\ is\ by\ looking\ up\ the\ location\ of\ the\ cursor}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00926}00926\ \ \ \ \ \textcolor{comment}{//\ because\ the\ cursor\ is\ at\ the\ end,\ it\ gives\ the\ size\ directly\ in\ bytes}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00927}00927\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ fileSize\ =\ (size\_t)file.tellg();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00928}00928\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00929}00929\ \ \ \ \ \textcolor{comment}{//\ spirv\ expects\ the\ buffer\ to\ be\ on\ uint32,\ so\ make\ sure\ to\ reserve\ a\ int}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00930}00930\ \ \ \ \ \textcolor{comment}{//\ vector\ big\ enough\ for\ the\ entire\ file}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00931}00931\ \ \ \ \ std::vector<uint32\_t>\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}}(fileSize\ /\ \textcolor{keyword}{sizeof}(uint32\_t));}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00932}00932\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00933}00933\ \ \ \ \ \textcolor{comment}{//\ put\ file\ cursor\ at\ beginning}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00934}00934\ \ \ \ \ file.seekg(0);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00935}00935\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00936}00936\ \ \ \ \ \textcolor{comment}{//\ load\ the\ entire\ file\ into\ the\ buffer}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00937}00937\ \ \ \ \ file.read((\textcolor{keywordtype}{char}*)\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}}.data(),\ fileSize);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00938}00938\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00939}00939\ \ \ \ \ \textcolor{comment}{//\ now\ that\ the\ file\ is\ loaded\ into\ the\ buffer,\ we\ can\ close\ it}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00940}00940\ \ \ \ \ file.close();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00941}00941\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00942}00942\ \ \ \ \ \textcolor{comment}{//\ create\ a\ new\ shader\ module,\ using\ the\ buffer\ we\ loaded}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00943}00943\ \ \ \ \ VkShaderModuleCreateInfo\ createInfo\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00944}00944\ \ \ \ \ createInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_SHADER\_MODULE\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00945}00945\ \ \ \ \ createInfo.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00946}00946\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00947}00947\ \ \ \ \ \textcolor{comment}{//\ codeSize\ has\ to\ be\ in\ bytes,\ so\ multply\ the\ ints\ in\ the\ buffer\ by\ size\ of}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00948}00948\ \ \ \ \ \textcolor{comment}{//\ int\ to\ know\ the\ real\ size\ of\ the\ buffer}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00949}00949\ \ \ \ \ createInfo.codeSize\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}}.size()\ *\ \textcolor{keyword}{sizeof}(uint32\_t);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00950}00950\ \ \ \ \ createInfo.pCode\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}}.data();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00951}00951\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00952}00952\ \ \ \ \ \textcolor{comment}{//\ check\ that\ the\ creation\ goes\ well.}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00953}00953\ \ \ \ \ VkShaderModule\ shaderModule;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00954}00954\ \ \ \ \ \textcolor{keywordflow}{if}\ (vkCreateShaderModule(device,\ \&createInfo,\ \textcolor{keyword}{nullptr},\ \&shaderModule)\ !=\ VK\_SUCCESS)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00955}00955\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00956}00956\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00957}00957\ \ \ \ \ *outShaderModule\ =\ shaderModule;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00958}00958\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00959}00959\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00960}00960\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00961}\mbox{\hyperlink{namespace_atlas_a041e9829fb1316716a724487d8d12b72}{00961}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Atlas::VulkanRenderingBackend}}\&\ \mbox{\hyperlink{namespace_atlas_a041e9829fb1316716a724487d8d12b72}{Atlas::getLoadedRenderingBacked}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00962}00962\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00963}00963\ \ \ \ \ \textcolor{keywordflow}{return}\ *\mbox{\hyperlink{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}{gLoadedVulkanBackend}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00964}00964\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00965}00965\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00966}\mbox{\hyperlink{namespace_atlas_acdcca076db7097e823f49edf61e82522}{00966}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_acdcca076db7097e823f49edf61e82522}{Atlas::setLoadedRenderingBackend}}(\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{VulkanRenderingBackend}}*\ backend)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00967}00967\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00968}00968\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}{gLoadedVulkanBackend}}\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00969}00969\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}{gLoadedVulkanBackend}}-\/>\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a407d054ec95d389cf07ea5cb5deae474}{shutdown}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00970}00970\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00971}00971\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ \mbox{\hyperlink{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}{gLoadedVulkanBackend}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00972}00972\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00973}00973\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00974}00974\ \ \ \ \ \mbox{\hyperlink{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}{gLoadedVulkanBackend}}\ =\ backend;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00975}00975\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00976}00976\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00977}\mbox{\hyperlink{namespace_atlas_a99f635979073f78d17b53016253bd978}{00977}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a99f635979073f78d17b53016253bd978}{Atlas::resetLoadedRenderingBackend}}()}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00978}00978\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00979}00979\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_acdcca076db7097e823f49edf61e82522}{setLoadedRenderingBackend}}(\textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00980}00980\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00981}00981\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00982}00982\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00983}00983\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00984}\mbox{\hyperlink{class_atlas_1_1_pipeline_aa1fe757141c8bdfbded620db7ffdf92b}{00984}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_aa1fe757141c8bdfbded620db7ffdf92b}{Atlas::Pipeline::createLayout}}(VkPipelineLayoutCreateInfo\ layoutInfo,\ VkDevice*\ device)}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00985}00985\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00986}00986\ \ \ \ \ vkCreatePipelineLayout(*device,\ \&layoutInfo,\ \textcolor{keyword}{nullptr},\ \&mPipelineLayout);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00987}00987\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00988}00988\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00989}\mbox{\hyperlink{class_atlas_1_1_pipeline_a98244ebb34f53d8f1765f00958e2570b}{00989}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_aa1fe757141c8bdfbded620db7ffdf92b}{Atlas::Pipeline::createLayout}}(VkDevice*\ device,\ VkDescriptorSetLayout*\ descriptorSetLayout)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00990}00990\ \ \ \ \ VkPipelineLayoutCreateInfo\ layoutInfo\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00991}00991\ \ \ \ \ layoutInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_LAYOUT\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00992}00992\ \ \ \ \ layoutInfo.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00993}00993\ \ \ \ \ layoutInfo.pSetLayouts\ =\ descriptorSetLayout;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00994}00994\ \ \ \ \ layoutInfo.setLayoutCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00995}00995\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00996}00996\ \ \ \ \ createLayout(layoutInfo,\ device);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00997}00997\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00998}00998\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l00999}\mbox{\hyperlink{class_atlas_1_1_shader_ac6ffddbf8c848626ea6e0d6179d8894f}{00999}}\ \mbox{\hyperlink{class_atlas_1_1_shader_a4f5eeac92833a65631c9b5f871b8a5f2}{Atlas::Shader::Shader}}(std::filesystem::path\ compiledShaderPath,\ std::string\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}})\ :\ mCompiledShaderPath(compiledShaderPath),\ mName(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}})\ \{\}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l01000}01000\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l01001}\mbox{\hyperlink{class_atlas_1_1_shader_a7349cb31cdf0353303510e8c5731ca2d}{01001}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_shader_a7349cb31cdf0353303510e8c5731ca2d}{Atlas::Shader::destroyModule}}(VkDevice*\ device)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l01002}01002\ \ \ \ \ vkDestroyShaderModule(*device,\ mShaderModule,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l01003}01003\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l01004}01004\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l01005}\mbox{\hyperlink{class_atlas_1_1_shader_a3be2a960ccab2f18268f89895275e331}{01005}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_shader_a3be2a960ccab2f18268f89895275e331}{Atlas::Shader::load}}(VkDevice*\ device)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l01006}01006\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f}{LoadShaderModule}}(mCompiledShaderPath.string().c\_str(),\ *device,\ \&mShaderModule);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l01007}01007\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l01008}01008\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8cpp_source_l01009}\mbox{\hyperlink{class_atlas_1_1_shader_a24a786f23d8b86e39da5fdee1edc9aea}{01009}}\ VkShaderModule\ \mbox{\hyperlink{class_atlas_1_1_shader_a24a786f23d8b86e39da5fdee1edc9aea}{Atlas::Shader::getModule}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ mShaderModule;\ \}}
+
+\end{DoxyCode}

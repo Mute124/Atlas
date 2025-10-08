@@ -1,0 +1,136 @@
+\doxysection{scriptstdstring\+\_\+utils.\+cpp}
+\hypertarget{scriptstdstring__utils_8cpp_source}{}\label{scriptstdstring__utils_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/application/add\_on/scriptstdstring/scriptstdstring\_utils.cpp@{C:/Dev/Techstorm-\/v5/src/application/add\_on/scriptstdstring/scriptstdstring\_utils.cpp}}
+\mbox{\hyperlink{scriptstdstring__utils_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <assert.h>}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{scriptstdstring_8h}{scriptstdstring.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}../scriptarray/scriptarray.h"{}}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00007}00007\ \textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00009}00009\ BEGIN\_AS\_NAMESPACE}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00011}00011\ \textcolor{comment}{//\ This\ function\ takes\ an\ input\ string\ and\ splits\ it\ into\ parts\ by\ looking}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00012}00012\ \textcolor{comment}{//\ for\ a\ specified\ delimiter.\ Example:}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00013}00013\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00014}00014\ \textcolor{comment}{//\ string\ str\ =\ "{}A|B||D"{};}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00015}00015\ \textcolor{comment}{//\ array<string>@\ array\ =\ str.split("{}|"{});}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00016}00016\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00017}00017\ \textcolor{comment}{//\ The\ resulting\ array\ has\ the\ following\ elements:}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00018}00018\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00019}00019\ \textcolor{comment}{//\ \{"{}A"{},\ "{}B"{},\ "{}"{},\ "{}D"{}\}}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00020}00020\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00021}00021\ \textcolor{comment}{//\ AngelScript\ signature:}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00022}00022\ \textcolor{comment}{//\ array<string>@\ string::split(const\ string\ \&in\ delim)\ const}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00023}\mbox{\hyperlink{scriptstdstring__utils_8cpp_a558ab0fa31f81fe4df4fc2832f09bab5}{00023}}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_c_script_array}{CScriptArray}}\ *\mbox{\hyperlink{scriptstdstring__utils_8cpp_a558ab0fa31f81fe4df4fc2832f09bab5}{StringSplit}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \&delim,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \&str)}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00024}00024\ \{}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00025}00025\ \ \ \ \ \textcolor{comment}{//\ Obtain\ a\ pointer\ to\ the\ engine}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00026}00026\ \ \ \ \ asIScriptContext\ *ctx\ =\ asGetActiveContext();}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00027}00027\ \ \ \ \ asIScriptEngine\ *engine\ =\ ctx-\/>GetEngine();}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ TODO:\ This\ should\ only\ be\ done\ once}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00030}00030\ \ \ \ \ \textcolor{comment}{//\ TODO:\ This\ assumes\ that\ CScriptArray\ was\ already\ registered}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00031}00031\ \ \ \ \ asITypeInfo\ *arrayType\ =\ engine-\/>GetTypeInfoByDecl(\textcolor{stringliteral}{"{}array<string>"{}});}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00033}00033\ \ \ \ \ \textcolor{comment}{//\ Create\ the\ array\ object}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00034}00034\ \ \ \ \ \mbox{\hyperlink{class_c_script_array}{CScriptArray}}\ *array\ =\ \mbox{\hyperlink{class_c_script_array_a64ed669277c5069790175d49e29362c2}{CScriptArray::Create}}(arrayType);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//\ Find\ the\ existence\ of\ the\ delimiter\ in\ the\ input\ string}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pos\ =\ 0,\ prev\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00038}00038\ \ \ \ \ asUINT\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00039}00039\ \ \ \ \ \textcolor{keywordflow}{while}(\ (pos\ =\ str.find(delim,\ prev))\ !=\ string::npos\ )}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00040}00040\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ the\ part\ to\ the\ array}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ array-\/>\mbox{\hyperlink{class_c_script_array_a54fe13adf1cdded2aec4ac0b5924891f}{Resize}}(array-\/>\mbox{\hyperlink{class_c_script_array_a9ee3347ed075a05718e3946032d4c117}{GetSize}}()+1);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ ((\textcolor{keywordtype}{string}*)array-\/>\mbox{\hyperlink{class_c_script_array_ac179b031c789763b6d7cecb8c07157f5}{At}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}}))-\/>assign(\&str[prev],\ pos-\/prev);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ the\ next\ part}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}}++;}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ prev\ =\ pos\ +\ delim.length();}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00048}00048\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00050}00050\ \ \ \ \ \textcolor{comment}{//\ Add\ the\ remaining\ part}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00051}00051\ \ \ \ \ array-\/>\mbox{\hyperlink{class_c_script_array_a54fe13adf1cdded2aec4ac0b5924891f}{Resize}}(array-\/>\mbox{\hyperlink{class_c_script_array_a9ee3347ed075a05718e3946032d4c117}{GetSize}}()+1);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00052}00052\ \ \ \ \ ((\textcolor{keywordtype}{string}*)array-\/>\mbox{\hyperlink{class_c_script_array_ac179b031c789763b6d7cecb8c07157f5}{At}}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}}))-\/>assign(\&str[prev]);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00054}00054\ \ \ \ \ \textcolor{keywordflow}{return}\ array;}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00055}00055\ \}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00057}\mbox{\hyperlink{scriptstdstring__utils_8cpp_ac09145f70a4d9aaa659f5d5792252e80}{00057}}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{scriptstdstring__utils_8cpp_ac09145f70a4d9aaa659f5d5792252e80}{StringSplit\_Generic}}(asIScriptGeneric\ *gen)}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00058}00058\ \{}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00059}00059\ \ \ \ \ \textcolor{comment}{//\ Get\ the\ arguments}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00060}00060\ \ \ \ \ \textcolor{keywordtype}{string}\ *str\ \ \ =\ (\textcolor{keywordtype}{string}*)gen-\/>GetObject();}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00061}00061\ \ \ \ \ \textcolor{keywordtype}{string}\ *delim\ =\ *(\textcolor{keywordtype}{string}**)gen-\/>GetAddressOfArg(0);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{comment}{//\ Return\ the\ array\ by\ handle}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00064}00064\ \ \ \ \ *(\mbox{\hyperlink{class_c_script_array}{CScriptArray}}**)gen-\/>GetAddressOfReturnLocation()\ =\ \mbox{\hyperlink{scriptstdstring__utils_8cpp_a558ab0fa31f81fe4df4fc2832f09bab5}{StringSplit}}(*delim,\ *str);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00065}00065\ \}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00069}00069\ \textcolor{comment}{//\ This\ function\ takes\ as\ input\ an\ array\ of\ string\ handles\ as\ well\ as\ a}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00070}00070\ \textcolor{comment}{//\ delimiter\ and\ concatenates\ the\ array\ elements\ into\ one\ delimited\ string.}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00071}00071\ \textcolor{comment}{//\ Example:}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00072}00072\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00073}00073\ \textcolor{comment}{//\ array<string>\ array\ =\ \{"{}A"{},\ "{}B"{},\ "{}"{},\ "{}D"{}\};}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00074}00074\ \textcolor{comment}{//\ string\ str\ =\ join(array,\ "{}|"{});}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00075}00075\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00076}00076\ \textcolor{comment}{//\ The\ resulting\ string\ is:}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00077}00077\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00078}00078\ \textcolor{comment}{//\ "{}A|B||D"{}}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00079}00079\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00080}00080\ \textcolor{comment}{//\ AngelScript\ signature:}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00081}00081\ \textcolor{comment}{//\ string\ join(const\ array<string>\ \&in\ array,\ const\ string\ \&in\ delim)}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00082}\mbox{\hyperlink{scriptstdstring__utils_8cpp_ab5bf80df4fd93f578bc183ee69951338}{00082}}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{scriptstdstring__utils_8cpp_ab5bf80df4fd93f578bc183ee69951338}{StringJoin}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_c_script_array}{CScriptArray}}\ \&array,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \&delim)}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00083}00083\ \{}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00084}00084\ \ \ \ \ \textcolor{comment}{//\ Create\ the\ new\ string}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{keywordtype}{string}\ str\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{if}(\ array.\mbox{\hyperlink{class_c_script_array_a9ee3347ed075a05718e3946032d4c117}{GetSize}}()\ )}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00087}00087\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n;}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\ n\ =\ 0;\ n\ <\ (int)array.\mbox{\hyperlink{class_c_script_array_a9ee3347ed075a05718e3946032d4c117}{GetSize}}()\ -\/\ 1;\ n++\ )}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ str\ +=\ *(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}*)array.\mbox{\hyperlink{class_c_script_array_ac179b031c789763b6d7cecb8c07157f5}{At}}(n);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ str\ +=\ delim;}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ the\ last\ part}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ str\ +=\ *(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}*)array.\mbox{\hyperlink{class_c_script_array_ac179b031c789763b6d7cecb8c07157f5}{At}}(n);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00097}00097\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{keywordflow}{return}\ str;}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00100}00100\ \}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00102}\mbox{\hyperlink{scriptstdstring__utils_8cpp_a41b2f8346d7bea93509e48973f114889}{00102}}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{scriptstdstring__utils_8cpp_a41b2f8346d7bea93509e48973f114889}{StringJoin\_Generic}}(asIScriptGeneric\ *gen)}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00103}00103\ \{}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00104}00104\ \ \ \ \ \textcolor{comment}{//\ Get\ the\ arguments}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00105}00105\ \ \ \ \ \mbox{\hyperlink{class_c_script_array}{CScriptArray}}\ \ *array\ =\ *(\mbox{\hyperlink{class_c_script_array}{CScriptArray}}**)gen-\/>GetAddressOfArg(0);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00106}00106\ \ \ \ \ \textcolor{keywordtype}{string}\ *delim\ =\ *(\textcolor{keywordtype}{string}**)gen-\/>GetAddressOfArg(1);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00108}00108\ \ \ \ \ \textcolor{comment}{//\ Return\ the\ string}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00109}00109\ \ \ \ \ \textcolor{keyword}{new}(gen-\/>GetAddressOfReturnLocation())\ \textcolor{keywordtype}{string}(\mbox{\hyperlink{scriptstdstring__utils_8cpp_ab5bf80df4fd93f578bc183ee69951338}{StringJoin}}(*array,\ *delim));}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00110}00110\ \}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00112}00112\ \textcolor{comment}{//\ This\ is\ where\ the\ utility\ functions\ are\ registered.}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00113}00113\ \textcolor{comment}{//\ The\ string\ type\ must\ have\ been\ registered\ first.}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00114}\mbox{\hyperlink{scriptstdstring_8h_a9eb22950e2421aeb4bc46bc742bcf625}{00114}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{scriptstdstring__utils_8cpp_a9eb22950e2421aeb4bc46bc742bcf625}{RegisterStdStringUtils}}(asIScriptEngine\ *engine)}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00115}00115\ \{}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00116}00116\ \ \ \ \ \textcolor{keywordtype}{int}\ r;}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{if}(\ strstr(asGetLibraryOptions(),\ \textcolor{stringliteral}{"{}AS\_MAX\_PORTABILITY"{}})\ )}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00119}00119\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ r\ =\ engine-\/>RegisterObjectMethod(\textcolor{stringliteral}{"{}string"{}},\ \textcolor{stringliteral}{"{}array<string>@\ split(const\ string\ \&in)\ const"{}},\ asFUNCTION(\mbox{\hyperlink{scriptstdstring__utils_8cpp_ac09145f70a4d9aaa659f5d5792252e80}{StringSplit\_Generic}}),\ asCALL\_GENERIC);\ assert(r\ >=\ 0);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ r\ =\ engine-\/>RegisterGlobalFunction(\textcolor{stringliteral}{"{}string\ join(const\ array<string>\ \&in,\ const\ string\ \&in)"{}},\ asFUNCTION(\mbox{\hyperlink{scriptstdstring__utils_8cpp_a41b2f8346d7bea93509e48973f114889}{StringJoin\_Generic}}),\ asCALL\_GENERIC);\ assert(r\ >=\ 0);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00122}00122\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00123}00123\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00124}00124\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ r\ =\ engine-\/>RegisterObjectMethod(\textcolor{stringliteral}{"{}string"{}},\ \textcolor{stringliteral}{"{}array<string>@\ split(const\ string\ \&in)\ const"{}},\ asFUNCTION(\mbox{\hyperlink{scriptstdstring__utils_8cpp_a558ab0fa31f81fe4df4fc2832f09bab5}{StringSplit}}),\ asCALL\_CDECL\_OBJLAST);\ assert(r\ >=\ 0);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ r\ =\ engine-\/>RegisterGlobalFunction(\textcolor{stringliteral}{"{}string\ join(const\ array<string>\ \&in,\ const\ string\ \&in)"{}},\ asFUNCTION(\mbox{\hyperlink{scriptstdstring__utils_8cpp_ab5bf80df4fd93f578bc183ee69951338}{StringJoin}}),\ asCALL\_CDECL);\ assert(r\ >=\ 0);}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00127}00127\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00128}00128\ \}}
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{scriptstdstring__utils_8cpp_source_l00130}00130\ END\_AS\_NAMESPACE}
+
+\end{DoxyCode}

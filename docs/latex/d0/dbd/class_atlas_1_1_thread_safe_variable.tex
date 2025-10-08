@@ -2,18 +2,13 @@
 \hypertarget{class_atlas_1_1_thread_safe_variable}{}\label{class_atlas_1_1_thread_safe_variable}\index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}}
 
 
-This class wraps a variable (specified by T\+\_\+\+VARIABLE\+\_\+\+TYPE) and makes it thread-\/safe. When \doxylink{class_atlas_1_1_thread_safe_variable_a4007f83735117deb04971ae309f5f68f}{Thread\+Safe\+Variable\+::execute()} is called, it will lock this variable and execute the function that is passed to it. Furthermore, it will also lock when the \doxylink{class_atlas_1_1_thread_safe_variable_a7840da777c194e6f4b0bc78a163179e0}{set()} function, is called.  
+This class wraps a variable (specified by T\+\_\+\+VARIABLE\+\_\+\+TYPE) and makes it thread-\/safe.  
 
 
 
 
 {\ttfamily \#include $<$Thread\+Safe\+Variable.\+h$>$}
 
-\doxysubsubsection*{Classes}
-\begin{DoxyCompactItemize}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_1_1_missing_default_constructor_exception}{Missing\+Default\+Constructor\+Exception}}
-\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -21,7 +16,7 @@ class \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_1_1_missing_default_
 \begin{DoxyCompactList}\small\item\em The default constructor. This will first check if the variable\textquotesingle{}s type (T\+\_\+\+VARIABLE\+\_\+\+TYPE) can be default constructed. If it can, it will do so. If it cannot, it will throw an exception that the variable cannot be constructed because this class has no idea how to construct it. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a3f8477829be431a5419f4e661c57b775}{Thread\+Safe\+Variable}} (T\+\_\+\+VARIABLE\+\_\+\+TYPE const \&initial\+Value)
 \begin{DoxyCompactList}\small\item\em This {\bfseries{EXPLICIT}} constructor takes a variable of type T\+\_\+\+VARIABLE\+\_\+\+TYPE and sets m\+Value to the value of that variable. Keep in mind that this is a copy constructor for the wrapped variable. While setting the variable, this operation will lock the mutex. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a0bbe31714764ed04126c25a37cea38ee}{Thread\+Safe\+Variable}} (const \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$ \&other)
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a5e5732a035adb2502a39227c3cd5c2e3}{Thread\+Safe\+Variable}} (\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$ \&other)
 \begin{DoxyCompactList}\small\item\em The class\textquotesingle{}s copy constructor that takes another \doxylink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable} as a parameter, and copies the variable wrapped by that class. Keep in mind that this operation is thread-\/safe because it locks the mutex. \end{DoxyCompactList}\item 
 T\+\_\+\+VARIABLE\+\_\+\+TYPE \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a4f3bdb27e59b6eca106cb4f50470c6be}{get}} ()
 \begin{DoxyCompactList}\small\item\em This function returns the variable that is wrapped by this class (m\+Value). There is no need to lock the mutex in this function because it is not being modified, and it is being copied. Should you need a reference to the variable, you can use the \doxylink{class_atlas_1_1_thread_safe_variable_a5be41a264d05b32fa2d08560d107f00e}{get\+As\+Reference()} function. \end{DoxyCompactList}\item 
@@ -53,8 +48,13 @@ T\+\_\+\+MUTEX \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable_a995c669718
 \doxysubsection{Detailed Description}
 \subsubsection*{template$<$typename T\+\_\+\+VARIABLE\+\_\+\+TYPE, typename T\+\_\+\+MUTEX = std\+::mutex, typename T\+\_\+\+LOCK\+\_\+\+GUARD = std\+::lock\+\_\+guard$<$\+T\+\_\+\+MUTEX$>$$>$\newline
 class Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$}
-This class wraps a variable (specified by T\+\_\+\+VARIABLE\+\_\+\+TYPE) and makes it thread-\/safe. When \doxylink{class_atlas_1_1_thread_safe_variable_a4007f83735117deb04971ae309f5f68f}{Thread\+Safe\+Variable\+::execute()} is called, it will lock this variable and execute the function that is passed to it. Furthermore, it will also lock when the \doxylink{class_atlas_1_1_thread_safe_variable_a7840da777c194e6f4b0bc78a163179e0}{set()} function, is called. 
+This class wraps a variable (specified by T\+\_\+\+VARIABLE\+\_\+\+TYPE) and makes it thread-\/safe. 
 
+When \doxylink{class_atlas_1_1_thread_safe_variable_a4007f83735117deb04971ae309f5f68f}{Thread\+Safe\+Variable\+::execute()} is called, it will lock this variable and execute the function that is passed to it. Furthermore, it will also lock when the \doxylink{class_atlas_1_1_thread_safe_variable_a7840da777c194e6f4b0bc78a163179e0}{set()} function, is called.
+
+\begin{DoxyWarning}{Warning}
+The variable that is wrapped by this class must have a default constructor. If the variable does not have a default constructor, then this class will throw an exception (Missing\+Default\+Constructor\+Exception).
+\end{DoxyWarning}
 
 \begin{DoxyTemplParams}{Template Parameters}
 {\em T\+\_\+\+VARIABLE\+\_\+\+TYPE} & The type of variable to wrap. This is used as a variable in m\+Value.\\
@@ -69,7 +69,7 @@ v0.\+0.\+9
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00026}{26}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00040}{40}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
@@ -108,7 +108,7 @@ If the variable cannot be default constructed, an exception will be thrown!
 \end{DoxyWarning}
 
 \begin{DoxyExceptions}{Exceptions}
-{\em \doxylink{class_atlas_1_1_thread_safe_variable_1_1_missing_default_constructor_exception}{Missing\+Default\+Constructor\+Exception}} & if the variable does not have a default constructor\\
+{\em Missing\+Default\+Constructor\+Exception} & if the variable does not have a default constructor\\
 \hline
 \end{DoxyExceptions}
 \begin{DoxySince}{Since}
@@ -116,11 +116,11 @@ v0.\+0.\+9
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00076}{76}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00090}{90}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00034}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Value}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00048}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Value}}.
 
 \Hypertarget{class_atlas_1_1_thread_safe_variable_a3f8477829be431a5419f4e661c57b775}\label{class_atlas_1_1_thread_safe_variable_a3f8477829be431a5419f4e661c57b775} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!ThreadSafeVariable@{ThreadSafeVariable}}
@@ -165,18 +165,18 @@ v0.\+0.\+9
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00112}{112}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00126}{126}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00195}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::set()}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00209}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::set()}}.
 
-\Hypertarget{class_atlas_1_1_thread_safe_variable_a0bbe31714764ed04126c25a37cea38ee}\label{class_atlas_1_1_thread_safe_variable_a0bbe31714764ed04126c25a37cea38ee} 
+\Hypertarget{class_atlas_1_1_thread_safe_variable_a5e5732a035adb2502a39227c3cd5c2e3}\label{class_atlas_1_1_thread_safe_variable_a5e5732a035adb2502a39227c3cd5c2e3} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!ThreadSafeVariable@{ThreadSafeVariable}}
 \index{ThreadSafeVariable@{ThreadSafeVariable}!Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}}
 \doxysubsubsection{\texorpdfstring{ThreadSafeVariable()}{ThreadSafeVariable()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
 {\footnotesize\ttfamily template$<$typename T\+\_\+\+VARIABLE\+\_\+\+TYPE , typename T\+\_\+\+MUTEX  = std\+::mutex, typename T\+\_\+\+LOCK\+\_\+\+GUARD  = std\+::lock\+\_\+guard$<$\+T\+\_\+\+MUTEX$>$$>$ \\
-\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Atlas\+::\+Thread\+Safe\+Variable}}$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::\+Thread\+Safe\+Variable (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Atlas\+::\+Thread\+Safe\+Variable}}$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::\+Thread\+Safe\+Variable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -195,11 +195,11 @@ v0.\+0.\+9
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00129}{129}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00143}{143}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00149}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::get()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00195}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::set()}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00163}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::get()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00209}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::set()}}.
 
 
 
@@ -222,11 +222,11 @@ Executes a lambda function while locking the mutex.
 \end{DoxyParams}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00252}{252}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00266}{266}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00212}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00035}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Mutex}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00226}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00049}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Mutex}}.
 
 \Hypertarget{class_atlas_1_1_thread_safe_variable_a4f3bdb27e59b6eca106cb4f50470c6be}\label{class_atlas_1_1_thread_safe_variable_a4f3bdb27e59b6eca106cb4f50470c6be} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!get@{get}}
@@ -252,15 +252,15 @@ v0.\+0.\+9
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00149}{149}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00163}{163}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00034}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Value}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00048}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Value}}.
 
 
 
-Referenced by \mbox{\hyperlink{engine_2_project_8cpp_source_l00268}{Atlas\+::\+BProject\+::cleanup()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00277}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::operator()()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00289}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::operator-\/$>$()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00129}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::\+Thread\+Safe\+Variable()}}.
+Referenced by \mbox{\hyperlink{_thread_safe_variable_8h_source_l00291}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::operator()()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00303}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::operator-\/$>$()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00143}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::\+Thread\+Safe\+Variable()}}.
 
 \Hypertarget{class_atlas_1_1_thread_safe_variable_a5be41a264d05b32fa2d08560d107f00e}\label{class_atlas_1_1_thread_safe_variable_a5be41a264d05b32fa2d08560d107f00e} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!getAsReference@{getAsReference}}
@@ -289,11 +289,11 @@ v0.\+0.\+9
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00170}{170}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00184}{184}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00034}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Value}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00048}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Value}}.
 
 \Hypertarget{class_atlas_1_1_thread_safe_variable_ad112184affebd60436cb37f0aa1044a3}\label{class_atlas_1_1_thread_safe_variable_ad112184affebd60436cb37f0aa1044a3} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!isLocked@{isLocked}}
@@ -320,11 +320,11 @@ v0.\+0.\+9
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00243}{243}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00257}{257}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00035}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Mutex}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00049}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Mutex}}.
 
 \Hypertarget{class_atlas_1_1_thread_safe_variable_a9419f2c5843567a27826d382ee8c1bc4}\label{class_atlas_1_1_thread_safe_variable_a9419f2c5843567a27826d382ee8c1bc4} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!lock@{lock}}
@@ -345,15 +345,15 @@ A reference to T\+\_\+\+LOCK\+\_\+\+GUARD so that it doesn\textquotesingle{}t au
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00212}{212}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00226}{226}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00212}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00035}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Mutex}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00226}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00049}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Mutex}}.
 
 
 
-Referenced by \mbox{\hyperlink{_thread_safe_variable_8h_source_l00252}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::execute()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00212}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00265}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::operator=()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00195}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::set()}}.
+Referenced by \mbox{\hyperlink{_thread_safe_variable_8h_source_l00266}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::execute()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00226}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00279}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::operator=()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00209}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::set()}}.
 
 \Hypertarget{class_atlas_1_1_thread_safe_variable_af3dd751e5b377ca6743e1e5cb69d96e2}\label{class_atlas_1_1_thread_safe_variable_af3dd751e5b377ca6743e1e5cb69d96e2} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!operator()@{operator()}}
@@ -371,11 +371,11 @@ Equivalent to the \doxylink{class_atlas_1_1_thread_safe_variable_a4f3bdb27e59b6e
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00277}{277}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00291}{291}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00149}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::get()}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00163}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::get()}}.
 
 \Hypertarget{class_atlas_1_1_thread_safe_variable_ac2401f2778b9e0703a78269128f828d6}\label{class_atlas_1_1_thread_safe_variable_ac2401f2778b9e0703a78269128f828d6} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!operator-\/$>$@{operator-\/$>$}}
@@ -396,11 +396,11 @@ v0.\+0.\+9
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00289}{289}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00303}{303}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00149}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::get()}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00163}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::get()}}.
 
 \Hypertarget{class_atlas_1_1_thread_safe_variable_ae32bbbd424440366b80312f12da01971}\label{class_atlas_1_1_thread_safe_variable_ae32bbbd424440366b80312f12da01971} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!operator=@{operator=}}
@@ -423,11 +423,11 @@ This is the copy assignment operator, it only copies the m\+Value of the variabl
 \end{DoxyReturn}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00265}{265}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00279}{279}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00212}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00035}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Mutex}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00034}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Value}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00226}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00049}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Mutex}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00048}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Value}}.
 
 \Hypertarget{class_atlas_1_1_thread_safe_variable_a7840da777c194e6f4b0bc78a163179e0}\label{class_atlas_1_1_thread_safe_variable_a7840da777c194e6f4b0bc78a163179e0} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!set@{set}}
@@ -453,15 +453,15 @@ v0.\+0.\+9
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00195}{195}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00209}{209}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00212}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00035}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Mutex}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00034}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Value}}.
+References \mbox{\hyperlink{_thread_safe_variable_8h_source_l00226}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00049}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Mutex}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00048}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::m\+Value}}.
 
 
 
-Referenced by \mbox{\hyperlink{_thread_safe_variable_8h_source_l00129}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::\+Thread\+Safe\+Variable()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00112}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::\+Thread\+Safe\+Variable()}}.
+Referenced by \mbox{\hyperlink{_thread_safe_variable_8h_source_l00126}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::\+Thread\+Safe\+Variable()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00143}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::\+Thread\+Safe\+Variable()}}.
 
 
 
@@ -475,11 +475,11 @@ T\+\_\+\+MUTEX \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Atlas\+::\
 
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00035}{35}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00049}{49}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{_thread_safe_variable_8h_source_l00252}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::execute()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00243}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::is\+Locked()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00212}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00265}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::operator=()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00195}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::set()}}.
+Referenced by \mbox{\hyperlink{_thread_safe_variable_8h_source_l00266}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::execute()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00257}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::is\+Locked()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00226}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::lock()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00279}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::operator=()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00209}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::set()}}.
 
 \Hypertarget{class_atlas_1_1_thread_safe_variable_a149e976dc804f0accf7e4606eb5656ab}\label{class_atlas_1_1_thread_safe_variable_a149e976dc804f0accf7e4606eb5656ab} 
 \index{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$@{Atlas::ThreadSafeVariable$<$ T\_VARIABLE\_TYPE, T\_MUTEX, T\_LOCK\_GUARD $>$}!mValue@{mValue}}
@@ -497,14 +497,14 @@ v0.\+0.\+9
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00034}{34}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
+Definition at line \mbox{\hyperlink{_thread_safe_variable_8h_source_l00048}{48}} of file \mbox{\hyperlink{_thread_safe_variable_8h_source}{Thread\+Safe\+Variable.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{_thread_safe_variable_8h_source_l00149}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::get()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00170}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::get\+As\+Reference()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00265}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::operator=()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00195}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::set()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00076}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::\+Thread\+Safe\+Variable()}}.
+Referenced by \mbox{\hyperlink{_thread_safe_variable_8h_source_l00163}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::get()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00184}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::get\+As\+Reference()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00279}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::operator=()}}, \mbox{\hyperlink{_thread_safe_variable_8h_source_l00209}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::set()}}, and \mbox{\hyperlink{_thread_safe_variable_8h_source_l00090}{Atlas\+::\+Thread\+Safe\+Variable$<$ T\+\_\+\+VARIABLE\+\_\+\+TYPE, T\+\_\+\+MUTEX, T\+\_\+\+LOCK\+\_\+\+GUARD $>$\+::\+Thread\+Safe\+Variable()}}.
 
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Dev/\+Techstorm-\/v5/src/engine/core/\mbox{\hyperlink{_thread_safe_variable_8h}{Thread\+Safe\+Variable.\+h}}\end{DoxyCompactItemize}
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/core/threading/\mbox{\hyperlink{_thread_safe_variable_8h}{Thread\+Safe\+Variable.\+h}}\end{DoxyCompactItemize}

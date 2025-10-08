@@ -1,0 +1,80 @@
+\doxysection{Game\+Threader.\+h}
+\hypertarget{_game_threader_8h_source}{}\label{_game_threader_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/core/threading/GameThreader.h@{C:/Dev/Techstorm-\/v5/src/engine/core/threading/GameThreader.h}}
+\mbox{\hyperlink{_game_threader_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_game_thread_scheduler_8h}{GameThreadScheduler.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_game_thread_8h}{GameThread.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}../Module.h"{}}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00013}00013\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00014}\mbox{\hyperlink{class_atlas_1_1_i_game_threader}{00014}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_i_game_threader}{IGameThreader}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_engine_module}{EngineModule}}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00018}\mbox{\hyperlink{class_atlas_1_1_i_game_threader_a77419895ff8ef819eb8b4edc3f65745c}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_game_threader_a77419895ff8ef819eb8b4edc3f65745c}{setMaxThreadCount}}(\textcolor{keyword}{const}\ uint8\_t\ threadCount)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00019}\mbox{\hyperlink{class_atlas_1_1_i_game_threader_a4b7122914e13df85af3729f22cff8bbc}{00019}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ uint8\_t\ \mbox{\hyperlink{class_atlas_1_1_i_game_threader_a4b7122914e13df85af3729f22cff8bbc}{getMaxThreadCount}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//virtual\ void\ enableSafetyCheck(const\ uint16\_t\ safetyCheck)\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{comment}{//virtual\ void\ disableSafetyCheck(const\ uint16\_t\ safetyCheck)\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{//virtual\ bool\ isSafetyCheckEnabled(const\ uint16\_t\ safetyCheck)\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00026}\mbox{\hyperlink{class_atlas_1_1_i_game_threader_aadaee9ed2395bbba4b331bae73603ef6}{00026}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_game_threader_aadaee9ed2395bbba4b331bae73603ef6}{addScheduler}}(std::string\ \textcolor{keyword}{const}\&\ schedulerName,\ uint8\_t\ numThreads)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00027}00027\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00028}\mbox{\hyperlink{class_atlas_1_1_i_game_threader_adc0a41ff4b08ba762499628dd79a206b}{00028}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_game_threader_adc0a41ff4b08ba762499628dd79a206b}{removeScheduler}}(std::string\ \textcolor{keyword}{const}\&\ schedulerName)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00030}\mbox{\hyperlink{class_atlas_1_1_i_game_threader_a5f55b032d7510351bf48481a9b9affd6}{00030}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_game_threader_a5f55b032d7510351bf48481a9b9affd6}{init}}(uint8\_t\ threadCount)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00032}\mbox{\hyperlink{class_atlas_1_1_i_game_threader_aae966d7d979ee6315e458f34ba0b08c6}{00032}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_game_threader_aae966d7d979ee6315e458f34ba0b08c6}{cleanup}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00034}\mbox{\hyperlink{class_atlas_1_1_i_game_threader_a036176627086f8c57aaf89c7d822fdcf}{00034}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ std::unique\_ptr<GameThreadScheduler>\&\ \mbox{\hyperlink{class_atlas_1_1_i_game_threader_a036176627086f8c57aaf89c7d822fdcf}{getScheduler}}(std::string\ \textcolor{keyword}{const}\&\ schedulerName)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00035}00035\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00037}\mbox{\hyperlink{class_atlas_1_1_game_threader}{00037}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_game_threader}{GameThreader}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_i_game_threader}{IGameThreader}}\ \{}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00041}\mbox{\hyperlink{class_atlas_1_1_game_threader_a5a97e4386891edd62ccdc70551c265db}{00041}}\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a5a97e4386891edd62ccdc70551c265db}{mMaxThreadCount}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00042}\mbox{\hyperlink{class_atlas_1_1_game_threader_a439ba7324f6d35f0fe4f39c003cf8057}{00042}}\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a439ba7324f6d35f0fe4f39c003cf8057}{mThreadCount}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ updated\ whenever\ a\ new\ thread\ is\ added\ or\ removed}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00045}\mbox{\hyperlink{class_atlas_1_1_game_threader_a0a110f53c7f2351794ba8d2f329ec024}{00045}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a0a110f53c7f2351794ba8d2f329ec024}{mHasReachedMaxThreadCount}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00048}\mbox{\hyperlink{class_atlas_1_1_game_threader_af3f8b756fdd035622252c12b8f697e94}{00048}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{class_atlas_1_1_game_threader_af3f8b756fdd035622252c12b8f697e94}{SafetyCheck}}\ :\ uint8\_t}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00049}00049\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_threader_af3f8b756fdd035622252c12b8f697e94ac8987517fc0a9580da5da30122d2f33a}{ThreadLimits}}\ =\ 0,}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_game_threader_af3f8b756fdd035622252c12b8f697e94ada61a24931da06a82f5296b7465b243a}{HardwareLimits}}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00052}00052\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00053}\mbox{\hyperlink{class_atlas_1_1_game_threader_a5b0f11e4b65948fd4b5cb0b05466f2ce}{00053}}\ \ \ \ \ \ \ \ \ std::unordered\_map<std::string,\ std::unique\_ptr<GameThreadScheduler>>\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a5b0f11e4b65948fd4b5cb0b05466f2ce}{mThreadSchedulerMap}};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00055}\mbox{\hyperlink{class_atlas_1_1_game_threader_a35b3020ef10a1ef01729e9512de65b2c}{00055}}\ \ \ \ \ \ \ \ \ std::unique\_ptr<GameThreadScheduler>\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a35b3020ef10a1ef01729e9512de65b2c}{mThreadScheduler}};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00057}\mbox{\hyperlink{class_atlas_1_1_game_threader_a911b1c7c6cfa2672fd11a2ff11f288b9}{00057}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a911b1c7c6cfa2672fd11a2ff11f288b9}{GameThreader}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00058}\mbox{\hyperlink{class_atlas_1_1_game_threader_a7186404a74cf45393dd2443a60347551}{00058}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a7186404a74cf45393dd2443a60347551}{GameThreader}}(uint8\_t\ threadCount)\ :\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a439ba7324f6d35f0fe4f39c003cf8057}{mThreadCount}}(threadCount)\ \{\}}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a1fd2b00851611ca031f6105210fa0822}{setMaxThreadCount}}(\textcolor{keyword}{const}\ uint8\_t\ threadCount)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00061}00061\ \ \ \ \ \ \ \ \ uint8\_t\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a674b660c321f546a2caf7229881dc792}{getMaxThreadCount}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_threader_ae3a3981566606cd8ce8f6359088067cd}{addScheduler}}(std::string\ \textcolor{keyword}{const}\&\ schedulerName,\ uint8\_t\ numThreads)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a58fb7d1c7baa3022bf53654598bcbd66}{removeScheduler}}(std::string\ \textcolor{keyword}{const}\&\ schedulerName)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a218fbfeeb8a72aaa286a5e86c090c33b}{init}}(uint8\_t\ threadCount)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a218fbfeeb8a72aaa286a5e86c090c33b}{init}}();}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a5ad53b8c882b143439427adaf722f5d4}{cleanup}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00072}00072\ \ \ \ \ \ \ \ \ std::unique\_ptr<GameThreadScheduler>\&\ \mbox{\hyperlink{class_atlas_1_1_game_threader_a65905639cfc09d34b3d6d9c7a674d8b2}{getScheduler}}(std::string\ \textcolor{keyword}{const}\&\ schedulerName)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00073}00073\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_game_threader_8h_source_l00074}00074\ \}}
+
+\end{DoxyCode}
