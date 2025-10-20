@@ -38,7 +38,9 @@
 	#define ATLAS_LEVEL_ERROR SPDLOG_LEVEL_ERROR
 	#define ATLAS_LEVEL_CRITICAL SPDLOG_LEVEL_CRITICAL
 	#define ATLAS_LEVEL_OFF SPDLOG_LEVEL_OFF
-	
+		
+	#define ATLAS_DEFAULT_SPDLOG_LOG_PATTERN "%c [%n][%t] [%^%l%$] %v"
+
 	// Make sure that ATLAS_USE_SPDLOG is defined.
 	#ifndef ATLAS_USE_SPDLOG
 		#define ATLAS_USE_SPDLOG
@@ -80,9 +82,11 @@ namespace Atlas {
 
 #endif
 	
-	struct QueuedLogMessage {
+
+	struct LogMessage {
 		std::string message;
 		ELogLevel logLevel;
+
 	};
 
 	/**
@@ -92,43 +96,46 @@ namespace Atlas {
 	 */
 	class ALogger {
 	public:
-		class QueuedMessagesContainer {
-		private:
-			std::queue<QueuedLogMessage> messages;
-			std::mutex messagesMutex;
-		public:
+		//class QueuedMessagesContainer {
+		//private:
+		//	std::queue<LogMessage> messages;
+		//	std::mutex messagesMutex;
+		//public:
 
 
-			QueuedMessagesContainer() = default;
+		//	QueuedMessagesContainer() = default;
 
-			void push(QueuedLogMessage const& message);
+		//	void push(LogMessage const& message);
 
-			void clear();
+		//	void clear();
 
-			QueuedLogMessage pop();
+		//	LogMessage pop();
 
-			bool empty() const;
-		};
-	protected:
-		//static inline AbstractMemoryAllocator* sMemoryAllocator = nullptr;
+		//	bool empty() const;
+		//};
+	//protected:
+	//	//static inline AbstractMemoryAllocator* sMemoryAllocator = nullptr;
 
-		static inline std::shared_ptr<ALogger> sLogger = nullptr;
+	//	static inline std::shared_ptr<ALogger> sLogger = nullptr;
 
-		QueuedMessagesContainer mQueuedLogMessages;
-		std::mutex mQueuedLogMessagesMutex;
 
-		std::mutex mMutex;
+	//	QueuedMessagesContainer mQueuedLogMessages;
+	//	std::mutex mQueuedLogMessagesMutex;
 
-		bool mbIsInitialized = false;
+	//	std::mutex mMutex;
+
+	//	bool mbIsInitialized = false;
 	public:
 		
+		ALogger() = default;
+
 		virtual ~ALogger() = default;
 
 		static std::string GenerateLogFileName();
 
-		static void SetDefaultLogger(ALogger* logger);
+		//static void SetDefaultLogger(ALogger* logger);
 
-		static std::shared_ptr<ALogger> GetDefaultLogger();
+		//static std::shared_ptr<ALogger> GetDefaultLogger();
 
 		static void Log(std::string const& message, ELogLevel logLevel);
 
@@ -136,19 +143,19 @@ namespace Atlas {
 
 		virtual void close() = 0;
 
-		virtual void display(std::string const& message) = 0;
+		virtual void display(std::string const& message) {}
 
-		virtual void queueMessage(std::string const& message, ELogLevel logLevel);
+		//virtual void queueMessage(std::string const& message, ELogLevel logLevel);
 
-		virtual void log(std::string const& message, ELogLevel logLevel) = 0;
+		virtual void log(std::string const& message, ELogLevel logLevel) {}
 	
-		virtual void setLevel(ELogLevel logLevel) = 0;
+		virtual void setLevel(ELogLevel logLevel) {}
 		
-		void processQueuedMessages();
+		//void processQueuedMessages();
 
-		bool isInitialized() const;
+		//bool isInitialized() const;
 
-		explicit(false) operator bool() const;
+		//explicit(false) operator bool() const;
 	};
 
 	/**
@@ -460,7 +467,7 @@ namespace Atlas {
 
 		SpdlogLogger() = default;
 
-		static inline void QueueMessage(std::string const& message, ELogLevel logLevel);
+		static void QueueMessage(std::string const& message, ELogLevel logLevel);
 
 		/**
 		 * @brief Sets the logger that will be used as the default logger for @c spdlog::log() or the other namespace-scope logging functions for

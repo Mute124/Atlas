@@ -16,5 +16,6 @@ namespace Atlas {
 		std::vector<uint8_t> bytes;
 
 		explicit FileData(std::vector<uint8_t>&& b);
+
 	};
 }

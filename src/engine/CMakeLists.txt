@@ -115,6 +115,7 @@
 	#-----------------------------------
 
     "io/IOCommon.h"
+    "io/IOCommon.cpp"
 
     "io/FileHandle.h"
     "io/FileHandle.cpp"

@@ -120,6 +120,17 @@
 
 #define ATLAS_STRINGIFY(...) #__VA_ARGS__
 
+/**
+ * @brief Disables the copy constructor and copy assignment operator for a class defined by the value of @c type.
+ * The type that is passed should be the name of the class that should not have the ability to copy itself.
+ * In essence, this macro disables the copy constructor and copy assignment operator for the class defined by @c type,
+ * thereby making it easier to prevent copying of the class and reduces the amount of code needed to do so.
+ * 
+ * @since v0.0.1
+ */
+#define ATLAS_DISALLOW_COPY(type)				\
+	type(const type&) = delete;					\
+	type& operator=(const type&) = delete;		
 
 /**
 * @brief Since the location of the shared libraries and executables can vary, this is a simple solution to this.
@@ -178,11 +189,6 @@ namespace Atlas {
 
 		Counter() = default;
 
-		void cap(int64_t max) {
-			mMaxCount = max;
-			mbIsCapped = true;
-		}
-
 		bool isCapped() const {
 			return mbIsCapped;
 		}
@@ -230,14 +236,18 @@ namespace Atlas {
 		}
 
 		void setMaxCount(int64_t max) {
-			mMaxCount = max;
-			mbIsCapped = true;
+			if (max == -1) {
+				mMaxCount = -1;
+				mbIsCapped = false;
+			} else {
+				mMaxCount = max;
+				mbIsCapped = true;
+			}
 		}
 
 		void setCountAndMaxCount(int64_t count, int64_t max) {
-			mCount = count;
-			mMaxCount = max;
-			mbIsCapped = true;
+			setCount(count);
+			setMaxCount(max);
 		}
 	};
 

@@ -15,10 +15,13 @@
 //#include <iostream>
 //#include <fstream>
 //#include <iosfwd> // This is just to avoid a transitive include for std::fstream
+#include <iosfwd>
+#include <memory>
 
 #include "IOCommon.h"
 #include "FileRecord.h"
 #include "FileData.h"
+
 
 namespace Atlas {
 	using FileStream = std::fstream;

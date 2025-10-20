@@ -86,34 +86,33 @@ int main(int argc, char* argv[]) {
 	//	ia >> p2;  // Deserialize
 	}*/
 
+	const std::string logFilePath = std::format("logs/{}", SpdlogLogger::GenerateLogFileName());
+
+	SpdlogLogger logger = SpdlogLogger("Atlas", ATLAS_DEFAULT_SPDLOG_LOG_PATTERN, logFilePath);
+	logger.init();
+	logger.setThisAsDefaultLogger();
+	logger.info(logFilePath);
+
 	FileManager::Options options;
 	options.fileTTL = std::chrono::seconds(10);
 	options.evictionCheckInterval = std::chrono::seconds(5);
 	options.bStartJanitor = true;
 
 	FileManager fileManager(options);
-
 	fileManager.registerDirectory("F:/dev/AtlasIOPrototype/assets");
+	InfoLog(std::format("Registered Files: {}", fileManager.getRegisteredCount()));
 
-	std::cout << "Registered files: " << fileManager.getRegisteredCount() << "\n";
+	//std::cout << "Registered files: " << fileManager.getRegisteredCount() << "\n";
 
 	// open a file (lazy load)
 	auto data = fileManager.openFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
 	if (data) {
-		std::cout << "Loaded bytes: " << data.get()->bytes.size() << "\n";
+		//std::cout << "Loaded bytes: " << data.get()->bytes.size() << "\n";
 		// use data->bytes...
 	}
 	else {
-		std::cout << "Failed to load file\n";
+		//std::cout << "Failed to load file\n";
 	}
-
-	fileManager.preloadAll();
-
-	SpdlogLogger logger = SpdlogLogger("Atlas", "[multi_sink_example] [%^%l%$] %v", "logs/atlas.log");
-
-	logger.init();
-
-	logger.setThisAsDefaultLogger();
 
 	// Setup the game window (this needs to be done before the rendering device is created)
 	std::unique_ptr<SDLGameWindow> gameWindow = std::make_unique<SDLGameWindow>();

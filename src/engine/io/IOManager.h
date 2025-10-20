@@ -32,7 +32,6 @@
 #include <unordered_map>
 #include <vector>
 
-
 #include "../core/Core.h"
 #include "../core/Common.h"
 #include "IOCommon.h"
@@ -121,37 +120,6 @@ namespace Atlas {
 	};*/
 
 
-
-	
-
-
-
-	//class FileJanitor {
-	//public:
-	//	struct Options {
-	//		std::chrono::seconds evictionCheckInterval{ 10 }; // janitor check period
-	//		std::chrono::seconds fileTTL{ 60 };                // unload files not used for this TTL
-	//		bool bStartJanitor{ true };
-	//	};
-
-	//private:
-	//	Options mOptions;
-
-	//	std::atomic<bool> mJanitorStopFlag;
-	//	std::condition_variable_any mJanitorCV;
-	//	std::mutex mJanitorCVMutex;
-	//	std::thread mJanitorThread;
-
-	//public:
-
-	//	FileJanitor(const Options& options);
-
-	//	void run(FileManager& fileManagerRef);
-
-	//	void evictUnused(FileManager& fileManagerRef);
-
-	//};
-
 	/**
 	 * @brief Some information about Atlas' io module that may be helpful for debugging
 	 * 
@@ -220,16 +188,18 @@ namespace Atlas {
 
 		//void evictUnused();
 
-    public:
 
-        explicit FileManager(const Options& opts = Options());
+
+    public:
+		// Disallow copy
+		ATLAS_DISALLOW_COPY(FileManager);
+
+        explicit FileManager(const Options& options = Options());
 
         ~FileManager();
 
-        // Disallow copy
-        FileManager(const FileManager&) = delete;
-        FileManager& operator=(const FileManager&) = delete;
 
+        
         // Register a directory (recursively); applies ignore regexes.
         void registerDirectory(const std::filesystem::path& dir);
 
@@ -252,6 +222,8 @@ namespace Atlas {
 
         // Optional: preload all files now (heavy)
         void preloadAll();
+
+		void unloadAll();
 
         // find files matching regex in registered map (thread-safe)
         std::vector<std::filesystem::path> findRegistered(const std::regex& re) const;

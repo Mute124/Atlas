@@ -13,28 +13,28 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 
-void Atlas::ALogger::QueuedMessagesContainer::push(QueuedLogMessage const& message) {
-	std::scoped_lock lock(messagesMutex);
-	messages.push(message);
-}
-
-void Atlas::ALogger::QueuedMessagesContainer::clear() {
-	std::scoped_lock lock(messagesMutex);
-	messages = std::queue<QueuedLogMessage>();
-}
-
-Atlas::QueuedLogMessage Atlas::ALogger::QueuedMessagesContainer::pop() {
-	std::scoped_lock lock(messagesMutex);
-	QueuedLogMessage message = messages.front();
-	messages.pop();
-
-	return message;
-}
-
-bool Atlas::ALogger::QueuedMessagesContainer::empty() const {
-	//std::scoped_lock lock(messagesMutex);
-	return messages.empty();
-}
+//void Atlas::ALogger::QueuedMessagesContainer::push(LogMessage const& message) {
+//	std::scoped_lock lock(messagesMutex);
+//	messages.push(message);
+//}
+//
+//void Atlas::ALogger::QueuedMessagesContainer::clear() {
+//	std::scoped_lock lock(messagesMutex);
+//	messages = std::queue<LogMessage>();
+//}
+//
+//Atlas::LogMessage Atlas::ALogger::QueuedMessagesContainer::pop() {
+//	std::scoped_lock lock(messagesMutex);
+//	LogMessage message = messages.front();
+//	messages.pop();
+//
+//	return message;
+//}
+//
+//bool Atlas::ALogger::QueuedMessagesContainer::empty() const {
+//	//std::scoped_lock lock(messagesMutex);
+//	return messages.empty();
+//}
 
 
 std::string Atlas::ALogger::GenerateLogFileName() {
@@ -44,11 +44,11 @@ std::string Atlas::ALogger::GenerateLogFileName() {
 	auto now = std::chrono::system_clock::now();
 	auto time = std::chrono::system_clock::to_time_t(now);
 	
-	std::chrono::year_month_day ymd = std::chrono::floor<std::chrono::days>(now);
+	
 
 	std::tm* nowTm = std::localtime(&time);
 	
-	fileName = std::format("log_{}-{}-{}_{}-{}-{}",
+	fileName = std::format("{}-{}-{}_{}-{}-{}.log",
 		nowTm->tm_year + 1900,
 		nowTm->tm_mon + 1,
 		nowTm->tm_mday,
@@ -60,48 +60,48 @@ std::string Atlas::ALogger::GenerateLogFileName() {
 	return fileName;
 }
 
-void Atlas::ALogger::SetDefaultLogger(ALogger* logger) {
-
-	ATLAS_ASSERT(logger != nullptr, "A nullptr logger cannot be set as the default logger!");
-
-	std::scoped_lock lock(sLogger->mMutex);
-
-	sLogger = std::make_shared<ALogger>(logger);
-}
-
-std::shared_ptr<Atlas::ALogger> Atlas::ALogger::GetDefaultLogger()
-{
-	std::scoped_lock lock(sLogger->mMutex);
-	return sLogger;
-}
+//void Atlas::ALogger::SetDefaultLogger(ALogger* logger) {
+//
+//	ATLAS_ASSERT(logger != nullptr, "A nullptr logger cannot be set as the default logger!");
+//
+//	std::scoped_lock lock(sLogger->mMutex);
+//
+//	sLogger = std::make_shared<ALogger>(logger);
+//}
+//
+//std::shared_ptr<Atlas::ALogger> Atlas::ALogger::GetDefaultLogger()
+//{
+//	std::scoped_lock lock(sLogger->mMutex);
+//	return sLogger;
+//}
 
 void Atlas::ALogger::Log(std::string const& message, ELogLevel logLevel)
 {
-	std::scoped_lock lock(sLogger->mMutex);
-	sLogger->queueMessage(message, logLevel);
+	//std::scoped_lock lock(sLogger->mMutex);
+	//sLogger->queueMessage(message, logLevel);
 }
 
-void Atlas::ALogger::queueMessage(std::string const& message, ELogLevel logLevel) {
-	//std::scoped_lock lock(mQueuedLogMessagesMutex);
-	mQueuedLogMessages.push({message, logLevel});
-}
+//void Atlas::ALogger::queueMessage(std::string const& message, ELogLevel logLevel) {
+//	//std::scoped_lock lock(mQueuedLogMessagesMutex);
+//	//mQueuedLogMessages.push({message, logLevel});
+//}
+//
+//void Atlas::ALogger::processQueuedMessages() {
+//	std::scoped_lock lock(mQueuedLogMessagesMutex);
+//
+//	while(!mQueuedLogMessages.empty()) {
+//		LogMessage message = mQueuedLogMessages.pop();
+//		log(message.message, message.logLevel);
+//	}
+//}
 
-void Atlas::ALogger::processQueuedMessages() {
-	std::scoped_lock lock(mQueuedLogMessagesMutex);
+//bool Atlas::ALogger::isInitialized() const {
+//	return mbIsInitialized;
+//}
 
-	while(!mQueuedLogMessages.empty()) {
-		QueuedLogMessage message = mQueuedLogMessages.pop();
-		log(message.message, message.logLevel);
-	}
-}
-
-bool Atlas::ALogger::isInitialized() const {
-	return mbIsInitialized;
-}
-
-Atlas::ALogger::operator bool() const {
-	return isInitialized();
-}
+//Atlas::ALogger::operator bool() const {
+//	return isInitialized();
+//}
 
 Atlas::ELogLevel Atlas::SpdlogLogger::ExtractLogLevel(std::initializer_list<ELogLevel> logLevels, int index) {
 	if (index < 0 || index >= logLevels.size()) {
@@ -146,7 +146,7 @@ void Atlas::SpdlogLogger::initInternalSpdlogLogger()
 }
 
 Atlas::SpdlogLogger::SpdlogLogger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath, bool truncateMessages, std::initializer_list<ELogLevel> sinksLogLevels)
-	: mbTruncateMessages(truncateMessages), mConsoleLogLevel(sinksLogLevels.begin()[(int)ESpdlogInitListIndex::ConsoleLogger]),
+	: ALogger(), mbTruncateMessages(truncateMessages), mConsoleLogLevel(sinksLogLevels.begin()[(int)ESpdlogInitListIndex::ConsoleLogger]),
 	mFileLogLevel(sinksLogLevels.begin()[(int)ESpdlogInitListIndex::FileLogger]),
 	mLoggerLevel(sinksLogLevels.begin()[(int)ESpdlogInitListIndex::Logger]), mLoggerName(loggerName), mLogFilePath(logFilePath),
 	mMessageFormatPattern(messageFormatPattern)
