@@ -75,78 +75,11 @@ Atlas::PathLocation Atlas::IOManager::getCurrentWorkingDirectory() const {
 
 */
 
-Atlas::FileData::FileData(std::vector<uint8_t>&& b) 
-	: bytes(std::move(b)) {
-}
 
-Atlas::FileRecord::FileRecord(const std::filesystem::path& p)
-	: path(p),
-	lastUsedMS(std::chrono::duration_cast<std::chrono::milliseconds>(steady_clock::now().time_since_epoch()).count()) {
-}
-
-void Atlas::FileRecord::touch() {
-	auto m = std::chrono::duration_cast<std::chrono::milliseconds>(
-		steady_clock::now().time_since_epoch()).count();
-
-	lastUsedMS.store(m, std::memory_order_relaxed);
-}
-
-Atlas::TimePoint Atlas::FileRecord::getLastUseTime() const {
-	auto ms = lastUsedMS.load(std::memory_order_relaxed);
-
-	return TimePoint(std::chrono::milliseconds(ms));
-}
 
 // empty handle
 
-void Atlas::FileHandle::release() {
-	if (record) {
-		record->activeHandles.fetch_sub(1, std::memory_order_relaxed);
-		record.reset();
-	}
 
-	data.reset();
-}
-
-Atlas::FileHandle::FileHandle(std::shared_ptr<FileData> d, std::shared_ptr<FileRecord> r)
-	: data(std::move(d)), record(std::move(r))
-{
-	if (record) {
-		record->activeHandles.fetch_add(1, std::memory_order_relaxed);
-	}
-}
-
-// moveable
-
-Atlas::FileHandle::FileHandle(FileHandle&& o) noexcept
-	: data(std::move(o.data)), record(std::move(o.record)) {
-}
-
-Atlas::FileHandle& Atlas::FileHandle::operator=(FileHandle&& o) noexcept {
-	if (this == &o)
-	{
-		return *this;
-	}
-
-	release();
-	
-	data = std::move(o.data);
-	record = std::move(o.record);
-
-	return *this;
-}
-
-Atlas::FileHandle::~FileHandle() { 
-	release();
-}
-
-Atlas::FileHandle::operator bool() const { 
-	return static_cast<bool>(data);
-}
-
-std::shared_ptr<Atlas::FileData> Atlas::FileHandle::get() const { 
-	return data;
-}
 
 
 Atlas::FileManager::FileManager(const Options& opts)

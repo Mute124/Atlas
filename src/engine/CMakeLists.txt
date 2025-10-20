@@ -116,16 +116,22 @@
 
     "io/IOCommon.h"
 
-    "io/File.h"
-    "io/File.cpp"
+    "io/FileHandle.h"
+    "io/FileHandle.cpp"
 
-    "io/PathLocation.h"
+    "io/FileRecord.h"
+    "io/FileRecord.cpp"
 
-    "io/PathSearcher.h"
-	"io/PathSearcher.cpp"
+    "io/FileData.h"
+    "io/FileData.cpp"
 
-    "io/FileSystemMap.h"
-	"io/FileSystemMap.cpp"
+    #"io/PathLocation.h"
+
+    #"io/PathSearcher.h"
+	#"io/PathSearcher.cpp"
+
+    #"io/FileSystemMap.h"
+	#"io/FileSystemMap.cpp"
 
     "io/IOManager.h"
 	"io/IOManager.cpp"

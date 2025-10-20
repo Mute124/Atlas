@@ -15,3 +15,8 @@ bool Atlas::DoesPathExist(PathLocation const& cPath)
 {
     return std::filesystem::exists(cPath);
 }
+
+std::filesystem::path Atlas::GetAbsolutePath(PathLocation const& cPath)
+{
+    return std::filesystem::absolute(cPath);
+}

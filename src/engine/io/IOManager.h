@@ -38,6 +38,10 @@
 #include "IOCommon.h"
 #include "PathSearcher.h"
 
+#include "FileData.h"
+#include "FileRecord.h"
+#include "FileHandle.h"
+
 #define ATLAS_DEFAULT_FILE_TTL 60
 #define ATLAS_DEFAULT_JANITOR_CHECK_INTERVAL 10
 #define ATLAS_DEFAULT_START_JANITOR true
@@ -115,54 +119,12 @@ namespace Atlas {
 
 		PathLocation getCurrentWorkingDirectory() const;
 	};*/
-	using steady_clock = std::chrono::steady_clock;
-	using TimePoint = std::chrono::time_point<steady_clock>;
 
-	struct FileData {
-		std::vector<uint8_t> bytes;
 
-		explicit FileData(std::vector<uint8_t>&& b);
-	};
+
 	
-	struct FileRecord {
-		std::filesystem::path path;
-		std::atomic<TimePoint::rep> lastUsedMS; // store as integral ms to be atomic
-		std::mutex loadMutex; // protects loading/unloading for this record
-		std::weak_ptr<FileData> weakDataPtr; // points to loaded data if loaded
-		std::atomic<int> activeHandles{ 0 }; // NEW: number of FileHandles currently held
 
-		explicit FileRecord(const std::filesystem::path& p);
 
-		void touch();
-
-		TimePoint getLastUseTime() const;
-	};
-
-	class FileHandle {
-	private:
-		std::shared_ptr<FileData> data;
-		std::shared_ptr<FileRecord> record;
-
-		void release();
-	public:
-		FileHandle() = default; // empty handle
-
-		FileHandle(std::shared_ptr<FileData> d, std::shared_ptr<FileRecord> r);
-		// moveable
-		FileHandle(FileHandle&& o) noexcept;
-
-		FileHandle& operator=(FileHandle&& o) noexcept;
-
-		// not copyable (ensures single logical handle per object)
-		FileHandle(const FileHandle&) = delete;
-		FileHandle& operator=(const FileHandle&) = delete;
-
-		~FileHandle();
-
-		explicit operator bool() const;
-
-		std::shared_ptr<FileData> get() const;
-	};
 
 	//class FileJanitor {
 	//public:
