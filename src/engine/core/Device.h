@@ -1,6 +1,6 @@
 /**************************************************************************************************
  * @file Device.h
- * 
+ *
  * @brief Declaration code for using devices.
  * 
  * @date May 2025
@@ -10,47 +10,78 @@
 #pragma once
 
 #include <string>
+#include <any>
 
 namespace Atlas {
 	
+	enum class EDeviceType {
+		Unknown = 0,
+
+	};
+
+
+	struct DeviceCapabilitiesInfo {
+		
+	};
+
 	class ADevice {
-	private:
+	protected:
 
 		bool mIsEnabled = false;
-
 		bool mIsReady = false;
 
 		const bool mIsPhysicalDevice = false;
+		
+		std::string mDeviceName;
+		std::string mDeviceVendor;
 
+		int mDeviceGUID;
 
-
+		std::any mDeviceHandle;
 	public:
 		
 		ADevice() = delete;
 		
-		explicit ADevice(const bool isPhysicalDevice);
+		explicit ADevice(const bool isPhysicalDevice)
+		{
+		}
 		
-		ADevice(const bool isPhysicalDevice, const bool isEnabled, const bool isReady);
+		ADevice(const bool isPhysicalDevice, const bool isEnabled, const bool isReady)
+		{
+		}
 
 		~ADevice() = default;
 
-		virtual void init() = 0;
 
-		virtual void open() = 0;
-
-		virtual void close() = 0;
-
-		virtual void enable();
+		virtual void enable()
+		{
+			this->mIsEnabled = true;
+		}
 		
-		virtual void disable();
+		virtual void disable()
+		{
+			this->mIsEnabled = false;
+		}
 
-		virtual void setReady(bool newState);
+		virtual void setReady(bool newState)
+		{
+			this->mIsReady = newState;
+		}
 
-		virtual bool isDeviceEnabled();
+		virtual bool isDeviceEnabled()
+		{
+			return this->mIsEnabled;
+		}
 
-		virtual bool isDeviceReady();
+		virtual bool isDeviceReady()
+		{
+			return this->mIsReady;
+		}
 		
-		virtual bool isPhysicalDevice();
+		virtual bool isPhysicalDevice()
+		{
+			return this->mIsPhysicalDevice;
+		}
 		
 	};
 }

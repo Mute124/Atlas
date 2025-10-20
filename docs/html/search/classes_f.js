@@ -1,21 +1,11 @@
 var searchData=
 [
-  ['sample_0',['Sample',['../d4/d72/class_sample.html',1,'']]],
-  ['samplegroup_1',['SampleGroup',['../d4/da6/class_sample_group.html',1,'']]],
-  ['samplesproject_2',['SamplesProject',['../dc/dc3/class_samples_project.html',1,'']]],
-  ['sarraybuffer_3',['SArrayBuffer',['../d3/d98/struct_s_array_buffer.html',1,'']]],
-  ['sarraycache_4',['SArrayCache',['../d1/dcb/struct_s_array_cache.html',1,'']]],
-  ['sclassmetadata_5',['SClassMetadata',['../df/d3a/struct_c_script_builder_1_1_s_class_metadata.html',1,'CScriptBuilder']]],
-  ['scontextinfo_6',['SContextInfo',['../d3/d89/struct_s_context_info.html',1,'']]],
-  ['scriptedobject_7',['ScriptedObject',['../d6/d16/class_atlas_1_1_scripted_object.html',1,'Atlas']]],
-  ['scriptingsymbolexposer_8',['ScriptingSymbolExposer',['../d3/d2e/class_atlas_1_1_scripting_symbol_exposer.html',1,'Atlas']]],
-  ['sdictionarycache_9',['SDictionaryCache',['../dd/d49/struct_s_dictionary_cache.html',1,'']]],
-  ['sdlgamewindow_10',['SDLGameWindow',['../d7/d0a/class_atlas_1_1_s_d_l_game_window.html',1,'Atlas']]],
-  ['sextraobject_11',['SExtraObject',['../d7/d9e/struct_c_serializer_1_1_s_extra_object.html',1,'CSerializer']]],
-  ['sgridbuffer_12',['SGridBuffer',['../dc/da6/struct_s_grid_buffer.html',1,'']]],
-  ['shader_13',['Shader',['../da/db7/class_atlas_1_1_shader.html',1,'Atlas']]],
-  ['shellfileinterface_14',['ShellFileInterface',['../dc/d7b/class_shell_file_interface.html',1,'']]],
-  ['smetadatadecl_15',['SMetadataDecl',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html',1,'CScriptBuilder']]],
-  ['spdloglogger_16',['SpdlogLogger',['../da/d62/class_atlas_1_1_spdlog_logger.html',1,'Atlas']]],
-  ['stringifiedobject_17',['StringifiedObject',['../d2/d7b/class_atlas_1_1_stringified_object.html',1,'Atlas']]]
+  ['rectangle_0',['Rectangle',['../d4/dd2/struct_atlas_1_1_rectangle.html',1,'Atlas']]],
+  ['rectangle_3c_20int_20_3e_1',['Rectangle&lt; int &gt;',['../d4/dd2/struct_atlas_1_1_rectangle.html',1,'Atlas']]],
+  ['recursivepathsearcher_2',['RecursivePathSearcher',['../d8/d98/class_atlas_1_1_recursive_path_searcher.html',1,'Atlas']]],
+  ['referenceholder_3',['ReferenceHolder',['../d9/d0a/class_atlas_1_1_reference_holder.html',1,'Atlas']]],
+  ['renderable_4',['Renderable',['../d3/de8/class_atlas_1_1_renderable.html',1,'Atlas']]],
+  ['renderersettings_5',['RendererSettings',['../d4/dcc/struct_atlas_1_1_renderer_settings.html',1,'Atlas']]],
+  ['renderingbackend_6',['RenderingBackend',['../db/d46/class_atlas_1_1_rendering_backend.html',1,'Atlas']]],
+  ['renderresources_7',['RenderResources',['../d9/d42/struct_render_resources.html',1,'']]]
 ];

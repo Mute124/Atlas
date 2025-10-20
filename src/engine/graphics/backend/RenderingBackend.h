@@ -15,7 +15,7 @@
 #include <cstdint>
 #include <vector>
 #include <initializer_list>
-
+#include <memory>
 
 #include "../../core/Core.h"
 #include "../../core/Version.h"
@@ -96,22 +96,38 @@ namespace Atlas {
 	//	}
 	//};
 
+	struct RendererSettings {
+		// Empty for now
+	};
 
 
 	class RenderingBackend {
 	public:
 		using APIVersion = Version;
 
-	private:
+	protected:
+		std::shared_ptr<AGameWindow> mGameWindowPtr;
+		
+		//uint32_t mCurrentFrame = 0;
+
 		Version mAPIVersion;
 		
+		//bool mbIsInitialized = false;
 		bool mbUseDebuggingTools = false;
 		bool mbEnableErrorChecking = false; // dont worry about this if you are not using vulkan
 	public:
 		
+		explicit RenderingBackend(const std::shared_ptr<AGameWindow>& gameWindow) 
+			: mGameWindowPtr(gameWindow) {
+		}
+
 		RenderingBackend() = default;
 
-		
+		virtual void init(AGameWindow* windowHandle);
+
+		virtual void update() = 0;
+
+		virtual void shutdown() = 0;
 
 		virtual void setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch);
 
@@ -119,15 +135,11 @@ namespace Atlas {
 
 		virtual Version getAPIVersion() const;
 
+		//inline std::shared_ptr<AGameWindow> getGameWindow() const { return mGameWindowPtr; }
+
 		bool areDebuggingToolsEnabled() const;
 
 		bool isErrorCheckingEnabled() const;
-
-		virtual void init(AGameWindow* windowHandle) = 0;
-
-		virtual void update() = 0;
-		
-		virtual void shutdown() = 0;
 
 		template<typename T_CAST_TO>
 		T_CAST_TO* castAs() {

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['name_0',['name',['../d8/dfe/struct_c_debugger_1_1_break_point.html#a162b48f8eec2c10d39e86e13a88c2a55',1,'CDebugger::BreakPoint::name'],['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html#a089fea3603df6da1c7193d2bd04b102c',1,'CScriptBuilder::SMetadataDecl::name'],['../d4/d72/class_sample.html#a211998e0f07580ace5778c7ee6423a73',1,'Sample::name'],['../d4/da6/class_sample_group.html#a99aa7f4f860666b0faf1f8d5b2ab97c3',1,'SampleGroup::name']]],
+  ['name_0',['name',['../d8/dfe/struct_c_debugger_1_1_break_point.html#a162b48f8eec2c10d39e86e13a88c2a55',1,'CDebugger::BreakPoint::name'],['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html#a089fea3603df6da1c7193d2bd04b102c',1,'CScriptBuilder::SMetadataDecl::name'],['../d3/d00/struct_atlas_1_1_compute_effect.html#a1fb84b3d114ef178306ee1b18357f901',1,'Atlas::ComputeEffect::name'],['../d4/d72/class_sample.html#a211998e0f07580ace5778c7ee6423a73',1,'Sample::name'],['../d4/da6/class_sample_group.html#a99aa7f4f860666b0faf1f8d5b2ab97c3',1,'SampleGroup::name']]],
   ['namespace_1',['nameSpace',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html#a4997917116f4d04e8083a1546ecdce47',1,'CScriptBuilder::SMetadataDecl']]],
   ['needsadjusting_2',['needsAdjusting',['../d8/dfe/struct_c_debugger_1_1_break_point.html#ad57c3f188d38de9fed59e9dae9efaf9d',1,'CDebugger::BreakPoint']]],
   ['noise_3',['noise',['../d1/dee/class_terrain.html#af666983558eb4f14edd2bc93c6e54626',1,'Terrain']]],

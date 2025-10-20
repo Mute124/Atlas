@@ -1,11 +1,15 @@
 var _v_k_device_8h =
 [
     [ "Atlas::ImmediateSubmitInfo", "db/df0/struct_atlas_1_1_immediate_submit_info.html", "db/df0/struct_atlas_1_1_immediate_submit_info" ],
+    [ "Atlas::CurrentDrawData", "dd/d72/struct_atlas_1_1_current_draw_data.html", "dd/d72/struct_atlas_1_1_current_draw_data" ],
+    [ "Atlas::ComputePushConstants", "d2/d8d/struct_atlas_1_1_compute_push_constants.html", "d2/d8d/struct_atlas_1_1_compute_push_constants" ],
+    [ "Atlas::ComputeEffect", "d3/d00/struct_atlas_1_1_compute_effect.html", "d3/d00/struct_atlas_1_1_compute_effect" ],
+    [ "Atlas::AllocatedBuffer", "dd/d5a/struct_atlas_1_1_allocated_buffer.html", "dd/d5a/struct_atlas_1_1_allocated_buffer" ],
     [ "Atlas::DescriptorAllocator", "d3/d61/class_atlas_1_1_descriptor_allocator.html", "d3/d61/class_atlas_1_1_descriptor_allocator" ],
     [ "Atlas::DescriptorAllocator::PoolSizeRatio", "d6/dec/struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio.html", "d6/dec/struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio" ],
     [ "Atlas::Shader", "da/db7/class_atlas_1_1_shader.html", "da/db7/class_atlas_1_1_shader" ],
     [ "Atlas::Pipeline", "d6/d84/class_atlas_1_1_pipeline.html", "d6/d84/class_atlas_1_1_pipeline" ],
-    [ "Atlas::Renderable", "d3/de8/class_atlas_1_1_renderable.html", null ],
+    [ "Atlas::Renderable", "d3/de8/class_atlas_1_1_renderable.html", "d3/de8/class_atlas_1_1_renderable" ],
     [ "Atlas::BackgroundColor", "df/dbd/class_atlas_1_1_background_color.html", null ],
     [ "Atlas::VulkanRenderingBackend", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html", "d8/d78/class_atlas_1_1_vulkan_rendering_backend" ],
     [ "ATLAS_1_SECOND_IN_NS", "d7/dbd/_v_k_device_8h.html#abca11d49e8a831d8d24a127bbae30963", null ],
@@ -24,21 +28,7 @@ var _v_k_device_8h =
       [ "Swapchain_Format", "d7/dbd/_v_k_device_8h.html#a9a837411b4f29e15b56791c0ed166e2aaf54db95bd9f26035b7182f0886801cf2", null ],
       [ "Fence_Timeout", "d7/dbd/_v_k_device_8h.html#a9a837411b4f29e15b56791c0ed166e2aa28a319434f29a2d9545758cd7547516e", null ]
     ] ],
-    [ "CopyImageToImage", "d7/dbd/_v_k_device_8h.html#a602acac644c10f3cf80105af54897150", null ],
-    [ "CreateCommandBufferAllocateInfo", "d7/dbd/_v_k_device_8h.html#adfa68c6d6cbe8c3db73e75525e66ef4a", null ],
-    [ "CreateCommandBufferBeginInfo", "d7/dbd/_v_k_device_8h.html#a4931baa2d3c987ef3cb127667dc442d8", null ],
-    [ "CreateCommandPoolCreateInfo", "d7/dbd/_v_k_device_8h.html#a0e2419043c2bf72f75e532ed563ff5af", null ],
-    [ "CreateFenceCreateInfo", "d7/dbd/_v_k_device_8h.html#a2eb75a279d9d94185e007305c39ae665", null ],
-    [ "CreateImageCreateInfo", "d7/dbd/_v_k_device_8h.html#aafca0d417a35bba15f288564c0b3032a", null ],
-    [ "CreateImageSubresourceRange", "d7/dbd/_v_k_device_8h.html#a87409471205b4bd1d6441b8ac33cea03", null ],
-    [ "CreateImageViewCreateInfo", "d7/dbd/_v_k_device_8h.html#a3a99392fc30f77bfa7f874d50622ae7e", null ],
-    [ "CreateSemaphoreCreateInfo", "d7/dbd/_v_k_device_8h.html#aab351af6f4ce3b39a49ba2bac5777077", null ],
     [ "getLoadedRenderingBacked", "d7/dbd/_v_k_device_8h.html#a041e9829fb1316716a724487d8d12b72", null ],
-    [ "LoadShaderModule", "d7/dbd/_v_k_device_8h.html#ad7b40e312c98cafbda4cc01108f5b17f", null ],
     [ "resetLoadedRenderingBackend", "d7/dbd/_v_k_device_8h.html#a99f635979073f78d17b53016253bd978", null ],
-    [ "setLoadedRenderingBackend", "d7/dbd/_v_k_device_8h.html#acdcca076db7097e823f49edf61e82522", null ],
-    [ "SubmitCommandBufferInfo", "d7/dbd/_v_k_device_8h.html#a84f02e043673e0eaaee2ab1d0452f4c0", null ],
-    [ "SubmitInfo", "d7/dbd/_v_k_device_8h.html#acc1dff74be875e4f9bd925cc13587d88", null ],
-    [ "SubmitSemaphoreInfo", "d7/dbd/_v_k_device_8h.html#a06289b29f23886f16f108939d8158e9b", null ],
-    [ "TransitionImage", "d7/dbd/_v_k_device_8h.html#ad05635794dd9c777764442cd7ca9bdb3", null ]
+    [ "setLoadedRenderingBackend", "d7/dbd/_v_k_device_8h.html#acdcca076db7097e823f49edf61e82522", null ]
 ];

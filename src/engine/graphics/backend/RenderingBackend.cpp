@@ -23,6 +23,11 @@
 
 #endif
 
+void Atlas::RenderingBackend::init(AGameWindow* windowHandle)
+{
+//	mbIsInitialized = true;
+}
+
 void Atlas::RenderingBackend::setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch) {
 	this->mAPIVersion.major = major;
 	this->mAPIVersion.minor = minor;

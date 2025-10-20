@@ -92,9 +92,9 @@ namespace Atlas {
 	/**
 	 * @brief Translates a vulkan debug log level to one that Atlas can use. For the most part, the Vulkan debug log levels are the same as the
 	 * Atlas ones, with @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT, @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT, and
-	 * @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT being the same as @a LogLevel::info, @a LogLevel::warn, and @a LogLevel::err in that order.
+	 * @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT being the same as @a ELogLevel::info, @a ELogLevel::warn, and @a ELogLevel::err in that order.
 	 * However, @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT and @a VK_DEBUG_UTILS_MESSAGE_SEVERITY_FLAG_BITS_MAX_ENUM_EXT are translated to 
-	 * @a LogLevel::trace and @a LogLevel::critical, respectively. The default is @a LogLevel::info.
+	 * @a ELogLevel::trace and @a ELogLevel::critical, respectively. The default is @a ELogLevel::info.
 	 * 
 	 * @param messageSeverity The Vulkan debug log level to translate.
 	 * 
@@ -102,7 +102,7 @@ namespace Atlas {
 	 * 
 	 * @since v0.0.1
 	 */
-	LogLevel TranslateVulkanLogLevel(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity);
+	ELogLevel TranslateVulkanLogLevel(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity);
 
 	/**
 	 * @brief The default Vulkan debug callback that Atlas uses if no custom debug callback is provided by the user in VulkanInstanceWrapper before it

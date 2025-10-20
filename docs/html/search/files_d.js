@@ -30,10 +30,11 @@ var searchData=
   ['scriptstdstring_2ecpp_27',['scriptstdstring.cpp',['../df/d8c/scriptstdstring_8cpp.html',1,'']]],
   ['scriptstdstring_2eh_28',['scriptstdstring.h',['../d0/d74/scriptstdstring_8h.html',1,'']]],
   ['scriptstdstring_5futils_2ecpp_29',['scriptstdstring_utils.cpp',['../d7/dd3/scriptstdstring__utils_8cpp.html',1,'']]],
-  ['serializer_2ecpp_30',['serializer.cpp',['../d7/d74/serializer_8cpp.html',1,'']]],
-  ['serializer_2eh_31',['serializer.h',['../dd/d5f/serializer_8h.html',1,'']]],
-  ['shell_2ecpp_32',['Shell.cpp',['../d0/d13/_shell_8cpp.html',1,'']]],
-  ['shell_2eh_33',['Shell.h',['../d8/dde/_shell_8h.html',1,'']]],
-  ['shellfileinterface_2ecpp_34',['ShellFileInterface.cpp',['../d7/d7f/_shell_file_interface_8cpp.html',1,'']]],
-  ['shellfileinterface_2eh_35',['ShellFileInterface.h',['../d1/d8e/_shell_file_interface_8h.html',1,'']]]
+  ['semaphore_2eh_30',['Semaphore.h',['../d2/d6d/_semaphore_8h.html',1,'']]],
+  ['serializer_2ecpp_31',['serializer.cpp',['../d7/d74/serializer_8cpp.html',1,'']]],
+  ['serializer_2eh_32',['serializer.h',['../dd/d5f/serializer_8h.html',1,'']]],
+  ['shell_2ecpp_33',['Shell.cpp',['../d0/d13/_shell_8cpp.html',1,'']]],
+  ['shell_2eh_34',['Shell.h',['../d8/dde/_shell_8h.html',1,'']]],
+  ['shellfileinterface_2ecpp_35',['ShellFileInterface.cpp',['../d7/d7f/_shell_file_interface_8cpp.html',1,'']]],
+  ['shellfileinterface_2eh_36',['ShellFileInterface.h',['../d1/d8e/_shell_file_interface_8h.html',1,'']]]
 ];

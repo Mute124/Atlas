@@ -16,184 +16,196 @@
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00012}00012\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00013}00013\ }
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <initializer\_list>}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <initializer\_list>}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00018}00018\ }
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00019}00019\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}../core/Common.h"{}}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00021}00021\ \textcolor{preprocessor}{\#include\ "{}../core/MemoryAllocator.h"{}}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00022}00022\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <spdlog/spdlog.h>}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <spdlog/logger.h>}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <spdlog/sinks/stdout\_color\_sinks.h>}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <spdlog/sinks/basic\_file\_sink.h>}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <spdlog/common.h>}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <spdlog/logger.h>}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <spdlog/sinks/stdout\_color\_sinks.h>}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <spdlog/sinks/basic\_file\_sink.h>}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <spdlog/common.h>}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00025}00025\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00027}\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{00027}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ =\ spdlog::level::level\_enum;}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00028}00028\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00029}00029\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00030}00030\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00031}\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{00031}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ =\ spdlog::level::level\_enum;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00032}00032\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00033}\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{00033}}\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELogLevel}}\ :\ \textcolor{keywordtype}{int}\ \{}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{trace}}\ =\ SPDLOG\_LEVEL\_TRACE,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00035}00035\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{debug}}\ =\ SPDLOG\_LEVEL\_DEBUG,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00036}00036\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\ =\ SPDLOG\_LEVEL\_INFO,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00037}00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{warn}}\ =\ SPDLOG\_LEVEL\_WARN,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00038}00038\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}}\ =\ SPDLOG\_LEVEL\_ERROR,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00039}00039\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{critical}}\ =\ SPDLOG\_LEVEL\_CRITICAL,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00040}00040\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808}{off}}\ =\ SPDLOG\_LEVEL\_OFF,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00041}00041\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75}{nLevels}}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00042}00042\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00043}00043\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00044}\mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{00044}}\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{ESpdlogInitListIndex}}\ \{}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00045}\mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba}{00045}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba}{ConsoleLogger}}\ =\ 0,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00046}\mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0}{00046}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0}{FileLogger}}\ =\ 1,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00047}\mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}{00047}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_logger}{Logger}}\ =\ 2,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00048}00048\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}{Max}}\ =\ \mbox{\hyperlink{class_atlas_1_1_logger}{Logger}}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00049}\mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}{00049}}\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00050}00050\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00056}00056\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_LOG\_LEVELS\_TYPE>}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00057}\mbox{\hyperlink{class_atlas_1_1_i_logger}{00057}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_i_logger}{ILogger}}\ \{}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00058}00058\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{//static\ inline\ AbstractMemoryAllocator*\ sMemoryAllocator\ =\ nullptr;}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00029}\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{00029}}\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELogLevel}}\ :\ \textcolor{keywordtype}{int}\ \{}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00030}00030\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{trace}}\ =\ SPDLOG\_LEVEL\_TRACE,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00031}00031\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{debug}}\ =\ SPDLOG\_LEVEL\_DEBUG,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00032}00032\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}\ =\ SPDLOG\_LEVEL\_INFO,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00033}00033\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{warn}}\ =\ SPDLOG\_LEVEL\_WARN,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}}\ =\ SPDLOG\_LEVEL\_ERROR,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00035}00035\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{critical}}\ =\ SPDLOG\_LEVEL\_CRITICAL,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00036}00036\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808}{off}}\ =\ SPDLOG\_LEVEL\_OFF,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00037}00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75}{nLevels}}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00038}00038\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00040}\mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{00040}}\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{ESpdlogInitListIndex}}\ \{}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00041}\mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba}{00041}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba}{ConsoleLogger}}\ =\ 0,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00042}\mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0}{00042}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0}{FileLogger}}\ =\ 1,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00043}\mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}{00043}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}{Logger}}\ =\ 2,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}{Max}}\ =\ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}{Logger}}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00045}\mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}{00045}}\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00046}00046\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00052}00052\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_LOG\_LEVELS\_TYPE>}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00053}\mbox{\hyperlink{class_atlas_1_1_i_logger}{00053}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_i_logger}{ILogger}}\ \{}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00054}00054\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//static\ inline\ AbstractMemoryAllocator*\ sMemoryAllocator\ =\ nullptr;}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00058}00058\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00059}\mbox{\hyperlink{class_atlas_1_1_i_logger_aa7f12b2219a865d19fabc3e1cc5f5829}{00059}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_aa7f12b2219a865d19fabc3e1cc5f5829}{\string~ILogger}}()\ =\ \textcolor{keywordflow}{default};}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00060}00060\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00061}00061\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00062}00062\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00063}\mbox{\hyperlink{class_atlas_1_1_i_logger_aa7f12b2219a865d19fabc3e1cc5f5829}{00063}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_aa7f12b2219a865d19fabc3e1cc5f5829}{\string~ILogger}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00061}\mbox{\hyperlink{class_atlas_1_1_i_logger_ad7a8731d137d5326867bc2cd22b18859}{00061}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_ad7a8731d137d5326867bc2cd22b18859}{init}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00063}\mbox{\hyperlink{class_atlas_1_1_i_logger_a26f8b9ce5fdfc043e621b08872d505f9}{00063}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_a26f8b9ce5fdfc043e621b08872d505f9}{close}}()\ =\ 0;}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00064}00064\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00065}\mbox{\hyperlink{class_atlas_1_1_i_logger_ad7a8731d137d5326867bc2cd22b18859}{00065}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_ad7a8731d137d5326867bc2cd22b18859}{init}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00065}\mbox{\hyperlink{class_atlas_1_1_i_logger_a432fd47afd2ac9b163d0993cefae2cfc}{00065}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_a432fd47afd2ac9b163d0993cefae2cfc}{display}}(std::string\ \textcolor{keyword}{const}\&\ message)\ =\ 0;}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00066}00066\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00067}\mbox{\hyperlink{class_atlas_1_1_i_logger_a26f8b9ce5fdfc043e621b08872d505f9}{00067}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_a26f8b9ce5fdfc043e621b08872d505f9}{close}}()\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00068}00068\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00069}\mbox{\hyperlink{class_atlas_1_1_i_logger_a432fd47afd2ac9b163d0993cefae2cfc}{00069}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_a432fd47afd2ac9b163d0993cefae2cfc}{display}}(std::string\ \textcolor{keyword}{const}\&\ message)\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00070}00070\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00071}\mbox{\hyperlink{class_atlas_1_1_i_logger_a837a5e59e71f067dd89612d9f6317d63}{00071}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_a837a5e59e71f067dd89612d9f6317d63}{log}}(std::string\ \textcolor{keyword}{const}\&\ message,\ T\_LOG\_LEVELS\_TYPE\ logLevel)\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00072}00072\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00073}\mbox{\hyperlink{class_atlas_1_1_i_logger_aee4ff31cd94219160054d49b145b3209}{00073}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_aee4ff31cd94219160054d49b145b3209}{setLevel}}(T\_LOG\_LEVELS\_TYPE\ logLevel)\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00074}00074\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00075}00075\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00116}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{00116}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{SpdlogLogger}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_i_logger}{ILogger}}<LogLevel>\ \{}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00117}00117\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00125}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a1a11b82c8001b7ab41c814bdb278ca44}{00125}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a1a11b82c8001b7ab41c814bdb278ca44}{ConsoleColorSink}}\ =\ spdlog::sinks::stdout\_color\_sink\_mt;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00126}00126\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00134}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a491f33de1bbd8d4ab0072037206631de}{00134}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a491f33de1bbd8d4ab0072037206631de}{BasicFileSink}}\ =\ spdlog::sinks::basic\_file\_sink\_mt;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00135}00135\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00142}\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{00142}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{LoggerSinks}}\ \{}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00143}00143\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00153}\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_a328ed8d259b3a841ee17a42c42c3d1f7}{00153}}\ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<ConsoleColorSink>\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_a328ed8d259b3a841ee17a42c42c3d1f7}{consoleSink}};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00163}\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_acd46310334cd155a7e7f13f765e00850}{00163}}\ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<BasicFileSink>\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_acd46310334cd155a7e7f13f765e00850}{fileSink}};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00164}00164\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00165}\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_ab650cfe8ce2986f3596208b38a45d67e}{00165}}\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_ab650cfe8ce2986f3596208b38a45d67e}{LoggerSinks}}(}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<ConsoleColorSink>\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_a328ed8d259b3a841ee17a42c42c3d1f7}{consoleSink}},}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<BasicFileSink>\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_acd46310334cd155a7e7f13f765e00850}{fileSink}})\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_a328ed8d259b3a841ee17a42c42c3d1f7}{consoleSink}}(\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_a328ed8d259b3a841ee17a42c42c3d1f7}{consoleSink}}),\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_acd46310334cd155a7e7f13f765e00850}{fileSink}}(\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_acd46310334cd155a7e7f13f765e00850}{fileSink}})\ \{}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00170}00170\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00171}\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_ad3513b0910acec28697237373f69b3a8}{00171}}\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_ad3513b0910acec28697237373f69b3a8}{LoggerSinks}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00172}00172\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00067}\mbox{\hyperlink{class_atlas_1_1_i_logger_a837a5e59e71f067dd89612d9f6317d63}{00067}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_a837a5e59e71f067dd89612d9f6317d63}{log}}(std::string\ \textcolor{keyword}{const}\&\ message,\ T\_LOG\_LEVELS\_TYPE\ logLevel)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00068}00068\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00069}\mbox{\hyperlink{class_atlas_1_1_i_logger_aee4ff31cd94219160054d49b145b3209}{00069}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_logger_aee4ff31cd94219160054d49b145b3209}{setLevel}}(T\_LOG\_LEVELS\_TYPE\ logLevel)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00070}00070\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00112}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{00112}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{SpdlogLogger}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_i_logger}{ILogger}}<LogLevel>\ \{}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00113}00113\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00121}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a1a11b82c8001b7ab41c814bdb278ca44}{00121}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a1a11b82c8001b7ab41c814bdb278ca44}{ConsoleColorSink}}\ =\ spdlog::sinks::stdout\_color\_sink\_mt;}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00130}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a491f33de1bbd8d4ab0072037206631de}{00130}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a491f33de1bbd8d4ab0072037206631de}{BasicFileSink}}\ =\ spdlog::sinks::basic\_file\_sink\_mt;}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00138}\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{00138}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{LoggerSinks}}\ \{}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00149}\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_a328ed8d259b3a841ee17a42c42c3d1f7}{00149}}\ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<ConsoleColorSink>\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_a328ed8d259b3a841ee17a42c42c3d1f7}{consoleSink}};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00159}\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_acd46310334cd155a7e7f13f765e00850}{00159}}\ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<BasicFileSink>\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_acd46310334cd155a7e7f13f765e00850}{fileSink}};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00161}\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_ab650cfe8ce2986f3596208b38a45d67e}{00161}}\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_ab650cfe8ce2986f3596208b38a45d67e}{LoggerSinks}}(}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<ConsoleColorSink>\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_a328ed8d259b3a841ee17a42c42c3d1f7}{consoleSink}},}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<BasicFileSink>\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_acd46310334cd155a7e7f13f765e00850}{fileSink}})\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_a328ed8d259b3a841ee17a42c42c3d1f7}{consoleSink}}(\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_a328ed8d259b3a841ee17a42c42c3d1f7}{consoleSink}}),\ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_acd46310334cd155a7e7f13f765e00850}{fileSink}}(\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_acd46310334cd155a7e7f13f765e00850}{fileSink}})\ \{}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00167}\mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_ad3513b0910acec28697237373f69b3a8}{00167}}\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks_ad3513b0910acec28697237373f69b3a8}{LoggerSinks}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00168}00168\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00170}00170\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00172}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}{00172}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}{SHOULD\_TRUNCATE\_FILE\_LOGS}}\ =\ \textcolor{keyword}{false};}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00173}00173\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00174}00174\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00175}00175\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00176}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}{00176}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}{SHOULD\_TRUNCATE\_FILE\_LOGS}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00174}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{00174}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{DEFAULT\_CONSOLE\_SINK\_LEVEL}}\ =\ spdlog::level::level\_enum::info;}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00175}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{00175}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{DEFAULT\_FILE\_SINK\_LEVEL}}\ =\ spdlog::level::level\_enum::trace;}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00176}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{00176}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{DEFAULT\_LOGGER\_LEVEL}}\ =\ spdlog::level::level\_enum::debug;}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00177}00177\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00178}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{00178}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{DEFAULT\_CONSOLE\_SINK\_LEVEL}}\ =\ LogLevel::warn;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00179}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{00179}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{DEFAULT\_FILE\_SINK\_LEVEL}}\ =\ LogLevel::trace;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00180}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{00180}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{DEFAULT\_LOGGER\_LEVEL}}\ =\ LogLevel::debug;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00181}00181\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00182}00182\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00193}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a3d1dfcec5b856f4ead855b5bf4b767eb}{00193}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a3d1dfcec5b856f4ead855b5bf4b767eb}{mbTruncateMessages}}\ =\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}{SHOULD\_TRUNCATE\_FILE\_LOGS}};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00194}00194\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00200}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_af146ce1820f984db41b91d018950f16c}{00200}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_af146ce1820f984db41b91d018950f16c}{mbIsFullyInitialized}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00201}00201\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00202}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a676dc4718412d2285c1f9c5cfafa10af}{00202}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a676dc4718412d2285c1f9c5cfafa10af}{mbUseFileSink}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00203}00203\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00211}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31}{00211}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31}{mConsoleLogLevel}}\ =\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{DEFAULT\_CONSOLE\_SINK\_LEVEL}};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00212}00212\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00220}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507}{00220}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507}{mFileLogLevel}}\ =\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{DEFAULT\_FILE\_SINK\_LEVEL}};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00221}00221\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00229}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385}{00229}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385}{mLoggerLevel}}\ =\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{DEFAULT\_LOGGER\_LEVEL}};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00230}00230\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00237}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_acfa432f18c08ad3c43a1be29b9162c12}{00237}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_acfa432f18c08ad3c43a1be29b9162c12}{mLoggerName}}\ =\ \textcolor{stringliteral}{"{}Atlas"{}};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00238}00238\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00246}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46}{00246}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46}{mLogFilePath}};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00247}00247\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00258}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe90a0bfa09b3330a}{00258}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe90a0bfa09b3330a}{mMessageFormatPattern}};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00259}00259\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00265}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a99e3157484727e52f5f93330026c2f76}{00265}}\ \ \ \ \ \ \ \ \ std::unique\_ptr<LoggerSinks>\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a99e3157484727e52f5f93330026c2f76}{mLoggingSinks}}\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00266}00266\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00273}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960}{00273}}\ \ \ \ \ \ \ \ \ std::unique\_ptr<spdlog::logger>\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960}{mInternalSpdlogLoggerPtr}}\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00274}00274\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ may\ or\ may\ not\ be\ used\ in\ the\ future.}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae393d73cafa6d8d14201d95fddc5efb1}{ExtractLogLevel}}(std::initializer\_list<LogLevel>\ logLevels,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}});}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00277}00277\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00278}00278\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ These\ two\ functions\ do\ nothing\ right\ now,\ hence\ they\ are\ private\ and\ empty.}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a5733ebe1b82cbc4b4c1285468fe537d4}{display}}(std::string\ \textcolor{keyword}{const}\&\ message)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a42515bd7df0a84362b1b1e4905a83da7}{setLevel}}(\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00282}00282\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00298}00298\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_af450fb0c93980c5855e5acde4bc2c3a2}{initConsoleSink}}();}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00299}00299\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00309}00309\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a71588f48cdaf11ea8e7bc26ca22c561d}{initFileSink}}();}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00310}00310\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00319}00319\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae9277712f23a818140a38f0d86d250d6}{initInternalSpdlogLogger}}();}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00189}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a3d1dfcec5b856f4ead855b5bf4b767eb}{00189}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a3d1dfcec5b856f4ead855b5bf4b767eb}{mbTruncateMessages}}\ =\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}{SHOULD\_TRUNCATE\_FILE\_LOGS}};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00190}00190\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00196}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_af146ce1820f984db41b91d018950f16c}{00196}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_af146ce1820f984db41b91d018950f16c}{mbIsFullyInitialized}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00198}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a676dc4718412d2285c1f9c5cfafa10af}{00198}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a676dc4718412d2285c1f9c5cfafa10af}{mbUseFileSink}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00207}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31}{00207}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31}{mConsoleLogLevel}}\ =\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{DEFAULT\_CONSOLE\_SINK\_LEVEL}};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00216}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507}{00216}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507}{mFileLogLevel}}\ =\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{DEFAULT\_FILE\_SINK\_LEVEL}};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00225}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385}{00225}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385}{mLoggerLevel}}\ =\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{DEFAULT\_LOGGER\_LEVEL}};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00233}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_acfa432f18c08ad3c43a1be29b9162c12}{00233}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_acfa432f18c08ad3c43a1be29b9162c12}{mLoggerName}}\ =\ \textcolor{stringliteral}{"{}Atlas"{}};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00242}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46}{00242}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46}{mLogFilePath}};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00254}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe90a0bfa09b3330a}{00254}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe90a0bfa09b3330a}{mMessageFormatPattern}};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00261}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a99e3157484727e52f5f93330026c2f76}{00261}}\ \ \ \ \ \ \ \ \ std::unique\_ptr<LoggerSinks>\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a99e3157484727e52f5f93330026c2f76}{mLoggingSinks}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00269}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960}{00269}}\ \ \ \ \ \ \ \ \ std::unique\_ptr<spdlog::logger>\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960}{mInternalSpdlogLoggerPtr}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00271}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a5b651dc26d62399ce2a12e29fb11fb7a}{00271}}\ \ \ \ \ \ \ \ \ std::mutex\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a5b651dc26d62399ce2a12e29fb11fb7a}{mInternalSpdlogLoggerMutex}};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00272}00272\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ may\ or\ may\ not\ be\ used\ in\ the\ future.}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae393d73cafa6d8d14201d95fddc5efb1}{ExtractLogLevel}}(std::initializer\_list<LogLevel>\ logLevels,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a57f14e05b1900f16a2da82ade47d0c6d}{index}});}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ These\ two\ functions\ do\ nothing\ right\ now,\ hence\ they\ are\ private\ and\ empty.}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00278}00278\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a5733ebe1b82cbc4b4c1285468fe537d4}{display}}(std::string\ \textcolor{keyword}{const}\&\ message)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a42515bd7df0a84362b1b1e4905a83da7}{setLevel}}(\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00280}00280\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_af450fb0c93980c5855e5acde4bc2c3a2}{initConsoleSink}}();}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00307}00307\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a71588f48cdaf11ea8e7bc26ca22c561d}{initFileSink}}();}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00308}00308\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00317}00317\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae9277712f23a818140a38f0d86d250d6}{initInternalSpdlogLogger}}();}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00319}00319\ \ \ \ \ \textcolor{keyword}{public}:}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00320}00320\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00321}00321\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00322}00322\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger}}(std::string\ \textcolor{keyword}{const}\&\ loggerName,\ std::string\ \textcolor{keyword}{const}\&\ messageFormatPattern,\ std::string\ \textcolor{keyword}{const}\&\ logFilePath,\ \textcolor{keywordtype}{bool}\ truncateMessages,}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ std::initializer\_list<LogLevel>\ sinksLogLevels);}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00344}00344\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger}}(std::string\ \textcolor{keyword}{const}\&\ loggerName,\ std::string\ \textcolor{keyword}{const}\&\ messageFormatPattern,\ std::string\ \textcolor{keyword}{const}\&\ logFilePath,\ \textcolor{keywordtype}{bool}\ truncateMessages);}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00362}00362\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00377}00377\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger}}(std::string\ \textcolor{keyword}{const}\&\ loggerName,\ std::string\ \textcolor{keyword}{const}\&\ messageFormatPattern,\ std::string\ \textcolor{keyword}{const}\&\ logFilePath);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00340}00340\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger}}(std::string\ \textcolor{keyword}{const}\&\ loggerName,\ std::string\ \textcolor{keyword}{const}\&\ messageFormatPattern,\ std::string\ \textcolor{keyword}{const}\&\ logFilePath,\ \textcolor{keywordtype}{bool}\ truncateMessages,}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ std::initializer\_list<LogLevel>\ sinksLogLevels);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00342}00342\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00359}00359\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger}}(std::string\ \textcolor{keyword}{const}\&\ loggerName,\ std::string\ \textcolor{keyword}{const}\&\ messageFormatPattern,\ std::string\ \textcolor{keyword}{const}\&\ logFilePath,\ \textcolor{keywordtype}{bool}\ truncateMessages);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00360}00360\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00375}00375\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger}}(std::string\ \textcolor{keyword}{const}\&\ loggerName,\ std::string\ \textcolor{keyword}{const}\&\ messageFormatPattern,\ std::string\ \textcolor{keyword}{const}\&\ logFilePath);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00376}00376\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00377}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{00377}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger}}()\ =\ \textcolor{keywordflow}{default};}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00378}00378\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00379}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{00379}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00380}00380\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00389}00389\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0acbb90a254043a8c7ae3054af10db45}{SetDefaultLogger}}(\mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{SpdlogLogger}}*\ logger);}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00390}00390\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00400}00400\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00401}00401\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00409}00409\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a048f36f760683536b48fcf3ac5b577ee}{setThisAsDefaultLogger}}();}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00410}00410\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00421}00421\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log}}(std::string\ \textcolor{keyword}{const}\&\ message,\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00422}00422\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00430}00430\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}(std::string\ \textcolor{keyword}{const}\&\ message);}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00431}00431\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00439}00439\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}}(std::string\ \textcolor{keyword}{const}\&\ message);}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00440}00440\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00448}00448\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{warn}}(std::string\ \textcolor{keyword}{const}\&\ message);}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00449}00449\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00457}00457\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{debug}}(std::string\ \textcolor{keyword}{const}\&\ message);}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00458}00458\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00466}00466\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{trace}}(std::string\ \textcolor{keyword}{const}\&\ message);}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00467}00467\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00475}00475\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{critical}}(std::string\ \textcolor{keyword}{const}\&\ message);}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00476}00476\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00482}00482\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a8a001b288c8b569a46ebcfb5a9e38d6a}{close}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00483}00483\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00491}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a847d0d8b160cfd9c417816b8359602ba}{00491}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a847d0d8b160cfd9c417816b8359602ba}{setConsoleLogLevel}}(\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel)\ \{}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31}{mConsoleLogLevel}}\ =\ logLevel;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00493}00493\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00494}00494\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00502}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401}{00502}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401}{setFileLogLevel}}(\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel)\ \{\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507}{mFileLogLevel}}\ =\ logLevel;}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00504}00504\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00505}00505\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00513}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_abb24eea31c334fe48a98cb24e39d60c1}{00513}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_abb24eea31c334fe48a98cb24e39d60c1}{setLoggerLevel}}(\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel)\ \{\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385}{mLoggerLevel}}\ =\ logLevel;\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00515}00515\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00516}00516\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00524}00524\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a3788989ab87cccf9863093b393ebd60c}{shouldTruncateMessage}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00525}00525\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00387}00387\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0acbb90a254043a8c7ae3054af10db45}{SetDefaultLogger}}(\mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{SpdlogLogger}}*\ logger);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00388}00388\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00398}00398\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0342758be0a0c4c8da1f802965aa3e6b}{init}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00399}00399\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00407}00407\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a048f36f760683536b48fcf3ac5b577ee}{setThisAsDefaultLogger}}();}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00408}00408\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00419}00419\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_aa0af3d1d91939dcaec6f30c75a6a29a0}{log}}(std::string\ \textcolor{keyword}{const}\&\ message,\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00420}00420\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00428}00428\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00429}00429\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00437}00437\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00438}00438\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00446}00446\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{warn}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00447}00447\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00455}00455\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{debug}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00456}00456\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00464}00464\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{trace}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00465}00465\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00473}00473\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{critical}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00474}00474\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00480}00480\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a8a001b288c8b569a46ebcfb5a9e38d6a}{close}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00481}00481\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00489}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a847d0d8b160cfd9c417816b8359602ba}{00489}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a847d0d8b160cfd9c417816b8359602ba}{setConsoleLogLevel}}(\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel)\ \{}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00490}00490\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31}{mConsoleLogLevel}}\ =\ logLevel;}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00491}00491\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00492}00492\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00500}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401}{00500}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401}{setFileLogLevel}}(\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel)\ \{\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507}{mFileLogLevel}}\ =\ logLevel;}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00502}00502\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00503}00503\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00511}\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_abb24eea31c334fe48a98cb24e39d60c1}{00511}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_abb24eea31c334fe48a98cb24e39d60c1}{setLoggerLevel}}(\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel)\ \{\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385}{mLoggerLevel}}\ =\ logLevel;\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00513}00513\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00514}00514\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00522}00522\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a3788989ab87cccf9863093b393ebd60c}{shouldTruncateMessage}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00523}00523\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00524}00524\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00525}00525\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a8641f8ef74c8d98a11ce7066c7f664f1}{LogMessage}}(std::string\ \textcolor{keyword}{const}\&\ message,\ \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{LogLevel}}\ logLevel);}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00526}00526\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00527}00527\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00528}\mbox{\hyperlink{class_atlas_1_1_logger}{00528}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_logger}{Logger}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{SpdlogLogger}}\ \{}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00529}00529\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00530}00530\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a0d9050484259217f3c32081a0a4e3314}{SpdlogLogger::SpdlogLogger}};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00531}00531\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Logger(std::string\ const\&\ loggerName,\ std::string\ const\&\ messageFormatPattern,\ std::string\ const\&\ logFilePath);}}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00532}\mbox{\hyperlink{class_atlas_1_1_logger_a758e8496b17fa141f91ff3f7611520ec}{00532}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_logger_a758e8496b17fa141f91ff3f7611520ec}{Logger}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00533}00533\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00527}00527\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00528}00528\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00529}00529\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a33205c3fa4075eebe5721d4df7379d19}{ErrorLog}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00530}00530\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00531}00531\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_ac196b4691079d284d4c38234dfb90c58}{WarnLog}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00532}00532\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00533}00533\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_add9a44935295fd4fd0bab751af209033}{DebugLog}}(std::string\ \textcolor{keyword}{const}\&\ message);}
 \DoxyCodeLine{\Hypertarget{_logging_8h_source_l00534}00534\ }
-\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00535}00535\ \}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00535}00535\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a8dbd12093d09cd018c1ece6d9121bbd7}{TraceLog}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00536}00536\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00537}00537\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a50432e0fabcfb91544d186b7a4ddedd5}{CriticalLog}}(std::string\ \textcolor{keyword}{const}\&\ message);}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00538}00538\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00539}00539\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00540}00540\ \ \ \ \ \textcolor{comment}{//class\ Logger\ :\ public\ SpdlogLogger\ \{}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00541}00541\ \ \ \ \ \textcolor{comment}{//public:}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00542}00542\ \ \ \ \ \textcolor{comment}{//\ \ using\ SpdlogLogger::SpdlogLogger;}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00543}00543\ \ \ \ \ \textcolor{comment}{//\ \ //Logger(std::string\ const\&\ loggerName,\ std::string\ const\&\ messageFormatPattern,\ std::string\ const\&\ logFilePath);}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00544}00544\ \ \ \ \ \textcolor{comment}{//\ \ Logger()\ =\ default;}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00545}00545\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00546}00546\ }
+\DoxyCodeLine{\Hypertarget{_logging_8h_source_l00547}00547\ \}}
 
 \end{DoxyCode}

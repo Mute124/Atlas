@@ -198,15 +198,25 @@ find_package(simdjson REQUIRED)
 find_package(tinyxml2 REQUIRED)
 find_package(vulkan-memory-allocator REQUIRED)
 
-    #add_library(ImGui STATIC
-    #    ${ImGui_SOURCE_DIR}/imgui.cpp
-    #    ${ImGui_SOURCE_DIR}/imgui_draw.cpp
-    #    ${ImGui_SOURCE_DIR}/imgui_tables.cpp
-    #    ${ImGui_SOURCE_DIR}/imgui_widgets.cpp
+if (DEFINED VULKAN_SDK_PATH)
+  set(Vulkan_INCLUDE_DIRS "${VULKAN_SDK_PATH}/Include") # 1.1 Make sure this include path is correct
+  set(Vulkan_LIBRARIES "${VULKAN_SDK_PATH}/Lib") # 1.2 Make sure lib path is correct
+  set(Vulkan_FOUND "True")
 
-#    )
+else()
+  find_package(Vulkan REQUIRED) # throws error if could not find Vulkan
+  message(STATUS "Found Vulkan: $ENV{VULKAN_SDK}")
+endif()
+if (NOT Vulkan_FOUND)
+    message(FATAL_ERROR "Could not find Vulkan library!")
+else()
+    message(STATUS "Using vulkan lib at: ${Vulkan_LIBRARIES}")
+endif()
+
+
 
 find_program(GLSL_VALIDATOR glslangValidator $ENV{VULKAN_SDK}/Bin/ $ENV{VULKAN_SDK}/Bin32/)
+
 
 file(GLOB_RECURSE GLSL_SOURCE_FILES
     "${PROJECT_SOURCE_DIR}/shaders/*.frag"
@@ -226,6 +236,7 @@ foreach(GLSL ${GLSL_SOURCE_FILES})
     DEPENDS ${GLSL})
   list(APPEND SPIRV_BINARY_FILES ${SPIRV})
 endforeach(GLSL)
+
 
 add_custom_target(
     Shaders 

@@ -21,10 +21,21 @@
 {\ttfamily \#include "{}../window/\+Window.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Deletion\+Queue.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Descriptor\+Layout\+Builder.\+h"{}}\newline
+{\ttfamily \#include "{}../../debugging/\+Logging.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Graphics\+Utils.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Pipeline\+Builder.\+h"{}}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{Atlas\+::\+Immediate\+Submit\+Info}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{Atlas\+::\+Current\+Draw\+Data}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_compute_push_constants}{Atlas\+::\+Compute\+Push\+Constants}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_compute_effect}{Atlas\+::\+Compute\+Effect}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{Atlas\+::\+Allocated\+Buffer}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator}{Atlas\+::\+Descriptor\+Allocator}}
 \item 
@@ -76,34 +87,6 @@ enum class \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{A
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-Vk\+Command\+Pool\+Create\+Info \mbox{\hyperlink{namespace_atlas_a0e2419043c2bf72f75e532ed563ff5af}{Atlas\+::\+Create\+Command\+Pool\+Create\+Info}} (uint32\+\_\+t queue\+Family\+Index, Vk\+Command\+Pool\+Create\+Flags flags=0)
-\item 
-Vk\+Command\+Buffer\+Allocate\+Info \mbox{\hyperlink{namespace_atlas_adfa68c6d6cbe8c3db73e75525e66ef4a}{Atlas\+::\+Create\+Command\+Buffer\+Allocate\+Info}} (Vk\+Command\+Pool pool, uint32\+\_\+t \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a619bc20e8198de3bd3f3d7fc34de66b2}{count}}=1)
-\item 
-Vk\+Fence\+Create\+Info \mbox{\hyperlink{namespace_atlas_a2eb75a279d9d94185e007305c39ae665}{Atlas\+::\+Create\+Fence\+Create\+Info}} (Vk\+Fence\+Create\+Flags flags=0)
-\item 
-Vk\+Semaphore\+Create\+Info \mbox{\hyperlink{namespace_atlas_aab351af6f4ce3b39a49ba2bac5777077}{Atlas\+::\+Create\+Semaphore\+Create\+Info}} (Vk\+Semaphore\+Create\+Flags flags=0)
-\item 
-Vk\+Semaphore\+Submit\+Info \mbox{\hyperlink{namespace_atlas_a06289b29f23886f16f108939d8158e9b}{Atlas\+::\+Submit\+Semaphore\+Info}} (Vk\+Pipeline\+Stage\+Flags2 stage\+Mask, Vk\+Semaphore semaphore)
-\item 
-Vk\+Command\+Buffer\+Submit\+Info \mbox{\hyperlink{namespace_atlas_a84f02e043673e0eaaee2ab1d0452f4c0}{Atlas\+::\+Submit\+Command\+Buffer\+Info}} (Vk\+Command\+Buffer cmd)
-\item 
-Vk\+Submit\+Info2 \mbox{\hyperlink{namespace_atlas_acc1dff74be875e4f9bd925cc13587d88}{Atlas\+::\+Submit\+Info}} (Vk\+Command\+Buffer\+Submit\+Info \texorpdfstring{$\ast$}{*}cmd, Vk\+Semaphore\+Submit\+Info \texorpdfstring{$\ast$}{*}signal\+Semaphore\+Info, Vk\+Semaphore\+Submit\+Info \texorpdfstring{$\ast$}{*}wait\+Semaphore\+Info)
-\item 
-Vk\+Command\+Buffer\+Begin\+Info \mbox{\hyperlink{namespace_atlas_a4931baa2d3c987ef3cb127667dc442d8}{Atlas\+::\+Create\+Command\+Buffer\+Begin\+Info}} (Vk\+Command\+Buffer\+Usage\+Flags flags)
-\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3}{Atlas\+::\+Transition\+Image}} (Vk\+Command\+Buffer cmd, Vk\+Image image, Vk\+Image\+Layout current\+Layout, Vk\+Image\+Layout new\+Layout)
-\item 
-Vk\+Image\+Subresource\+Range \mbox{\hyperlink{namespace_atlas_a87409471205b4bd1d6441b8ac33cea03}{Atlas\+::\+Create\+Image\+Subresource\+Range}} (Vk\+Image\+Aspect\+Flags aspect\+Mask)
-\item 
-Vk\+Image\+Create\+Info \mbox{\hyperlink{namespace_atlas_aafca0d417a35bba15f288564c0b3032a}{Atlas\+::\+Create\+Image\+Create\+Info}} (Vk\+Format \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e3b09934060e9d373139c3557730d37}{format}}, Vk\+Image\+Usage\+Flags usage\+Flags, Vk\+Extent3D extent)
-\item 
-Vk\+Image\+View\+Create\+Info \mbox{\hyperlink{namespace_atlas_a3a99392fc30f77bfa7f874d50622ae7e}{Atlas\+::\+Create\+Image\+View\+Create\+Info}} (Vk\+Format \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1e3b09934060e9d373139c3557730d37}{format}}, Vk\+Image image, Vk\+Image\+Aspect\+Flags aspect\+Flags)
-\item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a602acac644c10f3cf80105af54897150}{Atlas\+::\+Copy\+Image\+To\+Image}} (Vk\+Command\+Buffer cmd, Vk\+Image source, Vk\+Image destination, Vk\+Extent2D src\+Size, Vk\+Extent2D dst\+Size)
-\item 
-bool \mbox{\hyperlink{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f}{Atlas\+::\+Load\+Shader\+Module}} (const char \texorpdfstring{$\ast$}{*}file\+Path, Vk\+Device device, Vk\+Shader\+Module \texorpdfstring{$\ast$}{*}out\+Shader\+Module)
-\item 
 \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Vulkan\+Rendering\+Backend}} \& \mbox{\hyperlink{namespace_atlas_a041e9829fb1316716a724487d8d12b72}{Atlas\+::get\+Loaded\+Rendering\+Backed}} ()
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_acdcca076db7097e823f49edf61e82522}{Atlas\+::set\+Loaded\+Rendering\+Backend}} (\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Vulkan\+Rendering\+Backend}} \texorpdfstring{$\ast$}{*}backend)
@@ -121,7 +104,7 @@ bool \mbox{\hyperlink{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f}{Atlas\+
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00047}{47}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00050}{50}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 
 \Hypertarget{_v_k_device_8h_a998597b9163ba9082c4a4c40294d4c33}\label{_v_k_device_8h_a998597b9163ba9082c4a4c40294d4c33} 
 \index{VKDevice.h@{VKDevice.h}!ATLAS\_VK\_DEVICE\_BITS@{ATLAS\_VK\_DEVICE\_BITS}}
@@ -131,7 +114,7 @@ Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00047}{47}} of file \
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00049}{49}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00052}{52}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 
 \Hypertarget{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}\label{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99} 
 \index{VKDevice.h@{VKDevice.h}!VK\_CHECK@{VK\_CHECK}}
@@ -141,5 +124,5 @@ Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00049}{49}} of file \
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00051}{51}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00054}{54}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 

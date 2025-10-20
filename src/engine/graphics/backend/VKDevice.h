@@ -1,7 +1,7 @@
 /**************************************************************************************************
  * @file VKDevice.h
  * 
- * @brief .
+ * @brief This file provides declarations that are specific to the Vulkan rendering backend implementation. 
  * 
  * @date September 2025
  * 
@@ -43,12 +43,15 @@
 #include "../window/Window.h"
 #include "../DeletionQueue.h"
 #include "../DescriptorLayoutBuilder.h"
+#include "../../debugging/Logging.h"
+#include "../GraphicsUtils.h"
+#include "../PipelineBuilder.h"
 
 #define ATLAS_1_SECOND_IN_NS 1000000000
 
 #define ATLAS_VK_DEVICE_BITS 32
 //std::cout << "Detected Vulkan error: " << std::string(string_VkResult(err)) << std::endl; 
-#define VK_CHECK(x)                                                     
+#define VK_CHECK(x)                                         
 
 
 /*    do {                                                                \
@@ -105,8 +108,61 @@ namespace Atlas {
 
 	struct ImmediateSubmitInfo {
 		VkFence fence;
-		VkCommandBuffer commandBuffer;
+		VkCommandBuffer commandBuffer = VK_NULL_HANDLE;
 		VkCommandPool commandPool;
+	};
+
+	struct CurrentDrawData {
+		const static uint32_t FENCE_COUNT = 1;
+		uint32_t swapchainImageIndex;
+		VkCommandBufferResetFlags cmdResetFlags = 0;
+		VkCommandBuffer cmd = VK_NULL_HANDLE;
+		VkCommandBufferBeginInfo cmdBeginInfo = {};
+	};
+
+	struct ComputePushConstants {
+		glm::vec4 data1;
+		glm::vec4 data2;
+		glm::vec4 data3;
+		glm::vec4 data4;
+	};
+
+	struct ComputeEffect {
+		const char* name;
+
+		VkPipeline pipeline;
+		VkPipelineLayout layout;
+
+		ComputePushConstants data;
+	};
+
+	struct AllocatedBuffer {
+		VkBuffer buffer;
+		VmaAllocation allocation;
+		VmaAllocationInfo info;
+	};
+
+	struct Vertex {
+
+		glm::vec3 position;
+		float uv_x;
+		glm::vec3 normal;
+		float uv_y;
+		glm::vec4 color;
+	};
+
+	// holds the resources needed for a mesh
+	struct GPUMeshBuffers {
+
+		AllocatedBuffer indexBuffer;
+		AllocatedBuffer vertexBuffer;
+		VkDeviceAddress vertexBufferAddress;
+	};
+
+	// push constants for our mesh object draws
+	struct GPUDrawPushConstants {
+		glm::mat4 worldMatrix;
+		VkDeviceAddress vertexBuffer;
 	};
 
 	class DescriptorAllocator {
@@ -146,12 +202,17 @@ namespace Atlas {
 	};
 
 	class Pipeline {
-	private:
+	protected:
+		VkPipelineLayoutCreateInfo mComputeLayoutInfo;
+		VkPushConstantRange mPushConstantRange;
+
 		VkPipeline mPipeline = VK_NULL_HANDLE;
 		VkPipelineLayout mPipelineLayout = VK_NULL_HANDLE;
 
 		Shader mShader;
 	public:
+		Pipeline() = default;
+
 
 		void createLayout(VkPipelineLayoutCreateInfo layoutInfo, VkDevice* device);
 
@@ -174,7 +235,15 @@ namespace Atlas {
 	};
 
 	class Renderable {
+	protected:
+		static inline CurrentDrawData sCurrentDrawData;
 	public:
+
+		static inline void SetCurrentDrawData(CurrentDrawData const& currentFrame) { 
+			sCurrentDrawData = currentFrame;
+		}
+
+		virtual void draw() {}
 
 	};
 
@@ -209,9 +278,16 @@ namespace Atlas {
 	class VulkanRenderingBackend : public RenderingBackend {
 	private:
 
+		std::vector<ComputeEffect> mBackgroundEffects;
+		int mCurrentBackgroundEffect{ 0 };
+
+
+		CurrentDrawData mCurrentDrawData;
+
 		std::bitset<ATLAS_VK_DEVICE_BITS> mOptionsBitset;
 
 		int mCurrentFrameNumber = 0;
+
 
 		bool mIsInitialized = false;
 		bool mbUseDefaultInstanceBuilder = true;
@@ -257,7 +333,16 @@ namespace Atlas {
 		VkPipeline mGradientPipeline;
 		VkPipelineLayout mGradientPipelineLayout;
 
+		VkPipelineLayout _trianglePipelineLayout;
+		VkPipeline _trianglePipeline;
+
+		VkPipelineLayout _meshPipelineLayout;
+		VkPipeline _meshPipeline;
+
+		GPUMeshBuffers rectangle;
+
 		std::string mApplicationName;
+
 
 		uint16_t initInstance(const APIVersion& cAPIVersionRef, const bool cbEnableValidationLayers, std::string const& appName);
 		
@@ -265,9 +350,12 @@ namespace Atlas {
 
 		void initPipelines();
 		void initBackgroundPipelines();
-	
+		void initTrianglePipeline();
+		void initMeshPipeline();
+
 		void initVMAAllocator(vkb::Instance const& cVkBootstrapInstanceRef);
 
+		friend class SDLGameWindow;
 	public:
 
 		VulkanRenderingBackend(const VulkanRenderingBackend&) = delete;
@@ -304,17 +392,29 @@ namespace Atlas {
 		 */
 		void init(AGameWindow* gameWindow) override;
 		
+		void initDefaultData();
+
 		void initSwapchain(AGameWindow* gameWindow);
 
 		void initCommands();
+
+		void initIMGUI(AGameWindow* gameWindow);
 
 		void update() override;
 
 		void resetFences(const uint32_t cFenceCount, FrameData& currentFrame);
 
+		void beginDrawingMode();
+
+		void endDrawingMode();
+
 		void draw();
 
+		void drawIMGUI(VkCommandBuffer cmd, VkImageView targetImageView);
+
 		void drawBackground(VkCommandBuffer cmd);
+
+		void drawGeometry(VkCommandBuffer cmd);
 
 		void present();
 
@@ -328,9 +428,15 @@ namespace Atlas {
 
 		void setNextImageTimeout(uint64_t lengthInNS);
 
+		AllocatedBuffer createBuffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage);
+
+		void destroyBuffer(const AllocatedBuffer& buffer);
+
 		void createSwapchain(uint32_t width, uint32_t height);
 		
 		void destroySwapchain();
+
+		GPUMeshBuffers UploadMesh(std::span<uint32_t> indices, std::span<Vertex> vertices);
 
 		void ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
 
@@ -343,39 +449,12 @@ namespace Atlas {
 		FrameData& getCurrentFrame();
 	};
 
-	VkCommandPoolCreateInfo CreateCommandPoolCreateInfo(uint32_t queueFamilyIndex, VkCommandPoolCreateFlags flags = 0);
-	VkCommandBufferAllocateInfo CreateCommandBufferAllocateInfo(VkCommandPool pool, uint32_t count = 1);
-
-	VkFenceCreateInfo CreateFenceCreateInfo(VkFenceCreateFlags flags = 0 /*= 0*/);
-
-	VkSemaphoreCreateInfo CreateSemaphoreCreateInfo(VkSemaphoreCreateFlags flags = 0 /*= 0*/);
-	
-	VkSemaphoreSubmitInfo SubmitSemaphoreInfo(VkPipelineStageFlags2 stageMask, VkSemaphore semaphore);
-
-	VkCommandBufferSubmitInfo SubmitCommandBufferInfo(VkCommandBuffer cmd);
-
-	VkSubmitInfo2 SubmitInfo(VkCommandBufferSubmitInfo* cmd, VkSemaphoreSubmitInfo* signalSemaphoreInfo,
-		VkSemaphoreSubmitInfo* waitSemaphoreInfo);
-
-	VkCommandBufferBeginInfo CreateCommandBufferBeginInfo(VkCommandBufferUsageFlags flags /*= 0*/);
-
-	void TransitionImage(VkCommandBuffer cmd, VkImage image, VkImageLayout currentLayout, VkImageLayout newLayout);
-	VkImageSubresourceRange CreateImageSubresourceRange(VkImageAspectFlags aspectMask);
-
-	VkImageCreateInfo CreateImageCreateInfo(VkFormat format, VkImageUsageFlags usageFlags, VkExtent3D extent);
-
-	VkImageViewCreateInfo CreateImageViewCreateInfo(VkFormat format, VkImage image, VkImageAspectFlags aspectFlags);
-
-	void CopyImageToImage(VkCommandBuffer cmd, VkImage source, VkImage destination, VkExtent2D srcSize, VkExtent2D dstSize);
-
-	bool LoadShaderModule(const char* filePath,
-	VkDevice device,
-	VkShaderModule* outShaderModule);
-
 	VulkanRenderingBackend& getLoadedRenderingBacked();
 
 	void setLoadedRenderingBackend(VulkanRenderingBackend* backend);
 	void resetLoadedRenderingBackend();
+
+
 
 }
 #endif

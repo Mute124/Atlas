@@ -26,11 +26,13 @@ var searchData=
   ['_7edebugevent_23',['~DebugEvent',['../d0/dfd/class_atlas_1_1_debug_event.html#ac8b486df37b6ef3a1f14cf73940e3db1',1,'Atlas::DebugEvent']]],
   ['_7edeletionqueue_24',['~DeletionQueue',['../df/de4/class_atlas_1_1_deletion_queue.html#a3b231ccb956499f48c0d930dba9a2ff6',1,'Atlas::DeletionQueue']]],
   ['_7egamethreadscheduler_25',['~GameThreadScheduler',['../d0/d9d/class_atlas_1_1_game_thread_scheduler.html#aaa9fb8b4737765884265529a20601b50',1,'Atlas::GameThreadScheduler']]],
-  ['_7eigamethread_26',['~IGameThread',['../dd/dca/class_atlas_1_1_i_game_thread.html#a6277547fccdc9631dfab0ea42def4a87',1,'Atlas::IGameThread']]],
-  ['_7eilogger_27',['~ILogger',['../de/d5c/class_atlas_1_1_i_logger.html#aa7f12b2219a865d19fabc3e1cc5f5829',1,'Atlas::ILogger']]],
-  ['_7eipathloaderlogicgate_28',['~IPathLoaderLogicGate',['../d0/d55/class_atlas_1_1_i_path_loader_logic_gate.html#a4c753bd311406f37ce9f656e7b280254',1,'Atlas::IPathLoaderLogicGate']]],
-  ['_7esdlgamewindow_29',['~SDLGameWindow',['../d7/d0a/class_atlas_1_1_s_d_l_game_window.html#ac4102ff5110f14e467dc0c2d27fd7c24',1,'Atlas::SDLGameWindow']]],
-  ['_7eshellfileinterface_30',['~ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#af3a1911ef7d963ac9bc10947b279af52',1,'ShellFileInterface']]],
-  ['_7eversion_31',['~Version',['../de/dd8/struct_atlas_1_1_version.html#a5fc9f6c9b5711e086c1dc6d98c5a7ed3',1,'Atlas::Version']]],
-  ['_7evulkaninstancewrapper_32',['~VulkanInstanceWrapper',['../d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a7e4018ed59b56fe44fc64ee9af590b65',1,'Atlas::VulkanInstanceWrapper']]]
+  ['_7ehapticdevice_26',['~HapticDevice',['../de/d6d/class_atlas_1_1_haptic_device.html#a88dda321471e9801bbefaf084772693a',1,'Atlas::HapticDevice']]],
+  ['_7eigamethread_27',['~IGameThread',['../dd/dca/class_atlas_1_1_i_game_thread.html#a6277547fccdc9631dfab0ea42def4a87',1,'Atlas::IGameThread']]],
+  ['_7eihapticeffect_28',['~IHapticEffect',['../d6/d25/class_atlas_1_1_i_haptic_effect.html#ab0b48835b84d22631654cae8d7ce0dcb',1,'Atlas::IHapticEffect']]],
+  ['_7eilogger_29',['~ILogger',['../de/d5c/class_atlas_1_1_i_logger.html#aa7f12b2219a865d19fabc3e1cc5f5829',1,'Atlas::ILogger']]],
+  ['_7eipathloaderlogicgate_30',['~IPathLoaderLogicGate',['../d0/d55/class_atlas_1_1_i_path_loader_logic_gate.html#a4c753bd311406f37ce9f656e7b280254',1,'Atlas::IPathLoaderLogicGate']]],
+  ['_7esdlgamewindow_31',['~SDLGameWindow',['../d7/d0a/class_atlas_1_1_s_d_l_game_window.html#ac4102ff5110f14e467dc0c2d27fd7c24',1,'Atlas::SDLGameWindow']]],
+  ['_7eshellfileinterface_32',['~ShellFileInterface',['../dc/d7b/class_shell_file_interface.html#af3a1911ef7d963ac9bc10947b279af52',1,'ShellFileInterface']]],
+  ['_7eversion_33',['~Version',['../de/dd8/struct_atlas_1_1_version.html#a5fc9f6c9b5711e086c1dc6d98c5a7ed3',1,'Atlas::Version']]],
+  ['_7evulkaninstancewrapper_34',['~VulkanInstanceWrapper',['../d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a7e4018ed59b56fe44fc64ee9af590b65',1,'Atlas::VulkanInstanceWrapper']]]
 ];

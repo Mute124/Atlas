@@ -18,6 +18,10 @@
 #include "vk_mem_alloc.h"
 //#include "vk_mem_alloc.h"
 
+#include <imgui/imgui.h>
+#include <imgui/backends/imgui_impl_sdl2.h>
+#include <imgui/backends/imgui_impl_vulkan.h>
+
 
 #include <cstdint>
 #include <iostream>
@@ -36,6 +40,7 @@
 
 #ifdef ATLAS_USE_SDL2
 	#include <SDL2/SDL_video.h>
+#include <SDL2/SDL_haptic.h>
 #endif // ATLAS_USE_SDL2
 
 #ifdef ATLAS_USE_VULKAN
@@ -48,25 +53,41 @@
 	#ifdef ATLAS_USE_SDL2
 		#include <SDL_vulkan.h>
 	#endif // ATLAS_USE_SDL2
+#include "../../core/Common.h"
+#include "../../debugging/Logging.h"
+#include "../DescriptorLayoutBuilder.h"
+
+#include <cmath>
+#include <cstdlib>
+#include <filesystem>
+#include <format>
+#include <functional>
+#include <iosfwd>
 
 
 #endif // ATLAS_USE_VULKAN
+#include "../../core/Version.h"
+#include "../GraphicsUtils.h"
+#include "../PipelineBuilder.h"
+#include <glm/fwd.hpp>
 
 
 
 #ifdef ATLAS_USE_VULKAN
 
-struct GlobalContext {
+using namespace Atlas;
 
+struct GlobalContext {
+	Version cApiVersion;
 };
 
 std::unique_ptr<GlobalContext> gGlobalContext;
 
-
 Atlas::VulkanRenderingBackend* gLoadedVulkanBackend = nullptr;
 
 void Atlas::DescriptorAllocator::init_pool(VkDevice device, uint32_t maxSets, std::span<PoolSizeRatio> poolRatios)
-{
+{	
+
 	std::vector<VkDescriptorPoolSize> poolSizes;
 
 	for (PoolSizeRatio ratio : poolRatios) {
@@ -123,6 +144,33 @@ void Atlas::VulkanRenderingBackend::setFenceTimeout(uint64_t lengthInNS) {
 
 void Atlas::VulkanRenderingBackend::setNextImageTimeout(uint64_t lengthInNS) {
 	mNextImageTimeoutNS = lengthInNS;
+}
+
+AllocatedBuffer Atlas::VulkanRenderingBackend::createBuffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage)
+{
+	// allocate buffer
+	VkBufferCreateInfo bufferInfo = { .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
+	bufferInfo.pNext = nullptr;
+	bufferInfo.size = allocSize;
+
+	bufferInfo.usage = usage;
+
+	VmaAllocationCreateInfo vmaallocInfo = {};
+	vmaallocInfo.usage = memoryUsage;
+	vmaallocInfo.flags = VMA_ALLOCATION_CREATE_MAPPED_BIT;
+	AllocatedBuffer newBuffer;
+
+	// allocate the buffer
+	vmaCreateBuffer(mVMAAllocator, &bufferInfo, &vmaallocInfo, &newBuffer.buffer, &newBuffer.allocation,
+		&newBuffer.info);
+
+	return newBuffer;
+}
+
+void Atlas::VulkanRenderingBackend::destroyBuffer(const AllocatedBuffer& buffer)
+{
+	
+	vmaDestroyBuffer(mVMAAllocator, buffer.buffer, buffer.allocation);
 }
 
 Atlas::FrameData& Atlas::VulkanRenderingBackend::getCurrentFrame()
@@ -195,7 +243,10 @@ void Atlas::VulkanRenderingBackend::initDescriptors()
 
 void Atlas::VulkanRenderingBackend::initPipelines()
 {
+
+
 	initBackgroundPipelines();
+	initMeshPipeline();
 }
 
 void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
@@ -206,11 +257,25 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	computeLayout.pSetLayouts = &mDrawImageDescriptorLayout;
 	computeLayout.setLayoutCount = 1;
 
+	VkPushConstantRange pushConstant{};
+	pushConstant.offset = 0;
+	pushConstant.size = sizeof(ComputePushConstants);
+	pushConstant.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+
+	computeLayout.pPushConstantRanges = &pushConstant;
+	computeLayout.pushConstantRangeCount = 1;
+
 	vkCreatePipelineLayout(mDevice, &computeLayout, nullptr, &mGradientPipelineLayout);
 	
 	//layout code
 	VkShaderModule computeDrawShader;
 	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/gradient.comp.spv", mDevice, &computeDrawShader))
+	{
+		std::cout << "Error when building the compute shader \n";
+	}
+
+	VkShaderModule skyShader;
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/sky.comp.spv", mDevice, &skyShader))
 	{
 		std::cout << "Error when building the compute shader \n";
 	}
@@ -228,13 +293,172 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	computePipelineCreateInfo.layout = mGradientPipelineLayout;
 	computePipelineCreateInfo.stage = stageinfo;
 
-	vkCreateComputePipelines(mDevice, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &mGradientPipeline);
+	ComputeEffect gradient;
+	gradient.layout = mGradientPipelineLayout;
+	gradient.name = "gradient";
+	gradient.data = {};
+
+	//default colors
+	gradient.data.data1 = glm::vec4(1, 0, 0, 1);
+	gradient.data.data2 = glm::vec4(0, 0, 1, 1);
+
+	vkCreateComputePipelines(mDevice, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &gradient.pipeline);
+
+	//change the shader module only to create the sky shader
+	computePipelineCreateInfo.stage.module = skyShader;
+
+	ComputeEffect sky;
+	sky.layout = mGradientPipelineLayout;
+	sky.name = "sky";
+	sky.data = {};
+	//default sky parameters
+	sky.data.data1 = glm::vec4(0.1, 0.2, 0.4, 0.97);
+
+	vkCreateComputePipelines(mDevice, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &sky.pipeline);
+
+	//add the 2 background effects into the array
+	mBackgroundEffects.push_back(gradient);
+	mBackgroundEffects.push_back(sky);
 
 	vkDestroyShaderModule(mDevice, computeDrawShader, nullptr);
+	vkDestroyShaderModule(mDevice, skyShader, nullptr);
 
 	mMainDeletionQueue.push([&]() {
 		vkDestroyPipelineLayout(mDevice, mGradientPipelineLayout, nullptr);
 		vkDestroyPipeline(mDevice, mGradientPipeline, nullptr);
+		vkDestroyPipeline(mDevice, gradient.pipeline, nullptr);
+	});
+
+	initTrianglePipeline();
+}
+
+void Atlas::VulkanRenderingBackend::initTrianglePipeline()
+{
+	VkShaderModule triangleFragShader;
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", mDevice, &triangleFragShader)) {
+		ErrorLog("Error when building the triangle fragment shader module");
+	}
+	else {
+		TraceLog("Triangle fragment shader succesfully loaded");
+	}
+
+	VkShaderModule triangleVertexShader;
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", mDevice, &triangleVertexShader)) {
+		ErrorLog("Error when building the triangle vertex shader module");
+	}
+	else {
+		TraceLog("Triangle vertex shader succesfully loaded");
+	}
+
+	//build the pipeline layout that controls the inputs/outputs of the shader
+	//we are not using descriptor sets or other systems yet, so no need to use anything other than empty default
+	VkPipelineLayoutCreateInfo pipeline_layout_info = CreatePipelineLayoutCreateInfo();
+	vkCreatePipelineLayout(mDevice, &pipeline_layout_info, nullptr, &_trianglePipelineLayout);
+
+	PipelineBuilder pipelineBuilder;
+
+	//use the triangle layout we created
+	pipelineBuilder.settings.pipelineLayout = _trianglePipelineLayout;
+	//connecting the vertex and pixel shaders to the pipeline
+	pipelineBuilder.setShaders(triangleVertexShader, triangleFragShader);
+	//it will draw triangles
+	pipelineBuilder.setInputTopography(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
+	//filled triangles
+	pipelineBuilder.setPolygonMode(VK_POLYGON_MODE_FILL);
+	//no backface culling
+	pipelineBuilder.setCullMode(VK_CULL_MODE_NONE, VK_FRONT_FACE_CLOCKWISE);
+	//no multisampling
+	pipelineBuilder.setMultisamplingNone();
+	//no blending
+	pipelineBuilder.disableBlending();
+	//no depth testing
+	pipelineBuilder.disableDepthTest();
+	
+	//connect the image format we will draw into, from draw image
+	pipelineBuilder.setColorAttachmentFormat(mDrawImage.imageFormat);
+	pipelineBuilder.setDepthFormat(VK_FORMAT_UNDEFINED);
+
+	//finally build the pipeline
+	_trianglePipeline = pipelineBuilder.buildPipeline(mDevice);
+
+	//clean structures
+	vkDestroyShaderModule(mDevice, triangleFragShader, nullptr);
+	vkDestroyShaderModule(mDevice, triangleVertexShader, nullptr);
+
+	mMainDeletionQueue.push([&]() {
+		vkDestroyPipelineLayout(mDevice, _trianglePipelineLayout, nullptr);
+		vkDestroyPipeline(mDevice, _trianglePipeline, nullptr);
+	});
+}
+
+void Atlas::VulkanRenderingBackend::initMeshPipeline()
+{
+	VkShaderModule triangleFragShader;
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", mDevice, &triangleFragShader)) {
+		ErrorLog("Error when building the triangle fragment shader module");
+	}
+	else {
+		TraceLog("Triangle fragment shader succesfully loaded");
+	}
+
+	VkShaderModule triangleVertexShader;
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", mDevice, &triangleVertexShader)) {
+		ErrorLog("Error when building the triangle vertex shader module");
+	}
+	else {
+		TraceLog("Triangle vertex shader succesfully loaded");
+	}
+
+	VkPushConstantRange bufferRange{};
+	bufferRange.offset = 0;
+	bufferRange.size = sizeof(GPUDrawPushConstants);
+	bufferRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+	VkPipelineLayoutCreateInfo pipeline_layout_info = CreatePipelineLayoutCreateInfo();
+	pipeline_layout_info.pPushConstantRanges = &bufferRange;
+	pipeline_layout_info.pushConstantRangeCount = 1;
+
+	vkCreatePipelineLayout(mDevice, &pipeline_layout_info, nullptr, &_meshPipelineLayout);
+
+	PipelineBuilder pipelineBuilder;
+
+	//use the triangle layout we created
+	pipelineBuilder.settings.pipelineLayout = _meshPipelineLayout;
+
+	//connecting the vertex and pixel shaders to the pipeline
+	pipelineBuilder.setShaders(triangleVertexShader, triangleFragShader);
+
+	//it will draw triangles
+	pipelineBuilder.setInputTopography(VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
+
+	//filled triangles
+	pipelineBuilder.setPolygonMode(VK_POLYGON_MODE_FILL);
+
+	//no backface culling
+	pipelineBuilder.setCullMode(VK_CULL_MODE_NONE, VK_FRONT_FACE_CLOCKWISE);
+
+	//no multisampling
+	pipelineBuilder.setMultisamplingNone();
+
+	//no blending
+	pipelineBuilder.disableBlending();
+
+	pipelineBuilder.disableDepthTest();
+
+	//connect the image format we will draw into, from draw image
+	pipelineBuilder.setColorAttachmentFormat(mDrawImage.imageFormat);
+	pipelineBuilder.setDepthFormat(VK_FORMAT_UNDEFINED);
+
+	//finally build the pipeline
+	_meshPipeline = pipelineBuilder.buildPipeline(mDevice);
+
+	//clean structures
+	vkDestroyShaderModule(mDevice, triangleFragShader, nullptr);
+	vkDestroyShaderModule(mDevice, triangleVertexShader, nullptr);
+
+	mMainDeletionQueue.push([&]() {
+		vkDestroyPipelineLayout(mDevice, _meshPipelineLayout, nullptr);
+		vkDestroyPipeline(mDevice, _meshPipeline, nullptr);
 	});
 }
 
@@ -247,7 +471,7 @@ void Atlas::VulkanRenderingBackend::initVMAAllocator(vkb::Instance const& cVkBoo
 	allocatorInfo.instance = cVkBootstrapInstanceRef;
 	allocatorInfo.flags = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
 	vmaCreateAllocator(&allocatorInfo, &mVMAAllocator);
-
+	
 	mMainDeletionQueue.push([&]() {
 		vmaDestroyAllocator(mVMAAllocator);
 	});
@@ -296,6 +520,71 @@ void Atlas::VulkanRenderingBackend::initCommands()
 	mMainDeletionQueue.push([=]() { vkDestroyFence(mDevice, mImmediateSubmitInfo.fence, nullptr); });
 }
 
+void Atlas::VulkanRenderingBackend::initIMGUI(AGameWindow* gameWindow)
+{
+	// 1: create descriptor pool for IMGUI
+	//  the size of the pool is very oversize, but it's copied from imgui demo
+	//  itself.
+	VkDescriptorPoolSize pool_sizes[] = { { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
+		{ VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
+		{ VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
+		{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
+		{ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
+		{ VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 } };
+
+	VkDescriptorPoolCreateInfo pool_info = {};
+	pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+	pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+	pool_info.maxSets = 1000;
+	pool_info.poolSizeCount = (uint32_t)std::size(pool_sizes);
+	pool_info.pPoolSizes = pool_sizes;
+
+	VkDescriptorPool imguiPool;
+	vkCreateDescriptorPool(mDevice, &pool_info, nullptr, &imguiPool);
+
+	// 2: initialize imgui library
+
+	// this initializes the core structures of imgui
+	ImGui::CreateContext();
+
+	// this initializes imgui for SDL
+	ImGui_ImplSDL2_InitForVulkan((SDL_Window*)gameWindow->getUncastWindowHandle());
+
+	// this initializes imgui for Vulkan
+	ImGui_ImplVulkan_InitInfo init_info = {};
+	init_info.Instance = mInstance.getInstance();
+	init_info.PhysicalDevice = mGPUDevice;
+	init_info.Device = mDevice;
+	init_info.Queue = mGraphicsQueue;
+	init_info.DescriptorPool = imguiPool;
+	init_info.MinImageCount = 3;
+	init_info.ImageCount = 3;
+	init_info.UseDynamicRendering = true;
+
+	//dynamic rendering parameters for imgui to use
+	init_info.PipelineRenderingCreateInfo = { .sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO };
+	init_info.PipelineRenderingCreateInfo.colorAttachmentCount = 1;
+	init_info.PipelineRenderingCreateInfo.pColorAttachmentFormats = &mSwapchainImageFormat;
+
+
+	init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+
+	ImGui_ImplVulkan_Init(&init_info);
+	
+	//ImGui_ImplVulkan_CreateFontsTexture();
+
+	// add the destroy the imgui created structures
+	mMainDeletionQueue.push([=]() {
+		ImGui_ImplVulkan_Shutdown();
+		vkDestroyDescriptorPool(mDevice, imguiPool, nullptr);
+	});
+}
+
 void Atlas::VulkanRenderingBackend::createSwapchain(uint32_t width, uint32_t height)
 {
 	vkb::SwapchainBuilder swapchainBuilder{ mGPUDevice, mDevice, mSurface };
@@ -330,40 +619,95 @@ void Atlas::VulkanRenderingBackend::destroySwapchain()
 	}
 }
 
+GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> indices, std::span<Vertex> vertices)
+{
+	const size_t vertexBufferSize = vertices.size() * sizeof(Vertex);
+	const size_t indexBufferSize = indices.size() * sizeof(uint32_t);
+
+	GPUMeshBuffers newSurface;
+
+	//create vertex buffer
+	newSurface.vertexBuffer = createBuffer(vertexBufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT,
+		VMA_MEMORY_USAGE_GPU_ONLY);
+
+	//find the adress of the vertex buffer
+	VkBufferDeviceAddressInfo deviceAdressInfo{ .sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO,.buffer = newSurface.vertexBuffer.buffer };
+	newSurface.vertexBufferAddress = vkGetBufferDeviceAddress(mDevice, &deviceAdressInfo);
+
+	//create index buffer
+	newSurface.indexBuffer = createBuffer(indexBufferSize, VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+		VMA_MEMORY_USAGE_GPU_ONLY);
+
+	AllocatedBuffer staging = createBuffer(vertexBufferSize + indexBufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VMA_MEMORY_USAGE_CPU_ONLY);
+
+	void* data = staging.allocation->GetMappedData();
+
+	// copy vertex buffer
+	memcpy(data, vertices.data(), vertexBufferSize);
+
+	// copy index buffer
+	memcpy((char*)data + vertexBufferSize, indices.data(), indexBufferSize);
+
+	ImmediateSubmit([&](VkCommandBuffer cmd) {
+		VkBufferCopy vertexCopy{ 0 };
+		vertexCopy.dstOffset = 0;
+		vertexCopy.srcOffset = 0;
+		vertexCopy.size = vertexBufferSize;
+
+		vkCmdCopyBuffer(cmd, staging.buffer, newSurface.vertexBuffer.buffer, 1, &vertexCopy);
+
+		VkBufferCopy indexCopy{ 0 };
+		indexCopy.dstOffset = 0;
+		indexCopy.srcOffset = vertexBufferSize;
+		indexCopy.size = indexBufferSize;
+
+		vkCmdCopyBuffer(cmd, staging.buffer, newSurface.indexBuffer.buffer, 1, &indexCopy);
+	});
+
+	destroyBuffer(staging);
+
+	return newSurface;
+}
+
 void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function)
 {
-	VK_CHECK(vkResetFences(mDevice, 1, &mImmediateSubmitInfo.fence));
-	VK_CHECK(vkResetCommandBuffer(mImmediateSubmitInfo.commandBuffer, 0));
+	vkResetFences(mDevice, 1, &mImmediateSubmitInfo.fence);
+
+	vkResetCommandBuffer(mImmediateSubmitInfo.commandBuffer, 0);
 
 	VkCommandBuffer cmd = mImmediateSubmitInfo.commandBuffer;
 
 	VkCommandBufferBeginInfo cmdBeginInfo = CreateCommandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 
-	VK_CHECK(vkBeginCommandBuffer(cmd, &cmdBeginInfo));
+	vkBeginCommandBuffer(cmd, &cmdBeginInfo);
 
 	function(cmd);
 
-	VK_CHECK(vkEndCommandBuffer(cmd));
+	vkEndCommandBuffer(cmd);
 
 	VkCommandBufferSubmitInfo cmdinfo = SubmitCommandBufferInfo(cmd);
 	VkSubmitInfo2 submit = SubmitInfo(&cmdinfo, nullptr, nullptr);
 
 	// submit command buffer to the queue and execute it.
 	//  _renderFence will now block until the graphic commands finish execution
-	VK_CHECK(vkQueueSubmit2(mGraphicsQueue, 1, &submit, mImmediateSubmitInfo.fence));
+	vkQueueSubmit2(mGraphicsQueue, 1, &submit, mImmediateSubmitInfo.fence);
 
 	constexpr uint64_t cTimeout = 9999999999;
 
-	VK_CHECK(vkWaitForFences(mDevice, 1, &mImmediateSubmitInfo.fence, true, cTimeout));
+	vkWaitForFences(mDevice, 1, &mImmediateSubmitInfo.fence, true, cTimeout);
 }
 
 void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 {
+	InfoLog("Attempting to initialize Vulkan");
+
 	//// Just make sure everything is in order before Vulkan gets initialized
 	ATLAS_ASSERT(gameWindow != nullptr, "Window must be set up prior to Vulkan init");
 
 	if (canInitialize(gameWindow) == false) {
-		std::cout << "Window must be set up and open prior to Vulkan init" << std::endl;
+		//std::cout << "Window must be set up and open prior to Vulkan init" << std::endl;
+		ErrorLog("Window must be set up and open prior to Vulkan init!");
+		
 		return;
 	}
 	
@@ -389,6 +733,11 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 	//this->mVulkanInstance = vulkanBootstrapInstance.instance;
 	//this->mDebugMessenger = vulkanBootstrapInstance.debug_messenger;
 
+	std::string vulkanInitParametersString 
+		= std::format("->Application Name: {}\n->Vulkan API Version: {}.{}.{}\n->Enable Validation Layers: {}\n", mApplicationName, cApiVersion.major, cApiVersion.minor, cApiVersion.patch, cbEnableValidationLayers);
+
+	InfoLog("Initializing Vulkan instance:\n" + vulkanInitParametersString);
+
 	mInstance.setVersion(cApiVersion);
 	mInstance.setApplicationName(mApplicationName);
 	mInstance.setEnableValidationLayers(cbEnableValidationLayers);
@@ -398,7 +747,7 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 	vkb::Instance const& cVkBootstrapInstanceRef = mInstance.getVulkanBootstrapInstance();
 
 	// Device init
-	
+	InfoLog("Initializing Vulkan device");
 	// If vulkan is being used with SDL2, this has to be done here.
 #ifdef ATLAS_USE_SDL2
 	// directly passing the window cast to avoid memory issues.
@@ -434,6 +783,10 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 
 	vkb::PhysicalDevice physicalDevice = selector.select().value();
 	
+	const std::string cDeviceName = physicalDevice.name;
+	
+	InfoLog("Selected GPU: " + cDeviceName);
+
 	//create the final vulkan device
 	vkb::DeviceBuilder deviceBuilder{ physicalDevice };
 
@@ -456,7 +809,44 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 
 	initPipelines();
 
+	initIMGUI(gameWindow);
+
+	initDefaultData();
+
 	mIsInitialized = true;
+}
+
+void Atlas::VulkanRenderingBackend::initDefaultData()
+{
+	//std::array<Vertex, 4> rect_vertices;
+
+	//rect_vertices[0].position = { 0.5,-0.5, 0 };
+	//rect_vertices[1].position = { 0.5,0.5, 0 };
+	//rect_vertices[2].position = { -0.5,-0.5, 0 };
+	//rect_vertices[3].position = { -0.5,0.5, 0 };
+
+	//rect_vertices[0].color = { 0,0, 0,1 };
+	//rect_vertices[1].color = { 0.5,0.5,0.5 ,1 };
+	//rect_vertices[2].color = { 1,0, 0,1 };
+	//rect_vertices[3].color = { 0,1, 0,1 };
+
+	//std::array<uint32_t, 6> rect_indices;
+
+	//rect_indices[0] = 0;
+	//rect_indices[1] = 1;
+	//rect_indices[2] = 2;
+
+	//rect_indices[3] = 2;
+	//rect_indices[4] = 1;
+	//rect_indices[5] = 3;
+
+	//rectangle = UploadMesh(rect_indices, rect_vertices);
+
+	////delete the rectangle data on engine shutdown
+	//mMainDeletionQueue.push([&]() {
+	//	destroyBuffer(rectangle.indexBuffer);
+	//	destroyBuffer(rectangle.vertexBuffer);
+	//});
 }
 
 void Atlas::VulkanRenderingBackend::initSwapchain(AGameWindow* gameWindow)
@@ -520,60 +910,73 @@ void Atlas::VulkanRenderingBackend::resetFences(const uint32_t cFenceCount, Fram
 	vkResetFences(mDevice, cFenceCount, &currentFrame.renderFence);
 }
 
-void Atlas::VulkanRenderingBackend::draw()
+void Atlas::VulkanRenderingBackend::beginDrawingMode()
 {
-	const static uint32_t cFenceCount = 1;
+	//const static uint32_t cFenceCount = 1;
 
 	FrameData& currentFrame = getCurrentFrame();
 
-	resetFences(cFenceCount, currentFrame);
+	resetFences(mCurrentDrawData.FENCE_COUNT, currentFrame);
 
 	//request image from the swapchain
-	uint32_t swapchainImageIndex;
-	vkAcquireNextImageKHR(mDevice, mSwapchain, mNextImageTimeoutNS, currentFrame.swapchainSemaphore, nullptr, &swapchainImageIndex);
+	//uint32_t swapchainImageIndex;
+	vkAcquireNextImageKHR(mDevice, mSwapchain, mNextImageTimeoutNS, currentFrame.swapchainSemaphore, nullptr, &mCurrentDrawData.swapchainImageIndex);
 
 	// reset command buffer
-	VkCommandBufferResetFlags cmdResetFlags = 0;
+	mCurrentDrawData.cmdResetFlags = 0;
 
 	//naming it cmd for shorter writing
-	VkCommandBuffer cmd = currentFrame.mainCommandBuffer;
+	mCurrentDrawData.cmd = currentFrame.mainCommandBuffer;
 
 	// now that we are sure that the commands finished executing, we can safely
 	// reset the command buffer to begin recording again.
-	vkResetCommandBuffer(cmd, cmdResetFlags);
+	vkResetCommandBuffer(mCurrentDrawData.cmd, mCurrentDrawData.cmdResetFlags);
 
 	//begin the command buffer recording. We will use this command buffer exactly once, so we want to let vulkan know that
-	VkCommandBufferBeginInfo cmdBeginInfo = CreateCommandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+	mCurrentDrawData.cmdBeginInfo = CreateCommandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 
 	mDrawExtent.width = mDrawImage.imageExtent.width;
 	mDrawExtent.height = mDrawImage.imageExtent.height;
 
-	vkBeginCommandBuffer(cmd, &cmdBeginInfo);
+	// imgui new frame
+	ImGui_ImplVulkan_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
 
-	// transition our main draw image into general layout so we can write into it
-	// we will overwrite it all so we dont care about what was the older layout
-	TransitionImage(cmd, mDrawImage.image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_GENERAL);
+	//some imgui UI to test
+	//ImGui::ShowDemoWindow();
 
-	drawBackground(cmd);
+	if (ImGui::Begin("background")) {
 
-	//transition the draw image and the swapchain image into their correct transfer layouts
-	TransitionImage(cmd, mDrawImage.image, VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
-	TransitionImage(cmd, mSwapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+		ComputeEffect& selected = mBackgroundEffects[mCurrentBackgroundEffect];
 
-	// execute a copy from the draw image into the swapchain
-	CopyImageToImage(cmd, mDrawImage.image, mSwapchainImages[swapchainImageIndex], mDrawExtent, mSwapchainExtent);
+		ImGui::Text("Selected effect: ", selected.name);
 
-	// set swapchain image layout to Present so we can show it on the screen
-	TransitionImage(cmd, mSwapchainImages[swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
+		ImGui::SliderInt("Effect Index", &mCurrentBackgroundEffect, 0, mBackgroundEffects.size() - 1);
+
+		ImGui::InputFloat4("data1", (float*)&selected.data.data1);
+		ImGui::InputFloat4("data2", (float*)&selected.data.data2);
+		ImGui::InputFloat4("data3", (float*)&selected.data.data3);
+		ImGui::InputFloat4("data4", (float*)&selected.data.data4);
+	}
+	ImGui::End();
+
+	//make imgui calculate internal draw structures
+	ImGui::Render();
+}
+
+void Atlas::VulkanRenderingBackend::endDrawingMode()
+{
+	FrameData& currentFrame = getCurrentFrame();
 
 	//finalize the command buffer (we can no longer add commands, but it can now be executed)
-	vkEndCommandBuffer(cmd);
+	vkEndCommandBuffer(mCurrentDrawData.cmd);
 
 	//prepare the submission to the queue. 
 	//we want to wait on the _presentSemaphore, as that semaphore is signaled when the swapchain is ready
 	//we will signal the _renderSemaphore, to signal that rendering has finished
 
-	VkCommandBufferSubmitInfo cmdinfo = SubmitCommandBufferInfo(cmd);
+	VkCommandBufferSubmitInfo cmdinfo = SubmitCommandBufferInfo(mCurrentDrawData.cmd);
 
 	VkSemaphoreSubmitInfo waitInfo = SubmitSemaphoreInfo(VK_PIPELINE_STAGE_2_COLOR_ATTACHMENT_OUTPUT_BIT_KHR, currentFrame.swapchainSemaphore);
 	VkSemaphoreSubmitInfo signalInfo = SubmitSemaphoreInfo(VK_PIPELINE_STAGE_2_ALL_GRAPHICS_BIT, currentFrame.renderSemaphore);
@@ -597,34 +1000,153 @@ void Atlas::VulkanRenderingBackend::draw()
 	presentInfo.pWaitSemaphores = &currentFrame.renderSemaphore;
 	presentInfo.waitSemaphoreCount = 1;
 
-	presentInfo.pImageIndices = &swapchainImageIndex;
+	presentInfo.pImageIndices = &mCurrentDrawData.swapchainImageIndex;
 
 	vkQueuePresentKHR(mGraphicsQueue, &presentInfo);
 
 	//increase the number of frames drawn
 	mCurrentFrameNumber++;
+
+	// reset the current draw data to default values
+	mCurrentDrawData = {};
+}
+
+void Atlas::VulkanRenderingBackend::draw()
+{
+	FrameData& currentFrame = getCurrentFrame();
+
+	vkBeginCommandBuffer(mCurrentDrawData.cmd, &mCurrentDrawData.cmdBeginInfo);
+
+
+
+	// transition our main draw image into general layout so we can write into it
+	// we will overwrite it all so we dont care about what was the older layout
+	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_GENERAL);
+
+	drawBackground(mCurrentDrawData.cmd);
+
+	//transition the draw image and the swapchain image into their correct transfer layouts
+	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
+	
+	drawGeometry(mCurrentDrawData.cmd);
+	
+	TransitionImage(mCurrentDrawData.cmd, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+	// execute a copy from the draw image into the swapchain
+	CopyImageToImage(mCurrentDrawData.cmd, mDrawImage.image, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], mDrawExtent, mSwapchainExtent);
+
+	drawIMGUI(mCurrentDrawData.cmd, mSwapchainImageViews[mCurrentDrawData.swapchainImageIndex]);
+
+	// set swapchain image layout to Present so we can show it on the screen
+	TransitionImage(mCurrentDrawData.cmd, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
+}
+
+void Atlas::VulkanRenderingBackend::drawIMGUI(VkCommandBuffer cmd, VkImageView targetImageView)
+{
+	VkRenderingAttachmentInfo colorAttachment = CreateAttachmentInfo(targetImageView, nullptr, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+	VkRenderingInfo renderInfo = CreateRenderingInfo(mSwapchainExtent, &colorAttachment, nullptr);
+
+	vkCmdBeginRendering(cmd, &renderInfo);
+
+
+
+	ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), cmd);
+
+	vkCmdEndRendering(cmd);
 }
 
 void Atlas::VulkanRenderingBackend::drawBackground(VkCommandBuffer cmd)
 {
-	//make a clear-color from frame number. This will flash with a 120 frame period.
-	VkClearColorValue clearValue;
-	float flash = std::abs(std::sin(mCurrentFrameNumber / 120.f));
-	clearValue = { { 0.0f, 0.0f, flash, 1.0f } };
+	////make a clear-color from frame number. This will flash with a 120 frame period.
+	//VkClearColorValue clearValue;
+	//float flash = std::abs(std::sin(mCurrentFrameNumber / 120.f));
+	//clearValue = { { 0.0f, 0.0f, flash, 1.0f } };
 
-	VkImageSubresourceRange clearRange = CreateImageSubresourceRange(VK_IMAGE_ASPECT_COLOR_BIT);
+	//VkImageSubresourceRange clearRange = CreateImageSubresourceRange(VK_IMAGE_ASPECT_COLOR_BIT);
 
-	//clear image
-	vkCmdClearColorImage(cmd, mDrawImage.image, VK_IMAGE_LAYOUT_GENERAL, &clearValue, 1, &clearRange);
+	////clear image
+	//vkCmdClearColorImage(cmd, mDrawImage.image, VK_IMAGE_LAYOUT_GENERAL, &clearValue, 1, &clearRange);
 
-	// bind the gradient drawing compute pipeline
-	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, mGradientPipeline);
+	//// bind the gradient drawing compute pipeline
+	//vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, mGradientPipeline);
+
+	//// bind the descriptor set containing the draw image for the compute pipeline
+	//vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, mGradientPipelineLayout, 0, 1, &mDrawImageDescriptors, 0, nullptr);
+
+	//// execute the compute pipeline dispatch. We are using 16x16 workgroup size so we need to divide by it
+	//vkCmdDispatch(cmd, std::ceil(mDrawExtent.width / 16.0), std::ceil(mDrawExtent.height / 16.0), 1);
+
+		// bind the gradient drawing compute pipeline
+	//vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, mGradientPipeline);
+
+	//// bind the descriptor set containing the draw image for the compute pipeline
+	//vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, mGradientPipelineLayout, 0, 1, &mDrawImageDescriptors, 0, nullptr);
+
+	//ComputePushConstants pc;
+	//pc.data1 = glm::vec4(1, 0, 0, 1);
+	//pc.data2 = glm::vec4(0, 0, 1, 1);
+
+	//vkCmdPushConstants(cmd, mGradientPipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(ComputePushConstants), &pc);
+	//// execute the compute pipeline dispatch. We are using 16x16 workgroup size so we need to divide by it
+	//vkCmdDispatch(cmd, std::ceil(mDrawExtent.width / 16.0), std::ceil(mDrawExtent.height / 16.0), 1);
+
+	ComputeEffect& effect = mBackgroundEffects[mCurrentBackgroundEffect];
+
+	// bind the background compute pipeline
+	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, effect.pipeline);
 
 	// bind the descriptor set containing the draw image for the compute pipeline
 	vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, mGradientPipelineLayout, 0, 1, &mDrawImageDescriptors, 0, nullptr);
 
+	vkCmdPushConstants(cmd, mGradientPipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(ComputePushConstants), &effect.data);
 	// execute the compute pipeline dispatch. We are using 16x16 workgroup size so we need to divide by it
 	vkCmdDispatch(cmd, std::ceil(mDrawExtent.width / 16.0), std::ceil(mDrawExtent.height / 16.0), 1);
+}
+
+void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
+{
+	//begin a render pass  connected to our draw image
+	VkRenderingAttachmentInfo colorAttachment = CreateAttachmentInfo(mDrawImage.imageView, nullptr, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+
+	VkRenderingInfo renderInfo = CreateRenderingInfo(mDrawExtent, &colorAttachment, nullptr);
+	vkCmdBeginRendering(cmd, &renderInfo);
+
+	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _trianglePipeline);
+
+	//set dynamic viewport and scissor
+	VkViewport viewport = {};
+	viewport.x = 0;
+	viewport.y = 0;
+	viewport.width = mDrawExtent.width;
+	viewport.height = mDrawExtent.height;
+	viewport.minDepth = 0.f;
+	viewport.maxDepth = 1.f;
+
+	vkCmdSetViewport(cmd, 0, 1, &viewport);
+
+	VkRect2D scissor = {};
+	scissor.offset.x = 0;
+	scissor.offset.y = 0;
+	scissor.extent.width = mDrawExtent.width;
+	scissor.extent.height = mDrawExtent.height;
+
+	vkCmdSetScissor(cmd, 0, 1, &scissor);
+
+	//launch a draw command to draw 3 vertices
+	vkCmdDraw(cmd, 3, 1, 0, 0);
+
+	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _meshPipeline);
+
+	GPUDrawPushConstants push_constants;
+	push_constants.worldMatrix = glm::mat4{ 1.f };
+	push_constants.vertexBuffer = rectangle.vertexBufferAddress;
+
+	vkCmdPushConstants(cmd, _meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(GPUDrawPushConstants), &push_constants);
+	vkCmdBindIndexBuffer(cmd, rectangle.indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+
+	vkCmdDrawIndexed(cmd, 6, 1, 0, 0, 0);
+
+	vkCmdEndRendering(cmd);
 }
 
 void Atlas::VulkanRenderingBackend::present()
@@ -700,262 +1222,6 @@ bool Atlas::VulkanRenderingBackend::checkValidationLayerSupport() {
 bool Atlas::VulkanRenderingBackend::canInitialize(AGameWindow* gameWindow)
 {
 	return gameWindow->isInitialized() && gameWindow->isOpen();
-}
-
-VkCommandPoolCreateInfo Atlas::CreateCommandPoolCreateInfo(uint32_t queueFamilyIndex, VkCommandPoolCreateFlags flags)
-{
-	VkCommandPoolCreateInfo info = {};
-	info.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-	info.pNext = nullptr;
-	info.queueFamilyIndex = queueFamilyIndex;
-	info.flags = flags;
-	return info;
-}
-
-VkCommandBufferAllocateInfo Atlas::CreateCommandBufferAllocateInfo(VkCommandPool pool, uint32_t count)
-{
-	VkCommandBufferAllocateInfo info = {};
-	info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-	info.pNext = nullptr;
-
-	info.commandPool = pool;
-	info.commandBufferCount = count;
-	info.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-	return info;
-}
-
-VkFenceCreateInfo Atlas::CreateFenceCreateInfo(VkFenceCreateFlags flags)
-{
-	VkFenceCreateInfo info = {};
-	info.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-	info.pNext = nullptr;
-
-	info.flags = flags;
-
-	return info;
-}
-
-VkSemaphoreCreateInfo Atlas::CreateSemaphoreCreateInfo(VkSemaphoreCreateFlags flags)
-{
-	VkSemaphoreCreateInfo info = {};
-	info.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-	info.pNext = nullptr;
-	info.flags = flags;
-	return info;
-}
-
-VkSemaphoreSubmitInfo Atlas::SubmitSemaphoreInfo(VkPipelineStageFlags2 stageMask, VkSemaphore semaphore)
-{
-	VkSemaphoreSubmitInfo submitInfo{};
-	submitInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_SUBMIT_INFO;
-	submitInfo.pNext = nullptr;
-	submitInfo.semaphore = semaphore;
-	submitInfo.stageMask = stageMask;
-	submitInfo.deviceIndex = 0;
-	submitInfo.value = 1;
-
-	return submitInfo;
-}
-
-VkCommandBufferSubmitInfo Atlas::SubmitCommandBufferInfo(VkCommandBuffer cmd)
-{
-	VkCommandBufferSubmitInfo info{};
-	info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_SUBMIT_INFO;
-	info.pNext = nullptr;
-	info.commandBuffer = cmd;
-	info.deviceMask = 0;
-
-	return info;
-}
-
-VkSubmitInfo2 Atlas::SubmitInfo(VkCommandBufferSubmitInfo* cmd, VkSemaphoreSubmitInfo* signalSemaphoreInfo, VkSemaphoreSubmitInfo* waitSemaphoreInfo)
-{
-	VkSubmitInfo2 info = {};
-	info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO_2;
-	info.pNext = nullptr;
-
-	info.waitSemaphoreInfoCount = waitSemaphoreInfo == nullptr ? 0 : 1;
-	info.pWaitSemaphoreInfos = waitSemaphoreInfo;
-
-	info.signalSemaphoreInfoCount = signalSemaphoreInfo == nullptr ? 0 : 1;
-	info.pSignalSemaphoreInfos = signalSemaphoreInfo;
-
-	info.commandBufferInfoCount = 1;
-	info.pCommandBufferInfos = cmd;
-
-	return info;
-}
-
-VkCommandBufferBeginInfo Atlas::CreateCommandBufferBeginInfo(VkCommandBufferUsageFlags flags)
-{
-	VkCommandBufferBeginInfo info = {};
-	info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-	info.pNext = nullptr;
-
-	info.pInheritanceInfo = nullptr;
-	info.flags = flags;
-	return info;
-}
-
-void Atlas::TransitionImage(VkCommandBuffer cmd, VkImage image, VkImageLayout currentLayout, VkImageLayout newLayout)
-{
-	VkImageMemoryBarrier2 imageBarrier{ .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2 };
-	imageBarrier.pNext = nullptr;
-
-	imageBarrier.srcStageMask = VK_PIPELINE_STAGE_2_ALL_COMMANDS_BIT;
-	imageBarrier.srcAccessMask = VK_ACCESS_2_MEMORY_WRITE_BIT;
-	imageBarrier.dstStageMask = VK_PIPELINE_STAGE_2_ALL_COMMANDS_BIT;
-	imageBarrier.dstAccessMask = VK_ACCESS_2_MEMORY_WRITE_BIT | VK_ACCESS_2_MEMORY_READ_BIT;
-
-	imageBarrier.oldLayout = currentLayout;
-	imageBarrier.newLayout = newLayout;
-
-	VkImageAspectFlags aspectMask = (newLayout == VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL) ? VK_IMAGE_ASPECT_DEPTH_BIT : VK_IMAGE_ASPECT_COLOR_BIT;
-	imageBarrier.subresourceRange = CreateImageSubresourceRange(aspectMask);
-	imageBarrier.image = image;
-
-	VkDependencyInfo depInfo{};
-	depInfo.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO;
-	depInfo.pNext = nullptr;
-
-	depInfo.imageMemoryBarrierCount = 1;
-	depInfo.pImageMemoryBarriers = &imageBarrier;
-
-	vkCmdPipelineBarrier2(cmd, &depInfo);
-}
-
-VkImageSubresourceRange Atlas::CreateImageSubresourceRange(VkImageAspectFlags aspectMask)
-{
-	VkImageSubresourceRange subImage{};
-	subImage.aspectMask = aspectMask;
-	subImage.baseMipLevel = 0;
-	subImage.levelCount = VK_REMAINING_MIP_LEVELS;
-	subImage.baseArrayLayer = 0;
-	subImage.layerCount = VK_REMAINING_ARRAY_LAYERS;
-
-	return subImage;
-}
-
-VkImageCreateInfo Atlas::CreateImageCreateInfo(VkFormat format, VkImageUsageFlags usageFlags, VkExtent3D extent)
-{
-	VkImageCreateInfo info = {};
-	info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-	info.pNext = nullptr;
-
-	info.imageType = VK_IMAGE_TYPE_2D;
-
-	info.format = format;
-	info.extent = extent;
-
-	info.mipLevels = 1;
-	info.arrayLayers = 1;
-
-	//for MSAA. we will not be using it by default, so default it to 1 sample per pixel.
-	info.samples = VK_SAMPLE_COUNT_1_BIT;
-
-	//optimal tiling, which means the image is stored on the best gpu format
-	info.tiling = VK_IMAGE_TILING_OPTIMAL;
-	info.usage = usageFlags;
-
-	return info;
-}
-
-VkImageViewCreateInfo Atlas::CreateImageViewCreateInfo(VkFormat format, VkImage image, VkImageAspectFlags aspectFlags)
-{
-	// build a image-view for the depth image to use for rendering
-	VkImageViewCreateInfo info = {};
-	info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-	info.pNext = nullptr;
-
-	info.viewType = VK_IMAGE_VIEW_TYPE_2D;
-	info.image = image;
-	info.format = format;
-	info.subresourceRange.baseMipLevel = 0;
-	info.subresourceRange.levelCount = 1;
-	info.subresourceRange.baseArrayLayer = 0;
-	info.subresourceRange.layerCount = 1;
-	info.subresourceRange.aspectMask = aspectFlags;
-
-	return info;
-}
-
-void Atlas::CopyImageToImage(VkCommandBuffer cmd, VkImage source, VkImage destination, VkExtent2D srcSize, VkExtent2D dstSize)
-{
-	VkImageBlit2 blitRegion{ .sType = VK_STRUCTURE_TYPE_IMAGE_BLIT_2, .pNext = nullptr };
-
-	blitRegion.srcOffsets[1].x = srcSize.width;
-	blitRegion.srcOffsets[1].y = srcSize.height;
-	blitRegion.srcOffsets[1].z = 1;
-
-	blitRegion.dstOffsets[1].x = dstSize.width;
-	blitRegion.dstOffsets[1].y = dstSize.height;
-	blitRegion.dstOffsets[1].z = 1;
-
-	blitRegion.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-	blitRegion.srcSubresource.baseArrayLayer = 0;
-	blitRegion.srcSubresource.layerCount = 1;
-	blitRegion.srcSubresource.mipLevel = 0;
-
-	blitRegion.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-	blitRegion.dstSubresource.baseArrayLayer = 0;
-	blitRegion.dstSubresource.layerCount = 1;
-	blitRegion.dstSubresource.mipLevel = 0;
-
-	VkBlitImageInfo2 blitInfo{ .sType = VK_STRUCTURE_TYPE_BLIT_IMAGE_INFO_2, .pNext = nullptr };
-	blitInfo.dstImage = destination;
-	blitInfo.dstImageLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-	blitInfo.srcImage = source;
-	blitInfo.srcImageLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
-	blitInfo.filter = VK_FILTER_LINEAR;
-	blitInfo.regionCount = 1;
-	blitInfo.pRegions = &blitRegion;
-
-	vkCmdBlitImage2(cmd, &blitInfo);
-}
-
-bool Atlas::LoadShaderModule(const char* filePath, VkDevice device, VkShaderModule* outShaderModule)
-{
-	// open the file. With cursor at the end
-	std::ifstream file(filePath, std::ios::ate | std::ios::binary);
-
-	if (!file.is_open()) {
-		return false;
-	}
-
-	// find what the size of the file is by looking up the location of the cursor
-	// because the cursor is at the end, it gives the size directly in bytes
-	size_t fileSize = (size_t)file.tellg();
-
-	// spirv expects the buffer to be on uint32, so make sure to reserve a int
-	// vector big enough for the entire file
-	std::vector<uint32_t> buffer(fileSize / sizeof(uint32_t));
-
-	// put file cursor at beginning
-	file.seekg(0);
-
-	// load the entire file into the buffer
-	file.read((char*)buffer.data(), fileSize);
-
-	// now that the file is loaded into the buffer, we can close it
-	file.close();
-
-	// create a new shader module, using the buffer we loaded
-	VkShaderModuleCreateInfo createInfo = {};
-	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-	createInfo.pNext = nullptr;
-
-	// codeSize has to be in bytes, so multply the ints in the buffer by size of
-	// int to know the real size of the buffer
-	createInfo.codeSize = buffer.size() * sizeof(uint32_t);
-	createInfo.pCode = buffer.data();
-
-	// check that the creation goes well.
-	VkShaderModule shaderModule;
-	if (vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
-		return false;
-	}
-	*outShaderModule = shaderModule;
-	return true;
 }
 
 Atlas::VulkanRenderingBackend& Atlas::getLoadedRenderingBacked()

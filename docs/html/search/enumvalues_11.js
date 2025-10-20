@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['warn_0',['warn',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb',1,'Atlas']]],
-  ['warning_1',['Warning',['../d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aaa0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'Atlas']]]
+  ['version_5fmajor_0',['Version_Major',['../d7/d54/namespace_atlas.html#a9a837411b4f29e15b56791c0ed166e2aa6c67501995e6d5d3144128067f1f4282',1,'Atlas']]],
+  ['version_5fminor_1',['Version_Minor',['../d7/d54/namespace_atlas.html#a9a837411b4f29e15b56791c0ed166e2aada7848cca791c2d919d1e9892e25e272',1,'Atlas']]],
+  ['version_5fpatch_2',['Version_Patch',['../d7/d54/namespace_atlas.html#a9a837411b4f29e15b56791c0ed166e2aa02982e4706ed9e943f19ecc18687442e',1,'Atlas']]]
 ];

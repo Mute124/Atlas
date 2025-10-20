@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['registerscripthandle_5fnative_0',['registerscripthandle_native',['../d8/da7/class_c_script_handle.html#abf65d893951791abc272e367eb035c67',1,'CScriptHandle::RegisterScriptHandle_Native'],['../d8/da7/class_c_script_handle.html#abf65d893951791abc272e367eb035c67',1,'CScriptHandle::RegisterScriptHandle_Native']]],
-  ['registerscriptweakref_5fnative_1',['registerscriptweakref_native',['../df/d4b/class_c_script_weak_ref.html#a17cea9256a54fca5f35e21c8745f4718',1,'CScriptWeakRef::RegisterScriptWeakRef_Native'],['../df/d4b/class_c_script_weak_ref.html#a17cea9256a54fca5f35e21c8745f4718',1,'CScriptWeakRef::RegisterScriptWeakRef_Native']]],
-  ['renderer_2',['renderer',['../d1/d4c/class_atlas_1_1_game_object_registry.html#a70538530bc36e033e360880ef311df61',1,'Atlas::GameObjectRegistry::Renderer'],['../d7/dc3/class_atlas_1_1_game_camera.html#a70538530bc36e033e360880ef311df61',1,'Atlas::GameCamera::Renderer']]]
+  ['vulkanrenderingbackend_0',['vulkanrenderingbackend',['../d3/d3c/class_atlas_1_1_physical_device.html#a053dc35de30ec6d9935f757507712fbf',1,'Atlas::PhysicalDevice::VulkanRenderingBackend'],['../dc/d6f/class_atlas_1_1_device.html#a053dc35de30ec6d9935f757507712fbf',1,'Atlas::Device::VulkanRenderingBackend'],['../d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a053dc35de30ec6d9935f757507712fbf',1,'Atlas::VulkanInstanceWrapper::VulkanRenderingBackend'],['../d6/d6d/class_atlas_1_1_vulkan_swapchain.html#a053dc35de30ec6d9935f757507712fbf',1,'Atlas::VulkanSwapchain::VulkanRenderingBackend']]]
 ];

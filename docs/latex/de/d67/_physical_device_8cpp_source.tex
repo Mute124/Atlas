@@ -17,10 +17,42 @@
 \DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <vulkan/vulkan\_core.h>}}
 \DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00014}00014\ }
 \DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{system_2_physical_device_8h}{PhysicalDevice.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00016}00016\ }
-\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00017}\mbox{\hyperlink{class_atlas_1_1_physical_device_a237b306c4da8895983985e03cc2f00fa}{00017}}\ VkPhysicalDevice\&\ \mbox{\hyperlink{class_atlas_1_1_physical_device_a237b306c4da8895983985e03cc2f00fa}{Atlas::PhysicalDevice::getHandle}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00018}00018\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_physical_device_afa00f97cfa559b2629b2cbcea4b6f46e}{mPhysicalDeviceHandle}};\ }
-\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00019}00019\ \}}
-\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}../debugging/Logging.h"{}}}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00018}\mbox{\hyperlink{class_atlas_1_1_physical_device_acd66838259f69b68d3d4661c7d9c90ed}{00018}}\ \mbox{\hyperlink{class_atlas_1_1_physical_device_a6855f164b3fc6d662c642adc7372eafd}{Atlas::PhysicalDevice::PhysicalDevice}}(\mbox{\hyperlink{struct_atlas_1_1_physical_device_selection_constraints}{PhysicalDeviceSelectionConstraints}}\ \textcolor{keyword}{const}\&\ selectionConstraints)}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00019}00019\ \ \ \ \ :\ mSelectionConstraints(selectionConstraints)}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00020}00020\ \{}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00021}00021\ \}}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00023}\mbox{\hyperlink{class_atlas_1_1_physical_device_aa0728be642b64074528dcaffcc01e5bb}{00023}}\ vkb::PhysicalDevice\ \mbox{\hyperlink{class_atlas_1_1_physical_device_aa0728be642b64074528dcaffcc01e5bb}{Atlas::PhysicalDevice::init}}(\mbox{\hyperlink{class_atlas_1_1_vulkan_instance_wrapper}{VulkanInstanceWrapper}}\&\ cVulkanInstanceRef,\ VkSurfaceKHR\ surface)\ \{}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00024}00024\ \ \ \ \ vkb::PhysicalDeviceSelector\ selector\ =\ selectDevice(cVulkanInstanceRef,\ surface);}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00026}00026\ \ \ \ \ vkb::PhysicalDevice\ vkbPhysicalDevice\ =\ selector.select().value();}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{keywordflow}{return}\ vkbPhysicalDevice;}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00029}00029\ \}}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00031}\mbox{\hyperlink{class_atlas_1_1_physical_device_aa70ca7afdc66974dc7cd941c17971087}{00031}}\ vkb::PhysicalDeviceSelector\ \mbox{\hyperlink{class_atlas_1_1_physical_device_aa70ca7afdc66974dc7cd941c17971087}{Atlas::PhysicalDevice::selectDevice}}(\mbox{\hyperlink{class_atlas_1_1_vulkan_instance_wrapper}{VulkanInstanceWrapper}}\&\ cVulkanInstanceRef,\ VkSurfaceKHR\ surface)}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00032}00032\ \{}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00033}00033\ \ \ \ \ vkb::PhysicalDeviceSelector\ selector\{cVulkanInstanceRef.\mbox{\hyperlink{class_atlas_1_1_vulkan_instance_wrapper_a242434e995e734d6041de38b90a373ed}{getVulkanBootstrapInstance}}()\};}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00035}00035\ \ \ \ \ selector.set\_minimum\_version(mSelectionConstraints.minimumAPIVersion.major,\ mSelectionConstraints.minimumAPIVersion.minor);}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00036}00036\ \ \ \ \ selector.set\_required\_features\_13(mSelectionConstraints.physicalDeviceFeatures.vulkan13Features);}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00037}00037\ \ \ \ \ selector.set\_required\_features\_12(mSelectionConstraints.physicalDeviceFeatures.vulkan12Features);}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00038}00038\ \ \ \ \ selector.set\_surface(surface);}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00039}00039\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordflow}{return}\ selector;}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00042}00042\ \}}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00044}\mbox{\hyperlink{class_atlas_1_1_physical_device_a237b306c4da8895983985e03cc2f00fa}{00044}}\ VkPhysicalDevice\&\ \mbox{\hyperlink{class_atlas_1_1_physical_device_a237b306c4da8895983985e03cc2f00fa}{Atlas::PhysicalDevice::getHandle}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00045}00045\ \ \ \ \ \textcolor{keywordflow}{return}\ mPhysicalDeviceHandle;\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00046}00046\ \}}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00048}\mbox{\hyperlink{class_atlas_1_1_physical_device_a7e482e54d4e4de38b25ddd497ba66203}{00048}}\ vkb::PhysicalDevice\&\ \mbox{\hyperlink{class_atlas_1_1_physical_device_a7e482e54d4e4de38b25ddd497ba66203}{Atlas::PhysicalDevice::getVkbDevice}}()}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00049}00049\ \{}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00050}00050\ \ \ \ \ \textcolor{keywordflow}{return}\ *mVkbDevicePtr;}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00051}00051\ \}}
+\DoxyCodeLine{\Hypertarget{_physical_device_8cpp_source_l00052}00052\ }
 
 \end{DoxyCode}

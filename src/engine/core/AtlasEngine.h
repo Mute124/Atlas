@@ -147,4 +147,6 @@ namespace Atlas {
 		const Version& getVersion() const;
 	};
 
+
+
 }

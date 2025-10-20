@@ -127,30 +127,30 @@ Atlas::VulkanInstanceWrapper::operator const VkInstance& () const {
 	return mVulkanInstance; 
 }
 
-Atlas::LogLevel Atlas::TranslateVulkanLogLevel(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity)
+Atlas::ELogLevel Atlas::TranslateVulkanLogLevel(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity)
 {
-	LogLevel logLevel;
+	ELogLevel logLevel;
 
 	switch (messageSeverity)
 	{
 	case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
-		// Use LogLevel::trace here because the trace log level is meant for verbose logging (usually this is logged in a log file anyways).
-		logLevel = LogLevel::trace;
+		// Use ELogLevel::trace here because the trace log level is meant for verbose logging (usually this is logged in a log file anyways).
+		logLevel = ELogLevel::trace;
 		break;
 	case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
-		logLevel = LogLevel::info;
+		logLevel = ELogLevel::info;
 		break;
 	case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
-		logLevel = LogLevel::warn;
+		logLevel = ELogLevel::warn;
 		break;
 	case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
-		logLevel = LogLevel::err;
+		logLevel = ELogLevel::error;
 		break;
 	case VK_DEBUG_UTILS_MESSAGE_SEVERITY_FLAG_BITS_MAX_ENUM_EXT:
-		logLevel = LogLevel::critical;
+		logLevel = ELogLevel::critical;
 		break;
 	default:
-		logLevel = LogLevel::info;
+		logLevel = ELogLevel::info;
 		break;
 	}
 
@@ -159,6 +159,6 @@ Atlas::LogLevel Atlas::TranslateVulkanLogLevel(VkDebugUtilsMessageSeverityFlagBi
 
 VkBool32 Atlas::DefaultVulkanDebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
 {
-	spdlog::log(TranslateVulkanLogLevel(messageSeverity), pCallbackData->pMessage);	
+	spdlog::log(static_cast<spdlog::level::level_enum>(TranslateVulkanLogLevel(messageSeverity)), pCallbackData->pMessage);
 	return VK_FALSE;
 }

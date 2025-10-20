@@ -12,7 +12,7 @@ A generic logger that uses the {\bfseries{Spdlog}} library. According to the spd
 Inheritance diagram for Atlas\+::Spdlog\+Logger\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=3.000000cm]{da/d62/class_atlas_1_1_spdlog_logger}
+\includegraphics[height=2.000000cm]{da/d62/class_atlas_1_1_spdlog_logger}
 \end{center}
 \end{figure}
 \doxysubsubsection*{Classes}
@@ -119,17 +119,19 @@ std\+::string \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe9
 std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}} $>$ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a99e3157484727e52f5f93330026c2f76}{m\+Logging\+Sinks}} = nullptr
 \begin{DoxyCompactList}\small\item\em A unique pointer to the {\itshape \doxylink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Logger\+Sinks}} aggregator struct. \end{DoxyCompactList}\item 
 std\+::unique\+\_\+ptr$<$ spdlog\+::logger $>$ \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960}{m\+Internal\+Spdlog\+Logger\+Ptr}} = nullptr
-\begin{DoxyCompactList}\small\item\em A unique pointer to the {\itshape spdlog} logger instance. All logging is done through this instance, so this must be initialized before any logging can be done. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em A unique pointer to the {\itshape spdlog} logger instance. All logging is done through this instance, so this must be initialized before any logging can be done. \end{DoxyCompactList}\item 
+std\+::mutex \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a5b651dc26d62399ce2a12e29fb11fb7a}{m\+Internal\+Spdlog\+Logger\+Mutex}}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
 static constexpr bool \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}{SHOULD\+\_\+\+TRUNCATE\+\_\+\+FILE\+\_\+\+LOGS}} = false
 \item 
-static constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL}} = Log\+Level\+::warn
+static constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ab5d292a49b9361814de1176afc542a30}{DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL}} = spdlog\+::level\+::level\+\_\+enum\+::info
 \item 
-static constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL}} = Log\+Level\+::trace
+static constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_afbb4b91958a150149852ecfc29d8d00f}{DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL}} = spdlog\+::level\+::level\+\_\+enum\+::trace
 \item 
-static constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL}} = Log\+Level\+::debug
+static constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{class_atlas_1_1_spdlog_logger_ac9aad487180a98904c208cd649980311}{DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL}} = spdlog\+::level\+::level\+\_\+enum\+::debug
 \end{DoxyCompactItemize}
 
 
@@ -164,10 +166,10 @@ v0.\+0.\+1
 \href{https://github.com/gabime/spdlog?tab=readme-ov-file\#logger-with-multi-sinks&mdash;each-with-a-different-format-and-log-level}{\texttt{ https\+://github.\+com/gabime/spdlog?tab=readme-\/ov-\/file\#logger-\/with-\/multi-\/sinks---each-\/with-\/a-\/different-\/format-\/and-\/log-\/level}} for what this class\textquotesingle{} \doxylink{generateheader_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} functionality is based on.
 \end{DoxySeeAlso}
 \begin{DoxyRefDesc}{Todo}
-\item[\mbox{\hyperlink{todo__todo000006}{Todo}}]Consider adding a constructor that doesn\textquotesingle{}t require the message format pattern and log file path to be passed. For the log file path (\doxylink{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46}{m\+Log\+File\+Path}), maybe a function should exist that automatically generates a file path for you? Or maybe a function should exist that automatically generates a log file name for you? And for the message format pattern, the one that is provided in the Spdlog documentation could be used as a default value. \end{DoxyRefDesc}
+\item[\mbox{\hyperlink{todo__todo000008}{Todo}}]Consider adding a constructor that doesn\textquotesingle{}t require the message format pattern and log file path to be passed. For the log file path (\doxylink{class_atlas_1_1_spdlog_logger_a036c493624eda8cb7e17a20d0281eb46}{m\+Log\+File\+Path}), maybe a function should exist that automatically generates a file path for you? Or maybe a function should exist that automatically generates a log file name for you? And for the message format pattern, the one that is provided in the Spdlog documentation could be used as a default value. \end{DoxyRefDesc}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00116}{116}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00112}{112}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
@@ -190,7 +192,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00134}{134}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00130}{130}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a1a11b82c8001b7ab41c814bdb278ca44}\label{class_atlas_1_1_spdlog_logger_a1a11b82c8001b7ab41c814bdb278ca44} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!ConsoleColorSink@{ConsoleColorSink}}
@@ -210,7 +212,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00125}{125}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00121}{121}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
@@ -281,7 +283,7 @@ Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00058}{58}} of file \m
 
 
 
-References \mbox{\hyperlink{_logging_8h_source_l00178}{DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL}}, \mbox{\hyperlink{_logging_8h_source_l00179}{DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL}}, and \mbox{\hyperlink{_logging_8h_source_l00180}{DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL}}.
+References \mbox{\hyperlink{_logging_8h_source_l00174}{DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL}}, \mbox{\hyperlink{_logging_8h_source_l00175}{DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL}}, and \mbox{\hyperlink{_logging_8h_source_l00176}{DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a90310a255176e362f715beac1b122325}\label{class_atlas_1_1_spdlog_logger_a90310a255176e362f715beac1b122325} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!SpdlogLogger@{SpdlogLogger}}
@@ -480,7 +482,7 @@ Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00078}{78}} of file \m
 
 
 
-Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00052}{main()}}.
+Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_af450fb0c93980c5855e5acde4bc2c3a2}\label{class_atlas_1_1_spdlog_logger_af450fb0c93980c5855e5acde4bc2c3a2} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!initConsoleSink@{initConsoleSink}}
@@ -499,7 +501,7 @@ Just because this function has been called, does not mean that the console sink 
 v0.\+0.\+1
 \end{DoxySince}
 \begin{DoxyRefDesc}{Todo}
-\item[\mbox{\hyperlink{todo__todo000008}{Todo}}]Implement some checks to make sure that the console sink is not already initialized and that the pattern is not empty. Doing so should make the initialization of the console sink more robust and less error-\/prone. \end{DoxyRefDesc}
+\item[\mbox{\hyperlink{todo__todo000010}{Todo}}]Implement some checks to make sure that the console sink is not already initialized and that the pattern is not empty. Doing so should make the initialization of the console sink more robust and less error-\/prone. \end{DoxyRefDesc}
 
 
 Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00031}{31}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
@@ -593,11 +595,11 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00491}{491}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00489}{489}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
-References \mbox{\hyperlink{_logging_8h_source_l00211}{m\+Console\+Log\+Level}}.
+References \mbox{\hyperlink{_logging_8h_source_l00207}{m\+Console\+Log\+Level}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a0acbb90a254043a8c7ae3054af10db45}\label{class_atlas_1_1_spdlog_logger_a0acbb90a254043a8c7ae3054af10db45} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!SetDefaultLogger@{SetDefaultLogger}}
@@ -623,7 +625,7 @@ Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00069}{69}} of file \m
 
 
 
-References \mbox{\hyperlink{_logging_8h_source_l00273}{m\+Internal\+Spdlog\+Logger\+Ptr}}.
+References \mbox{\hyperlink{_logging_8h_source_l00269}{m\+Internal\+Spdlog\+Logger\+Ptr}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401}\label{class_atlas_1_1_spdlog_logger_a27e41ca7b965ac2c5bd55b3f85891401} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!setFileLogLevel@{setFileLogLevel}}
@@ -645,11 +647,11 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00502}{502}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00500}{500}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
-References \mbox{\hyperlink{_logging_8h_source_l00220}{m\+File\+Log\+Level}}.
+References \mbox{\hyperlink{_logging_8h_source_l00216}{m\+File\+Log\+Level}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a42515bd7df0a84362b1b1e4905a83da7}\label{class_atlas_1_1_spdlog_logger_a42515bd7df0a84362b1b1e4905a83da7} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!setLevel@{setLevel}}
@@ -685,11 +687,11 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00513}{513}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00511}{511}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
-References \mbox{\hyperlink{_logging_8h_source_l00229}{m\+Logger\+Level}}.
+References \mbox{\hyperlink{_logging_8h_source_l00225}{m\+Logger\+Level}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a048f36f760683536b48fcf3ac5b577ee}\label{class_atlas_1_1_spdlog_logger_a048f36f760683536b48fcf3ac5b577ee} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!setThisAsDefaultLogger@{setThisAsDefaultLogger}}
@@ -713,7 +715,7 @@ Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00097}{97}} of file \m
 
 
 
-Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00052}{main()}}.
+Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a3788989ab87cccf9863093b393ebd60c}\label{class_atlas_1_1_spdlog_logger_a3788989ab87cccf9863093b393ebd60c} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!shouldTruncateMessage@{shouldTruncateMessage}}
@@ -786,11 +788,11 @@ Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00116}{116}} of file \
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!DEFAULT\_CONSOLE\_SINK\_LEVEL@{DEFAULT\_CONSOLE\_SINK\_LEVEL}}
 \index{DEFAULT\_CONSOLE\_SINK\_LEVEL@{DEFAULT\_CONSOLE\_SINK\_LEVEL}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
 \doxysubsubsection{\texorpdfstring{DEFAULT\_CONSOLE\_SINK\_LEVEL}{DEFAULT\_CONSOLE\_SINK\_LEVEL}}
-{\footnotesize\ttfamily constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::\+DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL = Log\+Level\+::warn\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::\+DEFAULT\+\_\+\+CONSOLE\+\_\+\+SINK\+\_\+\+LEVEL = spdlog\+::level\+::level\+\_\+enum\+::info\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00178}{178}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00174}{174}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
@@ -800,11 +802,11 @@ Referenced by \mbox{\hyperlink{_logging_8cpp_source_l00058}{Spdlog\+Logger()}}.
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!DEFAULT\_FILE\_SINK\_LEVEL@{DEFAULT\_FILE\_SINK\_LEVEL}}
 \index{DEFAULT\_FILE\_SINK\_LEVEL@{DEFAULT\_FILE\_SINK\_LEVEL}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
 \doxysubsubsection{\texorpdfstring{DEFAULT\_FILE\_SINK\_LEVEL}{DEFAULT\_FILE\_SINK\_LEVEL}}
-{\footnotesize\ttfamily constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::\+DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL = Log\+Level\+::trace\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::\+DEFAULT\+\_\+\+FILE\+\_\+\+SINK\+\_\+\+LEVEL = spdlog\+::level\+::level\+\_\+enum\+::trace\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00179}{179}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00175}{175}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
@@ -814,11 +816,11 @@ Referenced by \mbox{\hyperlink{_logging_8cpp_source_l00058}{Spdlog\+Logger()}}.
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!DEFAULT\_LOGGER\_LEVEL@{DEFAULT\_LOGGER\_LEVEL}}
 \index{DEFAULT\_LOGGER\_LEVEL@{DEFAULT\_LOGGER\_LEVEL}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
 \doxysubsubsection{\texorpdfstring{DEFAULT\_LOGGER\_LEVEL}{DEFAULT\_LOGGER\_LEVEL}}
-{\footnotesize\ttfamily constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::\+DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL = Log\+Level\+::debug\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} Atlas\+::\+Spdlog\+Logger\+::\+DEFAULT\+\_\+\+LOGGER\+\_\+\+LEVEL = spdlog\+::level\+::level\+\_\+enum\+::debug\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00180}{180}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00176}{176}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
@@ -839,7 +841,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00200}{200}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00196}{196}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a3d1dfcec5b856f4ead855b5bf4b767eb}\label{class_atlas_1_1_spdlog_logger_a3d1dfcec5b856f4ead855b5bf4b767eb} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mbTruncateMessages@{mbTruncateMessages}}
@@ -858,7 +860,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00193}{193}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00189}{189}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a676dc4718412d2285c1f9c5cfafa10af}\label{class_atlas_1_1_spdlog_logger_a676dc4718412d2285c1f9c5cfafa10af} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mbUseFileSink@{mbUseFileSink}}
@@ -868,7 +870,7 @@ Definition at line \mbox{\hyperlink{_logging_8h_source_l00193}{193}} of file \mb
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00202}{202}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00198}{198}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31}\label{class_atlas_1_1_spdlog_logger_a85cbf7fd2fd148e4216759f795532f31} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mConsoleLogLevel@{mConsoleLogLevel}}
@@ -885,11 +887,11 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00211}{211}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00207}{207}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{_logging_8h_source_l00491}{set\+Console\+Log\+Level()}}.
+Referenced by \mbox{\hyperlink{_logging_8h_source_l00489}{set\+Console\+Log\+Level()}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507}\label{class_atlas_1_1_spdlog_logger_a148457d1f703c40ca5c54fb3bd545507} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mFileLogLevel@{mFileLogLevel}}
@@ -906,11 +908,21 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00220}{220}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00216}{216}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{_logging_8h_source_l00502}{set\+File\+Log\+Level()}}.
+Referenced by \mbox{\hyperlink{_logging_8h_source_l00500}{set\+File\+Log\+Level()}}.
+
+\Hypertarget{class_atlas_1_1_spdlog_logger_a5b651dc26d62399ce2a12e29fb11fb7a}\label{class_atlas_1_1_spdlog_logger_a5b651dc26d62399ce2a12e29fb11fb7a} 
+\index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mInternalSpdlogLoggerMutex@{mInternalSpdlogLoggerMutex}}
+\index{mInternalSpdlogLoggerMutex@{mInternalSpdlogLoggerMutex}!Atlas::SpdlogLogger@{Atlas::SpdlogLogger}}
+\doxysubsubsection{\texorpdfstring{mInternalSpdlogLoggerMutex}{mInternalSpdlogLoggerMutex}}
+{\footnotesize\ttfamily std\+::mutex Atlas\+::\+Spdlog\+Logger\+::m\+Internal\+Spdlog\+Logger\+Mutex\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00271}{271}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960}\label{class_atlas_1_1_spdlog_logger_afceccf6f4ddd0dc9e768ecbf980e1960} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mInternalSpdlogLoggerPtr@{mInternalSpdlogLoggerPtr}}
@@ -927,7 +939,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00273}{273}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00269}{269}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
@@ -947,10 +959,10 @@ The path to the log file that will be written to when a message is successfully 
 v0.\+0.\+1
 \end{DoxySince}
 \begin{DoxyRefDesc}{Todo}
-\item[\mbox{\hyperlink{todo__todo000007}{Todo}}]Implement this with a {\itshape std\+::filesystem\+::path} variable. \end{DoxyRefDesc}
+\item[\mbox{\hyperlink{todo__todo000009}{Todo}}]Implement this with a {\itshape std\+::filesystem\+::path} variable. \end{DoxyRefDesc}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00246}{246}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00242}{242}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385}\label{class_atlas_1_1_spdlog_logger_a8ddc06171a19096abe97f0afa25be385} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mLoggerLevel@{mLoggerLevel}}
@@ -967,11 +979,11 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00229}{229}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00225}{225}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{_logging_8h_source_l00513}{set\+Logger\+Level()}}.
+Referenced by \mbox{\hyperlink{_logging_8h_source_l00511}{set\+Logger\+Level()}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_acfa432f18c08ad3c43a1be29b9162c12}\label{class_atlas_1_1_spdlog_logger_acfa432f18c08ad3c43a1be29b9162c12} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mLoggerName@{mLoggerName}}
@@ -988,7 +1000,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00237}{237}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00233}{233}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a99e3157484727e52f5f93330026c2f76}\label{class_atlas_1_1_spdlog_logger_a99e3157484727e52f5f93330026c2f76} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mLoggingSinks@{mLoggingSinks}}
@@ -1005,7 +1017,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00265}{265}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00261}{261}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe90a0bfa09b3330a}\label{class_atlas_1_1_spdlog_logger_ae87f096e71c4b00fe90a0bfa09b3330a} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!mMessageFormatPattern@{mMessageFormatPattern}}
@@ -1025,7 +1037,7 @@ v0.\+0.\+1
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00258}{258}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00254}{254}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65}\label{class_atlas_1_1_spdlog_logger_a357eab77874977e1c2c10772198f2e65} 
 \index{Atlas::SpdlogLogger@{Atlas::SpdlogLogger}!SHOULD\_TRUNCATE\_FILE\_LOGS@{SHOULD\_TRUNCATE\_FILE\_LOGS}}
@@ -1035,7 +1047,7 @@ Definition at line \mbox{\hyperlink{_logging_8h_source_l00258}{258}} of file \mb
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00176}{176}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00172}{172}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 
 

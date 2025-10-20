@@ -1,0 +1,28 @@
+var class_atlas_1_1_haptic_device =
+[
+    [ "HapticDevice", "de/d6d/class_atlas_1_1_haptic_device.html#a691d1806c14dd9b0fde11695c112c429", null ],
+    [ "HapticDevice", "de/d6d/class_atlas_1_1_haptic_device.html#a1c3f272d5f366f94b858648972facfea", null ],
+    [ "~HapticDevice", "de/d6d/class_atlas_1_1_haptic_device.html#a88dda321471e9801bbefaf084772693a", null ],
+    [ "addHapticEffect", "de/d6d/class_atlas_1_1_haptic_device.html#a3de198e8446d65b29ff1b0e706f06af9", null ],
+    [ "canUseEffect", "de/d6d/class_atlas_1_1_haptic_device.html#a77ace15a4004faf5dddf89a3d8f4222c", null ],
+    [ "close", "de/d6d/class_atlas_1_1_haptic_device.html#a6454b9ff18d136fcd4fd4742ac015663", null ],
+    [ "getHapticDeviceID", "de/d6d/class_atlas_1_1_haptic_device.html#aa6e8585a8aaeaa95dede60f14f3f054d", null ],
+    [ "GetHapticDevicesCount", "de/d6d/class_atlas_1_1_haptic_device.html#a3c92a567aa35ab493bf7d744a0b8b215", null ],
+    [ "GetMaxHapticDevices", "de/d6d/class_atlas_1_1_haptic_device.html#afc75850b83ba0ce141e885fdb0bd931d", null ],
+    [ "getSDLHapticPtr", "de/d6d/class_atlas_1_1_haptic_device.html#aadc374eec023ea8d5851a7b5b654b1f3", null ],
+    [ "HasReachedMaxHapticDevices", "de/d6d/class_atlas_1_1_haptic_device.html#abc079165142a8bfd76f5d2eb2b8059bd", null ],
+    [ "isOpen", "de/d6d/class_atlas_1_1_haptic_device.html#aa59d0ae22f62c02d9383802a44d368dd", null ],
+    [ "open", "de/d6d/class_atlas_1_1_haptic_device.html#a38aac1c30bda0fe61fc0e3c2a71f7a7f", null ],
+    [ "openHapticDeviceFromID", "de/d6d/class_atlas_1_1_haptic_device.html#af60c02693831ed59f342c9b95986d7f5", null ],
+    [ "openHapticDeviceFromJoystick", "de/d6d/class_atlas_1_1_haptic_device.html#a544448bcd2497eb206b4aa04df18a228", null ],
+    [ "openHapticDeviceFromMouse", "de/d6d/class_atlas_1_1_haptic_device.html#a0ee1ea5b2549e46c2c3f267b33e75a29", null ],
+    [ "operator const char *", "de/d6d/class_atlas_1_1_haptic_device.html#a9b886c0a35148e9913aee404c4cf317a", null ],
+    [ "operator std::string", "de/d6d/class_atlas_1_1_haptic_device.html#a2b77d91e3eb578a15c055bb60e56b4f3", null ],
+    [ "SetMaxHapticDevices", "de/d6d/class_atlas_1_1_haptic_device.html#a617c093f22c0ab9d8f85274fec9d2e4f", null ],
+    [ "mbIsOpen", "de/d6d/class_atlas_1_1_haptic_device.html#a1ea184f7362447bcd87de938f33d3d7f", null ],
+    [ "mHapticDeviceID", "de/d6d/class_atlas_1_1_haptic_device.html#ab29f8c7f9be2e71fa28dc5f5e9b2e95f", null ],
+    [ "mHapticEffects", "de/d6d/class_atlas_1_1_haptic_device.html#abb188190c2066240641002b48e58ca2e", null ],
+    [ "mSDLHapticPtr", "de/d6d/class_atlas_1_1_haptic_device.html#a167374e62f8073f7dac8b190291c6808", null ],
+    [ "sCurrentHapticDevicesCount", "de/d6d/class_atlas_1_1_haptic_device.html#a38096e0d576155483fecc16739a21037", null ],
+    [ "sMaxHapticDevices", "de/d6d/class_atlas_1_1_haptic_device.html#ab47cb23d1cd4c346e4cad3f567a1789b", null ]
+];

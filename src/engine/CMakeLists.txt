@@ -31,6 +31,8 @@
     "core/AtlasEngine.h"
     "core/AtlasEngine.cpp"
 
+    "core/IFactory.h"
+
     "core/threading/GameThread.h"
     "core/threading/GameThread.cpp"
 
@@ -45,9 +47,25 @@
     "core/threading/ThreadSafeVariable.h"
     "core/threading/ThreadSafeVariable.cpp"
 
+    #-----------------------------------
+    # Haptics
+	#-----------------------------------
+
+    "haptics/HapticDevice.h"
+    "haptics/HapticDevice.cpp"
+
+    "haptics/HapticDeviceEffectManager.h"
+	"haptics/HapticDeviceEffectManager.cpp"
+
+    "haptics/HapticEffect.h"
+	"haptics/HapticEffect.cpp"
+
 	#-----------------------------------
 	# Graphics
 	#-----------------------------------
+
+    "graphics/GraphicsUtils.h"
+    "graphics/GraphicsUtils.cpp"
 
     "graphics/Frame.h"
     "graphics/Frame.cpp"
@@ -75,6 +93,9 @@
 
     "graphics/DescriptorLayoutBuilder.h"
 	"graphics/DescriptorLayoutBuilder.cpp"
+
+    "graphics/PipelineBuilder.h"
+	"graphics/PipelineBuilder.cpp"
 
     "graphics/backend/VKDevice.h"
     "graphics/backend/VKDevice.cpp"
@@ -127,24 +148,27 @@
     "debugging/Debugger.cpp"
 )
 
-if (DEFINED VULKAN_SDK_PATH)
-  set(Vulkan_INCLUDE_DIRS "${VULKAN_SDK_PATH}/Include") # 1.1 Make sure this include path is correct
-  set(Vulkan_LIBRARIES "${VULKAN_SDK_PATH}/Lib") # 1.2 Make sure lib path is correct
-  set(Vulkan_FOUND "True")
+add_library(imgui STATIC)
 
-else()
-  find_package(Vulkan REQUIRED) # throws error if could not find Vulkan
-  message(STATUS "Found Vulkan: $ENV{VULKAN_SDK}")
-endif()
-if (NOT Vulkan_FOUND)
-    message(FATAL_ERROR "Could not find Vulkan library!")
-else()
-    message(STATUS "Using vulkan lib at: ${Vulkan_LIBRARIES}")
-endif()
+target_include_directories(imgui PUBLIC "${PROJECT_SOURCE_DIR}/include/imgui")
+
+target_sources(imgui PUBLIC
+  "${PROJECT_SOURCE_DIR}/include/imgui/imgui.h"
+  "${PROJECT_SOURCE_DIR}/include/imgui/imgui.cpp"
+
+  "${PROJECT_SOURCE_DIR}/include/imgui/imgui_demo.cpp"
+  "${PROJECT_SOURCE_DIR}/include/imgui/imgui_draw.cpp"
+  "${PROJECT_SOURCE_DIR}/include/imgui/imgui_widgets.cpp"
+  "${PROJECT_SOURCE_DIR}/include/imgui/imgui_tables.cpp"
+  "${PROJECT_SOURCE_DIR}/include/imgui/backends/imgui_impl_vulkan.cpp"
+  "${PROJECT_SOURCE_DIR}/include/imgui/backends/imgui_impl_sdl2.cpp"
+)
+# This is requires so IMGUI can use these libraries
+target_link_libraries(imgui PUBLIC Vulkan::Vulkan SDL2::SDL2)
 
 # Please note that this is NOT the final list of dependencies, some are toggled based on options
 set(ATLAS_ENGINE_DEPENDENCIES
-
+    imgui
     eventpp::eventpp
     glfw
     spdlog

@@ -13,8 +13,10 @@ var searchData=
   ['_5fiswindowsversionorgreater_10',['_IsWindowsVersionOrGreater',['../d1/d3f/imgui__impl__win32_8cpp.html#ae74539483f765cd9089c618bdc5d1015',1,'imgui_impl_win32.cpp']]],
   ['_5fiswindowsvistaorgreater_11',['_IsWindowsVistaOrGreater',['../d1/d3f/imgui__impl__win32_8cpp.html#a742997db6a6fe03581d2244ea085618e',1,'imgui_impl_win32.cpp']]],
   ['_5fposy_12',['_posY',['../d5/d57/imgui__impl__osx_8mm.html#aac039e5cfe18e6601b5c82eb5140d7ae',1,'imgui_impl_osx.mm']]],
-  ['_5fwindowresizeeastwestcursor_13',['_windowResizeEastWestCursor',['../d7/dd9/category_n_s_cursor_07_08.html#a508a3aef1a71985a79cc46afc93491c5',1,'NSCursor()']]],
-  ['_5fwindowresizenortheastsouthwestcursor_14',['_windowResizeNorthEastSouthWestCursor',['../d7/dd9/category_n_s_cursor_07_08.html#af74b25dc4fcf9def5c19e2dce9ec6b7f',1,'NSCursor()']]],
-  ['_5fwindowresizenorthsouthcursor_15',['_windowResizeNorthSouthCursor',['../d7/dd9/category_n_s_cursor_07_08.html#a55a0350ab865c1bbbfedaf43c83d9cfa',1,'NSCursor()']]],
-  ['_5fwindowresizenorthwestsoutheastcursor_16',['_windowResizeNorthWestSouthEastCursor',['../d7/dd9/category_n_s_cursor_07_08.html#ad1433d26ff4f7e265718238f1cf50275',1,'NSCursor()']]]
+  ['_5ftrianglepipeline_13',['_trianglePipeline',['../d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#ad2586392f933e50e525f4b5683c263a5',1,'Atlas::VulkanRenderingBackend']]],
+  ['_5ftrianglepipelinelayout_14',['_trianglePipelineLayout',['../d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a58497c1b358b7044859c78da9ecf2f92',1,'Atlas::VulkanRenderingBackend']]],
+  ['_5fwindowresizeeastwestcursor_15',['_windowResizeEastWestCursor',['../d7/dd9/category_n_s_cursor_07_08.html#a508a3aef1a71985a79cc46afc93491c5',1,'NSCursor()']]],
+  ['_5fwindowresizenortheastsouthwestcursor_16',['_windowResizeNorthEastSouthWestCursor',['../d7/dd9/category_n_s_cursor_07_08.html#af74b25dc4fcf9def5c19e2dce9ec6b7f',1,'NSCursor()']]],
+  ['_5fwindowresizenorthsouthcursor_17',['_windowResizeNorthSouthCursor',['../d7/dd9/category_n_s_cursor_07_08.html#a55a0350ab865c1bbbfedaf43c83d9cfa',1,'NSCursor()']]],
+  ['_5fwindowresizenorthwestsoutheastcursor_18',['_windowResizeNorthWestSouthEastCursor',['../d7/dd9/category_n_s_cursor_07_08.html#ad1433d26ff4f7e265718238f1cf50275',1,'NSCursor()']]]
 ];

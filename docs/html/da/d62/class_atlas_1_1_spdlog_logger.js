@@ -36,6 +36,7 @@ var class_atlas_1_1_spdlog_logger =
     [ "mbUseFileSink", "da/d62/class_atlas_1_1_spdlog_logger.html#a676dc4718412d2285c1f9c5cfafa10af", null ],
     [ "mConsoleLogLevel", "da/d62/class_atlas_1_1_spdlog_logger.html#a85cbf7fd2fd148e4216759f795532f31", null ],
     [ "mFileLogLevel", "da/d62/class_atlas_1_1_spdlog_logger.html#a148457d1f703c40ca5c54fb3bd545507", null ],
+    [ "mInternalSpdlogLoggerMutex", "da/d62/class_atlas_1_1_spdlog_logger.html#a5b651dc26d62399ce2a12e29fb11fb7a", null ],
     [ "mInternalSpdlogLoggerPtr", "da/d62/class_atlas_1_1_spdlog_logger.html#afceccf6f4ddd0dc9e768ecbf980e1960", null ],
     [ "mLogFilePath", "da/d62/class_atlas_1_1_spdlog_logger.html#a036c493624eda8cb7e17a20d0281eb46", null ],
     [ "mLoggerLevel", "da/d62/class_atlas_1_1_spdlog_logger.html#a8ddc06171a19096abe97f0afa25be385", null ],

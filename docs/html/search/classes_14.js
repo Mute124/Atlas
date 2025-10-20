@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['window_0',['Window',['../d1/df6/class_atlas_1_1_window.html',1,'Atlas']]],
-  ['windowdecorations_1',['WindowDecorations',['../d4/d08/class_atlas_1_1_window_decorations.html',1,'Atlas']]],
+  ['windowdescription_0',['WindowDescription',['../d7/d4c/struct_atlas_1_1_window_description.html',1,'Atlas']]],
+  ['windowhint_1',['WindowHint',['../df/d5a/struct_atlas_1_1_window_hint.html',1,'Atlas']]],
   ['wrapper_2',['Wrapper',['../dd/d92/structgw_1_1_wrapper.html',1,'gw']]],
   ['wrapper_3c_20r_28_2a_29_28a0_29_3e_3',['Wrapper&lt; R(*)(A0)&gt;',['../d8/ddb/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_08_4.html',1,'gw']]],
   ['wrapper_3c_20r_28_2a_29_28a0_2c_20a1_29_3e_4',['Wrapper&lt; R(*)(A0, A1)&gt;',['../d2/da4/structgw_1_1_wrapper_3_01_r_07_5_08_07_a0_00_01_a1_08_4.html',1,'gw']]],

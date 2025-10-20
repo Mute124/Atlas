@@ -20,7 +20,9 @@ var _common_8h =
     [ "HighResolutionTimepoint", "db/d1f/_common_8h.html#a90dfcd6fcf4fd7ab785efeaf6934e38e", null ],
     [ "EResultCode", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8", [
       [ "Failed", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8ad7c8c85bf79bbe1b7188497c32c3b0ca", null ],
-      [ "Okay", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8a26b63f278101527e06a5547719568bb5", null ]
+      [ "Okay", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8a26b63f278101527e06a5547719568bb5", null ],
+      [ "NotImplemented", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8a997ca4ce119685f40f03a9a8a6c5346e", null ],
+      [ "InvalidArgument", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8a253ca7dd096ee0956cccee4d376cab8b", null ]
     ] ],
     [ "AlignUp", "db/d1f/_common_8h.html#ad505d4d3e017334c04787d7820f06ce7", null ]
 ];

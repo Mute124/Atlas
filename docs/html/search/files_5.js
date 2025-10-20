@@ -10,5 +10,7 @@ var searchData=
   ['generator_2ecpp_7',['generator.cpp',['../d8/d1b/generator_8cpp.html',1,'']]],
   ['generator_2eh_8',['generator.h',['../d8/df4/generator_8h.html',1,'']]],
   ['generator_2ehpp_9',['generator.hpp',['../d6/d3c/generator_8hpp.html',1,'']]],
-  ['guidecorations_2eh_10',['guidecorations.h',['../db/d73/graphics_2gui_2_g_u_i_decorations_8h.html',1,'(Global Namespace)'],['../d2/d33/gui_2_g_u_i_decorations_8h.html',1,'(Global Namespace)']]]
+  ['graphicsutils_2ecpp_10',['GraphicsUtils.cpp',['../d9/d55/_graphics_utils_8cpp.html',1,'']]],
+  ['graphicsutils_2eh_11',['graphicsutils.h',['../db/db3/graphics_2_graphics_utils_8h.html',1,'(Global Namespace)'],['../df/d40/_graphics_utils_8h.html',1,'(Global Namespace)']]],
+  ['guidecorations_2eh_12',['guidecorations.h',['../db/d73/graphics_2gui_2_g_u_i_decorations_8h.html',1,'(Global Namespace)'],['../d2/d33/gui_2_g_u_i_decorations_8h.html',1,'(Global Namespace)']]]
 ];

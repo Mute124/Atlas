@@ -1,13 +1,9 @@
 \doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/debugging/\+Logging.h File Reference}
 \hypertarget{_logging_8h}{}\label{_logging_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/debugging/Logging.h@{C:/Dev/Techstorm-\/v5/src/engine/debugging/Logging.h}}
 {\ttfamily \#include $<$string$>$}\newline
-{\ttfamily \#include $<$cstdint$>$}\newline
 {\ttfamily \#include $<$memory$>$}\newline
 {\ttfamily \#include $<$initializer\+\_\+list$>$}\newline
-{\ttfamily \#include $<$filesystem$>$}\newline
-{\ttfamily \#include "{}../core/\+Common.\+h"{}}\newline
-{\ttfamily \#include "{}../core/\+Memory\+Allocator.\+h"{}}\newline
-{\ttfamily \#include $<$spdlog/spdlog.\+h$>$}\newline
+{\ttfamily \#include $<$mutex$>$}\newline
 {\ttfamily \#include $<$spdlog/logger.\+h$>$}\newline
 {\ttfamily \#include $<$spdlog/sinks/stdout\+\_\+color\+\_\+sinks.\+h$>$}\newline
 {\ttfamily \#include $<$spdlog/sinks/basic\+\_\+file\+\_\+sink.\+h$>$}\newline
@@ -20,9 +16,7 @@ class \mbox{\hyperlink{class_atlas_1_1_i_logger}{Atlas\+::\+ILogger$<$ T\+\_\+\+
 class \mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{Atlas\+::\+Spdlog\+Logger}}
 \begin{DoxyCompactList}\small\item\em A generic logger that uses the {\bfseries{Spdlog}} library. According to the spdlog documentation, you may call the {\itshape spdlog\+::log()} function to log messages {\bfseries{after}} the logger has been initialized because of how spdlog works. For more information, on how to use spdlog, please refer to their documentation. This class was designed to work in the same way as the multi-\/sink logger example provided in the spdlog documentation. Another important thing to note about this class is that, assuming you are not implementing a custom {\ttfamily PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} callback for Vulkan, this class should be initialized prior to the initialization and usage of \doxylink{namespace_atlas}{Atlas}\textquotesingle{} Vulkan API. Otherwise, you will get errors the second Vulkan starts sending messages to the callback. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Atlas\+::\+Spdlog\+Logger\+::\+Logger\+Sinks}}
-\begin{DoxyCompactList}\small\item\em A struct that bundles together the console sink and the file sink as it is required for the spdlog logger during it\textquotesingle{}s initialization. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_logger}{Atlas\+::\+Logger}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em A struct that bundles together the console sink and the file sink as it is required for the spdlog logger during it\textquotesingle{}s initialization. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -53,4 +47,21 @@ enum \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{Atlas\+
 , \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}{Atlas\+::\+Logger}} = 2
 , \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}{Atlas\+::\+Max}} = Logger
  \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a8641f8ef74c8d98a11ce7066c7f664f1}{Atlas\+::\+Log\+Message}} (std\+::string const \&message, \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} log\+Level)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{Atlas\+::\+Info\+Log}} (std\+::string const \&message)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a33205c3fa4075eebe5721d4df7379d19}{Atlas\+::\+Error\+Log}} (std\+::string const \&message)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_ac196b4691079d284d4c38234dfb90c58}{Atlas\+::\+Warn\+Log}} (std\+::string const \&message)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_add9a44935295fd4fd0bab751af209033}{Atlas\+::\+Debug\+Log}} (std\+::string const \&message)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a8dbd12093d09cd018c1ece6d9121bbd7}{Atlas\+::\+Trace\+Log}} (std\+::string const \&message)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a50432e0fabcfb91544d186b7a4ddedd5}{Atlas\+::\+Critical\+Log}} (std\+::string const \&message)
 \end{DoxyCompactItemize}

@@ -19,6 +19,10 @@
 #include <graphics/backend/VKDevice.h>
 #include <debugging/Logging.h>
 #include <io/IOManager.h>
+
+#include <haptics/HapticDevice.h>
+#include <haptics/HapticEffect.h>
+
 //class Person {
 //private:
 //	std::string name;
@@ -82,6 +86,29 @@ int main(int argc, char* argv[]) {
 	//	ia >> p2;  // Deserialize
 	}*/
 
+	FileManager::Options options;
+	options.fileTTL = std::chrono::seconds(10);
+	options.evictionCheckInterval = std::chrono::seconds(5);
+	options.bStartJanitor = true;
+
+	FileManager fileManager(options);
+
+	fileManager.registerDirectory("F:/dev/AtlasIOPrototype/assets");
+
+	std::cout << "Registered files: " << fileManager.getRegisteredCount() << "\n";
+
+	// open a file (lazy load)
+	auto data = fileManager.openFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
+	if (data) {
+		std::cout << "Loaded bytes: " << data.get()->bytes.size() << "\n";
+		// use data->bytes...
+	}
+	else {
+		std::cout << "Failed to load file\n";
+	}
+
+	fileManager.preloadAll();
+
 	SpdlogLogger logger = SpdlogLogger("Atlas", "[multi_sink_example] [%^%l%$] %v", "logs/atlas.log");
 
 	logger.init();
@@ -89,14 +116,14 @@ int main(int argc, char* argv[]) {
 	logger.setThisAsDefaultLogger();
 
 	// Setup the game window (this needs to be done before the rendering device is created)
-	SDLGameWindow* gameWindow = new SDLGameWindow;
+	std::unique_ptr<SDLGameWindow> gameWindow = std::make_unique<SDLGameWindow>();
 
 	gameWindow->setWindowTitle("Atlas");
 	gameWindow->setWindowSize(800, 600);
 	gameWindow->setWindowPosition(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	gameWindow->setTargetFPS(60);
 
-	gameWindow->init(SDL_INIT_VIDEO);
+	gameWindow->init(SDL_INIT_VIDEO | SDL_INIT_HAPTIC);
 	gameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
 
 	RenderingBackend::APIVersion renderingAPIVersion;
@@ -109,17 +136,31 @@ int main(int argc, char* argv[]) {
 	renderingDevice->setAPIVersion(renderingAPIVersion);
 	renderingDevice->setApplicationName("Example Application");
 
-	renderingDevice->init(gameWindow);
+	renderingDevice->init(gameWindow.operator->());
+
+	//std::shared_ptr<HapticDevice> hapticDevice = std::make_shared<HapticDevice>(0);
+	//hapticDevice->open();
+
+	//MonoRumbleHapticEffect effect = MonoRumbleHapticEffect();
+	//effect.upload(hapticDevice);
+	//effect.play(hapticDevice);
 
 	while (!gameWindow->shouldClose()) {
 		gameWindow->update();
 
+		renderingDevice->beginDrawingMode();
 		renderingDevice->draw();
+		renderingDevice->endDrawingMode();
 	}
 
-	renderingDevice->shutdown();
+	// explicit unload attempt
+	bool unloaded = fileManager.unloadFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
+	std::cout << "Explicit unload result: " << unloaded << "\n";
 
+	renderingDevice->shutdown();
 	gameWindow->cleanup();
+	//effect.destroy(hapticDevice);
+	//hapticDevice->close();
 
 	return 0;
 }

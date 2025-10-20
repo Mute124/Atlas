@@ -28,9 +28,10 @@
 	#include <SDL2/SDL_events.h>
 #endif
 
+#include <imgui/backends/imgui_impl_sdl2.h>
+#include <imgui/backends/imgui_impl_vulkan.h>
 
-
-
+#include "../backend/VKDevice.h"
 //Atlas::NullGameWindow::operator WindowDescription() const {
 //	return getWindowDescription();
 //}
@@ -157,7 +158,12 @@ void Atlas::SDLGameWindow::update()
 				std::cout << "Window restored" << std::endl;
 			}
 		}
+
+		//send SDL event to imgui for handling
+		ImGui_ImplSDL2_ProcessEvent(&event);
 	}
+
+
 }
 
 void Atlas::SDLGameWindow::open(const uint32_t cOpenFlags)

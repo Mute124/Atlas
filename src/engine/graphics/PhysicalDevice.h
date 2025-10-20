@@ -24,26 +24,48 @@ namespace Atlas {
 		VkPhysicalDeviceVulkan12Features vulkan12Features;
 	};
 
+	struct PhysicalDeviceSelectionConstraints {
+		PhysicalDeviceFeaturesAggregate physicalDeviceFeatures;
+		Version minimumAPIVersion;
+		Version preferredAPIVersion;
+	};
+
+
 	class PhysicalDevice {
 	private:
 		VkPhysicalDevice mPhysicalDeviceHandle = VK_NULL_HANDLE;
+
+		VkPhysicalDeviceProperties mDeviceProperties;
+		VkPhysicalDeviceFeatures mDeviceFeatures;
+		VkPhysicalDeviceMemoryProperties mDeviceMemoryProperties;
+
+		std::unique_ptr<vkb::PhysicalDeviceSelector> mVkbDeviceSelectorPtr = nullptr;
 		std::unique_ptr<vkb::PhysicalDevice> mVkbDevicePtr = nullptr;
+
+		/*PhysicalDeviceFeaturesAggregate mPhysicalDeviceFeaturesAggregate;
+
+		Version mMinimumApiVersion;
+		Version mPreferredApiVersion;*/
+
+		PhysicalDeviceSelectionConstraints mSelectionConstraints;
 
 		friend class VulkanRenderingBackend;
 
+		void populateDeviceProperties();
+
 	public:
 
-		uint32_t init(VulkanInstanceWrapper& cVulkanInstanceRef, PhysicalDeviceFeaturesAggregate const& cPhysicalDeviceFeatures) {
-			vkb::PhysicalDeviceSelector selector{ cVulkanInstanceRef.getVulkanBootstrapInstance() };
+		explicit PhysicalDevice(PhysicalDeviceSelectionConstraints const& selectionConstraints);
 
-		}
+		PhysicalDevice() = default;
+
+		vkb::PhysicalDevice init(VulkanInstanceWrapper& cVulkanInstanceRef, VkSurfaceKHR surface);
+
+		vkb::PhysicalDeviceSelector selectDevice(VulkanInstanceWrapper& cVulkanInstanceRef, VkSurfaceKHR surface);
 
 		VkPhysicalDevice& getHandle();
 
-		vkb::PhysicalDevice& getVkbDevice()
-		{
-			return *mVkbDevicePtr;
-		}
+		vkb::PhysicalDevice& getVkbDevice();
 	};
 
 	class Device {

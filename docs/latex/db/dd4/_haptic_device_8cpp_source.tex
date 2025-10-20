@@ -1,0 +1,219 @@
+\doxysection{Haptic\+Device.\+cpp}
+\hypertarget{_haptic_device_8cpp_source}{}\label{_haptic_device_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/haptics/HapticDevice.cpp@{C:/Dev/Techstorm-\/v5/src/engine/haptics/HapticDevice.cpp}}
+\mbox{\hyperlink{_haptic_device_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ HapticDevice.cpp}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00003}00003\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00004}00004\ \textcolor{comment}{\ *\ @brief\ .}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00005}00005\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00006}00006\ \textcolor{comment}{\ *\ @date\ October\ 2025}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00007}00007\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00008}00008\ \textcolor{comment}{\ *\ @since\ v}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <format>}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <SDL2/SDL\_haptic.h>}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <SDL2/SDL\_joystick.h>}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <SDL2/SDL\_error.h>}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_haptic_device_8h}{HapticDevice.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ "{}../debugging/Logging.h"{}}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00026}00026\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00027}00027\ \textcolor{comment}{*\ HapticDeviceInitInfo\ struct\ definitions}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00028}00028\ \textcolor{comment}{**************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00030}\mbox{\hyperlink{struct_atlas_1_1_haptic_device_init_info_a790cf4d8534f2ac99f5909a2588a42b6}{00030}}\ \mbox{\hyperlink{struct_atlas_1_1_haptic_device_init_info_a4d10a1c34122e235e2ca1a9d13f619e2}{Atlas::HapticDeviceInitInfo::HapticDeviceInitInfo}}(\mbox{\hyperlink{namespace_atlas_ac99158bf8c6e6d73264e561403c365df}{HapticDeviceID}}\ hapticDeviceID)\ :\ initMethod(\mbox{\hyperlink{namespace_atlas_a53d8b8fa45b89eb98b344707348a7611}{EHapticDeviceInitMethod}}::\mbox{\hyperlink{namespace_atlas_a53d8b8fa45b89eb98b344707348a7611a490aa6e856ccf208a054389e47ce0d06}{Id}}),\ initInfo(hapticDeviceID)\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00032}00032\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00034}\mbox{\hyperlink{struct_atlas_1_1_haptic_device_init_info_ac34cecfa19578bc5889a43cd0ffdf60b}{00034}}\ \mbox{\hyperlink{struct_atlas_1_1_haptic_device_init_info_a4d10a1c34122e235e2ca1a9d13f619e2}{Atlas::HapticDeviceInitInfo::HapticDeviceInitInfo}}(SDL\_Joystick*\ joystick)\ :\ initMethod(\mbox{\hyperlink{namespace_atlas_a53d8b8fa45b89eb98b344707348a7611}{EHapticDeviceInitMethod}}::\mbox{\hyperlink{namespace_atlas_a53d8b8fa45b89eb98b344707348a7611a1162b85b7b993e2edf7da29dd8abf7e2}{Joystick}}),\ initInfo(joystick)\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00035}00035\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00036}00036\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00038}00038\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00039}00039\ \textcolor{comment}{*\ HapticDevice\ class\ definitions}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00040}00040\ \textcolor{comment}{*\ **************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00042}\mbox{\hyperlink{class_atlas_1_1_haptic_device_af60c02693831ed59f342c9b95986d7f5}{00042}}\ std::shared\_ptr<SDL\_Haptic>\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_af60c02693831ed59f342c9b95986d7f5}{Atlas::HapticDevice::openHapticDeviceFromID}}(\mbox{\hyperlink{namespace_atlas_ac99158bf8c6e6d73264e561403c365df}{HapticDeviceID}}\ hapticDeviceID)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00043}00043\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00044}00044\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};\ \textcolor{comment}{//std::make\_shared<SDL\_Haptic>(SDL\_HapticOpen(hapticDeviceID));}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00045}00045\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00047}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a544448bcd2497eb206b4aa04df18a228}{00047}}\ std::shared\_ptr<SDL\_Haptic>\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_a544448bcd2497eb206b4aa04df18a228}{Atlas::HapticDevice::openHapticDeviceFromJoystick}}(SDL\_Joystick*\ joystick)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00048}00048\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};\textcolor{comment}{//std::make\_shared<SDL\_Haptic>(SDL\_HapticOpenFromJoystick(joystick));}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00050}00050\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00052}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a0ee1ea5b2549e46c2c3f267b33e75a29}{00052}}\ std::shared\_ptr<SDL\_Haptic>\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_a0ee1ea5b2549e46c2c3f267b33e75a29}{Atlas::HapticDevice::openHapticDeviceFromMouse}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00053}00053\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00054}00054\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};\textcolor{comment}{//std::make\_shared<SDL\_Haptic>(SDL\_HapticOpenFromMouse());}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00055}00055\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00057}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a691d1806c14dd9b0fde11695c112c429}{00057}}\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_a1c3f272d5f366f94b858648972facfea}{Atlas::HapticDevice::HapticDevice}}(\mbox{\hyperlink{namespace_atlas_ac99158bf8c6e6d73264e561403c365df}{HapticDeviceID}}\ hapticDeviceID)\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00058}00058\ \ \ \ \ :\ mHapticDeviceID(hapticDeviceID)}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00059}00059\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00060}00060\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00062}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a88dda321471e9801bbefaf084772693a}{00062}}\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_a88dda321471e9801bbefaf084772693a}{Atlas::HapticDevice::\string~HapticDevice}}()}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00063}00063\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00064}00064\ \ \ \ \ close();}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00065}00065\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00067}\mbox{\hyperlink{class_atlas_1_1_haptic_device_afc75850b83ba0ce141e885fdb0bd931d}{00067}}\ \textcolor{keyword}{inline}\ uint8\_t\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_afc75850b83ba0ce141e885fdb0bd931d}{Atlas::HapticDevice::GetMaxHapticDevices}}()}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00068}00068\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{return}\ sMaxHapticDevices;}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00070}00070\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00072}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a617c093f22c0ab9d8f85274fec9d2e4f}{00072}}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_a617c093f22c0ab9d8f85274fec9d2e4f}{Atlas::HapticDevice::SetMaxHapticDevices}}(uint8\_t\ maxHapticDevices)}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00073}00073\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00074}00074\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00076}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a3c92a567aa35ab493bf7d744a0b8b215}{00076}}\ \textcolor{keyword}{inline}\ uint8\_t\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_a3c92a567aa35ab493bf7d744a0b8b215}{Atlas::HapticDevice::GetHapticDevicesCount}}()}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00077}00077\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{keywordflow}{return}\ sCurrentHapticDevicesCount;}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00079}00079\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00081}\mbox{\hyperlink{class_atlas_1_1_haptic_device_abc079165142a8bfd76f5d2eb2b8059bd}{00081}}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_abc079165142a8bfd76f5d2eb2b8059bd}{Atlas::HapticDevice::HasReachedMaxHapticDevices}}()}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00082}00082\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00083}00083\ \ \ \ \ \textcolor{keywordflow}{return}\ GetMaxHapticDevices()\ !=\ -\/1\ \&\&\ GetHapticDevicesCount()\ >=\ GetMaxHapticDevices();}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00084}00084\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00086}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a38aac1c30bda0fe61fc0e3c2a71f7a7f}{00086}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_a38aac1c30bda0fe61fc0e3c2a71f7a7f}{Atlas::HapticDevice::open}}()}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00087}00087\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00088}00088\ \ \ \ \ \textcolor{comment}{//\ Make\ sure\ that\ the\ haptic\ device\ is\ not\ already\ open\ because\ that\ can\ cause\ issues.}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00089}00089\ \ \ \ \ \textcolor{keywordflow}{if}\ (mbIsOpen\ ==\ \textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ cAlreadyOpenMsg\ =\ std::format(}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Haptic\ device\ with\ the\ name\ of\ \{\}\ (id:\ \{\})\ is\ already\ open.\ This\ haptic\ device\ will\ be\ closed\ and\ opened\ again."{}},}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_HapticName(getHapticDeviceID()),}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ getHapticDeviceID()}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//"{}Trying\ to\ open\ a\ haptic\ device\ that\ is\ already\ open!"{}}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ac196b4691079d284d4c38234dfb90c58}{WarnLog}}(cAlreadyOpenMsg);}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ close();}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00098}00098\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{comment}{//\ TODO:\ This\ may\ cause\ an\ issue\ because\ this\ may\ or\ may\ not\ open\ a\ haptic\ device\ because\ of\ the\ comparator\ used\ in\ the\ if\ statement.}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00101}00101\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (HasReachedMaxHapticDevices())\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ cMaxDevicesReachedMsg\ =\ std::format(}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Max\ haptic\ devices\ reached.\ The\ haptic\ device\ with\ the\ name\ of\ \{\}\ (id:\ \{\})\ will\ not\ be\ opened."{}},}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_HapticName(getHapticDeviceID()),}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ getHapticDeviceID()}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{comment}{//"{}Max\ haptic\ devices\ reached.\ This\ haptic\ device\ will\ not\ be\ opened."{}}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_ac196b4691079d284d4c38234dfb90c58}{WarnLog}}(cMaxDevicesReachedMsg);}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{comment}{//throw\ std::runtime\_error("{}Max\ haptic\ devices\ reached."{});}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00111}00111\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00112}00112\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00113}00113\ \ \ \ \ mSDLHapticPtr\ =\ std::shared\_ptr<SDL\_Haptic>(SDL\_HapticOpen(getHapticDeviceID()));}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00114}00114\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00115}00115\ \ \ \ \ \textcolor{keywordflow}{if}\ (!SDL\_HapticOpened(getHapticDeviceID()))\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ cSdlErrorMsg\ =\ SDL\_GetError();}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ cFailureMsg\ =\ std::format(}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ open\ haptic\ device\ with\ the\ name\ of\ \{\}\ (id:\ \{\})\ because\ of\ the\ following\ error:\ \{\}."{}},}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_HapticName(getHapticDeviceID()),}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ getHapticDeviceID(),}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ cSdlErrorMsg}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a33205c3fa4075eebe5721d4df7379d19}{ErrorLog}}(cFailureMsg);}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \textcolor{comment}{//throw\ std::runtime\_error("{}Failed\ to\ open\ haptic\ device."{});}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00128}00128\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00130}00130\ \ \ \ \ \textcolor{comment}{/*if\ (mSDLHapticPtr\ ==\ nullptr)\ \{}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00131}00131\ \textcolor{comment}{\ \ \ \ \ \ \ \ throw\ std::runtime\_error("{}Failed\ to\ open\ haptic\ device."{});}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00132}00132\ \textcolor{comment}{\ \ \ \ \}*/}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00134}00134\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ cSuccessfulOpenMsg\ =\ std::format(}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Successfully\ opened\ haptic\ device\ with\ the\ name\ of\ \{\}\ (id:\ \{\})."{}},}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ SDL\_HapticName(getHapticDeviceID()),}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ getHapticDeviceID()}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00138}00138\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00140}00140\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a8dbd12093d09cd018c1ece6d9121bbd7}{TraceLog}}(cSuccessfulOpenMsg);}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00142}00142\ \ \ \ \ mbIsOpen\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00143}00143\ \ \ \ \ sCurrentHapticDevicesCount++;}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00147}00147\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00149}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a6454b9ff18d136fcd4fd4742ac015663}{00149}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_a6454b9ff18d136fcd4fd4742ac015663}{Atlas::HapticDevice::close}}()}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00150}00150\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00151}00151\ \ \ \ \ \textcolor{keywordflow}{if}\ (mbIsOpen\ ==\ \textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ cCloseAttemptTraceMsg\ =\ std::format(}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Closing\ haptic\ device\ with\ the\ name\ of\ \{\}\ (id:\ \{\})."{}},}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_HapticName(getHapticDeviceID()),}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ getHapticDeviceID()}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a8dbd12093d09cd018c1ece6d9121bbd7}{TraceLog}}(cCloseAttemptTraceMsg);}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ SDL\_HapticClose(mSDLHapticPtr.get());}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ mbIsOpen\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ sCurrentHapticDevicesCount-\/-\/;}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00163}00163\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00164}00164\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00166}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a3de198e8446d65b29ff1b0e706f06af9}{00166}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_a3de198e8446d65b29ff1b0e706f06af9}{Atlas::HapticDevice::addHapticEffect}}(std::unique\_ptr<IHapticEffect>\ hapticEffect)}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00167}00167\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00168}00168\ \ \ \ \ \textcolor{comment}{//HapticEffectUploadResult\ uploadResult\ =\ hapticEffect-\/>upload(shared\_from\_this());}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00169}00169\ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00170}00170\ \ \ \ \ \textcolor{comment}{//int\ emplaceLocation\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00172}00172\ \ \ \ \ \textcolor{comment}{//if\ (uploadResult.bIgnoreBadEffectID}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00173}00173\ \ \ \ \ \textcolor{comment}{//\ \ \&\&\ uploadResult.effectID\ ==\ ATLAS\_BAD\_HAPTIC\_EFFECT\_ID}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00174}00174\ \ \ \ \ \textcolor{comment}{//\ \ \&\&\ uploadResult.bSuccess)\ }}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00175}00175\ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00176}00176\ \ \ \ \ \textcolor{comment}{//\ \ //\ This\ means\ that\ we\ are\ dealing\ with\ a\ MonoRumbleHapticEffect\ or\ something\ that\ does\ not\ run\ in\ the\ }}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00177}00177\ \ \ \ \ \textcolor{comment}{//\ \ //\ same\ way\ as\ other\ haptic\ effects.}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00178}00178\ \ \ \ \ \textcolor{comment}{//\ \ emplaceLocation\ =\ mHapticEffects.size();}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00179}00179\ \ \ \ \ \textcolor{comment}{//\ \ mHapticEffects.emplace(emplaceLocation,\ std::move(hapticEffect));}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00180}00180\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00181}00181\ \ \ \ \ \textcolor{comment}{//else\ if\ (uploadResult.bSuccess)\ \{}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00182}00182\ \ \ \ \ \textcolor{comment}{//\ \ mHapticEffects}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00183}00183\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00184}00184\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00185}00185\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00187}\mbox{\hyperlink{class_atlas_1_1_haptic_device_aa59d0ae22f62c02d9383802a44d368dd}{00187}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_aa59d0ae22f62c02d9383802a44d368dd}{Atlas::HapticDevice::isOpen}}()\textcolor{keyword}{\ const\ }\{\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00188}00188\ \ \ \ \ \textcolor{keywordflow}{return}\ mbIsOpen;}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00189}00189\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00191}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a77ace15a4004faf5dddf89a3d8f4222c}{00191}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_a77ace15a4004faf5dddf89a3d8f4222c}{Atlas::HapticDevice::canUseEffect}}(std::unique\_ptr<IHapticEffect>\ hapticEffect)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00192}00192\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00193}00193\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00194}00194\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00196}\mbox{\hyperlink{class_atlas_1_1_haptic_device_aadc374eec023ea8d5851a7b5b654b1f3}{00196}}\ std::shared\_ptr<SDL\_Haptic>\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_aadc374eec023ea8d5851a7b5b654b1f3}{Atlas::HapticDevice::getSDLHapticPtr}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00197}00197\ \ \ \ \ \textcolor{keywordflow}{return}\ mSDLHapticPtr;}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00198}00198\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00200}\mbox{\hyperlink{class_atlas_1_1_haptic_device_aa6e8585a8aaeaa95dede60f14f3f054d}{00200}}\ \mbox{\hyperlink{namespace_atlas_ac99158bf8c6e6d73264e561403c365df}{Atlas::HapticDeviceID}}\ \mbox{\hyperlink{class_atlas_1_1_haptic_device_aa6e8585a8aaeaa95dede60f14f3f054d}{Atlas::HapticDevice::getHapticDeviceID}}()\textcolor{keyword}{\ const\ }\{\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00201}00201\ \ \ \ \ \textcolor{keywordflow}{return}\ mHapticDeviceID;}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00202}00202\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00204}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a2b77d91e3eb578a15c055bb60e56b4f3}{00204}}\ Atlas::HapticDevice::operator\ std::string()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00205}00205\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00206}00206\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}std::string\textcolor{keyword}{>}(\textcolor{keyword}{operator}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *());}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00207}00207\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00209}\mbox{\hyperlink{class_atlas_1_1_haptic_device_a9b886c0a35148e9913aee404c4cf317a}{00209}}\ Atlas::HapticDevice::operator\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ ()\ \textcolor{keyword}{const}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00210}00210\ \{}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00211}00211\ \ \ \ \ \textcolor{keywordflow}{return}\ SDL\_HapticName(getHapticDeviceID());}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00212}00212\ \}}
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{_haptic_device_8cpp_source_l00214}00214\ }
+
+\end{DoxyCode}

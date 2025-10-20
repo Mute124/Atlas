@@ -14,4 +14,5 @@
 namespace Atlas {
 	using PathLocation = std::filesystem::path;
 
+	bool DoesPathExist(PathLocation const& cPath);
 }

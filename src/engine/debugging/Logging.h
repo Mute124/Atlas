@@ -1,7 +1,11 @@
 /**************************************************************************************************
  * @file Logging.h
  * 
- * @brief This file provides a standard logging system that Atlas uses.
+ * @brief This file provides a standard logging system that Atlas uses. This file also has some configurable
+ * preprocessor defines that can customize the behavior of the logging system. Below is the list of these
+ * preprocessor defines:
+ * - @c ATLAS_NO_SPDLOG | If defined, Atlas will not use the spdlog logger (which is the default logger).
+ * 
  * 
  * @note For most cases, you should use @ref Atlas::SpdlogLogger as your logger. 
  * 
@@ -12,55 +16,121 @@
 #pragma once
 
 #include <string>
-#include <cstdint>
 #include <memory>
 #include <initializer_list>
-#include <filesystem>
+#include <mutex>
+#include <source_location>
+#include <queue>
+
+#ifndef ATLAS_NO_SPDLOG
+	#include <spdlog/logger.h>
+	#include <spdlog/sinks/stdout_color_sinks.h>
+	#include <spdlog/sinks/basic_file_sink.h>
+	#include <spdlog/common.h>
+
+
+	// These defines abstract away the spdlog level enums so that the user is not forced
+	// to use the spdlog level enums.
+	#define ATLAS_LEVEL_TRACE SPDLOG_LEVEL_TRACE
+	#define ATLAS_LEVEL_DEBUG SPDLOG_LEVEL_DEBUG
+	#define ATLAS_LEVEL_INFO SPDLOG_LEVEL_INFO
+	#define ATLAS_LEVEL_WARN SPDLOG_LEVEL_WARN
+	#define ATLAS_LEVEL_ERROR SPDLOG_LEVEL_ERROR
+	#define ATLAS_LEVEL_CRITICAL SPDLOG_LEVEL_CRITICAL
+	#define ATLAS_LEVEL_OFF SPDLOG_LEVEL_OFF
+	
+	// Make sure that ATLAS_USE_SPDLOG is defined.
+	#ifndef ATLAS_USE_SPDLOG
+		#define ATLAS_USE_SPDLOG
+	#endif
+
+#endif
 
 #include "../core/Common.h"
-#include "../core/MemoryAllocator.h"
-
-#include <spdlog/spdlog.h>
-#include <spdlog/logger.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/common.h>
 
 namespace Atlas {
 
-	using LogLevel = spdlog::level::level_enum;
+#ifdef ATLAS_USE_SPDLOG
+	using SpdlogLogLevel = spdlog::level::level_enum;
+#endif
 
 	enum class ELogLevel : int {
-		trace = SPDLOG_LEVEL_TRACE,
-		debug = SPDLOG_LEVEL_DEBUG,
-		info = SPDLOG_LEVEL_INFO,
-		warn = SPDLOG_LEVEL_WARN,
-		error = SPDLOG_LEVEL_ERROR,
-		critical = SPDLOG_LEVEL_CRITICAL,
-		off = SPDLOG_LEVEL_OFF,
+		trace = ATLAS_LEVEL_TRACE,
+		debug = ATLAS_LEVEL_DEBUG,
+		info = ATLAS_LEVEL_INFO,
+		warn = ATLAS_LEVEL_WARN,
+		error = ATLAS_LEVEL_ERROR,
+		critical = ATLAS_LEVEL_CRITICAL,
+		off = ATLAS_LEVEL_OFF,
 		nLevels
 	};
 
-	enum ESpdlogInitListIndex {
+#ifdef ATLAS_USE_SPDLOG
+	enum class ESpdlogInitListIndex : int {
 		ConsoleLogger = 0,
 		FileLogger = 1,
 		Logger = 2,
 		Max = Logger
 	};
+
+	enum class ESpdlogSinkType : int {
+		Console = 0,
+		File = 1
+	};
+
+#endif
 	
+	struct QueuedLogMessage {
+		std::string message;
+		ELogLevel logLevel;
+	};
+
 	/**
 	 * @brief Interface for logging that is responsible for handling any logging from the engine, game, or mods.
 	 *
 	 * @since v0.0.1
 	 */
-	template<typename T_LOG_LEVELS_TYPE>
-	class ILogger {
-	private:
+	class ALogger {
+	public:
+		class QueuedMessagesContainer {
+		private:
+			std::queue<QueuedLogMessage> messages;
+			std::mutex messagesMutex;
+		public:
+
+
+			QueuedMessagesContainer() = default;
+
+			void push(QueuedLogMessage const& message);
+
+			void clear();
+
+			QueuedLogMessage pop();
+
+			bool empty() const;
+		};
+	protected:
 		//static inline AbstractMemoryAllocator* sMemoryAllocator = nullptr;
 
+		static inline std::shared_ptr<ALogger> sLogger = nullptr;
+
+		QueuedMessagesContainer mQueuedLogMessages;
+		std::mutex mQueuedLogMessagesMutex;
+
+		std::mutex mMutex;
+
+		bool mbIsInitialized = false;
 	public:
 		
-		virtual ~ILogger() = default;
+		virtual ~ALogger() = default;
+
+		static std::string GenerateLogFileName();
+
+		static void SetDefaultLogger(ALogger* logger);
+
+		static std::shared_ptr<ALogger> GetDefaultLogger();
+
+		static void Log(std::string const& message, ELogLevel logLevel);
 
 		virtual void init() = 0;
 
@@ -68,9 +138,17 @@ namespace Atlas {
 
 		virtual void display(std::string const& message) = 0;
 
-		virtual void log(std::string const& message, T_LOG_LEVELS_TYPE logLevel) = 0;
+		virtual void queueMessage(std::string const& message, ELogLevel logLevel);
+
+		virtual void log(std::string const& message, ELogLevel logLevel) = 0;
 	
-		virtual void setLevel(T_LOG_LEVELS_TYPE logLevel) = 0;
+		virtual void setLevel(ELogLevel logLevel) = 0;
+		
+		void processQueuedMessages();
+
+		bool isInitialized() const;
+
+		explicit(false) operator bool() const;
 	};
 
 	/**
@@ -103,7 +181,7 @@ namespace Atlas {
 	 *
 	 * @since v0.0.1
 	 * 
-	 * @sa @ref ILogger The interface that this class publicly implements.
+	 * @sa @ref ALogger The interface that this class publicly implements.
 	 * 
 	 * @sa https://github.com/gabime/spdlog?tab=readme-ov-file#logger-with-multi-sinks---each-with-a-different-format-and-log-level
 	 * for what this class' main functionality is based on.
@@ -113,7 +191,7 @@ namespace Atlas {
 	 * for you? Or maybe a function should exist that automatically generates a log file name for you? And for the message
 	 * format pattern, the one that is provided in the Spdlog documentation could be used as a default value.
 	 */
-	class SpdlogLogger : public ILogger<LogLevel> {
+	class SpdlogLogger : public ALogger {
 	public:
 		/**
 		 * @brief The standard spdlog console color sink.
@@ -171,13 +249,15 @@ namespace Atlas {
 			LoggerSinks() = default;
 		};
 
+
+
 	private:
-		
+
 		constexpr static bool SHOULD_TRUNCATE_FILE_LOGS = false;
 
-		constexpr static LogLevel DEFAULT_CONSOLE_SINK_LEVEL = LogLevel::warn;
-		constexpr static LogLevel DEFAULT_FILE_SINK_LEVEL = LogLevel::trace;
-		constexpr static LogLevel DEFAULT_LOGGER_LEVEL = LogLevel::debug;
+		constexpr static ELogLevel DEFAULT_CONSOLE_SINK_LEVEL = ELogLevel::info;
+		constexpr static ELogLevel DEFAULT_FILE_SINK_LEVEL = ELogLevel::trace;
+		constexpr static ELogLevel DEFAULT_LOGGER_LEVEL = ELogLevel::debug;
 
 
 		/**
@@ -208,7 +288,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		LogLevel mConsoleLogLevel = DEFAULT_CONSOLE_SINK_LEVEL;
+		ELogLevel mConsoleLogLevel = DEFAULT_CONSOLE_SINK_LEVEL;
 
 		/**
 		 * @brief The minimum log level for a message to be logged (written) to the log file. By default, this is set to @a trace. 
@@ -217,7 +297,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		LogLevel mFileLogLevel = DEFAULT_FILE_SINK_LEVEL;
+		ELogLevel mFileLogLevel = DEFAULT_FILE_SINK_LEVEL;
 
 		/**
 		 * @brief The minimum log level for a message to be logged. By default, this is set to @a debug. You can change this
@@ -226,7 +306,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		LogLevel mLoggerLevel = DEFAULT_LOGGER_LEVEL;
+		ELogLevel mLoggerLevel = DEFAULT_LOGGER_LEVEL;
 
 		/**
 		 * @brief The name of the logger that will be passed to the spdlog logger library when it is initialized. There is not
@@ -272,13 +352,15 @@ namespace Atlas {
 		 */
 		std::unique_ptr<spdlog::logger> mInternalSpdlogLoggerPtr = nullptr;
 
+		std::mutex mInternalSpdlogLoggerMutex;
+
 		// This may or may not be used in the future.
-		static LogLevel ExtractLogLevel(std::initializer_list<LogLevel> logLevels, int index);
+		static ELogLevel ExtractLogLevel(std::initializer_list<ELogLevel> logLevels, int index);
 
 
 		// These two functions do nothing right now, hence they are private and empty.
 		void display(std::string const& message) override;
-		void setLevel(LogLevel logLevel) override;
+		void setLevel(ELogLevel logLevel) override;
 
 		/**
 		 * @brief Initializes the console sink in the @c LoggerSinks struct that will be used by the spdlog logger. This function
@@ -340,13 +422,13 @@ namespace Atlas {
 		 * @since v0.0.1
 		 */
 		explicit SpdlogLogger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath, bool truncateMessages,
-			std::initializer_list<LogLevel> sinksLogLevels);
+			std::initializer_list<ELogLevel> sinksLogLevels);
 
 		/**
 		 * @brief An explicit constructor for the @a SpdlogLogger class that will also set the value of @c mTruncateMessages.
 		 * 
 		 * @note If the value of @c logFilePath is empty, the file sink will not be initialized. If @c logFilePath is not a valid path, an
-		 * exception will be thrown when @c init() is called.
+		 * exception will be thrown when @c init() is called. 
 		 * 
 		 * @param loggerName What the logger will be called.
 		 * 
@@ -377,6 +459,8 @@ namespace Atlas {
 		explicit SpdlogLogger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath);
 
 		SpdlogLogger() = default;
+
+		static inline void QueueMessage(std::string const& message, ELogLevel logLevel);
 
 		/**
 		 * @brief Sets the logger that will be used as the default logger for @c spdlog::log() or the other namespace-scope logging functions for
@@ -410,7 +494,7 @@ namespace Atlas {
 
 		/**
 		 * @brief A more explicit logging function where the message and log level must be specified. This function will only log using 
-		 * @b this logger instance, not the default logger. This function is inherited from @c ILogger.
+		 * @b this logger instance, not the default logger. This function is inherited from @c ALogger.
 		 * 
 		 * @param message A const reference to the message that will be logged.
 		 * 
@@ -418,10 +502,10 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		void log(std::string const& message, LogLevel logLevel) override;
+		void log(std::string const& message, ELogLevel logLevel) override;
 
 		/**
-		 * @brief Logs a message at the @c LogLevel::info log level using this class' @c log() function.
+		 * @brief Logs a message at the @c ELogLevel::info log level using this class' @c log() function.
 		 * 
 		 * @param message The message that will be logged.
 		 * 
@@ -430,7 +514,7 @@ namespace Atlas {
 		void info(std::string const& message);
 
 		/**
-		 * @brief Logs a message at the @c LogLevel::err log level using this class' @c log() function.
+		 * @brief Logs a message at the @c ELogLevel::err log level using this class' @c log() function.
 		 * 
 		 * @param message The message that will be logged.
 		 * 
@@ -439,7 +523,7 @@ namespace Atlas {
 		void error(std::string const& message);
 
 		/**
-		 * @brief Logs a message at the @c LogLevel::warn log level using this class' @c log() function.
+		 * @brief Logs a message at the @c ELogLevel::warn log level using this class' @c log() function.
 		 * 
 		 * @param message The message that will be logged.
 		 * 
@@ -448,7 +532,7 @@ namespace Atlas {
 		void warn(std::string const& message);
 
 		/**
-		 * @brief Logs a message at the @c LogLevel::debug log level using this class' @c log() function.
+		 * @brief Logs a message at the @c ELogLevel::debug log level using this class' @c log() function.
 		 * 
 		 * @param message The message that will be logged.
 		 * 
@@ -457,7 +541,7 @@ namespace Atlas {
 		void debug(std::string const& message);
 
 		/**
-		 * @brief Logs a message at the @c LogLevel::trace log level using this class' @c log() function.
+		 * @brief Logs a message at the @c ELogLevel::trace log level using this class' @c log() function.
 		 * 
 		 * @param message The message that will be logged.
 		 * 
@@ -466,7 +550,7 @@ namespace Atlas {
 		void trace(std::string const& message);
 
 		/**
-		 * @brief Logs a message at the @c LogLevel::critical log level using this class' @c log() function.
+		 * @brief Logs a message at the @c ELogLevel::critical log level using this class' @c log() function.
 		 * 
 		 * @param message The message that will be logged.
 		 * 
@@ -488,7 +572,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		void setConsoleLogLevel(LogLevel logLevel) {
+		void setConsoleLogLevel(ELogLevel logLevel) {
 			mConsoleLogLevel = logLevel;
 		}
 
@@ -499,7 +583,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		void setFileLogLevel(LogLevel logLevel) { 
+		void setFileLogLevel(ELogLevel logLevel) {
 			mFileLogLevel = logLevel;
 		}
 
@@ -510,7 +594,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		void setLoggerLevel(LogLevel logLevel) { 
+		void setLoggerLevel(ELogLevel logLevel) {
 			mLoggerLevel = logLevel; 
 		}
 		
@@ -524,12 +608,29 @@ namespace Atlas {
 		bool shouldTruncateMessage() const;
 	};
 
+	void LogMessage(std::string const& message, ELogLevel logLevel);
 
-	class Logger : public SpdlogLogger {
-	public:
-		using SpdlogLogger::SpdlogLogger;
-		//Logger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath);
-		Logger() = default;
-	};
+	void InfoLog(std::string const& message);
 
+	void ErrorLog(std::string const& message);
+
+	void WarnLog(std::string const& message);
+
+	void DebugLog(std::string const& message);
+
+	void TraceLog(std::string const& message);
+
+	void CriticalLog(std::string const& message);
+
+#ifdef ATLAS_USE_SPDLOG
+	//SpdlogLogLevel TranslateAtlasLogLevelToSpdlog(ELogLevel atlasLogLevel);
+
+#endif
+
+	//class Logger : public SpdlogLogger {
+	//public:
+	//	using SpdlogLogger::SpdlogLogger;
+	//	//Logger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath);
+	//	Logger() = default;
+	//};
 }

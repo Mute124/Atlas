@@ -152,8 +152,10 @@ namespace Atlas {
 	using HighResolutionTimepoint = std::chrono::high_resolution_clock::time_point;
 
 	enum class EResultCode : uint32_t {
-		Failed = 0,
+		Failed = -1,
 		Okay,
+		NotImplemented,
+		InvalidArgument,
 	};
 	
 	template<typename T_NUMERIC_TYPE>
@@ -164,7 +166,99 @@ namespace Atlas {
 		T_NUMERIC_TYPE height;
 	};
 
+	class Counter {
+	private:
+		int64_t mCount = 0;
+		int64_t mMaxCount = -1;
+		bool mbIsCapped = false;
+	public:
+		Counter(int64_t count, int64_t max) : mCount(count), mMaxCount(max), mbIsCapped(max > 0) {}
 
+		explicit Counter(int64_t count) : Counter(count, -1) {}
+
+		Counter() = default;
+
+		void cap(int64_t max) {
+			mMaxCount = max;
+			mbIsCapped = true;
+		}
+
+		bool isCapped() const {
+			return mbIsCapped;
+		}
+
+		bool hasReachedMax() const {
+			return mbIsCapped && mCount >= mMaxCount;
+		}
+
+		void increment(int64_t count) {
+			mCount += count;
+		}
+
+		void increment() {
+			increment(1);
+		}
+
+		void decrement(int64_t count) {
+			mCount -= count;
+		}
+
+		void decrement() {
+			decrement(1);
+		}
+
+		void reset() {
+			mCount = 0;
+			mbIsCapped = false;
+			mMaxCount = -1;
+		}
+
+		int64_t getCount() const {
+			return mCount;
+		}
+
+		int64_t getMaxCount() const {
+			return mMaxCount;
+		}
+
+		int64_t getRemainingCount() const {
+			return mMaxCount - mCount;
+		}
+
+		void setCount(int64_t count) {
+			mCount = count;
+		}
+
+		void setMaxCount(int64_t max) {
+			mMaxCount = max;
+			mbIsCapped = true;
+		}
+
+		void setCountAndMaxCount(int64_t count, int64_t max) {
+			mCount = count;
+			mMaxCount = max;
+			mbIsCapped = true;
+		}
+	};
+
+	template<typename T_BASE>
+	class Singleton {
+	protected:
+		//friend class T_BASE;
+	
+	public:
+
+		// Delete copy constructor and assignment operator to prevent copying
+		Singleton(const Singleton&) = delete;
+		Singleton& operator=(const Singleton&) = delete;
+
+		// Static method to get the single instance
+		static Singleton& getInstance() {
+			static Singleton instance; // Local static instance, initialized once
+			return instance;
+		}
+
+	};
 
 	/**
 	 * @brief An interface for classes that want to be printable.

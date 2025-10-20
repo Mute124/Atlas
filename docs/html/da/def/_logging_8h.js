@@ -3,7 +3,6 @@ var _logging_8h =
     [ "Atlas::ILogger< T_LOG_LEVELS_TYPE >", "de/d5c/class_atlas_1_1_i_logger.html", "de/d5c/class_atlas_1_1_i_logger" ],
     [ "Atlas::SpdlogLogger", "da/d62/class_atlas_1_1_spdlog_logger.html", "da/d62/class_atlas_1_1_spdlog_logger" ],
     [ "Atlas::SpdlogLogger::LoggerSinks", "d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html", "d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks" ],
-    [ "Atlas::Logger", "df/dca/class_atlas_1_1_logger.html", "df/dca/class_atlas_1_1_logger" ],
     [ "LogLevel", "da/def/_logging_8h.html#a714ef4c7821c3b3ffcee3470d3de7aca", null ],
     [ "ELogLevel", "da/def/_logging_8h.html#a1fcbd080475f59176eb93a9910024079", [
       [ "trace", "da/def/_logging_8h.html#a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182", null ],
@@ -20,5 +19,12 @@ var _logging_8h =
       [ "FileLogger", "da/def/_logging_8h.html#aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0", null ],
       [ "Logger", "da/def/_logging_8h.html#aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a", null ],
       [ "Max", "da/def/_logging_8h.html#aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b", null ]
-    ] ]
+    ] ],
+    [ "CriticalLog", "da/def/_logging_8h.html#a50432e0fabcfb91544d186b7a4ddedd5", null ],
+    [ "DebugLog", "da/def/_logging_8h.html#add9a44935295fd4fd0bab751af209033", null ],
+    [ "ErrorLog", "da/def/_logging_8h.html#a33205c3fa4075eebe5721d4df7379d19", null ],
+    [ "InfoLog", "da/def/_logging_8h.html#aa0d776b0f6a6d55f1c791ec6d7f27b9f", null ],
+    [ "LogMessage", "da/def/_logging_8h.html#a8641f8ef74c8d98a11ce7066c7f664f1", null ],
+    [ "TraceLog", "da/def/_logging_8h.html#a8dbd12093d09cd018c1ece6d9121bbd7", null ],
+    [ "WarnLog", "da/def/_logging_8h.html#ac196b4691079d284d4c38234dfb90c58", null ]
 ];

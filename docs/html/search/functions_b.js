@@ -18,6 +18,6 @@ var searchData=
   ['loadshadermodule_15',['LoadShaderModule',['../d7/d54/namespace_atlas.html#ad7b40e312c98cafbda4cc01108f5b17f',1,'Atlas']]],
   ['lock_16',['lock',['../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a9419f2c5843567a27826d382ee8c1bc4',1,'Atlas::ThreadSafeVariable']]],
   ['log_17',['log',['../de/d5c/class_atlas_1_1_i_logger.html#a837a5e59e71f067dd89612d9f6317d63',1,'Atlas::ILogger::log()'],['../da/d62/class_atlas_1_1_spdlog_logger.html#aa0af3d1d91939dcaec6f30c75a6a29a0',1,'Atlas::SpdlogLogger::log()']]],
-  ['logger_18',['Logger',['../df/dca/class_atlas_1_1_logger.html#a758e8496b17fa141f91ff3f7611520ec',1,'Atlas::Logger']]],
-  ['loggersinks_19',['loggersinks',['../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html#ab650cfe8ce2986f3596208b38a45d67e',1,'Atlas::SpdlogLogger::LoggerSinks::LoggerSinks(std::shared_ptr&lt; ConsoleColorSink &gt; consoleSink, std::shared_ptr&lt; BasicFileSink &gt; fileSink)'],['../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html#ad3513b0910acec28697237373f69b3a8',1,'Atlas::SpdlogLogger::LoggerSinks::LoggerSinks()=default']]]
+  ['loggersinks_18',['loggersinks',['../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html#ab650cfe8ce2986f3596208b38a45d67e',1,'Atlas::SpdlogLogger::LoggerSinks::LoggerSinks(std::shared_ptr&lt; ConsoleColorSink &gt; consoleSink, std::shared_ptr&lt; BasicFileSink &gt; fileSink)'],['../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html#ad3513b0910acec28697237373f69b3a8',1,'Atlas::SpdlogLogger::LoggerSinks::LoggerSinks()=default']]],
+  ['logmessage_19',['LogMessage',['../d7/d54/namespace_atlas.html#a8641f8ef74c8d98a11ce7066c7f664f1',1,'Atlas']]]
 ];

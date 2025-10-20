@@ -114,15 +114,61 @@ $(document).ready(function(){initNavTree('de/d67/_physical_device_8cpp_source.ht
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;vulkan/vulkan_core.h&gt;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;<a class="code" href="../../d9/d38/system_2_physical_device_8h.html">PhysicalDevice.h</a>&quot;</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="foldopen" id="foldopen00017" data-start="{" data-end="}">
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="../../d3/d3c/class_atlas_1_1_physical_device.html#a237b306c4da8895983985e03cc2f00fa">   17</a></span>VkPhysicalDevice&amp; <a class="code hl_function" href="../../d3/d3c/class_atlas_1_1_physical_device.html#a237b306c4da8895983985e03cc2f00fa">Atlas::PhysicalDevice::getHandle</a>() {</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="../../d3/d3c/class_atlas_1_1_physical_device.html#afa00f97cfa559b2629b2cbcea4b6f46e">mPhysicalDeviceHandle</a>; </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>}</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;../debugging/Logging.h&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="}">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../d3/d3c/class_atlas_1_1_physical_device.html#acd66838259f69b68d3d4661c7d9c90ed">   18</a></span><a class="code hl_function" href="../../d3/d3c/class_atlas_1_1_physical_device.html#a6855f164b3fc6d662c642adc7372eafd">Atlas::PhysicalDevice::PhysicalDevice</a>(<a class="code hl_struct" href="../../d4/dc9/struct_atlas_1_1_physical_device_selection_constraints.html">PhysicalDeviceSelectionConstraints</a> <span class="keyword">const</span>&amp; selectionConstraints)</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    : mSelectionConstraints(selectionConstraints)</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>{</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
 </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="ttc" id="aclass_atlas_1_1_physical_device_html_a237b306c4da8895983985e03cc2f00fa"><div class="ttname"><a href="../../d3/d3c/class_atlas_1_1_physical_device.html#a237b306c4da8895983985e03cc2f00fa">Atlas::PhysicalDevice::getHandle</a></div><div class="ttdeci">VkPhysicalDevice &amp; getHandle()</div><div class="ttdef"><b>Definition</b> <a href="../../de/d67/_physical_device_8cpp_source.html#l00017">PhysicalDevice.cpp:17</a></div></div>
-<div class="ttc" id="aclass_atlas_1_1_physical_device_html_afa00f97cfa559b2629b2cbcea4b6f46e"><div class="ttname"><a href="../../d3/d3c/class_atlas_1_1_physical_device.html#afa00f97cfa559b2629b2cbcea4b6f46e">Atlas::PhysicalDevice::mPhysicalDeviceHandle</a></div><div class="ttdeci">VkPhysicalDevice mPhysicalDeviceHandle</div><div class="ttdef"><b>Definition</b> <a href="../../de/d99/graphics_2_physical_device_8h_source.html#l00029">PhysicalDevice.h:29</a></div></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="foldopen" id="foldopen00023" data-start="{" data-end="}">
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="../../d3/d3c/class_atlas_1_1_physical_device.html#aa0728be642b64074528dcaffcc01e5bb">   23</a></span>vkb::PhysicalDevice <a class="code hl_function" href="../../d3/d3c/class_atlas_1_1_physical_device.html#aa0728be642b64074528dcaffcc01e5bb">Atlas::PhysicalDevice::init</a>(<a class="code hl_class" href="../../d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html">VulkanInstanceWrapper</a>&amp; cVulkanInstanceRef, VkSurfaceKHR surface) {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    vkb::PhysicalDeviceSelector selector = selectDevice(cVulkanInstanceRef, surface);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    vkb::PhysicalDevice vkbPhysicalDevice = selector.select().value();</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordflow">return</span> vkbPhysicalDevice;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>}</div>
+</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00031" data-start="{" data-end="}">
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="../../d3/d3c/class_atlas_1_1_physical_device.html#aa70ca7afdc66974dc7cd941c17971087">   31</a></span>vkb::PhysicalDeviceSelector <a class="code hl_function" href="../../d3/d3c/class_atlas_1_1_physical_device.html#aa70ca7afdc66974dc7cd941c17971087">Atlas::PhysicalDevice::selectDevice</a>(<a class="code hl_class" href="../../d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html">VulkanInstanceWrapper</a>&amp; cVulkanInstanceRef, VkSurfaceKHR surface)</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>{</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    vkb::PhysicalDeviceSelector selector{cVulkanInstanceRef.<a class="code hl_function" href="../../d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a242434e995e734d6041de38b90a373ed">getVulkanBootstrapInstance</a>()};</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    selector.set_minimum_version(mSelectionConstraints.minimumAPIVersion.major, mSelectionConstraints.minimumAPIVersion.minor);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    selector.set_required_features_13(mSelectionConstraints.physicalDeviceFeatures.vulkan13Features);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    selector.set_required_features_12(mSelectionConstraints.physicalDeviceFeatures.vulkan12Features);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    selector.set_surface(surface);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">return</span> selector;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
+</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="}">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="../../d3/d3c/class_atlas_1_1_physical_device.html#a237b306c4da8895983985e03cc2f00fa">   44</a></span>VkPhysicalDevice&amp; <a class="code hl_function" href="../../d3/d3c/class_atlas_1_1_physical_device.html#a237b306c4da8895983985e03cc2f00fa">Atlas::PhysicalDevice::getHandle</a>() {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">return</span> mPhysicalDeviceHandle; </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
+</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="foldopen" id="foldopen00048" data-start="{" data-end="}">
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="../../d3/d3c/class_atlas_1_1_physical_device.html#a7e482e54d4e4de38b25ddd497ba66203">   48</a></span>vkb::PhysicalDevice&amp; <a class="code hl_function" href="../../d3/d3c/class_atlas_1_1_physical_device.html#a7e482e54d4e4de38b25ddd497ba66203">Atlas::PhysicalDevice::getVkbDevice</a>()</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">return</span> *mVkbDevicePtr;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="ttc" id="aclass_atlas_1_1_physical_device_html_a237b306c4da8895983985e03cc2f00fa"><div class="ttname"><a href="../../d3/d3c/class_atlas_1_1_physical_device.html#a237b306c4da8895983985e03cc2f00fa">Atlas::PhysicalDevice::getHandle</a></div><div class="ttdeci">VkPhysicalDevice &amp; getHandle()</div><div class="ttdef"><b>Definition</b> <a href="../../de/d67/_physical_device_8cpp_source.html#l00044">PhysicalDevice.cpp:44</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_physical_device_html_a6855f164b3fc6d662c642adc7372eafd"><div class="ttname"><a href="../../d3/d3c/class_atlas_1_1_physical_device.html#a6855f164b3fc6d662c642adc7372eafd">Atlas::PhysicalDevice::PhysicalDevice</a></div><div class="ttdeci">PhysicalDevice()=default</div></div>
+<div class="ttc" id="aclass_atlas_1_1_physical_device_html_a7e482e54d4e4de38b25ddd497ba66203"><div class="ttname"><a href="../../d3/d3c/class_atlas_1_1_physical_device.html#a7e482e54d4e4de38b25ddd497ba66203">Atlas::PhysicalDevice::getVkbDevice</a></div><div class="ttdeci">vkb::PhysicalDevice &amp; getVkbDevice()</div><div class="ttdef"><b>Definition</b> <a href="../../de/d67/_physical_device_8cpp_source.html#l00048">PhysicalDevice.cpp:48</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_physical_device_html_aa0728be642b64074528dcaffcc01e5bb"><div class="ttname"><a href="../../d3/d3c/class_atlas_1_1_physical_device.html#aa0728be642b64074528dcaffcc01e5bb">Atlas::PhysicalDevice::init</a></div><div class="ttdeci">vkb::PhysicalDevice init(VulkanInstanceWrapper &amp;cVulkanInstanceRef, VkSurfaceKHR surface)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d67/_physical_device_8cpp_source.html#l00023">PhysicalDevice.cpp:23</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_physical_device_html_aa70ca7afdc66974dc7cd941c17971087"><div class="ttname"><a href="../../d3/d3c/class_atlas_1_1_physical_device.html#aa70ca7afdc66974dc7cd941c17971087">Atlas::PhysicalDevice::selectDevice</a></div><div class="ttdeci">vkb::PhysicalDeviceSelector selectDevice(VulkanInstanceWrapper &amp;cVulkanInstanceRef, VkSurfaceKHR surface)</div><div class="ttdef"><b>Definition</b> <a href="../../de/d67/_physical_device_8cpp_source.html#l00031">PhysicalDevice.cpp:31</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_vulkan_instance_wrapper_html"><div class="ttname"><a href="../../d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html">Atlas::VulkanInstanceWrapper</a></div><div class="ttdoc">Acts as a wrapper for VkInstance and it's debug messenger. Furthermore, this class handles it's own i...</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d2d/_vulkan_instance_8h_source.html#l00039">VulkanInstance.h:39</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_vulkan_instance_wrapper_html_a242434e995e734d6041de38b90a373ed"><div class="ttname"><a href="../../d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a242434e995e734d6041de38b90a373ed">Atlas::VulkanInstanceWrapper::getVulkanBootstrapInstance</a></div><div class="ttdeci">vkb::Instance &amp; getVulkanBootstrapInstance()</div><div class="ttdef"><b>Definition</b> <a href="../../d5/dba/_vulkan_instance_8cpp_source.html#l00122">VulkanInstance.cpp:122</a></div></div>
+<div class="ttc" id="astruct_atlas_1_1_physical_device_selection_constraints_html"><div class="ttname"><a href="../../d4/dc9/struct_atlas_1_1_physical_device_selection_constraints.html">Atlas::PhysicalDeviceSelectionConstraints</a></div><div class="ttdef"><b>Definition</b> <a href="../../de/d99/graphics_2_physical_device_8h_source.html#l00027">PhysicalDevice.h:27</a></div></div>
 <div class="ttc" id="asystem_2_physical_device_8h_html"><div class="ttname"><a href="../../d9/d38/system_2_physical_device_8h.html">PhysicalDevice.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -130,7 +176,7 @@ $(document).ready(function(){initNavTree('de/d67/_physical_device_8cpp_source.ht
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_169bc07725411c2c359378f17aa1abb6.html">graphics</a></li><li class="navelem"><a class="el" href="../../de/d67/_physical_device_8cpp.html">PhysicalDevice.cpp</a></li>
-    <li class="footer">Generated on Tue Oct 7 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Oct 12 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>
