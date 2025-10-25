@@ -1,0 +1,312 @@
+\doxysection{Atlas\+::File\+Manager\+::File\+Janitor Class Reference}
+\hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor}{}\label{class_atlas_1_1_file_manager_1_1_file_janitor}\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+
+
+Automatically evicts unused files in a background thread and cleans up the {\ttfamily m\+Records} map in the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}}. Furthermore, this class also handles the janitor thread, which is where the janitor loop runs. This class is handled by the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class. It is not recommended to use this class directly, and let the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} handle it. However, if you do infact need to use this class directly, please refer to the details section in the documentation below.  
+
+
+
+
+{\ttfamily \#include $<$IOManager.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_aabf421a87c42bee0004df5abeab48448}{ATLAS\+\_\+\+DISALLOW\+\_\+\+COPY}} (\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor}{File\+Janitor}})
+\item 
+\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a84e61f409e64de3c92b175fff22903d6}{File\+Janitor}} (\mbox{\hyperlink{class_atlas_1_1_file_manager}{File\+Manager}} \&file\+Manager\+Ref, const \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}} \&options)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the {\ttfamily \doxylink{class_atlas_1_1_file_manager_1_1_file_janitor}{File\+Janitor}} class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a655927902fb96ff0b53ffe1101d1249f}{File\+Janitor}} ()=delete
+\item 
+\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_abdd6b8d93d94a6cbdb91eafe83f674ca}{\texorpdfstring{$\sim$}{\string~}\+File\+Janitor}} ()
+\begin{DoxyCompactList}\small\item\em Stops the janitor thread and waits for it to stop. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_ae2360dad6f208967fb01165aa3f7ee93}{start\+Janitor}} ()
+\begin{DoxyCompactList}\small\item\em Starts the janitor thread if it is not already running. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a73053f45e035b594ae93b32e970eb19a}{janitor\+Loop}} ()
+\begin{DoxyCompactList}\small\item\em Runs the janitor loop, which checks for inactive files and evicts them if they have been inactive for too long. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a265c04633d2a8d0ed9c0760a82c4e8fc}{evict\+Unused}} ()
+\begin{DoxyCompactList}\small\item\em Checks for inactive files and evicts them if they have been inactive for too long, assuming nothing is currently using the file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_atlas_1_1_file_manager}{File\+Manager}} \& \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_affb2c55c7784516968d7b1bca15b62f9}{m\+File\+Manager\+Ref}}
+\begin{DoxyCompactList}\small\item\em A reference to the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}} \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a8276aaf751122e7df695aa4bee83104e}{m\+Options}}
+\begin{DoxyCompactList}\small\item\em The configuration options for the janitor. This should be the same as the one passed to the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}}. \end{DoxyCompactList}\item 
+std\+::atomic$<$ bool $>$ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a3f71c8109201cdef7dc24a22797d9bec}{m\+Janitor\+Stop\+Flag}}
+\begin{DoxyCompactList}\small\item\em An atomic flag that indicates whether or not the janitor should stop. \end{DoxyCompactList}\item 
+std\+::condition\+\_\+variable\+\_\+any \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a26020059df23202fe22009b33b9bfccf}{m\+Janitor\+CV}}
+\begin{DoxyCompactList}\small\item\em A condition variable that is used to notify the janitor thread that it should check for unused files. \end{DoxyCompactList}\item 
+std\+::mutex \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a453708208ccdcbcd19db132b7bad213f}{m\+Janitor\+CVMutex}}
+\begin{DoxyCompactList}\small\item\em Syncronizes access to {\ttfamily m\+Janitor\+CV}. \end{DoxyCompactList}\item 
+std\+::jthread \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a9b32fddf6bd3ebc68d51c5bfa35cf3e0}{m\+Janitor\+Thread}}
+\begin{DoxyCompactList}\small\item\em The thread that the janitor will run on. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Automatically evicts unused files in a background thread and cleans up the {\ttfamily m\+Records} map in the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}}. Furthermore, this class also handles the janitor thread, which is where the janitor loop runs. This class is handled by the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class. It is not recommended to use this class directly, and let the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} handle it. However, if you do infact need to use this class directly, please refer to the details section in the documentation below. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_file_manager}{File\+Manager} 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00241}{241}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_a84e61f409e64de3c92b175fff22903d6}\label{class_atlas_1_1_file_manager_1_1_file_janitor_a84e61f409e64de3c92b175fff22903d6} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!FileJanitor@{FileJanitor}}
+\index{FileJanitor@{FileJanitor}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{FileJanitor()}{FileJanitor()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::\+File\+Janitor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_file_manager}{File\+Manager}} \&}]{file\+Manager\+Ref,  }\item[{const \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}} \&}]{options }\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the {\ttfamily \doxylink{class_atlas_1_1_file_manager_1_1_file_janitor}{File\+Janitor}} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Manager\+Ref} & A reference to an instance of the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class. \\
+\hline
+{\em options} & The configuration options for the janitor. This is the same as the one passed to the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} in it\textquotesingle{}s constructor.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00038}{38}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_i_o_manager_8h_source_l00228}{Atlas\+::\+File\+Manager\+::\+Options\+::b\+Start\+Janitor}}, \mbox{\hyperlink{_i_o_manager_8h_source_l00256}{m\+Options}}, and \mbox{\hyperlink{_i_o_manager_8cpp_source_l00060}{start\+Janitor()}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_a655927902fb96ff0b53ffe1101d1249f}\label{class_atlas_1_1_file_manager_1_1_file_janitor_a655927902fb96ff0b53ffe1101d1249f} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!FileJanitor@{FileJanitor}}
+\index{FileJanitor@{FileJanitor}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{FileJanitor()}{FileJanitor()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::\+File\+Janitor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_abdd6b8d93d94a6cbdb91eafe83f674ca}\label{class_atlas_1_1_file_manager_1_1_file_janitor_abdd6b8d93d94a6cbdb91eafe83f674ca} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!````~FileJanitor@{\texorpdfstring{$\sim$}{\string~}FileJanitor}}
+\index{````~FileJanitor@{\texorpdfstring{$\sim$}{\string~}FileJanitor}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}FileJanitor()}{\string~FileJanitor()}}
+{\footnotesize\ttfamily Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::\texorpdfstring{$\sim$}{\string~}\+File\+Janitor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Stops the janitor thread and waits for it to stop. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00046}{46}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_aabf421a87c42bee0004df5abeab48448}\label{class_atlas_1_1_file_manager_1_1_file_janitor_aabf421a87c42bee0004df5abeab48448} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!ATLAS\_DISALLOW\_COPY@{ATLAS\_DISALLOW\_COPY}}
+\index{ATLAS\_DISALLOW\_COPY@{ATLAS\_DISALLOW\_COPY}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_DISALLOW\_COPY()}{ATLAS\_DISALLOW\_COPY()}}
+{\footnotesize\ttfamily Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::\+ATLAS\+\_\+\+DISALLOW\+\_\+\+COPY (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor}{File\+Janitor}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_a265c04633d2a8d0ed9c0760a82c4e8fc}\label{class_atlas_1_1_file_manager_1_1_file_janitor_a265c04633d2a8d0ed9c0760a82c4e8fc} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!evictUnused@{evictUnused}}
+\index{evictUnused@{evictUnused}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{evictUnused()}{evictUnused()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::evict\+Unused (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Checks for inactive files and evicts them if they have been inactive for too long, assuming nothing is currently using the file. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00089}{89}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_i_o_manager_8h_source_l00203}{Atlas\+::\+File\+Manager\+::\+Options\+::file\+TTL}}, \mbox{\hyperlink{_logging_8cpp_source_l00260}{Atlas\+::\+Info\+Log()}}, and \mbox{\hyperlink{_i_o_manager_8h_source_l00369}{Atlas\+::\+File\+Manager\+::m\+Options}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_a73053f45e035b594ae93b32e970eb19a}\label{class_atlas_1_1_file_manager_1_1_file_janitor_a73053f45e035b594ae93b32e970eb19a} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!janitorLoop@{janitorLoop}}
+\index{janitorLoop@{janitorLoop}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{janitorLoop()}{janitorLoop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::janitor\+Loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Runs the janitor loop, which checks for inactive files and evicts them if they have been inactive for too long. 
+
+\begin{DoxyNote}{Note}
+Under normal circumstances, this runs on the janitor thread.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00074}{74}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_i_o_manager_8h_source_l00187}{Atlas\+::\+File\+Manager\+::\+Options\+::eviction\+Check\+Interval}}, \mbox{\hyperlink{_logging_8cpp_source_l00260}{Atlas\+::\+Info\+Log()}}, and \mbox{\hyperlink{_i_o_manager_8h_source_l00369}{Atlas\+::\+File\+Manager\+::m\+Options}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_ae2360dad6f208967fb01165aa3f7ee93}\label{class_atlas_1_1_file_manager_1_1_file_janitor_ae2360dad6f208967fb01165aa3f7ee93} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!startJanitor@{startJanitor}}
+\index{startJanitor@{startJanitor}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{startJanitor()}{startJanitor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::start\+Janitor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Starts the janitor thread if it is not already running. 
+
+\begin{DoxyWarning}{Warning}
+This will assert if the janitor thread is already running.
+\end{DoxyWarning}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00060}{60}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_common_8h_source_l00097}{ATLAS\+\_\+\+ASSERT}}, and \mbox{\hyperlink{_logging_8cpp_source_l00260}{Atlas\+::\+Info\+Log()}}.
+
+
+
+Referenced by \mbox{\hyperlink{_i_o_manager_8cpp_source_l00038}{File\+Janitor()}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_affb2c55c7784516968d7b1bca15b62f9}\label{class_atlas_1_1_file_manager_1_1_file_janitor_affb2c55c7784516968d7b1bca15b62f9} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!mFileManagerRef@{mFileManagerRef}}
+\index{mFileManagerRef@{mFileManagerRef}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{mFileManagerRef}{mFileManagerRef}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_file_manager}{File\+Manager}}\& Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::m\+File\+Manager\+Ref\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A reference to the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00249}{249}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_a26020059df23202fe22009b33b9bfccf}\label{class_atlas_1_1_file_manager_1_1_file_janitor_a26020059df23202fe22009b33b9bfccf} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!mJanitorCV@{mJanitorCV}}
+\index{mJanitorCV@{mJanitorCV}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{mJanitorCV}{mJanitorCV}}
+{\footnotesize\ttfamily std\+::condition\+\_\+variable\+\_\+any Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::m\+Janitor\+CV\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A condition variable that is used to notify the janitor thread that it should check for unused files. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_file_manager_1_1_file_janitor_a453708208ccdcbcd19db132b7bad213f}{m\+Janitor\+CVMutex} 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00272}{272}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_a453708208ccdcbcd19db132b7bad213f}\label{class_atlas_1_1_file_manager_1_1_file_janitor_a453708208ccdcbcd19db132b7bad213f} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!mJanitorCVMutex@{mJanitorCVMutex}}
+\index{mJanitorCVMutex@{mJanitorCVMutex}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{mJanitorCVMutex}{mJanitorCVMutex}}
+{\footnotesize\ttfamily std\+::mutex Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::m\+Janitor\+CVMutex\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Syncronizes access to {\ttfamily m\+Janitor\+CV}. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00279}{279}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_a3f71c8109201cdef7dc24a22797d9bec}\label{class_atlas_1_1_file_manager_1_1_file_janitor_a3f71c8109201cdef7dc24a22797d9bec} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!mJanitorStopFlag@{mJanitorStopFlag}}
+\index{mJanitorStopFlag@{mJanitorStopFlag}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{mJanitorStopFlag}{mJanitorStopFlag}}
+{\footnotesize\ttfamily std\+::atomic$<$bool$>$ Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::m\+Janitor\+Stop\+Flag\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+An atomic flag that indicates whether or not the janitor should stop. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00263}{263}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_a9b32fddf6bd3ebc68d51c5bfa35cf3e0}\label{class_atlas_1_1_file_manager_1_1_file_janitor_a9b32fddf6bd3ebc68d51c5bfa35cf3e0} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!mJanitorThread@{mJanitorThread}}
+\index{mJanitorThread@{mJanitorThread}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{mJanitorThread}{mJanitorThread}}
+{\footnotesize\ttfamily std\+::jthread Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::m\+Janitor\+Thread\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The thread that the janitor will run on. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00286}{286}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_1_1_file_janitor_a8276aaf751122e7df695aa4bee83104e}\label{class_atlas_1_1_file_manager_1_1_file_janitor_a8276aaf751122e7df695aa4bee83104e} 
+\index{Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}!mOptions@{mOptions}}
+\index{mOptions@{mOptions}!Atlas::FileManager::FileJanitor@{Atlas::FileManager::FileJanitor}}
+\doxysubsubsection{\texorpdfstring{mOptions}{mOptions}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}} Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::m\+Options\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The configuration options for the janitor. This should be the same as the one passed to the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}}. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00256}{256}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_i_o_manager_8cpp_source_l00038}{File\+Janitor()}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/io/\mbox{\hyperlink{_i_o_manager_8h}{IOManager.\+h}}\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/io/\mbox{\hyperlink{_i_o_manager_8cpp}{IOManager.\+cpp}}\end{DoxyCompactItemize}

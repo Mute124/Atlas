@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['data_0',['data',['../d3/d98/struct_s_array_buffer.html#a92caaa90078f3976cd6f61f109ce40f0',1,'SArrayBuffer::data'],['../dc/da6/struct_s_grid_buffer.html#a94fcd21f50c468a8e019e1e967e0f267',1,'SGridBuffer::data'],['../df/d67/struct_renderer_extensions_1_1_image.html#a733904c59e464d884ebbf14ef6cf2910',1,'RendererExtensions::Image::data'],['../d3/d00/struct_atlas_1_1_compute_effect.html#a00b9003d01d051a93b7301a081948958',1,'Atlas::ComputeEffect::data']]],
+  ['data_0',['data',['../d3/d98/struct_s_array_buffer.html#a92caaa90078f3976cd6f61f109ce40f0',1,'SArrayBuffer::data'],['../dc/da6/struct_s_grid_buffer.html#a94fcd21f50c468a8e019e1e967e0f267',1,'SGridBuffer::data'],['../df/d67/struct_renderer_extensions_1_1_image.html#a733904c59e464d884ebbf14ef6cf2910',1,'RendererExtensions::Image::data'],['../d3/d00/struct_atlas_1_1_compute_effect.html#a00b9003d01d051a93b7301a081948958',1,'Atlas::ComputeEffect::data'],['../d4/d63/class_atlas_1_1_file_handle.html#abe55b04810eaffb5fb3acb71502db19d',1,'Atlas::FileHandle::data']]],
   ['data1_1',['data1',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#af0a4393c37ced4a091320a0293a5f2f7',1,'Atlas::ComputePushConstants']]],
   ['data2_2',['data2',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#a026de07bae816111634fe82c5e6e2116',1,'Atlas::ComputePushConstants']]],
   ['data3_3',['data3',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#a8b7a5d21c069cc7f2474b1a12a4ab5a3',1,'Atlas::ComputePushConstants']]],
   ['data4_4',['data4',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#a0d9cd6a9ee45a25d22ac115f8ac451a8',1,'Atlas::ComputePushConstants']]],
   ['declaration_5',['declaration',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html#a6705f0458ee30bdb96aae748f3dd184c',1,'CScriptBuilder::SMetadataDecl']]],
-  ['default_5fconsole_5fsink_5flevel_6',['DEFAULT_CONSOLE_SINK_LEVEL',['../da/d62/class_atlas_1_1_spdlog_logger.html#ab5d292a49b9361814de1176afc542a30',1,'Atlas::SpdlogLogger']]],
-  ['default_5ffile_5fsink_5flevel_7',['DEFAULT_FILE_SINK_LEVEL',['../da/d62/class_atlas_1_1_spdlog_logger.html#afbb4b91958a150149852ecfc29d8d00f',1,'Atlas::SpdlogLogger']]],
-  ['default_5flogger_5flevel_8',['DEFAULT_LOGGER_LEVEL',['../da/d62/class_atlas_1_1_spdlog_logger.html#ac9aad487180a98904c208cd649980311',1,'Atlas::SpdlogLogger']]],
+  ['default_5fconsole_5fsink_5flevel_6',['DEFAULT_CONSOLE_SINK_LEVEL',['../da/d62/class_atlas_1_1_spdlog_logger.html#a7e28b24364b6596245465594c746eb21',1,'Atlas::SpdlogLogger']]],
+  ['default_5ffile_5fsink_5flevel_7',['DEFAULT_FILE_SINK_LEVEL',['../da/d62/class_atlas_1_1_spdlog_logger.html#ac11402e41fdf61eb019e90b7a3727b2e',1,'Atlas::SpdlogLogger']]],
+  ['default_5flogger_5flevel_8',['DEFAULT_LOGGER_LEVEL',['../da/d62/class_atlas_1_1_spdlog_logger.html#a759c0c8f8a4e7593d5b3e6378a157bba',1,'Atlas::SpdlogLogger']]],
   ['defaultqueue_9',['defaultQueue',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a4281fd4cf419267792c8ba5195517360',1,'ImGui_ImplWGPU_Data']]],
   ['definedwords_10',['definedWords',['../de/d98/class_c_script_builder.html#a83c116cb8287d6637741857b9e44e18a',1,'CScriptBuilder']]],
   ['deletebuffers_11',['DeleteBuffers',['../d4/d6c/union_im_g_l3_w_procs.html#a21f8b9b279f9f360c3fea73bd9b806df',1,'ImGL3WProcs']]],

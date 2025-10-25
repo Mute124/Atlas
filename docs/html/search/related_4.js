@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['sdlgamewindow_0',['SDLGameWindow',['../d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a5e5c33a69a62d32845ff5b86112ee10c',1,'Atlas::VulkanRenderingBackend']]]
+  ['registerscripthandle_5fnative_0',['RegisterScriptHandle_Native',['../d8/da7/class_c_script_handle.html#abf65d893951791abc272e367eb035c67',1,'CScriptHandle']]],
+  ['registerscriptweakref_5fnative_1',['RegisterScriptWeakRef_Native',['../df/d4b/class_c_script_weak_ref.html#a17cea9256a54fca5f35e21c8745f4718',1,'CScriptWeakRef']]]
 ];

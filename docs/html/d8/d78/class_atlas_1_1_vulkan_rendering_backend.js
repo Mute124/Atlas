@@ -7,6 +7,7 @@ var class_atlas_1_1_vulkan_rendering_backend =
     [ "checkValidationLayerSupport", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#acc9931cd0eee1fc185c03cd194e37575", null ],
     [ "createBuffer", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#abceadac1d679cf044daf91822ea001ea", null ],
     [ "createSwapchain", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#ac95335e7cac9b5b353cd487c0be773a3", null ],
+    [ "destroyBuffer", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a74fce19005ef0a5e78df95217303b4c2", null ],
     [ "destroySwapchain", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a214c275935ac01f290114ee5b4fb0056", null ],
     [ "draw", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#ac304e7d22e7b98cd7d2b67a835d948c7", null ],
     [ "drawBackground", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#afd0f02bf0e403d35d4300bdda9682ba5", null ],
@@ -19,9 +20,11 @@ var class_atlas_1_1_vulkan_rendering_backend =
     [ "init", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#aa855ce8024b024a6028349e0c350011c", null ],
     [ "initBackgroundPipelines", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#adec9a0e49b1ba1c47bda7f64e4c1ba67", null ],
     [ "initCommands", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#ae8a36fa0c0e480e5250194db2e930a4c", null ],
+    [ "initDefaultData", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#aec84e32b5089ba579f140193eb3a78c2", null ],
     [ "initDescriptors", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a706ab6e52f11f4df9e5029f9c1e3ce6a", null ],
     [ "initIMGUI", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a9224eadded150b6909a25c08ad49cd33", null ],
     [ "initInstance", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#aa1e976efc27162979998896c39d25a6c", null ],
+    [ "initMeshPipeline", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#abd48589fe46ba07ea58c3e619b381c6b", null ],
     [ "initPipelines", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a4c2cee7a925d2f6a43cef42270ed29f1", null ],
     [ "initSwapchain", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a820ddb6ef9a24e50b8939e40e15711ef", null ],
     [ "initTrianglePipeline", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a2e554c8b6161f41942f0d112d56cda4d", null ],
@@ -35,7 +38,10 @@ var class_atlas_1_1_vulkan_rendering_backend =
     [ "shouldUseDefaultInstanceBuilder", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a597ab69885b16541eb061f6e71dc43d6", null ],
     [ "shutdown", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a407d054ec95d389cf07ea5cb5deae474", null ],
     [ "update", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#aae467e194099352e5a6917730f4ff7a6", null ],
+    [ "UploadMesh", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a9684d6b4e462de5291f612281d1b74b8", null ],
     [ "SDLGameWindow", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a5e5c33a69a62d32845ff5b86112ee10c", null ],
+    [ "_meshPipeline", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a6aa12397d63d95976630333ce02bee56", null ],
+    [ "_meshPipelineLayout", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a023d171151314be50005f521d3a0b89a", null ],
     [ "_trianglePipeline", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#ad2586392f933e50e525f4b5683c263a5", null ],
     [ "_trianglePipelineLayout", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a58497c1b358b7044859c78da9ecf2f92", null ],
     [ "mApplicationName", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a5f40a46c2239b95f013ed783ba638775", null ],
@@ -69,5 +75,6 @@ var class_atlas_1_1_vulkan_rendering_backend =
     [ "mSwapchainImageFormat", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a87110ef434c75d6f8ec6d8ba8e75cbe7", null ],
     [ "mSwapchainImages", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a93f9b6b90a79666147f3fde3a0e85fc1", null ],
     [ "mSwapchainImageViews", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a7c2ee70bbf4f7f7ab0519fdec874ce95", null ],
-    [ "mVMAAllocator", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a497af73e5b7b7f547f093d6a97482c66", null ]
+    [ "mVMAAllocator", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a497af73e5b7b7f547f093d6a97482c66", null ],
+    [ "rectangle", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a72ba8bf06e2b6c2e3f648f6430e1b9ef", null ]
 ];

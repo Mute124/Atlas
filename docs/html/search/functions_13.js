@@ -1,6 +1,25 @@
 var searchData=
 [
-  ['uninit_0',['Uninit',['../d4/dc9/class_c_serialized_value.html#ac4d2c90f0c2ee9235348394dc96e5f28',1,'CSerializedValue']]],
-  ['update_1',['update',['../db/db4/class_physics_engine.html#a2c36ce16ce3b0908e8d04ddece7c2914',1,'PhysicsEngine::update()'],['../d3/d8d/class_atlas_1_1_atlas_engine.html#a1c01040c6fac62b0e14af363b138db6a',1,'Atlas::AtlasEngine::update()'],['../dd/df4/class_atlas_1_1_game_time_manager.html#a5a15cb7390a3145976d70567573b3bd9',1,'Atlas::GameTimeManager::update()'],['../d8/d96/class_atlas_1_1_i_atlas_engine.html#a02f4abda13b45e05ece57a314c6d4239',1,'Atlas::IAtlasEngine::update()'],['../db/d46/class_atlas_1_1_rendering_backend.html#a8645886fef0d2e0e31fad4cbd01f2d60',1,'Atlas::RenderingBackend::update()'],['../d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#aae467e194099352e5a6917730f4ff7a6',1,'Atlas::VulkanRenderingBackend::update()'],['../d7/d4e/class_atlas_1_1_a_renderer.html#a6fa31d6e04038e52d2a43095364c531a',1,'Atlas::ARenderer::update()'],['../d4/d2a/class_atlas_1_1_vulkan_renderer.html#aae2802e30ffe7702848fa97194ef5157',1,'Atlas::VulkanRenderer::update()'],['../da/dde/class_atlas_1_1_a_game_window.html#ae162b6b13f6a01f10a490a73332b1aac',1,'Atlas::AGameWindow::update()'],['../d7/d0a/class_atlas_1_1_s_d_l_game_window.html#a30e2379ad499cb4529a8985bd8dc4dad',1,'Atlas::SDLGameWindow::update()'],['../d4/d72/class_sample.html#af5ebdce0332f1039e202d27f8acc4b68',1,'Sample::update()'],['../dc/dc3/class_samples_project.html#a3a9189c6edfac995a25b9e6cb4ca8896',1,'SamplesProject::update()']]],
-  ['upload_2',['upload',['../d6/d25/class_atlas_1_1_i_haptic_effect.html#a1b74dbaeeeb39890ceb83fcfd421a606',1,'Atlas::IHapticEffect::upload()'],['../dd/d2d/class_atlas_1_1_mono_rumble_haptic_effect.html#a3657adedde8386e38f02e7000d93a135',1,'Atlas::MonoRumbleHapticEffect::upload()']]]
+  ['takecommands_0',['TakeCommands',['../db/db7/class_c_debugger.html#a5cc746d94c0aaf4ce6383b67166813ea',1,'CDebugger']]],
+  ['tell_1',['Tell',['../dc/d7b/class_shell_file_interface.html#a5f7be9911ef812ef14a87042bbc49d71',1,'ShellFileInterface']]],
+  ['terrain_2',['Terrain',['../d1/dee/class_terrain.html#a7a8878e064ea91eba0266380112e4e2c',1,'Terrain']]],
+  ['threadengine_3',['threadengine',['../d3/d8d/class_atlas_1_1_atlas_engine.html#a075c6a2f21401591dd7be64007274646',1,'Atlas::AtlasEngine::threadEngine()'],['../d8/d96/class_atlas_1_1_i_atlas_engine.html#a82721d5a9242208c51b474dd1496b392',1,'Atlas::IAtlasEngine::threadEngine()']]],
+  ['threadsafevariable_4',['threadsafevariable',['../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a2f5e04589a1e79eff2ce1984eba181b2',1,'Atlas::ThreadSafeVariable::ThreadSafeVariable()'],['../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a3f8477829be431a5419f4e661c57b775',1,'Atlas::ThreadSafeVariable::ThreadSafeVariable(T_VARIABLE_TYPE const &amp;initialValue)'],['../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a5e5732a035adb2502a39227c3cd5c2e3',1,'Atlas::ThreadSafeVariable::ThreadSafeVariable(ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt; &amp;other)']]],
+  ['time_5fpoint_5fto_5ftm_5',['time_point_to_tm',['../d7/d14/datetime_8cpp.html#a33280a45b1c545890b2d11ff55f0eb89',1,'datetime.cpp']]],
+  ['timegettime_5fgeneric_6',['timeGetTime_Generic',['../df/dde/_angel_script_test_8h.html#ac9a6d98e78f6abe8d4fdf552fa42b87d',1,'AngelScriptTest.h']]],
+  ['tm_5fto_5ftime_5fpoint_7',['tm_to_time_point',['../d7/d14/datetime_8cpp.html#a1f3d8690d7a59f1f33bb08b2d9b3b847',1,'datetime.cpp']]],
+  ['toarray_8',['toArray',['../d0/d66/class_atlas_1_1_color.html#a056287d20250c3ae0550e70fc3f3841f',1,'Atlas::Color']]],
+  ['toggleoption_9',['toggleOption',['../da/da1/class_atlas_1_1_object_options.html#acc0629b79b9175174330bd49cc6e96cb',1,'Atlas::ObjectOptions']]],
+  ['togglescripting_10',['toggleScripting',['../d6/d16/class_atlas_1_1_scripted_object.html#a2956ed16fb8fdf71f5679dfcd60b5d88',1,'Atlas::ScriptedObject']]],
+  ['tostring_11',['tostring',['../db/db7/class_c_debugger.html#a40969124c92b02acd8d051f99890fc89',1,'CDebugger::ToString()'],['../de/dc7/class_atlas_1_1_i_stringified_object.html#ae2399f816e348751134240938caa7a34',1,'Atlas::IStringifiedObject::toString()'],['../d2/d7b/class_atlas_1_1_stringified_object.html#a2f5c483abff8a1025ee3e406333213eb',1,'Atlas::StringifiedObject::toString()']]],
+  ['touch_12',['touch',['../d2/d46/struct_atlas_1_1_file_record.html#a2588a513b31f7e5e894157fc7472349e',1,'Atlas::FileRecord']]],
+  ['tovector3_13',['toVector3',['../df/d8a/struct_vec3.html#a973c377b0b99bb3aeaa1dddd10fcab38',1,'Vec3']]],
+  ['trace_14',['trace',['../da/d62/class_atlas_1_1_spdlog_logger.html#accc54231c6278a659d953e507aa671e3',1,'Atlas::SpdlogLogger']]],
+  ['traceimpl_15',['TraceImpl',['../d5/d8c/_physics_prototype_8h.html#a42594004db909c928c7e136b77443969',1,'PhysicsPrototype.h']]],
+  ['tracelog_16',['TraceLog',['../d7/d54/namespace_atlas.html#a8dbd12093d09cd018c1ece6d9121bbd7',1,'Atlas']]],
+  ['transitionimage_17',['TransitionImage',['../d7/d54/namespace_atlas.html#ad05635794dd9c777764442cd7ca9bdb3',1,'Atlas']]],
+  ['translatevulkanloglevel_18',['TranslateVulkanLogLevel',['../d7/d54/namespace_atlas.html#a8009d7ed74e0704b8191145e436a7ac3',1,'Atlas']]],
+  ['trianglestruct_19',['TriangleStruct',['../da/d89/struct_terrain_1_1_triangle_struct.html#aac9325c98a28904db75597db9c193b89',1,'Terrain::TriangleStruct']]],
+  ['triangulate_5fcell_20',['triangulate_cell',['../dc/dbe/class_marching_cubes.html#af0e5a2fce6595009d00e7babbfa5ced7',1,'MarchingCubes']]],
+  ['triangulate_5ffield_21',['triangulate_field',['../dc/dbe/class_marching_cubes.html#a4b02e2b43e6b7eb3ae01e2a776093bb3',1,'MarchingCubes']]]
 ];

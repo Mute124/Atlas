@@ -11,5 +11,5 @@ var searchData=
   ['engine_8',['engine',['../dc/d2f/class_c_script_any.html#abab825729b1bcc3372adcc6a5aeafac5',1,'CScriptAny::engine'],['../de/d98/class_c_script_builder.html#a9f2c02d7ac5c8bec9d0687ce09003174',1,'CScriptBuilder::engine'],['../dc/d3b/class_c_script_dictionary.html#ab6ed6041b441e60f57f0a18a5525eac6',1,'CScriptDictionary::engine']]],
   ['eqfunc_9',['eqFunc',['../d1/dcb/struct_s_array_cache.html#a6bfdfcc7ac5db6711be9d00d6ef42789',1,'SArrayCache']]],
   ['eqfuncreturncode_10',['eqFuncReturnCode',['../d1/dcb/struct_s_array_cache.html#ac56e83dadf22ea2e139858d3a27add98',1,'SArrayCache']]],
-  ['extensionvalidator_11',['extensionValidator',['../d7/d02/struct_atlas_1_1_i_o_manager_1_1_extension_handlers_aggregator.html#a6f14637ba83e313b01f4e1f779370e28',1,'Atlas::IOManager::ExtensionHandlersAggregator']]]
+  ['evictioncheckinterval_11',['evictionCheckInterval',['../db/d76/struct_atlas_1_1_file_manager_1_1_options.html#ae193aecf5ed2e5386da88c0aa279a07a',1,'Atlas::FileManager::Options']]]
 ];

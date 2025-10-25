@@ -26,6 +26,7 @@
 #include <iostream>
 #include <fstream>
 #include <bitset>
+#include <memory>
 
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
@@ -39,6 +40,7 @@
 #include "../Frame.h"
 #include "../AllocatedImage.h"
 #include "../../core/Core.h"
+#include "../../core/Common.h"
 #include "../../core/Device.h"
 #include "../window/Window.h"
 #include "../DeletionQueue.h"
@@ -46,6 +48,11 @@
 #include "../../debugging/Logging.h"
 #include "../GraphicsUtils.h"
 #include "../PipelineBuilder.h"
+#include <VkBootstrap.h>
+#include <functional>
+#include <mutex>
+#include <glm/fwd.hpp>
+#include <vulkan/vulkan_core.h>
 
 #define ATLAS_1_SECOND_IN_NS 1000000000
 
@@ -105,6 +112,13 @@ namespace Atlas {
 	//		return set;
 	//	}
 	//};
+
+	enum class QueueType {
+		Present = 0,
+		Graphics = 1,
+		Compute = 2,
+		Transfer = 3
+	};
 
 	struct ImmediateSubmitInfo {
 		VkFence fence;
@@ -236,15 +250,27 @@ namespace Atlas {
 
 	class Renderable {
 	protected:
-		static inline CurrentDrawData sCurrentDrawData;
+		friend class VulkanRenderingBackend;
+
+
 	public:
 
 		static inline void SetCurrentDrawData(CurrentDrawData const& currentFrame) { 
+			std::scoped_lock lock(sCurrentDrawDataMutex);
 			sCurrentDrawData = currentFrame;
 		}
 
-		virtual void draw() {}
+		virtual void draw(VkCommandBuffer cmd) {
+			
+		}
+	};
 
+	class IMGUIRenderable : public Renderable {
+	public:
+
+		void draw(VkCommandBuffer cmd) override
+		{
+		}
 	};
 
 	class BackgroundColor : public Renderable {
@@ -266,6 +292,29 @@ namespace Atlas {
 		Fence_Timeout,
 	};
 
+	class GraphicsQueue {
+	private:
+		VkQueue mQueue{ VK_NULL_HANDLE };
+		uint32_t mQueueFamily{ 1 };
+
+	public:
+		GraphicsQueue(VkQueue queue, uint32_t queueFamily);
+		
+		GraphicsQueue() = default;
+
+		void submit(std::span<VkSubmitInfo2> submitInfos, VkFence fence = VK_NULL_HANDLE);
+
+		void submit(VkSubmitInfo2 const& submitInfo, VkFence fence = VK_NULL_HANDLE);
+
+		VkQueue& getQueue() {
+			return mQueue;
+		}
+
+		ATLAS_IMPLICIT operator VkQueue& () {
+			const_cast<Atlas::GraphicsQueue&>(*this).getQueue();
+		}
+	};
+
 	/**
 	 * @brief A wrapper class for the usage of Vulkan as a rendering backend. This class handles the lifecycle of Vulkan and simplifies the usage of Vulkan to a simple API.
 	 * 
@@ -275,26 +324,27 @@ namespace Atlas {
 	 * 
 	 * @since v0.0.1
 	 */
-	class VulkanRenderingBackend : public RenderingBackend {
+	class VulkanRenderingBackend : public AGlobalRenderingBackend<VulkanRenderingBackend> {
 	private:
-
+		// Thread-safe global instance of this class
+		static inline std::shared_ptr<VulkanRenderingBackend> sInstance = nullptr;
+		static inline std::mutex sInstanceMutex;
+		
 		std::vector<ComputeEffect> mBackgroundEffects;
-		int mCurrentBackgroundEffect{ 0 };
-
+		int mCurrentBackgroundEffect = 0;
 
 		CurrentDrawData mCurrentDrawData;
 
-		std::bitset<ATLAS_VK_DEVICE_BITS> mOptionsBitset;
+		//std::bitset<ATLAS_VK_DEVICE_BITS> mOptionsBitset;
 
 		int mCurrentFrameNumber = 0;
-
 
 		bool mIsInitialized = false;
 		bool mbUseDefaultInstanceBuilder = true;
 
 		ImmediateSubmitInfo mImmediateSubmitInfo;
 
-		VulkanInstanceWrapper mInstance;
+		VulkanInstanceWrapper mInstance{};
 
 		// Vulkan stuff
 		//VkInstance mVulkanInstance = VK_NULL_HANDLE;
@@ -356,9 +406,16 @@ namespace Atlas {
 		void initVMAAllocator(vkb::Instance const& cVkBootstrapInstanceRef);
 
 		friend class SDLGameWindow;
+
+	protected:
+		//static inline void SetGlobalInstance(std::shared_ptr<VulkanRenderingBackend> instance) {
+		//	std::scoped_lock lock(sInstanceMutex);
+		//	sInstance = instance; 
+		//}
+
 	public:
 
-		VulkanRenderingBackend(const VulkanRenderingBackend&) = delete;
+		
 
 		/**
 		 * @brief Default constructor.
@@ -375,10 +432,9 @@ namespace Atlas {
 		 */
 		VulkanRenderingBackend() = default;
 
-		void setOption(EVulkanRenderingOption option, int value) {
-			mOptionsBitset[static_cast<size_t>(option)] = value;
-		}
-
+		//void setOption(EVulkanRenderingOption option, int value) {
+		//	mOptionsBitset[static_cast<size_t>(option)] = value;
+		//}
 		/**
 		 * @brief Initializes Vulkan.
 		 * 
@@ -447,7 +503,11 @@ namespace Atlas {
 		std::string getApplicationName();
 
 		FrameData& getCurrentFrame();
+
+
 	};
+
+
 
 	VulkanRenderingBackend& getLoadedRenderingBacked();
 

@@ -243,9 +243,8 @@ void Atlas::VulkanRenderingBackend::initDescriptors()
 
 void Atlas::VulkanRenderingBackend::initPipelines()
 {
-
-
 	initBackgroundPipelines();
+	initTrianglePipeline();
 	initMeshPipeline();
 }
 
@@ -325,11 +324,11 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 
 	mMainDeletionQueue.push([&]() {
 		vkDestroyPipelineLayout(mDevice, mGradientPipelineLayout, nullptr);
-		vkDestroyPipeline(mDevice, mGradientPipeline, nullptr);
+		vkDestroyPipeline(mDevice, sky.pipeline, nullptr);
 		vkDestroyPipeline(mDevice, gradient.pipeline, nullptr);
 	});
 
-	initTrianglePipeline();
+	
 }
 
 void Atlas::VulkanRenderingBackend::initTrianglePipeline()
@@ -492,6 +491,16 @@ void Atlas::VulkanRenderingBackend::initCommands()
 
 		vkAllocateCommandBuffers(mDevice, &cmdAllocInfo, &mFrameDataArray.at(i).mainCommandBuffer);
 	}
+	vkCreateCommandPool(mDevice, &commandPoolInfo, nullptr, &mImmediateSubmitInfo.commandPool);
+
+	// allocate the default command buffer that we will use for rendering
+	VkCommandBufferAllocateInfo cmdAllocInfo = CreateCommandBufferAllocateInfo(mImmediateSubmitInfo.commandPool, 1);
+
+	vkAllocateCommandBuffers(mDevice, &cmdAllocInfo, &mImmediateSubmitInfo.commandBuffer);
+
+	mMainDeletionQueue.push([=]() {
+		vkDestroyCommandPool(mDevice, mImmediateSubmitInfo.commandPool, nullptr);
+	});
 
 	//// allocate the command buffer for immediate submits
 	//VkCommandBufferAllocateInfo cmdAllocInfo = CreateCommandBufferAllocateInfo(mImmediateSubmitInfo.commandPool, 1);
@@ -502,10 +511,10 @@ void Atlas::VulkanRenderingBackend::initCommands()
 	//	vkDestroyCommandPool(mDevice, mImmediateSubmitInfo.commandPool, nullptr);
 	//});
 
-	//create syncronization structures
-	//one fence to control when the gpu has finished rendering the frame,
-	//and 2 semaphores to syncronize rendering with swapchain
-	//we want the fence to start signalled so we can wait on it on the first frame
+	////create syncronization structures
+	////one fence to control when the gpu has finished rendering the frame,
+	////and 2 semaphores to syncronize rendering with swapchain
+	////we want the fence to start signalled so we can wait on it on the first frame
 	VkFenceCreateInfo fenceCreateInfo = CreateFenceCreateInfo(VK_FENCE_CREATE_SIGNALED_BIT);
 	VkSemaphoreCreateInfo semaphoreCreateInfo = CreateSemaphoreCreateInfo();
 
@@ -672,11 +681,9 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function)
 {
 	vkResetFences(mDevice, 1, &mImmediateSubmitInfo.fence);
-
 	vkResetCommandBuffer(mImmediateSubmitInfo.commandBuffer, 0);
 
 	VkCommandBuffer cmd = mImmediateSubmitInfo.commandBuffer;
-
 	VkCommandBufferBeginInfo cmdBeginInfo = CreateCommandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 
 	vkBeginCommandBuffer(cmd, &cmdBeginInfo);
@@ -699,7 +706,21 @@ void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommand
 
 void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 {
+	AGlobalRenderingBackend::init(gameWindow);
+
 	InfoLog("Attempting to initialize Vulkan");
+
+	if (sActiveInstanceTSSV != nullptr) {
+		ErrorLog("Vulkan has already been initialized");
+
+		return;
+	}
+	else {
+		SetGlobalInstance(std::make_shared<VulkanRenderingBackend>(this));
+	
+	}
+
+	std::scoped_lock lock(sInstanceMutex);
 
 	//// Just make sure everything is in order before Vulkan gets initialized
 	ATLAS_ASSERT(gameWindow != nullptr, "Window must be set up prior to Vulkan init");
@@ -714,33 +735,21 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 	const bool cbEnableValidationLayers = isErrorCheckingEnabled();
 	const APIVersion cApiVersion = getAPIVersion();
 
-	//vkb::InstanceBuilder instanceBuilder;
-	//instanceBuilder.set_app_name(mApplicationName.c_str());
-	//instanceBuilder.request_validation_layers(cbEnableValidationLayers);
-	//instanceBuilder.use_default_debug_messenger(); // TODO: allow the user to set what messenger to use
-	//instanceBuilder.require_api_version(cApiVersion.major, cApiVersion.minor, cApiVersion.patch);
-
 	//// TODO: Figure out how to stop OBS from overriding the API version.
 	//// The issue is that, if OBS is installed, it will override the API 
 	//// version, even if a higher version is set. This is a problem because
 	//// it can cause the API version to be set to a lower version than what
 	//// we want. Currently, it is not a major problem, but it is something
 	//// to keep in mind.
-	//auto instanceReturn = instanceBuilder.build();
-	//
-	//vkb::Instance vulkanBootstrapInstance = instanceReturn.value();
-
-	//this->mVulkanInstance = vulkanBootstrapInstance.instance;
-	//this->mDebugMessenger = vulkanBootstrapInstance.debug_messenger;
 
 	std::string vulkanInitParametersString 
 		= std::format("->Application Name: {}\n->Vulkan API Version: {}.{}.{}\n->Enable Validation Layers: {}\n", mApplicationName, cApiVersion.major, cApiVersion.minor, cApiVersion.patch, cbEnableValidationLayers);
 
 	InfoLog("Initializing Vulkan instance:\n" + vulkanInitParametersString);
 
-	mInstance.setVersion(cApiVersion);
-	mInstance.setApplicationName(mApplicationName);
-	mInstance.setEnableValidationLayers(cbEnableValidationLayers);
+	//mInstance.setVersion(cApiVersion);
+	//mInstance.setApplicationName(mApplicationName);
+	//mInstance.setEnableValidationLayers(cbEnableValidationLayers);
 
 	mInstance.init();
 
@@ -748,6 +757,7 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 
 	// Device init
 	InfoLog("Initializing Vulkan device");
+
 	// If vulkan is being used with SDL2, this has to be done here.
 #ifdef ATLAS_USE_SDL2
 	// directly passing the window cast to avoid memory issues.
@@ -818,35 +828,35 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 
 void Atlas::VulkanRenderingBackend::initDefaultData()
 {
-	//std::array<Vertex, 4> rect_vertices;
+	std::array<Vertex, 4> rect_vertices;
 
-	//rect_vertices[0].position = { 0.5,-0.5, 0 };
-	//rect_vertices[1].position = { 0.5,0.5, 0 };
-	//rect_vertices[2].position = { -0.5,-0.5, 0 };
-	//rect_vertices[3].position = { -0.5,0.5, 0 };
+	rect_vertices[0].position = { 0.5,-0.5, 0 };
+	rect_vertices[1].position = { 0.5,0.5, 0 };
+	rect_vertices[2].position = { -0.5,-0.5, 0 };
+	rect_vertices[3].position = { -0.5,0.5, 0 };
 
-	//rect_vertices[0].color = { 0,0, 0,1 };
-	//rect_vertices[1].color = { 0.5,0.5,0.5 ,1 };
-	//rect_vertices[2].color = { 1,0, 0,1 };
-	//rect_vertices[3].color = { 0,1, 0,1 };
+	rect_vertices[0].color = { 0,0, 0,1 };
+	rect_vertices[1].color = { 0.5,0.5,0.5 ,1 };
+	rect_vertices[2].color = { 1,0, 0,1 };
+	rect_vertices[3].color = { 0,1, 0,1 };
 
-	//std::array<uint32_t, 6> rect_indices;
+	std::array<uint32_t, 6> rect_indices;
 
-	//rect_indices[0] = 0;
-	//rect_indices[1] = 1;
-	//rect_indices[2] = 2;
+	rect_indices[0] = 0;
+	rect_indices[1] = 1;
+	rect_indices[2] = 2;
 
-	//rect_indices[3] = 2;
-	//rect_indices[4] = 1;
-	//rect_indices[5] = 3;
+	rect_indices[3] = 2;
+	rect_indices[4] = 1;
+	rect_indices[5] = 3;
 
-	//rectangle = UploadMesh(rect_indices, rect_vertices);
+	rectangle = UploadMesh(rect_indices, rect_vertices);
 
-	////delete the rectangle data on engine shutdown
-	//mMainDeletionQueue.push([&]() {
-	//	destroyBuffer(rectangle.indexBuffer);
-	//	destroyBuffer(rectangle.vertexBuffer);
-	//});
+	//delete the rectangle data on engine shutdown
+	mMainDeletionQueue.push([&]() {
+		destroyBuffer(rectangle.indexBuffer);
+		destroyBuffer(rectangle.vertexBuffer);
+	});
 }
 
 void Atlas::VulkanRenderingBackend::initSwapchain(AGameWindow* gameWindow)
@@ -986,7 +996,7 @@ void Atlas::VulkanRenderingBackend::endDrawingMode()
 	//submit command buffer to the queue and execute it.
 	// _renderFence will now block until the graphic commands finish execution
 	vkQueueSubmit2(mGraphicsQueue, 1, &submit, currentFrame.renderFence);
-
+	
 	// prepare present
 	// this will put the image we just rendered to into the visible window.
 	// we want to wait on the _renderSemaphore for that, 
@@ -1016,8 +1026,6 @@ void Atlas::VulkanRenderingBackend::draw()
 	FrameData& currentFrame = getCurrentFrame();
 
 	vkBeginCommandBuffer(mCurrentDrawData.cmd, &mCurrentDrawData.cmdBeginInfo);
-
-
 
 	// transition our main draw image into general layout so we can write into it
 	// we will overwrite it all so we dont care about what was the older layout
@@ -1273,3 +1281,22 @@ bool Atlas::Shader::load(VkDevice* device) {
 }
 
 VkShaderModule Atlas::Shader::getModule() const { return mShaderModule; }
+
+Atlas::GraphicsQueue::GraphicsQueue(VkQueue queue, uint32_t queueFamily) 
+	: mQueue(queue), mQueueFamily(queueFamily) 
+{
+}
+
+void Atlas::GraphicsQueue::submit(std::span<VkSubmitInfo2> submitInfos, VkFence fence)
+{
+	ATLAS_ASSERT(submitInfos.size() > 0, "No submit infos provided!");
+
+	uint32_t submitInfoCount = (uint32_t)submitInfos.size();
+
+	vkQueueSubmit2(mQueue, submitInfoCount, submitInfos.data(), fence);
+}
+
+void Atlas::GraphicsQueue::submit(VkSubmitInfo2 const& submitInfo, VkFence fence) {
+	submit({ submitInfo }, fence);
+}
+

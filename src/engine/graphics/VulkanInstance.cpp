@@ -22,12 +22,33 @@
 #include <spdlog/common.h>
 #include <spdlog/spdlog.h>
 
+inline vkb::InstanceBuilder Atlas::VulkanInstanceWrapper::CreateInstanceBuilder(InitConfiguration const& initConfiguration) {
+	vkb::InstanceBuilder instanceBuilder;
+	instanceBuilder.set_app_name(initConfiguration.applicationName.c_str());
+	instanceBuilder.set_engine_name(initConfiguration.engineName.c_str());
 
-Atlas::VulkanInstanceWrapper::VulkanInstanceWrapper()
-{
-#ifdef ATLAS_DEBUG
-	mbEnableValidationLayers = true;
+	instanceBuilder.set_engine_version(initConfiguration.atlasVersion.major, initConfiguration.atlasVersion.minor, initConfiguration.atlasVersion.patch);
+	instanceBuilder.require_api_version(initConfiguration.vulkanVersion.major, initConfiguration.vulkanVersion.minor, initConfiguration.vulkanVersion.patch);
+
+	instanceBuilder.request_validation_layers(initConfiguration.bEnableValidationLayers);
+	
+	if (initConfiguration.optionalDebugMessengerCallback.has_value()) {
+		instanceBuilder.set_debug_callback(initConfiguration.optionalDebugMessengerCallback.value());
+	}
+	else {
+#ifdef ATLAS_USE_VULKAN_DEFAULT_DEBUG_MESSENGER
+		instanceBuilder.use_default_debug_messenger();
+#else
+		instanceBuilder.set_debug_callback(DefaultVulkanDebugCallback);
 #endif
+	}
+
+	return instanceBuilder;
+}
+
+Atlas::VulkanInstanceWrapper::VulkanInstanceWrapper(InitConfiguration const& initConfiguration)
+	: mInitConfiguration(initConfiguration)
+{
 
 }
 
@@ -36,43 +57,43 @@ Atlas::VulkanInstanceWrapper::~VulkanInstanceWrapper()
 	this->shutdown();
 }
 
-void Atlas::VulkanInstanceWrapper::setVersion(const Version& cVulkanVersionRef) { 
-	mVulkanVersion = cVulkanVersionRef; 
-}
-
-void Atlas::VulkanInstanceWrapper::setApplicationName(std::string_view appName)
-{
-	mApplicationName = appName;
-}
-
-void Atlas::VulkanInstanceWrapper::setEnableValidationLayers(const bool cbEnableValidationLayers) {
-	mbEnableValidationLayers = cbEnableValidationLayers; 
-}
-
-void Atlas::VulkanInstanceWrapper::setDebugCallback(VulkanDebugCallback debugMessengerCallback)
-{
-	mDebugMessengerCallback = std::make_optional(debugMessengerCallback);
-}
+//void Atlas::VulkanInstanceWrapper::setVersion(const Version& cVulkanVersionRef) { 
+//	mVulkanVersion = cVulkanVersionRef; 
+//}
+//
+//void Atlas::VulkanInstanceWrapper::setApplicationName(std::string_view appName)
+//{
+//	mApplicationName = appName;
+//}
+//
+//void Atlas::VulkanInstanceWrapper::setEnableValidationLayers(const bool cbEnableValidationLayers) {
+//	mbEnableValidationLayers = cbEnableValidationLayers; 
+//}
+//
+//void Atlas::VulkanInstanceWrapper::setDebugCallback(VulkanDebugCallback debugMessengerCallback)
+//{
+//	mDebugMessengerCallback = std::make_optional(debugMessengerCallback);
+//}
 
 uint16_t Atlas::VulkanInstanceWrapper::init() {
 	uint16_t initResult = 0;
 
 	vkb::InstanceBuilder instanceBuilder;
-	
-	instanceBuilder.set_app_name(mApplicationName.c_str());
 
-	// This function requires a const char*, but scEngineName is a std::string_view, therefore scEngineName.data() is used to convert to a const char*.
-	instanceBuilder.set_engine_name(scEngineName.data()); 
-	
-	instanceBuilder.set_engine_version(ATLAS_VERSION_MAJOR, ATLAS_VERSION_MINOR, ATLAS_VERSION_PATCH);
-	instanceBuilder.request_validation_layers(mbEnableValidationLayers);
-	
-	if (mDebugMessengerCallback.has_value()) {
-		instanceBuilder.set_debug_callback(mDebugMessengerCallback.value());
+	VulkanInstanceWrapper::InitConfiguration& initConfiguration = mInitConfiguration;
+
+	instanceBuilder.set_app_name(initConfiguration.applicationName.c_str());
+	instanceBuilder.set_engine_name(initConfiguration.engineName.c_str());
+
+	instanceBuilder.set_engine_version(initConfiguration.atlasVersion.major, initConfiguration.atlasVersion.minor, initConfiguration.atlasVersion.patch);
+	instanceBuilder.require_api_version(initConfiguration.vulkanVersion.major, initConfiguration.vulkanVersion.minor, initConfiguration.vulkanVersion.patch);
+
+	instanceBuilder.request_validation_layers(initConfiguration.bEnableValidationLayers);
+
+	if (initConfiguration.optionalDebugMessengerCallback.has_value()) {
+		instanceBuilder.set_debug_callback(initConfiguration.optionalDebugMessengerCallback.value());
 	}
 	else {
-
-
 #ifdef ATLAS_USE_VULKAN_DEFAULT_DEBUG_MESSENGER
 		instanceBuilder.use_default_debug_messenger();
 #else
@@ -80,27 +101,13 @@ uint16_t Atlas::VulkanInstanceWrapper::init() {
 #endif
 	}
 
-	instanceBuilder.require_api_version(mVulkanVersion.major, mVulkanVersion.minor, mVulkanVersion.patch);
-
 	auto instanceReturn = instanceBuilder.build();
-	
-	//if (!instanceReturn.has_value()) {
-	//	const std::error_code instanceBuildErrorCode = instanceReturn.error();
-	//	
-	//	initResult = instanceBuildErrorCode.value();
 
-	//	std::cout << "Failed to build vulkan instance: " << instanceBuildErrorCode.message() << std::endl;
+	ATLAS_ASSERT(instanceReturn.has_value(), "Failed to create Vulkan instance.");
 
-	//	return initResult;
-	//}
-
-	//vkb::Instance vulkanBootstrapInstance = instanceReturn.value();
-	mVulkanBootstrapInstance = std::make_unique<vkb::Instance>(instanceReturn.value());
-
-	vkb::Instance& vkBootstrapInstanceRef = getVulkanBootstrapInstance();
-
-	mVulkanInstance = vkBootstrapInstanceRef.instance;
-	mDebugMessenger = vkBootstrapInstanceRef.debug_messenger;
+	mVulkanBootstrapInstance = instanceReturn.value();
+	mVulkanInstance = instanceReturn.value().instance;
+	mDebugMessenger = instanceReturn.value().debug_messenger;
 
 	return initResult;
 }
@@ -120,7 +127,7 @@ VkDebugUtilsMessengerEXT& Atlas::VulkanInstanceWrapper::getDebugMessenger() {
 }
 
 vkb::Instance& Atlas::VulkanInstanceWrapper::getVulkanBootstrapInstance() {
-	return *mVulkanBootstrapInstance;
+	return mVulkanBootstrapInstance;
 }
 
 Atlas::VulkanInstanceWrapper::operator const VkInstance& () const {

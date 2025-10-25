@@ -32,7 +32,6 @@
 #include "FileRecord.h"
 #include "IOCommon.h"
 
-
 // FileJanitor functions:
 
 Atlas::FileManager::FileJanitor::FileJanitor(FileManager& fileManagerRef, const Options& options)
@@ -92,8 +91,8 @@ void Atlas::FileManager::FileJanitor::evictUnused()
 	std::vector<std::shared_ptr<FileRecord>> recordChecklist;
 	{
 		std::shared_lock lock(mFileManagerRef.mMapMutex);
-		for (auto const& kv : mFileManagerRef.mRecords) {
-			recordChecklist.push_back(kv.second);
+		for (auto const& [path, record] : mFileManagerRef.mRecords) {
+			recordChecklist.push_back(record);
 		}
 	}
 
@@ -132,6 +131,16 @@ void Atlas::FileManager::FileJanitor::evictUnused()
 	}
 }
 
+bool Atlas::FileManager::FileJanitor::isRunning() const
+{
+	return mJanitorThread.joinable();
+}
+
+bool Atlas::FileManager::FileJanitor::shouldStop() const
+{
+	return mJanitorStopFlag.load();
+}
+
 // FileManager functions:
 
 Atlas::FileManager::FileManager(const Options& options)
@@ -154,7 +163,6 @@ void Atlas::FileManager::registerDirectory(const std::filesystem::path& dir) {
 	//if (!std::filesystem::exists(dir)) {
 	//	return;
 	//}
-
 
 	// Recursively iterate through the provided directory, registering each file in the process. 
 	// Any file that is found within dir or any of its subdirectories will be registered as well.
@@ -330,10 +338,12 @@ void Atlas::FileManager::unloadAll()
 {
 	std::shared_lock lock(mMapMutex);
 
+	// If the map is empty, nothing to unload, so just return
 	if (mRecords.empty()) {
 		return;
 	}
 
+	// For each record, unload the file
 	for (auto const& [path, record] : mRecords) {
 		unloadFile(path);
 	}
@@ -348,6 +358,7 @@ std::vector<std::filesystem::path> Atlas::FileManager::findRegistered(const std:
 			out.push_back(registeredPath);
 		}
 	}
+
 	return out;
 }
 

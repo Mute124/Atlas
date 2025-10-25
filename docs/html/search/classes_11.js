@@ -7,6 +7,5 @@ var searchData=
   ['terrainsector_4',['TerrainSector',['../d4/d42/class_terrain_sector.html',1,'']]],
   ['threadlaunchinfo_5',['ThreadLaunchInfo',['../d0/d54/struct_atlas_1_1_thread_launch_info.html',1,'Atlas']]],
   ['threadsafevariable_6',['ThreadSafeVariable',['../d0/dbd/class_atlas_1_1_thread_safe_variable.html',1,'Atlas']]],
-  ['timer_7',['Timer',['../dd/ded/class_atlas_1_1_timer.html',1,'Atlas']]],
-  ['trianglestruct_8',['TriangleStruct',['../da/d89/struct_terrain_1_1_triangle_struct.html',1,'Terrain']]]
+  ['trianglestruct_7',['TriangleStruct',['../da/d89/struct_terrain_1_1_triangle_struct.html',1,'Terrain']]]
 ];

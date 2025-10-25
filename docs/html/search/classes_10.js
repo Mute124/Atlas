@@ -16,7 +16,8 @@ var searchData=
   ['sgridbuffer_13',['SGridBuffer',['../dc/da6/struct_s_grid_buffer.html',1,'']]],
   ['shader_14',['Shader',['../da/db7/class_atlas_1_1_shader.html',1,'Atlas']]],
   ['shellfileinterface_15',['ShellFileInterface',['../dc/d7b/class_shell_file_interface.html',1,'']]],
-  ['smetadatadecl_16',['SMetadataDecl',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html',1,'CScriptBuilder']]],
-  ['spdloglogger_17',['SpdlogLogger',['../da/d62/class_atlas_1_1_spdlog_logger.html',1,'Atlas']]],
-  ['stringifiedobject_18',['StringifiedObject',['../d2/d7b/class_atlas_1_1_stringified_object.html',1,'Atlas']]]
+  ['singleton_16',['Singleton',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
+  ['smetadatadecl_17',['SMetadataDecl',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html',1,'CScriptBuilder']]],
+  ['spdloglogger_18',['SpdlogLogger',['../da/d62/class_atlas_1_1_spdlog_logger.html',1,'Atlas']]],
+  ['stringifiedobject_19',['StringifiedObject',['../d2/d7b/class_atlas_1_1_stringified_object.html',1,'Atlas']]]
 ];

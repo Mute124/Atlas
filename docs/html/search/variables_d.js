@@ -5,9 +5,10 @@ var searchData=
   ['needsadjusting_2',['needsAdjusting',['../d8/dfe/struct_c_debugger_1_1_break_point.html#ad57c3f188d38de9fed59e9dae9efaf9d',1,'CDebugger::BreakPoint']]],
   ['noise_3',['noise',['../d1/dee/class_terrain.html#af666983558eb4f14edd2bc93c6e54626',1,'Terrain']]],
   ['non_5fmoving_4',['NON_MOVING',['../df/d0f/namespace_layers.html#a64d27fdfa3519d12275625165cf182ad',1,'Layers']]],
-  ['normals_5',['normals',['../d7/d58/class_chunk.html#afefb01c8c87235fb83cfdafd35c76735',1,'Chunk']]],
-  ['num_5fcomponents_6',['num_components',['../df/d67/struct_renderer_extensions_1_1_image.html#aee8ea434c97b86998cd9b328686511b0',1,'RendererExtensions::Image']]],
-  ['num_5flayers_7',['NUM_LAYERS',['../df/d0f/namespace_layers.html#a7add495ddb5e8d46a67ec22b3e9a46f7',1,'Layers']]],
-  ['numelements_8',['numElements',['../d3/d98/struct_s_array_buffer.html#a3ca99d5f10b6c1f485b4c4edfbd152af',1,'SArrayBuffer']]],
-  ['numframesinflight_9',['numframesinflight',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#a6a541239da42836b2127d1428032cf7d',1,'ImGui_ImplDX12_Data::numFramesInFlight'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a6c5df0f3745f9c235ec7349227eeae2a',1,'ImGui_ImplWGPU_Data::numFramesInFlight'],['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#ada0c7e772195e1466be60c78cf0b52e0',1,'ImGui_ImplWGPU_InitInfo::NumFramesInFlight']]]
+  ['normal_5',['normal',['../d1/d41/struct_atlas_1_1_vertex.html#aacbdb1acc3ce16d8a626da74901047a9',1,'Atlas::Vertex']]],
+  ['normals_6',['normals',['../d7/d58/class_chunk.html#afefb01c8c87235fb83cfdafd35c76735',1,'Chunk']]],
+  ['num_5fcomponents_7',['num_components',['../df/d67/struct_renderer_extensions_1_1_image.html#aee8ea434c97b86998cd9b328686511b0',1,'RendererExtensions::Image']]],
+  ['num_5flayers_8',['NUM_LAYERS',['../df/d0f/namespace_layers.html#a7add495ddb5e8d46a67ec22b3e9a46f7',1,'Layers']]],
+  ['numelements_9',['numElements',['../d3/d98/struct_s_array_buffer.html#a3ca99d5f10b6c1f485b4c4edfbd152af',1,'SArrayBuffer']]],
+  ['numframesinflight_10',['numframesinflight',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#a6a541239da42836b2127d1428032cf7d',1,'ImGui_ImplDX12_Data::numFramesInFlight'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a6c5df0f3745f9c235ec7349227eeae2a',1,'ImGui_ImplWGPU_Data::numFramesInFlight'],['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#ada0c7e772195e1466be60c78cf0b52e0',1,'ImGui_ImplWGPU_InitInfo::NumFramesInFlight']]]
 ];

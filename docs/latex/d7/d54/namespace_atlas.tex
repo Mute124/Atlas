@@ -12,20 +12,22 @@ namespace \mbox{\hyperlink{namespace_atlas_1_1_tests}{Tests}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_a_device}{ADevice}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_a_extension_validator}{AExtension\+Validator}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_a_file}{AFile}}
-\begin{DoxyCompactList}\small\item\em An abstract class that represents a file and its data. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGame\+Window}}
 \begin{DoxyCompactList}\small\item\em An interface that allows the creation of custom window classes in an API-\/agnostic way. It contains some general pure virtual functions that are required to create a window. {\bfseries{This interface is what \doxylink{namespace_atlas}{Atlas} stores a pointer as when creating a window.}} \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{Allocated\+Buffer}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_allocated_image}{Allocated\+Image}}
 \item 
+class \mbox{\hyperlink{class_atlas_1_1_a_logger}{ALogger}}
+\begin{DoxyCompactList}\small\item\em Interface for logging that is responsible for handling any logging from the engine, game, or mods. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_a_path_searcher}{APath\+Searcher}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_a_renderer}{ARenderer}}
 \begin{DoxyCompactList}\small\item\em A base class for all renderers. This class is responsible for {\bfseries{frontend}} rendering of your game. The rendering backend is responsible for the actual rendering. When using this class, you should inherit from it and implement the {\ttfamily init} and {\ttfamily update} methods. If you want this class to be multi-\/threaded by \doxylink{namespace_atlas}{Atlas}, you should make sure that the {\ttfamily init} and {\ttfamily update} methods are thread-\/safe. Additionally, make sure you set \doxylink{class_atlas_1_1_a_renderer_a6a77936bc8281507f5e205e8831a9852}{can\+Be\+Multi\+Threaded} to {\itshape true} if you want this to take effect. If you do not, \doxylink{namespace_atlas}{Atlas} will only run the {\ttfamily init} and {\ttfamily update} methods on the rendering thread instead of accounting for your renderer\textquotesingle{}s need to be multi-\/threaded. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_async_timer}{Async\+Timer}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_a_timer}{ATimer}}
+\item 
 class \mbox{\hyperlink{class_atlas_1_1_atlas_engine}{Atlas\+Engine}}
 \begin{DoxyCompactList}\small\item\em This is the core and heart of \doxylink{namespace_atlas}{Atlas}; it is responsible for just about everything that is required to run the engine. It contains multiple different modules that can be used to extend the engine. If you want to extend the engine, you can simply inherit the respective module and utilize the concepts of polymorphism to your advantage. Keep in mind that the modules are stored as a \doxylink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable} and can be used concurrently. That means the user can multi-\/thread these modules if they so choose. This is just a default implementation of the \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} and you do not have to use this class. However, if you would like to use a different implementation, you can simply inherit from \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} and override the virtual functions. But one thing must remain\+: the class must inherit from \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine} or be a child of \doxylink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine}. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_atlas_engine_initializer}{Atlas\+Engine\+Initializer}}
@@ -39,6 +41,8 @@ class \mbox{\hyperlink{class_atlas_1_1_color}{Color}}
 struct \mbox{\hyperlink{struct_atlas_1_1_compute_effect}{Compute\+Effect}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_compute_push_constants}{Compute\+Push\+Constants}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_counter}{Counter}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{Current\+Draw\+Data}}
 \item 
@@ -62,8 +66,18 @@ struct \mbox{\hyperlink{struct_atlas_1_1_engine_modules_info}{Engine\+Modules\+I
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_event_poller}{Event\+Poller}}
 \item 
-struct \mbox{\hyperlink{struct_atlas_1_1_file_cast_attempt}{File\+Cast\+Attempt}}
-\begin{DoxyCompactList}\small\item\em A struct that holds the result of a file cast. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_fence}{Fence}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_file_data}{File\+Data}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_handle}{File\+Handle}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_manager}{File\+Manager}}
+\begin{DoxyCompactList}\small\item\em As the name suggests, this {\bfseries{non-\/copyable}} class is responsible for managing the files that \doxylink{namespace_atlas}{Atlas} and the user has loaded. This class has {\bfseries{3}} main responsibilities (excluding the janitor)\+: {\bfseries{Loading}}, {\bfseries{Unloading}} and {\bfseries{Registering}}. Additionally, this class can be configured to ignore certain patterns it comes across during the file discovery process through the use of {\bfseries{regex}} patterns. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_file_record}{File\+Record}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_file_system_audit_info}{File\+System\+Audit\+Info}}
+\begin{DoxyCompactList}\small\item\em Some information about \doxylink{namespace_atlas}{Atlas}\textquotesingle{} io module that may be helpful for debugging. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_file_system_map}{File\+System\+Map}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_found_path_result}{Found\+Path\+Result}}
@@ -84,6 +98,10 @@ class \mbox{\hyperlink{class_atlas_1_1_game_time_manager}{Game\+Time\+Manager}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_game_window_settings}{Game\+Window\+Settings}}
 \item 
+struct \mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants}{GPUDraw\+Push\+Constants}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{GPUMesh\+Buffers}}
+\item 
 struct \mbox{\hyperlink{struct_atlas_1_1_g_u_i_decorations}{GUIDecorations}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_haptic_device}{Haptic\+Device}}
@@ -96,25 +114,23 @@ struct \mbox{\hyperlink{struct_atlas_1_1_haptic_effect_upload_result}{Haptic\+Ef
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_i_atlas_engine}{IAtlas\+Engine}}
 \item 
+class \mbox{\hyperlink{class_atlas_1_1_i_factory}{IFactory}}
+\begin{DoxyCompactList}\small\item\em A pure virtual factory interface for creating unique pointer objects. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_i_game_thread}{IGame\+Thread}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_i_game_threader}{IGame\+Threader}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_i_haptic_effect}{IHaptic\+Effect}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_logger}{ILogger}}
-\begin{DoxyCompactList}\small\item\em Interface for logging that is responsible for handling any logging from the engine, game, or mods. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_i_memory_allocator}{IMemory\+Allocator}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{Immediate\+Submit\+Info}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_o_manager}{IOManager}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_i_path_loader_logic_gate}{IPath\+Loader\+Logic\+Gate}}
-\item 
 class \mbox{\hyperlink{class_atlas_1_1_i_stringified_object}{IStringified\+Object}}
 \begin{DoxyCompactList}\small\item\em An interface for classes that want to be printable. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_i_symbol}{ISymbol}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_log_message}{Log\+Message}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_make_non_copyable}{Make\+Non\+Copyable}}
 \item 
@@ -137,8 +153,6 @@ class \mbox{\hyperlink{class_atlas_1_1_paced_thread}{Paced\+Thread}}
 class \mbox{\hyperlink{class_atlas_1_1_parser}{Parser}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_path}{Path}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_path_loader_logic_gate}{Path\+Loader\+Logic\+Gate}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_path_search_result}{Path\+Search\+Result}}
 \item 
@@ -176,6 +190,8 @@ class \mbox{\hyperlink{class_atlas_1_1_semaphore}{Semaphore}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_shader}{Shader}}
 \item 
+class \mbox{\hyperlink{class_atlas_1_1_singleton}{Singleton}}
+\item 
 class \mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{Spdlog\+Logger}}
 \begin{DoxyCompactList}\small\item\em A generic logger that uses the {\bfseries{Spdlog}} library. According to the spdlog documentation, you may call the {\itshape spdlog\+::log()} function to log messages {\bfseries{after}} the logger has been initialized because of how spdlog works. For more information, on how to use spdlog, please refer to their documentation. This class was designed to work in the same way as the multi-\/sink logger example provided in the spdlog documentation. Another important thing to note about this class is that, assuming you are not implementing a custom {\ttfamily PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} callback for Vulkan, this class should be initialized prior to the initialization and usage of \doxylink{namespace_atlas}{Atlas}\textquotesingle{} Vulkan API. Otherwise, you will get errors the second Vulkan starts sending messages to the callback. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_stringified_object}{Stringified\+Object}}
@@ -188,9 +204,9 @@ struct \mbox{\hyperlink{struct_atlas_1_1_thread_launch_info}{Thread\+Launch\+Inf
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_thread_safe_variable}{Thread\+Safe\+Variable}}
 \begin{DoxyCompactList}\small\item\em This class wraps a variable (specified by T\+\_\+\+VARIABLE\+\_\+\+TYPE) and makes it thread-\/safe. \end{DoxyCompactList}\item 
-class \mbox{\hyperlink{class_atlas_1_1_timer}{Timer}}
-\item 
 struct \mbox{\hyperlink{struct_atlas_1_1_version}{Version}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_vertex}{Vertex}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_vulkan_instance_wrapper}{Vulkan\+Instance\+Wrapper}}
 \begin{DoxyCompactList}\small\item\em Acts as a wrapper for Vk\+Instance and it\textquotesingle{}s debug messenger. Furthermore, this class handles it\textquotesingle{}s own initialization and shutdown. \end{DoxyCompactList}\item 
@@ -210,6 +226,8 @@ struct \mbox{\hyperlink{struct_atlas_1_1_window_hint}{Window\+Hint}}
 concept \mbox{\hyperlink{concept_atlas_1_1_numerical}{Numerical}}
 \item 
 concept \mbox{\hyperlink{concept_atlas_1_1_thread_type_concept}{Thread\+Type\+Concept}}
+\item 
+concept \mbox{\hyperlink{concept_atlas_1_1_clock}{Clock}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
@@ -226,7 +244,7 @@ using \mbox{\hyperlink{namespace_atlas_a49ed2279b082b65090203337d2923cfb}{Aligne
 \item 
 using \mbox{\hyperlink{namespace_atlas_af456e30e8e0a59c371cf0cfa82aab9e7}{Aligned\+Free\+Func}} = \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}(\texorpdfstring{$\ast$}{*})(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}block\+Ptr)
 \item 
-using \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} = spdlog\+::level\+::level\+\_\+enum
+using \mbox{\hyperlink{namespace_atlas_a9a6ab43916677caa6a0c4df55bf1bce9}{Spdlog\+Log\+Level}} = spdlog\+::level\+::level\+\_\+enum
 \item 
 using \mbox{\hyperlink{namespace_atlas_afc221e3097be74d639bed4cca1dafd21}{Color\+Bit}} = uint8\+\_\+t
 \begin{DoxyCompactList}\small\item\em A single color value. Each color channel is a 8-\/bit value. \end{DoxyCompactList}\item 
@@ -245,6 +263,10 @@ using \mbox{\hyperlink{namespace_atlas_ab6f98e58bf58aee11abd174b15f7b281}{Haptic
 using \mbox{\hyperlink{namespace_atlas_a33c36cc6d06931324201eab6aae964a0}{File\+Stream}} = std\+::fstream
 \item 
 using \mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Path\+Location}} = std\+::filesystem\+::path
+\item 
+using \mbox{\hyperlink{namespace_atlas_a3d0d1868877cb6b84d1f75e8b3340086}{steady\+\_\+clock}} = std\+::chrono\+::steady\+\_\+clock
+\item 
+using \mbox{\hyperlink{namespace_atlas_a5054a486a703218d0f6e4dcc262e3fd0}{Time\+Point}} = std\+::chrono\+::time\+\_\+point$<$ \mbox{\hyperlink{namespace_atlas_a3d0d1868877cb6b84d1f75e8b3340086}{steady\+\_\+clock}} $>$
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
@@ -277,21 +299,25 @@ enum class \mbox{\hyperlink{namespace_atlas_a2a1fc9c63985c88421113e17231695aa}{E
  \}
 \begin{DoxyCompactList}\small\item\em A list of debug event types in an order of increasing severity. \end{DoxyCompactList}\item 
 enum class \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}} \+: int \{ \newline
-\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{trace}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+TRACE
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{debug}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+DEBUG
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+INFO
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{warn}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+WARN
+\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{trace}} = ATLAS\+\_\+\+LEVEL\+\_\+\+TRACE
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{debug}} = ATLAS\+\_\+\+LEVEL\+\_\+\+DEBUG
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}} = ATLAS\+\_\+\+LEVEL\+\_\+\+INFO
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{warn}} = ATLAS\+\_\+\+LEVEL\+\_\+\+WARN
 , \newline
-\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+ERROR
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{critical}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+CRITICAL
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808}{off}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+OFF
+\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}} = ATLAS\+\_\+\+LEVEL\+\_\+\+ERROR
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{critical}} = ATLAS\+\_\+\+LEVEL\+\_\+\+CRITICAL
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808}{off}} = ATLAS\+\_\+\+LEVEL\+\_\+\+OFF
 , \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75}{n\+Levels}}
  \}
 \item 
-enum \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{ESpdlog\+Init\+List\+Index}} \{ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba}{Console\+Logger}} = 0
-, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0}{File\+Logger}} = 1
-, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}{Logger}} = 2
-, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}{Max}} = Logger
+enum class \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aa}{ESpdlog\+Init\+List\+Index}} \+: int \{ \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa22afff4b285ae7742bc240696673108c}{Console\+Logger}} = 0
+, \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa5a17566262b837143034f3b1d221cc62}{File\+Logger}} = 1
+, \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa959112efd77bcbe18a8c9e70e3274220}{Logger}} = 2
+, \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa6a061313d22e51e0f25b7cd4dc065233}{Max}} = Logger
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592}{ESpdlog\+Sink\+Type}} \+: int \{ \mbox{\hyperlink{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592abccaa4aa80831b76c11240a16447975f}{Console}} = 0
+, \mbox{\hyperlink{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592a0b27918290ff5323bea1e3b78a9cf04e}{File}} = 1
  \}
 \item 
 enum class \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{EVulkan\+Rendering\+Option}} \+: size\+\_\+t \{ \newline
@@ -336,7 +362,7 @@ enum class \mbox{\hyperlink{namespace_atlas_ac7a903403074d900c92f0b564af3025a}{E
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a57b2793df7151657e8a1373ad49555c7}{Register\+Default\+Memory\+Functions}} ()
 \item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a8641f8ef74c8d98a11ce7066c7f664f1}{Log\+Message}} (std\+::string const \&message, \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} log\+Level)
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a9b3ddfc25a11b7b9d5f81704083a36cc}{Log\+Message}} (std\+::string const \&message, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}} log\+Level)
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{Info\+Log}} (std\+::string const \&message)
 \item 
@@ -392,13 +418,15 @@ Vk\+Pipeline\+Layout\+Create\+Info \mbox{\hyperlink{namespace_atlas_aeda5ec65e1d
 \item 
 Vk\+Pipeline\+Shader\+Stage\+Create\+Info \mbox{\hyperlink{namespace_atlas_af6ea2410a3c81aee856b0c01cdf176be}{Create\+Pipeline\+Shader\+Stage\+Create\+Info}} (Vk\+Shader\+Stage\+Flag\+Bits stage, Vk\+Shader\+Module shader\+Module, const char \texorpdfstring{$\ast$}{*}entry="{}main"{})
 \item 
-\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} \mbox{\hyperlink{namespace_atlas_a43d5dd37e72abb3a4d9e3b13f07c845d}{Translate\+Vulkan\+Log\+Level}} (Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT message\+Severity)
-\begin{DoxyCompactList}\small\item\em Translates a vulkan debug log level to one that \doxylink{namespace_atlas}{Atlas} can use. For the most part, the Vulkan debug log levels are the same as the \doxylink{namespace_atlas}{Atlas} ones, with {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+INFO\+\_\+\+BIT\+\_\+\+EXT}, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+WARNING\+\_\+\+BIT\+\_\+\+EXT}, and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+ERROR\+\_\+\+BIT\+\_\+\+EXT} being the same as {\itshape Log\+Level\+::info}, {\itshape Log\+Level\+::warn}, and {\itshape Log\+Level\+::err} in that order. However, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+VERBOSE\+\_\+\+BIT\+\_\+\+EXT} and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM\+\_\+\+EXT} are translated to {\itshape Log\+Level\+::trace} and {\itshape Log\+Level\+::critical}, respectively. The default is {\itshape Log\+Level\+::info}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}} \mbox{\hyperlink{namespace_atlas_a8009d7ed74e0704b8191145e436a7ac3}{Translate\+Vulkan\+Log\+Level}} (Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT message\+Severity)
+\begin{DoxyCompactList}\small\item\em Translates a vulkan debug log level to one that \doxylink{namespace_atlas}{Atlas} can use. For the most part, the Vulkan debug log levels are the same as the \doxylink{namespace_atlas}{Atlas} ones, with {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+INFO\+\_\+\+BIT\+\_\+\+EXT}, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+WARNING\+\_\+\+BIT\+\_\+\+EXT}, and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+ERROR\+\_\+\+BIT\+\_\+\+EXT} being the same as {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{ELog\+Level\+::info}}, {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{ELog\+Level\+::warn}}, and {\itshape ELog\+Level\+::err} in that order. However, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+VERBOSE\+\_\+\+BIT\+\_\+\+EXT} and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM\+\_\+\+EXT} are translated to {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{ELog\+Level\+::trace}} and {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{ELog\+Level\+::critical}}, respectively. The default is {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{ELog\+Level\+::info}}. \end{DoxyCompactList}\item 
 Vk\+Bool32 \mbox{\hyperlink{namespace_atlas_afaaad2137b7ca90a17d022d41cb33632}{Default\+Vulkan\+Debug\+Callback}} (Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT message\+Severity, Vk\+Debug\+Utils\+Message\+Type\+Flags\+EXT message\+Type, const Vk\+Debug\+Utils\+Messenger\+Callback\+Data\+EXT \texorpdfstring{$\ast$}{*}p\+Callback\+Data, \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}p\+User\+Data)
 \begin{DoxyCompactList}\small\item\em The default Vulkan debug callback that \doxylink{namespace_atlas}{Atlas} uses if no custom debug callback is provided by the user in \doxylink{class_atlas_1_1_vulkan_instance_wrapper}{Vulkan\+Instance\+Wrapper} before it is initialized. According to the Khronos specification on the {\itshape PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} object, this function should always return a value of {\itshape VK\+\_\+\+FALSE}, which is what this function does. See the Khronos specification for more information (this is in the see also section of the documentation). The message is logged via the usage of {\itshape spdlog\+::log()}. However, this means that some logger (more specifically a {\itshape Spdlog} logger) must have been initialized before this function is called or it will crash. \end{DoxyCompactList}\item 
 unsigned int \mbox{\hyperlink{namespace_atlas_a6eaa0d5e833c8de1e188d35c72be8743}{Get\+Window\+Config\+Flag}} (std\+::string const \&flag\+Name)
 \item 
-bool \mbox{\hyperlink{namespace_atlas_ace931dde37d1a3b3f4919d9f5565a44e}{Path\+Exists}} (\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Path\+Location}} const \&c\+Path)
+bool \mbox{\hyperlink{namespace_atlas_a9d34d1a05685af71d008f8d789412c96}{Does\+Path\+Exist}} (\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Path\+Location}} const \&c\+Path)
+\item 
+std\+::filesystem\+::path \mbox{\hyperlink{namespace_atlas_a419edd2c7bf494890abde98b62fdbbc3}{Get\+Absolute\+Path}} (\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Path\+Location}} const \&c\+Path)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -476,7 +504,7 @@ Definition at line \mbox{\hyperlink{_color_8h_source_l00030}{30}} of file \mbox{
 
 
 
-Definition at line \mbox{\hyperlink{_file_8h_source_l00013}{13}} of file \mbox{\hyperlink{_file_8h_source}{File.\+h}}.
+Definition at line \mbox{\hyperlink{_file_handle_8h_source_l00027}{27}} of file \mbox{\hyperlink{_file_handle_8h_source}{File\+Handle.\+h}}.
 
 \Hypertarget{namespace_atlas_a72cf222afb41a2a8d147b6360ec0cc8b}\label{namespace_atlas_a72cf222afb41a2a8d147b6360ec0cc8b} 
 \index{Atlas@{Atlas}!FreeFunc@{FreeFunc}}
@@ -523,17 +551,7 @@ Definition at line \mbox{\hyperlink{_haptic_effect_8h_source_l00020}{20}} of fil
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00152}{152}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
-
-\Hypertarget{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}\label{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca} 
-\index{Atlas@{Atlas}!LogLevel@{LogLevel}}
-\index{LogLevel@{LogLevel}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{LogLevel}{LogLevel}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Atlas\+::\+Log\+Level}} = typedef spdlog\+::level\+::level\+\_\+enum}
-
-
-
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00027}{27}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00163}{163}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}\label{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582} 
 \index{Atlas@{Atlas}!PathLocation@{PathLocation}}
@@ -571,6 +589,36 @@ v0.\+0.\+1
 
 
 Definition at line \mbox{\hyperlink{_window_8h_source_l00275}{275}} of file \mbox{\hyperlink{_window_8h_source}{Window.\+h}}.
+
+\Hypertarget{namespace_atlas_a9a6ab43916677caa6a0c4df55bf1bce9}\label{namespace_atlas_a9a6ab43916677caa6a0c4df55bf1bce9} 
+\index{Atlas@{Atlas}!SpdlogLogLevel@{SpdlogLogLevel}}
+\index{SpdlogLogLevel@{SpdlogLogLevel}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{SpdlogLogLevel}{SpdlogLogLevel}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a9a6ab43916677caa6a0c4df55bf1bce9}{Atlas\+::\+Spdlog\+Log\+Level}} = typedef spdlog\+::level\+::level\+\_\+enum}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00056}{56}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{namespace_atlas_a3d0d1868877cb6b84d1f75e8b3340086}\label{namespace_atlas_a3d0d1868877cb6b84d1f75e8b3340086} 
+\index{Atlas@{Atlas}!steady\_clock@{steady\_clock}}
+\index{steady\_clock@{steady\_clock}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{steady\_clock}{steady\_clock}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a3d0d1868877cb6b84d1f75e8b3340086}{Atlas\+::steady\+\_\+clock}} = typedef std\+::chrono\+::steady\+\_\+clock}
+
+
+
+Definition at line \mbox{\hyperlink{_i_o_common_8h_source_l00016}{16}} of file \mbox{\hyperlink{_i_o_common_8h_source}{IOCommon.\+h}}.
+
+\Hypertarget{namespace_atlas_a5054a486a703218d0f6e4dcc262e3fd0}\label{namespace_atlas_a5054a486a703218d0f6e4dcc262e3fd0} 
+\index{Atlas@{Atlas}!TimePoint@{TimePoint}}
+\index{TimePoint@{TimePoint}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{TimePoint}{TimePoint}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespace_atlas_a5054a486a703218d0f6e4dcc262e3fd0}{Atlas\+::\+Time\+Point}} = typedef std\+::chrono\+::time\+\_\+point$<$\mbox{\hyperlink{namespace_atlas_a3d0d1868877cb6b84d1f75e8b3340086}{steady\+\_\+clock}}$>$}
+
+
+
+Definition at line \mbox{\hyperlink{_i_o_common_8h_source_l00017}{17}} of file \mbox{\hyperlink{_i_o_common_8h_source}{IOCommon.\+h}}.
 
 \Hypertarget{namespace_atlas_a70c92d51cf7a5ffa6b87ef2d2db9506d}\label{namespace_atlas_a70c92d51cf7a5ffa6b87ef2d2db9506d} 
 \index{Atlas@{Atlas}!VulkanDebugCallback@{VulkanDebugCallback}}
@@ -793,7 +841,7 @@ n\+Levels&\\
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00029}{29}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00059}{59}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{namespace_atlas_ae87546dceedbbfc984b86121a7154b5a}\label{namespace_atlas_ae87546dceedbbfc984b86121a7154b5a} 
 \index{Atlas@{Atlas}!ELookupType@{ELookupType}}
@@ -869,35 +917,55 @@ Invalid\+Argument&\\
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00154}{154}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00165}{165}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
-\Hypertarget{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}\label{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923} 
+\Hypertarget{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aa}\label{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aa} 
 \index{Atlas@{Atlas}!ESpdlogInitListIndex@{ESpdlogInitListIndex}}
 \index{ESpdlogInitListIndex@{ESpdlogInitListIndex}!Atlas@{Atlas}}
 \doxysubsubsection{\texorpdfstring{ESpdlogInitListIndex}{ESpdlogInitListIndex}}
-{\footnotesize\ttfamily enum \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{Atlas\+::\+ESpdlog\+Init\+List\+Index}}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aa}{Atlas\+::\+ESpdlog\+Init\+List\+Index}} \+: int\hspace{0.3cm}{\ttfamily [strong]}}
 
 \begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ConsoleLogger@{ConsoleLogger}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ConsoleLogger@{ConsoleLogger}}}\Hypertarget{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba}\label{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ConsoleLogger@{ConsoleLogger}!Atlas@{Atlas}}\index{Atlas@{Atlas}!ConsoleLogger@{ConsoleLogger}}}\Hypertarget{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa22afff4b285ae7742bc240696673108c}\label{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa22afff4b285ae7742bc240696673108c} 
 Console\+Logger&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{FileLogger@{FileLogger}!Atlas@{Atlas}}\index{Atlas@{Atlas}!FileLogger@{FileLogger}}}\Hypertarget{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0}\label{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FileLogger@{FileLogger}!Atlas@{Atlas}}\index{Atlas@{Atlas}!FileLogger@{FileLogger}}}\Hypertarget{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa5a17566262b837143034f3b1d221cc62}\label{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa5a17566262b837143034f3b1d221cc62} 
 File\+Logger&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Logger@{Logger}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Logger@{Logger}}}\Hypertarget{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}\label{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Logger@{Logger}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Logger@{Logger}}}\Hypertarget{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa959112efd77bcbe18a8c9e70e3274220}\label{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa959112efd77bcbe18a8c9e70e3274220} 
 Logger&\\
 \hline
 
-\raisebox{\heightof{T}}[0pt][0pt]{\index{Max@{Max}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Max@{Max}}}\Hypertarget{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}\label{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b} 
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Max@{Max}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Max@{Max}}}\Hypertarget{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa6a061313d22e51e0f25b7cd4dc065233}\label{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa6a061313d22e51e0f25b7cd4dc065233} 
 Max&\\
 \hline
 
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{_logging_8h_source_l00040}{40}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00071}{71}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592}\label{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592} 
+\index{Atlas@{Atlas}!ESpdlogSinkType@{ESpdlogSinkType}}
+\index{ESpdlogSinkType@{ESpdlogSinkType}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{ESpdlogSinkType}{ESpdlogSinkType}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592}{Atlas\+::\+ESpdlog\+Sink\+Type}} \+: int\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Console@{Console}!Atlas@{Atlas}}\index{Atlas@{Atlas}!Console@{Console}}}\Hypertarget{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592abccaa4aa80831b76c11240a16447975f}\label{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592abccaa4aa80831b76c11240a16447975f} 
+Console&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{File@{File}!Atlas@{Atlas}}\index{Atlas@{Atlas}!File@{File}}}\Hypertarget{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592a0b27918290ff5323bea1e3b78a9cf04e}\label{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592a0b27918290ff5323bea1e3b78a9cf04e} 
+File&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00078}{78}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
 
 \Hypertarget{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}\label{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a} 
 \index{Atlas@{Atlas}!EVulkanRenderingOption@{EVulkanRenderingOption}}
@@ -953,7 +1021,7 @@ Fence\+\_\+\+Timeout&\\
 \end{DoxyEnumFields}
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00233}{233}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00255}{255}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 
 
 
@@ -967,7 +1035,7 @@ T Atlas\+::\+Align\+Up (\begin{DoxyParamCaption}\item[{T}]{value,  }\item[{uint6
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00225}{225}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00328}{328}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{namespace_atlas_a602acac644c10f3cf80105af54897150}\label{namespace_atlas_a602acac644c10f3cf80105af54897150} 
 \index{Atlas@{Atlas}!CopyImageToImage@{CopyImageToImage}}
@@ -981,7 +1049,7 @@ Definition at line \mbox{\hyperlink{_graphics_utils_8cpp_source_l00213}{213}} of
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00850}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01014}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw()}}.
 
 \Hypertarget{namespace_atlas_a5fdac6b025384b0b3251464b9eb33916}\label{namespace_atlas_a5fdac6b025384b0b3251464b9eb33916} 
 \index{Atlas@{Atlas}!CreateAttachmentInfo@{CreateAttachmentInfo}}
@@ -995,7 +1063,7 @@ Definition at line \mbox{\hyperlink{_graphics_utils_8cpp_source_l00180}{180}} of
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00942}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+Geometry()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00880}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+IMGUI()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01106}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+Geometry()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01044}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+IMGUI()}}.
 
 \Hypertarget{namespace_atlas_adfa68c6d6cbe8c3db73e75525e66ef4a}\label{namespace_atlas_adfa68c6d6cbe8c3db73e75525e66ef4a} 
 \index{Atlas@{Atlas}!CreateCommandBufferAllocateInfo@{CreateCommandBufferAllocateInfo}}
@@ -1013,7 +1081,7 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aca
 
 
 
-Referenced by \mbox{\hyperlink{_frame_8cpp_source_l00006}{Atlas\+::\+Frame\+::init()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00402}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
+Referenced by \mbox{\hyperlink{_frame_8cpp_source_l00006}{Atlas\+::\+Frame\+::init()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00480}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
 
 \Hypertarget{namespace_atlas_a4931baa2d3c987ef3cb127667dc442d8}\label{namespace_atlas_a4931baa2d3c987ef3cb127667dc442d8} 
 \index{Atlas@{Atlas}!CreateCommandBufferBeginInfo@{CreateCommandBufferBeginInfo}}
@@ -1031,7 +1099,7 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aca
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00749}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::begin\+Drawing\+Mode()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00544}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::\+Immediate\+Submit()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00913}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::begin\+Drawing\+Mode()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00672}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::\+Immediate\+Submit()}}.
 
 \Hypertarget{namespace_atlas_a0e2419043c2bf72f75e532ed563ff5af}\label{namespace_atlas_a0e2419043c2bf72f75e532ed563ff5af} 
 \index{Atlas@{Atlas}!CreateCommandPoolCreateInfo@{CreateCommandPoolCreateInfo}}
@@ -1049,7 +1117,7 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aca
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00402}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00480}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
 
 \Hypertarget{namespace_atlas_a2eb75a279d9d94185e007305c39ae665}\label{namespace_atlas_a2eb75a279d9d94185e007305c39ae665} 
 \index{Atlas@{Atlas}!CreateFenceCreateInfo@{CreateFenceCreateInfo}}
@@ -1067,7 +1135,7 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aca
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00402}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00480}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
 
 \Hypertarget{namespace_atlas_aafca0d417a35bba15f288564c0b3032a}\label{namespace_atlas_aafca0d417a35bba15f288564c0b3032a} 
 \index{Atlas@{Atlas}!CreateImageCreateInfo@{CreateImageCreateInfo}}
@@ -1085,7 +1153,7 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aca
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00688}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Swapchain()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00852}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Swapchain()}}.
 
 \Hypertarget{namespace_atlas_a87409471205b4bd1d6441b8ac33cea03}\label{namespace_atlas_a87409471205b4bd1d6441b8ac33cea03} 
 \index{Atlas@{Atlas}!CreateImageSubresourceRange@{CreateImageSubresourceRange}}
@@ -1117,7 +1185,7 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aca
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00688}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Swapchain()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00852}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Swapchain()}}.
 
 \Hypertarget{namespace_atlas_aeda5ec65e1df40b754e54ad20017407f}\label{namespace_atlas_aeda5ec65e1df40b754e54ad20017407f} 
 \index{Atlas@{Atlas}!CreatePipelineLayoutCreateInfo@{CreatePipelineLayoutCreateInfo}}
@@ -1135,7 +1203,7 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aca
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00328}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Triangle\+Pipeline()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00394}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Mesh\+Pipeline()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00335}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Triangle\+Pipeline()}}.
 
 \Hypertarget{namespace_atlas_af6ea2410a3c81aee856b0c01cdf176be}\label{namespace_atlas_af6ea2410a3c81aee856b0c01cdf176be} 
 \index{Atlas@{Atlas}!CreatePipelineShaderStageCreateInfo@{CreatePipelineShaderStageCreateInfo}}
@@ -1167,7 +1235,7 @@ Definition at line \mbox{\hyperlink{_graphics_utils_8cpp_source_l00197}{197}} of
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00942}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+Geometry()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00880}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+IMGUI()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01106}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+Geometry()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01044}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+IMGUI()}}.
 
 \Hypertarget{namespace_atlas_aab351af6f4ce3b39a49ba2bac5777077}\label{namespace_atlas_aab351af6f4ce3b39a49ba2bac5777077} 
 \index{Atlas@{Atlas}!CreateSemaphoreCreateInfo@{CreateSemaphoreCreateInfo}}
@@ -1185,7 +1253,7 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aca
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00402}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00480}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}.
 
 \Hypertarget{namespace_atlas_a50432e0fabcfb91544d186b7a4ddedd5}\label{namespace_atlas_a50432e0fabcfb91544d186b7a4ddedd5} 
 \index{Atlas@{Atlas}!CriticalLog@{CriticalLog}}
@@ -1195,11 +1263,11 @@ Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00402}{Atlas\+::\+Vulkan
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00175}{175}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00285}{285}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_logging_8cpp_source_l00145}{Log\+Message()}}.
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{critical}}.
 
 \Hypertarget{namespace_atlas_add9a44935295fd4fd0bab751af209033}\label{namespace_atlas_add9a44935295fd4fd0bab751af209033} 
 \index{Atlas@{Atlas}!DebugLog@{DebugLog}}
@@ -1209,11 +1277,11 @@ References \mbox{\hyperlink{_logging_8cpp_source_l00145}{Log\+Message()}}.
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00165}{165}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00275}{275}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_logging_8cpp_source_l00145}{Log\+Message()}}.
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{debug}}.
 
 \Hypertarget{namespace_atlas_afaaad2137b7ca90a17d022d41cb33632}\label{namespace_atlas_afaaad2137b7ca90a17d022d41cb33632} 
 \index{Atlas@{Atlas}!DefaultVulkanDebugCallback@{DefaultVulkanDebugCallback}}
@@ -1267,6 +1335,20 @@ References \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00130}{Translate\+Vulk
 
 Referenced by \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00057}{Atlas\+::\+Vulkan\+Instance\+Wrapper\+::init()}}.
 
+\Hypertarget{namespace_atlas_a9d34d1a05685af71d008f8d789412c96}\label{namespace_atlas_a9d34d1a05685af71d008f8d789412c96} 
+\index{Atlas@{Atlas}!DoesPathExist@{DoesPathExist}}
+\index{DoesPathExist@{DoesPathExist}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{DoesPathExist()}{DoesPathExist()}}
+{\footnotesize\ttfamily bool Atlas\+::\+Does\+Path\+Exist (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Path\+Location}} const \&}]{c\+Path }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_i_o_common_8cpp_source_l00014}{14}} of file \mbox{\hyperlink{_i_o_common_8cpp_source}{IOCommon.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_i_o_manager_8cpp_source_l00149}{Atlas\+::\+File\+Manager\+::register\+Directory()}}.
+
 \Hypertarget{namespace_atlas_a33205c3fa4075eebe5721d4df7379d19}\label{namespace_atlas_a33205c3fa4075eebe5721d4df7379d19} 
 \index{Atlas@{Atlas}!ErrorLog@{ErrorLog}}
 \index{ErrorLog@{ErrorLog}!Atlas@{Atlas}}
@@ -1275,15 +1357,29 @@ Referenced by \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00057}{Atlas\+::\+V
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00155}{155}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00265}{265}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_logging_8cpp_source_l00145}{Log\+Message()}}.
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}}.
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00571}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00328}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Triangle\+Pipeline()}}, and \mbox{\hyperlink{_haptic_device_8cpp_source_l00086}{Atlas\+::\+Haptic\+Device\+::open()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00700}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00394}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Mesh\+Pipeline()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00335}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Triangle\+Pipeline()}}, and \mbox{\hyperlink{_haptic_device_8cpp_source_l00086}{Atlas\+::\+Haptic\+Device\+::open()}}.
+
+\Hypertarget{namespace_atlas_a419edd2c7bf494890abde98b62fdbbc3}\label{namespace_atlas_a419edd2c7bf494890abde98b62fdbbc3} 
+\index{Atlas@{Atlas}!GetAbsolutePath@{GetAbsolutePath}}
+\index{GetAbsolutePath@{GetAbsolutePath}!Atlas@{Atlas}}
+\doxysubsubsection{\texorpdfstring{GetAbsolutePath()}{GetAbsolutePath()}}
+{\footnotesize\ttfamily std\+::filesystem\+::path Atlas\+::\+Get\+Absolute\+Path (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Path\+Location}} const \&}]{c\+Path }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_i_o_common_8cpp_source_l00019}{19}} of file \mbox{\hyperlink{_i_o_common_8cpp_source}{IOCommon.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_i_o_manager_8cpp_source_l00209}{Atlas\+::\+File\+Manager\+::open\+File()}}, \mbox{\hyperlink{_i_o_manager_8cpp_source_l00184}{Atlas\+::\+File\+Manager\+::register\+File()}}, and \mbox{\hyperlink{_i_o_manager_8cpp_source_l00275}{Atlas\+::\+File\+Manager\+::unload\+File()}}.
 
 \Hypertarget{namespace_atlas_a041e9829fb1316716a724487d8d12b72}\label{namespace_atlas_a041e9829fb1316716a724487d8d12b72} 
 \index{Atlas@{Atlas}!getLoadedRenderingBacked@{getLoadedRenderingBacked}}
@@ -1293,7 +1389,7 @@ Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00571}{Atlas\+::\+Vulkan
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l01052}{1052}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l01227}{1227}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
 
 
 
@@ -1313,15 +1409,15 @@ References \mbox{\hyperlink{_v_k_device_8cpp_source_l00086}{g\+Loaded\+Vulkan\+B
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00150}{150}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00260}{260}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_logging_8cpp_source_l00145}{Log\+Message()}}.
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}.
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00571}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init()}}.
+Referenced by \mbox{\hyperlink{_i_o_manager_8cpp_source_l00089}{Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::evict\+Unused()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00700}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init()}}, \mbox{\hyperlink{_i_o_manager_8cpp_source_l00074}{Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::janitor\+Loop()}}, \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}, \mbox{\hyperlink{_i_o_manager_8cpp_source_l00149}{Atlas\+::\+File\+Manager\+::register\+Directory()}}, \mbox{\hyperlink{_i_o_manager_8cpp_source_l00184}{Atlas\+::\+File\+Manager\+::register\+File()}}, and \mbox{\hyperlink{_i_o_manager_8cpp_source_l00060}{Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::start\+Janitor()}}.
 
 \Hypertarget{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f}\label{namespace_atlas_ad7b40e312c98cafbda4cc01108f5b17f} 
 \index{Atlas@{Atlas}!LoadShaderModule@{LoadShaderModule}}
@@ -1335,21 +1431,17 @@ Definition at line \mbox{\hyperlink{_graphics_utils_8cpp_source_l00247}{247}} of
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00245}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Background\+Pipelines()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00328}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Triangle\+Pipeline()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01096}{Atlas\+::\+Shader\+::load()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00252}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Background\+Pipelines()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00394}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Mesh\+Pipeline()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00335}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Triangle\+Pipeline()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01271}{Atlas\+::\+Shader\+::load()}}.
 
-\Hypertarget{namespace_atlas_a8641f8ef74c8d98a11ce7066c7f664f1}\label{namespace_atlas_a8641f8ef74c8d98a11ce7066c7f664f1} 
+\Hypertarget{namespace_atlas_a9b3ddfc25a11b7b9d5f81704083a36cc}\label{namespace_atlas_a9b3ddfc25a11b7b9d5f81704083a36cc} 
 \index{Atlas@{Atlas}!LogMessage@{LogMessage}}
 \index{LogMessage@{LogMessage}!Atlas@{Atlas}}
 \doxysubsubsection{\texorpdfstring{LogMessage()}{LogMessage()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Log\+Message (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{message,  }\item[{\mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}}}]{log\+Level }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{struct_atlas_1_1_log_message}{Atlas\+::\+Log\+Message}} (\begin{DoxyParamCaption}\item[{std\+::string const \&}]{message,  }\item[{\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}}}]{log\+Level }\end{DoxyParamCaption})}
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00145}{145}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
-
-
-
-Referenced by \mbox{\hyperlink{_logging_8cpp_source_l00175}{Critical\+Log()}}, \mbox{\hyperlink{_logging_8cpp_source_l00165}{Debug\+Log()}}, \mbox{\hyperlink{_logging_8cpp_source_l00155}{Error\+Log()}}, \mbox{\hyperlink{_logging_8cpp_source_l00150}{Info\+Log()}}, \mbox{\hyperlink{_logging_8cpp_source_l00170}{Trace\+Log()}}, and \mbox{\hyperlink{_logging_8cpp_source_l00160}{Warn\+Log()}}.
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00255}{255}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
 
 \Hypertarget{namespace_atlas_a6f12a004dc20a0bd231f74ac3eb803a8}\label{namespace_atlas_a6f12a004dc20a0bd231f74ac3eb803a8} 
 \index{Atlas@{Atlas}!Normalize@{Normalize}}
@@ -1386,20 +1478,6 @@ v0.\+0.\+1
 
 Definition at line \mbox{\hyperlink{_math_8h_source_l00035}{35}} of file \mbox{\hyperlink{_math_8h_source}{Math.\+h}}.
 
-\Hypertarget{namespace_atlas_ace931dde37d1a3b3f4919d9f5565a44e}\label{namespace_atlas_ace931dde37d1a3b3f4919d9f5565a44e} 
-\index{Atlas@{Atlas}!PathExists@{PathExists}}
-\index{PathExists@{PathExists}!Atlas@{Atlas}}
-\doxysubsubsection{\texorpdfstring{PathExists()}{PathExists()}}
-{\footnotesize\ttfamily bool Atlas\+::\+Path\+Exists (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespace_atlas_a52d8af855ee540237a05cd2c41cbb582}{Path\+Location}} const \&}]{c\+Path }\end{DoxyParamCaption})}
-
-
-
-Definition at line \mbox{\hyperlink{_file_8cpp_source_l00088}{88}} of file \mbox{\hyperlink{_file_8cpp_source}{File.\+cpp}}.
-
-
-
-Referenced by \mbox{\hyperlink{_file_8cpp_source_l00037}{Atlas\+::\+AFile\+::open()}}.
-
 \Hypertarget{namespace_atlas_a57b2793df7151657e8a1373ad49555c7}\label{namespace_atlas_a57b2793df7151657e8a1373ad49555c7} 
 \index{Atlas@{Atlas}!RegisterDefaultMemoryFunctions@{RegisterDefaultMemoryFunctions}}
 \index{RegisterDefaultMemoryFunctions@{RegisterDefaultMemoryFunctions}!Atlas@{Atlas}}
@@ -1432,11 +1510,11 @@ References \mbox{\hyperlink{_memory_allocator_8cpp_source_l00026}{Alloc}}, \mbox
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l01068}{1068}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l01243}{1243}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_v_k_device_8cpp_source_l01057}{set\+Loaded\+Rendering\+Backend()}}.
+References \mbox{\hyperlink{_v_k_device_8cpp_source_l01232}{set\+Loaded\+Rendering\+Backend()}}.
 
 \Hypertarget{namespace_atlas_acdcca076db7097e823f49edf61e82522}\label{namespace_atlas_acdcca076db7097e823f49edf61e82522} 
 \index{Atlas@{Atlas}!setLoadedRenderingBackend@{setLoadedRenderingBackend}}
@@ -1446,15 +1524,15 @@ References \mbox{\hyperlink{_v_k_device_8cpp_source_l01057}{set\+Loaded\+Renderi
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l01057}{1057}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l01232}{1232}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_v_k_device_8cpp_source_l00086}{g\+Loaded\+Vulkan\+Backend}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00981}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::shutdown()}}.
+References \mbox{\hyperlink{_v_k_device_8cpp_source_l00086}{g\+Loaded\+Vulkan\+Backend}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01156}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::shutdown()}}.
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01068}{reset\+Loaded\+Rendering\+Backend()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01243}{reset\+Loaded\+Rendering\+Backend()}}.
 
 \Hypertarget{namespace_atlas_a84f02e043673e0eaaee2ab1d0452f4c0}\label{namespace_atlas_a84f02e043673e0eaaee2ab1d0452f4c0} 
 \index{Atlas@{Atlas}!SubmitCommandBufferInfo@{SubmitCommandBufferInfo}}
@@ -1472,7 +1550,7 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aca
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00804}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::end\+Drawing\+Mode()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00544}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::\+Immediate\+Submit()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00968}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::end\+Drawing\+Mode()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00672}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::\+Immediate\+Submit()}}.
 
 \Hypertarget{namespace_atlas_acc1dff74be875e4f9bd925cc13587d88}\label{namespace_atlas_acc1dff74be875e4f9bd925cc13587d88} 
 \index{Atlas@{Atlas}!SubmitInfo@{SubmitInfo}}
@@ -1490,7 +1568,7 @@ References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aca
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00804}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::end\+Drawing\+Mode()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00544}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::\+Immediate\+Submit()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00968}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::end\+Drawing\+Mode()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00672}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::\+Immediate\+Submit()}}.
 
 \Hypertarget{namespace_atlas_a06289b29f23886f16f108939d8158e9b}\label{namespace_atlas_a06289b29f23886f16f108939d8158e9b} 
 \index{Atlas@{Atlas}!SubmitSemaphoreInfo@{SubmitSemaphoreInfo}}
@@ -1504,7 +1582,7 @@ Definition at line \mbox{\hyperlink{_graphics_utils_8cpp_source_l00045}{45}} of 
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00804}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::end\+Drawing\+Mode()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00968}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::end\+Drawing\+Mode()}}.
 
 \Hypertarget{namespace_atlas_a8dbd12093d09cd018c1ece6d9121bbd7}\label{namespace_atlas_a8dbd12093d09cd018c1ece6d9121bbd7} 
 \index{Atlas@{Atlas}!TraceLog@{TraceLog}}
@@ -1514,15 +1592,15 @@ Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00804}{Atlas\+::\+Vulkan
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00170}{170}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00280}{280}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_logging_8cpp_source_l00145}{Log\+Message()}}.
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{trace}}.
 
 
 
-Referenced by \mbox{\hyperlink{_haptic_device_8cpp_source_l00149}{Atlas\+::\+Haptic\+Device\+::close()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00328}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Triangle\+Pipeline()}}, and \mbox{\hyperlink{_haptic_device_8cpp_source_l00086}{Atlas\+::\+Haptic\+Device\+::open()}}.
+Referenced by \mbox{\hyperlink{_haptic_device_8cpp_source_l00151}{Atlas\+::\+Haptic\+Device\+::close()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00394}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Mesh\+Pipeline()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00335}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Triangle\+Pipeline()}}, and \mbox{\hyperlink{_haptic_device_8cpp_source_l00086}{Atlas\+::\+Haptic\+Device\+::open()}}.
 
 \Hypertarget{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3}\label{namespace_atlas_ad05635794dd9c777764442cd7ca9bdb3} 
 \index{Atlas@{Atlas}!TransitionImage@{TransitionImage}}
@@ -1540,17 +1618,17 @@ References \mbox{\hyperlink{_graphics_utils_8cpp_source_l00125}{Create\+Image\+S
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00850}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01014}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw()}}.
 
-\Hypertarget{namespace_atlas_a43d5dd37e72abb3a4d9e3b13f07c845d}\label{namespace_atlas_a43d5dd37e72abb3a4d9e3b13f07c845d} 
+\Hypertarget{namespace_atlas_a8009d7ed74e0704b8191145e436a7ac3}\label{namespace_atlas_a8009d7ed74e0704b8191145e436a7ac3} 
 \index{Atlas@{Atlas}!TranslateVulkanLogLevel@{TranslateVulkanLogLevel}}
 \index{TranslateVulkanLogLevel@{TranslateVulkanLogLevel}!Atlas@{Atlas}}
 \doxysubsubsection{\texorpdfstring{TranslateVulkanLogLevel()}{TranslateVulkanLogLevel()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Atlas\+::\+Log\+Level}} Atlas\+::\+Translate\+Vulkan\+Log\+Level (\begin{DoxyParamCaption}\item[{Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT}]{message\+Severity }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{Atlas\+::\+ELog\+Level}} Atlas\+::\+Translate\+Vulkan\+Log\+Level (\begin{DoxyParamCaption}\item[{Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT}]{message\+Severity }\end{DoxyParamCaption})}
 
 
 
-Translates a vulkan debug log level to one that \doxylink{namespace_atlas}{Atlas} can use. For the most part, the Vulkan debug log levels are the same as the \doxylink{namespace_atlas}{Atlas} ones, with {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+INFO\+\_\+\+BIT\+\_\+\+EXT}, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+WARNING\+\_\+\+BIT\+\_\+\+EXT}, and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+ERROR\+\_\+\+BIT\+\_\+\+EXT} being the same as {\itshape Log\+Level\+::info}, {\itshape Log\+Level\+::warn}, and {\itshape Log\+Level\+::err} in that order. However, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+VERBOSE\+\_\+\+BIT\+\_\+\+EXT} and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM\+\_\+\+EXT} are translated to {\itshape Log\+Level\+::trace} and {\itshape Log\+Level\+::critical}, respectively. The default is {\itshape Log\+Level\+::info}. 
+Translates a vulkan debug log level to one that \doxylink{namespace_atlas}{Atlas} can use. For the most part, the Vulkan debug log levels are the same as the \doxylink{namespace_atlas}{Atlas} ones, with {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+INFO\+\_\+\+BIT\+\_\+\+EXT}, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+WARNING\+\_\+\+BIT\+\_\+\+EXT}, and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+ERROR\+\_\+\+BIT\+\_\+\+EXT} being the same as {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{ELog\+Level\+::info}}, {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{ELog\+Level\+::warn}}, and {\itshape ELog\+Level\+::err} in that order. However, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+VERBOSE\+\_\+\+BIT\+\_\+\+EXT} and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM\+\_\+\+EXT} are translated to {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{ELog\+Level\+::trace}} and {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{ELog\+Level\+::critical}}, respectively. The default is {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{ELog\+Level\+::info}}. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -1569,6 +1647,10 @@ Definition at line \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00130}{130}} o
 
 
 
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{critical}}, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}}, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{info}}, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{trace}}, and \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{warn}}.
+
+
+
 Referenced by \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00160}{Default\+Vulkan\+Debug\+Callback()}}.
 
 \Hypertarget{namespace_atlas_ac196b4691079d284d4c38234dfb90c58}\label{namespace_atlas_ac196b4691079d284d4c38234dfb90c58} 
@@ -1579,11 +1661,11 @@ Referenced by \mbox{\hyperlink{_vulkan_instance_8cpp_source_l00160}{Default\+Vul
 
 
 
-Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00160}{160}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
+Definition at line \mbox{\hyperlink{_logging_8cpp_source_l00270}{270}} of file \mbox{\hyperlink{_logging_8cpp_source}{Logging.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_logging_8cpp_source_l00145}{Log\+Message()}}.
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{warn}}.
 
 
 
@@ -1632,7 +1714,7 @@ Definition at line \mbox{\hyperlink{_frame_8h_source_l00030}{30}} of file \mbox{
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00170}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::get\+Current\+Frame()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00402}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l00981}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::shutdown()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l00176}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::get\+Current\+Frame()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l00480}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::init\+Commands()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01156}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::shutdown()}}.
 
 \Hypertarget{namespace_atlas_a3cac8311b7a548ec71ec511bc8b38f99}\label{namespace_atlas_a3cac8311b7a548ec71ec511bc8b38f99} 
 \index{Atlas@{Atlas}!Free@{Free}}

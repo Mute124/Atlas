@@ -25,7 +25,9 @@
 
 void Atlas::RenderingBackend::init(AGameWindow* windowHandle)
 {
-//	mbIsInitialized = true;
+	ATLAS_ASSERT(windowHandle != nullptr, "Window handle cannot be null!");
+
+	mbIsInitialized = true;
 }
 
 void Atlas::RenderingBackend::setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch) {

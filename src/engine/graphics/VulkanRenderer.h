@@ -17,7 +17,7 @@ namespace Atlas {
 		}
 
 	public:
-		using ARenderer::ARenderer;
+		//using ARenderer::ARenderer;
 
 		VulkanRenderer(AGameWindow* gameWindow, VulkanRenderingBackend* backend);
 

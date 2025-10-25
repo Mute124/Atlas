@@ -16,18 +16,27 @@
 #include <vector>
 #include <initializer_list>
 #include <memory>
+#include <type_traits>
+#include <mutex>
 
 #include "../../core/Core.h"
+#include "../../core/Common.h"
 #include "../../core/Version.h"
 
-#include "../../debugging/Debugger.h"
+#include "../../core/threading/ThreadSafeVariable.h"
 
+#include "../../debugging/Debugger.h"
+#include "../../debugging/Logging.h"
 #include "../window/Window.h"
+
 
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
 	#include <vulkan/vulkan_core.h>
 #endif
+
+
+
 
 
 namespace Atlas {
@@ -96,6 +105,8 @@ namespace Atlas {
 	//	}
 	//};
 
+
+
 	struct RendererSettings {
 		// Empty for now
 	};
@@ -106,28 +117,44 @@ namespace Atlas {
 		using APIVersion = Version;
 
 	protected:
-		std::shared_ptr<AGameWindow> mGameWindowPtr;
 		
+		ThreadSafeSharedVariable<AGameWindow> mGameWindowTSSV;
+
+		//std::shared_ptr<AGameWindow> mGameWindowPtr;
+		//std::mutex mGameWindowMutex;
+
 		//uint32_t mCurrentFrame = 0;
 
 		Version mAPIVersion;
 		
-		//bool mbIsInitialized = false;
+		bool mbIsInitialized = false;
 		bool mbUseDebuggingTools = false;
 		bool mbEnableErrorChecking = false; // dont worry about this if you are not using vulkan
 	public:
 		
-		explicit RenderingBackend(const std::shared_ptr<AGameWindow>& gameWindow) 
-			: mGameWindowPtr(gameWindow) {
+		explicit RenderingBackend(const std::shared_ptr<AGameWindow>& gameWindow) {
+			mGameWindowTSSV.set(gameWindow);
 		}
 
 		RenderingBackend() = default;
+
+		//explicit RenderingBackend(const std::shared_ptr<AGameWindow>& gameWindow) 
+		//	: mGameWindowPtr(gameWindow) {
+		//}
+
+		//RenderingBackend() = default;
+
+		virtual ~RenderingBackend() {
+			shutdown();
+		}
 
 		virtual void init(AGameWindow* windowHandle);
 
 		virtual void update() = 0;
 
-		virtual void shutdown() = 0;
+		virtual void shutdown() {
+			mbIsInitialized = false;
+		}
 
 		virtual void setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch);
 
@@ -146,6 +173,56 @@ namespace Atlas {
 			return dynamic_cast<T_CAST_TO*>(this);
 		}
 	};
+	
+	template<typename T_TARGET>
+	concept ValidRenderer = std::is_base_of_v<RenderingBackend, T_TARGET>;
 
+	template<ValidRenderer T_CHILD>
+	class AGlobalRenderingBackend : public RenderingBackend {
+	protected:
+		static inline ThreadSafeSharedVariable<T_CHILD> sActiveInstanceTSSV{};
 
+		static inline void SetGlobalInstance(const std::shared_ptr<T_CHILD>& instance) {
+			std::scoped_lock lock(sActiveInstanceTSSV.lock());
+			sActiveInstanceTSSV = instance;
+		}
+
+	public:
+
+		using RenderingBackend::RenderingBackend;
+
+		static inline std::shared_ptr<T_CHILD> GetGlobalInstance() {
+			return sActiveInstanceTSSV;
+		}
+
+		static inline bool HasGlobalInstance() {
+			return sActiveInstanceTSSV != nullptr;
+		}
+
+		static inline void ClearGlobalInstance() {
+			std::scoped_lock lock(sActiveInstanceTSSV.lock());
+			sActiveInstanceTSSV = nullptr;
+		}
+
+		virtual void init(AGameWindow* windowHandle) override {			
+			if (HasGlobalInstance()) {
+				ErrorLog("RenderingBackend has already been initialized");
+				return;
+			}
+			else {
+				setThisAsGlobalInstance();
+			}
+
+			RenderingBackend::init(windowHandle);
+		}
+
+		void setThisAsGlobalInstance() {
+			SetGlobalInstance(std::static_pointer_cast<T_CHILD>(shared_from_this()));
+		}
+
+		virtual void shutdown() override {
+			RenderingBackend::shutdown();
+			ClearGlobalInstance();
+		}
+	};
 }

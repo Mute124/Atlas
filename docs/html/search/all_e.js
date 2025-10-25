@@ -8,13 +8,14 @@ var searchData=
   ['nlevels_5',['nLevels',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75',1,'Atlas']]],
   ['noise_6',['noise',['../d1/dee/class_terrain.html#af666983558eb4f14edd2bc93c6e54626',1,'Terrain']]],
   ['non_5fmoving_7',['non_moving',['../df/d0f/namespace_layers.html#a64d27fdfa3519d12275625165cf182ad',1,'Layers::NON_MOVING'],['../dc/df3/namespace_broad_phase_layers.html#a472f96c5ed8c59a05eec2d8ec5e47689',1,'BroadPhaseLayers::NON_MOVING()']]],
-  ['normalize_8',['normalize',['../df/d8a/struct_vec3.html#af4e3610dbe35306be56ea47aa160b7ca',1,'Vec3::normalize()'],['../d7/d54/namespace_atlas.html#a6f12a004dc20a0bd231f74ac3eb803a8',1,'Atlas::Normalize()']]],
-  ['normalized_9',['normalized',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a991495bc19f64c176dd83a350b8b1c88',1,'imgui_impl_opengl3_loader.h']]],
-  ['normals_10',['normals',['../d7/d58/class_chunk.html#afefb01c8c87235fb83cfdafd35c76735',1,'Chunk']]],
-  ['notimplemented_11',['NotImplemented',['../d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8a997ca4ce119685f40f03a9a8a6c5346e',1,'Atlas']]],
-  ['nscursor_28_29_12',['NSCursor()',['../d7/dd9/category_n_s_cursor_07_08.html',1,'']]],
-  ['num_5fcomponents_13',['num_components',['../df/d67/struct_renderer_extensions_1_1_image.html#aee8ea434c97b86998cd9b328686511b0',1,'RendererExtensions::Image']]],
-  ['num_5flayers_14',['num_layers',['../df/d0f/namespace_layers.html#a7add495ddb5e8d46a67ec22b3e9a46f7',1,'Layers::NUM_LAYERS'],['../dc/df3/namespace_broad_phase_layers.html#af56a49c2afbe479c7cd436df258be813',1,'BroadPhaseLayers::NUM_LAYERS()']]],
-  ['numelements_15',['numElements',['../d3/d98/struct_s_array_buffer.html#a3ca99d5f10b6c1f485b4c4edfbd152af',1,'SArrayBuffer']]],
-  ['numframesinflight_16',['numframesinflight',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#a6a541239da42836b2127d1428032cf7d',1,'ImGui_ImplDX12_Data::numFramesInFlight'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a6c5df0f3745f9c235ec7349227eeae2a',1,'ImGui_ImplWGPU_Data::numFramesInFlight'],['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#ada0c7e772195e1466be60c78cf0b52e0',1,'ImGui_ImplWGPU_InitInfo::NumFramesInFlight']]]
+  ['normal_8',['normal',['../d1/d41/struct_atlas_1_1_vertex.html#aacbdb1acc3ce16d8a626da74901047a9',1,'Atlas::Vertex']]],
+  ['normalize_9',['normalize',['../df/d8a/struct_vec3.html#af4e3610dbe35306be56ea47aa160b7ca',1,'Vec3::normalize()'],['../d7/d54/namespace_atlas.html#a6f12a004dc20a0bd231f74ac3eb803a8',1,'Atlas::Normalize()']]],
+  ['normalized_10',['normalized',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a991495bc19f64c176dd83a350b8b1c88',1,'imgui_impl_opengl3_loader.h']]],
+  ['normals_11',['normals',['../d7/d58/class_chunk.html#afefb01c8c87235fb83cfdafd35c76735',1,'Chunk']]],
+  ['notimplemented_12',['NotImplemented',['../d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8a997ca4ce119685f40f03a9a8a6c5346e',1,'Atlas']]],
+  ['nscursor_28_29_13',['NSCursor()',['../d7/dd9/category_n_s_cursor_07_08.html',1,'']]],
+  ['num_5fcomponents_14',['num_components',['../df/d67/struct_renderer_extensions_1_1_image.html#aee8ea434c97b86998cd9b328686511b0',1,'RendererExtensions::Image']]],
+  ['num_5flayers_15',['num_layers',['../df/d0f/namespace_layers.html#a7add495ddb5e8d46a67ec22b3e9a46f7',1,'Layers::NUM_LAYERS'],['../dc/df3/namespace_broad_phase_layers.html#af56a49c2afbe479c7cd436df258be813',1,'BroadPhaseLayers::NUM_LAYERS()']]],
+  ['numelements_16',['numElements',['../d3/d98/struct_s_array_buffer.html#a3ca99d5f10b6c1f485b4c4edfbd152af',1,'SArrayBuffer']]],
+  ['numframesinflight_17',['numframesinflight',['../d3/dcd/struct_im_gui___impl_d_x12___data.html#a6a541239da42836b2127d1428032cf7d',1,'ImGui_ImplDX12_Data::numFramesInFlight'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a6c5df0f3745f9c235ec7349227eeae2a',1,'ImGui_ImplWGPU_Data::numFramesInFlight'],['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#ada0c7e772195e1466be60c78cf0b52e0',1,'ImGui_ImplWGPU_InitInfo::NumFramesInFlight']]]
 ];

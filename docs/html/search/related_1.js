@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gamethreadscheduler_0',['GameThreadScheduler',['../dd/dca/class_atlas_1_1_i_game_thread.html#a0acfe5191653337920421306e66fadf7',1,'Atlas::IGameThread']]]
+  ['filejanitor_0',['FileJanitor',['../d6/d63/class_atlas_1_1_file_manager.html#a8b68e1761a8d6793430a979a0d70fe4b',1,'Atlas::FileManager']]]
 ];

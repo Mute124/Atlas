@@ -15,11 +15,13 @@ var searchData=
   ['blendfuncseparate_12',['BlendFuncSeparate',['../d4/d6c/union_im_g_l3_w_procs.html#a198e9efc80ccffb94f8b767374001142',1,'ImGL3WProcs']]],
   ['blocksize_13',['blockSize',['../d3/dbd/struct_atlas_1_1_memory_block.html#a02823d96273df7ad846702a5028aefb7',1,'Atlas::MemoryBlock']]],
   ['bodyinterface_14',['bodyinterface',['../d4/d34/class_physics_engine_1_1_body_interface_holder.html#a4ea27dea5c2a6063a3c45fae2cf1539e',1,'PhysicsEngine::BodyInterfaceHolder::bodyInterface'],['../d0/dd1/class_game_object.html#aa209155fe6536456370b680e2e787ed6',1,'GameObject::bodyInterface'],['../d1/dee/class_terrain.html#aedd83648b6e97085792b113e0375da6e',1,'Terrain::bodyInterface']]],
-  ['bsuccess_15',['bSuccess',['../dd/d43/struct_atlas_1_1_haptic_effect_upload_result.html#a033f6d5f1b967dd35232f4f92e8f1e30',1,'Atlas::HapticEffectUploadResult']]],
-  ['buffer_16',['buffer',['../d8/d22/class_c_script_array.html#a60601db371fb5f7a0b19a29078c9ec66',1,'CScriptArray::buffer'],['../de/df5/class_c_script_grid.html#a10a081b567fe7036048462656e9fa4b1',1,'CScriptGrid::buffer'],['../dd/d5a/struct_atlas_1_1_allocated_buffer.html#a62876da3a76309e3b5b5446af371bf7b',1,'Atlas::AllocatedBuffer::buffer']]],
-  ['bufferdata_17',['BufferData',['../d4/d6c/union_im_g_l3_w_procs.html#a045e3870ea7fb49da845876f996e097f',1,'ImGL3WProcs']]],
-  ['buffermemoryalignment_18',['BufferMemoryAlignment',['../d2/d86/struct_im_gui___impl_vulkan___data.html#a745258fd61dde9326265c2c198272c20',1,'ImGui_ImplVulkan_Data']]],
-  ['buffersubdata_19',['BufferSubData',['../d4/d6c/union_im_g_l3_w_procs.html#a6406796e5fd236945c3fc8ea3835c3b0',1,'ImGL3WProcs']]],
-  ['bufindices_20',['BufIndices',['../d4/d33/struct_im_gui___impl_allegro5___data.html#aadcfb048c36f97008498f66085aa4279',1,'ImGui_ImplAllegro5_Data']]],
-  ['bufvertices_21',['BufVertices',['../d4/d33/struct_im_gui___impl_allegro5___data.html#a5bd178f19817b2d3f8165d2278b71e8f',1,'ImGui_ImplAllegro5_Data']]]
+  ['bstartjanitor_15',['bStartJanitor',['../db/d76/struct_atlas_1_1_file_manager_1_1_options.html#af729117ef771b9c33736a068e7cbca38',1,'Atlas::FileManager::Options']]],
+  ['bsuccess_16',['bSuccess',['../dd/d43/struct_atlas_1_1_haptic_effect_upload_result.html#a033f6d5f1b967dd35232f4f92e8f1e30',1,'Atlas::HapticEffectUploadResult']]],
+  ['buffer_17',['buffer',['../d8/d22/class_c_script_array.html#a60601db371fb5f7a0b19a29078c9ec66',1,'CScriptArray::buffer'],['../de/df5/class_c_script_grid.html#a10a081b567fe7036048462656e9fa4b1',1,'CScriptGrid::buffer'],['../dd/d5a/struct_atlas_1_1_allocated_buffer.html#a62876da3a76309e3b5b5446af371bf7b',1,'Atlas::AllocatedBuffer::buffer']]],
+  ['bufferdata_18',['BufferData',['../d4/d6c/union_im_g_l3_w_procs.html#a045e3870ea7fb49da845876f996e097f',1,'ImGL3WProcs']]],
+  ['buffermemoryalignment_19',['BufferMemoryAlignment',['../d2/d86/struct_im_gui___impl_vulkan___data.html#a745258fd61dde9326265c2c198272c20',1,'ImGui_ImplVulkan_Data']]],
+  ['buffersubdata_20',['BufferSubData',['../d4/d6c/union_im_g_l3_w_procs.html#a6406796e5fd236945c3fc8ea3835c3b0',1,'ImGL3WProcs']]],
+  ['bufindices_21',['BufIndices',['../d4/d33/struct_im_gui___impl_allegro5___data.html#aadcfb048c36f97008498f66085aa4279',1,'ImGui_ImplAllegro5_Data']]],
+  ['bufvertices_22',['BufVertices',['../d4/d33/struct_im_gui___impl_allegro5___data.html#a5bd178f19817b2d3f8165d2278b71e8f',1,'ImGui_ImplAllegro5_Data']]],
+  ['bytes_23',['bytes',['../db/de5/struct_atlas_1_1_file_data.html#a7163ed55af5bb8db5cf1225a4de5ea7a',1,'Atlas::FileData']]]
 ];

@@ -37,11 +37,24 @@ namespace Atlas {
 	 * @since v0.0.1
 	 */
 	class VulkanInstanceWrapper {
+	public:
+		struct InitConfiguration {
+			std::string applicationName{ "test" };
+			std::string engineName{ "Atlas" };
+
+			Version vulkanVersion{1, 3, 0};
+			Version atlasVersion{ ATLAS_VERSION_MAJOR, ATLAS_VERSION_MINOR, ATLAS_VERSION_PATCH };
+
+			bool bEnableValidationLayers{ ATLAS_ENABLE_VALIDATION_LAYERS };
+
+			std::optional<VulkanDebugCallback> optionalDebugMessengerCallback;
+		};
 	private:
+		friend class VulkanRenderingBackend;
 
-		static inline const std::string_view scEngineName = "Atlas";
+		//static inline const std::string_view scEngineName{ "Atlas" };
 
-		std::unique_ptr<vkb::Instance> mVulkanBootstrapInstance;
+		vkb::Instance mVulkanBootstrapInstance;
 		
 		/**
 		 * @brief According to the Khronos specification, @a VkInstance is an opaque handle to a Vulkan instance. By default, this is set to
@@ -51,30 +64,36 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		VkInstance mVulkanInstance = VK_NULL_HANDLE;
+		VkInstance mVulkanInstance{ VK_NULL_HANDLE };
 
-		VkDebugUtilsMessengerEXT mDebugMessenger = VK_NULL_HANDLE;
+		VkDebugUtilsMessengerEXT mDebugMessenger{ VK_NULL_HANDLE };
 
-		std::optional<VulkanDebugCallback> mDebugMessengerCallback;
-		std::string mApplicationName;
+		InitConfiguration mInitConfiguration;
+
+		//std::optional<VulkanDebugCallback> mDebugMessengerCallback;
+		//std::string mApplicationName;
 
 		Version mVulkanVersion;
 
-		bool mbEnableValidationLayers;
+		bool mbEnableValidationLayers{ ATLAS_ENABLE_VALIDATION_LAYERS };
 
-		friend class VulkanRenderingBackend;
+		static vkb::InstanceBuilder CreateInstanceBuilder(InitConfiguration const& initConfiguration);
 	public:
-		VulkanInstanceWrapper();
+		explicit VulkanInstanceWrapper(vkb::InstanceBuilder instanceBuilder);
+
+		explicit VulkanInstanceWrapper(InitConfiguration const& initConfiguration = InitConfiguration{});
+
+		//VulkanInstanceWrapper() = default;
 
 		~VulkanInstanceWrapper();
 
-		void setVersion(const Version& cVulkanVersionRef);
+		//void setVersion(const Version& cVulkanVersionRef);
 
-		void setApplicationName(std::string_view appName);
+		//void setApplicationName(std::string_view appName);
 
-		void setEnableValidationLayers(const bool cbEnableValidationLayers);
+		//void setEnableValidationLayers(const bool cbEnableValidationLayers);
 
-		void setDebugCallback(VulkanDebugCallback debugMessengerCallback);
+		//void setDebugCallback(VulkanDebugCallback debugMessengerCallback);
 
 		uint16_t init();
 

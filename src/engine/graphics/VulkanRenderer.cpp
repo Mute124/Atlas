@@ -8,7 +8,7 @@ Atlas::VulkanRenderer::VulkanRenderer(AGameWindow* gameWindow, VulkanRenderingBa
 }
 
 Atlas::VulkanRenderer::VulkanRenderer(AGameWindow* gameWindow)
-	: VulkanRenderer(gameWindow, new VulkanRenderingBackend())
+	: VulkanRenderer(gameWindow, nullptr)
 {
 }
 

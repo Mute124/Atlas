@@ -9,6 +9,8 @@ var dir_169bc07725411c2c359378f17aa1abb6 =
     [ "DeletionQueue.h", "d3/d58/_deletion_queue_8h.html", "d3/d58/_deletion_queue_8h" ],
     [ "DescriptorLayoutBuilder.cpp", "dc/df1/_descriptor_layout_builder_8cpp.html", null ],
     [ "DescriptorLayoutBuilder.h", "d5/d3a/_descriptor_layout_builder_8h.html", "d5/d3a/_descriptor_layout_builder_8h" ],
+    [ "Fence.cpp", "d4/d0f/_fence_8cpp.html", null ],
+    [ "Fence.h", "d6/d78/_fence_8h.html", "d6/d78/_fence_8h" ],
     [ "Frame.cpp", "d8/d8a/_frame_8cpp.html", null ],
     [ "Frame.h", "de/dd6/_frame_8h.html", "de/dd6/_frame_8h" ],
     [ "GraphicsUtils.cpp", "d9/d55/_graphics_utils_8cpp.html", null ],

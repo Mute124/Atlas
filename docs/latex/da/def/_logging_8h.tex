@@ -4,14 +4,19 @@
 {\ttfamily \#include $<$memory$>$}\newline
 {\ttfamily \#include $<$initializer\+\_\+list$>$}\newline
 {\ttfamily \#include $<$mutex$>$}\newline
+{\ttfamily \#include $<$source\+\_\+location$>$}\newline
+{\ttfamily \#include $<$queue$>$}\newline
 {\ttfamily \#include $<$spdlog/logger.\+h$>$}\newline
 {\ttfamily \#include $<$spdlog/sinks/stdout\+\_\+color\+\_\+sinks.\+h$>$}\newline
 {\ttfamily \#include $<$spdlog/sinks/basic\+\_\+file\+\_\+sink.\+h$>$}\newline
 {\ttfamily \#include $<$spdlog/common.\+h$>$}\newline
+{\ttfamily \#include "{}../core/\+Common.\+h"{}}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_logger}{Atlas\+::\+ILogger$<$ T\+\_\+\+LOG\+\_\+\+LEVELS\+\_\+\+TYPE $>$}}
+struct \mbox{\hyperlink{struct_atlas_1_1_log_message}{Atlas\+::\+Log\+Message}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_a_logger}{Atlas\+::\+ALogger}}
 \begin{DoxyCompactList}\small\item\em Interface for logging that is responsible for handling any logging from the engine, game, or mods. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_spdlog_logger}{Atlas\+::\+Spdlog\+Logger}}
 \begin{DoxyCompactList}\small\item\em A generic logger that uses the {\bfseries{Spdlog}} library. According to the spdlog documentation, you may call the {\itshape spdlog\+::log()} function to log messages {\bfseries{after}} the logger has been initialized because of how spdlog works. For more information, on how to use spdlog, please refer to their documentation. This class was designed to work in the same way as the multi-\/sink logger example provided in the spdlog documentation. Another important thing to note about this class is that, assuming you are not implementing a custom {\ttfamily PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} callback for Vulkan, this class should be initialized prior to the initialization and usage of \doxylink{namespace_atlas}{Atlas}\textquotesingle{} Vulkan API. Otherwise, you will get errors the second Vulkan starts sending messages to the callback. \end{DoxyCompactList}\item 
@@ -22,36 +27,61 @@ struct \mbox{\hyperlink{struct_atlas_1_1_spdlog_logger_1_1_logger_sinks}{Atlas\+
 \item 
 namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_logging_8h_a9a4dce1864b564c7b9609d043d9c071d}{ATLAS\+\_\+\+LEVEL\+\_\+\+TRACE}}~SPDLOG\+\_\+\+LEVEL\+\_\+\+TRACE
+\item 
+\#define \mbox{\hyperlink{_logging_8h_af49a47d3e7064c057de6e15a7d828fb9}{ATLAS\+\_\+\+LEVEL\+\_\+\+DEBUG}}~SPDLOG\+\_\+\+LEVEL\+\_\+\+DEBUG
+\item 
+\#define \mbox{\hyperlink{_logging_8h_a797d8c61aceb05ebab56747f7c8bb350}{ATLAS\+\_\+\+LEVEL\+\_\+\+INFO}}~SPDLOG\+\_\+\+LEVEL\+\_\+\+INFO
+\item 
+\#define \mbox{\hyperlink{_logging_8h_a296fc10aac0b5afa4d2dc2109d7b3cea}{ATLAS\+\_\+\+LEVEL\+\_\+\+WARN}}~SPDLOG\+\_\+\+LEVEL\+\_\+\+WARN
+\item 
+\#define \mbox{\hyperlink{_logging_8h_abf65dff064f9f1e898418c7dd75b0e4b}{ATLAS\+\_\+\+LEVEL\+\_\+\+ERROR}}~SPDLOG\+\_\+\+LEVEL\+\_\+\+ERROR
+\item 
+\#define \mbox{\hyperlink{_logging_8h_add555c43c6490deaa9fe655bb3753cb7}{ATLAS\+\_\+\+LEVEL\+\_\+\+CRITICAL}}~SPDLOG\+\_\+\+LEVEL\+\_\+\+CRITICAL
+\item 
+\#define \mbox{\hyperlink{_logging_8h_a7dbf85876c189b8701329f9858658214}{ATLAS\+\_\+\+LEVEL\+\_\+\+OFF}}~SPDLOG\+\_\+\+LEVEL\+\_\+\+OFF
+\item 
+\#define \mbox{\hyperlink{_logging_8h_a5a63c0f654d9a41ef4900b185bdb7efd}{ATLAS\+\_\+\+DEFAULT\+\_\+\+SPDLOG\+\_\+\+LOG\+\_\+\+PATTERN}}~"{}\%c \mbox{[}\%n\mbox{]}\mbox{[}\%t\mbox{]} \mbox{[}\%\texorpdfstring{$^\wedge$}{\string^}\%l\%\$\mbox{]} \%v"{}
+\item 
+\#define \mbox{\hyperlink{_logging_8h_ad28af6cbc9ba669ea90c93edf695cf0d}{ATLAS\+\_\+\+USE\+\_\+\+SPDLOG}}
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-using \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Atlas\+::\+Log\+Level}} = spdlog\+::level\+::level\+\_\+enum
+using \mbox{\hyperlink{namespace_atlas_a9a6ab43916677caa6a0c4df55bf1bce9}{Atlas\+::\+Spdlog\+Log\+Level}} = spdlog\+::level\+::level\+\_\+enum
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
 enum class \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{Atlas\+::\+ELog\+Level}} \+: int \{ \newline
-\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{Atlas\+::trace}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+TRACE
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{Atlas\+::debug}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+DEBUG
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{Atlas\+::info}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+INFO
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{Atlas\+::warn}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+WARN
+\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{Atlas\+::trace}} = ATLAS\+\_\+\+LEVEL\+\_\+\+TRACE
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079aad42f6697b035b7580e4fef93be20b4d}{Atlas\+::debug}} = ATLAS\+\_\+\+LEVEL\+\_\+\+DEBUG
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{Atlas\+::info}} = ATLAS\+\_\+\+LEVEL\+\_\+\+INFO
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{Atlas\+::warn}} = ATLAS\+\_\+\+LEVEL\+\_\+\+WARN
 , \newline
-\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{Atlas\+::error}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+ERROR
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{Atlas\+::critical}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+CRITICAL
-, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808}{Atlas\+::off}} = SPDLOG\+\_\+\+LEVEL\+\_\+\+OFF
+\mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{Atlas\+::error}} = ATLAS\+\_\+\+LEVEL\+\_\+\+ERROR
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{Atlas\+::critical}} = ATLAS\+\_\+\+LEVEL\+\_\+\+CRITICAL
+, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a3262d48df5d75e3452f0f16b313b7808}{Atlas\+::off}} = ATLAS\+\_\+\+LEVEL\+\_\+\+OFF
 , \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75}{Atlas\+::n\+Levels}}
  \}
 \item 
-enum \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{Atlas\+::\+ESpdlog\+Init\+List\+Index}} \{ \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a2eae955680871eb42a46fdd4ce8cd5ba}{Atlas\+::\+Console\+Logger}} = 0
-, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ad9ccaee5dda7fda769acff47cdec30b0}{Atlas\+::\+File\+Logger}} = 1
-, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923ae6a8b6e263f76b51460b7a7a27a52d8a}{Atlas\+::\+Logger}} = 2
-, \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923a3f8518aca993a23a8291ec4aec443c6b}{Atlas\+::\+Max}} = Logger
+enum class \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aa}{Atlas\+::\+ESpdlog\+Init\+List\+Index}} \+: int \{ \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa22afff4b285ae7742bc240696673108c}{Atlas\+::\+Console\+Logger}} = 0
+, \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa5a17566262b837143034f3b1d221cc62}{Atlas\+::\+File\+Logger}} = 1
+, \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa959112efd77bcbe18a8c9e70e3274220}{Atlas\+::\+Logger}} = 2
+, \mbox{\hyperlink{namespace_atlas_a3fa0af6547e790f8c50f6f39e7d6d1aaa6a061313d22e51e0f25b7cd4dc065233}{Atlas\+::\+Max}} = Logger
+ \}
+\item 
+enum class \mbox{\hyperlink{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592}{Atlas\+::\+ESpdlog\+Sink\+Type}} \+: int \{ \mbox{\hyperlink{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592abccaa4aa80831b76c11240a16447975f}{Atlas\+::\+Console}} = 0
+, \mbox{\hyperlink{namespace_atlas_af3bd5a2c8235941f0855c8fa7499f592a0b27918290ff5323bea1e3b78a9cf04e}{Atlas\+::\+File}} = 1
  \}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a8641f8ef74c8d98a11ce7066c7f664f1}{Atlas\+::\+Log\+Message}} (std\+::string const \&message, \mbox{\hyperlink{namespace_atlas_a714ef4c7821c3b3ffcee3470d3de7aca}{Log\+Level}} log\+Level)
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a9b3ddfc25a11b7b9d5f81704083a36cc}{Atlas\+::\+Log\+Message}} (std\+::string const \&message, \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079}{ELog\+Level}} log\+Level)
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{Atlas\+::\+Info\+Log}} (std\+::string const \&message)
 \item 
@@ -65,3 +95,96 @@ enum \mbox{\hyperlink{namespace_atlas_aa1ca4de7ceed7394355d22ea16375923}{Atlas\+
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a50432e0fabcfb91544d186b7a4ddedd5}{Atlas\+::\+Critical\+Log}} (std\+::string const \&message)
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_logging_8h_a5a63c0f654d9a41ef4900b185bdb7efd}\label{_logging_8h_a5a63c0f654d9a41ef4900b185bdb7efd} 
+\index{Logging.h@{Logging.h}!ATLAS\_DEFAULT\_SPDLOG\_LOG\_PATTERN@{ATLAS\_DEFAULT\_SPDLOG\_LOG\_PATTERN}}
+\index{ATLAS\_DEFAULT\_SPDLOG\_LOG\_PATTERN@{ATLAS\_DEFAULT\_SPDLOG\_LOG\_PATTERN}!Logging.h@{Logging.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_DEFAULT\_SPDLOG\_LOG\_PATTERN}{ATLAS\_DEFAULT\_SPDLOG\_LOG\_PATTERN}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+DEFAULT\+\_\+\+SPDLOG\+\_\+\+LOG\+\_\+\+PATTERN~"{}\%c \mbox{[}\%n\mbox{]}\mbox{[}\%t\mbox{]} \mbox{[}\%\texorpdfstring{$^\wedge$}{\string^}\%l\%\$\mbox{]} \%v"{}}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00042}{42}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{_logging_8h_add555c43c6490deaa9fe655bb3753cb7}\label{_logging_8h_add555c43c6490deaa9fe655bb3753cb7} 
+\index{Logging.h@{Logging.h}!ATLAS\_LEVEL\_CRITICAL@{ATLAS\_LEVEL\_CRITICAL}}
+\index{ATLAS\_LEVEL\_CRITICAL@{ATLAS\_LEVEL\_CRITICAL}!Logging.h@{Logging.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_LEVEL\_CRITICAL}{ATLAS\_LEVEL\_CRITICAL}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+LEVEL\+\_\+\+CRITICAL~SPDLOG\+\_\+\+LEVEL\+\_\+\+CRITICAL}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00039}{39}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{_logging_8h_af49a47d3e7064c057de6e15a7d828fb9}\label{_logging_8h_af49a47d3e7064c057de6e15a7d828fb9} 
+\index{Logging.h@{Logging.h}!ATLAS\_LEVEL\_DEBUG@{ATLAS\_LEVEL\_DEBUG}}
+\index{ATLAS\_LEVEL\_DEBUG@{ATLAS\_LEVEL\_DEBUG}!Logging.h@{Logging.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_LEVEL\_DEBUG}{ATLAS\_LEVEL\_DEBUG}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+LEVEL\+\_\+\+DEBUG~SPDLOG\+\_\+\+LEVEL\+\_\+\+DEBUG}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00035}{35}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{_logging_8h_abf65dff064f9f1e898418c7dd75b0e4b}\label{_logging_8h_abf65dff064f9f1e898418c7dd75b0e4b} 
+\index{Logging.h@{Logging.h}!ATLAS\_LEVEL\_ERROR@{ATLAS\_LEVEL\_ERROR}}
+\index{ATLAS\_LEVEL\_ERROR@{ATLAS\_LEVEL\_ERROR}!Logging.h@{Logging.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_LEVEL\_ERROR}{ATLAS\_LEVEL\_ERROR}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+LEVEL\+\_\+\+ERROR~SPDLOG\+\_\+\+LEVEL\+\_\+\+ERROR}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00038}{38}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{_logging_8h_a797d8c61aceb05ebab56747f7c8bb350}\label{_logging_8h_a797d8c61aceb05ebab56747f7c8bb350} 
+\index{Logging.h@{Logging.h}!ATLAS\_LEVEL\_INFO@{ATLAS\_LEVEL\_INFO}}
+\index{ATLAS\_LEVEL\_INFO@{ATLAS\_LEVEL\_INFO}!Logging.h@{Logging.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_LEVEL\_INFO}{ATLAS\_LEVEL\_INFO}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+LEVEL\+\_\+\+INFO~SPDLOG\+\_\+\+LEVEL\+\_\+\+INFO}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00036}{36}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{_logging_8h_a7dbf85876c189b8701329f9858658214}\label{_logging_8h_a7dbf85876c189b8701329f9858658214} 
+\index{Logging.h@{Logging.h}!ATLAS\_LEVEL\_OFF@{ATLAS\_LEVEL\_OFF}}
+\index{ATLAS\_LEVEL\_OFF@{ATLAS\_LEVEL\_OFF}!Logging.h@{Logging.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_LEVEL\_OFF}{ATLAS\_LEVEL\_OFF}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+LEVEL\+\_\+\+OFF~SPDLOG\+\_\+\+LEVEL\+\_\+\+OFF}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00040}{40}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{_logging_8h_a9a4dce1864b564c7b9609d043d9c071d}\label{_logging_8h_a9a4dce1864b564c7b9609d043d9c071d} 
+\index{Logging.h@{Logging.h}!ATLAS\_LEVEL\_TRACE@{ATLAS\_LEVEL\_TRACE}}
+\index{ATLAS\_LEVEL\_TRACE@{ATLAS\_LEVEL\_TRACE}!Logging.h@{Logging.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_LEVEL\_TRACE}{ATLAS\_LEVEL\_TRACE}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+LEVEL\+\_\+\+TRACE~SPDLOG\+\_\+\+LEVEL\+\_\+\+TRACE}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00034}{34}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{_logging_8h_a296fc10aac0b5afa4d2dc2109d7b3cea}\label{_logging_8h_a296fc10aac0b5afa4d2dc2109d7b3cea} 
+\index{Logging.h@{Logging.h}!ATLAS\_LEVEL\_WARN@{ATLAS\_LEVEL\_WARN}}
+\index{ATLAS\_LEVEL\_WARN@{ATLAS\_LEVEL\_WARN}!Logging.h@{Logging.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_LEVEL\_WARN}{ATLAS\_LEVEL\_WARN}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+LEVEL\+\_\+\+WARN~SPDLOG\+\_\+\+LEVEL\+\_\+\+WARN}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00037}{37}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+
+\Hypertarget{_logging_8h_ad28af6cbc9ba669ea90c93edf695cf0d}\label{_logging_8h_ad28af6cbc9ba669ea90c93edf695cf0d} 
+\index{Logging.h@{Logging.h}!ATLAS\_USE\_SPDLOG@{ATLAS\_USE\_SPDLOG}}
+\index{ATLAS\_USE\_SPDLOG@{ATLAS\_USE\_SPDLOG}!Logging.h@{Logging.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_USE\_SPDLOG}{ATLAS\_USE\_SPDLOG}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+USE\+\_\+\+SPDLOG}
+
+
+
+Definition at line \mbox{\hyperlink{_logging_8h_source_l00046}{46}} of file \mbox{\hyperlink{_logging_8h_source}{Logging.\+h}}.
+

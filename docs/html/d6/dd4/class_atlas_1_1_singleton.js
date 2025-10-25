@@ -1,4 +1,6 @@
 var class_atlas_1_1_singleton =
 [
-    [ "Instance", "d6/dd4/class_atlas_1_1_singleton.html#a035c506193c225c5b60eb7ad9242c245", null ]
+    [ "Singleton", "d6/dd4/class_atlas_1_1_singleton.html#a474a52d9676415e6b3c9246a7d7f59b1", null ],
+    [ "getInstance", "d6/dd4/class_atlas_1_1_singleton.html#a550fe943217026ba4a1b42946a8509c1", null ],
+    [ "operator=", "d6/dd4/class_atlas_1_1_singleton.html#a504dd616389698a3a0757de554baac42", null ]
 ];

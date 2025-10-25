@@ -1,0 +1,547 @@
+\doxysection{Atlas\+::File\+Manager Class Reference}
+\hypertarget{class_atlas_1_1_file_manager}{}\label{class_atlas_1_1_file_manager}\index{Atlas::FileManager@{Atlas::FileManager}}
+
+
+As the name suggests, this {\bfseries{non-\/copyable}} class is responsible for managing the files that \doxylink{namespace_atlas}{Atlas} and the user has loaded. This class has {\bfseries{3}} main responsibilities (excluding the janitor)\+: {\bfseries{Loading}}, {\bfseries{Unloading}} and {\bfseries{Registering}}. Additionally, this class can be configured to ignore certain patterns it comes across during the file discovery process through the use of {\bfseries{regex}} patterns.  
+
+
+
+
+{\ttfamily \#include $<$IOManager.\+h$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor}{File\+Janitor}}
+\begin{DoxyCompactList}\small\item\em Automatically evicts unused files in a background thread and cleans up the {\ttfamily m\+Records} map in the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}}. Furthermore, this class also handles the janitor thread, which is where the janitor loop runs. This class is handled by the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class. It is not recommended to use this class directly, and let the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} handle it. However, if you do infact need to use this class directly, please refer to the details section in the documentation below. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}}
+\begin{DoxyCompactList}\small\item\em Configuration options for the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} and its {\ttfamily \doxylink{class_atlas_1_1_file_manager_1_1_file_janitor}{File\+Janitor}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_atlas_1_1_file_manager_ae2b2e52722324ef57b9e83d9686f425e}{ATLAS\+\_\+\+DISALLOW\+\_\+\+COPY}} (\mbox{\hyperlink{class_atlas_1_1_file_manager}{File\+Manager}})
+\item 
+\mbox{\hyperlink{class_atlas_1_1_file_manager_ab328df5393caffd269207930c3369c24}{File\+Manager}} (const \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}} \&options=\mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}}())
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class with the specified configuration. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_file_manager_add5d623d34c286a267ab25e2ff710527}{\texorpdfstring{$\sim$}{\string~}\+File\+Manager}} ()
+\begin{DoxyCompactList}\small\item\em Destroys the current instance of the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_a82e49a8dd4225afab8319795cdfd5ce2}{register\+Directory}} (const std\+::filesystem\+::path \&dir)
+\begin{DoxyCompactList}\small\item\em Register a directory (recursively); applies ignore regexes. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_a4783d90c823959a43d6ae0618e0b4d47}{register\+File}} (const std\+::filesystem\+::path \&p)
+\begin{DoxyCompactList}\small\item\em Register a file; applies ignore regexes. The file must exist. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_a724e1c29a688a720ddb96c83b7263dcb}{add\+Ignore\+Pattern}} (const std\+::string \&pattern)
+\begin{DoxyCompactList}\small\item\em Add an ignore pattern to the ignore list using ECMAScript regex. Files matching this pattern will not be loaded. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_a67e82a76b397b044f5e82ace336fe9eb}{remove\+Ignore\+Patterns}} ()
+\begin{DoxyCompactList}\small\item\em Remove all ignore patterns. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_file_handle}{File\+Handle}} \mbox{\hyperlink{class_atlas_1_1_file_manager_a3b01fae0c00120df95211d53b300a48a}{open\+File}} (const std\+::filesystem\+::path \&p)
+\begin{DoxyCompactList}\small\item\em Open a file. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_atlas_1_1_file_manager_a68aa05e0f8ab4abf63de5db8c754f6a2}{unload\+File}} (const std\+::filesystem\+::path \&p)
+\begin{DoxyCompactList}\small\item\em An explicit unload function that unloads a file (forces if not in use). \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{class_atlas_1_1_file_manager_a33ef34e7892e33eb3d5be27f84b1a3fd}{get\+Registered\+Count}} () const
+\begin{DoxyCompactList}\small\item\em Get the number of registered files. This can be used for debugging purposes. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_a489639695d22a494baa1b36ac36a2415}{preload\+All}} ()
+\begin{DoxyCompactList}\small\item\em Preloads all registered files. This is an optional function, and it is extremely expensive. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_ac29e1fcb729ce92672c387f8a19baa88}{unload\+All}} ()
+\begin{DoxyCompactList}\small\item\em Unloads all files. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::filesystem\+::path $>$ \mbox{\hyperlink{class_atlas_1_1_file_manager_aa7dc5d1b60002ddc5ab7ca9a76541e4f}{find\+Registered}} (const std\+::regex \&re) const
+\begin{DoxyCompactList}\small\item\em Finds all registered files that match the specified regex pattern. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_atlas_1_1_file_manager_a472f9fa23dbddf1d7e052e1fcbf79a46}{is\+Ignored}} (const std\+::filesystem\+::path \&p) const
+\begin{DoxyCompactList}\small\item\em Checks if a path should be ignored based on the ignore patterns. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor}{File\+Janitor}} \mbox{\hyperlink{class_atlas_1_1_file_manager_a3764913dc6d6f8701c8651ab7d0ac5c2}{m\+Janitor}}
+\begin{DoxyCompactList}\small\item\em The janitor for this class. \end{DoxyCompactList}\item 
+std\+::shared\+\_\+mutex \mbox{\hyperlink{class_atlas_1_1_file_manager_aad7c485bddcbb743d6da8ed22b8d481b}{m\+Map\+Mutex}}
+\begin{DoxyCompactList}\small\item\em A shared mutex that is used to guard access to the {\ttfamily m\+Records} map. \end{DoxyCompactList}\item 
+std\+::unordered\+\_\+map$<$ std\+::filesystem\+::path, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{struct_atlas_1_1_file_record}{File\+Record}} $>$ $>$ \mbox{\hyperlink{class_atlas_1_1_file_manager_ae1dbbcca8c99414d1320d6a83a573a29}{m\+Records}}
+\begin{DoxyCompactList}\small\item\em A map of registered files. This is guarded by {\ttfamily m\+Map\+Mutex}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}} \mbox{\hyperlink{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73}{m\+Options}}
+\begin{DoxyCompactList}\small\item\em This class\textquotesingle{} configuration options. \end{DoxyCompactList}\item 
+std\+::mutex \mbox{\hyperlink{class_atlas_1_1_file_manager_ac0083b715c9d351fd53d65340a66053e}{m\+Ignore\+Mutex}}
+\begin{DoxyCompactList}\small\item\em A mutex that is used to guard access to the {\ttfamily m\+Ignore\+Patterns} vector. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::regex $>$ \mbox{\hyperlink{class_atlas_1_1_file_manager_a78f53f7ce56ec9d7f67d9fe7e70f7f43}{m\+Ignore\+Patterns}}
+\begin{DoxyCompactList}\small\item\em A vector of regex ignore patterns. This is guarded by {\ttfamily m\+Ignore\+Mutex}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_manager_a8b68e1761a8d6793430a979a0d70fe4b}{File\+Janitor}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+As the name suggests, this {\bfseries{non-\/copyable}} class is responsible for managing the files that \doxylink{namespace_atlas}{Atlas} and the user has loaded. This class has {\bfseries{3}} main responsibilities (excluding the janitor)\+: {\bfseries{Loading}}, {\bfseries{Unloading}} and {\bfseries{Registering}}. Additionally, this class can be configured to ignore certain patterns it comes across during the file discovery process through the use of {\bfseries{regex}} patterns. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00158}{158}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_atlas_1_1_file_manager_ab328df5393caffd269207930c3369c24}\label{class_atlas_1_1_file_manager_ab328df5393caffd269207930c3369c24} 
+\index{Atlas::FileManager@{Atlas::FileManager}!FileManager@{FileManager}}
+\index{FileManager@{FileManager}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{FileManager()}{FileManager()}}
+{\footnotesize\ttfamily Atlas\+::\+File\+Manager\+::\+File\+Manager (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}} \&}]{options = {\ttfamily \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}}()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Initializes a new instance of the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class with the specified configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em options} & The configuration options for the file manager.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00137}{137}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_add5d623d34c286a267ab25e2ff710527}\label{class_atlas_1_1_file_manager_add5d623d34c286a267ab25e2ff710527} 
+\index{Atlas::FileManager@{Atlas::FileManager}!````~FileManager@{\texorpdfstring{$\sim$}{\string~}FileManager}}
+\index{````~FileManager@{\texorpdfstring{$\sim$}{\string~}FileManager}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}FileManager()}{\string~FileManager()}}
+{\footnotesize\ttfamily Atlas\+::\+File\+Manager\+::\texorpdfstring{$\sim$}{\string~}\+File\+Manager (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destroys the current instance of the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00142}{142}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_atlas_1_1_file_manager_a724e1c29a688a720ddb96c83b7263dcb}\label{class_atlas_1_1_file_manager_a724e1c29a688a720ddb96c83b7263dcb} 
+\index{Atlas::FileManager@{Atlas::FileManager}!addIgnorePattern@{addIgnorePattern}}
+\index{addIgnorePattern@{addIgnorePattern}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{addIgnorePattern()}{addIgnorePattern()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+Manager\+::add\+Ignore\+Pattern (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{pattern }\end{DoxyParamCaption})}
+
+
+
+Add an ignore pattern to the ignore list using ECMAScript regex. Files matching this pattern will not be loaded. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pattern} & A ECMAScript regex pattern.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00199}{199}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_ae2b2e52722324ef57b9e83d9686f425e}\label{class_atlas_1_1_file_manager_ae2b2e52722324ef57b9e83d9686f425e} 
+\index{Atlas::FileManager@{Atlas::FileManager}!ATLAS\_DISALLOW\_COPY@{ATLAS\_DISALLOW\_COPY}}
+\index{ATLAS\_DISALLOW\_COPY@{ATLAS\_DISALLOW\_COPY}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_DISALLOW\_COPY()}{ATLAS\_DISALLOW\_COPY()}}
+{\footnotesize\ttfamily Atlas\+::\+File\+Manager\+::\+ATLAS\+\_\+\+DISALLOW\+\_\+\+COPY (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_file_manager}{File\+Manager}}}]{ }\end{DoxyParamCaption})}
+
+\Hypertarget{class_atlas_1_1_file_manager_aa7dc5d1b60002ddc5ab7ca9a76541e4f}\label{class_atlas_1_1_file_manager_aa7dc5d1b60002ddc5ab7ca9a76541e4f} 
+\index{Atlas::FileManager@{Atlas::FileManager}!findRegistered@{findRegistered}}
+\index{findRegistered@{findRegistered}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{findRegistered()}{findRegistered()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::filesystem\+::path $>$ Atlas\+::\+File\+Manager\+::find\+Registered (\begin{DoxyParamCaption}\item[{const std\+::regex \&}]{re }\end{DoxyParamCaption}) const}
+
+
+
+Finds all registered files that match the specified regex pattern. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em re} & An ECMAScript regex pattern to use for searching.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily std\+::vector$<$std\+::filesystem\+::path$>$} A vector of paths that match the pattern.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00343}{343}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_a33ef34e7892e33eb3d5be27f84b1a3fd}\label{class_atlas_1_1_file_manager_a33ef34e7892e33eb3d5be27f84b1a3fd} 
+\index{Atlas::FileManager@{Atlas::FileManager}!getRegisteredCount@{getRegisteredCount}}
+\index{getRegisteredCount@{getRegisteredCount}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{getRegisteredCount()}{getRegisteredCount()}}
+{\footnotesize\ttfamily size\+\_\+t Atlas\+::\+File\+Manager\+::get\+Registered\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the number of registered files. This can be used for debugging purposes. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily size\+\_\+t} The number of registered files.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00307}{307}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_a472f9fa23dbddf1d7e052e1fcbf79a46}\label{class_atlas_1_1_file_manager_a472f9fa23dbddf1d7e052e1fcbf79a46} 
+\index{Atlas::FileManager@{Atlas::FileManager}!isIgnored@{isIgnored}}
+\index{isIgnored@{isIgnored}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{isIgnored()}{isIgnored()}}
+{\footnotesize\ttfamily bool Atlas\+::\+File\+Manager\+::is\+Ignored (\begin{DoxyParamCaption}\item[{const std\+::filesystem\+::path \&}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Checks if a path should be ignored based on the ignore patterns. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00355}{355}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_a3b01fae0c00120df95211d53b300a48a}\label{class_atlas_1_1_file_manager_a3b01fae0c00120df95211d53b300a48a} 
+\index{Atlas::FileManager@{Atlas::FileManager}!openFile@{openFile}}
+\index{openFile@{openFile}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{openFile()}{openFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_file_handle}{Atlas\+::\+File\+Handle}} Atlas\+::\+File\+Manager\+::open\+File (\begin{DoxyParamCaption}\item[{const std\+::filesystem\+::path \&}]{p }\end{DoxyParamCaption})}
+
+
+
+Open a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The path to the file that should be opened.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyWarning}{Warning}
+Do not discard the return value! It keeps the file loaded while alive.
+\end{DoxyWarning}
+\begin{DoxyReturn}{Returns}
+{\ttfamily shared\+\_\+ptr$<$\+File\+Data$>$} This return value keeps the file loaded while alive.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00209}{209}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_i_o_common_8cpp_source_l00019}{Atlas\+::\+Get\+Absolute\+Path()}}.
+
+
+
+Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_a489639695d22a494baa1b36ac36a2415}\label{class_atlas_1_1_file_manager_a489639695d22a494baa1b36ac36a2415} 
+\index{Atlas::FileManager@{Atlas::FileManager}!preloadAll@{preloadAll}}
+\index{preloadAll@{preloadAll}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{preloadAll()}{preloadAll()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+Manager\+::preload\+All (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Preloads all registered files. This is an optional function, and it is extremely expensive. 
+
+\begin{DoxyNote}{Note}
+As an edge case, this could be used to measure loading times.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00312}{312}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_a82e49a8dd4225afab8319795cdfd5ce2}\label{class_atlas_1_1_file_manager_a82e49a8dd4225afab8319795cdfd5ce2} 
+\index{Atlas::FileManager@{Atlas::FileManager}!registerDirectory@{registerDirectory}}
+\index{registerDirectory@{registerDirectory}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{registerDirectory()}{registerDirectory()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+Manager\+::register\+Directory (\begin{DoxyParamCaption}\item[{const std\+::filesystem\+::path \&}]{dir }\end{DoxyParamCaption})}
+
+
+
+Register a directory (recursively); applies ignore regexes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dir} & The directory to register.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00149}{149}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_common_8h_source_l00097}{ATLAS\+\_\+\+ASSERT}}, \mbox{\hyperlink{_i_o_common_8cpp_source_l00014}{Atlas\+::\+Does\+Path\+Exist()}}, and \mbox{\hyperlink{_logging_8cpp_source_l00260}{Atlas\+::\+Info\+Log()}}.
+
+
+
+Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_a4783d90c823959a43d6ae0618e0b4d47}\label{class_atlas_1_1_file_manager_a4783d90c823959a43d6ae0618e0b4d47} 
+\index{Atlas::FileManager@{Atlas::FileManager}!registerFile@{registerFile}}
+\index{registerFile@{registerFile}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{registerFile()}{registerFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+Manager\+::register\+File (\begin{DoxyParamCaption}\item[{const std\+::filesystem\+::path \&}]{p }\end{DoxyParamCaption})}
+
+
+
+Register a file; applies ignore regexes. The file must exist. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The file to register.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00184}{184}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_i_o_common_8cpp_source_l00019}{Atlas\+::\+Get\+Absolute\+Path()}}, and \mbox{\hyperlink{_logging_8cpp_source_l00260}{Atlas\+::\+Info\+Log()}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_a67e82a76b397b044f5e82ace336fe9eb}\label{class_atlas_1_1_file_manager_a67e82a76b397b044f5e82ace336fe9eb} 
+\index{Atlas::FileManager@{Atlas::FileManager}!removeIgnorePatterns@{removeIgnorePatterns}}
+\index{removeIgnorePatterns@{removeIgnorePatterns}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{removeIgnorePatterns()}{removeIgnorePatterns()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+Manager\+::remove\+Ignore\+Patterns (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Remove all ignore patterns. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00204}{204}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_ac29e1fcb729ce92672c387f8a19baa88}\label{class_atlas_1_1_file_manager_ac29e1fcb729ce92672c387f8a19baa88} 
+\index{Atlas::FileManager@{Atlas::FileManager}!unloadAll@{unloadAll}}
+\index{unloadAll@{unloadAll}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{unloadAll()}{unloadAll()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+Manager\+::unload\+All (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unloads all files. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00328}{328}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_a68aa05e0f8ab4abf63de5db8c754f6a2}\label{class_atlas_1_1_file_manager_a68aa05e0f8ab4abf63de5db8c754f6a2} 
+\index{Atlas::FileManager@{Atlas::FileManager}!unloadFile@{unloadFile}}
+\index{unloadFile@{unloadFile}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{unloadFile()}{unloadFile()}}
+{\footnotesize\ttfamily bool Atlas\+::\+File\+Manager\+::unload\+File (\begin{DoxyParamCaption}\item[{const std\+::filesystem\+::path \&}]{p }\end{DoxyParamCaption})}
+
+
+
+An explicit unload function that unloads a file (forces if not in use). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The path to the file that should be unloaded.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily bool} Whether the file was unloaded or not.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00275}{275}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_i_o_common_8cpp_source_l00019}{Atlas\+::\+Get\+Absolute\+Path()}}.
+
+
+
+Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
+
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{class_atlas_1_1_file_manager_a8b68e1761a8d6793430a979a0d70fe4b}\label{class_atlas_1_1_file_manager_a8b68e1761a8d6793430a979a0d70fe4b} 
+\index{Atlas::FileManager@{Atlas::FileManager}!FileJanitor@{FileJanitor}}
+\index{FileJanitor@{FileJanitor}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{FileJanitor}{FileJanitor}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor}{File\+Janitor}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00339}{339}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_atlas_1_1_file_manager_ac0083b715c9d351fd53d65340a66053e}\label{class_atlas_1_1_file_manager_ac0083b715c9d351fd53d65340a66053e} 
+\index{Atlas::FileManager@{Atlas::FileManager}!mIgnoreMutex@{mIgnoreMutex}}
+\index{mIgnoreMutex@{mIgnoreMutex}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{mIgnoreMutex}{mIgnoreMutex}}
+{\footnotesize\ttfamily std\+::mutex Atlas\+::\+File\+Manager\+::m\+Ignore\+Mutex\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [private]}}
+
+
+
+A mutex that is used to guard access to the {\ttfamily m\+Ignore\+Patterns} vector. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_file_manager_a78f53f7ce56ec9d7f67d9fe7e70f7f43}{m\+Ignore\+Patterns} 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00382}{382}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_a78f53f7ce56ec9d7f67d9fe7e70f7f43}\label{class_atlas_1_1_file_manager_a78f53f7ce56ec9d7f67d9fe7e70f7f43} 
+\index{Atlas::FileManager@{Atlas::FileManager}!mIgnorePatterns@{mIgnorePatterns}}
+\index{mIgnorePatterns@{mIgnorePatterns}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{mIgnorePatterns}{mIgnorePatterns}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::regex$>$ Atlas\+::\+File\+Manager\+::m\+Ignore\+Patterns\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A vector of regex ignore patterns. This is guarded by {\ttfamily m\+Ignore\+Mutex}. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_file_manager_ac0083b715c9d351fd53d65340a66053e}{m\+Ignore\+Mutex} 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00391}{391}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_a3764913dc6d6f8701c8651ab7d0ac5c2}\label{class_atlas_1_1_file_manager_a3764913dc6d6f8701c8651ab7d0ac5c2} 
+\index{Atlas::FileManager@{Atlas::FileManager}!mJanitor@{mJanitor}}
+\index{mJanitor@{mJanitor}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{mJanitor}{mJanitor}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor}{File\+Janitor}} Atlas\+::\+File\+Manager\+::m\+Janitor\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The janitor for this class. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00346}{346}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_aad7c485bddcbb743d6da8ed22b8d481b}\label{class_atlas_1_1_file_manager_aad7c485bddcbb743d6da8ed22b8d481b} 
+\index{Atlas::FileManager@{Atlas::FileManager}!mMapMutex@{mMapMutex}}
+\index{mMapMutex@{mMapMutex}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{mMapMutex}{mMapMutex}}
+{\footnotesize\ttfamily std\+::shared\+\_\+mutex Atlas\+::\+File\+Manager\+::m\+Map\+Mutex\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [private]}}
+
+
+
+A shared mutex that is used to guard access to the {\ttfamily m\+Records} map. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1
+\end{DoxySince}
+\begin{DoxySeeAlso}{See also}
+\doxylink{class_atlas_1_1_file_manager_ae1dbbcca8c99414d1320d6a83a573a29}{m\+Records} 
+\end{DoxySeeAlso}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00355}{355}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73}\label{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73} 
+\index{Atlas::FileManager@{Atlas::FileManager}!mOptions@{mOptions}}
+\index{mOptions@{mOptions}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{mOptions}{mOptions}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}} Atlas\+::\+File\+Manager\+::m\+Options\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+This class\textquotesingle{} configuration options. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00369}{369}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_i_o_manager_8cpp_source_l00089}{Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::evict\+Unused()}}, and \mbox{\hyperlink{_i_o_manager_8cpp_source_l00074}{Atlas\+::\+File\+Manager\+::\+File\+Janitor\+::janitor\+Loop()}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_ae1dbbcca8c99414d1320d6a83a573a29}\label{class_atlas_1_1_file_manager_ae1dbbcca8c99414d1320d6a83a573a29} 
+\index{Atlas::FileManager@{Atlas::FileManager}!mRecords@{mRecords}}
+\index{mRecords@{mRecords}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{mRecords}{mRecords}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::filesystem\+::path, std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{struct_atlas_1_1_file_record}{File\+Record}}$>$ $>$ Atlas\+::\+File\+Manager\+::m\+Records\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A map of registered files. This is guarded by {\ttfamily m\+Map\+Mutex}. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00362}{362}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/io/\mbox{\hyperlink{_i_o_manager_8h}{IOManager.\+h}}\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/io/\mbox{\hyperlink{_i_o_manager_8cpp}{IOManager.\+cpp}}\end{DoxyCompactItemize}

@@ -7,24 +7,97 @@
 {\ttfamily \#include $<$any$>$}\newline
 {\ttfamily \#include $<$string$>$}\newline
 {\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$atomic$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$condition\+\_\+variable$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$mutex$>$}\newline
+{\ttfamily \#include $<$regex$>$}\newline
+{\ttfamily \#include $<$shared\+\_\+mutex$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
 {\ttfamily \#include "{}../core/\+Core.\+h"{}}\newline
+{\ttfamily \#include "{}../core/\+Common.\+h"{}}\newline
 {\ttfamily \#include "{}IOCommon.\+h"{}}\newline
-{\ttfamily \#include "{}Path\+Searcher.\+h"{}}\newline
+{\ttfamily \#include "{}File\+Data.\+h"{}}\newline
+{\ttfamily \#include "{}File\+Record.\+h"{}}\newline
+{\ttfamily \#include "{}File\+Handle.\+h"{}}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_i_path_loader_logic_gate}{Atlas\+::\+IPath\+Loader\+Logic\+Gate}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_path_loader_logic_gate}{Atlas\+::\+Path\+Loader\+Logic\+Gate}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_a_extension_validator}{Atlas\+::\+AExtension\+Validator}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_i_o_manager}{Atlas\+::\+IOManager}}
-\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_i_o_manager_1_1_extension_handlers_aggregator}{Atlas\+::\+IOManager\+::\+Extension\+Handlers\+Aggregator}}
-\end{DoxyCompactItemize}
+struct \mbox{\hyperlink{struct_atlas_1_1_file_system_audit_info}{Atlas\+::\+File\+System\+Audit\+Info}}
+\begin{DoxyCompactList}\small\item\em Some information about \doxylink{namespace_atlas}{Atlas}\textquotesingle{} io module that may be helpful for debugging. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_manager}{Atlas\+::\+File\+Manager}}
+\begin{DoxyCompactList}\small\item\em As the name suggests, this {\bfseries{non-\/copyable}} class is responsible for managing the files that \doxylink{namespace_atlas}{Atlas} and the user has loaded. This class has {\bfseries{3}} main responsibilities (excluding the janitor)\+: {\bfseries{Loading}}, {\bfseries{Unloading}} and {\bfseries{Registering}}. Additionally, this class can be configured to ignore certain patterns it comes across during the file discovery process through the use of {\bfseries{regex}} patterns. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Atlas\+::\+File\+Manager\+::\+Options}}
+\begin{DoxyCompactList}\small\item\em Configuration options for the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} and its {\ttfamily \doxylink{class_atlas_1_1_file_manager_1_1_file_janitor}{File\+Janitor}}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor}{Atlas\+::\+File\+Manager\+::\+File\+Janitor}}
+\begin{DoxyCompactList}\small\item\em Automatically evicts unused files in a background thread and cleans up the {\ttfamily m\+Records} map in the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}}. Furthermore, this class also handles the janitor thread, which is where the janitor loop runs. This class is handled by the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} class. It is not recommended to use this class directly, and let the {\ttfamily \doxylink{class_atlas_1_1_file_manager}{File\+Manager}} handle it. However, if you do infact need to use this class directly, please refer to the details section in the documentation below. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
 namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_i_o_manager_8h_a4a8b2844c5bda45c796e27e5b2182135}{ATLAS\+\_\+\+DEFAULT\+\_\+\+FILE\+\_\+\+TTL}}~60
+\begin{DoxyCompactList}\small\item\em The default time-\/to-\/live value for a file. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_i_o_manager_8h_a4bc68c68c6b971427f20b239e9b0c40f}{ATLAS\+\_\+\+DEFAULT\+\_\+\+JANITOR\+\_\+\+CHECK\+\_\+\+INTERVAL}}~10
+\begin{DoxyCompactList}\small\item\em The default interval at which the janitor will check for unused files. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_i_o_manager_8h_aee60833370e139b6b71573a0842f104e}{ATLAS\+\_\+\+DEFAULT\+\_\+\+START\+\_\+\+JANITOR}}~true
+\begin{DoxyCompactList}\small\item\em The default value for whether or not to start the janitor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_i_o_manager_8h_a4a8b2844c5bda45c796e27e5b2182135}\label{_i_o_manager_8h_a4a8b2844c5bda45c796e27e5b2182135} 
+\index{IOManager.h@{IOManager.h}!ATLAS\_DEFAULT\_FILE\_TTL@{ATLAS\_DEFAULT\_FILE\_TTL}}
+\index{ATLAS\_DEFAULT\_FILE\_TTL@{ATLAS\_DEFAULT\_FILE\_TTL}!IOManager.h@{IOManager.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_DEFAULT\_FILE\_TTL}{ATLAS\_DEFAULT\_FILE\_TTL}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+DEFAULT\+\_\+\+FILE\+\_\+\+TTL~60}
+
+
+
+The default time-\/to-\/live value for a file. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00050}{50}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{_i_o_manager_8h_a4bc68c68c6b971427f20b239e9b0c40f}\label{_i_o_manager_8h_a4bc68c68c6b971427f20b239e9b0c40f} 
+\index{IOManager.h@{IOManager.h}!ATLAS\_DEFAULT\_JANITOR\_CHECK\_INTERVAL@{ATLAS\_DEFAULT\_JANITOR\_CHECK\_INTERVAL}}
+\index{ATLAS\_DEFAULT\_JANITOR\_CHECK\_INTERVAL@{ATLAS\_DEFAULT\_JANITOR\_CHECK\_INTERVAL}!IOManager.h@{IOManager.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_DEFAULT\_JANITOR\_CHECK\_INTERVAL}{ATLAS\_DEFAULT\_JANITOR\_CHECK\_INTERVAL}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+DEFAULT\+\_\+\+JANITOR\+\_\+\+CHECK\+\_\+\+INTERVAL~10}
+
+
+
+The default interval at which the janitor will check for unused files. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00057}{57}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+\Hypertarget{_i_o_manager_8h_aee60833370e139b6b71573a0842f104e}\label{_i_o_manager_8h_aee60833370e139b6b71573a0842f104e} 
+\index{IOManager.h@{IOManager.h}!ATLAS\_DEFAULT\_START\_JANITOR@{ATLAS\_DEFAULT\_START\_JANITOR}}
+\index{ATLAS\_DEFAULT\_START\_JANITOR@{ATLAS\_DEFAULT\_START\_JANITOR}!IOManager.h@{IOManager.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_DEFAULT\_START\_JANITOR}{ATLAS\_DEFAULT\_START\_JANITOR}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+DEFAULT\+\_\+\+START\+\_\+\+JANITOR~true}
+
+
+
+The default value for whether or not to start the janitor. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00064}{64}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+

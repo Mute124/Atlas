@@ -93,7 +93,8 @@ $(document).ready(function(){initNavTree('db/d71/_i_o_manager_8h.html','../../')
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle"><div class="title">IOManager.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -104,37 +105,121 @@ $(document).ready(function(){initNavTree('db/d71/_i_o_manager_8h.html','../../')
 <code>#include &lt;any&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;condition_variable&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;regex&gt;</code><br />
+<code>#include &lt;shared_mutex&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
 <code>#include &quot;<a class="el" href="../../d4/d09/_core_8h_source.html">../core/Core.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../db/d1f/_common_8h_source.html">../core/Common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../dd/d5e/_i_o_common_8h_source.html">IOCommon.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d0/dce/_path_searcher_8h_source.html">PathSearcher.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d2/dee/_file_data_8h_source.html">FileData.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d1/d2e/_file_record_8h_source.html">FileRecord.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d4/da8/_file_handle_8h_source.html">FileHandle.h</a>&quot;</code><br />
 </div>
 <p><a href="../../db/d71/_i_o_manager_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d55/class_atlas_1_1_i_path_loader_logic_gate.html">Atlas::IPathLoaderLogicGate</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2f/struct_atlas_1_1_file_system_audit_info.html">Atlas::FileSystemAuditInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Some information about <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a>' io module that may be helpful for debugging.  <a href="../../d7/d2f/struct_atlas_1_1_file_system_audit_info.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d2b/class_atlas_1_1_path_loader_logic_gate.html">Atlas::PathLoaderLogicGate</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d63/class_atlas_1_1_file_manager.html">Atlas::FileManager</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">As the name suggests, this <b>non-copyable</b> class is responsible for managing the files that <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a> and the user has loaded. This class has <b>3</b> main responsibilities (excluding the janitor): <b>Loading</b>, <b>Unloading</b> and <b>Registering</b>. Additionally, this class can be configured to ignore certain patterns it comes across during the file discovery process through the use of <b>regex</b> patterns.  <a href="../../d6/d63/class_atlas_1_1_file_manager.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d76/class_atlas_1_1_a_extension_validator.html">Atlas::AExtensionValidator</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d76/struct_atlas_1_1_file_manager_1_1_options.html">Atlas::FileManager::Options</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration options for the <code><a class="el" href="../../d6/d63/class_atlas_1_1_file_manager.html" title="As the name suggests, this non-copyable class is responsible for managing the files that Atlas and th...">FileManager</a></code> and its <code><a class="el" href="../../db/d6b/class_atlas_1_1_file_manager_1_1_file_janitor.html" title="Automatically evicts unused files in a background thread and cleans up the mRecords map in the FileMa...">FileJanitor</a></code>.  <a href="../../db/d76/struct_atlas_1_1_file_manager_1_1_options.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0f/class_atlas_1_1_i_o_manager.html">Atlas::IOManager</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d02/struct_atlas_1_1_i_o_manager_1_1_extension_handlers_aggregator.html">Atlas::IOManager::ExtensionHandlersAggregator</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/class_atlas_1_1_file_manager_1_1_file_janitor.html">Atlas::FileManager::FileJanitor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Automatically evicts unused files in a background thread and cleans up the <code>mRecords</code> map in the <code><a class="el" href="../../d6/d63/class_atlas_1_1_file_manager.html" title="As the name suggests, this non-copyable class is responsible for managing the files that Atlas and th...">FileManager</a></code>. Furthermore, this class also handles the janitor thread, which is where the janitor loop runs. This class is handled by the <code><a class="el" href="../../d6/d63/class_atlas_1_1_file_manager.html" title="As the name suggests, this non-copyable class is responsible for managing the files that Atlas and th...">FileManager</a></code> class. It is not recommended to use this class directly, and let the <code><a class="el" href="../../d6/d63/class_atlas_1_1_file_manager.html" title="As the name suggests, this non-copyable class is responsible for managing the files that Atlas and th...">FileManager</a></code> handle it. However, if you do infact need to use this class directly, please refer to the details section in the documentation below.  <a href="../../db/d6b/class_atlas_1_1_file_manager_1_1_file_janitor.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:d7/d54/namespace_atlas" id="r_d7/d54/namespace_atlas"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a4a8b2844c5bda45c796e27e5b2182135" id="r_a4a8b2844c5bda45c796e27e5b2182135"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d71/_i_o_manager_8h.html#a4a8b2844c5bda45c796e27e5b2182135">ATLAS_DEFAULT_FILE_TTL</a>&#160;&#160;&#160;60</td></tr>
+<tr class="memdesc:a4a8b2844c5bda45c796e27e5b2182135"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default time-to-live value for a file.  <br /></td></tr>
+<tr class="separator:a4a8b2844c5bda45c796e27e5b2182135"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bc68c68c6b971427f20b239e9b0c40f" id="r_a4bc68c68c6b971427f20b239e9b0c40f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d71/_i_o_manager_8h.html#a4bc68c68c6b971427f20b239e9b0c40f">ATLAS_DEFAULT_JANITOR_CHECK_INTERVAL</a>&#160;&#160;&#160;10</td></tr>
+<tr class="memdesc:a4bc68c68c6b971427f20b239e9b0c40f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default interval at which the janitor will check for unused files.  <br /></td></tr>
+<tr class="separator:a4bc68c68c6b971427f20b239e9b0c40f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee60833370e139b6b71573a0842f104e" id="r_aee60833370e139b6b71573a0842f104e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d71/_i_o_manager_8h.html#aee60833370e139b6b71573a0842f104e">ATLAS_DEFAULT_START_JANITOR</a>&#160;&#160;&#160;true</td></tr>
+<tr class="memdesc:aee60833370e139b6b71573a0842f104e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default value for whether or not to start the janitor.  <br /></td></tr>
+<tr class="separator:aee60833370e139b6b71573a0842f104e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a4a8b2844c5bda45c796e27e5b2182135" name="a4a8b2844c5bda45c796e27e5b2182135"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a8b2844c5bda45c796e27e5b2182135">&#9670;&#160;</a></span>ATLAS_DEFAULT_FILE_TTL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ATLAS_DEFAULT_FILE_TTL&#160;&#160;&#160;60</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The default time-to-live value for a file. </p>
+<dl class="section since"><dt>Since</dt><dd>v0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d71/_i_o_manager_8h_source.html#l00050">50</a> of file <a class="el" href="../../db/d71/_i_o_manager_8h_source.html">IOManager.h</a>.</p>
+
+</div>
+</div>
+<a id="a4bc68c68c6b971427f20b239e9b0c40f" name="a4bc68c68c6b971427f20b239e9b0c40f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bc68c68c6b971427f20b239e9b0c40f">&#9670;&#160;</a></span>ATLAS_DEFAULT_JANITOR_CHECK_INTERVAL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ATLAS_DEFAULT_JANITOR_CHECK_INTERVAL&#160;&#160;&#160;10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The default interval at which the janitor will check for unused files. </p>
+<dl class="section since"><dt>Since</dt><dd>v0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d71/_i_o_manager_8h_source.html#l00057">57</a> of file <a class="el" href="../../db/d71/_i_o_manager_8h_source.html">IOManager.h</a>.</p>
+
+</div>
+</div>
+<a id="aee60833370e139b6b71573a0842f104e" name="aee60833370e139b6b71573a0842f104e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee60833370e139b6b71573a0842f104e">&#9670;&#160;</a></span>ATLAS_DEFAULT_START_JANITOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ATLAS_DEFAULT_START_JANITOR&#160;&#160;&#160;true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The default value for whether or not to start the janitor. </p>
+<dl class="section since"><dt>Since</dt><dd>v0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/d71/_i_o_manager_8h_source.html#l00064">64</a> of file <a class="el" href="../../db/d71/_i_o_manager_8h_source.html">IOManager.h</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_c15f0e649f5c9a49dfe9bd090b501003.html">io</a></li><li class="navelem"><a class="el" href="../../db/d71/_i_o_manager_8h.html">IOManager.h</a></li>
-    <li class="footer">Generated on Sun Oct 12 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Oct 21 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

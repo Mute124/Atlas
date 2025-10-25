@@ -97,6 +97,7 @@ namespace Atlas {
 			}
 		}
 
+
 		/**
 		 * @brief This @b EXPLICIT constructor takes a variable of type T_VARIABLE_TYPE
 		 * and sets mValue to the value of that variable. Keep in mind that this is a
@@ -223,7 +224,7 @@ namespace Atlas {
 		 * automatically unlock the mutex. See the note above for
 		 * the reasoning behind this.
 		 */
-		T_LOCK_GUARD& lock() {
+		[[nodiscard]] T_LOCK_GUARD& lock() {
 			T_LOCK_GUARD lock(mMutex);
 			return lock;
 		}
@@ -305,5 +306,8 @@ namespace Atlas {
 		}
 
 	};
+
+	template<typename T_VARIABLE_TYPE>
+	using ThreadSafeSharedVariable = ThreadSafeVariable<std::shared_ptr<T_VARIABLE_TYPE>>;
 
 }

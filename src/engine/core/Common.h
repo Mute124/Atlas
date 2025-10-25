@@ -149,6 +149,15 @@
 #define ATLAS_NULL_JPEG static_cast<std::string>(ATLAS_ASSET_DIR) + static_cast<std::string>("/engine/null.jpeg")
 #define ATLAS_NULL_GIF ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.gif"
 
+#ifdef __cpp_conditional_explicit
+	#define ATLAS_IMPLICIT explicit(false)
+	#define ATLAS_EXPLICIT explicit(true)
+#endif
+//
+//#ifdef __cpp_variadic_templates
+//	#define ATLAS_VARIADIC(...) __VA_ARGS__
+//#endif
+
 namespace Atlas {
 
 	using std::string;
@@ -176,6 +185,7 @@ namespace Atlas {
 		T_NUMERIC_TYPE width;
 		T_NUMERIC_TYPE height;
 	};
+
 
 	class Counter {
 	private:

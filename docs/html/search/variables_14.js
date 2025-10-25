@@ -9,5 +9,7 @@ var searchData=
   ['useprogram_6',['UseProgram',['../d4/d6c/union_im_g_l3_w_procs.html#a3ff636f93be8c25e0c8690a90a739e23',1,'ImGL3WProcs']]],
   ['useralloc_7',['useralloc',['../d7/d58/scriptarray_8cpp.html#aec6254edd03c21867a5ddb4f6953b105',1,'userAlloc:&#160;scriptarray.cpp'],['../dd/d50/scriptgrid_8cpp.html#a5468a8230a7657741775ce68672ce26a',1,'userAlloc:&#160;scriptgrid.cpp']]],
   ['userfree_8',['userfree',['../d7/d58/scriptarray_8cpp.html#aee2ff988e046cce0dbec0e9ddd36618b',1,'userFree:&#160;scriptarray.cpp'],['../dd/d50/scriptgrid_8cpp.html#aee2ff988e046cce0dbec0e9ddd36618b',1,'userFree:&#160;scriptgrid.cpp']]],
-  ['uv_9',['uv',['../db/dae/struct_im_draw_vert_allegro.html#a99adeb37caaa0be78aa790522f3f0bfd',1,'ImDrawVertAllegro::uv'],['../d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html#a2c27e901db37bc828fb408010596304c',1,'CUSTOMVERTEX::uv']]]
+  ['uv_9',['uv',['../db/dae/struct_im_draw_vert_allegro.html#a99adeb37caaa0be78aa790522f3f0bfd',1,'ImDrawVertAllegro::uv'],['../d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html#a2c27e901db37bc828fb408010596304c',1,'CUSTOMVERTEX::uv']]],
+  ['uv_5fx_10',['uv_x',['../d1/d41/struct_atlas_1_1_vertex.html#aa48e0a7efda711b28924f708c1737b56',1,'Atlas::Vertex']]],
+  ['uv_5fy_11',['uv_y',['../d1/d41/struct_atlas_1_1_vertex.html#ae18b5455dee4972035014eab763b38ec',1,'Atlas::Vertex']]]
 ];

@@ -1,0 +1,40 @@
+\doxysection{File\+Record.\+h}
+\hypertarget{_file_record_8h_source}{}\label{_file_record_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/io/FileRecord.h@{C:/Dev/Techstorm-\/v5/src/engine/io/FileRecord.h}}
+\mbox{\hyperlink{_file_record_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ FileRecord.h}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00003}00003\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00004}00004\ \textcolor{comment}{\ *\ @brief\ .}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00005}00005\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00006}00006\ \textcolor{comment}{\ *\ @date\ October\ 2025}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00007}00007\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00008}00008\ \textcolor{comment}{\ *\ @since\ v}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00010}00010\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <atomic>}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_o_common_8h}{IOCommon.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_file_data_8h}{FileData.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00020}00020\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00021}\mbox{\hyperlink{struct_atlas_1_1_file_record}{00021}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_file_record}{FileRecord}}\ \{}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00022}\mbox{\hyperlink{struct_atlas_1_1_file_record_a0a76fb0a39435a0124487dc3cb603535}{00022}}\ \ \ \ \ \ \ \ \ std::filesystem::path\ \mbox{\hyperlink{struct_atlas_1_1_file_record_a0a76fb0a39435a0124487dc3cb603535}{path}};}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00023}\mbox{\hyperlink{struct_atlas_1_1_file_record_a65841187b3a088bf8635808bc3040b8e}{00023}}\ \ \ \ \ \ \ \ \ std::atomic<TimePoint::rep>\ \mbox{\hyperlink{struct_atlas_1_1_file_record_a65841187b3a088bf8635808bc3040b8e}{lastUsedMS}};\ \textcolor{comment}{//\ store\ as\ integral\ ms\ to\ be\ atomic}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00024}\mbox{\hyperlink{struct_atlas_1_1_file_record_acea9f76e154c04a806da49f857d430dc}{00024}}\ \ \ \ \ \ \ \ \ std::mutex\ \mbox{\hyperlink{struct_atlas_1_1_file_record_acea9f76e154c04a806da49f857d430dc}{loadMutex}};\ \textcolor{comment}{//\ protects\ loading/unloading\ for\ this\ record}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00025}\mbox{\hyperlink{struct_atlas_1_1_file_record_a2638ac2eb397e8e8473215c0c3fb5f91}{00025}}\ \ \ \ \ \ \ \ \ std::weak\_ptr<FileData>\ \mbox{\hyperlink{struct_atlas_1_1_file_record_a2638ac2eb397e8e8473215c0c3fb5f91}{weakDataPtr}};\ \textcolor{comment}{//\ points\ to\ loaded\ data\ if\ loaded}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00026}\mbox{\hyperlink{struct_atlas_1_1_file_record_afee0528424fd578efbfd147c79246f03}{00026}}\ \ \ \ \ \ \ \ \ std::atomic<int>\ \mbox{\hyperlink{struct_atlas_1_1_file_record_afee0528424fd578efbfd147c79246f03}{activeHandles}}\{\ 0\ \};\ \textcolor{comment}{//\ NEW:\ number\ of\ FileHandles\ currently\ held}}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{struct_atlas_1_1_file_record}{FileRecord}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ p);}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_atlas_1_1_file_record_a2588a513b31f7e5e894157fc7472349e}{touch}}();}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00032}00032\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a5054a486a703218d0f6e4dcc262e3fd0}{TimePoint}}\ \mbox{\hyperlink{struct_atlas_1_1_file_record_ac2179993a962e9388d37b09d86e31c63}{getLastUseTime}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00033}00033\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_file_record_8h_source_l00034}00034\ \}}
+
+\end{DoxyCode}
