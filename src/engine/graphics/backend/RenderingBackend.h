@@ -18,6 +18,7 @@
 #include <memory>
 #include <type_traits>
 #include <mutex>
+#include <atomic>
 
 #include "../../core/Core.h"
 #include "../../core/Common.h"
@@ -34,6 +35,7 @@
 	#include <vulkan/vulkan.h>
 	#include <vulkan/vulkan_core.h>
 #endif
+#include <shared_mutex>
 
 
 
@@ -111,30 +113,29 @@ namespace Atlas {
 		// Empty for now
 	};
 
-
 	class RenderingBackend {
 	public:
 		using APIVersion = Version;
 
+		struct State {
+			std::shared_ptr<AGameWindow> gameWindow;
+			RendererSettings settings;
+			
+			bool bIsReady{ false };
+		};
+
 	protected:
-		
-		ThreadSafeSharedVariable<AGameWindow> mGameWindowTSSV;
-
-		//std::shared_ptr<AGameWindow> mGameWindowPtr;
-		//std::mutex mGameWindowMutex;
-
-		//uint32_t mCurrentFrame = 0;
 
 		Version mAPIVersion;
-		
+			
 		bool mbIsInitialized = false;
 		bool mbUseDebuggingTools = false;
 		bool mbEnableErrorChecking = false; // dont worry about this if you are not using vulkan
+		
+
+
 	public:
 		
-		explicit RenderingBackend(const std::shared_ptr<AGameWindow>& gameWindow) {
-			mGameWindowTSSV.set(gameWindow);
-		}
 
 		RenderingBackend() = default;
 
@@ -150,7 +151,11 @@ namespace Atlas {
 
 		virtual void init(AGameWindow* windowHandle);
 
-		virtual void update() = 0;
+		virtual void beginDrawing() {}
+
+		virtual void draw() {}
+
+		virtual void endDrawing() {}
 
 		virtual void shutdown() {
 			mbIsInitialized = false;
@@ -177,14 +182,15 @@ namespace Atlas {
 	template<typename T_TARGET>
 	concept ValidRenderer = std::is_base_of_v<RenderingBackend, T_TARGET>;
 
-	template<ValidRenderer T_CHILD>
+	template<typename T_CHILD>
 	class AGlobalRenderingBackend : public RenderingBackend {
 	protected:
-		static inline ThreadSafeSharedVariable<T_CHILD> sActiveInstanceTSSV{};
+		static inline std::shared_ptr<T_CHILD> sActiveInstanceTSSV{};
+		static inline std::shared_mutex sActiveInstanceMutex{};
 
 		static inline void SetGlobalInstance(const std::shared_ptr<T_CHILD>& instance) {
-			std::scoped_lock lock(sActiveInstanceTSSV.lock());
-			sActiveInstanceTSSV = instance;
+			//std::scoped_lock lock(sActiveInstanceTSSV.lock());
+			sActiveInstanceTSSV.get().set(instance);
 		}
 
 	public:
@@ -196,11 +202,14 @@ namespace Atlas {
 		}
 
 		static inline bool HasGlobalInstance() {
-			return sActiveInstanceTSSV != nullptr;
+			return sActiveInstanceTSSV.get() != nullptr;
 		}
 
 		static inline void ClearGlobalInstance() {
-			std::scoped_lock lock(sActiveInstanceTSSV.lock());
+			//std::scoped_lock lock(sActiveInstanceTSSV.lock());
+			//sActiveInstanceTSSV = nullptr;
+			//sActiveInstanceTSSV.reset();
+
 			sActiveInstanceTSSV = nullptr;
 		}
 
@@ -217,7 +226,7 @@ namespace Atlas {
 		}
 
 		void setThisAsGlobalInstance() {
-			SetGlobalInstance(std::static_pointer_cast<T_CHILD>(shared_from_this()));
+			SetGlobalInstance(std::make_shared<T_CHILD>(this));
 		}
 
 		virtual void shutdown() override {

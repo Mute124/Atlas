@@ -256,8 +256,8 @@ namespace Atlas {
 	public:
 
 		static inline void SetCurrentDrawData(CurrentDrawData const& currentFrame) { 
-			std::scoped_lock lock(sCurrentDrawDataMutex);
-			sCurrentDrawData = currentFrame;
+			//std::scoped_lock lock(sCurrentDrawDataMutex);
+			//sCurrentDrawData = currentFrame;
 		}
 
 		virtual void draw(VkCommandBuffer cmd) {
@@ -324,7 +324,7 @@ namespace Atlas {
 	 * 
 	 * @since v0.0.1
 	 */
-	class VulkanRenderingBackend : public AGlobalRenderingBackend<VulkanRenderingBackend> {
+	class VulkanRenderingBackend : public RenderingBackend {
 	private:
 		// Thread-safe global instance of this class
 		static inline std::shared_ptr<VulkanRenderingBackend> sInstance = nullptr;
@@ -415,7 +415,7 @@ namespace Atlas {
 
 	public:
 
-		
+		using RenderingBackend::RenderingBackend;
 
 		/**
 		 * @brief Default constructor.

@@ -706,21 +706,21 @@ void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommand
 
 void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 {
-	AGlobalRenderingBackend::init(gameWindow);
+	//AGlobalRenderingBackend::init(gameWindow);
 
 	InfoLog("Attempting to initialize Vulkan");
 
-	if (sActiveInstanceTSSV != nullptr) {
-		ErrorLog("Vulkan has already been initialized");
+	//if (sActiveInstanceTSSV != nullptr) {
+	//	ErrorLog("Vulkan has already been initialized");
 
-		return;
-	}
-	else {
-		SetGlobalInstance(std::make_shared<VulkanRenderingBackend>(this));
-	
-	}
+	//	return;
+	//}
+	//else {
+	//	//SetGlobalInstance(std::make_shared<VulkanRenderingBackend>(this));
+	//
+	//}
 
-	std::scoped_lock lock(sInstanceMutex);
+	//std::scoped_lock lock(sActiveInstanceMutex);
 
 	//// Just make sure everything is in order before Vulkan gets initialized
 	ATLAS_ASSERT(gameWindow != nullptr, "Window must be set up prior to Vulkan init");

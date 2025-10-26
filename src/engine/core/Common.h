@@ -19,15 +19,10 @@
 #pragma once
 
 #include <iostream>
-#include <cstdarg>
 #include <cstdint>
 #include <string>
 #include <thread>
-#include <any>
-#include <memory>
 #include <unordered_map>
-#include <unordered_set>
-#include <set>
 #include <chrono>
 #include <type_traits>
 
@@ -35,10 +30,15 @@
 	#include <cassert>
 #endif
 
+#ifdef __GNUG__
+	#include <cxxabi.h>
+	#include <memory>
+#endif
+
 // Used for some of the math stuff
-#include <glm/glm.hpp>
 
 #include "Core.h"
+#include <typeinfo>
 
 #if defined(ATLAS_ALLOW_ASSERTS) || defined(ATLAS_DEBUG)
 	/**
@@ -186,6 +186,56 @@ namespace Atlas {
 		T_NUMERIC_TYPE height;
 	};
 
+	// Useful for meta-programming
+	template<typename T_TYPE>
+	struct TypeAudit {
+	public:
+		enum class ETypeCategory : int8_t {
+			Primitive,
+			Class,
+			Enum,
+			Union
+			
+		};
+
+	private:
+		static inline ETypeCategory GetTypeCategory() noexcept {
+			ETypeCategory category{ ETypeCategory::Primitive };
+			//|| std::is_interface_v<T_TYPE>
+			if (std::is_class_v<T_TYPE>) {
+				category = ETypeCategory::Class;
+			}
+			else if (std::is_enum_v<T_TYPE>) {
+				category = ETypeCategory::Enum;
+			}
+			else if (std::is_union_v<T_TYPE>) {
+				category = ETypeCategory::Union;
+			}
+			// No need to check for primitive type as it is the default value.
+
+			return category;
+		}
+
+	public:
+		const ETypeCategory typeCategory{ GetTypeCategory() };
+
+		const bool bDefaultConstructible{ std::is_default_constructible_v<T_TYPE> };
+		const bool bCopyConstructible{ std::is_copy_constructible_v<T_TYPE> };
+		const bool bMoveConstructible{ std::is_move_constructible_v<T_TYPE> };
+		
+		const bool bCopyAssignable{ std::is_copy_assignable_v<T_TYPE> };
+		const bool bMoveAssignable{ std::is_move_assignable_v<T_TYPE> };
+		
+		const bool bIsPointer{ std::is_pointer_v<T_TYPE> };
+		const bool bIsArithmetic{ std::is_arithmetic_v<T_TYPE> };
+		const bool bIsIntegral{ std::is_integral_v<T_TYPE> };
+		const bool bIsSigned{ std::is_signed_v<T_TYPE> };
+		const bool bIsFloatingPoint{ std::is_floating_point_v<T_TYPE> };
+
+
+		const size_t size{ sizeof(T_TYPE) };
+		const size_t alignment{ alignof(T_TYPE) };
+	};
 
 	class Counter {
 	private:
@@ -338,4 +388,9 @@ namespace Atlas {
 	inline T AlignUp(T value, uint64_t alignment) {
 		return T((uint64_t(value) + alignment - 1) & ~(alignment - 1));
 	}
+
+	//template<typename T>
+	//inline bool HasValue(T valueToCheck, TypeAudit<T> const& typeAudit = TypeAudit<T>{}) {
+	//	
+	//}
 }
