@@ -111,6 +111,10 @@ namespace Atlas {
 
 	struct RendererSettings {
 		// Empty for now
+
+		
+		bool bUseDebuggingTools = false;
+		bool bEnableErrorChecking = false;
 	};
 
 	class RenderingBackend {
@@ -126,30 +130,31 @@ namespace Atlas {
 
 	protected:
 
+
+		std::shared_ptr<State> mState;
+		std::shared_mutex mStateMutex;
+
 		Version mAPIVersion;
 			
 		bool mbIsInitialized = false;
 		bool mbUseDebuggingTools = false;
 		bool mbEnableErrorChecking = false; // dont worry about this if you are not using vulkan
-		
-
-
 	public:
-		
 
 		RenderingBackend() = default;
-
-		//explicit RenderingBackend(const std::shared_ptr<AGameWindow>& gameWindow) 
-		//	: mGameWindowPtr(gameWindow) {
-		//}
-
-		//RenderingBackend() = default;
 
 		virtual ~RenderingBackend() {
 			shutdown();
 		}
 
-		virtual void init(AGameWindow* windowHandle);
+		//virtual void init(AGameWindow* windowHandle)
+		//{
+		//	ATLAS_ASSERT(windowHandle != nullptr, "Window handle cannot be null!");
+
+		//	mbIsInitialized = true;
+		//}
+		virtual void init(AGameWindow* gameWindow) = 0;
+		
 
 		virtual void beginDrawing() {}
 

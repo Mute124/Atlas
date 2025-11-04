@@ -37,6 +37,8 @@
 #include "RenderingBackend.h"
 
 #include "../VulkanInstance.h"
+#include "../PhysicalDevice.h"
+
 #include "../Frame.h"
 #include "../AllocatedImage.h"
 #include "../../core/Core.h"
@@ -48,6 +50,7 @@
 #include "../../debugging/Logging.h"
 #include "../GraphicsUtils.h"
 #include "../PipelineBuilder.h"
+
 #include <VkBootstrap.h>
 #include <functional>
 #include <mutex>
@@ -349,7 +352,9 @@ namespace Atlas {
 		// Vulkan stuff
 		//VkInstance mVulkanInstance = VK_NULL_HANDLE;
 		//VkDebugUtilsMessengerEXT mDebugMessenger = VK_NULL_HANDLE;
-		VkPhysicalDevice mGPUDevice = VK_NULL_HANDLE;
+		PhysicalDevice mPhysicalDevice;
+		
+		//VkPhysicalDevice mGPUDevice = VK_NULL_HANDLE;
 		VkDevice mDevice = VK_NULL_HANDLE;
 		VkSurfaceKHR mSurface = VK_NULL_HANDLE;
 
@@ -365,6 +370,8 @@ namespace Atlas {
 
 		AllocatedImage mDrawImage;
 		VkExtent2D mDrawExtent;
+
+		//GraphicsQueue mGraphicsQueue;
 
 		VkQueue mGraphicsQueue = VK_NULL_HANDLE;
 		uint32_t mGraphicsQueueFamily;
@@ -450,13 +457,13 @@ namespace Atlas {
 		
 		void initDefaultData();
 
+		void initPhysicalDevice();
+
 		void initSwapchain(AGameWindow* gameWindow);
 
 		void initCommands();
 
 		void initIMGUI(AGameWindow* gameWindow);
-
-		void update() override;
 
 		void resetFences(const uint32_t cFenceCount, FrameData& currentFrame);
 

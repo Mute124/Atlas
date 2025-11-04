@@ -64,6 +64,9 @@
 	# Graphics
 	#-----------------------------------
 
+    "graphics/RenderCommon.h"
+	"graphics/RenderCommon.cpp"
+
     "graphics/GraphicsUtils.h"
     "graphics/GraphicsUtils.cpp"
 

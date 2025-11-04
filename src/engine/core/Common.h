@@ -159,6 +159,9 @@
 //#endif
 
 namespace Atlas {
+	namespace Literals {
+		// TODO: add literals
+	}
 
 	using std::string;
 	using std::cout;
@@ -236,6 +239,57 @@ namespace Atlas {
 		const size_t size{ sizeof(T_TYPE) };
 		const size_t alignment{ alignof(T_TYPE) };
 	};
+
+	class Validatable {
+	private:
+		
+		bool mbIsValid{ false };
+		
+	protected:
+		bool& getInternalValidityValue() {
+			return mbIsValid;
+		}
+		
+		virtual void setValidity(bool bIsValid) {
+			mbIsValid = bIsValid;
+		}
+
+		virtual void setValid() {
+			setValidity(true);
+		}
+
+		virtual void setInvalid() {
+			setValidity(false);
+		}
+
+
+	public:
+		explicit Validatable(bool bIsValid) : mbIsValid(bIsValid) {}
+
+		Validatable() = default;
+
+		virtual ~Validatable() = default;
+
+		virtual bool isValid() const {
+			return mbIsValid;
+		}
+	};
+
+	//template<typename... T_PARAMS>
+	//class Initializable : public Validatable {
+	//private:
+	//	bool mbIsInitialized{ false };
+
+	//public:
+	//	void init(T_PARAMS&&... params) {
+	//		mbIsInitialized = true;
+	//		setValid();
+	//	}
+
+	//	bool isInitialized() const {
+	//		return mbIsInitialized;
+	//	}
+	//};
 
 	class Counter {
 	private:
@@ -323,8 +377,8 @@ namespace Atlas {
 		Singleton& operator=(const Singleton&) = delete;
 
 		// Static method to get the single instance
-		static Singleton& getInstance() {
-			static Singleton instance; // Local static instance, initialized once
+		static T_BASE& getInstance() {
+			static T_BASE instance(); // Local static instance, initialized once
 			return instance;
 		}
 

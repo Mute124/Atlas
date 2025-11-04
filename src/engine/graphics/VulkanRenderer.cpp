@@ -47,7 +47,7 @@ void Atlas::VulkanRenderer::update()
 
 		if (this->renderingBackend != nullptr) {
 
-			this->renderingBackend->update();
+			//this->renderingBackend->update();
 		}
 		else {
 #ifdef ATLAS_DEBUG

@@ -70,6 +70,9 @@
 #include "../GraphicsUtils.h"
 #include "../PipelineBuilder.h"
 #include <glm/fwd.hpp>
+#include "../PhysicalDevice.h"
+#include <array>
+#include <cstring>
 
 
 
@@ -465,7 +468,7 @@ void Atlas::VulkanRenderingBackend::initVMAAllocator(vkb::Instance const& cVkBoo
 {
 	// initialize the memory allocator (this can be a function)
 	VmaAllocatorCreateInfo allocatorInfo = {};
-	allocatorInfo.physicalDevice = mGPUDevice;
+	allocatorInfo.physicalDevice = mPhysicalDevice;
 	allocatorInfo.device = mDevice;
 	allocatorInfo.instance = cVkBootstrapInstanceRef;
 	allocatorInfo.flags = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
@@ -567,7 +570,7 @@ void Atlas::VulkanRenderingBackend::initIMGUI(AGameWindow* gameWindow)
 	// this initializes imgui for Vulkan
 	ImGui_ImplVulkan_InitInfo init_info = {};
 	init_info.Instance = mInstance.getInstance();
-	init_info.PhysicalDevice = mGPUDevice;
+	init_info.PhysicalDevice = mPhysicalDevice;
 	init_info.Device = mDevice;
 	init_info.Queue = mGraphicsQueue;
 	init_info.DescriptorPool = imguiPool;
@@ -596,7 +599,7 @@ void Atlas::VulkanRenderingBackend::initIMGUI(AGameWindow* gameWindow)
 
 void Atlas::VulkanRenderingBackend::createSwapchain(uint32_t width, uint32_t height)
 {
-	vkb::SwapchainBuilder swapchainBuilder{ mGPUDevice, mDevice, mSurface };
+	vkb::SwapchainBuilder swapchainBuilder{ mPhysicalDevice, mDevice, mSurface };
 	
 	mSwapchainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
 
@@ -721,6 +724,7 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 	//}
 
 	//std::scoped_lock lock(sActiveInstanceMutex);
+	//std::unique_lock lock(mStateMutex);
 
 	//// Just make sure everything is in order before Vulkan gets initialized
 	ATLAS_ASSERT(gameWindow != nullptr, "Window must be set up prior to Vulkan init");
@@ -760,51 +764,21 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 
 	// If vulkan is being used with SDL2, this has to be done here.
 #ifdef ATLAS_USE_SDL2
+	InfoLog("Initializing Vulkan SDL2 surface");
 	// directly passing the window cast to avoid memory issues.
 	SDL_Vulkan_CreateSurface(static_cast<SDL_Window*>(gameWindow->getUncastWindowHandle()), cVkBootstrapInstanceRef, &mSurface);
 #endif // ATLAS_USE_SDL2
 
-	// Vulkan 1.3 features
-	//--------------------
-	constexpr bool cbEnableDynamicRendering = true;
-	constexpr bool cbEnableSynchronization2 = true;
-
-	VkPhysicalDeviceVulkan13Features features{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES };
-	features.dynamicRendering = cbEnableDynamicRendering;
-	features.synchronization2 = cbEnableSynchronization2;
-
-	// Vulkan 1.2 features
-	//--------------------
-
-	constexpr bool cbEnableBufferDeviceAddress = true;
-	constexpr bool cbEnableDescriptorIndexing = true;
-
-	VkPhysicalDeviceVulkan12Features features12{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES };
-	features12.bufferDeviceAddress = cbEnableBufferDeviceAddress;
-	features12.descriptorIndexing = cbEnableDescriptorIndexing;
-	
-	// use vkbootstrap to select a gpu. 
-	//We want a gpu that can write to the SDL surface and supports vulkan 1.3 with the correct features
-	vkb::PhysicalDeviceSelector selector{ cVkBootstrapInstanceRef };
-	selector.set_minimum_version(cApiVersion.major, cApiVersion.minor);
-	selector.set_required_features_13(features);
-	selector.set_required_features_12(features12);
-	selector.set_surface(mSurface);
-
-	vkb::PhysicalDevice physicalDevice = selector.select().value();
-	
-	const std::string cDeviceName = physicalDevice.name;
-	
-	InfoLog("Selected GPU: " + cDeviceName);
+	initPhysicalDevice();
 
 	//create the final vulkan device
-	vkb::DeviceBuilder deviceBuilder{ physicalDevice };
+	vkb::DeviceBuilder deviceBuilder{ mPhysicalDevice.getVkbDevice() };
 
 	vkb::Device vkbDevice = deviceBuilder.build().value();
 
 	// Get the VkDevice handle used in the rest of a vulkan application
 	mDevice = vkbDevice.device;
-	mGPUDevice = physicalDevice.physical_device;
+	//mGPUDevice = physicalDevice.physical_device;
 	
 	mGraphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
 	mGraphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
@@ -818,7 +792,7 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 	initDescriptors();
 
 	initPipelines();
-
+	
 	initIMGUI(gameWindow);
 
 	initDefaultData();
@@ -857,6 +831,50 @@ void Atlas::VulkanRenderingBackend::initDefaultData()
 		destroyBuffer(rectangle.indexBuffer);
 		destroyBuffer(rectangle.vertexBuffer);
 	});
+}
+
+void Atlas::VulkanRenderingBackend::initPhysicalDevice()
+{
+	// Vulkan 1.3 features
+//--------------------
+	constexpr bool cbEnableDynamicRendering = true;
+	constexpr bool cbEnableSynchronization2 = true;
+
+	VkPhysicalDeviceVulkan13Features features{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES };
+	features.dynamicRendering = cbEnableDynamicRendering;
+	features.synchronization2 = cbEnableSynchronization2;
+
+	// Vulkan 1.2 features
+	//--------------------
+
+	constexpr bool cbEnableBufferDeviceAddress = true;
+	constexpr bool cbEnableDescriptorIndexing = true;
+
+	VkPhysicalDeviceVulkan12Features features12{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES };
+	features12.bufferDeviceAddress = cbEnableBufferDeviceAddress;
+	features12.descriptorIndexing = cbEnableDescriptorIndexing;
+
+	// use vkbootstrap to select a gpu. 
+	//We want a gpu that can write to the SDL surface and supports vulkan 1.3 with the correct features
+	//vkb::PhysicalDeviceSelector selector{ cVkBootstrapInstanceRef };
+	//selector.set_minimum_version(cApiVersion.major, cApiVersion.minor);
+	//selector.set_required_features_13(features);
+	//selector.set_required_features_12(features12);
+	//selector.set_surface(mSurface);
+	//vkb::PhysicalDevice physicalDevice = selector.select().value();
+
+	PhysicalDeviceSelectionConstraints constraints{};
+
+	constraints.minimumAPIVersion = mAPIVersion;
+	constraints.physicalDeviceFeatures = { features, features12 };
+	constraints.surface = mSurface;
+
+	mPhysicalDevice = PhysicalDevice(mInstance, constraints);
+
+	// This static cast is required since the result of mPhysicalDevice.getName() is a std::string_view
+	const std::string cDeviceName = static_cast<std::string>(mPhysicalDevice.getName());
+
+	InfoLog("Selected GPU: " + cDeviceName);
 }
 
 void Atlas::VulkanRenderingBackend::initSwapchain(AGameWindow* gameWindow)
@@ -904,11 +922,6 @@ void Atlas::VulkanRenderingBackend::initSwapchain(AGameWindow* gameWindow)
 		vkDestroyImageView(mDevice, mDrawImage.imageView, nullptr);
 		vmaDestroyImage(mVMAAllocator, mDrawImage.image, mDrawImage.allocation);
 	});
-}
-
-void Atlas::VulkanRenderingBackend::update()
-{
-
 }
 
 void Atlas::VulkanRenderingBackend::resetFences(const uint32_t cFenceCount, FrameData& currentFrame)
