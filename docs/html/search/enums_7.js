@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['safetycheck_0',['SafetyCheck',['../d8/da0/class_atlas_1_1_game_threader.html#af3f8b756fdd035622252c12b8f697e94',1,'Atlas::GameThreader']]]
+  ['queuetype_0',['QueueType',['../d7/d54/namespace_atlas.html#a01a5f888a8d45705c73fe3f2357d0cd1',1,'Atlas']]]
 ];

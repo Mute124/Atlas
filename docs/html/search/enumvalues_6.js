@@ -7,7 +7,8 @@ var searchData=
   ['imgui_5fimplsdl3_5fgamepadmode_5fautoall_4',['ImGui_ImplSDL3_GamepadMode_AutoAll',['../d2/dd4/imgui__impl__sdl3_8h.html#ad480fd2f529e7f698bbf12d024b373bdad7e8e5b43dc7593ffc191ebd11e5c063',1,'imgui_impl_sdl3.h']]],
   ['imgui_5fimplsdl3_5fgamepadmode_5fautofirst_5',['ImGui_ImplSDL3_GamepadMode_AutoFirst',['../d2/dd4/imgui__impl__sdl3_8h.html#ad480fd2f529e7f698bbf12d024b373bdaf01800b5937cac0863b5077ac1d630ff',1,'imgui_impl_sdl3.h']]],
   ['imgui_5fimplsdl3_5fgamepadmode_5fmanual_6',['ImGui_ImplSDL3_GamepadMode_Manual',['../d2/dd4/imgui__impl__sdl3_8h.html#ad480fd2f529e7f698bbf12d024b373bda6ab67002cee0908a818242a0e62b0136',1,'imgui_impl_sdl3.h']]],
-  ['info_7',['info',['../d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aaa4059b0251f66a18cb56f544728796875',1,'Atlas::Info'],['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c',1,'Atlas::info']]],
+  ['info_7',['info',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c',1,'Atlas::info'],['../d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aaa4059b0251f66a18cb56f544728796875',1,'Atlas::Info']]],
   ['initializing_8',['Initializing',['../d7/d54/namespace_atlas.html#a6588f04f9df5f98750a8239e6f0c516da32b169f72b293ef80d35435e9894f8e2',1,'Atlas']]],
-  ['invalidargument_9',['InvalidArgument',['../d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8a253ca7dd096ee0956cccee4d376cab8b',1,'Atlas']]]
+  ['integrated_9',['Integrated',['../d7/d54/namespace_atlas.html#aa4266c217e6401064d2fcc9571be5bb4a92d909e2ae45ed6c55a55088f1d46394',1,'Atlas']]],
+  ['invalidargument_10',['InvalidArgument',['../d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8a253ca7dd096ee0956cccee4d376cab8b',1,'Atlas']]]
 ];

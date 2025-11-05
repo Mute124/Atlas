@@ -32,12 +32,11 @@ var searchData=
   ['loadmutex_29',['loadMutex',['../d2/d46/struct_atlas_1_1_file_record.html#acea9f76e154c04a806da49f857d430dc',1,'Atlas::FileRecord']]],
   ['loadscriptsection_30',['LoadScriptSection',['../de/d98/class_c_script_builder.html#a9e9b1be2409e79ad73908422561397a3',1,'CScriptBuilder']]],
   ['loadshadermodule_31',['LoadShaderModule',['../d7/d54/namespace_atlas.html#ad7b40e312c98cafbda4cc01108f5b17f',1,'Atlas']]],
-  ['lock_32',['lock',['../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a9419f2c5843567a27826d382ee8c1bc4',1,'Atlas::ThreadSafeVariable']]],
-  ['log_33',['log',['../d3/dc0/class_atlas_1_1_a_logger.html#a41ea75b787384fe162ac767efcd21e9a',1,'Atlas::ALogger::log()'],['../da/d62/class_atlas_1_1_spdlog_logger.html#aacc23d61ee78447661436565d07de497',1,'Atlas::SpdlogLogger::log()'],['../d3/dc0/class_atlas_1_1_a_logger.html#a2f471e36882951d20da4187f68a14c55',1,'Atlas::ALogger::Log()']]],
-  ['logger_34',['Logger',['../d7/d54/namespace_atlas.html#a3fa0af6547e790f8c50f6f39e7d6d1aaa959112efd77bcbe18a8c9e70e3274220',1,'Atlas']]],
-  ['loggersinks_35',['loggersinks',['../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html#ad3513b0910acec28697237373f69b3a8',1,'Atlas::SpdlogLogger::LoggerSinks::LoggerSinks()'],['../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html',1,'Atlas::SpdlogLogger::LoggerSinks'],['../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html#ab650cfe8ce2986f3596208b38a45d67e',1,'Atlas::SpdlogLogger::LoggerSinks::LoggerSinks()']]],
-  ['logging_2ecpp_36',['Logging.cpp',['../d4/d5e/_logging_8cpp.html',1,'']]],
-  ['logging_2eh_37',['Logging.h',['../da/def/_logging_8h.html',1,'']]],
-  ['loglevel_38',['logLevel',['../d8/d24/struct_atlas_1_1_log_message.html#af284ae67a9a362949a4f1d3e42ddbd52',1,'Atlas::LogMessage']]],
-  ['logmessage_39',['logmessage',['../d8/d24/struct_atlas_1_1_log_message.html',1,'Atlas::LogMessage'],['../d7/d54/namespace_atlas.html#a9b3ddfc25a11b7b9d5f81704083a36cc',1,'Atlas::LogMessage(std::string const &amp;message, ELogLevel logLevel)']]]
+  ['log_32',['log',['../d3/dc0/class_atlas_1_1_a_logger.html#a41ea75b787384fe162ac767efcd21e9a',1,'Atlas::ALogger::log()'],['../da/d62/class_atlas_1_1_spdlog_logger.html#aacc23d61ee78447661436565d07de497',1,'Atlas::SpdlogLogger::log()'],['../d3/dc0/class_atlas_1_1_a_logger.html#a2f471e36882951d20da4187f68a14c55',1,'Atlas::ALogger::Log()']]],
+  ['logger_33',['Logger',['../d7/d54/namespace_atlas.html#a3fa0af6547e790f8c50f6f39e7d6d1aaa959112efd77bcbe18a8c9e70e3274220',1,'Atlas']]],
+  ['loggersinks_34',['loggersinks',['../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html',1,'Atlas::SpdlogLogger::LoggerSinks'],['../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html#ab650cfe8ce2986f3596208b38a45d67e',1,'Atlas::SpdlogLogger::LoggerSinks::LoggerSinks(std::shared_ptr&lt; ConsoleColorSink &gt; consoleSink, std::shared_ptr&lt; BasicFileSink &gt; fileSink)'],['../d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html#ad3513b0910acec28697237373f69b3a8',1,'Atlas::SpdlogLogger::LoggerSinks::LoggerSinks()=default']]],
+  ['logging_2ecpp_35',['Logging.cpp',['../d4/d5e/_logging_8cpp.html',1,'']]],
+  ['logging_2eh_36',['Logging.h',['../da/def/_logging_8h.html',1,'']]],
+  ['loglevel_37',['logLevel',['../d8/d24/struct_atlas_1_1_log_message.html#af284ae67a9a362949a4f1d3e42ddbd52',1,'Atlas::LogMessage']]],
+  ['logmessage_38',['logmessage',['../d8/d24/struct_atlas_1_1_log_message.html',1,'Atlas::LogMessage'],['../d7/d54/namespace_atlas.html#a9b3ddfc25a11b7b9d5f81704083a36cc',1,'Atlas::LogMessage(std::string const &amp;message, ELogLevel logLevel)']]]
 ];

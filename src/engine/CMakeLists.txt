@@ -180,7 +180,7 @@ target_link_libraries(imgui PUBLIC Vulkan::Vulkan SDL2::SDL2)
 set(ATLAS_ENGINE_DEPENDENCIES
     imgui
     eventpp::eventpp
-    glfw
+    #glfw
     spdlog
     
     # TODO: these two need to be toggled based on options
@@ -190,8 +190,8 @@ set(ATLAS_ENGINE_DEPENDENCIES
 
     SDL2::SDL2main
 
-    simdjson::simdjson
-    tinyxml2::tinyxml2
+    #simdjson::simdjson
+    #tinyxml2::tinyxml2
     boost::boost
 )
 

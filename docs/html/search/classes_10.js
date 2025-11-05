@@ -19,5 +19,6 @@ var searchData=
   ['singleton_16',['Singleton',['../d6/dd4/class_atlas_1_1_singleton.html',1,'Atlas']]],
   ['smetadatadecl_17',['SMetadataDecl',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html',1,'CScriptBuilder']]],
   ['spdloglogger_18',['SpdlogLogger',['../da/d62/class_atlas_1_1_spdlog_logger.html',1,'Atlas']]],
-  ['stringifiedobject_19',['StringifiedObject',['../d2/d7b/class_atlas_1_1_stringified_object.html',1,'Atlas']]]
+  ['state_19',['State',['../d6/d80/struct_atlas_1_1_rendering_backend_1_1_state.html',1,'Atlas::RenderingBackend']]],
+  ['stringifiedobject_20',['StringifiedObject',['../d2/d7b/class_atlas_1_1_stringified_object.html',1,'Atlas']]]
 ];

@@ -355,8 +355,10 @@ namespace Atlas {
 		PhysicalDevice mPhysicalDevice;
 		
 		//VkPhysicalDevice mGPUDevice = VK_NULL_HANDLE;
-		VkDevice mDevice = VK_NULL_HANDLE;
+		//VkDevice mDevice = VK_NULL_HANDLE;
 		VkSurfaceKHR mSurface = VK_NULL_HANDLE;
+
+		Device mDevice;
 
 		VkSwapchainKHR mSwapchain = VK_NULL_HANDLE;
 		VkFormat mSwapchainImageFormat;
@@ -399,7 +401,6 @@ namespace Atlas {
 		GPUMeshBuffers rectangle;
 
 		std::string mApplicationName;
-
 
 		uint16_t initInstance(const APIVersion& cAPIVersionRef, const bool cbEnableValidationLayers, std::string const& appName);
 		

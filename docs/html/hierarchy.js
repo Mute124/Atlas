@@ -107,6 +107,7 @@ var hierarchy =
     [ "GlobalContext", "d2/dc3/struct_global_context.html", null ],
     [ "Atlas::GPUDrawPushConstants", "d8/d87/struct_atlas_1_1_g_p_u_draw_push_constants.html", null ],
     [ "Atlas::GPUMeshBuffers", "d9/df8/struct_atlas_1_1_g_p_u_mesh_buffers.html", null ],
+    [ "Atlas::GraphicsQueue", "df/dea/class_atlas_1_1_graphics_queue.html", null ],
     [ "GridCell", "d4/d3c/struct_grid_cell.html", null ],
     [ "Atlas::GUIDecorations", "d2/d8e/struct_atlas_1_1_g_u_i_decorations.html", null ],
     [ "Atlas::HapticDeviceInitInfo", "df/dc5/struct_atlas_1_1_haptic_device_init_info.html", null ],
@@ -161,6 +162,7 @@ var hierarchy =
     [ "ImGui_ImplWGPU_RenderState", "da/d0a/struct_im_gui___impl_w_g_p_u___render_state.html", null ],
     [ "ImGui_ImplWin32_Data", "d5/d71/struct_im_gui___impl_win32___data.html", null ],
     [ "Atlas::ImmediateSubmitInfo", "db/df0/struct_atlas_1_1_immediate_submit_info.html", null ],
+    [ "Atlas::VulkanInstanceWrapper::InitConfiguration", "d1/d0e/struct_atlas_1_1_vulkan_instance_wrapper_1_1_init_configuration.html", null ],
     [ "Atlas::IStringifiedObject", "de/dc7/class_atlas_1_1_i_stringified_object.html", [
       [ "Atlas::StringifiedObject< T_CHILD >", "d2/d7b/class_atlas_1_1_stringified_object.html", null ]
     ] ],
@@ -227,8 +229,8 @@ var hierarchy =
     [ "Atlas::Path", "d8/ddd/class_atlas_1_1_path.html", null ],
     [ "Atlas::FileSystemMap::PathSearchResult", "d7/dc3/union_atlas_1_1_file_system_map_1_1_path_search_result.html", null ],
     [ "Atlas::PathSearchResult", "d3/d77/struct_atlas_1_1_path_search_result.html", null ],
-    [ "Atlas::PhysicalDevice", "d3/d3c/class_atlas_1_1_physical_device.html", null ],
     [ "Atlas::PhysicalDeviceFeaturesAggregate", "d6/d31/struct_atlas_1_1_physical_device_features_aggregate.html", null ],
+    [ "Atlas::PhysicalDeviceProperties", "d5/d4b/struct_atlas_1_1_physical_device_properties.html", null ],
     [ "Atlas::PhysicalDeviceSelectionConstraints", "d4/dc9/struct_atlas_1_1_physical_device_selection_constraints.html", null ],
     [ "Atlas::Pipeline", "d6/d84/class_atlas_1_1_pipeline.html", null ],
     [ "Atlas::PipelineBuilder", "db/dcc/class_atlas_1_1_pipeline_builder.html", null ],
@@ -240,10 +242,12 @@ var hierarchy =
     [ "Atlas::Rectangle< int >", "d4/dd2/struct_atlas_1_1_rectangle.html", null ],
     [ "Atlas::ReferenceHolder< T >", "d9/d0a/class_atlas_1_1_reference_holder.html", null ],
     [ "Atlas::Renderable", "d3/de8/class_atlas_1_1_renderable.html", [
-      [ "Atlas::BackgroundColor", "df/dbd/class_atlas_1_1_background_color.html", null ]
+      [ "Atlas::BackgroundColor", "df/dbd/class_atlas_1_1_background_color.html", null ],
+      [ "Atlas::IMGUIRenderable", "d2/d10/class_atlas_1_1_i_m_g_u_i_renderable.html", null ]
     ] ],
     [ "Atlas::RendererSettings", "d4/dcc/struct_atlas_1_1_renderer_settings.html", null ],
     [ "Atlas::RenderingBackend", "db/d46/class_atlas_1_1_rendering_backend.html", [
+      [ "Atlas::AGlobalRenderingBackend< T_CHILD >", "d1/db5/class_atlas_1_1_a_global_rendering_backend.html", null ],
       [ "Atlas::VulkanRenderingBackend", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html", null ]
     ] ],
     [ "RenderResources", "d9/d42/struct_render_resources.html", null ],
@@ -276,15 +280,22 @@ var hierarchy =
       [ "PhysicsEngine", "db/db4/class_physics_engine.html", null ]
     ] ],
     [ "CScriptBuilder::SMetadataDecl", "d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html", null ],
+    [ "Atlas::RenderingBackend::State", "d6/d80/struct_atlas_1_1_rendering_backend_1_1_state.html", null ],
     [ "Atlas::TaskHandle::Task", "db/d8e/class_atlas_1_1_task_handle_1_1_task.html", null ],
     [ "Atlas::TaskHandle", "dd/d91/class_atlas_1_1_task_handle.html", null ],
     [ "Atlas::Temporary< T >", "d4/de0/class_atlas_1_1_temporary.html", null ],
     [ "Terrain", "d1/dee/class_terrain.html", null ],
     [ "TerrainSector", "d4/d42/class_terrain_sector.html", null ],
     [ "Atlas::ThreadLaunchInfo", "d0/d54/struct_atlas_1_1_thread_launch_info.html", null ],
-    [ "Atlas::ThreadSafeVariable< T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
+    [ "Atlas::ThreadSafeVariable< T_VARIABLE_TYPE, T_MUTEX >", "d0/dbd/class_atlas_1_1_thread_safe_variable.html", null ],
     [ "Terrain::TriangleStruct", "da/d89/struct_terrain_1_1_triangle_struct.html", null ],
+    [ "Atlas::TypeAudit< T_TYPE >", "dd/d9e/struct_atlas_1_1_type_audit.html", null ],
+    [ "Atlas::TypeAudit< T_VARIABLE_TYPE >", "dd/d9e/struct_atlas_1_1_type_audit.html", null ],
     [ "Uniforms", "da/d5c/struct_uniforms.html", null ],
+    [ "Atlas::Validatable", "d2/d5f/class_atlas_1_1_validatable.html", [
+      [ "Atlas::AVulkanHandleWrapper< T_WRAPS >", "d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper.html", null ],
+      [ "Atlas::PhysicalDevice", "d3/d3c/class_atlas_1_1_physical_device.html", null ]
+    ] ],
     [ "CScriptAny::valueStruct", "d9/de7/struct_c_script_any_1_1value_struct.html", null ],
     [ "Vec3", "df/d8a/struct_vec3.html", null ],
     [ "Atlas::Version", "de/dd8/struct_atlas_1_1_version.html", null ],

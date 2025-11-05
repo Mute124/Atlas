@@ -46,6 +46,7 @@ void Atlas::PhysicalDevice::evaluateValidity()
 	// Since the handle stored within this class is a copy of the handle stored in vkb::PhysicalDevice,
 	// we need to make sure that both handles are valid
 	if (!this->isValid()) {
+		
 		this->setInvalid();
 	}
 }
@@ -62,21 +63,17 @@ void Atlas::PhysicalDevice::evaluateValidity()
 //	setValidity(true);
 //}
 
-void Atlas::PhysicalDevice::setPhysicalDeviceHandle(VkPhysicalDevice const& handle)
-{
-	mPhysicalDeviceHandle = handle;
-}
-
 void Atlas::PhysicalDevice::setDeviceName(std::string_view deviceName) { 
 	mDeviceName = deviceName;
 }
 
 Atlas::PhysicalDevice::PhysicalDevice(VulkanInstanceWrapper& cVulkanInstanceRef, PhysicalDeviceSelectionConstraints const& selectionConstraints)
-	: Validatable(), mSelectionConstraints(selectionConstraints)
+	: AVulkanCompositeHandleWrapper(), mSelectionConstraints(selectionConstraints)
 {
 	vkb::PhysicalDeviceSelector selector = selectDevice(cVulkanInstanceRef);
-	mVkbDevice = selector.select().value();
-	
+	//mVkbDevice = selector.select().value();
+	setVkbHandle(selector.select().value());
+
 	// by default, vulkan bootstrap will set the handle to VK_NULL_HANDLE on initialization. 
 	// If it is not set to VK_NULL_HANDLE, then the device is valid.
 	//if (IsInvalidVulkanHandle<VkPhysicalDevice>(mVkbDevice.physical_device)) {
@@ -85,9 +82,9 @@ Atlas::PhysicalDevice::PhysicalDevice(VulkanInstanceWrapper& cVulkanInstanceRef,
 	//}
 
 	//mPhysicalDeviceHandle = mVkbDevice.physical_device;
-	setPhysicalDeviceHandle(mVkbDevice.physical_device);
-	setDeviceName(mVkbDevice.name);
-
+	setHandle(getVkbHandle().physical_device);
+	setDeviceName(getVkbHandle().name);
+	
 	this->evaluateValidity();
 
 	populateDeviceProperties();
@@ -155,11 +152,11 @@ vkb::PhysicalDeviceSelector Atlas::PhysicalDevice::selectDevice(VulkanInstanceWr
 }
 
 bool Atlas::PhysicalDevice::isValid() const {
-	const bool cbParentResult = Validatable::isValid();
-	const bool cbHandleValid = IsValidVulkanHandle<VkPhysicalDevice>(mPhysicalDeviceHandle)
-		&& IsValidVulkanHandle<VkPhysicalDevice>(mVkbDevice.physical_device);
+	//const bool cbParentResult = Validatable::isValid();
+	//const bool cbHandleValid = IsValidVulkanHandle<VkPhysicalDevice>(mPhysicalDeviceHandle)
+	//	&& IsValidVulkanHandle<VkPhysicalDevice>(mVkbDevice.physical_device);
 	
-	return cbParentResult && cbHandleValid;
+	return AVulkanHandleWrapper::isValid();
 }
 
 Atlas::PhysicalDeviceProperties Atlas::PhysicalDevice::getPhysicalDeviceProperties() const
@@ -167,24 +164,16 @@ Atlas::PhysicalDeviceProperties Atlas::PhysicalDevice::getPhysicalDeviceProperti
 	return mDevicePropertiesAggregate;
 }
 
-VkPhysicalDevice Atlas::PhysicalDevice::getHandle() {
-	return mPhysicalDeviceHandle; 
-}
-
-vkb::PhysicalDevice& Atlas::PhysicalDevice::getVkbDevice()
-{
-	return mVkbDevice;
-}
+//vkb::PhysicalDevice& Atlas::PhysicalDevice::getVkbHandle()
+//{
+//	return mVkbDevice;
+//}
 
 std::string_view Atlas::PhysicalDevice::getName() const {
 	return mDeviceName;
 }
 
 // conversion operator to VkPhysicalDevice
-
-Atlas::PhysicalDevice::operator const VkPhysicalDevice& () const { 
-	return mPhysicalDeviceHandle;
-}
 
 vkb::PreferredDeviceType Atlas::ToVkbPreferredDeviceType(EPhysicalDeviceType preferredDeviceType) {
 	switch(preferredDeviceType) {
@@ -213,3 +202,6 @@ vkb::PreferredDeviceType Atlas::ToVkbPreferredDeviceType(EPhysicalDeviceType pre
 	}
 }
 
+Atlas::Device::~Device()
+{
+}

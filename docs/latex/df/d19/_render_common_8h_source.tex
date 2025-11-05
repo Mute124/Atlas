@@ -4,10 +4,71 @@
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00002}00002\ }
-\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <vulkan/vulkan.h>}}
-\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00004}00004\ }
-\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00006}00006\ }
-\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00007}00007\ \}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}../core/Core.h"{}}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}../core/Common.h"{}}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00005}00005\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00006}00006\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan.h>}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00007}00007\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan\_core.h>}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00008}00008\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00012}00012\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00013}00013\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{namespace\ }Literals\ \{}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00016}00016\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00018}00018\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_HANDLE>}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00019}\mbox{\hyperlink{concept_atlas_1_1_vulkan_handle}{00019}}\ \ \ \ \ \textcolor{keyword}{concept\ }\mbox{\hyperlink{concept_atlas_1_1_vulkan_handle}{VulkanHandle}}\ =\ \textcolor{keyword}{requires}(T\_HANDLE\ handle)\ \{}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00020}00020\ \ \ \ \ \ \ \ \ handle\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00021}00021\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{template}<VulkanHandle\ T\_HANDLE>}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00035}\mbox{\hyperlink{namespace_atlas_a8d77151c1065c4d0fc2900351c5041e0}{00035}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespace_atlas_a8d77151c1065c4d0fc2900351c5041e0}{IsValidVulkanHandle}}(T\_HANDLE\ handle)\ \{}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ handle\ !=\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00050}00050\ \ \ \ \ \textcolor{keyword}{template}<VulkanHandle\ T\_HANDLE>}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00051}\mbox{\hyperlink{namespace_atlas_a3e908f0d107ed20c86a0197e7b93315b}{00051}}\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{namespace_atlas_a3e908f0d107ed20c86a0197e7b93315b}{IsInvalidVulkanHandle}}(T\_HANDLE\ handle)\ \{}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !IsValidVulkanHandle<T\_HANDLE>(handle);}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00055}00055\ \ \ \ \ \textcolor{keyword}{template}<VulkanHandle\ T\_WRAPS>}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00056}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper}{00056}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper}{AVulkanHandleWrapper}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_validatable}{Validatable}}\ \{}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00058}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a49dfe10bb982480633d9ed7e2c74e8c4}{00058}}\ \ \ \ \ \ \ \ \ T\_WRAPS\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a49dfe10bb982480633d9ed7e2c74e8c4}{mHandle}};}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00060}00060\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00062}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_ae9da17d6d11a31e83e134ff02ae0de19}{00062}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_ae9da17d6d11a31e83e134ff02ae0de19}{hasValidHandle}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ IsValidVulkanHandle<T\_WRAPS>(\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a49dfe10bb982480633d9ed7e2c74e8c4}{mHandle}});\ \}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00064}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a6b0b0edd4d110aea19020bc6d6066a38}{00064}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a6b0b0edd4d110aea19020bc6d6066a38}{setHandle}}(T\_WRAPS\ handle)\ \{\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a49dfe10bb982480633d9ed7e2c74e8c4}{mHandle}}\ =\ handle;\ \}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00066}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a16fa0b74f46d6d21163568740b72e8c1}{00066}}\ \ \ \ \ \ \ \ \ T\_WRAPS\&\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a16fa0b74f46d6d21163568740b72e8c1}{getHandleRef}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a49dfe10bb982480633d9ed7e2c74e8c4}{mHandle}};\ \}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00068}00068\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00070}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_adfdd9572622395af5c36d8a9b9501c5f}{00070}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}(\textcolor{keyword}{false})\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_ad160287186fbfabaf03c99cb164f91bd}{AVulkanHandleWrapper}}(T\_WRAPS\ handle)\ :\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a49dfe10bb982480633d9ed7e2c74e8c4}{mHandle}}(handle)\ \{\}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00072}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a815f6ecd0a2088fb906fa47b1a7180b0}{00072}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}(\textcolor{keyword}{false})\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_ad160287186fbfabaf03c99cb164f91bd}{AVulkanHandleWrapper}}(T\_WRAPS\&\ handle)\ :\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a49dfe10bb982480633d9ed7e2c74e8c4}{mHandle}}(handle)\ \{\}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00074}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_ad160287186fbfabaf03c99cb164f91bd}{00074}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_ad160287186fbfabaf03c99cb164f91bd}{AVulkanHandleWrapper}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00075}00075\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00076}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_af7463da450809a91f13c612b8fe08f49}{00076}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_af7463da450809a91f13c612b8fe08f49}{\string~AVulkanHandleWrapper}}()\ \textcolor{keyword}{override}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00078}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a7c3c053963a177969b9e698b32be0b0d}{00078}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a7c3c053963a177969b9e698b32be0b0d}{isValid}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_validatable_a62255f9de9b7fde123824c3e3f2a8f48}{Validatable::isValid}}()\ \&\&\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_ae9da17d6d11a31e83e134ff02ae0de19}{hasValidHandle}}();}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00080}00080\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00082}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_aa6f68ffce24d3fa813178c58eb0fc842}{00082}}\ \ \ \ \ \ \ \ \ T\_WRAPS\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_aa6f68ffce24d3fa813178c58eb0fc842}{getHandle}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a49dfe10bb982480633d9ed7e2c74e8c4}{mHandle}};\ \}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00084}\mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a4afb7500b66cb82d2870f1cc64c4f430}{00084}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}(\textcolor{keyword}{false})\ \textcolor{keyword}{virtual}\ \textcolor{keyword}{operator}\ \textcolor{keyword}{const}\ T\_WRAPS\&\ ()\ \textcolor{keyword}{const}\ \{}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a49dfe10bb982480633d9ed7e2c74e8c4}{mHandle}};}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00086}00086\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00087}00087\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00089}00089\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_render_common_8h_source_l00090}00090\ \}}
 
 \end{DoxyCode}

@@ -43,7 +43,9 @@ var searchData=
   ['imgui_5fimplwgpu_5frenderstate_40',['ImGui_ImplWGPU_RenderState',['../da/d0a/struct_im_gui___impl_w_g_p_u___render_state.html',1,'']]],
   ['imgui_5fimplwin32_5fdata_41',['ImGui_ImplWin32_Data',['../d5/d71/struct_im_gui___impl_win32___data.html',1,'']]],
   ['imguiobserver_42',['ImGuiObserver',['../df/d35/interface_im_gui_observer.html',1,'']]],
-  ['immediatesubmitinfo_43',['ImmediateSubmitInfo',['../db/df0/struct_atlas_1_1_immediate_submit_info.html',1,'Atlas']]],
-  ['istringifiedobject_44',['IStringifiedObject',['../de/dc7/class_atlas_1_1_i_stringified_object.html',1,'Atlas']]],
-  ['isymbol_45',['ISymbol',['../d2/dbe/class_atlas_1_1_i_symbol.html',1,'Atlas']]]
+  ['imguirenderable_43',['IMGUIRenderable',['../d2/d10/class_atlas_1_1_i_m_g_u_i_renderable.html',1,'Atlas']]],
+  ['immediatesubmitinfo_44',['ImmediateSubmitInfo',['../db/df0/struct_atlas_1_1_immediate_submit_info.html',1,'Atlas']]],
+  ['initconfiguration_45',['InitConfiguration',['../d1/d0e/struct_atlas_1_1_vulkan_instance_wrapper_1_1_init_configuration.html',1,'Atlas::VulkanInstanceWrapper']]],
+  ['istringifiedobject_46',['IStringifiedObject',['../de/dc7/class_atlas_1_1_i_stringified_object.html',1,'Atlas']]],
+  ['isymbol_47',['ISymbol',['../d2/dbe/class_atlas_1_1_i_symbol.html',1,'Atlas']]]
 ];

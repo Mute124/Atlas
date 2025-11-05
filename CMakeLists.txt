@@ -155,11 +155,11 @@ if(${ATLAS_USE_RAYLIB})
     )
 endif()
 
-CPMAddPackage(
-    NAME glfw
-    GIT_REPOSITORY https://github.com/glfw/glfw.git
-    GIT_TAG 3.4
-)
+#CPMAddPackage(
+#    NAME glfw
+#    GIT_REPOSITORY https://github.com/glfw/glfw.git
+#    GIT_TAG 3.4
+#)
 
 CPMAddPackage(
     NAME vk-bootstrap
@@ -191,11 +191,11 @@ endif()
 find_package(eventpp REQUIRED)
 
 find_package(SDL2 REQUIRED CONFIG)
-find_package(rmlui REQUIRED)
+#find_package(rmlui REQUIRED)
 find_package(fmt REQUIRED)
 
-find_package(simdjson REQUIRED)
-find_package(tinyxml2 REQUIRED)
+#find_package(simdjson REQUIRED)
+#find_package(tinyxml2 REQUIRED)
 find_package(vulkan-memory-allocator REQUIRED)
 
 if (DEFINED VULKAN_SDK_PATH)
@@ -243,7 +243,7 @@ add_custom_target(
     DEPENDS ${SPIRV_BINARY_FILES}
 )
 
-find_package(miniaudio REQUIRED)
+#find_package(miniaudio REQUIRED)
 
 if(${ATLAS_ENABLE_TESTING})
     find_package(GTest REQUIRED)

@@ -13,7 +13,9 @@ var _v_k_device_8h =
     [ "Atlas::Shader", "da/db7/class_atlas_1_1_shader.html", "da/db7/class_atlas_1_1_shader" ],
     [ "Atlas::Pipeline", "d6/d84/class_atlas_1_1_pipeline.html", "d6/d84/class_atlas_1_1_pipeline" ],
     [ "Atlas::Renderable", "d3/de8/class_atlas_1_1_renderable.html", "d3/de8/class_atlas_1_1_renderable" ],
+    [ "Atlas::IMGUIRenderable", "d2/d10/class_atlas_1_1_i_m_g_u_i_renderable.html", "d2/d10/class_atlas_1_1_i_m_g_u_i_renderable" ],
     [ "Atlas::BackgroundColor", "df/dbd/class_atlas_1_1_background_color.html", null ],
+    [ "Atlas::GraphicsQueue", "df/dea/class_atlas_1_1_graphics_queue.html", "df/dea/class_atlas_1_1_graphics_queue" ],
     [ "Atlas::VulkanRenderingBackend", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html", "d8/d78/class_atlas_1_1_vulkan_rendering_backend" ],
     [ "ATLAS_1_SECOND_IN_NS", "d7/dbd/_v_k_device_8h.html#abca11d49e8a831d8d24a127bbae30963", null ],
     [ "ATLAS_VK_DEVICE_BITS", "d7/dbd/_v_k_device_8h.html#a998597b9163ba9082c4a4c40294d4c33", null ],
@@ -30,6 +32,12 @@ var _v_k_device_8h =
       [ "Enable_Descriptor_Indexing", "d7/dbd/_v_k_device_8h.html#a9a837411b4f29e15b56791c0ed166e2aa9e397d933c540afd737155e3c80b6eb7", null ],
       [ "Swapchain_Format", "d7/dbd/_v_k_device_8h.html#a9a837411b4f29e15b56791c0ed166e2aaf54db95bd9f26035b7182f0886801cf2", null ],
       [ "Fence_Timeout", "d7/dbd/_v_k_device_8h.html#a9a837411b4f29e15b56791c0ed166e2aa28a319434f29a2d9545758cd7547516e", null ]
+    ] ],
+    [ "QueueType", "d7/dbd/_v_k_device_8h.html#a01a5f888a8d45705c73fe3f2357d0cd1", [
+      [ "Present", "d7/dbd/_v_k_device_8h.html#a01a5f888a8d45705c73fe3f2357d0cd1add058df87f5c88e3285a28ad7406a3c6", null ],
+      [ "Graphics", "d7/dbd/_v_k_device_8h.html#a01a5f888a8d45705c73fe3f2357d0cd1ad334dfcea59127bedfcdbe0a3ee7f494", null ],
+      [ "Compute", "d7/dbd/_v_k_device_8h.html#a01a5f888a8d45705c73fe3f2357d0cd1aa623a8d0366bf079411aa30be45b2d10", null ],
+      [ "Transfer", "d7/dbd/_v_k_device_8h.html#a01a5f888a8d45705c73fe3f2357d0cd1a6950810f0d2bba97a6f710c7b965b84e", null ]
     ] ],
     [ "getLoadedRenderingBacked", "d7/dbd/_v_k_device_8h.html#a041e9829fb1316716a724487d8d12b72", null ],
     [ "resetLoadedRenderingBackend", "d7/dbd/_v_k_device_8h.html#a99f635979073f78d17b53016253bd978", null ],

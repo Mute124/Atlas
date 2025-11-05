@@ -11,6 +11,7 @@ var searchData=
   ['globalcontext_8',['GlobalContext',['../d2/dc3/struct_global_context.html',1,'']]],
   ['gpudrawpushconstants_9',['GPUDrawPushConstants',['../d8/d87/struct_atlas_1_1_g_p_u_draw_push_constants.html',1,'Atlas']]],
   ['gpumeshbuffers_10',['GPUMeshBuffers',['../d9/df8/struct_atlas_1_1_g_p_u_mesh_buffers.html',1,'Atlas']]],
-  ['gridcell_11',['GridCell',['../d4/d3c/struct_grid_cell.html',1,'']]],
-  ['guidecorations_12',['GUIDecorations',['../d2/d8e/struct_atlas_1_1_g_u_i_decorations.html',1,'Atlas']]]
+  ['graphicsqueue_11',['GraphicsQueue',['../df/dea/class_atlas_1_1_graphics_queue.html',1,'Atlas']]],
+  ['gridcell_12',['GridCell',['../d4/d3c/struct_grid_cell.html',1,'']]],
+  ['guidecorations_13',['GUIDecorations',['../d2/d8e/struct_atlas_1_1_g_u_i_decorations.html',1,'Atlas']]]
 ];

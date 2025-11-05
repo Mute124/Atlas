@@ -19,6 +19,10 @@
 #include <VkBootstrap.h>
 
 #include "VulkanInstance.h"
+#include "../core/Version.h"
+#include "RenderCommon.h"
+#include <string>
+
 
 namespace Atlas {
 	using GPUExtension = const char*;
@@ -85,25 +89,15 @@ namespace Atlas {
 		PhysicalDeviceProperties() = default;
 	};
 
-	class PhysicalDevice : public Validatable {
+	class PhysicalDevice 
+		: public AVulkanCompositeHandleWrapper<VkPhysicalDevice,
+		vkb::PhysicalDevice,
+		vkb::PhysicalDeviceSelector> {
 	private:
-		//VkPhysicalDeviceProperties mDeviceProperties;
-		//VkPhysicalDeviceFeatures mDeviceFeatures;
-		//VkPhysicalDeviceMemoryProperties mDeviceMemoryProperties;
-
 		std::unique_ptr<vkb::PhysicalDeviceSelector> mVkbDeviceSelectorPtr{ nullptr };
-		vkb::PhysicalDevice mVkbDevice;
+		//vkb::PhysicalDevice mVkbDevice;
 
 		std::string mDeviceName;
-
-		//bool mbIsValid{ false };
-
-		/*PhysicalDeviceFeaturesAggregate mPhysicalDeviceFeaturesAggregate;
-
-		Version mMinimumApiVersion;
-		Version mPreferredApiVersion;*/
-		VkPhysicalDevice mPhysicalDeviceHandle{ VK_NULL_HANDLE };
-
 		PhysicalDeviceProperties mDevicePropertiesAggregate{};
 
 		PhysicalDeviceSelectionConstraints mSelectionConstraints;
@@ -115,21 +109,14 @@ namespace Atlas {
 
 		void evaluateValidity();
 
-		//void setValidity(bool bNewValue) override;
-
-		//void setInvalid();
-
-		//void setValid() noexcept;
-
-		void setPhysicalDeviceHandle(VkPhysicalDevice const& handle);
-
 		void setDeviceName(std::string_view deviceName);
 	public:
+
+		using AVulkanCompositeHandleWrapper<VkPhysicalDevice, vkb::PhysicalDevice, vkb::PhysicalDeviceSelector>::AVulkanCompositeHandleWrapper;
+
 		explicit PhysicalDevice(VulkanInstanceWrapper& cVulkanInstanceRef, PhysicalDeviceSelectionConstraints const& selectionConstraints);
 
 		PhysicalDevice() = default;
-
-		//vkb::PhysicalDevice init(VulkanInstanceWrapper& cVulkanInstanceRef);
 
 		vkb::PhysicalDeviceSelector selectDevice(VulkanInstanceWrapper& cVulkanInstanceRef);
 		
@@ -137,27 +124,29 @@ namespace Atlas {
 
 		PhysicalDeviceProperties getPhysicalDeviceProperties() const;
 
-		VkPhysicalDevice getHandle();
-
-		vkb::PhysicalDevice& getVkbDevice();
+		//vkb::PhysicalDevice& getVkbHandle();
 
 		// Returns a string_view so that the string cannot be modified
 		std::string_view getName() const;
 
-		// conversion operator to VkPhysicalDevice
-		explicit(false) operator const VkPhysicalDevice& () const;
-		
-		// Conversion operator to bool (true if valid)
-		explicit(false) operator bool() const { return isValid(); }
 	};
 
-	class Device {
+	class Device : public AVulkanHandleWrapper<VkDevice/*, vkb::Device, vkb::DeviceBuilder*/> {
 	private:
-		VkDevice mDeviceHandle = VK_NULL_HANDLE;
-
+		
 		friend class VulkanRenderingBackend;
+	
 	public:
+		vkb::Device mVkbDevice;
+
+		using AVulkanHandleWrapper<VkDevice/*, vkb::Device, vkb::DeviceBuilder*/>::AVulkanHandleWrapper;
+
+		Device() = default;
+
+		~Device() override;
+
 	};
+
 
 	vkb::PreferredDeviceType ToVkbPreferredDeviceType(EPhysicalDeviceType preferredDeviceType);
 }

@@ -36,347 +36,357 @@
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00032}00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_file_record_8h}{FileRecord.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00033}00033\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_i_o_common_8h}{IOCommon.h}}"{}}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00034}00034\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00035}00035\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00036}00036\ \textcolor{comment}{//\ FileJanitor\ functions:}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00037}00037\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00038}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a84e61f409e64de3c92b175fff22903d6}{00038}}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a655927902fb96ff0b53ffe1101d1249f}{Atlas::FileManager::FileJanitor::FileJanitor}}(\mbox{\hyperlink{class_atlas_1_1_file_manager}{FileManager}}\&\ fileManagerRef,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}}\&\ options)}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00039}00039\ \ \ \ \ :\ mFileManagerRef(fileManagerRef),\ mOptions(options),\ mJanitorStopFlag(false)}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00040}00040\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a8276aaf751122e7df695aa4bee83104e}{mOptions}}.\mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options_af729117ef771b9c33736a068e7cbca38}{bStartJanitor}})\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_ae2360dad6f208967fb01165aa3f7ee93}{startJanitor}}();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00043}00043\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00044}00044\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00045}00045\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00046}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_abdd6b8d93d94a6cbdb91eafe83f674ca}{00046}}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_abdd6b8d93d94a6cbdb91eafe83f674ca}{Atlas::FileManager::FileJanitor::\string~FileJanitor}}()}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00047}00047\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//\ Stop\ janitor}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00049}00049\ \ \ \ \ mJanitorStopFlag.store(\textcolor{keyword}{true});}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00050}00050\ \ \ \ \ mJanitorCV.notify\_all();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00051}00051\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ TODO:\ I\ dont\ think\ this\ is\ \ needed\ anymore\ since\ the\ janitor\ thread\ is\ a\ Jthread}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00053}00053\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00054}00054\ \ \ \ \ \textcolor{comment}{//\ Wait\ for\ janitor\ to\ stop}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{keywordflow}{if}\ (mJanitorThread.joinable())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ mJanitorThread.join();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00057}00057\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00058}00058\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00059}00059\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00060}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_ae2360dad6f208967fb01165aa3f7ee93}{00060}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_ae2360dad6f208967fb01165aa3f7ee93}{Atlas::FileManager::FileJanitor::startJanitor}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00061}00061\ \ \ \ \ \textcolor{comment}{//if\ (mJanitorThread.joinable())\ \{}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{comment}{//\ \ throw\ std::runtime\_error("{}The\ janitor\ thread\ is\ already\ running!\ Stop\ it\ first."{});}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00063}00063\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00064}00064\ \ \ \ \ \textcolor{comment}{//\ \ return;}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00065}00065\ \ \ \ \ \textcolor{comment}{//\}}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00066}00066\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00067}00067\ \ \ \ \ \mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{ATLAS\_ASSERT}}(!mJanitorThread.joinable(),\ \textcolor{stringliteral}{"{}The\ janitor\ thread\ is\ already\ running!\ Stop\ it\ first."{}});}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00068}00068\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00069}00069\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(\textcolor{stringliteral}{"{}Starting\ janitor\ thread."{}});}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00070}00070\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00071}00071\ \ \ \ \ mJanitorThread\ =\ std::jthread([\textcolor{keyword}{this}]\ \{\ janitorLoop();\ \});}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00072}00072\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00073}00073\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00074}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a73053f45e035b594ae93b32e970eb19a}{00074}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a73053f45e035b594ae93b32e970eb19a}{Atlas::FileManager::FileJanitor::janitorLoop}}()}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00075}00075\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00076}00076\ \ \ \ \ \textcolor{keywordflow}{while}\ (!mJanitorStopFlag.load())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ std::unique\_lock\ lock(mJanitorCVMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ mJanitorCV.wait\_for(lock,\ \mbox{\hyperlink{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73}{mOptions}}.\mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options_ae193aecf5ed2e5386da88c0aa279a07a}{evictionCheckInterval}});}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00079}00079\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mJanitorStopFlag.load())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(\textcolor{stringliteral}{"{}Janitor\ stop\ flag\ set,\ stopping\ janitor\ thread."{}});}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00084}00084\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ evictUnused();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00086}00086\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00087}00087\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00088}00088\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00089}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a265c04633d2a8d0ed9c0760a82c4e8fc}{00089}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a265c04633d2a8d0ed9c0760a82c4e8fc}{Atlas::FileManager::FileJanitor::evictUnused}}()}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00090}00090\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00091}00091\ \ \ \ \ \textcolor{keyword}{auto}\ now\ =\ steady\_clock::now();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00092}00092\ \ \ \ \ std::vector<std::shared\_ptr<FileRecord>>\ recordChecklist;}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00093}00093\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ std::shared\_lock\ lock(mFileManagerRef.mMapMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ kv\ :\ mFileManagerRef.mRecords)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ recordChecklist.push\_back(kv.second);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00097}00097\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00098}00098\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00099}00099\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{if}\ (recordChecklist.empty())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00102}00102\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00103}00103\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00104}00104\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ rec\ :\ recordChecklist)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a5054a486a703218d0f6e4dcc262e3fd0}{TimePoint}}\ last\ =\ rec-\/>getLastUseTime();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ age\ =\ std::chrono::duration\_cast<std::chrono::seconds>(now\ -\/\ last);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00107}00107\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (age\ >=\ \mbox{\hyperlink{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73}{mOptions}}.\mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options_aff07eeba01fd3d8e2a58870ff725ed4b}{fileTTL}})\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00109}00109\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_lock\ load\_lock(rec-\/>loadMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rec-\/>activeHandles.load(std::memory\_order\_relaxed)\ >\ 0)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00112}00112\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//InfoLog(std::format("{}Attempting\ to\ evict:\ \{\}"{},\ rec-\/>path.string()));}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00114}00114\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}Attempting\ to\ evict:\ "{}\ <<\ rec-\/>path\ <<\ std::endl;}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00116}00116\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ sp\ =\ rec-\/>weakDataPtr.lock())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00118}00118\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::format(\textcolor{stringliteral}{"{}Evicting\ file:\ \{\}"{}},\ rec-\/>path.string()));}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00120}00120\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}Evicting:\ "{}\ <<\ rec-\/>path\ <<\ std::endl;}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ safe\ to\ unload}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rec-\/>weakDataPtr.reset();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ to\ see\ if\ the\ file\ was\ evicted}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rec-\/>weakDataPtr.lock()\ ==\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::format(\textcolor{stringliteral}{"{}Evicted\ file:\ \{\}"{}},\ rec-\/>path.string()));}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{comment}{//\ else\ skip,\ it'pathString\ in\ use}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00132}00132\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00133}00133\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00134}00134\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00135}00135\ \textcolor{comment}{//\ FileManager\ functions:}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00136}00136\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00137}\mbox{\hyperlink{class_atlas_1_1_file_manager_ab328df5393caffd269207930c3369c24}{00137}}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_ab328df5393caffd269207930c3369c24}{Atlas::FileManager::FileManager}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}}\&\ options)}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00138}00138\ \ \ \ \ :\ \mbox{\hyperlink{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73}{mOptions}}(options),\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a3764913dc6d6f8701c8651ab7d0ac5c2}{mJanitor}}(*this,\ options)}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00139}00139\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00140}00140\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00141}00141\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00142}\mbox{\hyperlink{class_atlas_1_1_file_manager_add5d623d34c286a267ab25e2ff710527}{00142}}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_add5d623d34c286a267ab25e2ff710527}{Atlas::FileManager::\string~FileManager}}()}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00143}00143\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00144}00144\ \ \ \ \ \textcolor{comment}{//\ No\ need\ to\ deconstruct\ the\ janitor,\ since\ it\ will\ do\ it\ automatically}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00035}00035\ \textcolor{comment}{//\ FileJanitor\ functions:}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00037}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a84e61f409e64de3c92b175fff22903d6}{00037}}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a655927902fb96ff0b53ffe1101d1249f}{Atlas::FileManager::FileJanitor::FileJanitor}}(\mbox{\hyperlink{class_atlas_1_1_file_manager}{FileManager}}\&\ fileManagerRef,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}}\&\ options)}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00038}00038\ \ \ \ \ :\ mFileManagerRef(fileManagerRef),\ mOptions(options),\ mJanitorStopFlag(false)}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00039}00039\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a8276aaf751122e7df695aa4bee83104e}{mOptions}}.\mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options_af729117ef771b9c33736a068e7cbca38}{bStartJanitor}})\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_ae2360dad6f208967fb01165aa3f7ee93}{startJanitor}}();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00042}00042\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00043}00043\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00045}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_abdd6b8d93d94a6cbdb91eafe83f674ca}{00045}}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_abdd6b8d93d94a6cbdb91eafe83f674ca}{Atlas::FileManager::FileJanitor::\string~FileJanitor}}()}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00046}00046\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00047}00047\ \ \ \ \ \textcolor{comment}{//\ Stop\ janitor}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00048}00048\ \ \ \ \ mJanitorStopFlag.store(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00049}00049\ \ \ \ \ mJanitorCV.notify\_all();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ TODO:\ I\ dont\ think\ this\ is\ \ needed\ anymore\ since\ the\ janitor\ thread\ is\ a\ Jthread}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00053}00053\ \ \ \ \ \textcolor{comment}{//\ Wait\ for\ janitor\ to\ stop}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00054}00054\ \ \ \ \ \textcolor{keywordflow}{if}\ (mJanitorThread.joinable())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ mJanitorThread.join();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00056}00056\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00057}00057\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00059}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_ae2360dad6f208967fb01165aa3f7ee93}{00059}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_ae2360dad6f208967fb01165aa3f7ee93}{Atlas::FileManager::FileJanitor::startJanitor}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00060}00060\ \ \ \ \ \textcolor{comment}{//if\ (mJanitorThread.joinable())\ \{}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00061}00061\ \ \ \ \ \textcolor{comment}{//\ \ throw\ std::runtime\_error("{}The\ janitor\ thread\ is\ already\ running!\ Stop\ it\ first."{});}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{comment}{//\ \ return;}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00064}00064\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00066}00066\ \ \ \ \ \mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{ATLAS\_ASSERT}}(!mJanitorThread.joinable(),\ \textcolor{stringliteral}{"{}The\ janitor\ thread\ is\ already\ running!\ Stop\ it\ first."{}});}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00068}00068\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(\textcolor{stringliteral}{"{}Starting\ janitor\ thread."{}});}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00070}00070\ \ \ \ \ mJanitorThread\ =\ std::jthread([\textcolor{keyword}{this}]\ \{\ janitorLoop();\ \});}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00071}00071\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00073}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a73053f45e035b594ae93b32e970eb19a}{00073}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a73053f45e035b594ae93b32e970eb19a}{Atlas::FileManager::FileJanitor::janitorLoop}}()}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00074}00074\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00075}00075\ \ \ \ \ \textcolor{keywordflow}{while}\ (!mJanitorStopFlag.load())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ std::unique\_lock\ lock(mJanitorCVMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ mJanitorCV.wait\_for(lock,\ \mbox{\hyperlink{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73}{mOptions}}.\mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options_ae193aecf5ed2e5386da88c0aa279a07a}{evictionCheckInterval}});}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mJanitorStopFlag.load())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(\textcolor{stringliteral}{"{}Janitor\ stop\ flag\ set,\ stopping\ janitor\ thread."{}});}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ evictUnused();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00085}00085\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00086}00086\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00088}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a265c04633d2a8d0ed9c0760a82c4e8fc}{00088}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_a265c04633d2a8d0ed9c0760a82c4e8fc}{Atlas::FileManager::FileJanitor::evictUnused}}()}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00089}00089\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{keyword}{auto}\ now\ =\ steady\_clock::now();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00091}00091\ \ \ \ \ std::vector<std::shared\_ptr<FileRecord>>\ recordChecklist;}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00092}00092\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ std::shared\_lock\ lock(mFileManagerRef.mMapMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [path,\ record]\ :\ mFileManagerRef.mRecords)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ recordChecklist.push\_back(record);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00097}00097\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{keywordflow}{if}\ (recordChecklist.empty())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00101}00101\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ rec\ :\ recordChecklist)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a5054a486a703218d0f6e4dcc262e3fd0}{TimePoint}}\ last\ =\ rec-\/>getLastUseTime();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ age\ =\ std::chrono::duration\_cast<std::chrono::seconds>(now\ -\/\ last);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (age\ >=\ \mbox{\hyperlink{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73}{mOptions}}.\mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options_aff07eeba01fd3d8e2a58870ff725ed4b}{fileTTL}})\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ std::unique\_lock\ load\_lock(rec-\/>loadMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rec-\/>activeHandles.load(std::memory\_order\_relaxed)\ >\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//InfoLog(std::format("{}Attempting\ to\ evict:\ \{\}"{},\ rec-\/>path.string()));}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}Attempting\ to\ evict:\ "{}\ <<\ rec-\/>path\ <<\ std::endl;}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ sp\ =\ rec-\/>weakDataPtr.lock())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::format(\textcolor{stringliteral}{"{}Evicting\ file:\ \{\}"{}},\ rec-\/>path.string()));}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}Evicting:\ "{}\ <<\ rec-\/>path\ <<\ std::endl;}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ safe\ to\ unload}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rec-\/>weakDataPtr.reset();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ to\ see\ if\ the\ file\ was\ evicted}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rec-\/>weakDataPtr.lock()\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::format(\textcolor{stringliteral}{"{}Evicted\ file:\ \{\}"{}},\ rec-\/>path.string()));}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{comment}{//\ else\ skip,\ it'pathString\ in\ use}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00131}00131\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00132}00132\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00134}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_ab04a2519994a1b46c5ff4aa72d249f05}{00134}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_ab04a2519994a1b46c5ff4aa72d249f05}{Atlas::FileManager::FileJanitor::isRunning}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00135}00135\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00136}00136\ \ \ \ \ \textcolor{keywordflow}{return}\ mJanitorThread.joinable();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00137}00137\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00139}\mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_aa13c09b059338732f65fe6087fe4dd06}{00139}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_1_1_file_janitor_aa13c09b059338732f65fe6087fe4dd06}{Atlas::FileManager::FileJanitor::shouldStop}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00140}00140\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00141}00141\ \ \ \ \ \textcolor{keywordflow}{return}\ mJanitorStopFlag.load();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00142}00142\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00144}00144\ \textcolor{comment}{//\ FileManager\ functions:}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00145}00145\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00146}00146\ \ \ \ \ unloadAll();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00147}00147\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00148}00148\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00149}\mbox{\hyperlink{class_atlas_1_1_file_manager_a82e49a8dd4225afab8319795cdfd5ce2}{00149}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a82e49a8dd4225afab8319795cdfd5ce2}{Atlas::FileManager::registerDirectory}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ dir)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00146}\mbox{\hyperlink{class_atlas_1_1_file_manager_ab328df5393caffd269207930c3369c24}{00146}}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_ab328df5393caffd269207930c3369c24}{Atlas::FileManager::FileManager}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}}\&\ options)}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00147}00147\ \ \ \ \ :\ \mbox{\hyperlink{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73}{mOptions}}(options),\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a3764913dc6d6f8701c8651ab7d0ac5c2}{mJanitor}}(*this,\ options)}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00148}00148\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00149}00149\ \}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00150}00150\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00151}00151\ \ \ \ \ \textcolor{comment}{//\ Assertion\ that\ checks\ if\ the\ directory\ exists}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00152}00152\ \ \ \ \ \mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{ATLAS\_ASSERT}}(\mbox{\hyperlink{namespace_atlas_a9d34d1a05685af71d008f8d789412c96}{DoesPathExist}}(dir),\ std::format(\textcolor{stringliteral}{"{}The\ given\ path\ at:\ \{\}\ does\ not\ exist!\ Please\ make\ sure\ that\ path\ exists\ and\ that\ you\ passed\ the\ correct\ path."{}},\ dir.string()).c\_str());}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00153}00153\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00154}00154\ \ \ \ \ \textcolor{comment}{//if\ (!std::filesystem::exists(dir))\ \{}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00155}00155\ \ \ \ \ \textcolor{comment}{//\ \ return;}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00156}00156\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00151}\mbox{\hyperlink{class_atlas_1_1_file_manager_add5d623d34c286a267ab25e2ff710527}{00151}}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_add5d623d34c286a267ab25e2ff710527}{Atlas::FileManager::\string~FileManager}}()}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00152}00152\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00153}00153\ \ \ \ \ \textcolor{comment}{//\ No\ need\ to\ deconstruct\ the\ janitor,\ since\ it\ will\ do\ it\ automatically}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00155}00155\ \ \ \ \ unloadAll();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00156}00156\ \}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00157}00157\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00158}00158\ \ \ \ \ \textcolor{comment}{//\ Recursively\ iterate\ through\ the\ provided\ directory,\ registering\ each\ file\ in\ the\ process.\ }}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00159}00159\ \ \ \ \ \textcolor{comment}{//\ Any\ file\ that\ is\ found\ within\ dir\ or\ any\ of\ its\ subdirectories\ will\ be\ registered\ as\ well.}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00160}00160\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ entry\ :\ std::filesystem::recursive\_directory\_iterator(dir))\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ \textcolor{comment}{//InfoLog(std::format("{}Attempting\ to\ register:\ \{\}"{},\ entry.path().string()));}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00158}\mbox{\hyperlink{class_atlas_1_1_file_manager_a82e49a8dd4225afab8319795cdfd5ce2}{00158}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a82e49a8dd4225afab8319795cdfd5ce2}{Atlas::FileManager::registerDirectory}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ dir)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00160}00160\ \ \ \ \ \textcolor{comment}{//\ Assertion\ that\ checks\ if\ the\ directory\ exists}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00161}00161\ \ \ \ \ \mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{ATLAS\_ASSERT}}(\mbox{\hyperlink{namespace_atlas_a9d34d1a05685af71d008f8d789412c96}{DoesPathExist}}(dir),\ std::format(\textcolor{stringliteral}{"{}The\ given\ path\ at:\ \{\}\ does\ not\ exist!\ Please\ make\ sure\ that\ path\ exists\ and\ that\ you\ passed\ the\ correct\ path."{}},\ dir.string()).c\_str());}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00162}00162\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entry.is\_regular\_file())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::format(\textcolor{stringliteral}{"{}Skipping\ non-\/file:\ \{\}"{}},\ entry.path().string()));}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00165}00165\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}Skipping\ non-\/file:\ "{}\ <<\ entry.path().string()\ <<\ "{}\(\backslash\)n"{};}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00169}00169\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ entryPathRef\ =\ entry.path();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00163}00163\ \ \ \ \ \textcolor{comment}{//if\ (!std::filesystem::exists(dir))\ \{}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00164}00164\ \ \ \ \ \textcolor{comment}{//\ \ return;}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00165}00165\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00167}00167\ \ \ \ \ \textcolor{comment}{//\ Recursively\ iterate\ through\ the\ provided\ directory,\ registering\ each\ file\ in\ the\ process.\ }}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00168}00168\ \ \ \ \ \textcolor{comment}{//\ Any\ file\ that\ is\ found\ within\ dir\ or\ any\ of\ its\ subdirectories\ will\ be\ registered\ as\ well.}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00169}00169\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ entry\ :\ std::filesystem::recursive\_directory\_iterator(dir))\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{comment}{//InfoLog(std::format("{}Attempting\ to\ register:\ \{\}"{},\ entry.path().string()));}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00171}00171\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isIgnored(entryPathRef))\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::format(\textcolor{stringliteral}{"{}Ignoring:\ \{\}"{}},\ entryPathRef.string()));}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entry.is\_regular\_file())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::format(\textcolor{stringliteral}{"{}Skipping\ non-\/file:\ \{\}"{}},\ entry.path().string()));}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00174}00174\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}Ignoring\ "{}\ <<\ entryPathRef.string()\ <<\ "{}\(\backslash\)n"{};}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}Skipping\ non-\/file:\ "{}\ <<\ entry.path().string()\ <<\ "{}\(\backslash\)n"{};}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00178}00178\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Assuming\ everything\ went\ okay,\ register\ the\ file.}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ registerFile(entryPathRef);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00181}00181\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00182}00182\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ entryPathRef\ =\ entry.path();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isIgnored(entryPathRef))\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::format(\textcolor{stringliteral}{"{}Ignoring:\ \{\}"{}},\ entryPathRef.string()));}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00183}00183\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00184}\mbox{\hyperlink{class_atlas_1_1_file_manager_a4783d90c823959a43d6ae0618e0b4d47}{00184}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a4783d90c823959a43d6ae0618e0b4d47}{Atlas::FileManager::registerFile}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ p)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00185}00185\ \ \ \ \ \textcolor{keyword}{auto}\ absolutePath\ =\ \mbox{\hyperlink{namespace_atlas_a419edd2c7bf494890abde98b62fdbbc3}{GetAbsolutePath}}(p);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00186}00186\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00187}00187\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::format(\textcolor{stringliteral}{"{}Registering:\ \{\}"{}},\ absolutePath.string()));}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00188}00188\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00189}00189\ \ \ \ \ std::unique\_lock\ lock(mMapMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00190}00190\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00191}00191\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ mRecords.find(absolutePath);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::cout\ <<\ "{}Ignoring\ "{}\ <<\ entryPathRef.string()\ <<\ "{}\(\backslash\)n"{};}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Assuming\ everything\ went\ okay,\ register\ the\ file.}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ registerFile(entryPathRef);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00190}00190\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00191}00191\ \}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00192}00192\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00193}00193\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ mRecords.end())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ mRecords.try\_emplace(absolutePath,\ std::make\_shared<FileRecord>(absolutePath));}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{comment}{//mRegisteredCount++;}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00196}00196\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00197}00197\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00198}00198\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00199}\mbox{\hyperlink{class_atlas_1_1_file_manager_a724e1c29a688a720ddb96c83b7263dcb}{00199}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a724e1c29a688a720ddb96c83b7263dcb}{Atlas::FileManager::addIgnorePattern}}(\textcolor{keyword}{const}\ std::string\&\ pattern)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00200}00200\ \ \ \ \ std::unique\_lock\ lock(mIgnoreMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00201}00201\ \ \ \ \ mIgnorePatterns.emplace\_back(pattern,\ std::regex::ECMAScript\ |\ std::regex::icase);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00202}00202\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00203}00203\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00204}\mbox{\hyperlink{class_atlas_1_1_file_manager_a67e82a76b397b044f5e82ace336fe9eb}{00204}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a67e82a76b397b044f5e82ace336fe9eb}{Atlas::FileManager::removeIgnorePatterns}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00205}00205\ \ \ \ \ std::unique\_lock\ lock(mIgnoreMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00206}00206\ \ \ \ \ mIgnorePatterns.clear();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00207}00207\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00208}00208\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00209}\mbox{\hyperlink{class_atlas_1_1_file_manager_a3b01fae0c00120df95211d53b300a48a}{00209}}\ \mbox{\hyperlink{class_atlas_1_1_file_handle}{Atlas::FileHandle}}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a3b01fae0c00120df95211d53b300a48a}{Atlas::FileManager::openFile}}(\textcolor{keyword}{const}\ std::filesystem::path\ \&\ p)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00210}00210\ \ \ \ \ std::filesystem::path\ absolutePath\ =\ \mbox{\hyperlink{namespace_atlas_a419edd2c7bf494890abde98b62fdbbc3}{GetAbsolutePath}}(p);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00211}00211\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00212}00212\ \ \ \ \ std::shared\_ptr<FileRecord>\ record;}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00213}00213\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ std::shared\_lock\ mapLock(mMapMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ mRecords.find(absolutePath);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ mRecords.end())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ mapLock.unlock();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ registerFile(absolutePath);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ mapLock.lock();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ it\ =\ mRecords.find(absolutePath);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ mRecords.end())}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};\ \textcolor{comment}{//\ failure}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ record\ =\ it-\/>second;}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00232}00232\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00233}00233\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00234}00234\ \ \ \ \ record-\/>touch();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00235}00235\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00236}00236\ \ \ \ \ \textcolor{comment}{//\ Fast\ path:\ try\ to\ get\ existing\ loaded\ data}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00237}00237\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ loadedData\ =\ record-\/>weakDataPtr.lock())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ return\ a\ handle\ that\ increments\ activeHandles}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_file_handle}{FileHandle}}(loadedData,\ record);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00240}00240\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00241}00241\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00242}00242\ \ \ \ \ std::unique\_lock\ loadLock(record-\/>loadMutex);\ \textcolor{comment}{//\ A\ unique\ lock\ is\ required\ to\ load\ the\ file}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00243}00243\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ loadedData\ =\ record-\/>weakDataPtr.lock())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_file_handle}{FileHandle}}(loadedData,\ record);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00245}00245\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00246}00246\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00247}00247\ \ \ \ \ \textcolor{comment}{//\ load\ from\ disk}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00248}00248\ \ \ \ \ std::vector<uint8\_t>\ buf;}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00249}00249\ \ \ \ \ std::ifstream\ ifs(record-\/>path,\ std::ios::binary\ |\ std::ios::ate);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00250}00250\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00251}00251\ \ \ \ \ \textcolor{comment}{//\ Check\ for\ failure}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00252}00252\ \ \ \ \ \textcolor{keywordflow}{if}\ (!ifs)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ std::unique\_lock\ mapLock(mMapMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00255}00255\ \ \ \ \ \ \ \ \ mRecords.erase(absolutePath);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Return\ a\ failed\ handle}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00259}00259\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00260}00260\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00261}00261\ \ \ \ \ \textcolor{comment}{//\ Load\ the\ file\ and\ read\ it}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00262}00262\ \ \ \ \ \textcolor{keyword}{auto}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}\ =\ ifs.tellg();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00263}00263\ \ \ \ \ ifs.seekg(0,\ std::ios::beg);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00264}00264\ \ \ \ \ buf.resize(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}));\ \textcolor{comment}{//\ Make\ sure\ the\ buffer\ is\ big\ enough}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00265}00265\ \ \ \ \ ifs.read(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(buf.data()),\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}});}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00266}00266\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00267}00267\ \ \ \ \ \textcolor{comment}{//\ load\ data\ from\ the\ disk\ into\ memory\ and\ store\ it\ in\ the\ weakDataPtr\ member\ of\ the\ record\ object.}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00268}00268\ \ \ \ \ \textcolor{keyword}{auto}\ fileDataSharedPtr\ =\ std::make\_shared<FileData>(std::move(buf));}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00269}00269\ \ \ \ \ record-\/>weakDataPtr\ =\ fileDataSharedPtr;}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00270}00270\ \ \ \ \ record-\/>touch();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00271}00271\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00272}00272\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_file_handle}{FileHandle}}(fileDataSharedPtr,\ record);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00273}00273\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00274}00274\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00275}\mbox{\hyperlink{class_atlas_1_1_file_manager_a68aa05e0f8ab4abf63de5db8c754f6a2}{00275}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a68aa05e0f8ab4abf63de5db8c754f6a2}{Atlas::FileManager::unloadFile}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ p)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00276}00276\ \ \ \ \ \textcolor{keyword}{auto}\ absolutePath\ =\ \mbox{\hyperlink{namespace_atlas_a419edd2c7bf494890abde98b62fdbbc3}{GetAbsolutePath}}(p);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00277}00277\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00278}00278\ \ \ \ \ std::shared\_lock\ mapLock(mMapMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00279}00279\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ mRecords.find(absolutePath);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00193}\mbox{\hyperlink{class_atlas_1_1_file_manager_a4783d90c823959a43d6ae0618e0b4d47}{00193}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a4783d90c823959a43d6ae0618e0b4d47}{Atlas::FileManager::registerFile}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ p)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00194}00194\ \ \ \ \ \textcolor{keyword}{auto}\ absolutePath\ =\ \mbox{\hyperlink{namespace_atlas_a419edd2c7bf494890abde98b62fdbbc3}{GetAbsolutePath}}(p);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00196}00196\ \ \ \ \ \mbox{\hyperlink{namespace_atlas_aa0d776b0f6a6d55f1c791ec6d7f27b9f}{InfoLog}}(std::format(\textcolor{stringliteral}{"{}Registering:\ \{\}"{}},\ absolutePath.string()));}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00198}00198\ \ \ \ \ std::unique\_lock\ lock(mMapMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00200}00200\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ mRecords.find(absolutePath);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00202}00202\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ mRecords.end())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ mRecords.try\_emplace(absolutePath,\ std::make\_shared<FileRecord>(absolutePath));}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{comment}{//mRegisteredCount++;}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00205}00205\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00206}00206\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00208}\mbox{\hyperlink{class_atlas_1_1_file_manager_a724e1c29a688a720ddb96c83b7263dcb}{00208}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a724e1c29a688a720ddb96c83b7263dcb}{Atlas::FileManager::addIgnorePattern}}(\textcolor{keyword}{const}\ std::string\&\ pattern)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00209}00209\ \ \ \ \ std::unique\_lock\ lock(mIgnoreMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00210}00210\ \ \ \ \ mIgnorePatterns.emplace\_back(pattern,\ std::regex::ECMAScript\ |\ std::regex::icase);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00211}00211\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00213}\mbox{\hyperlink{class_atlas_1_1_file_manager_a67e82a76b397b044f5e82ace336fe9eb}{00213}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a67e82a76b397b044f5e82ace336fe9eb}{Atlas::FileManager::removeIgnorePatterns}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00214}00214\ \ \ \ \ std::unique\_lock\ lock(mIgnoreMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00215}00215\ \ \ \ \ mIgnorePatterns.clear();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00216}00216\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00218}\mbox{\hyperlink{class_atlas_1_1_file_manager_a3b01fae0c00120df95211d53b300a48a}{00218}}\ \mbox{\hyperlink{class_atlas_1_1_file_handle}{Atlas::FileHandle}}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a3b01fae0c00120df95211d53b300a48a}{Atlas::FileManager::openFile}}(\textcolor{keyword}{const}\ std::filesystem::path\ \&\ p)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00219}00219\ \ \ \ \ std::filesystem::path\ absolutePath\ =\ \mbox{\hyperlink{namespace_atlas_a419edd2c7bf494890abde98b62fdbbc3}{GetAbsolutePath}}(p);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00220}00220\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00221}00221\ \ \ \ \ std::shared\_ptr<FileRecord>\ record;}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00222}00222\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ std::shared\_lock\ mapLock(mMapMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ mRecords.find(absolutePath);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00225}00225\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ mRecords.end())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ mapLock.unlock();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ registerFile(absolutePath);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ mapLock.lock();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ it\ =\ mRecords.find(absolutePath);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ mRecords.end())}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};\ \textcolor{comment}{//\ failure}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00240}00240\ \ \ \ \ \ \ \ \ record\ =\ it-\/>second;}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00241}00241\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00243}00243\ \ \ \ \ record-\/>touch();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00245}00245\ \ \ \ \ \textcolor{comment}{//\ Fast\ path:\ try\ to\ get\ existing\ loaded\ data}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00246}00246\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ loadedData\ =\ record-\/>weakDataPtr.lock())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00247}00247\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ return\ a\ handle\ that\ increments\ activeHandles}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00248}00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_file_handle}{FileHandle}}(loadedData,\ record);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00249}00249\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00251}00251\ \ \ \ \ std::unique\_lock\ loadLock(record-\/>loadMutex);\ \textcolor{comment}{//\ A\ unique\ lock\ is\ required\ to\ load\ the\ file}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00252}00252\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ loadedData\ =\ record-\/>weakDataPtr.lock())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_file_handle}{FileHandle}}(loadedData,\ record);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00254}00254\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00256}00256\ \ \ \ \ \textcolor{comment}{//\ load\ from\ disk}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00257}00257\ \ \ \ \ std::vector<uint8\_t>\ buf;}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00258}00258\ \ \ \ \ std::ifstream\ ifs(record-\/>path,\ std::ios::binary\ |\ std::ios::ate);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00259}00259\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00260}00260\ \ \ \ \ \textcolor{comment}{//\ Check\ for\ failure}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00261}00261\ \ \ \ \ \textcolor{keywordflow}{if}\ (!ifs)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00262}00262\ \ \ \ \ \ \ \ \ std::unique\_lock\ mapLock(mMapMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00263}00263\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ mRecords.erase(absolutePath);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Return\ a\ failed\ handle}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00268}00268\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00269}00269\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00270}00270\ \ \ \ \ \textcolor{comment}{//\ Load\ the\ file\ and\ read\ it}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00271}00271\ \ \ \ \ \textcolor{keyword}{auto}\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}\ =\ ifs.tellg();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00272}00272\ \ \ \ \ ifs.seekg(0,\ std::ios::beg);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00273}00273\ \ \ \ \ buf.resize(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}));\ \textcolor{comment}{//\ Make\ sure\ the\ buffer\ is\ big\ enough}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00274}00274\ \ \ \ \ ifs.read(\textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(buf.data()),\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}});}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00276}00276\ \ \ \ \ \textcolor{comment}{//\ load\ data\ from\ the\ disk\ into\ memory\ and\ store\ it\ in\ the\ weakDataPtr\ member\ of\ the\ record\ object.}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00277}00277\ \ \ \ \ \textcolor{keyword}{auto}\ fileDataSharedPtr\ =\ std::make\_shared<FileData>(std::move(buf));}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00278}00278\ \ \ \ \ record-\/>weakDataPtr\ =\ fileDataSharedPtr;}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00279}00279\ \ \ \ \ record-\/>touch();}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00280}00280\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00281}00281\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ mRecords.end())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00283}00283\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00284}00284\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00285}00285\ \ \ \ \ \textcolor{keyword}{auto}\&\ record\ =\ it-\/>second;}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00286}00286\ \ \ \ \ std::unique\_lock\ loadLock(record-\/>loadMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00287}00287\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00288}00288\ \ \ \ \ \textcolor{comment}{//\ If\ there's\ a\ pathString\ loaded\ data\ but\ no\ active\ handles,\ we\ can\ unload.}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00289}00289\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ sp\ =\ record-\/>weakDataPtr.lock())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ activeHandles\ =\ record-\/>activeHandles.load(std::memory\_order\_relaxed);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Make\ sure\ there\ are\ no\ active\ handles\ before\ unloading.\ if\ there\ are\ active\ handles,}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00293}00293\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ return\ false\ because\ the\ file\ is\ still\ in\ use.\ }}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (activeHandles\ ==\ 0)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ record-\/>weakDataPtr.reset();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00281}00281\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_file_handle}{FileHandle}}(fileDataSharedPtr,\ record);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00282}00282\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00284}\mbox{\hyperlink{class_atlas_1_1_file_manager_a68aa05e0f8ab4abf63de5db8c754f6a2}{00284}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a68aa05e0f8ab4abf63de5db8c754f6a2}{Atlas::FileManager::unloadFile}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ p)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00285}00285\ \ \ \ \ \textcolor{keyword}{auto}\ absolutePath\ =\ \mbox{\hyperlink{namespace_atlas_a419edd2c7bf494890abde98b62fdbbc3}{GetAbsolutePath}}(p);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00287}00287\ \ \ \ \ std::shared\_lock\ mapLock(mMapMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00288}00288\ \ \ \ \ \textcolor{keyword}{auto}\ it\ =\ mRecords.find(absolutePath);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00290}00290\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ ==\ mRecords.end())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00292}00292\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00293}00293\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00294}00294\ \ \ \ \ \textcolor{keyword}{auto}\&\ record\ =\ it-\/>second;}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00295}00295\ \ \ \ \ std::unique\_lock\ loadLock(record-\/>loadMutex);}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00296}00296\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00298}00298\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00302}00302\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00303}00303\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00304}00304\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ already\ unloaded}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00305}00305\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00306}00306\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00307}\mbox{\hyperlink{class_atlas_1_1_file_manager_a33ef34e7892e33eb3d5be27f84b1a3fd}{00307}}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a33ef34e7892e33eb3d5be27f84b1a3fd}{Atlas::FileManager::getRegisteredCount}}()\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00308}00308\ \ \ \ \ std::shared\_lock\ lock(mMapMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00309}00309\ \ \ \ \ \textcolor{keywordflow}{return}\ mRecords.size();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00310}00310\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00311}00311\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00312}\mbox{\hyperlink{class_atlas_1_1_file_manager_a489639695d22a494baa1b36ac36a2415}{00312}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a489639695d22a494baa1b36ac36a2415}{Atlas::FileManager::preloadAll}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00313}00313\ \ \ \ \ std::vector<std::shared\_ptr<FileRecord>>\ copies;}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00314}00314\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00315}00315\ \ \ \ \ \ \ \ \ std::shared\_lock\ lock(mMapMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00316}00316\ \ \ \ \ \ \ \ \ copies.reserve(mRecords.size());}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00317}00317\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [path,\ record]\ :\ mRecords)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ copies.push\_back(record);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00320}00320\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00321}00321\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00322}00322\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00323}00323\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ r\ :\ copies)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ openFile(r-\/>path);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00325}00325\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00326}00326\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00327}00327\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00328}\mbox{\hyperlink{class_atlas_1_1_file_manager_ac29e1fcb729ce92672c387f8a19baa88}{00328}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_ac29e1fcb729ce92672c387f8a19baa88}{Atlas::FileManager::unloadAll}}()}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00329}00329\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00330}00330\ \ \ \ \ std::shared\_lock\ lock(mMapMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00297}00297\ \ \ \ \ \textcolor{comment}{//\ If\ there's\ a\ pathString\ loaded\ data\ but\ no\ active\ handles,\ we\ can\ unload.}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00298}00298\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ sp\ =\ record-\/>weakDataPtr.lock())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ activeHandles\ =\ record-\/>activeHandles.load(std::memory\_order\_relaxed);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00300}00300\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Make\ sure\ there\ are\ no\ active\ handles\ before\ unloading.\ if\ there\ are\ active\ handles,}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ return\ false\ because\ the\ file\ is\ still\ in\ use.\ }}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (activeHandles\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ record-\/>weakDataPtr.reset();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00305}00305\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00310}00310\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00311}00311\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00312}00312\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00313}00313\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ already\ unloaded}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00314}00314\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00315}00315\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00316}\mbox{\hyperlink{class_atlas_1_1_file_manager_a33ef34e7892e33eb3d5be27f84b1a3fd}{00316}}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a33ef34e7892e33eb3d5be27f84b1a3fd}{Atlas::FileManager::getRegisteredCount}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00317}00317\ \ \ \ \ std::shared\_lock\ lock(mMapMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00318}00318\ \ \ \ \ \textcolor{keywordflow}{return}\ mRecords.size();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00319}00319\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00321}\mbox{\hyperlink{class_atlas_1_1_file_manager_a489639695d22a494baa1b36ac36a2415}{00321}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a489639695d22a494baa1b36ac36a2415}{Atlas::FileManager::preloadAll}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00322}00322\ \ \ \ \ std::vector<std::shared\_ptr<FileRecord>>\ copies;}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00323}00323\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00324}00324\ \ \ \ \ \ \ \ \ std::shared\_lock\ lock(mMapMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ copies.reserve(mRecords.size());}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00326}00326\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00327}00327\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [path,\ record]\ :\ mRecords)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ copies.push\_back(record);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00329}00329\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00330}00330\ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00331}00331\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00332}00332\ \ \ \ \ \textcolor{comment}{//\ If\ the\ map\ is\ empty,\ nothing\ to\ unload,\ so\ just\ return}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00333}00333\ \ \ \ \ \textcolor{keywordflow}{if}\ (mRecords.empty())\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00335}00335\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00332}00332\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ r\ :\ copies)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00333}00333\ \ \ \ \ \ \ \ \ openFile(r-\/>path);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00334}00334\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00335}00335\ \}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00336}00336\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00337}00337\ \ \ \ \ \textcolor{comment}{//\ For\ each\ record,\ unload\ the\ file}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00338}00338\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [path,\ record]\ :\ mRecords)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ unloadFile(path);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00340}00340\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00341}00341\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00342}00342\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00343}\mbox{\hyperlink{class_atlas_1_1_file_manager_aa7dc5d1b60002ddc5ab7ca9a76541e4f}{00343}}\ std::vector<std::filesystem::path>\ \mbox{\hyperlink{class_atlas_1_1_file_manager_aa7dc5d1b60002ddc5ab7ca9a76541e4f}{Atlas::FileManager::findRegistered}}(\textcolor{keyword}{const}\ std::regex\&\ re)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00344}00344\ \ \ \ \ std::vector<std::filesystem::path>\ out;}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00345}00345\ \ \ \ \ std::shared\_lock\ lock(mMapMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00346}00346\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00347}00347\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [registeredPath,\ fileRecord]\ :\ mRecords)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::regex\_search(registeredPath.string(),\ re))\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ out.push\_back(registeredPath);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00351}00351\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00352}00352\ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00353}00353\ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00354}00354\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00355}\mbox{\hyperlink{class_atlas_1_1_file_manager_a472f9fa23dbddf1d7e052e1fcbf79a46}{00355}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a472f9fa23dbddf1d7e052e1fcbf79a46}{Atlas::FileManager::isIgnored}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ p)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00356}00356\ \ \ \ \ std::lock\_guard\ lock(mIgnoreMutex);}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00357}00357\ \ \ \ \ \textcolor{keyword}{auto}\ pathString\ =\ p.string();}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00358}00358\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00359}00359\ \ \ \ \ \textcolor{comment}{//return\ std::ranges::any\_of(mIgnorePatterns,\ }}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00360}00360\ \ \ \ \ \textcolor{comment}{//\ \ [\&pathString](const\ std::regex\&\ r)\ \{\ }}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00361}00361\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ std::regex\_search(pathString,\ r);\ }}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00362}00362\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00363}00363\ \ \ \ \ \textcolor{comment}{//);}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00337}\mbox{\hyperlink{class_atlas_1_1_file_manager_ac29e1fcb729ce92672c387f8a19baa88}{00337}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_ac29e1fcb729ce92672c387f8a19baa88}{Atlas::FileManager::unloadAll}}()}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00338}00338\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00339}00339\ \ \ \ \ std::shared\_lock\ lock(mMapMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00341}00341\ \ \ \ \ \textcolor{comment}{//\ If\ the\ map\ is\ empty,\ nothing\ to\ unload,\ so\ just\ return}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00342}00342\ \ \ \ \ \textcolor{keywordflow}{if}\ (mRecords.empty())\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00344}00344\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00346}00346\ \ \ \ \ \textcolor{comment}{//\ For\ each\ record,\ unload\ the\ file}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00347}00347\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [path,\ record]\ :\ mRecords)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ unloadFile(path);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00349}00349\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00350}00350\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00351}00351\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00352}\mbox{\hyperlink{class_atlas_1_1_file_manager_aa7dc5d1b60002ddc5ab7ca9a76541e4f}{00352}}\ std::vector<std::filesystem::path>\ \mbox{\hyperlink{class_atlas_1_1_file_manager_aa7dc5d1b60002ddc5ab7ca9a76541e4f}{Atlas::FileManager::findRegistered}}(\textcolor{keyword}{const}\ std::regex\&\ re)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00353}00353\ \ \ \ \ std::vector<std::filesystem::path>\ out;}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00354}00354\ \ \ \ \ std::shared\_lock\ lock(mMapMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00355}00355\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00356}00356\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ [registeredPath,\ fileRecord]\ :\ mRecords)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::regex\_search(registeredPath.string(),\ re))\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ out.push\_back(registeredPath);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00359}00359\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00360}00360\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00361}00361\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00362}00362\ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00363}00363\ \}}
 \DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00364}00364\ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00365}00365\ \ \ \ \ \textcolor{comment}{//\ TODO:\ Replace\ this\ for\ loop\ with\ std::ranges::any\_of\ (the\ above\ commented\ out\ code)}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00366}00366\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ regexPattern\ :\ mIgnorePatterns)\ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ if\ statement\ has\ to\ be\ here\ because\ the\ condition\ will\ return\ the\ value\ on\ the\ first\ iteration}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00368}00368\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ within\ the\ loop.\ }}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::regex\_search(pathString,\ regexPattern))}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00372}00372\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00373}00373\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00374}00374\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00375}00375\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00376}00376\ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00365}\mbox{\hyperlink{class_atlas_1_1_file_manager_a472f9fa23dbddf1d7e052e1fcbf79a46}{00365}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_file_manager_a472f9fa23dbddf1d7e052e1fcbf79a46}{Atlas::FileManager::isIgnored}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ p)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00366}00366\ \ \ \ \ std::lock\_guard\ lock(mIgnoreMutex);}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00367}00367\ \ \ \ \ \textcolor{keyword}{auto}\ pathString\ =\ p.string();}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00369}00369\ \ \ \ \ \textcolor{comment}{//return\ std::ranges::any\_of(mIgnorePatterns,\ }}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00370}00370\ \ \ \ \ \textcolor{comment}{//\ \ [\&pathString](const\ std::regex\&\ r)\ \{\ }}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00371}00371\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ std::regex\_search(pathString,\ r);\ }}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00372}00372\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00373}00373\ \ \ \ \ \textcolor{comment}{//);}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00374}00374\ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00375}00375\ \ \ \ \ \textcolor{comment}{//\ TODO:\ Replace\ this\ for\ loop\ with\ std::ranges::any\_of\ (the\ above\ commented\ out\ code)}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00376}00376\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \textcolor{keyword}{const}\&\ regexPattern\ :\ mIgnorePatterns)\ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00377}00377\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ if\ statement\ has\ to\ be\ here\ because\ the\ condition\ will\ return\ the\ value\ on\ the\ first\ iteration}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00378}00378\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ within\ the\ loop.\ }}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00379}00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::regex\_search(pathString,\ regexPattern))}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00380}00380\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00382}00382\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00383}00383\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00384}00384\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00385}00385\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_i_o_manager_8cpp_source_l00386}00386\ \}}
 
 \end{DoxyCode}

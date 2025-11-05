@@ -9,7 +9,8 @@ var searchData=
   ['enableeventpolling_6',['enableEventPolling',['../d1/d79/struct_atlas_1_1_game_window_settings.html#a7c24585d97e9b5e11f2460eca28b41af',1,'Atlas::GameWindowSettings']]],
   ['enablevertexattribarray_7',['EnableVertexAttribArray',['../d4/d6c/union_im_g_l3_w_procs.html#a20e96b3d1517a58b6077f4651c4622d0',1,'ImGL3WProcs']]],
   ['engine_8',['engine',['../dc/d2f/class_c_script_any.html#abab825729b1bcc3372adcc6a5aeafac5',1,'CScriptAny::engine'],['../de/d98/class_c_script_builder.html#a9f2c02d7ac5c8bec9d0687ce09003174',1,'CScriptBuilder::engine'],['../dc/d3b/class_c_script_dictionary.html#ab6ed6041b441e60f57f0a18a5525eac6',1,'CScriptDictionary::engine']]],
-  ['eqfunc_9',['eqFunc',['../d1/dcb/struct_s_array_cache.html#a6bfdfcc7ac5db6711be9d00d6ef42789',1,'SArrayCache']]],
-  ['eqfuncreturncode_10',['eqFuncReturnCode',['../d1/dcb/struct_s_array_cache.html#ac56e83dadf22ea2e139858d3a27add98',1,'SArrayCache']]],
-  ['evictioncheckinterval_11',['evictionCheckInterval',['../db/d76/struct_atlas_1_1_file_manager_1_1_options.html#ae193aecf5ed2e5386da88c0aa279a07a',1,'Atlas::FileManager::Options']]]
+  ['enginename_9',['engineName',['../d1/d0e/struct_atlas_1_1_vulkan_instance_wrapper_1_1_init_configuration.html#a2befdcbde3dd67e51f4fb38409f1ac9b',1,'Atlas::VulkanInstanceWrapper::InitConfiguration']]],
+  ['eqfunc_10',['eqFunc',['../d1/dcb/struct_s_array_cache.html#a6bfdfcc7ac5db6711be9d00d6ef42789',1,'SArrayCache']]],
+  ['eqfuncreturncode_11',['eqFuncReturnCode',['../d1/dcb/struct_s_array_cache.html#ac56e83dadf22ea2e139858d3a27add98',1,'SArrayCache']]],
+  ['evictioncheckinterval_12',['evictionCheckInterval',['../db/d76/struct_atlas_1_1_file_manager_1_1_options.html#ae193aecf5ed2e5386da88c0aa279a07a',1,'Atlas::FileManager::Options']]]
 ];

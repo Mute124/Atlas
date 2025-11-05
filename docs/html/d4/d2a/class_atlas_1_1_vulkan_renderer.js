@@ -2,8 +2,6 @@ var class_atlas_1_1_vulkan_renderer =
 [
     [ "VulkanRenderer", "d4/d2a/class_atlas_1_1_vulkan_renderer.html#a65de9fe4fa93ff5fb1db82abc284cd9a", null ],
     [ "VulkanRenderer", "d4/d2a/class_atlas_1_1_vulkan_renderer.html#a99d49655aa082cd1b55227c0da1620f0", null ],
-    [ "ARenderer", "d4/d2a/class_atlas_1_1_vulkan_renderer.html#a3038f22e5a3693b8ad6e12cd24e76d29", null ],
-    [ "ARenderer", "d4/d2a/class_atlas_1_1_vulkan_renderer.html#a5e70d0458e1fbd1d97be0b53792da771", null ],
     [ "cleanup", "d4/d2a/class_atlas_1_1_vulkan_renderer.html#a576d35e91ccabac5b471e6b95d66f36e", null ],
     [ "init", "d4/d2a/class_atlas_1_1_vulkan_renderer.html#afe98e1e8e8fc87479106ead8781d2ef9", null ],
     [ "shouldExit", "d4/d2a/class_atlas_1_1_vulkan_renderer.html#af8f40d4bac17adc254b51fad106647ab", null ],

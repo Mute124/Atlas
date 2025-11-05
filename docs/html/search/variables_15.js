@@ -23,5 +23,6 @@ var searchData=
   ['viewport_20',['Viewport',['../d4/d6c/union_im_g_l3_w_procs.html#ae65c541ae10af47f8d00dfc7badbce10',1,'ImGL3WProcs']]],
   ['vulkan12features_21',['vulkan12Features',['../d6/d31/struct_atlas_1_1_physical_device_features_aggregate.html#aff0ba249b37872e5dcb4a7026028f719',1,'Atlas::PhysicalDeviceFeaturesAggregate']]],
   ['vulkan13features_22',['vulkan13Features',['../d6/d31/struct_atlas_1_1_physical_device_features_aggregate.html#aa4479ada6424656eebec377dd913da64',1,'Atlas::PhysicalDeviceFeaturesAggregate']]],
-  ['vulkaninitinfo_23',['VulkanInitInfo',['../d2/d86/struct_im_gui___impl_vulkan___data.html#a153eeace4576f5dcebc5eef676ae0580',1,'ImGui_ImplVulkan_Data']]]
+  ['vulkaninitinfo_23',['VulkanInitInfo',['../d2/d86/struct_im_gui___impl_vulkan___data.html#a153eeace4576f5dcebc5eef676ae0580',1,'ImGui_ImplVulkan_Data']]],
+  ['vulkanversion_24',['vulkanVersion',['../d1/d0e/struct_atlas_1_1_vulkan_instance_wrapper_1_1_init_configuration.html#ad94fbb2c02c6be6cf91953c328802d30',1,'Atlas::VulkanInstanceWrapper::InitConfiguration']]]
 ];

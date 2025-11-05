@@ -12,11 +12,14 @@
 {\ttfamily \#include $<$iostream$>$}\newline
 {\ttfamily \#include $<$fstream$>$}\newline
 {\ttfamily \#include $<$bitset$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
 {\ttfamily \#include "{}Rendering\+Backend.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Vulkan\+Instance.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Physical\+Device.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Frame.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Allocated\+Image.\+h"{}}\newline
 {\ttfamily \#include "{}../../core/\+Core.\+h"{}}\newline
+{\ttfamily \#include "{}../../core/\+Common.\+h"{}}\newline
 {\ttfamily \#include "{}../../core/\+Device.\+h"{}}\newline
 {\ttfamily \#include "{}../window/\+Window.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Deletion\+Queue.\+h"{}}\newline
@@ -24,6 +27,11 @@
 {\ttfamily \#include "{}../../debugging/\+Logging.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Graphics\+Utils.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Pipeline\+Builder.\+h"{}}\newline
+{\ttfamily \#include $<$Vk\+Bootstrap.\+h$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$mutex$>$}\newline
+{\ttfamily \#include $<$glm/fwd.\+hpp$>$}\newline
+{\ttfamily \#include $<$vulkan/vulkan\+\_\+core.\+h$>$}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -53,7 +61,11 @@ class \mbox{\hyperlink{class_atlas_1_1_pipeline}{Atlas\+::\+Pipeline}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_renderable}{Atlas\+::\+Renderable}}
 \item 
+class \mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable}{Atlas\+::\+IMGUIRenderable}}
+\item 
 class \mbox{\hyperlink{class_atlas_1_1_background_color}{Atlas\+::\+Background\+Color}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_graphics_queue}{Atlas\+::\+Graphics\+Queue}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Atlas\+::\+Vulkan\+Rendering\+Backend}}
 \begin{DoxyCompactList}\small\item\em A wrapper class for the usage of Vulkan as a rendering backend. This class handles the lifecycle of Vulkan and simplifies the usage of Vulkan to a simple API. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -73,6 +85,12 @@ namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1}{Atlas\+::\+Queue\+Type}} \{ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1add058df87f5c88e3285a28ad7406a3c6}{Atlas\+::\+Present}} = 0
+, \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1ad334dfcea59127bedfcdbe0a3ee7f494}{Atlas\+::\+Graphics}} = 1
+, \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1aa623a8d0366bf079411aa30be45b2d10}{Atlas\+::\+Compute}} = 2
+, \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1a6950810f0d2bba97a6f710c7b965b84e}{Atlas\+::\+Transfer}} = 3
+ \}
 \item 
 enum class \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{Atlas\+::\+EVulkan\+Rendering\+Option}} \+: size\+\_\+t \{ \newline
 \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa6c67501995e6d5d3144128067f1f4282}{Atlas\+::\+Version\+\_\+\+Major}} = 0
@@ -110,7 +128,7 @@ enum class \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{A
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00050}{50}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00060}{60}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 
 \Hypertarget{_v_k_device_8h_a998597b9163ba9082c4a4c40294d4c33}\label{_v_k_device_8h_a998597b9163ba9082c4a4c40294d4c33} 
 \index{VKDevice.h@{VKDevice.h}!ATLAS\_VK\_DEVICE\_BITS@{ATLAS\_VK\_DEVICE\_BITS}}
@@ -120,7 +138,7 @@ Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00050}{50}} of file \
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00052}{52}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00062}{62}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 
 \Hypertarget{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}\label{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99} 
 \index{VKDevice.h@{VKDevice.h}!VK\_CHECK@{VK\_CHECK}}
@@ -130,5 +148,5 @@ Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00052}{52}} of file \
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00054}{54}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00064}{64}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 

@@ -8,7 +8,7 @@ var searchData=
   ['texcoords_5',['texCoords',['../d7/d58/class_chunk.html#abf583c68b574522f27a7a27f4b7d54a9',1,'Chunk']]],
   ['teximage2d_6',['TexImage2D',['../d4/d6c/union_im_g_l3_w_procs.html#a6dc07e2f49b2bf873fbe0c84fe1e398b',1,'ImGL3WProcs']]],
   ['texparameteri_7',['TexParameteri',['../d4/d6c/union_im_g_l3_w_procs.html#a784966765c36446050494a0e35c8fa87',1,'ImGL3WProcs']]],
-  ['texture_8',['texture',['../d0/dd1/class_game_object.html#a3c93087c46c58ccc9c9a6b357821dbf8',1,'GameObject::texture'],['../d4/d33/struct_im_gui___impl_allegro5___data.html#a0aeca627d0f07bed89fc1229f46e12b8',1,'ImGui_ImplAllegro5_Data::Texture']]],
+  ['texture_8',['texture',['../d4/d33/struct_im_gui___impl_allegro5___data.html#a0aeca627d0f07bed89fc1229f46e12b8',1,'ImGui_ImplAllegro5_Data::Texture'],['../d0/dd1/class_game_object.html#a3c93087c46c58ccc9c9a6b357821dbf8',1,'GameObject::texture']]],
   ['threadfunction_9',['threadFunction',['../d0/d54/struct_atlas_1_1_thread_launch_info.html#acf3692a79b52a7f856975b45417398bb',1,'Atlas::ThreadLaunchInfo']]],
   ['threadname_10',['threadName',['../d0/d54/struct_atlas_1_1_thread_launch_info.html#a6af6a65ae496feecbc18630a387a8365',1,'Atlas::ThreadLaunchInfo']]],
   ['tickspersecond_11',['TicksPerSecond',['../d5/d71/struct_im_gui___impl_win32___data.html#a5972f4dac8c637341fd4ef430b197e40',1,'ImGui_ImplWin32_Data']]],
@@ -24,6 +24,7 @@ var searchData=
   ['trianglesvector_21',['trianglesVector',['../d1/dee/class_terrain.html#a694c2b237aabec93e537b2d851dcf793',1,'Terrain']]],
   ['triangletable_22',['triangletable',['../dc/dbe/class_marching_cubes.html#a2b1404fc5c96b40641b061ace447701b',1,'MarchingCubes::triangleTable'],['../d0/db6/_types_8h.html#adc1e1fc0e8c32533e1be918378ba7edf',1,'triangleTable:&#160;Types.h']]],
   ['type_23',['type',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html#ac99fd2b84dcb554a9dc84027812825db',1,'CScriptBuilder::SMetadataDecl::type'],['../d6/dec/struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio.html#ae7c592e0e542c129983025c50bf1906e',1,'Atlas::DescriptorAllocator::PoolSizeRatio::type']]],
-  ['typeid_24',['typeId',['../d9/de7/struct_c_script_any_1_1value_struct.html#aff9595b09c1e2d727bd94adcdf498859',1,'CScriptAny::valueStruct']]],
-  ['typemetadatamap_25',['typeMetadataMap',['../de/d98/class_c_script_builder.html#ad5e69195528585dad7bb2d7151c2f89b',1,'CScriptBuilder']]]
+  ['typecategory_24',['typeCategory',['../dd/d9e/struct_atlas_1_1_type_audit.html#a8db69030b0f4bfa521168b676543d611',1,'Atlas::TypeAudit']]],
+  ['typeid_25',['typeId',['../d9/de7/struct_c_script_any_1_1value_struct.html#aff9595b09c1e2d727bd94adcdf498859',1,'CScriptAny::valueStruct']]],
+  ['typemetadatamap_26',['typeMetadataMap',['../de/d98/class_c_script_builder.html#ad5e69195528585dad7bb2d7151c2f89b',1,'CScriptBuilder']]]
 ];

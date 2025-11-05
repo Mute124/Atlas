@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Atlas: Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt; Class Template Reference</title>
+<title>Atlas: Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt; Class Template Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -94,8 +94,9 @@ $(document).ready(function(){initNavTree('d0/dbd/class_atlas_1_1_thread_safe_var
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="../../da/dcc/class_atlas_1_1_thread_safe_variable-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -106,55 +107,57 @@ $(document).ready(function(){initNavTree('d0/dbd/class_atlas_1_1_thread_safe_var
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2f5e04589a1e79eff2ce1984eba181b2" id="r_a2f5e04589a1e79eff2ce1984eba181b2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a2f5e04589a1e79eff2ce1984eba181b2">ThreadSafeVariable</a> ()</td></tr>
-<tr class="memdesc:a2f5e04589a1e79eff2ce1984eba181b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default constructor. This will first check if the variable's type (T_VARIABLE_TYPE) can be default constructed. If it can, it will do so. If it cannot, it will throw an exception that the variable cannot be constructed because this class has no idea how to construct it.  <br /></td></tr>
-<tr class="separator:a2f5e04589a1e79eff2ce1984eba181b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f8477829be431a5419f4e661c57b775" id="r_a3f8477829be431a5419f4e661c57b775"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a3f8477829be431a5419f4e661c57b775">ThreadSafeVariable</a> (T_VARIABLE_TYPE const &amp;initialValue)</td></tr>
-<tr class="memdesc:a3f8477829be431a5419f4e661c57b775"><td class="mdescLeft">&#160;</td><td class="mdescRight">This <b>EXPLICIT</b> constructor takes a variable of type T_VARIABLE_TYPE and sets mValue to the value of that variable. Keep in mind that this is a copy constructor for the wrapped variable. While setting the variable, this operation will lock the mutex.  <br /></td></tr>
-<tr class="separator:a3f8477829be431a5419f4e661c57b775"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e5732a035adb2502a39227c3cd5c2e3" id="r_a5e5732a035adb2502a39227c3cd5c2e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a5e5732a035adb2502a39227c3cd5c2e3">ThreadSafeVariable</a> (<a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt; &amp;other)</td></tr>
-<tr class="memdesc:a5e5732a035adb2502a39227c3cd5c2e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The class's copy constructor that takes another <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html" title="This class wraps a variable (specified by T_VARIABLE_TYPE) and makes it thread-safe.">ThreadSafeVariable</a> as a parameter, and copies the variable wrapped by that class. Keep in mind that this operation is thread-safe because it locks the mutex.  <br /></td></tr>
-<tr class="separator:a5e5732a035adb2502a39227c3cd5c2e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f3bdb27e59b6eca106cb4f50470c6be" id="r_a4f3bdb27e59b6eca106cb4f50470c6be"><td class="memItemLeft" align="right" valign="top">T_VARIABLE_TYPE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4f3bdb27e59b6eca106cb4f50470c6be">get</a> ()</td></tr>
-<tr class="memdesc:a4f3bdb27e59b6eca106cb4f50470c6be"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns the variable that is wrapped by this class (mValue). There is no need to lock the mutex in this function because it is not being modified, and it is being copied. Should you need a reference to the variable, you can use the <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a5be41a264d05b32fa2d08560d107f00e" title="Similar to get(), but returns a reference to the variable instead of simply copying it....">getAsReference()</a> function.  <br /></td></tr>
-<tr class="separator:a4f3bdb27e59b6eca106cb4f50470c6be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5be41a264d05b32fa2d08560d107f00e" id="r_a5be41a264d05b32fa2d08560d107f00e"><td class="memItemLeft" align="right" valign="top">T_VARIABLE_TYPE &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a5be41a264d05b32fa2d08560d107f00e">getAsReference</a> ()</td></tr>
-<tr class="memdesc:a5be41a264d05b32fa2d08560d107f00e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4f3bdb27e59b6eca106cb4f50470c6be" title="This function returns the variable that is wrapped by this class (mValue). There is no need to lock t...">get()</a>, but returns a reference to the variable instead of simply copying it. Please refer to the remarks section below for info on why this function is not preferred.  <br /></td></tr>
-<tr class="separator:a5be41a264d05b32fa2d08560d107f00e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7840da777c194e6f4b0bc78a163179e0" id="r_a7840da777c194e6f4b0bc78a163179e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a7840da777c194e6f4b0bc78a163179e0">set</a> (const T_VARIABLE_TYPE &amp;newValue)</td></tr>
-<tr class="memdesc:a7840da777c194e6f4b0bc78a163179e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is one of the most important functions in this class because it allows you to set the mValue of the variable without having to deal with race conditions or locks. When this is called, it will automatically lock the mutex with whatever T_LOCK_GUARD is specified as within the template parameters. Then it will lock and then set the variable (mValue) to newValue.  <br /></td></tr>
-<tr class="separator:a7840da777c194e6f4b0bc78a163179e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9419f2c5843567a27826d382ee8c1bc4" id="r_a9419f2c5843567a27826d382ee8c1bc4"><td class="memItemLeft" align="right" valign="top">T_LOCK_GUARD &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a9419f2c5843567a27826d382ee8c1bc4">lock</a> ()</td></tr>
-<tr class="memdesc:a9419f2c5843567a27826d382ee8c1bc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Locks the mutex variable and returns a reference to T_LOCK_GUARD.  <br /></td></tr>
-<tr class="separator:a9419f2c5843567a27826d382ee8c1bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad112184affebd60436cb37f0aa1044a3" id="r_ad112184affebd60436cb37f0aa1044a3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#ad112184affebd60436cb37f0aa1044a3">isLocked</a> ()</td></tr>
-<tr class="memdesc:ad112184affebd60436cb37f0aa1044a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check to see if the mutex is locked by calling std::mutex::try_lock(). If it is locked, it returns true, otherwise it returns false. The mValue returned is the opposite of what std::mutex::try_lock() returns. See the documentation (more specifically the note below) for why the opposite is returned. Additionally, See the remark below the note for info on how this function can be useful for you.  <br /></td></tr>
-<tr class="separator:ad112184affebd60436cb37f0aa1044a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4007f83735117deb04971ae309f5f68f" id="r_a4007f83735117deb04971ae309f5f68f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4007f83735117deb04971ae309f5f68f">execute</a> (std::function&lt; <a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>(<a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE &gt; &amp;)&gt; function)</td></tr>
-<tr class="memdesc:a4007f83735117deb04971ae309f5f68f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a lambda function while locking the mutex.  <br /></td></tr>
-<tr class="separator:a4007f83735117deb04971ae309f5f68f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae32bbbd424440366b80312f12da01971" id="r_ae32bbbd424440366b80312f12da01971"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#ae32bbbd424440366b80312f12da01971">operator=</a> (const <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt; &amp;other)</td></tr>
-<tr class="memdesc:ae32bbbd424440366b80312f12da01971"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the copy assignment operator, it only copies the mValue of the variable, not the mutex. Keep in mind that this <b>LOCKS</b>.  <br /></td></tr>
-<tr class="separator:ae32bbbd424440366b80312f12da01971"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3dd751e5b377ca6743e1e5cb69d96e2" id="r_af3dd751e5b377ca6743e1e5cb69d96e2"><td class="memItemLeft" align="right" valign="top">T_VARIABLE_TYPE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#af3dd751e5b377ca6743e1e5cb69d96e2">operator()</a> ()</td></tr>
-<tr class="memdesc:af3dd751e5b377ca6743e1e5cb69d96e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to the <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4f3bdb27e59b6eca106cb4f50470c6be" title="This function returns the variable that is wrapped by this class (mValue). There is no need to lock t...">get()</a> function.  <br /></td></tr>
-<tr class="separator:af3dd751e5b377ca6743e1e5cb69d96e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2401f2778b9e0703a78269128f828d6" id="r_ac2401f2778b9e0703a78269128f828d6"><td class="memItemLeft" align="right" valign="top">T_VARIABLE_TYPE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#ac2401f2778b9e0703a78269128f828d6">operator-&gt;</a> ()</td></tr>
-<tr class="memdesc:ac2401f2778b9e0703a78269128f828d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is equivalent to <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4f3bdb27e59b6eca106cb4f50470c6be" title="This function returns the variable that is wrapped by this class (mValue). There is no need to lock t...">get()</a> and <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#af3dd751e5b377ca6743e1e5cb69d96e2" title="Equivalent to the get() function.">operator()()</a>. It also works in the same way that the -&gt; operator in a shared_ptr works.  <br /></td></tr>
-<tr class="separator:ac2401f2778b9e0703a78269128f828d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa68020f993e6c3b11b38f40b5e1b4043" id="r_aa68020f993e6c3b11b38f40b5e1b4043"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#aa68020f993e6c3b11b38f40b5e1b4043">ThreadSafeVariable</a> ()=default</td></tr>
+<tr class="separator:aa68020f993e6c3b11b38f40b5e1b4043"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3558d116dc17abab3485f46908404fa" id="r_aa3558d116dc17abab3485f46908404fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#aa3558d116dc17abab3485f46908404fa">ThreadSafeVariable</a> (const T_VARIABLE_TYPE &amp;<a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a1b2be7bfa84f129a2690a62f3ad82d62">value</a>)</td></tr>
+<tr class="separator:aa3558d116dc17abab3485f46908404fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ed20d262d5b3e0dac58c951dfd1dbfa" id="r_a9ed20d262d5b3e0dac58c951dfd1dbfa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a9ed20d262d5b3e0dac58c951dfd1dbfa">ThreadSafeVariable</a> (T_VARIABLE_TYPE &amp;&amp;<a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#a1b2be7bfa84f129a2690a62f3ad82d62">value</a>)</td></tr>
+<tr class="separator:a9ed20d262d5b3e0dac58c951dfd1dbfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1affa2089e5e8a0738ac7d2103d76de6" id="r_a1affa2089e5e8a0738ac7d2103d76de6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a1affa2089e5e8a0738ac7d2103d76de6">ThreadSafeVariable</a> (const <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt; &amp;)=delete</td></tr>
+<tr class="separator:a1affa2089e5e8a0738ac7d2103d76de6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4858403764e35dfeb306dde755be8ea2" id="r_a4858403764e35dfeb306dde755be8ea2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4858403764e35dfeb306dde755be8ea2">operator=</a> (const <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt; &amp;)=delete</td></tr>
+<tr class="separator:a4858403764e35dfeb306dde755be8ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07829e43a345ee82a959213d45e2d78b" id="r_a07829e43a345ee82a959213d45e2d78b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a07829e43a345ee82a959213d45e2d78b">canDefaultConstructType</a> () const noexcept</td></tr>
+<tr class="separator:a07829e43a345ee82a959213d45e2d78b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcbcf6d6afc90a1f3830eaad3af78381" id="r_adcbcf6d6afc90a1f3830eaad3af78381"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#adcbcf6d6afc90a1f3830eaad3af78381">isPointerType</a> () const noexcept</td></tr>
+<tr class="separator:adcbcf6d6afc90a1f3830eaad3af78381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a54dfc285406c6872bb9f3d0abe24c0" id="r_a6a54dfc285406c6872bb9f3d0abe24c0"><td class="memTemplParams" colspan="2">template&lt;typename Func &gt; </td></tr>
+<tr class="memitem:a6a54dfc285406c6872bb9f3d0abe24c0"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a6a54dfc285406c6872bb9f3d0abe24c0">execute</a> (Func &amp;&amp;func) -&gt; decltype(func(std::declval&lt; T_VARIABLE_TYPE &amp; &gt;()))</td></tr>
+<tr class="separator:a6a54dfc285406c6872bb9f3d0abe24c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91c98c878b8c1a6b19866a66bccb9f3d" id="r_a91c98c878b8c1a6b19866a66bccb9f3d"><td class="memItemLeft" align="right" valign="top">T_VARIABLE_TYPE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a91c98c878b8c1a6b19866a66bccb9f3d">getCopy</a> () const</td></tr>
+<tr class="separator:a91c98c878b8c1a6b19866a66bccb9f3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6168ba62d4694ff08227db4edf01f4e3" id="r_a6168ba62d4694ff08227db4edf01f4e3"><td class="memItemLeft" align="right" valign="top">const T_VARIABLE_TYPE &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a6168ba62d4694ff08227db4edf01f4e3">get</a> () const</td></tr>
+<tr class="separator:a6168ba62d4694ff08227db4edf01f4e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a390f885a2796b7571d354b9c660adeca" id="r_a390f885a2796b7571d354b9c660adeca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a390f885a2796b7571d354b9c660adeca">set</a> (const T_VARIABLE_TYPE &amp;newValue)</td></tr>
+<tr class="separator:a390f885a2796b7571d354b9c660adeca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d4f6b675f6723ff245c97ccd9c1b123" id="r_a8d4f6b675f6723ff245c97ccd9c1b123"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a8d4f6b675f6723ff245c97ccd9c1b123">set</a> (T_VARIABLE_TYPE &amp;&amp;newValue)</td></tr>
+<tr class="separator:a8d4f6b675f6723ff245c97ccd9c1b123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa566d9e616fd82fed16822e0fa2557ce" id="r_aa566d9e616fd82fed16822e0fa2557ce"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#aa566d9e616fd82fed16822e0fa2557ce">operator==</a> (const <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt; &amp;other) const</td></tr>
+<tr class="separator:aa566d9e616fd82fed16822e0fa2557ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a191d08836567d1c5b3399b60115149af" id="r_a191d08836567d1c5b3399b60115149af"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a191d08836567d1c5b3399b60115149af">operator==</a> (const T_VARIABLE_TYPE &amp;other) const</td></tr>
+<tr class="separator:a191d08836567d1c5b3399b60115149af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d635fcc78637b99cb91d110a0dbf156" id="r_a7d635fcc78637b99cb91d110a0dbf156"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a7d635fcc78637b99cb91d110a0dbf156">operator=</a> (const T_VARIABLE_TYPE &amp;other)</td></tr>
+<tr class="separator:a7d635fcc78637b99cb91d110a0dbf156"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a149e976dc804f0accf7e4606eb5656ab" id="r_a149e976dc804f0accf7e4606eb5656ab"><td class="memItemLeft" align="right" valign="top">T_VARIABLE_TYPE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a149e976dc804f0accf7e4606eb5656ab">mValue</a></td></tr>
-<tr class="memdesc:a149e976dc804f0accf7e4606eb5656ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the variable that is wrapped by this class.  <br /></td></tr>
-<tr class="separator:a149e976dc804f0accf7e4606eb5656ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a995c6697182f03dc6dfd615a60e86124" id="r_a995c6697182f03dc6dfd615a60e86124"><td class="memItemLeft" align="right" valign="top">T_MUTEX&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a995c6697182f03dc6dfd615a60e86124">mMutex</a></td></tr>
-<tr class="separator:a995c6697182f03dc6dfd615a60e86124"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d7e9b0bc6176e19d818ecf1730028e1" id="r_a8d7e9b0bc6176e19d818ecf1730028e1"><td class="memItemLeft" align="right" valign="top">T_VARIABLE_TYPE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a8d7e9b0bc6176e19d818ecf1730028e1">mValue</a></td></tr>
+<tr class="memdesc:a8d7e9b0bc6176e19d818ecf1730028e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the variable that is wrapped by this class.  <br /></td></tr>
+<tr class="separator:a8d7e9b0bc6176e19d818ecf1730028e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09a1a9520ed38cded3cfb6b7f578c285" id="r_a09a1a9520ed38cded3cfb6b7f578c285"><td class="memItemLeft" align="right" valign="top">T_MUTEX&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a09a1a9520ed38cded3cfb6b7f578c285">mMutex</a></td></tr>
+<tr class="separator:a09a1a9520ed38cded3cfb6b7f578c285"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab39988b6af75bdfadbd377f6d80ba901" id="r_ab39988b6af75bdfadbd377f6d80ba901"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#ab39988b6af75bdfadbd377f6d80ba901">mValueSet</a> { false }</td></tr>
+<tr class="separator:ab39988b6af75bdfadbd377f6d80ba901"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr class="memitem:a9f3acc20f255f9e47b984e5d6ab2e34f" id="r_a9f3acc20f255f9e47b984e5d6ab2e34f"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="../../dd/d9e/struct_atlas_1_1_type_audit.html">TypeAudit</a>&lt; T_VARIABLE_TYPE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a9f3acc20f255f9e47b984e5d6ab2e34f">sValueTypeAudit</a> {}</td></tr>
+<tr class="separator:a9f3acc20f255f9e47b984e5d6ab2e34f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename T_VARIABLE_TYPE, typename T_MUTEX = std::mutex, typename T_LOCK_GUARD = std::lock_guard&lt;T_MUTEX&gt;&gt;<br />
-class Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;</div><p>This class wraps a variable (specified by T_VARIABLE_TYPE) and makes it thread-safe. </p>
-<p>When <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4007f83735117deb04971ae309f5f68f" title="Executes a lambda function while locking the mutex.">ThreadSafeVariable::execute()</a> is called, it will lock this variable and execute the function that is passed to it. Furthermore, it will also lock when the <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a7840da777c194e6f4b0bc78a163179e0" title="This is one of the most important functions in this class because it allows you to set the mValue of ...">set()</a> function, is called.</p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T_VARIABLE_TYPE, typename T_MUTEX = std::shared_mutex&gt;<br />
+class Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;</div><p>This class wraps a variable (specified by T_VARIABLE_TYPE) and makes it thread-safe. </p>
+<p>When <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a6a54dfc285406c6872bb9f3d0abe24c0">ThreadSafeVariable::execute()</a> is called, it will lock this variable and execute the function that is passed to it. Furthermore, it will also lock when the <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a390f885a2796b7571d354b9c660adeca">set()</a> function, is called.</p>
 <dl class="section warning"><dt>Warning</dt><dd>The variable that is wrapped by this class must have a default constructor. If the variable does not have a default constructor, then this class will throw an exception (MissingDefaultConstructorException).</dd></dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -166,21 +169,21 @@ class Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;<
 </dl>
 <dl class="section since"><dt>Since</dt><dd>v0.0.9 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00040">40</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00044">44</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a2f5e04589a1e79eff2ce1984eba181b2" name="a2f5e04589a1e79eff2ce1984eba181b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f5e04589a1e79eff2ce1984eba181b2">&#9670;&#160;</a></span>ThreadSafeVariable() <span class="overload">[1/3]</span></h2>
+<a id="aa68020f993e6c3b11b38f40b5e1b4043" name="aa68020f993e6c3b11b38f40b5e1b4043"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa68020f993e6c3b11b38f40b5e1b4043">&#9670;&#160;</a></span>ThreadSafeVariable() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::ThreadSafeVariable </td>
+          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::ThreadSafeVariable </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -188,54 +191,29 @@ template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename 
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>The default constructor. This will first check if the variable's type (T_VARIABLE_TYPE) can be default constructed. If it can, it will do so. If it cannot, it will throw an exception that the variable cannot be constructed because this class has no idea how to construct it. </p>
-<dl class="section remark"><dt>Remarks</dt><dd>This constructor is useful for initializing the variable. Below is an example of what <b>NOT</b> to do when using this constructor</dd></dl>
-<div class="fragment"><div class="line"><span class="keyword">class </span>MyClass {</div>
-<div class="line"><span class="keyword">public</span>: </div>
-<div class="line">    <span class="keywordtype">int</span> x;</div>
-<div class="line"> </div>
-<div class="line">    MyClass() = <span class="keyword">delete</span>;</div>
-<div class="line">};</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// in a function</span></div>
-<div class="line"><a class="code hl_class" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable&lt;MyClass&gt;</a> x;</div>
-<div class="ttc" id="aclass_atlas_1_1_thread_safe_variable_html"><div class="ttname"><a href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a></div><div class="ttdoc">This class wraps a variable (specified by T_VARIABLE_TYPE) and makes it thread-safe.</div><div class="ttdef"><b>Definition</b> <a href="../../d0/de4/_thread_safe_variable_8h_source.html#l00040">ThreadSafeVariable.h:40</a></div></div>
-</div><!-- fragment --><dl class="section warning"><dt>Warning</dt><dd>If the variable cannot be default constructed, an exception will be thrown!</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">MissingDefaultConstructorException</td><td>if the variable does not have a default constructor</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>v0.0.9 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00090">90</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
-
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00048">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mValue</a>.</p>
-
 </div>
 </div>
-<a id="a3f8477829be431a5419f4e661c57b775" name="a3f8477829be431a5419f4e661c57b775"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f8477829be431a5419f4e661c57b775">&#9670;&#160;</a></span>ThreadSafeVariable() <span class="overload">[2/3]</span></h2>
+<a id="aa3558d116dc17abab3485f46908404fa" name="aa3558d116dc17abab3485f46908404fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3558d116dc17abab3485f46908404fa">&#9670;&#160;</a></span>ThreadSafeVariable() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::ThreadSafeVariable </td>
+          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::ThreadSafeVariable </td>
           <td>(</td>
-          <td class="paramtype">T_VARIABLE_TYPE const &amp;&#160;</td>
-          <td class="paramname"><em>initialValue</em></td><td>)</td>
+          <td class="paramtype">const T_VARIABLE_TYPE &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -246,125 +224,119 @@ template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename 
 </table>
 </div><div class="memdoc">
 
-<p>This <b>EXPLICIT</b> constructor takes a variable of type T_VARIABLE_TYPE and sets mValue to the value of that variable. Keep in mind that this is a copy constructor for the wrapped variable. While setting the variable, this operation will lock the mutex. </p>
-<dl class="section remark"><dt>Remarks</dt><dd>This constructor is useful for initializing the variable with a value. For example, if you have a variable called x that you want to initialize to 5, you can do so like so:</dd></dl>
-<div class="fragment"><div class="line"><a class="code hl_class" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable&lt;int&gt;</a> x(5);</div>
-</div><!-- fragment --><p>or like so:</p>
-<div class="fragment"><div class="line"><a class="code hl_class" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable&lt;int&gt;</a> x = <a class="code hl_class" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable&lt;int&gt;</a>(5);</div>
-</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">initialValue</td><td>A unary const reference to a variable of type T_VARIABLE_TYPE</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>v0.0.9</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a149e976dc804f0accf7e4606eb5656ab">mValue</a> for the documentation on the variable that is wrapped by this class </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00126">126</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
-
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00209">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::set()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00065">65</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 
 </div>
 </div>
-<a id="a5e5732a035adb2502a39227c3cd5c2e3" name="a5e5732a035adb2502a39227c3cd5c2e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e5732a035adb2502a39227c3cd5c2e3">&#9670;&#160;</a></span>ThreadSafeVariable() <span class="overload">[3/3]</span></h2>
+<a id="a9ed20d262d5b3e0dac58c951dfd1dbfa" name="a9ed20d262d5b3e0dac58c951dfd1dbfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ed20d262d5b3e0dac58c951dfd1dbfa">&#9670;&#160;</a></span>ThreadSafeVariable() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::ThreadSafeVariable </td>
+          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::ThreadSafeVariable </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt; &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
+          <td class="paramtype">T_VARIABLE_TYPE &amp;&amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>The class's copy constructor that takes another <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html" title="This class wraps a variable (specified by T_VARIABLE_TYPE) and makes it thread-safe.">ThreadSafeVariable</a> as a parameter, and copies the variable wrapped by that class. Keep in mind that this operation is thread-safe because it locks the mutex. </p>
-<dl class="section note"><dt>Note</dt><dd>This is the preferred way to copy a <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html" title="This class wraps a variable (specified by T_VARIABLE_TYPE) and makes it thread-safe.">ThreadSafeVariable</a>.</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">other</td><td>A unary const reference to another <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html" title="This class wraps a variable (specified by T_VARIABLE_TYPE) and makes it thread-safe.">ThreadSafeVariable</a> <b>WITH</b> the same template parameters as this class. If it does not have the same template parameters, it will not compile.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>v0.0.9 </dd></dl>
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00066">66</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00143">143</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
+</div>
+</div>
+<a id="a1affa2089e5e8a0738ac7d2103d76de6" name="a1affa2089e5e8a0738ac7d2103d76de6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1affa2089e5e8a0738ac7d2103d76de6">&#9670;&#160;</a></span>ThreadSafeVariable() <span class="overload">[4/4]</span></h2>
 
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00163">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::get()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00209">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::set()</a>.</p>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::ThreadSafeVariable </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt; &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4007f83735117deb04971ae309f5f68f" name="a4007f83735117deb04971ae309f5f68f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4007f83735117deb04971ae309f5f68f">&#9670;&#160;</a></span>execute()</h2>
+<a id="a07829e43a345ee82a959213d45e2d78b" name="a07829e43a345ee82a959213d45e2d78b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07829e43a345ee82a959213d45e2d78b">&#9670;&#160;</a></span>canDefaultConstructType()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a> <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::execute </td>
-          <td>(</td>
-          <td class="paramtype">std::function&lt; <a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a>(<a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE &gt; &amp;)&gt;&#160;</td>
-          <td class="paramname"><em>function</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Executes a lambda function while locking the mutex. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">function</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00266">266</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
-
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00226">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::lock()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00049">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mMutex</a>.</p>
-
-</div>
-</div>
-<a id="a4f3bdb27e59b6eca106cb4f50470c6be" name="a4f3bdb27e59b6eca106cb4f50470c6be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f3bdb27e59b6eca106cb4f50470c6be">&#9670;&#160;</a></span>get()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T_VARIABLE_TYPE <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::get </td>
+          <td class="memname">bool <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::canDefaultConstructType </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00072">72</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
+
+<p class="reference">References <a class="el" href="../../db/d1f/_common_8h_source.html#l00225">Atlas::TypeAudit&lt; T_TYPE &gt;::bDefaultConstructible</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00048">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::sValueTypeAudit</a>.</p>
+
+</div>
+</div>
+<a id="a6a54dfc285406c6872bb9f3d0abe24c0" name="a6a54dfc285406c6872bb9f3d0abe24c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a54dfc285406c6872bb9f3d0abe24c0">&#9670;&#160;</a></span>execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
+<div class="memtemplate">
+template&lt;typename Func &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::execute </td>
+          <td>(</td>
+          <td class="paramtype">Func &amp;&amp;&#160;</td>
+          <td class="paramname"><em>func</em></td><td>)</td>
+          <td> -&gt; decltype(func(std::declval&lt;T_VARIABLE_TYPE&amp;&gt;())) </td>
         </tr>
       </table>
   </td>
@@ -374,37 +346,28 @@ template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename 
 </table>
 </div><div class="memdoc">
 
-<p>This function returns the variable that is wrapped by this class (mValue). There is no need to lock the mutex in this function because it is not being modified, and it is being copied. Should you need a reference to the variable, you can use the <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a5be41a264d05b32fa2d08560d107f00e" title="Similar to get(), but returns a reference to the variable instead of simply copying it....">getAsReference()</a> function. </p>
-<dl class="section return"><dt>Returns</dt><dd>A copy of the variable that is wrapped by this class. It is declared under T_VARIABLE_TYPE (the class's template parameter).</dd></dl>
-<dl class="section since"><dt>Since</dt><dd>v0.0.9</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a5be41a264d05b32fa2d08560d107f00e">getAsReference()</a> for the sister function. </dd>
-<dd>
-<a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a149e976dc804f0accf7e4606eb5656ab">mValue</a> for the variable that is wrapped by this class. </dd></dl>
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00081">81</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00163">163</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
-
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00048">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mValue</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00291">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::operator()()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00303">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::operator-&gt;()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00143">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::ThreadSafeVariable()</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00057">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mMutex</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00056">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mValue</a>.</p>
 
 </div>
 </div>
-<a id="a5be41a264d05b32fa2d08560d107f00e" name="a5be41a264d05b32fa2d08560d107f00e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5be41a264d05b32fa2d08560d107f00e">&#9670;&#160;</a></span>getAsReference()</h2>
+<a id="a6168ba62d4694ff08227db4edf01f4e3" name="a6168ba62d4694ff08227db4edf01f4e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6168ba62d4694ff08227db4edf01f4e3">&#9670;&#160;</a></span>get()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T_VARIABLE_TYPE &amp; <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::getAsReference </td>
+          <td class="memname">const T_VARIABLE_TYPE &amp; <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::get </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -414,36 +377,28 @@ template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename 
 </table>
 </div><div class="memdoc">
 
-<p>Similar to <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4f3bdb27e59b6eca106cb4f50470c6be" title="This function returns the variable that is wrapped by this class (mValue). There is no need to lock t...">get()</a>, but returns a reference to the variable instead of simply copying it. Please refer to the remarks section below for info on why this function is not preferred. </p>
-<dl class="section remark"><dt>Remarks</dt><dd>This function is not preferable to <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4f3bdb27e59b6eca106cb4f50470c6be" title="This function returns the variable that is wrapped by this class (mValue). There is no need to lock t...">get()</a> because there is a higher likelihood of a race condition or other thread safety issue.</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>A unary reference to the variable that is wrapped by this class. See the brief description for more info.</dd></dl>
-<dl class="section since"><dt>Since</dt><dd>v0.0.9</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4f3bdb27e59b6eca106cb4f50470c6be">get()</a> for the sister function. </dd>
-<dd>
-<a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a149e976dc804f0accf7e4606eb5656ab">mValue</a> for the variable that is wrapped by this class. </dd></dl>
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00091">91</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00184">184</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
-
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00048">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mValue</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00057">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mMutex</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00056">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mValue</a>.</p>
 
 </div>
 </div>
-<a id="ad112184affebd60436cb37f0aa1044a3" name="ad112184affebd60436cb37f0aa1044a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad112184affebd60436cb37f0aa1044a3">&#9670;&#160;</a></span>isLocked()</h2>
+<a id="a91c98c878b8c1a6b19866a66bccb9f3d" name="a91c98c878b8c1a6b19866a66bccb9f3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91c98c878b8c1a6b19866a66bccb9f3d">&#9670;&#160;</a></span>getCopy()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::isLocked </td>
+          <td class="memname">T_VARIABLE_TYPE <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::getCopy </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -453,139 +408,58 @@ template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename 
 </table>
 </div><div class="memdoc">
 
-<p>Check to see if the mutex is locked by calling std::mutex::try_lock(). If it is locked, it returns true, otherwise it returns false. The mValue returned is the opposite of what std::mutex::try_lock() returns. See the documentation (more specifically the note below) for why the opposite is returned. Additionally, See the remark below the note for info on how this function can be useful for you. </p>
-<dl class="section note"><dt>Note</dt><dd>Instead of directly returning the mValue of try_lock(), the opposite of it is returned instead because C++20 documentation states that it will return <code>true</code> if the mutex was able to be locked.</dd></dl>
-<dl class="section remark"><dt>Remarks</dt><dd>This is quite useful for checking if the variable is currently in use somewhere. Let's say you have a function that you want to execute, but you don't want to execute it if the variable is already in use (so you dont waste time). You can use this function to check if the variable is in use, therefore saving time.</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>The result of an attempt to lock the mutex, <code>true</code> if it was locked, <code>false</code> otherwise.</dd></dl>
-<dl class="section since"><dt>Since</dt><dd>v0.0.9 </dd></dl>
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00086">86</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00257">257</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
-
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00049">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mMutex</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00057">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mMutex</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00056">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mValue</a>.</p>
 
 </div>
 </div>
-<a id="a9419f2c5843567a27826d382ee8c1bc4" name="a9419f2c5843567a27826d382ee8c1bc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9419f2c5843567a27826d382ee8c1bc4">&#9670;&#160;</a></span>lock()</h2>
+<a id="adcbcf6d6afc90a1f3830eaad3af78381" name="adcbcf6d6afc90a1f3830eaad3af78381"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcbcf6d6afc90a1f3830eaad3af78381">&#9670;&#160;</a></span>isPointerType()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T_LOCK_GUARD &amp; <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::lock </td>
+          <td class="memname">bool <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::isPointerType </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Locks the mutex variable and returns a reference to T_LOCK_GUARD. </p>
-<dl class="section note"><dt>Note</dt><dd>This returns a reference to T_LOCK_GUARD because it would automatically unlock the mutex when it goes out of scope if it wasn't returned as a reference.</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>A reference to T_LOCK_GUARD so that it doesn't automatically unlock the mutex. See the note above for the reasoning behind this. </dd></dl>
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00076">76</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00226">226</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
-
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00226">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::lock()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00049">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mMutex</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00266">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::execute()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00226">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::lock()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00279">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::operator=()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00209">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::set()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/d1f/_common_8h_source.html#l00232">Atlas::TypeAudit&lt; T_TYPE &gt;::bIsPointer</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00048">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::sValueTypeAudit</a>.</p>
 
 </div>
 </div>
-<a id="af3dd751e5b377ca6743e1e5cb69d96e2" name="af3dd751e5b377ca6743e1e5cb69d96e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3dd751e5b377ca6743e1e5cb69d96e2">&#9670;&#160;</a></span>operator()()</h2>
+<a id="a7d635fcc78637b99cb91d110a0dbf156" name="a7d635fcc78637b99cb91d110a0dbf156"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d635fcc78637b99cb91d110a0dbf156">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T_VARIABLE_TYPE <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::operator() </td>
+          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt; &amp; <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::operator= </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Equivalent to the <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4f3bdb27e59b6eca106cb4f50470c6be" title="This function returns the variable that is wrapped by this class (mValue). There is no need to lock t...">get()</a> function. </p>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00291">291</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
-
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00163">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::get()</a>.</p>
-
-</div>
-</div>
-<a id="ac2401f2778b9e0703a78269128f828d6" name="ac2401f2778b9e0703a78269128f828d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2401f2778b9e0703a78269128f828d6">&#9670;&#160;</a></span>operator-&gt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T_VARIABLE_TYPE <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::operator-&gt; </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This is equivalent to <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#a4f3bdb27e59b6eca106cb4f50470c6be" title="This function returns the variable that is wrapped by this class (mValue). There is no need to lock t...">get()</a> and <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html#af3dd751e5b377ca6743e1e5cb69d96e2" title="Equivalent to the get() function.">operator()()</a>. It also works in the same way that the -&gt; operator in a shared_ptr works. </p>
-<dl class="section return"><dt>Returns</dt><dd>A copy of the wrapped variable</dd></dl>
-<dl class="section since"><dt>Since</dt><dd>v0.0.9 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00303">303</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
-
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00163">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::get()</a>.</p>
-
-</div>
-</div>
-<a id="ae32bbbd424440366b80312f12da01971" name="ae32bbbd424440366b80312f12da01971"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae32bbbd424440366b80312f12da01971">&#9670;&#160;</a></span>operator=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt; &amp; <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::operator= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt; &amp;&#160;</td>
+          <td class="paramtype">const T_VARIABLE_TYPE &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -597,34 +471,117 @@ template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename 
 </table>
 </div><div class="memdoc">
 
-<p>This is the copy assignment operator, it only copies the mValue of the variable, not the mutex. Keep in mind that this <b>LOCKS</b>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">other</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00131">131</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00279">279</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
-
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00226">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::lock()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00049">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mMutex</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00048">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mValue</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00096">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::set()</a>.</p>
 
 </div>
 </div>
-<a id="a7840da777c194e6f4b0bc78a163179e0" name="a7840da777c194e6f4b0bc78a163179e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7840da777c194e6f4b0bc78a163179e0">&#9670;&#160;</a></span>set()</h2>
+<a id="a4858403764e35dfeb306dde755be8ea2" name="a4858403764e35dfeb306dde755be8ea2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4858403764e35dfeb306dde755be8ea2">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a> <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::set </td>
+          <td class="memname"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt; &amp; <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt; &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a191d08836567d1c5b3399b60115149af" name="a191d08836567d1c5b3399b60115149af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a191d08836567d1c5b3399b60115149af">&#9670;&#160;</a></span>operator==() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const T_VARIABLE_TYPE &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00126">126</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
+
+<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00056">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mValue</a>.</p>
+
+</div>
+</div>
+<a id="aa566d9e616fd82fed16822e0fa2557ce" name="aa566d9e616fd82fed16822e0fa2557ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa566d9e616fd82fed16822e0fa2557ce">&#9670;&#160;</a></span>operator==() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00122">122</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
+
+<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00056">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mValue</a>.</p>
+
+</div>
+</div>
+<a id="a390f885a2796b7571d354b9c660adeca" name="a390f885a2796b7571d354b9c660adeca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a390f885a2796b7571d354b9c660adeca">&#9670;&#160;</a></span>set() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a> <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::set </td>
           <td>(</td>
           <td class="paramtype">const T_VARIABLE_TYPE &amp;&#160;</td>
           <td class="paramname"><em>newValue</em></td><td>)</td>
@@ -638,66 +595,88 @@ template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename 
 </table>
 </div><div class="memdoc">
 
-<p>This is one of the most important functions in this class because it allows you to set the mValue of the variable without having to deal with race conditions or locks. When this is called, it will automatically lock the mutex with whatever T_LOCK_GUARD is specified as within the template parameters. Then it will lock and then set the variable (mValue) to newValue. </p>
-<dl class="section remark"><dt>Remarks</dt><dd>As an example for the use of this function, let's say you have a variable called x that you want to set to 5. You can do this by calling set(5) within this class or you can do this by calling x.set(5). Even if multiple threads are attempting to set the mValue, there will be <b>NO</b> race conditions. and the mValue will be uniform across all threads.</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">newValue</td><td>The new mValue to set the variable to. This is a const reference, so make sure to account for that. This variable will be copied into the variable that is wrapped by this class.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>v0.0.9 </dd></dl>
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00096">96</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00209">209</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00057">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mMutex</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00056">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mValue</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00059">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mValueSet</a>.</p>
 
-<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00226">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::lock()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00049">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mMutex</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00048">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mValue</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00126">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::ThreadSafeVariable()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00143">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::ThreadSafeVariable()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00131">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::operator=()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00104">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::set()</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a995c6697182f03dc6dfd615a60e86124" name="a995c6697182f03dc6dfd615a60e86124"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a995c6697182f03dc6dfd615a60e86124">&#9670;&#160;</a></span>mMutex</h2>
+<a id="a8d4f6b675f6723ff245c97ccd9c1b123" name="a8d4f6b675f6723ff245c97ccd9c1b123"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d4f6b675f6723ff245c97ccd9c1b123">&#9670;&#160;</a></span>set() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T_MUTEX <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mMutex</td>
+          <td class="memname"><a class="el" href="../../df/d5f/imgui__impl__opengl3__loader_8h.html#ac668e7cffd9e2e9cfee428b9b2f34fa7">void</a> <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::set </td>
+          <td>(</td>
+          <td class="paramtype">T_VARIABLE_TYPE &amp;&amp;&#160;</td>
+          <td class="paramname"><em>newValue</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00049">49</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00104">104</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00266">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::execute()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00257">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::isLocked()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00226">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::lock()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00279">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::operator=()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00209">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::set()</a>.</p>
+<p class="reference">References <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00096">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::set()</a>.</p>
 
 </div>
 </div>
-<a id="a149e976dc804f0accf7e4606eb5656ab" name="a149e976dc804f0accf7e4606eb5656ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a149e976dc804f0accf7e4606eb5656ab">&#9670;&#160;</a></span>mValue</h2>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a09a1a9520ed38cded3cfb6b7f578c285" name="a09a1a9520ed38cded3cfb6b7f578c285"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09a1a9520ed38cded3cfb6b7f578c285">&#9670;&#160;</a></span>mMutex</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename T_LOCK_GUARD  = std::lock_guard&lt;T_MUTEX&gt;&gt; </div>
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T_VARIABLE_TYPE <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::mValue</td>
+          <td class="memname">T_MUTEX <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00057">57</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00081">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::execute()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00091">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::get()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00086">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::getCopy()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00096">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::set()</a>.</p>
+
+</div>
+</div>
+<a id="a8d7e9b0bc6176e19d818ecf1730028e1" name="a8d7e9b0bc6176e19d818ecf1730028e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d7e9b0bc6176e19d818ecf1730028e1">&#9670;&#160;</a></span>mValue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T_VARIABLE_TYPE <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mValue</td>
         </tr>
       </table>
   </td>
@@ -710,9 +689,65 @@ template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename 
 <p>This is the variable that is wrapped by this class. </p>
 <dl class="section since"><dt>Since</dt><dd>v0.0.9 </dd></dl>
 
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00056">56</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00081">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::execute()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00091">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::get()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00086">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::getCopy()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00126">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::operator==()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00122">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::operator==()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00096">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::set()</a>.</p>
+
+</div>
+</div>
+<a id="ab39988b6af75bdfadbd377f6d80ba901" name="ab39988b6af75bdfadbd377f6d80ba901"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab39988b6af75bdfadbd377f6d80ba901">&#9670;&#160;</a></span>mValueSet</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::mValueSet { false }</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00059">59</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00096">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::set()</a>.</p>
+
+</div>
+</div>
+<a id="a9f3acc20f255f9e47b984e5d6ab2e34f" name="a9f3acc20f255f9e47b984e5d6ab2e34f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f3acc20f255f9e47b984e5d6ab2e34f">&#9670;&#160;</a></span>sValueTypeAudit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::shared_mutex&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../dd/d9e/struct_atlas_1_1_type_audit.html">TypeAudit</a>&lt;T_VARIABLE_TYPE&gt; <a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">Atlas::ThreadSafeVariable</a>&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::sValueTypeAudit {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
 <p class="definition">Definition at line <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00048">48</a> of file <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html">ThreadSafeVariable.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00163">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::get()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00184">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::getAsReference()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00279">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::operator=()</a>, <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00209">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::set()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00090">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX, T_LOCK_GUARD &gt;::ThreadSafeVariable()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00072">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::canDefaultConstructType()</a>, and <a class="el" href="../../d0/de4/_thread_safe_variable_8h_source.html#l00076">Atlas::ThreadSafeVariable&lt; T_VARIABLE_TYPE, T_MUTEX &gt;::isPointerType()</a>.</p>
 
 </div>
 </div>
@@ -725,7 +760,7 @@ template&lt;typename T_VARIABLE_TYPE , typename T_MUTEX  = std::mutex, typename 
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a></li><li class="navelem"><a class="el" href="../../d0/dbd/class_atlas_1_1_thread_safe_variable.html">ThreadSafeVariable</a></li>
-    <li class="footer">Generated on Tue Oct 21 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Nov 4 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

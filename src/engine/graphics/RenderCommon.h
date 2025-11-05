@@ -55,7 +55,7 @@ namespace Atlas {
 	template<VulkanHandle T_WRAPS>
 	class AVulkanHandleWrapper : public Validatable {
 	private:
-		T_WRAPS mHandle;
+		T_WRAPS mHandle{ VK_NULL_HANDLE };
 
 	protected:
 
@@ -69,7 +69,7 @@ namespace Atlas {
 
 		explicit(false) AVulkanHandleWrapper(T_WRAPS handle) : mHandle(handle) {}
 
-		explicit(false) AVulkanHandleWrapper(T_WRAPS& handle) : mHandle(handle) {}
+		//explicit(false) AVulkanHandleWrapper(T_WRAPS& handle) : mHandle(handle) {}
 
 		AVulkanHandleWrapper() = default;
 		
@@ -81,9 +81,76 @@ namespace Atlas {
 
 		T_WRAPS getHandle() const { return mHandle; }
 
-		explicit(false) virtual operator const T_WRAPS& () const {
+		explicit(false) operator const T_WRAPS& () const {
 			return mHandle;
 		}
+
+		explicit(false) operator T_WRAPS& () {
+			return mHandle;
+		}
+
+		explicit(false) operator bool() const { return isValid(); }
+	};
+
+	template<VulkanHandle T_WRAPS, typename T_VKB_EQUIVALENT, typename T_VKB_EQUIVALENT_BUILDER>
+	class AVulkanCompositeHandleWrapper : public AVulkanHandleWrapper<T_WRAPS> {
+	private:
+		T_VKB_EQUIVALENT mVkbHandle;
+
+
+
+	protected:
+		//static inline T_VKB_EQUIVALENT& GenerateVkbEquivalent(T_VKB_EQUIVALENT_BUILDER builder) {
+		//	return builder.build().value();
+		//}
+
+		void setVkbHandle(T_VKB_EQUIVALENT vkbHandle) { mVkbHandle = vkbHandle; }
+
+		bool hasValidVkbHandle() const {
+			// VKB classes have an implicit operator to T_WRAPS 
+			// (assuming T_WRAPS is the same type as T_VKB_EQUIVALENT)
+			return IsValidVulkanHandle<T_WRAPS>(mVkbHandle);
+		}
+	public:
+
+		AVulkanCompositeHandleWrapper(T_WRAPS handle, T_VKB_EQUIVALENT vkbHandle) 
+			: AVulkanHandleWrapper<T_WRAPS>(handle), mVkbHandle(vkbHandle) {}
+		
+		//AVulkanCompositeHandleWrapper(T_WRAPS& handle, T_VKB_EQUIVALENT& vkbHandle) 
+		//	: AVulkanHandleWrapper<T_WRAPS>(handle), mVkbHandle(vkbHandle) {}
+
+		explicit AVulkanCompositeHandleWrapper(T_VKB_EQUIVALENT_BUILDER builder) 
+			: AVulkanHandleWrapper<T_WRAPS>(), mVkbHandle(builder.build().value()) {}
+
+		AVulkanCompositeHandleWrapper() = default;
+		
+		virtual ~AVulkanCompositeHandleWrapper() override = default;
+
+		virtual bool isValid() const override {
+			return AVulkanHandleWrapper<T_WRAPS>::isValid() && hasValidVkbHandle();
+		}
+
+		T_VKB_EQUIVALENT& getVkbHandle() { 
+			return mVkbHandle;
+		}
+
+		T_VKB_EQUIVALENT* getVkbHandlePtr() {
+			return &mVkbHandle;
+		}
+
+		T_VKB_EQUIVALENT* safeGetVkbHandlePtr() {
+			T_VKB_EQUIVALENT* ptr = getVkbHandlePtr();
+			
+			ATLAS_ASSERT(ptr != nullptr, "Vulkan handle is not valid!");
+
+			return ptr;
+		}
+
+		explicit(false) operator const T_VKB_EQUIVALENT& () const { return getVkbHandle(); }
+
+		 T_VKB_EQUIVALENT* operator->() { 
+			 return safeGetVkbHandlePtr();
+		 }
 	};
 
 #endif

@@ -1,6 +1,8 @@
 var _common_8h =
 [
     [ "Atlas::Rectangle< T_NUMERIC_TYPE >", "d4/dd2/struct_atlas_1_1_rectangle.html", "d4/dd2/struct_atlas_1_1_rectangle" ],
+    [ "Atlas::TypeAudit< T_TYPE >", "dd/d9e/struct_atlas_1_1_type_audit.html", "dd/d9e/struct_atlas_1_1_type_audit" ],
+    [ "Atlas::Validatable", "d2/d5f/class_atlas_1_1_validatable.html", "d2/d5f/class_atlas_1_1_validatable" ],
     [ "Atlas::Counter", "d8/db4/class_atlas_1_1_counter.html", "d8/db4/class_atlas_1_1_counter" ],
     [ "Atlas::Singleton< T_BASE >", "d6/dd4/class_atlas_1_1_singleton.html", "d6/dd4/class_atlas_1_1_singleton" ],
     [ "Atlas::IStringifiedObject", "de/dc7/class_atlas_1_1_i_stringified_object.html", "de/dc7/class_atlas_1_1_i_stringified_object" ],

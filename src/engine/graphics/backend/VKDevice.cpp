@@ -603,15 +603,23 @@ void Atlas::VulkanRenderingBackend::createSwapchain(uint32_t width, uint32_t hei
 	
 	mSwapchainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
 
-	vkb::Swapchain vkbSwapchain = swapchainBuilder
-		//.use_default_format_selection()
-		.set_desired_format(VkSurfaceFormatKHR{ .format = mSwapchainImageFormat, .colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR })
-		//use vsync present mode
-		.set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
-		.set_desired_extent(width, height)
-		.add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
-		.build()
-		.value();
+	swapchainBuilder.set_desired_format(VkSurfaceFormatKHR{ .format = mSwapchainImageFormat, .colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR });
+	swapchainBuilder.set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR);
+	swapchainBuilder.set_desired_extent(width, height);
+
+	swapchainBuilder.add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT);
+
+	auto swapchainBuildResult = swapchainBuilder.build();
+
+	vkb::Swapchain vkbSwapchain = swapchainBuildResult.value();
+		////.use_default_format_selection()
+		//.set_desired_format(VkSurfaceFormatKHR{ .format = mSwapchainImageFormat, .colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR })
+		////use vsync present mode
+		//.set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
+		//.set_desired_extent(width, height)
+		//.add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
+		//.build()
+		//.value();
 
 	mSwapchainExtent = vkbSwapchain.extent;
 	//store swapchain and its related images
@@ -700,6 +708,9 @@ void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommand
 
 	// submit command buffer to the queue and execute it.
 	//  _renderFence will now block until the graphic commands finish execution
+
+	// For whatever reason, this is causing errors within Vulkan. The output says that the command buffer in 
+	// the submitInfo is using a VkNonDispatchableHandle 
 	vkQueueSubmit2(mGraphicsQueue, 1, &submit, mImmediateSubmitInfo.fence);
 
 	constexpr uint64_t cTimeout = 9999999999;
@@ -770,16 +781,21 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 #endif // ATLAS_USE_SDL2
 
 	initPhysicalDevice();
-
+	
 	//create the final vulkan device
-	vkb::DeviceBuilder deviceBuilder{ mPhysicalDevice.getVkbDevice() };
+	vkb::DeviceBuilder deviceBuilder{ mPhysicalDevice.getVkbHandle() };
 
 	vkb::Device vkbDevice = deviceBuilder.build().value();
-
-	// Get the VkDevice handle used in the rest of a vulkan application
-	mDevice = vkbDevice.device;
-	//mGPUDevice = physicalDevice.physical_device;
 	
+	mDevice = Device(vkbDevice.device);
+	
+	// Get the VkDevice handle used in the rest of a vulkan application
+	//mDevice = vkbDevice.device;
+	//mGPUDevice = physicalDevice.physical_device;
+	//vkb::Device& vkbDeviceRef = mDevice.getVkbHandle();
+	//mGraphicsQueue = mDevice.getVkbHandle().get_queue(vkb::QueueType::graphics).value();
+	//mGraphicsQueueFamily = mDevice.getVkbHandle().get_queue_index(vkb::QueueType::graphics).value();
+
 	mGraphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
 	mGraphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
 
@@ -873,7 +889,6 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 
 	// This static cast is required since the result of mPhysicalDevice.getName() is a std::string_view
 	const std::string cDeviceName = static_cast<std::string>(mPhysicalDevice.getName());
-
 	InfoLog("Selected GPU: " + cDeviceName);
 }
 
