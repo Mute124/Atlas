@@ -132,6 +132,19 @@
 	type(const type&) = delete;					\
 	type& operator=(const type&) = delete;		
 
+#define ATLAS_DISALLOW_MOVE(type)				\
+	type(type&&) = delete;						\
+	type& operator=(type&&) = delete;
+
+#define ATLAS_DISALLOW_COPY_AND_MOVE(type)		\
+	ATLAS_DISALLOW_COPY(type)					\
+	ATLAS_DISALLOW_MOVE(type)
+
+#define ATLAS_ALLOW_COPY(type)					\
+	type(const type&) = default;				\
+	type& operator=(const type&) = default;
+
+
 /**
 * @brief Since the location of the shared libraries and executables can vary, this is a simple solution to this.
 * During Distribution builds, the path is more exact, however the rest are not because these
@@ -149,9 +162,12 @@
 #define ATLAS_NULL_JPEG static_cast<std::string>(ATLAS_ASSET_DIR) + static_cast<std::string>("/engine/null.jpeg")
 #define ATLAS_NULL_GIF ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.gif"
 
-#ifdef __cpp_conditional_explicit
+#ifdef ATLAS_CONDITIONAL_EXPLICIT_SUPPORTED
 	#define ATLAS_IMPLICIT explicit(false)
 	#define ATLAS_EXPLICIT explicit(true)
+#else 
+	#define ATLAS_IMPLICIT
+	#define ATLAS_EXPLICIT
 #endif
 //
 //#ifdef __cpp_variadic_templates
@@ -174,9 +190,9 @@ namespace Atlas {
 
 	using HighResolutionTimepoint = std::chrono::high_resolution_clock::time_point;
 
-	enum class EResultCode : uint32_t {
+	enum class EResultCode : int32_t {
 		Failed = -1,
-		Okay,
+		Okay = 0,
 		NotImplemented,
 		InvalidArgument,
 	};
@@ -198,7 +214,6 @@ namespace Atlas {
 			Class,
 			Enum,
 			Union
-			
 		};
 
 	private:
@@ -262,9 +277,8 @@ namespace Atlas {
 			setValidity(false);
 		}
 
-
 	public:
-		explicit Validatable(bool bIsValid) : mbIsValid(bIsValid) {}
+		ATLAS_EXPLICIT Validatable(bool bIsValid) : mbIsValid(bIsValid) {}
 
 		Validatable() = default;
 
@@ -273,23 +287,11 @@ namespace Atlas {
 		virtual bool isValid() const {
 			return mbIsValid;
 		}
+
+		ATLAS_IMPLICIT virtual operator bool() const {
+			return isValid();
+		}
 	};
-
-	//template<typename... T_PARAMS>
-	//class Initializable : public Validatable {
-	//private:
-	//	bool mbIsInitialized{ false };
-
-	//public:
-	//	void init(T_PARAMS&&... params) {
-	//		mbIsInitialized = true;
-	//		setValid();
-	//	}
-
-	//	bool isInitialized() const {
-	//		return mbIsInitialized;
-	//	}
-	//};
 
 	class Counter {
 	private:
@@ -299,7 +301,7 @@ namespace Atlas {
 	public:
 		Counter(int64_t count, int64_t max) : mCount(count), mMaxCount(max), mbIsCapped(max > 0) {}
 
-		explicit Counter(int64_t count) : Counter(count, -1) {}
+		ATLAS_EXPLICIT Counter(int64_t count) : Counter(count, -1) {}
 
 		Counter() = default;
 

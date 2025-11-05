@@ -85,6 +85,8 @@ namespace Atlas {
 		 * value or else this class will not work.
 		 * 
 		 * @since v0.0.1
+		 * 
+		 * TODO: Why is this a shared pointer?
 		 */
 		std::shared_ptr<SDL_Haptic> mSDLHapticPtr = nullptr;
 

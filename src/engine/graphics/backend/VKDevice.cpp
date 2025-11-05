@@ -724,19 +724,6 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 
 	InfoLog("Attempting to initialize Vulkan");
 
-	//if (sActiveInstanceTSSV != nullptr) {
-	//	ErrorLog("Vulkan has already been initialized");
-
-	//	return;
-	//}
-	//else {
-	//	//SetGlobalInstance(std::make_shared<VulkanRenderingBackend>(this));
-	//
-	//}
-
-	//std::scoped_lock lock(sActiveInstanceMutex);
-	//std::unique_lock lock(mStateMutex);
-
 	//// Just make sure everything is in order before Vulkan gets initialized
 	ATLAS_ASSERT(gameWindow != nullptr, "Window must be set up prior to Vulkan init");
 
@@ -852,7 +839,7 @@ void Atlas::VulkanRenderingBackend::initDefaultData()
 void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 {
 	// Vulkan 1.3 features
-//--------------------
+	//--------------------
 	constexpr bool cbEnableDynamicRendering = true;
 	constexpr bool cbEnableSynchronization2 = true;
 
@@ -889,6 +876,7 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 
 	// This static cast is required since the result of mPhysicalDevice.getName() is a std::string_view
 	const std::string cDeviceName = static_cast<std::string>(mPhysicalDevice.getName());
+
 	InfoLog("Selected GPU: " + cDeviceName);
 }
 

@@ -63,6 +63,10 @@
 	#define ATLAS_COMPILER_MINGW
 #endif
 
+#ifdef __cpp_conditional_explicit
+	#define ATLAS_CONDITIONAL_EXPLICIT_SUPPORTED
+#endif
+
 // ---------------------------------------------------------------
 // Renderer Macros
 // ---------------------------------------------------------------
@@ -100,6 +104,7 @@
 	*/
 	#define ATLAS_GENERATED_NULL_CHECK_RETURN(ptr) if(ptr == nullptr) { return nullptr; }
 #endif
+
 
 // ---------------------------------------------------------------
 // Macro definitions (reminders)

@@ -30,8 +30,7 @@ namespace Atlas {
 	 * 
 	 * @since v0.0.1
 	 */
-	enum class EDebugEventType : uint8_t {
-		Unknown = -1,
+	enum class EDebugEventType : int8_t {
 		Trace,
 		Info,
 		Warning,
@@ -40,7 +39,7 @@ namespace Atlas {
 
 	class DebugEvent {
 	private:
-		EDebugEventType mEventType = EDebugEventType::Unknown;
+		EDebugEventType mEventType = EDebugEventType::Trace;
 		std::string mEventMessageString = "";
 		HighResolutionTimepoint mEventTimePoint;
 		std::source_location mEventLocation;

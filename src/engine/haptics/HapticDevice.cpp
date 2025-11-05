@@ -112,6 +112,7 @@ void Atlas::HapticDevice::open()
 		//throw std::runtime_error("Max haptic devices reached.");
 	}
 	
+	
 	mSDLHapticPtr = std::shared_ptr<SDL_Haptic>(SDL_HapticOpen(getHapticDeviceID()));
 	
 	if (!SDL_HapticOpened(getHapticDeviceID())) {

@@ -35,6 +35,27 @@ Atlas::PhysicalDeviceProperties::PhysicalDeviceProperties(const VkPhysicalDevice
 {
 }
 
+bool Atlas::PhysicalDevice::init(VulkanInstanceWrapper& cVulkanInstanceRef)
+{
+	bool bSuccessfulInit = false;
+
+	vkb::PhysicalDeviceSelector selector = selectDevice(cVulkanInstanceRef);
+	setVkbHandle(selector.select().value());
+
+	setHandle(getVkbHandle().physical_device);
+	setDeviceName(getVkbHandle().name);
+
+	this->evaluateValidity();
+
+	populateDeviceProperties();
+
+	if (isValid()) {
+		bSuccessfulInit = true;
+	}
+
+	return bSuccessfulInit;
+}
+
 void Atlas::PhysicalDevice::populateDeviceProperties()
 {
 	VkPhysicalDevice vkHandle = getHandle();
@@ -45,9 +66,12 @@ void Atlas::PhysicalDevice::evaluateValidity()
 {
 	// Since the handle stored within this class is a copy of the handle stored in vkb::PhysicalDevice,
 	// we need to make sure that both handles are valid
-	if (!this->isValid()) {
+	if (IsInvalidVulkanHandle<VkPhysicalDevice>(this->getHandle())) {
 		
 		this->setInvalid();
+	}
+	else {
+		this->setValid();
 	}
 }
 
@@ -70,24 +94,9 @@ void Atlas::PhysicalDevice::setDeviceName(std::string_view deviceName) {
 Atlas::PhysicalDevice::PhysicalDevice(VulkanInstanceWrapper& cVulkanInstanceRef, PhysicalDeviceSelectionConstraints const& selectionConstraints)
 	: AVulkanCompositeHandleWrapper(), mSelectionConstraints(selectionConstraints)
 {
-	vkb::PhysicalDeviceSelector selector = selectDevice(cVulkanInstanceRef);
-	//mVkbDevice = selector.select().value();
-	setVkbHandle(selector.select().value());
+	const bool cbInitResult = init(cVulkanInstanceRef);
 
-	// by default, vulkan bootstrap will set the handle to VK_NULL_HANDLE on initialization. 
-	// If it is not set to VK_NULL_HANDLE, then the device is valid.
-	//if (IsInvalidVulkanHandle<VkPhysicalDevice>(mVkbDevice.physical_device)) {
-	//	setInvalid();
-	//	return;
-	//}
-
-	//mPhysicalDeviceHandle = mVkbDevice.physical_device;
-	setHandle(getVkbHandle().physical_device);
-	setDeviceName(getVkbHandle().name);
-	
-	this->evaluateValidity();
-
-	populateDeviceProperties();
+	ATLAS_ASSERT(cbInitResult, "Failed to initialize PhysicalDevice.");
 }
 
 //vkb::PhysicalDevice Atlas::PhysicalDevice::init(VulkanInstanceWrapper& cVulkanInstanceRef) {

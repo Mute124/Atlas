@@ -104,6 +104,8 @@ namespace Atlas {
 
 		friend class VulkanRenderingBackend;
 
+		bool init(VulkanInstanceWrapper& cVulkanInstanceRef);
+
 	protected:
 		void populateDeviceProperties();
 
