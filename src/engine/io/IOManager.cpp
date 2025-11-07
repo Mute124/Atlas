@@ -264,14 +264,21 @@ Atlas::FileHandle Atlas::FileManager::openFile(const std::filesystem::path & p) 
 	if (mCustomLoaders.contains(extension)) {
 		InfoLog(std::format("Using custom loader for the extension: {}", absolutePath.string()));
 
-
-
 		FileLoaderFunction loader = mCustomLoaders[extension];
 
 		if (loader) {
 
 
-			loader(p, fileDataSharedPtr, record);
+			bool result = loader(p, fileDataSharedPtr, record);
+
+			if (!fileDataSharedPtr) {
+				ErrorLog(std::format("Custom loader failed to load data into the passed FileDataSharedPtr: {}", absolutePath.string()));
+				return {};
+			}
+			else if (!result) {
+				ErrorLog(std::format("Custom loader failed to load data: {}", absolutePath.string()));
+				return {};
+			}
 
 			//if (!result) {
 			//	ErrorLog(std::format("Failed to open file: {}", absolutePath.string()));

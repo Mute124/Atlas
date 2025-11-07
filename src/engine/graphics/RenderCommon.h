@@ -180,6 +180,8 @@ namespace Atlas {
 
 		T_WRAPS getHandle() const { return mHandle; }
 
+		T_WRAPS* getHandlePtr() { return &mHandle; }
+
 		explicit(false) operator const T_WRAPS& () const {
 			return mHandle;
 		}

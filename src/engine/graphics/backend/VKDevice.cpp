@@ -332,8 +332,6 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 		vkDestroyPipeline(mDevice, sky.pipeline, nullptr);
 		vkDestroyPipeline(mDevice, gradient.pipeline, nullptr);
 	});
-
-	
 }
 
 void Atlas::VulkanRenderingBackend::initTrianglePipeline()
@@ -357,6 +355,7 @@ void Atlas::VulkanRenderingBackend::initTrianglePipeline()
 	//build the pipeline layout that controls the inputs/outputs of the shader
 	//we are not using descriptor sets or other systems yet, so no need to use anything other than empty default
 	VkPipelineLayoutCreateInfo pipeline_layout_info = CreatePipelineLayoutCreateInfo();
+	
 	vkCreatePipelineLayout(mDevice, &pipeline_layout_info, nullptr, &_trianglePipelineLayout);
 
 	PipelineBuilder pipelineBuilder;
@@ -1137,10 +1136,9 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	//begin a render pass  connected to our draw image
 	VkRenderingAttachmentInfo colorAttachment = CreateAttachmentInfo(mDrawImage.imageView, nullptr, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 
-
 	VkRenderingInfo renderInfo = CreateRenderingInfo(mDrawExtent, &colorAttachment, nullptr);
 	vkCmdBeginRendering(cmd, &renderInfo);
-
+	
 	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _trianglePipeline);
 
 	//set dynamic viewport and scissor
@@ -1465,3 +1463,94 @@ void Atlas::IMGUIRenderable::draw(VkCommandBuffer cmd)
 void Atlas::IMGUIRenderable::endDrawingStage(VkCommandBuffer cmd) {
 
 }
+
+Atlas::ShaderModule::ShaderModule(Device const& device, std::filesystem::path const& path, FileManager& ioManager, EShaderModuleType moduleType) : mDevice(device), mModuleType(moduleType) {
+	load(path, ioManager);
+}
+
+bool Atlas::ShaderModule::createShaderModule(Device const& device, VkShaderModuleCreateInfo* createInfo, VkShaderModule* module) {
+	ATLAS_ASSERT(createInfo != nullptr, "createInfo must not be nullptr!");
+	ATLAS_ASSERT(module != nullptr, "The VkShaderModule passed must not be nullptr!");
+
+	return vkCreateShaderModule(device, createInfo, nullptr, module) == VK_SUCCESS;
+}
+
+bool Atlas::ShaderModule::load(std::filesystem::path const& path, FileManager& ioManager) {
+	FileHandle handle = ioManager.openFile(path);
+
+	std::shared_ptr<FileData> fileData = handle.get();
+
+	// create a new shader module, using the buffer we loaded
+	VkShaderModuleCreateInfo createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+	createInfo.pNext = nullptr;
+
+	// codeSize has to be in bytes, so multply the ints in the buffer by size of
+	// int to know the real size of the buffer
+	createInfo.codeSize = fileData->size() * sizeof(uint32_t);
+
+	// Since SPIRV needs to be uint32_t, we need to convert the bytes to uint32_t
+	std::vector<uint32_t> code;
+
+	for (size_t i = 0; i < fileData->bytes.size(); i++) {
+		code.push_back(fileData->bytes[i].to<uint32_t>());
+	}
+
+	createInfo.pCode = code.data();
+
+	if (!createShaderModule(mDevice, &createInfo, &mShaderModule)) {
+		return false;
+	}
+
+	mbLoaded = true;
+
+	return true;
+}
+
+bool Atlas::ShaderModule::destroy() {
+	if (isLoaded()) {
+		vkDestroyShaderModule(mDevice, mShaderModule, nullptr);
+	}
+}
+
+bool Atlas::ShaderModule::isLoaded() const {
+	return mbLoaded;
+}
+
+VkShaderModule Atlas::ShaderModule::getShaderModule() const { 
+	return mShaderModule;
+}
+
+EShaderModuleType Atlas::ShaderModule::getShaderModuleType() const {
+	return mModuleType;
+}
+
+Atlas::ShaderModule::operator VkShaderModule() const { 
+	return mShaderModule;
+}
+
+void Atlas::PipelineLayout::createPipelineLayout(VkDevice device, LayoutCreateInfo const& layoutInfo) {
+	vkCreatePipelineLayout(device, &layoutInfo, nullptr, getHandlePtr());
+}
+
+Atlas::PipelineLayout::PipelineLayout(Device device, LayoutCreateInfo layoutInfo) {
+	createPipelineLayout(device, layoutInfo);
+}
+
+void Atlas::Pipeline::setBindPoint(EBindPoint newBindPoint) {
+	mBindPoint = newBindPoint;
+}
+
+Atlas::Pipeline::Pipeline(EBindPoint bindPoint, VkPipeline pipeline, PipelineLayout pipelineLayout) 
+	: mBindPoint(bindPoint), mPipeline(pipeline), mPipelineLayout(pipelineLayout) {
+}
+
+void Atlas::Pipeline::bind(CommandBuffer commandBuffer) {
+	vkCmdBindPipeline(commandBuffer, (VkPipelineBindPoint)mBindPoint, mPipeline);
+}
+
+Atlas::Pipeline::EBindPoint Atlas::Pipeline::getBindPoint() const noexcept
+{
+	return mBindPoint;
+}
+

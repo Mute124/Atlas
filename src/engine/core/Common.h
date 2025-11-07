@@ -340,6 +340,8 @@ namespace Atlas {
 		}
 	};
 
+
+
 	template<typename T_WRAPS>
 	class HandleWrapperBase : public InitializableAndValidatable {
 	private:

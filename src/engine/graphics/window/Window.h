@@ -108,9 +108,15 @@ namespace Atlas {
 		VkViewport mViewport;
 
 		VkCommandBuffer mCommandBuffer;
+	
 	public:
 
+		
+	};
 
+	class ViewportManager : public InitializableAndValidatable {
+	public:
+			
 	};
 
 	/**
