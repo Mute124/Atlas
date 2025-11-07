@@ -49,7 +49,7 @@ var class_atlas_1_1_vulkan_rendering_backend =
     [ "mCurrentBackgroundEffect", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a384c56d651027067901c0f1d6f56c708", null ],
     [ "mCurrentDrawData", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a5c82bf00fd01a105928974c58ff1c3a3", null ],
     [ "mCurrentFrameNumber", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a2b9b1daf0b431e15428f58dddc7cd44c", null ],
-    [ "mDevice", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#af7a9fd41d574f85cbd57d398f54b87d7", null ],
+    [ "mDevice", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a48a48e1787feed815ffdf4600f44eb9e", null ],
     [ "mDrawExtent", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a395ea37b53be726b019778bc9d6e5bf4", null ],
     [ "mDrawImage", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a8ab7484e1e0f0e2555390bb144e01cc5", null ],
     [ "mDrawImageDescriptorLayout", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#ae130334c4068759a70657c4f0a20e9a9", null ],
@@ -76,5 +76,6 @@ var class_atlas_1_1_vulkan_rendering_backend =
     [ "mVMAAllocator", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a497af73e5b7b7f547f093d6a97482c66", null ],
     [ "rectangle", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a72ba8bf06e2b6c2e3f648f6430e1b9ef", null ],
     [ "sInstance", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#aae69e169798cb010feb8c74ce343b1b2", null ],
-    [ "sInstanceMutex", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a57d56715d1b3411ae02bac0f24758fae", null ]
+    [ "sInstanceMutex", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#a57d56715d1b3411ae02bac0f24758fae", null ],
+    [ "testMeshes", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html#ae1be35d932f05c5035b9a6d0b3e8067b", null ]
 ];

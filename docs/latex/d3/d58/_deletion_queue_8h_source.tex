@@ -13,47 +13,50 @@
 \DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
 \DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00010}00010\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00011}00011\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00012}00012\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <deque>}}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <functional>}}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00015}00015\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00016}00016\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00017}\mbox{\hyperlink{class_atlas_1_1_deletion_queue}{00017}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_deletion_queue}{DeletionQueue}}}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00018}00018\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00019}00019\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00020}00020\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00021}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a91b93e81cffbe598ec92a23e59092fa4}{00021}}\ \ \ \ \ \ \ \ \ std::deque<std::function<\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()>>\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a91b93e81cffbe598ec92a23e59092fa4}{mDeletorsDeque}};}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00022}00022\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00023}00023\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00024}00024\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00025}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a16c38ac2f6acdb834eff2993e5b7a4d7}{00025}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a16c38ac2f6acdb834eff2993e5b7a4d7}{DeletionQueue}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00026}00026\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00027}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a3b231ccb956499f48c0d930dba9a2ff6}{00027}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a3b231ccb956499f48c0d930dba9a2ff6}{\string~DeletionQueue}}()\ \{\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_acab3370abe393e9144c27bb8dbbec391}{flush}}();}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00029}00029\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00030}00030\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00031}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_aa3dad7f2554884bff3f70ddf88a1343a}{00031}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_aa3dad7f2554884bff3f70ddf88a1343a}{push}}(std::function<\textcolor{keywordtype}{void}()>\&\&\ function)\ \{}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a91b93e81cffbe598ec92a23e59092fa4}{mDeletorsDeque}}.push\_back(function);}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00033}00033\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00034}00034\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00035}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_acab3370abe393e9144c27bb8dbbec391}{00035}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_acab3370abe393e9144c27bb8dbbec391}{flush}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ reverse\ iterate\ the\ deletion\ queue\ to\ execute\ all\ the\ functions}}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ it\ =\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a91b93e81cffbe598ec92a23e59092fa4}{mDeletorsDeque}}.rbegin();\ it\ !=\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a91b93e81cffbe598ec92a23e59092fa4}{mDeletorsDeque}}.rend();\ it++)\ \{}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (*it)();\ \textcolor{comment}{//call\ functors}}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a91b93e81cffbe598ec92a23e59092fa4}{mDeletorsDeque}}.clear();}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00042}00042\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00044}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a10950eb8c7c2cdb57e2a40e3bc318606}{00044}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a10950eb8c7c2cdb57e2a40e3bc318606}{size}}()\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a91b93e81cffbe598ec92a23e59092fa4}{mDeletorsDeque}}.size();}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <deque>}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00015}00015\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00016}\mbox{\hyperlink{namespace_atlas_a78fb7777b8b012d71cf1990ddd9027a2}{00016}}\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_atlas_a78fb7777b8b012d71cf1990ddd9027a2}{DeletionQueueDeletor}}\ =\ std::function<\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()>;}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00018}\mbox{\hyperlink{class_atlas_1_1_deletion_queue}{00018}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_deletion_queue}{DeletionQueue}}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00019}00019\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00020}00020\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00022}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a98cf0a671859d8e8b9fe887fe465ad22}{00022}}\ \ \ \ \ \ \ \ \ std::deque<DeletionQueueDeletor>\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a98cf0a671859d8e8b9fe887fe465ad22}{mDeletorsDeque}};}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00024}00024\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00026}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a16c38ac2f6acdb834eff2993e5b7a4d7}{00026}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a16c38ac2f6acdb834eff2993e5b7a4d7}{DeletionQueue}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00028}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a3b231ccb956499f48c0d930dba9a2ff6}{00028}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a3b231ccb956499f48c0d930dba9a2ff6}{\string~DeletionQueue}}()\ \{\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_acab3370abe393e9144c27bb8dbbec391}{flush}}();}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00030}00030\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00032}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a2ec3b6895d0fee0308282a0afd547643}{00032}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a2ec3b6895d0fee0308282a0afd547643}{push}}(\mbox{\hyperlink{namespace_atlas_a78fb7777b8b012d71cf1990ddd9027a2}{DeletionQueueDeletor}}\&\&\ function)\ \{}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a98cf0a671859d8e8b9fe887fe465ad22}{mDeletorsDeque}}.push\_back(function);}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00036}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_acab3370abe393e9144c27bb8dbbec391}{00036}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_acab3370abe393e9144c27bb8dbbec391}{flush}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a98cf0a671859d8e8b9fe887fe465ad22}{mDeletorsDeque}}.empty())\ \{}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ reverse\ iterate\ the\ deletion\ queue\ to\ execute\ all\ the\ functions}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ it\ =\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a98cf0a671859d8e8b9fe887fe465ad22}{mDeletorsDeque}}.rbegin();\ it\ !=\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a98cf0a671859d8e8b9fe887fe465ad22}{mDeletorsDeque}}.rend();\ it++)\ \{}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (*it)();\ \textcolor{comment}{//call\ functors}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a98cf0a671859d8e8b9fe887fe465ad22}{mDeletorsDeque}}.clear();}
 \DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00046}00046\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00047}00047\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00048}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_acf877e3fba6b89314b22faec9e243266}{00048}}\ \ \ \ \ \ \ \ \ std::deque<std::function<\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}}()>>\&\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_acf877e3fba6b89314b22faec9e243266}{getDeletorsDeque}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a91b93e81cffbe598ec92a23e59092fa4}{mDeletorsDeque}};}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00047}00047\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00048}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_ace6b41118d4a1a0a540c476334beb628}{00048}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_ace6b41118d4a1a0a540c476334beb628}{getSize}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a98cf0a671859d8e8b9fe887fe465ad22}{mDeletorsDeque}}.size();}
 \DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00051}00051\ }
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00052}00052\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00053}00053\ \}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00052}\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a9c5755be9c60af844f99062e1052b5de}{00052}}\ \ \ \ \ \ \ \ \ std::deque<DeletionQueueDeletor>\&\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a9c5755be9c60af844f99062e1052b5de}{getDeletorsDeque}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue_a98cf0a671859d8e8b9fe887fe465ad22}{mDeletorsDeque}};}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00054}00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00055}00055\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_deletion_queue_8h_source_l00056}00056\ \}}
 
 \end{DoxyCode}

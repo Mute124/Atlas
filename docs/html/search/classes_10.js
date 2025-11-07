@@ -20,5 +20,8 @@ var searchData=
   ['smetadatadecl_17',['SMetadataDecl',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html',1,'CScriptBuilder']]],
   ['spdloglogger_18',['SpdlogLogger',['../da/d62/class_atlas_1_1_spdlog_logger.html',1,'Atlas']]],
   ['state_19',['State',['../d6/d80/struct_atlas_1_1_rendering_backend_1_1_state.html',1,'Atlas::RenderingBackend']]],
-  ['stringifiedobject_20',['StringifiedObject',['../d2/d7b/class_atlas_1_1_stringified_object.html',1,'Atlas']]]
+  ['stringifiedobject_20',['StringifiedObject',['../d2/d7b/class_atlas_1_1_stringified_object.html',1,'Atlas']]],
+  ['surface_21',['Surface',['../d3/d45/class_atlas_1_1_surface.html',1,'Atlas']]],
+  ['surfacebase_22',['SurfaceBase',['../d5/d67/class_atlas_1_1_surface_base.html',1,'Atlas']]],
+  ['surfacebase_3c_20vksurfacekhr_20_3e_23',['SurfaceBase&lt; VkSurfaceKHR &gt;',['../d5/d67/class_atlas_1_1_surface_base.html',1,'Atlas']]]
 ];

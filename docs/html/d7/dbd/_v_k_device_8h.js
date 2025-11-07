@@ -2,16 +2,17 @@ var _v_k_device_8h =
 [
     [ "Atlas::ImmediateSubmitInfo", "db/df0/struct_atlas_1_1_immediate_submit_info.html", "db/df0/struct_atlas_1_1_immediate_submit_info" ],
     [ "Atlas::CurrentDrawData", "dd/d72/struct_atlas_1_1_current_draw_data.html", "dd/d72/struct_atlas_1_1_current_draw_data" ],
-    [ "Atlas::ComputePushConstants", "d2/d8d/struct_atlas_1_1_compute_push_constants.html", "d2/d8d/struct_atlas_1_1_compute_push_constants" ],
-    [ "Atlas::ComputeEffect", "d3/d00/struct_atlas_1_1_compute_effect.html", "d3/d00/struct_atlas_1_1_compute_effect" ],
     [ "Atlas::AllocatedBuffer", "dd/d5a/struct_atlas_1_1_allocated_buffer.html", "dd/d5a/struct_atlas_1_1_allocated_buffer" ],
     [ "Atlas::Vertex", "d1/d41/struct_atlas_1_1_vertex.html", "d1/d41/struct_atlas_1_1_vertex" ],
     [ "Atlas::GPUMeshBuffers", "d9/df8/struct_atlas_1_1_g_p_u_mesh_buffers.html", "d9/df8/struct_atlas_1_1_g_p_u_mesh_buffers" ],
     [ "Atlas::GPUDrawPushConstants", "d8/d87/struct_atlas_1_1_g_p_u_draw_push_constants.html", "d8/d87/struct_atlas_1_1_g_p_u_draw_push_constants" ],
+    [ "Atlas::GeoSurface", "d8/d85/struct_atlas_1_1_geo_surface.html", "d8/d85/struct_atlas_1_1_geo_surface" ],
+    [ "Atlas::MeshAsset", "de/dae/struct_atlas_1_1_mesh_asset.html", "de/dae/struct_atlas_1_1_mesh_asset" ],
     [ "Atlas::DescriptorAllocator", "d3/d61/class_atlas_1_1_descriptor_allocator.html", "d3/d61/class_atlas_1_1_descriptor_allocator" ],
     [ "Atlas::DescriptorAllocator::PoolSizeRatio", "d6/dec/struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio.html", "d6/dec/struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio" ],
     [ "Atlas::Shader", "da/db7/class_atlas_1_1_shader.html", "da/db7/class_atlas_1_1_shader" ],
     [ "Atlas::Pipeline", "d6/d84/class_atlas_1_1_pipeline.html", "d6/d84/class_atlas_1_1_pipeline" ],
+    [ "Atlas::RenderPass", "d7/d15/class_atlas_1_1_render_pass.html", "d7/d15/class_atlas_1_1_render_pass" ],
     [ "Atlas::Renderable", "d3/de8/class_atlas_1_1_renderable.html", "d3/de8/class_atlas_1_1_renderable" ],
     [ "Atlas::IMGUIRenderable", "d2/d10/class_atlas_1_1_i_m_g_u_i_renderable.html", "d2/d10/class_atlas_1_1_i_m_g_u_i_renderable" ],
     [ "Atlas::BackgroundColor", "df/dbd/class_atlas_1_1_background_color.html", null ],
@@ -19,6 +20,7 @@ var _v_k_device_8h =
     [ "Atlas::VulkanRenderingBackend", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html", "d8/d78/class_atlas_1_1_vulkan_rendering_backend" ],
     [ "ATLAS_1_SECOND_IN_NS", "d7/dbd/_v_k_device_8h.html#abca11d49e8a831d8d24a127bbae30963", null ],
     [ "ATLAS_VK_DEVICE_BITS", "d7/dbd/_v_k_device_8h.html#a998597b9163ba9082c4a4c40294d4c33", null ],
+    [ "GLM_ENABLE_EXPERIMENTAL", "d7/dbd/_v_k_device_8h.html#abd75661fe7969e19439052a5f69ba5d1", null ],
     [ "VK_CHECK", "d7/dbd/_v_k_device_8h.html#a3d55e176cc77828a9adaa05ac4413b99", null ],
     [ "EVulkanRenderingOption", "d7/dbd/_v_k_device_8h.html#a9a837411b4f29e15b56791c0ed166e2a", [
       [ "Version_Major", "d7/dbd/_v_k_device_8h.html#a9a837411b4f29e15b56791c0ed166e2aa6c67501995e6d5d3144128067f1f4282", null ],
@@ -40,6 +42,7 @@ var _v_k_device_8h =
       [ "Transfer", "d7/dbd/_v_k_device_8h.html#a01a5f888a8d45705c73fe3f2357d0cd1a6950810f0d2bba97a6f710c7b965b84e", null ]
     ] ],
     [ "getLoadedRenderingBacked", "d7/dbd/_v_k_device_8h.html#a041e9829fb1316716a724487d8d12b72", null ],
+    [ "loadGltfMeshes", "d7/dbd/_v_k_device_8h.html#a2a4162c4872433d6e3f62d0872c0abac", null ],
     [ "resetLoadedRenderingBackend", "d7/dbd/_v_k_device_8h.html#a99f635979073f78d17b53016253bd978", null ],
     [ "setLoadedRenderingBackend", "d7/dbd/_v_k_device_8h.html#acdcca076db7097e823f49edf61e82522", null ]
 ];

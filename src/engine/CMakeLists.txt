@@ -103,6 +103,12 @@
     "graphics/backend/VKDevice.h"
     "graphics/backend/VKDevice.cpp"
 
+    "graphics/drawing/Effect.h"
+	"graphics/drawing/Effect.cpp"
+
+    "graphics/drawing/EffectManager.h"
+	"graphics/drawing/EffectManager.cpp"
+
     "graphics/window/Window.h" 
     "graphics/window/Window.cpp" 
 
@@ -187,9 +193,10 @@ set(ATLAS_ENGINE_DEPENDENCIES
     vk-bootstrap::vk-bootstrap
     Vulkan::Vulkan
     vulkan-memory-allocator::vulkan-memory-allocator
+    
 
     SDL2::SDL2main
-
+    fastgltf::fastgltf
     #simdjson::simdjson
     #tinyxml2::tinyxml2
     boost::boost

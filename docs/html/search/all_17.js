@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['wait_0',['wait',['../d3/d83/class_atlas_1_1_async_timer.html#a8c75f27e3502225a060d867a741abef0',1,'Atlas::AsyncTimer::Wait()'],['../df/d28/class_atlas_1_1_fence.html#a1b59b0a7cfc6461410b52917850ddc1b',1,'Atlas::Fence::wait()']]],
+  ['wait_0',['wait',['../df/d28/class_atlas_1_1_fence.html#a1b59b0a7cfc6461410b52917850ddc1b',1,'Atlas::Fence::wait()'],['../d3/d83/class_atlas_1_1_async_timer.html#a8c75f27e3502225a060d867a741abef0',1,'Atlas::AsyncTimer::Wait()']]],
   ['wantupdategamepadslist_1',['wantupdategamepadslist',['../dc/de5/struct_im_gui___impl_s_d_l3___data.html#a45708c21d3f0b48340ddd894af611ade',1,'ImGui_ImplSDL3_Data::WantUpdateGamepadsList'],['../de/d4e/struct_im_gui___impl_s_d_l2___data.html#abf006800b9e524969fbb76417fd7c4eb',1,'ImGui_ImplSDL2_Data::WantUpdateGamepadsList']]],
   ['wantupdatehasgamepad_2',['WantUpdateHasGamepad',['../d5/d71/struct_im_gui___impl_win32___data.html#a8ef3569b604731a30016d042121f30e0',1,'ImGui_ImplWin32_Data']]],
   ['warn_3',['warn',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb',1,'Atlas::warn'],['../da/d62/class_atlas_1_1_spdlog_logger.html#a64670a9cd5e4162d13ff1210b7647d29',1,'Atlas::SpdlogLogger::warn()']]],
-  ['warning_4',['Warning',['../d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aaa0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'Atlas']]],
+  ['warning_4',['Warning',['../d7/d54/namespace_atlas.html#a11cc458913e864681ca35ecc69d956c6a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'Atlas']]],
   ['warnlog_5',['WarnLog',['../d7/d54/namespace_atlas.html#ac196b4691079d284d4c38234dfb90c58',1,'Atlas']]],
   ['weakdataptr_6',['weakDataPtr',['../d2/d46/struct_atlas_1_1_file_record.html#a2638ac2eb397e8e8473215c0c3fb5f91',1,'Atlas::FileRecord']]],
   ['weakref_2ecpp_7',['weakref.cpp',['../d9/d0c/weakref_8cpp.html',1,'']]],

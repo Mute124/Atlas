@@ -156,6 +156,12 @@ if(${ATLAS_USE_RAYLIB})
 endif()
 
 #CPMAddPackage(
+#    NAME fastgltf
+#	GIT_REPOSITORY https://github.com/spnda/fastgltf.git
+#    GIT_TAG v0.9.0
+#)
+
+#CPMAddPackage(
 #    NAME glfw
 #    GIT_REPOSITORY https://github.com/glfw/glfw.git
 #    GIT_TAG 3.4
@@ -173,6 +179,8 @@ CPMAddPackage(
     GIT_TAG v1.15.0
 )
 
+add_subdirectory("${PROJECT_SOURCE_DIR}/include/fastgltf")
+
 find_package(joltphysics REQUIRED)
 find_package(boost REQUIRED)
 find_package(libconfig REQUIRED)
@@ -186,6 +194,7 @@ if(${ATLAS_ENABLE_MODDING})
         find_package(sol2 REQUIRED)
     endif()
 endif()
+
 
 
 find_package(eventpp REQUIRED)

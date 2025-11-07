@@ -293,6 +293,143 @@ namespace Atlas {
 		}
 	};
 
+	class Initializable {
+	private:
+
+		bool mbIsInit{ false };
+
+	protected:
+		bool& getInternalInitValue() {
+			return mbIsInit;
+		}
+
+		virtual void setInitState(bool bNewInitState) {
+			mbIsInit = bNewInitState;
+		}
+
+		virtual void setInit() {
+			setInitState(true);
+		}
+
+		virtual void setNotInit() {
+			setInitState(false);
+		}
+
+	public:
+		ATLAS_EXPLICIT Initializable(bool bIsInit) : mbIsInit(bIsInit) {}
+
+		Initializable() = default;
+
+		virtual ~Initializable() = default;
+
+		virtual bool isInit() const {
+			return mbIsInit;
+		}
+
+	};
+
+	class InitializableAndValidatable : public Initializable, public Validatable {
+	public:
+		InitializableAndValidatable(bool bIsInit, bool bIsValid) 
+			: Initializable(bIsInit), Validatable(bIsValid) {}
+
+		InitializableAndValidatable() = default;
+
+		virtual bool isValid() const override {
+			return Validatable::isValid() && Initializable::isInit();
+		}
+	};
+
+	template<typename T_WRAPS>
+	class HandleWrapperBase : public InitializableAndValidatable {
+	private:
+
+
+		// TODO: find a way to set the default value to either nullptr or 0 depending on the type
+		T_WRAPS mHandle;
+		const T_WRAPS mInvalidHandle;
+	protected:
+		T_WRAPS& getInternalHandleValue() {
+			return mHandle;
+		}
+
+		void setHandle(T_WRAPS handle) {
+			if (handle != mInvalidHandle) {
+				setInit();
+				setValid();
+			}
+			else {
+				setNotInit();
+				setInvalid();
+			}
+
+			mHandle = handle;
+		}
+	
+	public:
+
+		//using InitializableAndValidatable::InitializableAndValidatable;
+
+		HandleWrapperBase(T_WRAPS handle, T_WRAPS invalidHandle) : InitializableAndValidatable(handle != invalidHandle), mHandle(handle), mInvalidHandle(invalidHandle) {}
+
+		explicit(false) HandleWrapperBase(T_WRAPS handle) : HandleWrapperBase(handle, nullptr) {}
+
+		HandleWrapperBase() = default;
+
+		virtual bool hasValidHandle() const {
+			return mHandle != mInvalidHandle;
+		}
+
+		virtual bool isValid() const override {
+			return InitializableAndValidatable::isValid() && hasValidHandle();
+		}
+
+		T_WRAPS getHandle() const {
+			return mHandle;
+		}
+
+		explicit(false) operator const T_WRAPS& () const {
+			return mHandle;
+		}
+
+		explicit(false) operator T_WRAPS& () {
+			return mHandle;
+		}
+
+		//HandleWrapperBase<T_WRAPS>& operator=(const HandleWrapperBase<T_WRAPS>&) = delete; // Delete the default assignment operator
+
+		//HandleWrapperBase<T_WRAPS>& operator=(const HandleWrapperBase<T_WRAPS>& other) noexcept { // Provide a custom move assignment operator
+		//	if (this != &other) {
+		//		mHandle = other.mHandle;
+		//		mInvalidHandle = other.mInvalidHandle;
+		//		// ...
+		//		// Perform any other necessary operations
+		//	}
+		//	return *this;
+		//}
+	};
+
+	class NamedObject {
+	private:
+		std::string mName{ "None" };
+
+	protected:
+		void setName(const std::string& name) {
+			mName = name;
+		}
+
+	public:
+		explicit NamedObject(const std::string& name) : mName(name) {}
+
+		NamedObject() = default;
+
+		std::string getName() const {
+			return mName;
+		}
+
+
+	};
+
 	class Counter {
 	private:
 		int64_t mCount = 0;

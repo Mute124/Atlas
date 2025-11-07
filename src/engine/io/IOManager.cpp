@@ -205,6 +205,8 @@ void Atlas::FileManager::registerFile(const std::filesystem::path& p) {
 	}
 }
 
+// Add ignore regex (pattern uses ECMAScript by default)
+
 void Atlas::FileManager::addIgnorePattern(const std::string& pattern) {
 	std::unique_lock lock(mIgnoreMutex);
 	mIgnorePatterns.emplace_back(pattern, std::regex::ECMAScript | std::regex::icase);
@@ -233,6 +235,7 @@ Atlas::FileHandle Atlas::FileManager::openFile(const std::filesystem::path & p) 
 			
 			if (it == mRecords.end())
 			{
+				ErrorLog(std::format("Failed to open file: {}", absolutePath.string()));
 				return {}; // failure
 			}
 		}
@@ -253,33 +256,68 @@ Atlas::FileHandle Atlas::FileManager::openFile(const std::filesystem::path & p) 
 		return FileHandle(loadedData, record);
 	}
 
-	// load from disk
-	std::vector<uint8_t> buf;
-	std::ifstream ifs(record->path, std::ios::binary | std::ios::ate);
-	
-	// Check for failure
-	if (!ifs) {
-		std::unique_lock mapLock(mMapMutex);
-		
-		mRecords.erase(absolutePath);
-		
-		// Return a failed handle
-		return {};
-	}
-	
-	// Load the file and read it
-	auto size = ifs.tellg();
-	ifs.seekg(0, std::ios::beg);
-	buf.resize(static_cast<size_t>(size)); // Make sure the buffer is big enough
-	ifs.read(reinterpret_cast<char*>(buf.data()), size);
+	std::shared_ptr<FileData> fileDataSharedPtr;
 
-	// load data from the disk into memory and store it in the weakDataPtr member of the record object.
-	auto fileDataSharedPtr = std::make_shared<FileData>(std::move(buf));
+	std::unique_lock customLoadersLock(mCustomLoadersMutex);
+	const std::string extension = absolutePath.extension().string();
+
+	if (mCustomLoaders.contains(extension)) {
+		InfoLog(std::format("Using custom loader for the extension: {}", absolutePath.string()));
+
+
+
+		FileLoaderFunction loader = mCustomLoaders[extension];
+
+		if (loader) {
+
+
+			loader(p, fileDataSharedPtr, record);
+
+			//if (!result) {
+			//	ErrorLog(std::format("Failed to open file: {}", absolutePath.string()));
+			//	return {};
+			//}
+		}
+
+	}
+	else {
+		// load from disk
+		std::vector<uint8_t> buf;
+		std::ifstream ifs(record->path, std::ios::binary | std::ios::ate);
+
+		// Check for failure
+		if (!ifs) {
+			std::unique_lock mapLock(mMapMutex);
+
+			mRecords.erase(absolutePath);
+
+			// Return a failed handle
+			return {};
+		}
+
+		// Load the file and read it
+		auto size = ifs.tellg();
+		ifs.seekg(0, std::ios::beg);
+		buf.resize(static_cast<size_t>(size)); // Make sure the buffer is big enough
+		ifs.read(reinterpret_cast<char*>(buf.data()), size);
+
+		// load data from the disk into memory and store it in the weakDataPtr member of the record object.
+		fileDataSharedPtr = std::make_shared<FileData>(std::move(buf));
+
+		ifs.close();
+	}
+
 	record->weakDataPtr = fileDataSharedPtr;
 	record->touch();
 
 	return FileHandle(fileDataSharedPtr, record);
 }
+
+//void Atlas::FileManager::recordFileData(std::shared_ptr<FileData> data, std::shared_ptr<FileRecord> record)
+//{
+//	record->weakDataPtr = data;
+//	record->touch();
+//}
 
 bool Atlas::FileManager::unloadFile(const std::filesystem::path& p) {
 	auto absolutePath = GetAbsolutePath(p);

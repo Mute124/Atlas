@@ -1,7 +1,7 @@
 var class_atlas_1_1_counter =
 [
     [ "Counter", "d8/db4/class_atlas_1_1_counter.html#a9387b94889c0ab6992508aa3bfb7c761", null ],
-    [ "Counter", "d8/db4/class_atlas_1_1_counter.html#afc084e52b935dd35ccbca549b2cd5eac", null ],
+    [ "Counter", "d8/db4/class_atlas_1_1_counter.html#a405bcda17156581649fb921d0b8efb20", null ],
     [ "Counter", "d8/db4/class_atlas_1_1_counter.html#a47428bee944afc840e723a9aba4289fe", null ],
     [ "decrement", "d8/db4/class_atlas_1_1_counter.html#a6be992a2d8c175cbf2bb185c747fae0e", null ],
     [ "decrement", "d8/db4/class_atlas_1_1_counter.html#a7e7e8fac5a76c3613de7a1394e5e651b", null ],

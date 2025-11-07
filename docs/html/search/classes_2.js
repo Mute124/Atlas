@@ -33,7 +33,9 @@ var searchData=
   ['cserializer_30',['CSerializer',['../d1/d54/class_c_serializer.html',1,'']]],
   ['cstdstringfactory_31',['CStdStringFactory',['../dd/d3f/class_c_std_string_factory.html',1,'']]],
   ['cstdstringfactorycleaner_32',['CStdStringFactoryCleaner',['../d2/ddb/class_c_std_string_factory_cleaner.html',1,'']]],
-  ['currentdrawdata_33',['CurrentDrawData',['../dd/d72/struct_atlas_1_1_current_draw_data.html',1,'Atlas']]],
-  ['cusertype_34',['CUserType',['../da/de0/struct_c_user_type.html',1,'']]],
-  ['customvertex_35',['CUSTOMVERTEX',['../d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html',1,'']]]
+  ['culler_33',['Culler',['../db/d6f/class_atlas_1_1_culler.html',1,'Atlas']]],
+  ['cullrange_34',['CullRange',['../d7/d2e/struct_atlas_1_1_cull_range.html',1,'Atlas']]],
+  ['currentdrawdata_35',['CurrentDrawData',['../dd/d72/struct_atlas_1_1_current_draw_data.html',1,'Atlas']]],
+  ['cusertype_36',['CUserType',['../da/de0/struct_c_user_type.html',1,'']]],
+  ['customvertex_37',['CUSTOMVERTEX',['../d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html',1,'']]]
 ];

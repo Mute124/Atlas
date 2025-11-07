@@ -114,7 +114,7 @@ namespace Atlas {
 		void setDeviceName(std::string_view deviceName);
 	public:
 
-		using AVulkanCompositeHandleWrapper<VkPhysicalDevice, vkb::PhysicalDevice, vkb::PhysicalDeviceSelector>::AVulkanCompositeHandleWrapper;
+		//using AVulkanCompositeHandleWrapper<VkPhysicalDevice, vkb::PhysicalDevice, vkb::PhysicalDeviceSelector>::AVulkanCompositeHandleWrapper;
 
 		explicit PhysicalDevice(VulkanInstanceWrapper& cVulkanInstanceRef, PhysicalDeviceSelectionConstraints const& selectionConstraints);
 
@@ -130,6 +130,8 @@ namespace Atlas {
 
 		// Returns a string_view so that the string cannot be modified
 		std::string_view getName() const;
+
+		// = operator
 
 	};
 

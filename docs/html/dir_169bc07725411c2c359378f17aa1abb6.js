@@ -1,6 +1,7 @@
 var dir_169bc07725411c2c359378f17aa1abb6 =
 [
     [ "backend", "dir_74086213829c642a6b3170e88ab34e32.html", "dir_74086213829c642a6b3170e88ab34e32" ],
+    [ "drawing", "dir_63ef8bec9ce4e2e42823676cac9b5985.html", "dir_63ef8bec9ce4e2e42823676cac9b5985" ],
     [ "gui", "dir_b0f255bf5f91dedcdbf444c308046fee.html", "dir_b0f255bf5f91dedcdbf444c308046fee" ],
     [ "window", "dir_c40489c32acb3e684e0f8953b69fc223.html", "dir_c40489c32acb3e684e0f8953b69fc223" ],
     [ "AllocatedImage.h", "d2/dbb/_allocated_image_8h.html", "d2/dbb/_allocated_image_8h" ],

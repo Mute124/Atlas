@@ -1,9 +1,13 @@
 var namespace_atlas =
 [
     [ "Application", "d8/d77/namespace_atlas_1_1_application.html", "d8/d77/namespace_atlas_1_1_application" ],
-    [ "Literals", "d7/dfc/namespace_atlas_1_1_literals.html", null ],
+    [ "Literals", "d7/dfc/namespace_atlas_1_1_literals.html", [
+      [ "DEFAULT_FAR_CULL_DISTANCE", "d7/dfc/namespace_atlas_1_1_literals.html#aa88b68a3d4cb4dbece3fd7155443eec6", null ],
+      [ "DEFAULT_NEAR_CULL_DISTANCE", "d7/dfc/namespace_atlas_1_1_literals.html#a9fd3299339b9092c98eab5f8ce197e5c", null ]
+    ] ],
     [ "Tests", "da/da0/namespace_atlas_1_1_tests.html", null ],
     [ "ADevice", "d2/d87/class_atlas_1_1_a_device.html", "d2/d87/class_atlas_1_1_a_device" ],
+    [ "ADrawingMode", "d9/dd3/class_atlas_1_1_a_drawing_mode.html", "d9/dd3/class_atlas_1_1_a_drawing_mode" ],
     [ "AGameWindow", "da/dde/class_atlas_1_1_a_game_window.html", "da/dde/class_atlas_1_1_a_game_window" ],
     [ "AGlobalRenderingBackend", "d1/db5/class_atlas_1_1_a_global_rendering_backend.html", "d1/db5/class_atlas_1_1_a_global_rendering_backend" ],
     [ "AllocatedBuffer", "dd/d5a/struct_atlas_1_1_allocated_buffer.html", "dd/d5a/struct_atlas_1_1_allocated_buffer" ],
@@ -16,12 +20,15 @@ var namespace_atlas =
     [ "AtlasEngine", "d3/d8d/class_atlas_1_1_atlas_engine.html", "d3/d8d/class_atlas_1_1_atlas_engine" ],
     [ "AtlasEngineInitializer", "d6/daa/class_atlas_1_1_atlas_engine_initializer.html", "d6/daa/class_atlas_1_1_atlas_engine_initializer" ],
     [ "AtlasSettings", "dd/df4/struct_atlas_1_1_atlas_settings.html", "dd/df4/struct_atlas_1_1_atlas_settings" ],
+    [ "AVulkanCompositeHandleWrapper", "db/d90/class_atlas_1_1_a_vulkan_composite_handle_wrapper.html", "db/d90/class_atlas_1_1_a_vulkan_composite_handle_wrapper" ],
     [ "AVulkanHandleWrapper", "d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper.html", "d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper" ],
     [ "BackgroundColor", "df/dbd/class_atlas_1_1_background_color.html", null ],
     [ "Color", "d0/d66/class_atlas_1_1_color.html", "d0/d66/class_atlas_1_1_color" ],
     [ "ComputeEffect", "d3/d00/struct_atlas_1_1_compute_effect.html", "d3/d00/struct_atlas_1_1_compute_effect" ],
     [ "ComputePushConstants", "d2/d8d/struct_atlas_1_1_compute_push_constants.html", "d2/d8d/struct_atlas_1_1_compute_push_constants" ],
     [ "Counter", "d8/db4/class_atlas_1_1_counter.html", "d8/db4/class_atlas_1_1_counter" ],
+    [ "Culler", "db/d6f/class_atlas_1_1_culler.html", "db/d6f/class_atlas_1_1_culler" ],
+    [ "CullRange", "d7/d2e/struct_atlas_1_1_cull_range.html", "d7/d2e/struct_atlas_1_1_cull_range" ],
     [ "CurrentDrawData", "dd/d72/struct_atlas_1_1_current_draw_data.html", "dd/d72/struct_atlas_1_1_current_draw_data" ],
     [ "DebugEvent", "d0/dfd/class_atlas_1_1_debug_event.html", "d0/dfd/class_atlas_1_1_debug_event" ],
     [ "DeletionQueue", "df/de4/class_atlas_1_1_deletion_queue.html", "df/de4/class_atlas_1_1_deletion_queue" ],
@@ -30,6 +37,7 @@ var namespace_atlas =
     [ "Device", "dc/d6f/class_atlas_1_1_device.html", "dc/d6f/class_atlas_1_1_device" ],
     [ "DeviceCapabilitiesInfo", "d0/d71/struct_atlas_1_1_device_capabilities_info.html", null ],
     [ "DiscordIntegrationService", "dd/d8a/class_atlas_1_1_discord_integration_service.html", null ],
+    [ "EffectManager", "d0/dbb/class_atlas_1_1_effect_manager.html", "d0/dbb/class_atlas_1_1_effect_manager" ],
     [ "EngineModule", "dc/dee/class_atlas_1_1_engine_module.html", "dc/dee/class_atlas_1_1_engine_module" ],
     [ "EngineModulesInfo", "d4/de2/struct_atlas_1_1_engine_modules_info.html", "d4/de2/struct_atlas_1_1_engine_modules_info" ],
     [ "EventPoller", "d7/dd9/class_atlas_1_1_event_poller.html", "d7/dd9/class_atlas_1_1_event_poller" ],
@@ -49,15 +57,18 @@ var namespace_atlas =
     [ "GameThreadScheduler", "d0/d9d/class_atlas_1_1_game_thread_scheduler.html", "d0/d9d/class_atlas_1_1_game_thread_scheduler" ],
     [ "GameTimeManager", "dd/df4/class_atlas_1_1_game_time_manager.html", "dd/df4/class_atlas_1_1_game_time_manager" ],
     [ "GameWindowSettings", "d1/d79/struct_atlas_1_1_game_window_settings.html", "d1/d79/struct_atlas_1_1_game_window_settings" ],
+    [ "GeoSurface", "d8/d85/struct_atlas_1_1_geo_surface.html", "d8/d85/struct_atlas_1_1_geo_surface" ],
     [ "GPUDrawPushConstants", "d8/d87/struct_atlas_1_1_g_p_u_draw_push_constants.html", "d8/d87/struct_atlas_1_1_g_p_u_draw_push_constants" ],
     [ "GPUMeshBuffers", "d9/df8/struct_atlas_1_1_g_p_u_mesh_buffers.html", "d9/df8/struct_atlas_1_1_g_p_u_mesh_buffers" ],
     [ "GraphicsQueue", "df/dea/class_atlas_1_1_graphics_queue.html", "df/dea/class_atlas_1_1_graphics_queue" ],
     [ "GUIDecorations", "d2/d8e/struct_atlas_1_1_g_u_i_decorations.html", null ],
+    [ "HandleWrapperBase", "d0/d45/class_atlas_1_1_handle_wrapper_base.html", "d0/d45/class_atlas_1_1_handle_wrapper_base" ],
     [ "HapticDevice", "de/d6d/class_atlas_1_1_haptic_device.html", "de/d6d/class_atlas_1_1_haptic_device" ],
     [ "HapticDeviceInitInfo", "df/dc5/struct_atlas_1_1_haptic_device_init_info.html", "df/dc5/struct_atlas_1_1_haptic_device_init_info" ],
     [ "HapticEffect", "d4/d97/class_atlas_1_1_haptic_effect.html", "d4/d97/class_atlas_1_1_haptic_effect" ],
     [ "HapticEffectUploadResult", "dd/d43/struct_atlas_1_1_haptic_effect_upload_result.html", "dd/d43/struct_atlas_1_1_haptic_effect_upload_result" ],
     [ "IAtlasEngine", "d8/d96/class_atlas_1_1_i_atlas_engine.html", "d8/d96/class_atlas_1_1_i_atlas_engine" ],
+    [ "ICamera", "d6/d75/class_atlas_1_1_i_camera.html", null ],
     [ "IFactory", "d6/d65/class_atlas_1_1_i_factory.html", "d6/d65/class_atlas_1_1_i_factory" ],
     [ "IGameThread", "dd/dca/class_atlas_1_1_i_game_thread.html", "dd/dca/class_atlas_1_1_i_game_thread" ],
     [ "IGameThreader", "da/d6f/class_atlas_1_1_i_game_threader.html", "da/d6f/class_atlas_1_1_i_game_threader" ],
@@ -65,6 +76,9 @@ var namespace_atlas =
     [ "IMemoryAllocator", "dd/d41/class_atlas_1_1_i_memory_allocator.html", "dd/d41/class_atlas_1_1_i_memory_allocator" ],
     [ "IMGUIRenderable", "d2/d10/class_atlas_1_1_i_m_g_u_i_renderable.html", "d2/d10/class_atlas_1_1_i_m_g_u_i_renderable" ],
     [ "ImmediateSubmitInfo", "db/df0/struct_atlas_1_1_immediate_submit_info.html", "db/df0/struct_atlas_1_1_immediate_submit_info" ],
+    [ "Initializable", "d5/d66/class_atlas_1_1_initializable.html", "d5/d66/class_atlas_1_1_initializable" ],
+    [ "InitializableAndValidatable", "df/d9f/class_atlas_1_1_initializable_and_validatable.html", "df/d9f/class_atlas_1_1_initializable_and_validatable" ],
+    [ "IRenderer", "d3/d02/class_atlas_1_1_i_renderer.html", "d3/d02/class_atlas_1_1_i_renderer" ],
     [ "IStringifiedObject", "de/dc7/class_atlas_1_1_i_stringified_object.html", "de/dc7/class_atlas_1_1_i_stringified_object" ],
     [ "ISymbol", "d2/dbe/class_atlas_1_1_i_symbol.html", null ],
     [ "LogMessage", "d8/d24/struct_atlas_1_1_log_message.html", "d8/d24/struct_atlas_1_1_log_message" ],
@@ -73,8 +87,10 @@ var namespace_atlas =
     [ "MemoryBlock", "d3/dbd/struct_atlas_1_1_memory_block.html", "d3/dbd/struct_atlas_1_1_memory_block" ],
     [ "MemoryCounter", "df/d51/class_atlas_1_1_memory_counter.html", "df/d51/class_atlas_1_1_memory_counter" ],
     [ "MemoryFunctionsAggregator", "de/ddc/struct_atlas_1_1_memory_functions_aggregator.html", "de/ddc/struct_atlas_1_1_memory_functions_aggregator" ],
+    [ "MeshAsset", "de/dae/struct_atlas_1_1_mesh_asset.html", "de/dae/struct_atlas_1_1_mesh_asset" ],
     [ "MonoRumbleHapticEffect", "dd/d2d/class_atlas_1_1_mono_rumble_haptic_effect.html", "dd/d2d/class_atlas_1_1_mono_rumble_haptic_effect" ],
     [ "MonoRumbleHapticEffectInfo", "d1/d4f/struct_atlas_1_1_mono_rumble_haptic_effect_info.html", "d1/d4f/struct_atlas_1_1_mono_rumble_haptic_effect_info" ],
+    [ "ObjectCullInfo", "d9/dc5/struct_atlas_1_1_object_cull_info.html", "d9/dc5/struct_atlas_1_1_object_cull_info" ],
     [ "ObjectOptions", "da/da1/class_atlas_1_1_object_options.html", "da/da1/class_atlas_1_1_object_options" ],
     [ "PacedThread", "d9/df2/class_atlas_1_1_paced_thread.html", "d9/df2/class_atlas_1_1_paced_thread" ],
     [ "Parser", "da/d43/class_atlas_1_1_parser.html", null ],
@@ -93,6 +109,7 @@ var namespace_atlas =
     [ "Renderable", "d3/de8/class_atlas_1_1_renderable.html", "d3/de8/class_atlas_1_1_renderable" ],
     [ "RendererSettings", "d4/dcc/struct_atlas_1_1_renderer_settings.html", "d4/dcc/struct_atlas_1_1_renderer_settings" ],
     [ "RenderingBackend", "db/d46/class_atlas_1_1_rendering_backend.html", "db/d46/class_atlas_1_1_rendering_backend" ],
+    [ "RenderPass", "d7/d15/class_atlas_1_1_render_pass.html", "d7/d15/class_atlas_1_1_render_pass" ],
     [ "ScriptedObject", "d6/d16/class_atlas_1_1_scripted_object.html", "d6/d16/class_atlas_1_1_scripted_object" ],
     [ "ScriptingSymbolExposer", "d3/d2e/class_atlas_1_1_scripting_symbol_exposer.html", "d3/d2e/class_atlas_1_1_scripting_symbol_exposer" ],
     [ "SDLGameWindow", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html", "d7/d0a/class_atlas_1_1_s_d_l_game_window" ],
@@ -101,6 +118,8 @@ var namespace_atlas =
     [ "Singleton", "d6/dd4/class_atlas_1_1_singleton.html", "d6/dd4/class_atlas_1_1_singleton" ],
     [ "SpdlogLogger", "da/d62/class_atlas_1_1_spdlog_logger.html", "da/d62/class_atlas_1_1_spdlog_logger" ],
     [ "StringifiedObject", "d2/d7b/class_atlas_1_1_stringified_object.html", "d2/d7b/class_atlas_1_1_stringified_object" ],
+    [ "Surface", "d3/d45/class_atlas_1_1_surface.html", null ],
+    [ "SurfaceBase", "d5/d67/class_atlas_1_1_surface_base.html", "d5/d67/class_atlas_1_1_surface_base" ],
     [ "TaskHandle", "dd/d91/class_atlas_1_1_task_handle.html", "dd/d91/class_atlas_1_1_task_handle" ],
     [ "Temporary", "d4/de0/class_atlas_1_1_temporary.html", "d4/de0/class_atlas_1_1_temporary" ],
     [ "ThreadLaunchInfo", "d0/d54/struct_atlas_1_1_thread_launch_info.html", "d0/d54/struct_atlas_1_1_thread_launch_info" ],
@@ -109,6 +128,7 @@ var namespace_atlas =
     [ "Validatable", "d2/d5f/class_atlas_1_1_validatable.html", "d2/d5f/class_atlas_1_1_validatable" ],
     [ "Version", "de/dd8/struct_atlas_1_1_version.html", "de/dd8/struct_atlas_1_1_version" ],
     [ "Vertex", "d1/d41/struct_atlas_1_1_vertex.html", "d1/d41/struct_atlas_1_1_vertex" ],
+    [ "Viewport", "d3/d50/class_atlas_1_1_viewport.html", "d3/d50/class_atlas_1_1_viewport" ],
     [ "VulkanInstanceWrapper", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper" ],
     [ "VulkanRenderer", "d4/d2a/class_atlas_1_1_vulkan_renderer.html", "d4/d2a/class_atlas_1_1_vulkan_renderer" ],
     [ "VulkanRenderingBackend", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html", "d8/d78/class_atlas_1_1_vulkan_rendering_backend" ],
@@ -124,6 +144,7 @@ var namespace_atlas =
     [ "AlignedFreeFunc", "d7/d54/namespace_atlas.html#af456e30e8e0a59c371cf0cfa82aab9e7", null ],
     [ "AllocFunc", "d7/d54/namespace_atlas.html#ac98e9185bf8a8392b28e443b6ee1a278", null ],
     [ "ColorBit", "d7/d54/namespace_atlas.html#afc221e3097be74d639bed4cca1dafd21", null ],
+    [ "DeletionQueueDeletor", "d7/d54/namespace_atlas.html#a78fb7777b8b012d71cf1990ddd9027a2", null ],
     [ "FileStream", "d7/d54/namespace_atlas.html#a33c36cc6d06931324201eab6aae964a0", null ],
     [ "FreeFunc", "d7/d54/namespace_atlas.html#a72cf222afb41a2a8d147b6360ec0cc8b", null ],
     [ "GPUExtension", "d7/d54/namespace_atlas.html#af64692b549ed96f9d5da3c84174cfbbc", null ],
@@ -140,15 +161,31 @@ var namespace_atlas =
     [ "VulkanDebugCallback", "d7/d54/namespace_atlas.html#a70c92d51cf7a5ffa6b87ef2d2db9506d", null ],
     [ "WindowRectangle", "d7/d54/namespace_atlas.html#add46beb7fbf5f73401bc4664f52a3055", null ],
     [ "WindowSize", "d7/d54/namespace_atlas.html#a52e4cef3841c9e6e2f496d9bcc376d92", null ],
-    [ "EDebugEventType", "d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aa", [
-      [ "Unknown", "d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aaa88183b946cc5f0e8c96b2e66e1c74a7e", null ],
-      [ "Trace", "d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aaadd4ec0ac4e58f7c32a01244ae91150b1", null ],
-      [ "Info", "d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aaa4059b0251f66a18cb56f544728796875", null ],
-      [ "Warning", "d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aaa0eaadb4fcb48a0a0ed7bc9868be9fbaa", null ],
-      [ "Error", "d7/d54/namespace_atlas.html#a2a1fc9c63985c88421113e17231695aaa902b0d55fddef6f8d651fe1035b7d4bd", null ]
+    [ "ECameraPerspectiveMode", "d7/d54/namespace_atlas.html#a2013327a2ebc8b33c7138acfa42beaff", [
+      [ "FirstPerson", "d7/d54/namespace_atlas.html#a2013327a2ebc8b33c7138acfa42beaffa69e42bfc96b519dfef9e38ad76fc7429", null ],
+      [ "ThirdPerson", "d7/d54/namespace_atlas.html#a2013327a2ebc8b33c7138acfa42beaffacfc2bf618c3d2a4227cda65ef4e14990", null ]
+    ] ],
+    [ "ECameraProjection", "d7/d54/namespace_atlas.html#aa4751c4d8943a57c0d9b22beca97eb8c", [
+      [ "Orthographic", "d7/d54/namespace_atlas.html#aa4751c4d8943a57c0d9b22beca97eb8ca03424250432f2aa71de95579d2c0eaeb", null ],
+      [ "Perspective", "d7/d54/namespace_atlas.html#aa4751c4d8943a57c0d9b22beca97eb8caa80420eef88d11f77532f1b9cb467fa3", null ]
+    ] ],
+    [ "EDebugEventType", "d7/d54/namespace_atlas.html#a11cc458913e864681ca35ecc69d956c6", [
+      [ "Trace", "d7/d54/namespace_atlas.html#a11cc458913e864681ca35ecc69d956c6add4ec0ac4e58f7c32a01244ae91150b1", null ],
+      [ "Info", "d7/d54/namespace_atlas.html#a11cc458913e864681ca35ecc69d956c6a4059b0251f66a18cb56f544728796875", null ],
+      [ "Warning", "d7/d54/namespace_atlas.html#a11cc458913e864681ca35ecc69d956c6a0eaadb4fcb48a0a0ed7bc9868be9fbaa", null ],
+      [ "Error", "d7/d54/namespace_atlas.html#a11cc458913e864681ca35ecc69d956c6a902b0d55fddef6f8d651fe1035b7d4bd", null ]
     ] ],
     [ "EDeviceType", "d7/d54/namespace_atlas.html#aad710892a54a8384282094ed6fb9afc4", [
       [ "Unknown", "d7/d54/namespace_atlas.html#aad710892a54a8384282094ed6fb9afc4a88183b946cc5f0e8c96b2e66e1c74a7e", null ]
+    ] ],
+    [ "EDrawingMode", "d7/d54/namespace_atlas.html#ae1823beb1540f2ad5bc7cd91b53e1c8e", [
+      [ "Deferred", "d7/d54/namespace_atlas.html#ae1823beb1540f2ad5bc7cd91b53e1c8ea4ed71db54748b36eeb398876b0c747ac", null ],
+      [ "Forward", "d7/d54/namespace_atlas.html#ae1823beb1540f2ad5bc7cd91b53e1c8ea67d2f6740a8eaebf4d5c6f79be8da481", null ]
+    ] ],
+    [ "EDrawStage", "d7/d54/namespace_atlas.html#abe3626a6f03f618e342f4c3d1e6b27fb", [
+      [ "PreDraw", "d7/d54/namespace_atlas.html#abe3626a6f03f618e342f4c3d1e6b27fba0182552d5e4261f81f5da8211bdc4fd5", null ],
+      [ "Draw", "d7/d54/namespace_atlas.html#abe3626a6f03f618e342f4c3d1e6b27fba2d03c2d5a7ec65ef4619e0582c272ec2", null ],
+      [ "PostDraw", "d7/d54/namespace_atlas.html#abe3626a6f03f618e342f4c3d1e6b27fba6cc86790e3e99e2f8fdd8722c99151c6", null ]
     ] ],
     [ "EGameThreadSchedulerStatus", "d7/d54/namespace_atlas.html#a6588f04f9df5f98750a8239e6f0c516d", [
       [ "Unknown", "d7/d54/namespace_atlas.html#a6588f04f9df5f98750a8239e6f0c516da88183b946cc5f0e8c96b2e66e1c74a7e", null ],
@@ -156,6 +193,10 @@ var namespace_atlas =
       [ "Running", "d7/d54/namespace_atlas.html#a6588f04f9df5f98750a8239e6f0c516da5bda814c4aedb126839228f1a3d92f09", null ],
       [ "Stopped", "d7/d54/namespace_atlas.html#a6588f04f9df5f98750a8239e6f0c516dac23e2b09ebe6bf4cb5e2a9abe85c0be2", null ],
       [ "ShuttingDown", "d7/d54/namespace_atlas.html#a6588f04f9df5f98750a8239e6f0c516da075d9c9ae8c8f1c79c1a1965cd8c5a42", null ]
+    ] ],
+    [ "EGeometryProjection", "d7/d54/namespace_atlas.html#aa18cb9cce0084f85397b771143676736", [
+      [ "Third_Dimension", "d7/d54/namespace_atlas.html#aa18cb9cce0084f85397b771143676736a4c4b470d418c0718f585b0c82ecc8c53", null ],
+      [ "Second_Dimension", "d7/d54/namespace_atlas.html#aa18cb9cce0084f85397b771143676736ae4741ffccfe0e6b2093b72a63276141d", null ]
     ] ],
     [ "EHapticDeviceInitMethod", "d7/d54/namespace_atlas.html#a53d8b8fa45b89eb98b344707348a7611", [
       [ "Id", "d7/d54/namespace_atlas.html#a53d8b8fa45b89eb98b344707348a7611a490aa6e856ccf208a054389e47ce0d06", null ],
@@ -189,11 +230,11 @@ var namespace_atlas =
       [ "Virtual_GPU", "d7/d54/namespace_atlas.html#aa4266c217e6401064d2fcc9571be5bb4ae29e79e9f1762f6d55e5bfa01123c95d", null ],
       [ "CPU", "d7/d54/namespace_atlas.html#aa4266c217e6401064d2fcc9571be5bb4a2b55387dd066c5bac646ac61543d152d", null ]
     ] ],
-    [ "EResultCode", "d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8", [
-      [ "Failed", "d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8ad7c8c85bf79bbe1b7188497c32c3b0ca", null ],
-      [ "Okay", "d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8a26b63f278101527e06a5547719568bb5", null ],
-      [ "NotImplemented", "d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8a997ca4ce119685f40f03a9a8a6c5346e", null ],
-      [ "InvalidArgument", "d7/d54/namespace_atlas.html#a81cbb470bb667d0621e0e6572698f6a8a253ca7dd096ee0956cccee4d376cab8b", null ]
+    [ "EResultCode", "d7/d54/namespace_atlas.html#a36d18fa5ac5efd38562c69609092783f", [
+      [ "Failed", "d7/d54/namespace_atlas.html#a36d18fa5ac5efd38562c69609092783fad7c8c85bf79bbe1b7188497c32c3b0ca", null ],
+      [ "Okay", "d7/d54/namespace_atlas.html#a36d18fa5ac5efd38562c69609092783fa26b63f278101527e06a5547719568bb5", null ],
+      [ "NotImplemented", "d7/d54/namespace_atlas.html#a36d18fa5ac5efd38562c69609092783fa997ca4ce119685f40f03a9a8a6c5346e", null ],
+      [ "InvalidArgument", "d7/d54/namespace_atlas.html#a36d18fa5ac5efd38562c69609092783fa253ca7dd096ee0956cccee4d376cab8b", null ]
     ] ],
     [ "ESpdlogInitListIndex", "d7/d54/namespace_atlas.html#a3fa0af6547e790f8c50f6f39e7d6d1aa", [
       [ "ConsoleLogger", "d7/d54/namespace_atlas.html#a3fa0af6547e790f8c50f6f39e7d6d1aaa22afff4b285ae7742bc240696673108c", null ],
@@ -249,6 +290,7 @@ var namespace_atlas =
     [ "InfoLog", "d7/d54/namespace_atlas.html#aa0d776b0f6a6d55f1c791ec6d7f27b9f", null ],
     [ "IsInvalidVulkanHandle", "d7/d54/namespace_atlas.html#a3e908f0d107ed20c86a0197e7b93315b", null ],
     [ "IsValidVulkanHandle", "d7/d54/namespace_atlas.html#a8d77151c1065c4d0fc2900351c5041e0", null ],
+    [ "loadGltfMeshes", "d7/d54/namespace_atlas.html#a2a4162c4872433d6e3f62d0872c0abac", null ],
     [ "LoadShaderModule", "d7/d54/namespace_atlas.html#ad7b40e312c98cafbda4cc01108f5b17f", null ],
     [ "LogMessage", "d7/d54/namespace_atlas.html#a9b3ddfc25a11b7b9d5f81704083a36cc", null ],
     [ "Normalize", "d7/d54/namespace_atlas.html#a6f12a004dc20a0bd231f74ac3eb803a8", null ],

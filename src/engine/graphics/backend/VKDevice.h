@@ -9,6 +9,8 @@
  ***************************************************************************************************/
 #pragma once
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 // This avoids the transitive include of string_view on MSVC compilers
 #ifdef ATLAS_COMPILER_MSVC
 	#include <__msvc_string_view.hpp>
@@ -33,6 +35,21 @@
 	#include <vulkan/vulkan_core.h>
 	#include <vk_mem_alloc.h>
 #endif
+	
+#include <glm/gtx/quaternion.hpp>
+#include <VkBootstrap.h>
+#include <functional>
+#include <mutex>
+#include <glm/fwd.hpp>
+#include <vulkan/vulkan_core.h>
+#include <unordered_map>
+#include <filesystem>
+
+#include <fastgltf/glm_element_traits.hpp>
+#include <fastgltf/parser.hpp>
+#include <fastgltf/tools.hpp>
+
+#include "stb_image.h"
 
 #include "RenderingBackend.h"
 
@@ -44,6 +61,9 @@
 #include "../../core/Core.h"
 #include "../../core/Common.h"
 #include "../../core/Device.h"
+
+#include "../drawing/EffectManager.h"
+
 #include "../window/Window.h"
 #include "../DeletionQueue.h"
 #include "../DescriptorLayoutBuilder.h"
@@ -51,11 +71,7 @@
 #include "../GraphicsUtils.h"
 #include "../PipelineBuilder.h"
 
-#include <VkBootstrap.h>
-#include <functional>
-#include <mutex>
-#include <glm/fwd.hpp>
-#include <vulkan/vulkan_core.h>
+#include "../../io/IOManager.h"
 
 #define ATLAS_1_SECOND_IN_NS 1000000000
 
@@ -75,8 +91,6 @@
 #ifdef ATLAS_USE_VULKAN
 
 namespace Atlas {
-
-
 	//struct DescriptorLayoutBuilder {
 
 	//	std::vector<VkDescriptorSetLayoutBinding> bindings;
@@ -116,11 +130,20 @@ namespace Atlas {
 	//	}
 	//};
 
+	//using ShaderModule = VkShaderModule;
+
 	enum class QueueType {
 		Present = 0,
 		Graphics = 1,
 		Compute = 2,
 		Transfer = 3
+	};
+
+	enum class EShaderModuleType {
+		Vertex = 0,
+		Fragment = 1,
+		Compute = 2,
+		Geometry = 3
 	};
 
 	struct ImmediateSubmitInfo {
@@ -137,21 +160,21 @@ namespace Atlas {
 		VkCommandBufferBeginInfo cmdBeginInfo = {};
 	};
 
-	struct ComputePushConstants {
-		glm::vec4 data1;
-		glm::vec4 data2;
-		glm::vec4 data3;
-		glm::vec4 data4;
-	};
+	//struct ComputePushConstants {
+	//	glm::vec4 data1;
+	//	glm::vec4 data2;
+	//	glm::vec4 data3;
+	//	glm::vec4 data4;
+	//};
 
-	struct ComputeEffect {
-		const char* name;
+	//struct ComputeEffect {
+	//	const char* name;
 
-		VkPipeline pipeline;
-		VkPipelineLayout layout;
+	//	VkPipeline pipeline;
+	//	VkPipelineLayout layout;
 
-		ComputePushConstants data;
-	};
+	//	ComputePushConstants data;
+	//};
 
 	struct AllocatedBuffer {
 		VkBuffer buffer;
@@ -182,6 +205,18 @@ namespace Atlas {
 		VkDeviceAddress vertexBuffer;
 	};
 
+	struct GeoSurface {
+		uint32_t startIndex;
+		uint32_t count;
+	};
+
+	struct MeshAsset {
+		std::string name;
+
+		std::vector<GeoSurface> surfaces;
+		GPUMeshBuffers meshBuffers;
+	};
+
 	class DescriptorAllocator {
 	public:
 		struct PoolSizeRatio {
@@ -198,58 +233,190 @@ namespace Atlas {
 		VkDescriptorSet allocate(VkDevice device, VkDescriptorSetLayout layout);
 	};
 
+	class ShaderModule {
+	private:
+		friend class ShaderBase;
+		
+		VkShaderModule mShaderModule = VK_NULL_HANDLE;
+
+	public:
+
+		bool load(Device device, std::filesystem::path const& path, FileManager& ioManager) {
+			FileHandle handle = ioManager.openFile(path);
+
+			std::shared_ptr<FileData> fileData = handle.get();
+
+			// create a new shader module, using the buffer we loaded
+			VkShaderModuleCreateInfo createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+			createInfo.pNext = nullptr;
+
+			// codeSize has to be in bytes, so multply the ints in the buffer by size of
+			// int to know the real size of the buffer
+			createInfo.codeSize = fileData->size() * sizeof(uint32_t);
+
+			std::vector<uint32_t> code;
+			//std::vector<T_BYTE_CAST_TO> out(bytes.size());
+
+			for (size_t i = 0; i < fileData->bytes.size(); i++) {
+				code.push_back(fileData->bytes[i].to<uint32_t>());
+			}
+
+
+			createInfo.pCode = code.data();
+			
+			if (vkCreateShaderModule(device, &createInfo, nullptr, &mShaderModule) != VK_SUCCESS) {
+				return false;
+			}
+
+			return true;
+		}
+
+		VkShaderModule getShaderModule() const { return mShaderModule; }
+
+		explicit(false) operator VkShaderModule() const { return mShaderModule; }
+	};
+
+	class ShaderBase : public NamedObject {
+	private:
+		std::vector<ShaderModule> mShaderModules;
+		
+	protected:
+
+	public:
+
+		void pushShaderModule(ShaderModule shaderModule) { 
+			mShaderModules.push_back(shaderModule);
+		}
+
+	};
+
 	class Shader {
 	private:
 		std::filesystem::path mCompiledShaderPath;
 		std::string mName;
 
 		VkShaderModule mShaderModule = VK_NULL_HANDLE;
+		std::vector<VkShaderModule> mShaderModules;
+	
 	public:
 
 		Shader() = default;
 
-		explicit Shader(std::filesystem::path compiledShaderPath, std::string name);
+		explicit Shader(std::filesystem::path compiledShaderPath, std::string name) : mCompiledShaderPath(compiledShaderPath), mName(name) {}
 
-		void destroyModule(VkDevice* device);
+		void destroyModule(VkDevice device) {
+			vkDestroyShaderModule(device, mShaderModule, nullptr);
+		}
 
-		bool load(VkDevice* device);
+		bool load(VkDevice device) {
+			return LoadShaderModule(mCompiledShaderPath.string().c_str(), device, &mShaderModule);
+		}
 
 		VkShaderModule getModule() const;
 
 	};
 
+	class PipelineLayout {
+	public:
+		using LayoutCreateInfo = VkPipelineLayoutCreateInfo;
+	
+		//struct LayoutCreateInfo final : VkPipelineLayoutCreateInfo {
+		//	using VkPipelineLayoutCreateInfo::VkPipelineLayoutCreateInfo;
+
+		//	LayoutCreateInfo() : VkPipelineLayoutCreateInfo{ VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO, nullptr, } {}
+		//};
+	private:
+
+		VkPipelineLayout mLayout = VK_NULL_HANDLE;
+		//LayoutCreateInfo mLayoutInfo{};
+
+	protected:
+		
+		void createPipelineLayout(VkDevice device, LayoutCreateInfo const& layoutInfo) {
+			vkCreatePipelineLayout(device, &layoutInfo, nullptr, &mLayout);
+		}
+
+	public:
+		PipelineLayout(Device device, LayoutCreateInfo layoutInfo) {
+			createPipelineLayout(device, layoutInfo);
+		}
+
+		PipelineLayout() = default;
+	};
+
 	class Pipeline {
 	protected:
-		VkPipelineLayoutCreateInfo mComputeLayoutInfo;
-		VkPushConstantRange mPushConstantRange;
+		//VkPipelineLayoutCreateInfo mComputeLayoutInfo;
+		//VkPushConstantRange mPushConstantRange;
 
-		VkPipeline mPipeline = VK_NULL_HANDLE;
-		VkPipelineLayout mPipelineLayout = VK_NULL_HANDLE;
+		VkPipeline mPipeline{ VK_NULL_HANDLE };
+		PipelineLayout mPipelineLayout;
+		
+		//VkPipelineLayout mPipelineLayout = VK_NULL_HANDLE;
 
 		Shader mShader;
 	public:
 		Pipeline() = default;
 
 
-		void createLayout(VkPipelineLayoutCreateInfo layoutInfo, VkDevice* device);
+		//void createLayout(VkPipelineLayoutCreateInfo layoutInfo, VkDevice* device)
+		//{
+		//	vkCreatePipelineLayout(*device, &layoutInfo, nullptr, &mPipelineLayout);
+		//}
 
-		void createLayout(VkDevice* device, VkDescriptorSetLayout* descriptorSetLayout);
+		//void createLayout(VkDevice* device, VkDescriptorSetLayout* descriptorSetLayout) {
+		//	VkPipelineLayoutCreateInfo layoutInfo{};
+		//	layoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+		//	layoutInfo.pNext = nullptr;
+		//	layoutInfo.pSetLayouts = descriptorSetLayout;
+		//	layoutInfo.setLayoutCount = 1;
 
-		void init(VkDevice* device, DeletionQueue* deletionQueue, VkPipelineShaderStageCreateInfo stageInfo, VkComputePipelineCreateInfo pipelineInfo) {
-			vkCreateComputePipelines(*device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mPipeline);
+		//	createLayout(layoutInfo, device);
+		//}
 
-			vkDestroyShaderModule(*device, mShader.getModule(), nullptr);
+		//void init(VkDevice* device, DeletionQueue* deletionQueue, VkPipelineShaderStageCreateInfo stageInfo, VkComputePipelineCreateInfo pipelineInfo) {
+		//	vkCreateComputePipelines(*device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mPipeline);
 
-			deletionQueue->push([&]() {
-				destroyPipeline(device);
-			});
-		}
+		//	vkDestroyShaderModule(*device, mShader.getModule(), nullptr);
 
-		void destroyPipeline(VkDevice* device) {
-			vkDestroyPipelineLayout(*device, mPipelineLayout, nullptr);
-			vkDestroyPipeline(*device, mPipeline, nullptr);
-		}
+		//	deletionQueue->push([&]() {
+		//		destroyPipeline(device);
+		//	});
+		//}
+
+		//void destroyPipeline(VkDevice* device) {
+		//	vkDestroyPipelineLayout(*device, mPipelineLayout, nullptr);
+		//	vkDestroyPipeline(*device, mPipeline, nullptr);
+		//}
 	};
+
+	class RenderPass {
+	private:
+		VkCommandBuffer mCommandBuffer{ VK_NULL_HANDLE };
+
+		//VkFramebuffer mFramebuffer{ VK_NULL_HANDLE };
+
+		std::shared_ptr<Pipeline> mPipeline;
+
+		std::string mName;
+
+	protected:
+		void setCommandBuffer(VkCommandBuffer commandBuffer) { mCommandBuffer = commandBuffer; }
+
+		void setName(std::string name) { mName = name; }
+
+	public:
+		RenderPass(VkCommandBuffer commandBuffer) : mCommandBuffer(commandBuffer) {}
+
+		RenderPass() = default;
+		
+		virtual void beginRenderPass(VkCommandBuffer cmd) {}
+
+		virtual void endRenderPass(VkCommandBuffer cmd) {}
+	};
+
+
 
 	class Renderable {
 	protected:
@@ -262,18 +429,32 @@ namespace Atlas {
 			//std::scoped_lock lock(sCurrentDrawDataMutex);
 			//sCurrentDrawData = currentFrame;
 		}
+		
+		virtual void beginDrawingStage(VkCommandBuffer cmd, EffectManager& computeEffects) {
+		}
 
 		virtual void draw(VkCommandBuffer cmd) {
 			
 		}
+
+		virtual void endDrawingStage(VkCommandBuffer cmd) {
+		}
 	};
 
 	class IMGUIRenderable : public Renderable {
+	private:
+		static inline void NewIMGUIFrame();
+
+	protected:
+
+		virtual void setupElements(EffectManager& computeEffects);
 	public:
 
-		void draw(VkCommandBuffer cmd) override
-		{
-		}
+		void beginDrawingStage(VkCommandBuffer cmd, EffectManager& computeEffects) override;
+
+		void draw(VkCommandBuffer cmd) override;
+
+		void endDrawingStage(VkCommandBuffer cmd) override;
 	};
 
 	class BackgroundColor : public Renderable {
@@ -337,6 +518,8 @@ namespace Atlas {
 		int mCurrentBackgroundEffect = 0;
 
 		CurrentDrawData mCurrentDrawData;
+
+		std::vector<std::shared_ptr<MeshAsset>> testMeshes;
 
 		//std::bitset<ATLAS_VK_DEVICE_BITS> mOptionsBitset;
 
@@ -456,6 +639,12 @@ namespace Atlas {
 		 */
 		void init(AGameWindow* gameWindow) override;
 		
+		void testLoad(FileManager& fileManager) {
+			ShaderModule shaderModule;
+
+			shaderModule.load(mDevice, "C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", fileManager);
+		}
+
 		void initDefaultData();
 
 		void initPhysicalDevice();
@@ -522,7 +711,7 @@ namespace Atlas {
 	void setLoadedRenderingBackend(VulkanRenderingBackend* backend);
 	void resetLoadedRenderingBackend();
 
-
+	std::optional<std::vector<std::shared_ptr<MeshAsset>>> loadGltfMeshes(VulkanRenderingBackend* engine, std::filesystem::path filePath);
 
 }
 #endif

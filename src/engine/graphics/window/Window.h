@@ -36,6 +36,9 @@
 
 #include <glm/glm.hpp>
 #include <glm/fwd.hpp>
+#include <glm/detail/qualifier.hpp>
+#include <SDL2/SDL_events.h>
+#include <vulkan/vulkan_core.h>
 
 namespace Atlas {
 
@@ -71,6 +74,43 @@ namespace Atlas {
 		WindowRectangle windowRectangle;
 
 		uint16_t targetFPS;
+	};
+
+	template<typename T_SURFACE_HANDLE>
+	class SurfaceBase : public InitializableAndValidatable {
+	private:
+		T_SURFACE_HANDLE mSurfaceHandle;
+
+	protected:
+		//void setSurfaceHandle(T_SURFACE_HANDLE surfaceHandle) { this->mSurfaceHandle = surfaceHandle; }
+
+	public:
+		
+		virtual void destroySurface() {
+			setNotInit();
+			setInvalid();
+		}
+
+		//T_SURFACE_HANDLE getSurfaceHandle() const { return this->mSurfaceHandle; }
+
+		//T_SURFACE_HANDLE& getSurfaceHandleRef() { return this->mSurfaceHandle; }
+				
+	};
+
+#ifdef ATLAS_USE_VULKAN
+	class Surface : public SurfaceBase<VkSurfaceKHR> {
+	public:
+	};
+#endif
+
+	class Viewport : public InitializableAndValidatable {
+	private:
+		VkViewport mViewport;
+
+		VkCommandBuffer mCommandBuffer;
+	public:
+
+
 	};
 
 	/**

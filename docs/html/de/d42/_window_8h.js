@@ -2,6 +2,9 @@ var _window_8h =
 [
     [ "Atlas::WindowHint", "df/d5a/struct_atlas_1_1_window_hint.html", "df/d5a/struct_atlas_1_1_window_hint" ],
     [ "Atlas::WindowDescription", "d7/d4c/struct_atlas_1_1_window_description.html", "d7/d4c/struct_atlas_1_1_window_description" ],
+    [ "Atlas::SurfaceBase< T_SURFACE_HANDLE >", "d5/d67/class_atlas_1_1_surface_base.html", "d5/d67/class_atlas_1_1_surface_base" ],
+    [ "Atlas::Surface", "d3/d45/class_atlas_1_1_surface.html", null ],
+    [ "Atlas::Viewport", "d3/d50/class_atlas_1_1_viewport.html", "d3/d50/class_atlas_1_1_viewport" ],
     [ "Atlas::AGameWindow", "da/dde/class_atlas_1_1_a_game_window.html", "da/dde/class_atlas_1_1_a_game_window" ],
     [ "Atlas::GameWindowSettings", "d1/d79/struct_atlas_1_1_game_window_settings.html", "d1/d79/struct_atlas_1_1_game_window_settings" ],
     [ "Atlas::EventPoller", "d7/dd9/class_atlas_1_1_event_poller.html", "d7/dd9/class_atlas_1_1_event_poller" ],

@@ -3,16 +3,24 @@ var _common_8h =
     [ "Atlas::Rectangle< T_NUMERIC_TYPE >", "d4/dd2/struct_atlas_1_1_rectangle.html", "d4/dd2/struct_atlas_1_1_rectangle" ],
     [ "Atlas::TypeAudit< T_TYPE >", "dd/d9e/struct_atlas_1_1_type_audit.html", "dd/d9e/struct_atlas_1_1_type_audit" ],
     [ "Atlas::Validatable", "d2/d5f/class_atlas_1_1_validatable.html", "d2/d5f/class_atlas_1_1_validatable" ],
+    [ "Atlas::Initializable", "d5/d66/class_atlas_1_1_initializable.html", "d5/d66/class_atlas_1_1_initializable" ],
+    [ "Atlas::InitializableAndValidatable", "df/d9f/class_atlas_1_1_initializable_and_validatable.html", "df/d9f/class_atlas_1_1_initializable_and_validatable" ],
+    [ "Atlas::HandleWrapperBase< T_WRAPS >", "d0/d45/class_atlas_1_1_handle_wrapper_base.html", "d0/d45/class_atlas_1_1_handle_wrapper_base" ],
     [ "Atlas::Counter", "d8/db4/class_atlas_1_1_counter.html", "d8/db4/class_atlas_1_1_counter" ],
     [ "Atlas::Singleton< T_BASE >", "d6/dd4/class_atlas_1_1_singleton.html", "d6/dd4/class_atlas_1_1_singleton" ],
     [ "Atlas::IStringifiedObject", "de/dc7/class_atlas_1_1_i_stringified_object.html", "de/dc7/class_atlas_1_1_i_stringified_object" ],
     [ "Atlas::StringifiedObject< T_CHILD >", "d2/d7b/class_atlas_1_1_stringified_object.html", "d2/d7b/class_atlas_1_1_stringified_object" ],
     [ "Atlas::ReferenceHolder< T >", "d9/d0a/class_atlas_1_1_reference_holder.html", "d9/d0a/class_atlas_1_1_reference_holder" ],
+    [ "ATLAS_ALLOW_COPY", "db/d1f/_common_8h.html#a599852d059d1079304961fc328fa0b23", null ],
     [ "ATLAS_ASSERT", "db/d1f/_common_8h.html#a18a4c37c962b54b7008c2a9bc69eac83", null ],
     [ "ATLAS_ASSET_DIR", "db/d1f/_common_8h.html#af115c0ba9301089cf8dda6a7b8de6efd", null ],
     [ "ATLAS_DATA_DIR", "db/d1f/_common_8h.html#a3d7c2521ee61f3b347f0c56560ef58c7", null ],
     [ "ATLAS_DISALLOW_COPY", "db/d1f/_common_8h.html#abf51327a7cda22a797a5af4ad0eeb24e", null ],
+    [ "ATLAS_DISALLOW_COPY_AND_MOVE", "db/d1f/_common_8h.html#a52738237c4c3c3a0813ef4ce107be26a", null ],
+    [ "ATLAS_DISALLOW_MOVE", "db/d1f/_common_8h.html#ac1acb2d3db105634bdc14a2889dd6fd6", null ],
+    [ "ATLAS_EXPLICIT", "db/d1f/_common_8h.html#ad91252f8fd0802d0f467ab0023ce5f6a", null ],
     [ "ATLAS_GAME_DIR", "db/d1f/_common_8h.html#a22bf313ce6cdc640a1feaf76dfc2897e", null ],
+    [ "ATLAS_IMPLICIT", "db/d1f/_common_8h.html#a6e28df6a53faef578e73999acae2cb92", null ],
     [ "ATLAS_NULL_GIF", "db/d1f/_common_8h.html#ac3c90f8768bb5361d2083a2ed878c1bb", null ],
     [ "ATLAS_NULL_JPEG", "db/d1f/_common_8h.html#a05798e0231584e6e6cdcabd194d95317", null ],
     [ "ATLAS_NULL_JPG", "db/d1f/_common_8h.html#adf75ba6fb29a4f5b02330c8732e65865", null ],
@@ -23,11 +31,11 @@ var _common_8h =
     [ "ATLAS_TOP_LAYER_DIR", "db/d1f/_common_8h.html#a2409aa2a1a2ed9a03d428b3aa8c0c4c3", null ],
     [ "ATLAS_TYPE_NAME", "db/d1f/_common_8h.html#a16f673d9e7a39c1b848adbccc23eb8a2", null ],
     [ "HighResolutionTimepoint", "db/d1f/_common_8h.html#a90dfcd6fcf4fd7ab785efeaf6934e38e", null ],
-    [ "EResultCode", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8", [
-      [ "Failed", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8ad7c8c85bf79bbe1b7188497c32c3b0ca", null ],
-      [ "Okay", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8a26b63f278101527e06a5547719568bb5", null ],
-      [ "NotImplemented", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8a997ca4ce119685f40f03a9a8a6c5346e", null ],
-      [ "InvalidArgument", "db/d1f/_common_8h.html#a81cbb470bb667d0621e0e6572698f6a8a253ca7dd096ee0956cccee4d376cab8b", null ]
+    [ "EResultCode", "db/d1f/_common_8h.html#a36d18fa5ac5efd38562c69609092783f", [
+      [ "Failed", "db/d1f/_common_8h.html#a36d18fa5ac5efd38562c69609092783fad7c8c85bf79bbe1b7188497c32c3b0ca", null ],
+      [ "Okay", "db/d1f/_common_8h.html#a36d18fa5ac5efd38562c69609092783fa26b63f278101527e06a5547719568bb5", null ],
+      [ "NotImplemented", "db/d1f/_common_8h.html#a36d18fa5ac5efd38562c69609092783fa997ca4ce119685f40f03a9a8a6c5346e", null ],
+      [ "InvalidArgument", "db/d1f/_common_8h.html#a36d18fa5ac5efd38562c69609092783fa253ca7dd096ee0956cccee4d376cab8b", null ]
     ] ],
     [ "AlignUp", "db/d1f/_common_8h.html#ad505d4d3e017334c04787d7820f06ce7", null ]
 ];

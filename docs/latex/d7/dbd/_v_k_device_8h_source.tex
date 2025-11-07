@@ -13,488 +13,543 @@
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00010}00010\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00011}00011\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00012}00012\ \textcolor{comment}{//\ This\ avoids\ the\ transitive\ include\ of\ string\_view\ on\ MSVC\ compilers}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00013}00013\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_COMPILER\_MSVC}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00014}00014\ \textcolor{preprocessor}{\ \ \ \ \#include\ <\_\_msvc\_string\_view.hpp>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00015}00015\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00016}00016\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <filesystem>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <array>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <iosfwd>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <span>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <\_\_msvc\_string\_view.hpp>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <vk\_mem\_alloc.h>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <iostream>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <fstream>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <bitset>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00030}00030\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00031}00031\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00032}00032\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan.h>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00033}00033\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan\_core.h>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00034}00034\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vk\_mem\_alloc.h>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00035}00035\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00036}00036\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00037}00037\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rendering_backend_8h}{RenderingBackend.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00038}00038\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00039}00039\ \textcolor{preprocessor}{\#include\ "{}../VulkanInstance.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00040}00040\ \textcolor{preprocessor}{\#include\ "{}../PhysicalDevice.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00041}00041\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00042}00042\ \textcolor{preprocessor}{\#include\ "{}../Frame.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00043}00043\ \textcolor{preprocessor}{\#include\ "{}../AllocatedImage.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00044}00044\ \textcolor{preprocessor}{\#include\ "{}../../core/Core.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00045}00045\ \textcolor{preprocessor}{\#include\ "{}../../core/Common.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00046}00046\ \textcolor{preprocessor}{\#include\ "{}../../core/Device.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00047}00047\ \textcolor{preprocessor}{\#include\ "{}../window/Window.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00048}00048\ \textcolor{preprocessor}{\#include\ "{}../DeletionQueue.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00049}00049\ \textcolor{preprocessor}{\#include\ "{}../DescriptorLayoutBuilder.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00050}00050\ \textcolor{preprocessor}{\#include\ "{}../../debugging/Logging.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00051}00051\ \textcolor{preprocessor}{\#include\ "{}../GraphicsUtils.h"{}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00052}00052\ \textcolor{preprocessor}{\#include\ "{}../PipelineBuilder.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00012}\mbox{\hyperlink{_v_k_device_8h_abd75661fe7969e19439052a5f69ba5d1}{00012}}\ \textcolor{preprocessor}{\#define\ GLM\_ENABLE\_EXPERIMENTAL}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00014}00014\ \textcolor{comment}{//\ This\ avoids\ the\ transitive\ include\ of\ string\_view\ on\ MSVC\ compilers}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00015}00015\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_COMPILER\_MSVC}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00016}00016\ \textcolor{preprocessor}{\ \ \ \ \#include\ <\_\_msvc\_string\_view.hpp>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00017}00017\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <iosfwd>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00026}00026\ \textcolor{preprocessor}{\#include\ <\_\_msvc\_string\_view.hpp>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00027}00027\ \textcolor{preprocessor}{\#include\ <vk\_mem\_alloc.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00028}00028\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00029}00029\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00030}00030\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00031}00031\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00033}00033\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00034}00034\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00035}00035\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan\_core.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00036}00036\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vk\_mem\_alloc.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00037}00037\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00038}00038\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00039}00039\ \textcolor{preprocessor}{\#include\ <glm/gtx/quaternion.hpp>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00040}00040\ \textcolor{preprocessor}{\#include\ <VkBootstrap.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00041}00041\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00042}00042\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00043}00043\ \textcolor{preprocessor}{\#include\ <glm/fwd.hpp>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00044}00044\ \textcolor{preprocessor}{\#include\ <vulkan/vulkan\_core.h>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00045}00045\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00046}00046\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00048}00048\ \textcolor{preprocessor}{\#include\ <fastgltf/glm\_element\_traits.hpp>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00049}00049\ \textcolor{preprocessor}{\#include\ <fastgltf/parser.hpp>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00050}00050\ \textcolor{preprocessor}{\#include\ <fastgltf/tools.hpp>}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00052}00052\ \textcolor{preprocessor}{\#include\ "{}stb\_image.h"{}}}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00053}00053\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00054}00054\ \textcolor{preprocessor}{\#include\ <VkBootstrap.h>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00055}00055\ \textcolor{preprocessor}{\#include\ <functional>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00056}00056\ \textcolor{preprocessor}{\#include\ <mutex>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00057}00057\ \textcolor{preprocessor}{\#include\ <glm/fwd.hpp>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00058}00058\ \textcolor{preprocessor}{\#include\ <vulkan/vulkan\_core.h>}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00059}00059\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00060}\mbox{\hyperlink{_v_k_device_8h_abca11d49e8a831d8d24a127bbae30963}{00060}}\ \textcolor{preprocessor}{\#define\ ATLAS\_1\_SECOND\_IN\_NS\ 1000000000}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00061}00061\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00062}\mbox{\hyperlink{_v_k_device_8h_a998597b9163ba9082c4a4c40294d4c33}{00062}}\ \textcolor{preprocessor}{\#define\ ATLAS\_VK\_DEVICE\_BITS\ 32}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00063}00063\ \textcolor{comment}{//std::cout\ <<\ "{}Detected\ Vulkan\ error:\ "{}\ <<\ std::string(string\_VkResult(err))\ <<\ std::endl;\ }}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00064}\mbox{\hyperlink{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}{00064}}\ \textcolor{preprocessor}{\#define\ VK\_CHECK(x)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00054}00054\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_rendering_backend_8h}{RenderingBackend.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00056}00056\ \textcolor{preprocessor}{\#include\ "{}../VulkanInstance.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00057}00057\ \textcolor{preprocessor}{\#include\ "{}../PhysicalDevice.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00059}00059\ \textcolor{preprocessor}{\#include\ "{}../Frame.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00060}00060\ \textcolor{preprocessor}{\#include\ "{}../AllocatedImage.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00061}00061\ \textcolor{preprocessor}{\#include\ "{}../../core/Core.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00062}00062\ \textcolor{preprocessor}{\#include\ "{}../../core/Common.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00063}00063\ \textcolor{preprocessor}{\#include\ "{}../../core/Device.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00065}00065\ \textcolor{preprocessor}{\#include\ "{}../drawing/EffectManager.h"{}}}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00066}00066\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00067}00067\ \textcolor{comment}{/*\ \ \ \ do\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00068}00068\ \textcolor{comment}{\ \ \ \ \ \ \ \ VkResult\ err\ =\ x;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00069}00069\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (err)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00070}00070\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ }}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00071}00071\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ abort();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00072}00072\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00073}00073\ \textcolor{comment}{\ \ \ \ \}\ while\ (0)*/}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00067}00067\ \textcolor{preprocessor}{\#include\ "{}../window/Window.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00068}00068\ \textcolor{preprocessor}{\#include\ "{}../DeletionQueue.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00069}00069\ \textcolor{preprocessor}{\#include\ "{}../DescriptorLayoutBuilder.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00070}00070\ \textcolor{preprocessor}{\#include\ "{}../../debugging/Logging.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00071}00071\ \textcolor{preprocessor}{\#include\ "{}../GraphicsUtils.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00072}00072\ \textcolor{preprocessor}{\#include\ "{}../PipelineBuilder.h"{}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00073}00073\ }
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00074}00074\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00075}00075\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00075}\mbox{\hyperlink{_v_k_device_8h_abca11d49e8a831d8d24a127bbae30963}{00075}}\ \textcolor{preprocessor}{\#define\ ATLAS\_1\_SECOND\_IN\_NS\ 1000000000}}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00076}00076\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00077}00077\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00078}00078\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00079}00079\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00080}00080\ \ \ \ \ \textcolor{comment}{//struct\ DescriptorLayoutBuilder\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00077}\mbox{\hyperlink{_v_k_device_8h_a998597b9163ba9082c4a4c40294d4c33}{00077}}\ \textcolor{preprocessor}{\#define\ ATLAS\_VK\_DEVICE\_BITS\ 32}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00078}00078\ \textcolor{comment}{//std::cout\ <<\ "{}Detected\ Vulkan\ error:\ "{}\ <<\ std::string(string\_VkResult(err))\ <<\ std::endl;\ }}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00079}\mbox{\hyperlink{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}{00079}}\ \textcolor{preprocessor}{\#define\ VK\_CHECK(x)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00080}00080\ }
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00081}00081\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00082}00082\ \ \ \ \ \textcolor{comment}{//\ \ std::vector<VkDescriptorSetLayoutBinding>\ bindings;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00083}00083\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00084}00084\ \ \ \ \ \textcolor{comment}{//\ \ void\ add\_binding(uint32\_t\ binding,\ VkDescriptorType\ type)}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00085}00085\ \ \ \ \ \textcolor{comment}{//\ \ \{}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00086}00086\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ VkDescriptorSetLayoutBinding\ newbind\{\};}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00087}00087\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ newbind.binding\ =\ binding;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00088}00088\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ newbind.descriptorCount\ =\ 1;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00089}00089\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ newbind.descriptorType\ =\ type;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00090}00090\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00091}00091\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ bindings.push\_back(newbind);}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00092}00092\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00093}00093\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00094}00094\ \ \ \ \ \textcolor{comment}{//\ \ void\ clear()}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00095}00095\ \ \ \ \ \textcolor{comment}{//\ \ \{}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00096}00096\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ bindings.clear();}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00097}00097\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00098}00098\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00099}00099\ \ \ \ \ \textcolor{comment}{//\ \ VkDescriptorSetLayout\ build(VkDevice\ device,\ VkShaderStageFlags\ shaderStages,\ void*\ pNext\ =\ nullptr,\ VkDescriptorSetLayoutCreateFlags\ flags\ =\ 0)}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00100}00100\ \ \ \ \ \textcolor{comment}{//\ \ \{}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00101}00101\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ for\ (auto\&\ b\ :\ bindings)\ \{}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00102}00102\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ b.stageFlags\ |=\ shaderStages;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00103}00103\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00104}00104\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00105}00105\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ VkDescriptorSetLayoutCreateInfo\ info\ =\ \{\ .sType\ =\ VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_SET\_LAYOUT\_CREATE\_INFO\ \};}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00106}00106\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ info.pNext\ =\ pNext;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00107}00107\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00108}00108\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ info.pBindings\ =\ bindings.data();}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00109}00109\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ info.bindingCount\ =\ (uint32\_t)bindings.size();}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00110}00110\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ info.flags\ =\ flags;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00082}00082\ \textcolor{comment}{/*\ \ \ \ do\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00083}00083\ \textcolor{comment}{\ \ \ \ \ \ \ \ VkResult\ err\ =\ x;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00084}00084\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (err)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00085}00085\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00086}00086\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ abort();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00087}00087\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00088}00088\ \textcolor{comment}{\ \ \ \ \}\ while\ (0)*/}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00090}00090\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00092}00092\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00093}00093\ \ \ \ \ \textcolor{comment}{//struct\ DescriptorLayoutBuilder\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00095}00095\ \ \ \ \ \textcolor{comment}{//\ \ std::vector<VkDescriptorSetLayoutBinding>\ bindings;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00097}00097\ \ \ \ \ \textcolor{comment}{//\ \ void\ add\_binding(uint32\_t\ binding,\ VkDescriptorType\ type)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00098}00098\ \ \ \ \ \textcolor{comment}{//\ \ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00099}00099\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ VkDescriptorSetLayoutBinding\ newbind\{\};}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00100}00100\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ newbind.binding\ =\ binding;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00101}00101\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ newbind.descriptorCount\ =\ 1;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00102}00102\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ newbind.descriptorType\ =\ type;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00104}00104\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ bindings.push\_back(newbind);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00105}00105\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00107}00107\ \ \ \ \ \textcolor{comment}{//\ \ void\ clear()}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00108}00108\ \ \ \ \ \textcolor{comment}{//\ \ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00109}00109\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ bindings.clear();}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00110}00110\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00111}00111\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00112}00112\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ VkDescriptorSetLayout\ set;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00113}00113\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ vkCreateDescriptorSetLayout(device,\ \&info,\ nullptr,\ \&set);}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00114}00114\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00115}00115\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ set;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00116}00116\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00117}00117\ \ \ \ \ \textcolor{comment}{//\};}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00118}00118\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00119}\mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1}{00119}}\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1}{QueueType}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00120}00120\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1add058df87f5c88e3285a28ad7406a3c6}{Present}}\ =\ 0,}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00121}00121\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1ad334dfcea59127bedfcdbe0a3ee7f494}{Graphics}}\ =\ 1,}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00122}00122\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1aa623a8d0366bf079411aa30be45b2d10}{Compute}}\ =\ 2,}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00123}00123\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1a6950810f0d2bba97a6f710c7b965b84e}{Transfer}}\ =\ 3}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00124}00124\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00125}00125\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00126}\mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{00126}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{ImmediateSubmitInfo}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00127}\mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_a07e645dcf10c710297f21ed5e00d7ab7}{00127}}\ \ \ \ \ \ \ \ \ VkFence\ \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_a07e645dcf10c710297f21ed5e00d7ab7}{fence}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00128}\mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_a4d0572cd698500b97f446a30edf00962}{00128}}\ \ \ \ \ \ \ \ \ VkCommandBuffer\ \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_a4d0572cd698500b97f446a30edf00962}{commandBuffer}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00129}\mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_abdc5b6b5d1a2cb369b412b8e05dd6f63}{00129}}\ \ \ \ \ \ \ \ \ VkCommandPool\ \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_abdc5b6b5d1a2cb369b412b8e05dd6f63}{commandPool}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00130}00130\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00112}00112\ \ \ \ \ \textcolor{comment}{//\ \ VkDescriptorSetLayout\ build(VkDevice\ device,\ VkShaderStageFlags\ shaderStages,\ void*\ pNext\ =\ nullptr,\ VkDescriptorSetLayoutCreateFlags\ flags\ =\ 0)}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00113}00113\ \ \ \ \ \textcolor{comment}{//\ \ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00114}00114\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ for\ (auto\&\ b\ :\ bindings)\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00115}00115\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ b.stageFlags\ |=\ shaderStages;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00116}00116\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00118}00118\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ VkDescriptorSetLayoutCreateInfo\ info\ =\ \{\ .sType\ =\ VK\_STRUCTURE\_TYPE\_DESCRIPTOR\_SET\_LAYOUT\_CREATE\_INFO\ \};}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00119}00119\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ info.pNext\ =\ pNext;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00121}00121\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ info.pBindings\ =\ bindings.data();}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00122}00122\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ info.bindingCount\ =\ (uint32\_t)bindings.size();}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00123}00123\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ info.flags\ =\ flags;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00125}00125\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ VkDescriptorSetLayout\ set;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00126}00126\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ vkCreateDescriptorSetLayout(device,\ \&info,\ nullptr,\ \&set);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00128}00128\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ set;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00129}00129\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00130}00130\ \ \ \ \ \textcolor{comment}{//\};}}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00131}00131\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00132}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{00132}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{CurrentDrawData}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00133}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a2913d8b941dff799ebb34c79baf1d076}{00133}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{static}\ uint32\_t\ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a2913d8b941dff799ebb34c79baf1d076}{FENCE\_COUNT}}\ =\ 1;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00134}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a46ab1761eaef2e368060a49643c147f9}{00134}}\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a46ab1761eaef2e368060a49643c147f9}{swapchainImageIndex}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00135}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a1cf53ba02c886d455f85fa84218dfaa3}{00135}}\ \ \ \ \ \ \ \ \ VkCommandBufferResetFlags\ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a1cf53ba02c886d455f85fa84218dfaa3}{cmdResetFlags}}\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00136}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data_acf51d24aab4069ef4e2a6c61b3ec1fc1}{00136}}\ \ \ \ \ \ \ \ \ VkCommandBuffer\ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data_acf51d24aab4069ef4e2a6c61b3ec1fc1}{cmd}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00137}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a62b5d95a8c12f306cc8049ca16697f14}{00137}}\ \ \ \ \ \ \ \ \ VkCommandBufferBeginInfo\ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a62b5d95a8c12f306cc8049ca16697f14}{cmdBeginInfo}}\ =\ \{\};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00138}00138\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00139}00139\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00140}\mbox{\hyperlink{struct_atlas_1_1_compute_push_constants}{00140}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_compute_push_constants}{ComputePushConstants}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00141}\mbox{\hyperlink{struct_atlas_1_1_compute_push_constants_af0a4393c37ced4a091320a0293a5f2f7}{00141}}\ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{struct_atlas_1_1_compute_push_constants_af0a4393c37ced4a091320a0293a5f2f7}{data1}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00142}\mbox{\hyperlink{struct_atlas_1_1_compute_push_constants_a026de07bae816111634fe82c5e6e2116}{00142}}\ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{struct_atlas_1_1_compute_push_constants_a026de07bae816111634fe82c5e6e2116}{data2}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00143}\mbox{\hyperlink{struct_atlas_1_1_compute_push_constants_a8b7a5d21c069cc7f2474b1a12a4ab5a3}{00143}}\ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{struct_atlas_1_1_compute_push_constants_a8b7a5d21c069cc7f2474b1a12a4ab5a3}{data3}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00144}\mbox{\hyperlink{struct_atlas_1_1_compute_push_constants_a0d9cd6a9ee45a25d22ac115f8ac451a8}{00144}}\ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{struct_atlas_1_1_compute_push_constants_a0d9cd6a9ee45a25d22ac115f8ac451a8}{data4}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00145}00145\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00146}00146\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00147}\mbox{\hyperlink{struct_atlas_1_1_compute_effect}{00147}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_compute_effect}{ComputeEffect}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00148}\mbox{\hyperlink{struct_atlas_1_1_compute_effect_a1fb84b3d114ef178306ee1b18357f901}{00148}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{struct_atlas_1_1_compute_effect_a1fb84b3d114ef178306ee1b18357f901}{name}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00149}00149\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00150}\mbox{\hyperlink{struct_atlas_1_1_compute_effect_aec8ef50b7b98d3d53b950cbaefc2c100}{00150}}\ \ \ \ \ \ \ \ \ VkPipeline\ \mbox{\hyperlink{struct_atlas_1_1_compute_effect_aec8ef50b7b98d3d53b950cbaefc2c100}{pipeline}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00151}\mbox{\hyperlink{struct_atlas_1_1_compute_effect_a79f1e1843966b32cd17e8d40482b4006}{00151}}\ \ \ \ \ \ \ \ \ VkPipelineLayout\ \mbox{\hyperlink{struct_atlas_1_1_compute_effect_a79f1e1843966b32cd17e8d40482b4006}{layout}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00132}\mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1}{00132}}\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1}{QueueType}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00133}00133\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1add058df87f5c88e3285a28ad7406a3c6}{Present}}\ =\ 0,}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00134}00134\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1ad334dfcea59127bedfcdbe0a3ee7f494}{Graphics}}\ =\ 1,}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00135}00135\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1aa623a8d0366bf079411aa30be45b2d10}{Compute}}\ =\ 2,}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00136}00136\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1a6950810f0d2bba97a6f710c7b965b84e}{Transfer}}\ =\ 3}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00137}00137\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00139}\mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{00139}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{ImmediateSubmitInfo}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00140}\mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_a07e645dcf10c710297f21ed5e00d7ab7}{00140}}\ \ \ \ \ \ \ \ \ VkFence\ \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_a07e645dcf10c710297f21ed5e00d7ab7}{fence}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00141}\mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_a4d0572cd698500b97f446a30edf00962}{00141}}\ \ \ \ \ \ \ \ \ VkCommandBuffer\ \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_a4d0572cd698500b97f446a30edf00962}{commandBuffer}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00142}\mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_abdc5b6b5d1a2cb369b412b8e05dd6f63}{00142}}\ \ \ \ \ \ \ \ \ VkCommandPool\ \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info_abdc5b6b5d1a2cb369b412b8e05dd6f63}{commandPool}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00143}00143\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00145}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{00145}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{CurrentDrawData}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00146}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a2913d8b941dff799ebb34c79baf1d076}{00146}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{static}\ uint32\_t\ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a2913d8b941dff799ebb34c79baf1d076}{FENCE\_COUNT}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00147}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a46ab1761eaef2e368060a49643c147f9}{00147}}\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a46ab1761eaef2e368060a49643c147f9}{swapchainImageIndex}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00148}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a1cf53ba02c886d455f85fa84218dfaa3}{00148}}\ \ \ \ \ \ \ \ \ VkCommandBufferResetFlags\ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a1cf53ba02c886d455f85fa84218dfaa3}{cmdResetFlags}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00149}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data_acf51d24aab4069ef4e2a6c61b3ec1fc1}{00149}}\ \ \ \ \ \ \ \ \ VkCommandBuffer\ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data_acf51d24aab4069ef4e2a6c61b3ec1fc1}{cmd}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00150}\mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a62b5d95a8c12f306cc8049ca16697f14}{00150}}\ \ \ \ \ \ \ \ \ VkCommandBufferBeginInfo\ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data_a62b5d95a8c12f306cc8049ca16697f14}{cmdBeginInfo}}\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00151}00151\ \ \ \ \ \};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00152}00152\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00153}\mbox{\hyperlink{struct_atlas_1_1_compute_effect_a00b9003d01d051a93b7301a081948958}{00153}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_compute_push_constants}{ComputePushConstants}}\ \mbox{\hyperlink{struct_atlas_1_1_compute_effect_a00b9003d01d051a93b7301a081948958}{data}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00154}00154\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00155}00155\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00156}\mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{00156}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{AllocatedBuffer}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00157}\mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a62876da3a76309e3b5b5446af371bf7b}{00157}}\ \ \ \ \ \ \ \ \ VkBuffer\ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a62876da3a76309e3b5b5446af371bf7b}{buffer}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00158}\mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a0ca9815483ac1db427e4c94fdf624f05}{00158}}\ \ \ \ \ \ \ \ \ VmaAllocation\ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a0ca9815483ac1db427e4c94fdf624f05}{allocation}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00159}\mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a03e6d57e6bbc71991581c960f77bede5}{00159}}\ \ \ \ \ \ \ \ \ VmaAllocationInfo\ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a03e6d57e6bbc71991581c960f77bede5}{info}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00160}00160\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00161}00161\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00162}\mbox{\hyperlink{struct_atlas_1_1_vertex}{00162}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_vertex}{Vertex}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00163}00163\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00164}\mbox{\hyperlink{struct_atlas_1_1_vertex_aa35552d29f43168724e3c0395156534f}{00164}}\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{struct_atlas_1_1_vertex_aa35552d29f43168724e3c0395156534f}{position}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00165}\mbox{\hyperlink{struct_atlas_1_1_vertex_aa48e0a7efda711b28924f708c1737b56}{00165}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_atlas_1_1_vertex_aa48e0a7efda711b28924f708c1737b56}{uv\_x}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00166}\mbox{\hyperlink{struct_atlas_1_1_vertex_aacbdb1acc3ce16d8a626da74901047a9}{00166}}\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{struct_atlas_1_1_vertex_aacbdb1acc3ce16d8a626da74901047a9}{normal}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00167}\mbox{\hyperlink{struct_atlas_1_1_vertex_ae18b5455dee4972035014eab763b38ec}{00167}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_atlas_1_1_vertex_ae18b5455dee4972035014eab763b38ec}{uv\_y}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00168}\mbox{\hyperlink{struct_atlas_1_1_vertex_a18d1a86b1f55d1ba08751c3a4de5e8b6}{00168}}\ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{struct_atlas_1_1_vertex_a18d1a86b1f55d1ba08751c3a4de5e8b6}{color}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00169}00169\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00170}00170\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00171}00171\ \ \ \ \ \textcolor{comment}{//\ holds\ the\ resources\ needed\ for\ a\ mesh}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00172}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{00172}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{GPUMeshBuffers}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00173}00173\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00174}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a588aa8ec6de2e6e5dc465e517fdff774}{00174}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{AllocatedBuffer}}\ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a588aa8ec6de2e6e5dc465e517fdff774}{indexBuffer}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00175}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a16239a65ba6adfe747bed7f37a7d3b37}{00175}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{AllocatedBuffer}}\ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a16239a65ba6adfe747bed7f37a7d3b37}{vertexBuffer}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00176}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a7c4787cb51a64dcd5fb2138f98a1c45f}{00176}}\ \ \ \ \ \ \ \ \ VkDeviceAddress\ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a7c4787cb51a64dcd5fb2138f98a1c45f}{vertexBufferAddress}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00177}00177\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00178}00178\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00179}00179\ \ \ \ \ \textcolor{comment}{//\ push\ constants\ for\ our\ mesh\ object\ draws}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00180}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants}{00180}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants}{GPUDrawPushConstants}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00181}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants_af23d17b2d781d55a420d2d5911ae0145}{00181}}\ \ \ \ \ \ \ \ \ glm::mat4\ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants_af23d17b2d781d55a420d2d5911ae0145}{worldMatrix}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00182}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants_ac1d2384ad07f73eb7c8e1a26dc7ea28f}{00182}}\ \ \ \ \ \ \ \ \ VkDeviceAddress\ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants_ac1d2384ad07f73eb7c8e1a26dc7ea28f}{vertexBuffer}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00183}00183\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00184}00184\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00185}\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator}{00185}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator}{DescriptorAllocator}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00186}00186\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00187}\mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio}{00187}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio}{PoolSizeRatio}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00188}\mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio_ae7c592e0e542c129983025c50bf1906e}{00188}}\ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorType\ \mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio_ae7c592e0e542c129983025c50bf1906e}{type}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00189}\mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio_ab1762959b927a278636b38c08b2e7c49}{00189}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio_ab1762959b927a278636b38c08b2e7c49}{ratio}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00190}00190\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00153}00153\ \ \ \ \ \textcolor{comment}{//struct\ ComputePushConstants\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00154}00154\ \ \ \ \ \textcolor{comment}{//\ \ glm::vec4\ data1;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00155}00155\ \ \ \ \ \textcolor{comment}{//\ \ glm::vec4\ data2;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00156}00156\ \ \ \ \ \textcolor{comment}{//\ \ glm::vec4\ data3;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00157}00157\ \ \ \ \ \textcolor{comment}{//\ \ glm::vec4\ data4;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00158}00158\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00160}00160\ \ \ \ \ \textcolor{comment}{//struct\ ComputeEffect\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00161}00161\ \ \ \ \ \textcolor{comment}{//\ \ const\ char*\ name;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00163}00163\ \ \ \ \ \textcolor{comment}{//\ \ VkPipeline\ pipeline;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00164}00164\ \ \ \ \ \textcolor{comment}{//\ \ VkPipelineLayout\ layout;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00166}00166\ \ \ \ \ \textcolor{comment}{//\ \ ComputePushConstants\ data;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00167}00167\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00169}\mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{00169}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{AllocatedBuffer}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00170}\mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a62876da3a76309e3b5b5446af371bf7b}{00170}}\ \ \ \ \ \ \ \ \ VkBuffer\ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a62876da3a76309e3b5b5446af371bf7b}{buffer}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00171}\mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a0ca9815483ac1db427e4c94fdf624f05}{00171}}\ \ \ \ \ \ \ \ \ VmaAllocation\ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a0ca9815483ac1db427e4c94fdf624f05}{allocation}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00172}\mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a03e6d57e6bbc71991581c960f77bede5}{00172}}\ \ \ \ \ \ \ \ \ VmaAllocationInfo\ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer_a03e6d57e6bbc71991581c960f77bede5}{info}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00173}00173\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00175}\mbox{\hyperlink{struct_atlas_1_1_vertex}{00175}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_vertex}{Vertex}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00177}\mbox{\hyperlink{struct_atlas_1_1_vertex_aa35552d29f43168724e3c0395156534f}{00177}}\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{struct_atlas_1_1_vertex_aa35552d29f43168724e3c0395156534f}{position}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00178}\mbox{\hyperlink{struct_atlas_1_1_vertex_aa48e0a7efda711b28924f708c1737b56}{00178}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_atlas_1_1_vertex_aa48e0a7efda711b28924f708c1737b56}{uv\_x}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00179}\mbox{\hyperlink{struct_atlas_1_1_vertex_aacbdb1acc3ce16d8a626da74901047a9}{00179}}\ \ \ \ \ \ \ \ \ glm::vec3\ \mbox{\hyperlink{struct_atlas_1_1_vertex_aacbdb1acc3ce16d8a626da74901047a9}{normal}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00180}\mbox{\hyperlink{struct_atlas_1_1_vertex_ae18b5455dee4972035014eab763b38ec}{00180}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_atlas_1_1_vertex_ae18b5455dee4972035014eab763b38ec}{uv\_y}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00181}\mbox{\hyperlink{struct_atlas_1_1_vertex_a18d1a86b1f55d1ba08751c3a4de5e8b6}{00181}}\ \ \ \ \ \ \ \ \ glm::vec4\ \mbox{\hyperlink{struct_atlas_1_1_vertex_a18d1a86b1f55d1ba08751c3a4de5e8b6}{color}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00182}00182\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00184}00184\ \ \ \ \ \textcolor{comment}{//\ holds\ the\ resources\ needed\ for\ a\ mesh}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00185}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{00185}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{GPUMeshBuffers}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00187}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a588aa8ec6de2e6e5dc465e517fdff774}{00187}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{AllocatedBuffer}}\ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a588aa8ec6de2e6e5dc465e517fdff774}{indexBuffer}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00188}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a16239a65ba6adfe747bed7f37a7d3b37}{00188}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{AllocatedBuffer}}\ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a16239a65ba6adfe747bed7f37a7d3b37}{vertexBuffer}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00189}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a7c4787cb51a64dcd5fb2138f98a1c45f}{00189}}\ \ \ \ \ \ \ \ \ VkDeviceAddress\ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers_a7c4787cb51a64dcd5fb2138f98a1c45f}{vertexBufferAddress}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00190}00190\ \ \ \ \ \};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00191}00191\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00192}\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ab5ace759ece0b8bc10b91b5ab5673c7a}{00192}}\ \ \ \ \ \ \ \ \ VkDescriptorPool\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ab5ace759ece0b8bc10b91b5ab5673c7a}{pool}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00193}00193\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00194}00194\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ab3bf785503136dbef3cd3f521bf01de8}{init\_pool}}(VkDevice\ device,\ uint32\_t\ maxSets,\ std::span<PoolSizeRatio>\ poolRatios);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_a00c1ddf1a380fff47b2b8266026ede29}{clear\_descriptors}}(VkDevice\ device);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_aec0ee24b4aa78fd0e584151d5a7bc75c}{destroy\_pool}}(VkDevice\ device);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00192}00192\ \ \ \ \ \textcolor{comment}{//\ push\ constants\ for\ our\ mesh\ object\ draws}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00193}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants}{00193}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants}{GPUDrawPushConstants}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00194}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants_af23d17b2d781d55a420d2d5911ae0145}{00194}}\ \ \ \ \ \ \ \ \ glm::mat4\ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants_af23d17b2d781d55a420d2d5911ae0145}{worldMatrix}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00195}\mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants_ac1d2384ad07f73eb7c8e1a26dc7ea28f}{00195}}\ \ \ \ \ \ \ \ \ VkDeviceAddress\ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants_ac1d2384ad07f73eb7c8e1a26dc7ea28f}{vertexBuffer}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00196}00196\ \ \ \ \ \};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00197}00197\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00198}00198\ \ \ \ \ \ \ \ \ VkDescriptorSet\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ad5762b4d93baa98387d458991b76ac89}{allocate}}(VkDevice\ device,\ VkDescriptorSetLayout\ layout);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00199}00199\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00200}00200\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00201}\mbox{\hyperlink{class_atlas_1_1_shader}{00201}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_shader}{Shader}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00202}00202\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00203}\mbox{\hyperlink{class_atlas_1_1_shader_afdfd332c63d07392e4085ffff03674a4}{00203}}\ \ \ \ \ \ \ \ \ std::filesystem::path\ \mbox{\hyperlink{class_atlas_1_1_shader_afdfd332c63d07392e4085ffff03674a4}{mCompiledShaderPath}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00204}\mbox{\hyperlink{class_atlas_1_1_shader_afe9d4a8cbf8221d290d3b4c9cea8d0dc}{00204}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_atlas_1_1_shader_afe9d4a8cbf8221d290d3b4c9cea8d0dc}{mName}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00198}\mbox{\hyperlink{struct_atlas_1_1_geo_surface}{00198}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_geo_surface}{GeoSurface}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00199}\mbox{\hyperlink{struct_atlas_1_1_geo_surface_aae4c22132370878b0939dcc511dbd44b}{00199}}\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_atlas_1_1_geo_surface_aae4c22132370878b0939dcc511dbd44b}{startIndex}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00200}\mbox{\hyperlink{struct_atlas_1_1_geo_surface_a1e1460b9e173dd569c733ccaee87fa05}{00200}}\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{struct_atlas_1_1_geo_surface_a1e1460b9e173dd569c733ccaee87fa05}{count}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00201}00201\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00203}\mbox{\hyperlink{struct_atlas_1_1_mesh_asset}{00203}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_mesh_asset}{MeshAsset}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00204}\mbox{\hyperlink{struct_atlas_1_1_mesh_asset_abf8b082ad805f15b8c254fdc000bcffa}{00204}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{struct_atlas_1_1_mesh_asset_abf8b082ad805f15b8c254fdc000bcffa}{name}};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00205}00205\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00206}\mbox{\hyperlink{class_atlas_1_1_shader_a221a4ec8c9363632f70c49ae65daf4ca}{00206}}\ \ \ \ \ \ \ \ \ VkShaderModule\ \mbox{\hyperlink{class_atlas_1_1_shader_a221a4ec8c9363632f70c49ae65daf4ca}{mShaderModule}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00207}00207\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00208}00208\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00209}\mbox{\hyperlink{class_atlas_1_1_shader_a4f5eeac92833a65631c9b5f871b8a5f2}{00209}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_shader_a4f5eeac92833a65631c9b5f871b8a5f2}{Shader}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00210}00210\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00211}00211\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_shader_a4f5eeac92833a65631c9b5f871b8a5f2}{Shader}}(std::filesystem::path\ compiledShaderPath,\ std::string\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}});}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00212}00212\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00213}00213\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_shader_a7349cb31cdf0353303510e8c5731ca2d}{destroyModule}}(VkDevice*\ device);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00214}00214\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_shader_a3be2a960ccab2f18268f89895275e331}{load}}(VkDevice*\ device);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00206}\mbox{\hyperlink{struct_atlas_1_1_mesh_asset_a8751f39a2d68eb7ce3ca9d45751cae68}{00206}}\ \ \ \ \ \ \ \ \ std::vector<GeoSurface>\ \mbox{\hyperlink{struct_atlas_1_1_mesh_asset_a8751f39a2d68eb7ce3ca9d45751cae68}{surfaces}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00207}\mbox{\hyperlink{struct_atlas_1_1_mesh_asset_af7e880aad6e86d3adc84dc5d11da2f8b}{00207}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{GPUMeshBuffers}}\ \mbox{\hyperlink{struct_atlas_1_1_mesh_asset_af7e880aad6e86d3adc84dc5d11da2f8b}{meshBuffers}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00208}00208\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00209}00209\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00210}\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator}{00210}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator}{DescriptorAllocator}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00211}00211\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00212}\mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio}{00212}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio}{PoolSizeRatio}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00213}\mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio_ae7c592e0e542c129983025c50bf1906e}{00213}}\ \ \ \ \ \ \ \ \ \ \ \ \ VkDescriptorType\ \mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio_ae7c592e0e542c129983025c50bf1906e}{type}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00214}\mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio_ab1762959b927a278636b38c08b2e7c49}{00214}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio_ab1762959b927a278636b38c08b2e7c49}{ratio}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00215}00215\ \ \ \ \ \ \ \ \ \};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00216}00216\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00217}00217\ \ \ \ \ \ \ \ \ VkShaderModule\ \mbox{\hyperlink{class_atlas_1_1_shader_a24a786f23d8b86e39da5fdee1edc9aea}{getModule}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00217}\mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ab5ace759ece0b8bc10b91b5ab5673c7a}{00217}}\ \ \ \ \ \ \ \ \ VkDescriptorPool\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ab5ace759ece0b8bc10b91b5ab5673c7a}{pool}};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00218}00218\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00219}00219\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00220}00220\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00221}\mbox{\hyperlink{class_atlas_1_1_pipeline}{00221}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_pipeline}{Pipeline}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00222}00222\ \ \ \ \ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00223}\mbox{\hyperlink{class_atlas_1_1_pipeline_a2b33b5905c4d9feae9e79b6f4c3927ee}{00223}}\ \ \ \ \ \ \ \ \ VkPipelineLayoutCreateInfo\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a2b33b5905c4d9feae9e79b6f4c3927ee}{mComputeLayoutInfo}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00224}\mbox{\hyperlink{class_atlas_1_1_pipeline_a04d16a7dcb202d09bef404fae93f9f34}{00224}}\ \ \ \ \ \ \ \ \ VkPushConstantRange\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a04d16a7dcb202d09bef404fae93f9f34}{mPushConstantRange}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ab3bf785503136dbef3cd3f521bf01de8}{init\_pool}}(VkDevice\ device,\ uint32\_t\ maxSets,\ std::span<PoolSizeRatio>\ poolRatios);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_a00c1ddf1a380fff47b2b8266026ede29}{clear\_descriptors}}(VkDevice\ device);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_aec0ee24b4aa78fd0e584151d5a7bc75c}{destroy\_pool}}(VkDevice\ device);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00223}00223\ \ \ \ \ \ \ \ \ VkDescriptorSet\ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator_ad5762b4d93baa98387d458991b76ac89}{allocate}}(VkDevice\ device,\ VkDescriptorSetLayout\ layout);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00224}00224\ \ \ \ \ \};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00225}00225\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00226}\mbox{\hyperlink{class_atlas_1_1_pipeline_a2254dc71356602ffd92686756eb320e8}{00226}}\ \ \ \ \ \ \ \ \ VkPipeline\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a2254dc71356602ffd92686756eb320e8}{mPipeline}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00227}\mbox{\hyperlink{class_atlas_1_1_pipeline_a01cd43bce0c11f3f89fb9dbc5626b58c}{00227}}\ \ \ \ \ \ \ \ \ VkPipelineLayout\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a01cd43bce0c11f3f89fb9dbc5626b58c}{mPipelineLayout}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00228}00228\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00229}\mbox{\hyperlink{class_atlas_1_1_pipeline_a47cec9256518c5b102afda7112f9df73}{00229}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_shader}{Shader}}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a47cec9256518c5b102afda7112f9df73}{mShader}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00230}00230\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00231}\mbox{\hyperlink{class_atlas_1_1_pipeline_a484b83e21c7d8862c09d3e8bb17b5cb9}{00231}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_a484b83e21c7d8862c09d3e8bb17b5cb9}{Pipeline}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00226}\mbox{\hyperlink{class_atlas_1_1_shader}{00226}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_shader}{Shader}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00227}00227\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00228}\mbox{\hyperlink{class_atlas_1_1_shader_afdfd332c63d07392e4085ffff03674a4}{00228}}\ \ \ \ \ \ \ \ \ std::filesystem::path\ \mbox{\hyperlink{class_atlas_1_1_shader_afdfd332c63d07392e4085ffff03674a4}{mCompiledShaderPath}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00229}\mbox{\hyperlink{class_atlas_1_1_shader_afe9d4a8cbf8221d290d3b4c9cea8d0dc}{00229}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_atlas_1_1_shader_afe9d4a8cbf8221d290d3b4c9cea8d0dc}{mName}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00231}\mbox{\hyperlink{class_atlas_1_1_shader_a221a4ec8c9363632f70c49ae65daf4ca}{00231}}\ \ \ \ \ \ \ \ \ VkShaderModule\ \mbox{\hyperlink{class_atlas_1_1_shader_a221a4ec8c9363632f70c49ae65daf4ca}{mShaderModule}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00232}00232\ \ \ \ \ \textcolor{keyword}{public}:}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00233}00233\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00234}00234\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_aa1fe757141c8bdfbded620db7ffdf92b}{createLayout}}(VkPipelineLayoutCreateInfo\ layoutInfo,\ VkDevice*\ device);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00234}\mbox{\hyperlink{class_atlas_1_1_shader_a4f5eeac92833a65631c9b5f871b8a5f2}{00234}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_shader_a4f5eeac92833a65631c9b5f871b8a5f2}{Shader}}()\ =\ \textcolor{keywordflow}{default};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00235}00235\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_aa1fe757141c8bdfbded620db7ffdf92b}{createLayout}}(VkDevice*\ device,\ VkDescriptorSetLayout*\ descriptorSetLayout);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_atlas_1_1_shader_a4f5eeac92833a65631c9b5f871b8a5f2}{Shader}}(std::filesystem::path\ compiledShaderPath,\ std::string\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5c4947d4516dd7cfa3505ce3a648a4ef}{name}});}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00237}00237\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00238}\mbox{\hyperlink{class_atlas_1_1_pipeline_a046bfcdd7e8bb8c80379d18926d5ea8d}{00238}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a046bfcdd7e8bb8c80379d18926d5ea8d}{init}}(VkDevice*\ device,\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue}{DeletionQueue}}*\ deletionQueue,\ VkPipelineShaderStageCreateInfo\ stageInfo,\ VkComputePipelineCreateInfo\ pipelineInfo)\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ vkCreateComputePipelines(*device,\ VK\_NULL\_HANDLE,\ 1,\ \&pipelineInfo,\ \textcolor{keyword}{nullptr},\ \&\mbox{\hyperlink{class_atlas_1_1_pipeline_a2254dc71356602ffd92686756eb320e8}{mPipeline}});}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00240}00240\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ vkDestroyShaderModule(*device,\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a47cec9256518c5b102afda7112f9df73}{mShader}}.\mbox{\hyperlink{class_atlas_1_1_shader_a24a786f23d8b86e39da5fdee1edc9aea}{getModule}}(),\ \textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00242}00242\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ deletionQueue-\/>\mbox{\hyperlink{class_atlas_1_1_deletion_queue_aa3dad7f2554884bff3f70ddf88a1343a}{push}}([\&]()\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_a9fb02049f88c46388ad480f1462f066e}{destroyPipeline}}(device);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00246}00246\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00247}00247\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00248}\mbox{\hyperlink{class_atlas_1_1_pipeline_a9fb02049f88c46388ad480f1462f066e}{00248}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a9fb02049f88c46388ad480f1462f066e}{destroyPipeline}}(VkDevice*\ device)\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ vkDestroyPipelineLayout(*device,\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a01cd43bce0c11f3f89fb9dbc5626b58c}{mPipelineLayout}},\ \textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ vkDestroyPipeline(*device,\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a2254dc71356602ffd92686756eb320e8}{mPipeline}},\ \textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00251}00251\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00252}00252\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_shader_a7349cb31cdf0353303510e8c5731ca2d}{destroyModule}}(VkDevice*\ device);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_shader_a3be2a960ccab2f18268f89895275e331}{load}}(VkDevice*\ device);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00242}00242\ \ \ \ \ \ \ \ \ VkShaderModule\ \mbox{\hyperlink{class_atlas_1_1_shader_a24a786f23d8b86e39da5fdee1edc9aea}{getModule}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00244}00244\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00246}\mbox{\hyperlink{class_atlas_1_1_pipeline}{00246}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_pipeline}{Pipeline}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00247}00247\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00248}\mbox{\hyperlink{class_atlas_1_1_pipeline_a2b33b5905c4d9feae9e79b6f4c3927ee}{00248}}\ \ \ \ \ \ \ \ \ VkPipelineLayoutCreateInfo\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a2b33b5905c4d9feae9e79b6f4c3927ee}{mComputeLayoutInfo}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00249}\mbox{\hyperlink{class_atlas_1_1_pipeline_a04d16a7dcb202d09bef404fae93f9f34}{00249}}\ \ \ \ \ \ \ \ \ VkPushConstantRange\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a04d16a7dcb202d09bef404fae93f9f34}{mPushConstantRange}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00251}\mbox{\hyperlink{class_atlas_1_1_pipeline_a2254dc71356602ffd92686756eb320e8}{00251}}\ \ \ \ \ \ \ \ \ VkPipeline\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a2254dc71356602ffd92686756eb320e8}{mPipeline}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00252}\mbox{\hyperlink{class_atlas_1_1_pipeline_a01cd43bce0c11f3f89fb9dbc5626b58c}{00252}}\ \ \ \ \ \ \ \ \ VkPipelineLayout\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a01cd43bce0c11f3f89fb9dbc5626b58c}{mPipelineLayout}}\ =\ VK\_NULL\_HANDLE;}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00253}00253\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00254}\mbox{\hyperlink{class_atlas_1_1_renderable}{00254}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_renderable}{Renderable}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00255}00255\ \ \ \ \ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00256}\mbox{\hyperlink{class_atlas_1_1_renderable_a053dc35de30ec6d9935f757507712fbf}{00256}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{VulkanRenderingBackend}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00254}\mbox{\hyperlink{class_atlas_1_1_pipeline_a47cec9256518c5b102afda7112f9df73}{00254}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_shader}{Shader}}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a47cec9256518c5b102afda7112f9df73}{mShader}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00255}00255\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00256}\mbox{\hyperlink{class_atlas_1_1_pipeline_a484b83e21c7d8862c09d3e8bb17b5cb9}{00256}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_a484b83e21c7d8862c09d3e8bb17b5cb9}{Pipeline}}()\ =\ \textcolor{keywordflow}{default};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00257}00257\ }
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00258}00258\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00259}00259\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_aa1fe757141c8bdfbded620db7ffdf92b}{createLayout}}(VkPipelineLayoutCreateInfo\ layoutInfo,\ VkDevice*\ device);}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00260}00260\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00261}\mbox{\hyperlink{class_atlas_1_1_renderable_a39676b4df2645a84080c0be2e713ea2b}{00261}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderable_a39676b4df2645a84080c0be2e713ea2b}{SetCurrentDrawData}}(\mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{CurrentDrawData}}\ \textcolor{keyword}{const}\&\ currentFrame)\ \{\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::scoped\_lock\ lock(sCurrentDrawDataMutex);}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//sCurrentDrawData\ =\ currentFrame;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00264}00264\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_aa1fe757141c8bdfbded620db7ffdf92b}{createLayout}}(VkDevice*\ device,\ VkDescriptorSetLayout*\ descriptorSetLayout);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00263}\mbox{\hyperlink{class_atlas_1_1_pipeline_a046bfcdd7e8bb8c80379d18926d5ea8d}{00263}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a046bfcdd7e8bb8c80379d18926d5ea8d}{init}}(VkDevice*\ device,\ \mbox{\hyperlink{class_atlas_1_1_deletion_queue}{DeletionQueue}}*\ deletionQueue,\ VkPipelineShaderStageCreateInfo\ stageInfo,\ VkComputePipelineCreateInfo\ pipelineInfo)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ vkCreateComputePipelines(*device,\ VK\_NULL\_HANDLE,\ 1,\ \&pipelineInfo,\ \textcolor{keyword}{nullptr},\ \&\mbox{\hyperlink{class_atlas_1_1_pipeline_a2254dc71356602ffd92686756eb320e8}{mPipeline}});}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00265}00265\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00266}\mbox{\hyperlink{class_atlas_1_1_renderable_a06da38cc191150532ac5f708efb70564}{00266}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderable_a06da38cc191150532ac5f708efb70564}{draw}}(VkCommandBuffer\ cmd)\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00268}00268\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00269}00269\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00270}00270\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00271}\mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable}{00271}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable}{IMGUIRenderable}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_renderable}{Renderable}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00272}00272\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00273}00273\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00274}\mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable_abd169777eae4401c9aeb994f606868f5}{00274}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable_abd169777eae4401c9aeb994f606868f5}{draw}}(VkCommandBuffer\ cmd)\textcolor{keyword}{\ override}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00275}00275\ \textcolor{keyword}{\ \ \ \ \ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ vkDestroyShaderModule(*device,\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a47cec9256518c5b102afda7112f9df73}{mShader}}.\mbox{\hyperlink{class_atlas_1_1_shader_a24a786f23d8b86e39da5fdee1edc9aea}{getModule}}(),\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00267}00267\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ deletionQueue-\/>\mbox{\hyperlink{class_atlas_1_1_deletion_queue_a2ec3b6895d0fee0308282a0afd547643}{push}}([\&]()\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_a9fb02049f88c46388ad480f1462f066e}{destroyPipeline}}(device);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00271}00271\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00272}00272\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00273}\mbox{\hyperlink{class_atlas_1_1_pipeline_a9fb02049f88c46388ad480f1462f066e}{00273}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a9fb02049f88c46388ad480f1462f066e}{destroyPipeline}}(VkDevice*\ device)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ vkDestroyPipelineLayout(*device,\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a01cd43bce0c11f3f89fb9dbc5626b58c}{mPipelineLayout}},\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ vkDestroyPipeline(*device,\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a2254dc71356602ffd92686756eb320e8}{mPipeline}},\ \textcolor{keyword}{nullptr});}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00276}00276\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00277}00277\ \ \ \ \ \};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00278}00278\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00279}\mbox{\hyperlink{class_atlas_1_1_background_color}{00279}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_background_color}{BackgroundColor}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_renderable}{Renderable}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00280}00280\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00281}00281\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00282}00282\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00283}00283\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00284}\mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{00284}}\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{EVulkanRenderingOption}}\ :\ \textcolor{keywordtype}{size\_t}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00285}00285\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa6c67501995e6d5d3144128067f1f4282}{Version\_Major}}\ =\ 0,}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00286}00286\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aada7848cca791c2d919d1e9892e25e272}{Version\_Minor}},}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00287}00287\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa02982e4706ed9e943f19ecc18687442e}{Version\_Patch}},}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00288}00288\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa1794572ee5d7553087b60f9a30f06fcb}{Enable\_Validation\_Layers}},}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00289}00289\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa64f5a7769033d591e01f597ded975ae}{Use\_Dynamic\_Rendering}},}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00290}00290\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa888450d033ce9f4213fd5072d7bde94f}{Use\_Default\_Instance\_Builder}},}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00291}00291\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa0795e87406b10e332cda7ad99e8d3a3}{Enable\_Syncronization}},}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00292}00292\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aad2e0fe07d9b303172b67134dec8c0380}{Enable\_Buffer\_Device\_Address}},}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00293}00293\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa9e397d933c540afd737155e3c80b6eb7}{Enable\_Descriptor\_Indexing}},}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00294}00294\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaf54db95bd9f26035b7182f0886801cf2}{Swapchain\_Format}},}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00295}00295\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa28a319434f29a2d9545758cd7547516e}{Fence\_Timeout}},}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00296}00296\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00297}00297\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00298}\mbox{\hyperlink{class_atlas_1_1_graphics_queue}{00298}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_graphics_queue}{GraphicsQueue}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00299}00299\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00300}\mbox{\hyperlink{class_atlas_1_1_graphics_queue_a302bb69922d844e1dd8119e7c3051e26}{00300}}\ \ \ \ \ \ \ \ \ VkQueue\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a302bb69922d844e1dd8119e7c3051e26}{mQueue}}\{\ VK\_NULL\_HANDLE\ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00301}\mbox{\hyperlink{class_atlas_1_1_graphics_queue_a7222400352f02f999b578d6402c5135a}{00301}}\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a7222400352f02f999b578d6402c5135a}{mQueueFamily}}\{\ 1\ \};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00302}00302\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00303}00303\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00304}00304\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_ab32cc80ff2e24e3f38769e9594cd21d2}{GraphicsQueue}}(VkQueue\ queue,\ uint32\_t\ queueFamily);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00305}00305\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00306}\mbox{\hyperlink{class_atlas_1_1_graphics_queue_ab32cc80ff2e24e3f38769e9594cd21d2}{00306}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_ab32cc80ff2e24e3f38769e9594cd21d2}{GraphicsQueue}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00307}00307\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a92d1cd7b665e54a1910a609ed3af2f22}{submit}}(std::span<VkSubmitInfo2>\ submitInfos,\ VkFence\ fence\ =\ VK\_NULL\_HANDLE);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00309}00309\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00310}00310\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a92d1cd7b665e54a1910a609ed3af2f22}{submit}}(VkSubmitInfo2\ \textcolor{keyword}{const}\&\ submitInfo,\ VkFence\ fence\ =\ VK\_NULL\_HANDLE);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00311}00311\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00312}\mbox{\hyperlink{class_atlas_1_1_graphics_queue_a130fe2cea7da19235f82afd5923e2d72}{00312}}\ \ \ \ \ \ \ \ \ VkQueue\&\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a130fe2cea7da19235f82afd5923e2d72}{getQueue}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a302bb69922d844e1dd8119e7c3051e26}{mQueue}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00314}00314\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00315}00315\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00316}\mbox{\hyperlink{class_atlas_1_1_graphics_queue_a9613537a6ffe0723b1e56d1b6349fc3d}{00316}}\ \ \ \ \ \ \ \ \ ATLAS\_IMPLICIT\ \textcolor{keyword}{operator}\ VkQueue\&\ ()\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const\_cast<}\mbox{\hyperlink{class_atlas_1_1_graphics_queue}{Atlas::GraphicsQueue}}\&\textcolor{keyword}{>}(*this).\mbox{\hyperlink{class_atlas_1_1_graphics_queue_a130fe2cea7da19235f82afd5923e2d72}{getQueue}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00318}00318\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00319}00319\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00279}\mbox{\hyperlink{class_atlas_1_1_render_pass}{00279}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_render_pass}{RenderPass}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00280}00280\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00281}\mbox{\hyperlink{class_atlas_1_1_render_pass_ac6c975252d4e7e495c3fda1ec620ccbf}{00281}}\ \ \ \ \ \ \ \ \ VkCommandBuffer\ \mbox{\hyperlink{class_atlas_1_1_render_pass_ac6c975252d4e7e495c3fda1ec620ccbf}{mCommandBuffer}}\{\ VK\_NULL\_HANDLE\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00283}00283\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00284}\mbox{\hyperlink{class_atlas_1_1_render_pass_a3e70ad2386911e5e89b3fd732e92a56b}{00284}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_render_pass_a3e70ad2386911e5e89b3fd732e92a56b}{RenderPass}}(VkCommandBuffer\ commandBuffer)\ :\ \mbox{\hyperlink{class_atlas_1_1_render_pass_ac6c975252d4e7e495c3fda1ec620ccbf}{mCommandBuffer}}(commandBuffer)\ \{\}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00285}00285\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00286}\mbox{\hyperlink{class_atlas_1_1_render_pass_a601e74d1f63a6db1954a4b5ed355d75d}{00286}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_render_pass_a601e74d1f63a6db1954a4b5ed355d75d}{RenderPass}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00287}00287\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00288}00288\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00290}00290\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00292}\mbox{\hyperlink{class_atlas_1_1_renderable}{00292}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_renderable}{Renderable}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00293}00293\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00294}\mbox{\hyperlink{class_atlas_1_1_renderable_a053dc35de30ec6d9935f757507712fbf}{00294}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{VulkanRenderingBackend}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00297}00297\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00299}\mbox{\hyperlink{class_atlas_1_1_renderable_a39676b4df2645a84080c0be2e713ea2b}{00299}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderable_a39676b4df2645a84080c0be2e713ea2b}{SetCurrentDrawData}}(\mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{CurrentDrawData}}\ \textcolor{keyword}{const}\&\ currentFrame)\ \{\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::scoped\_lock\ lock(sCurrentDrawDataMutex);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//sCurrentDrawData\ =\ currentFrame;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00302}00302\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00303}00303\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00304}\mbox{\hyperlink{class_atlas_1_1_renderable_ad292005f0dc12954bca07561e0127a69}{00304}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderable_ad292005f0dc12954bca07561e0127a69}{beginDrawingStage}}(VkCommandBuffer\ cmd,\ \mbox{\hyperlink{class_atlas_1_1_effect_manager}{EffectManager}}\&\ computeEffects)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00305}00305\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00307}\mbox{\hyperlink{class_atlas_1_1_renderable_a06da38cc191150532ac5f708efb70564}{00307}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderable_a06da38cc191150532ac5f708efb70564}{draw}}(VkCommandBuffer\ cmd)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00309}00309\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00311}\mbox{\hyperlink{class_atlas_1_1_renderable_aab7b42bb79d1181aa78048d583f2b3c2}{00311}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_renderable_aab7b42bb79d1181aa78048d583f2b3c2}{endDrawingStage}}(VkCommandBuffer\ cmd)\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00312}00312\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00313}00313\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00314}00314\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00315}\mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable}{00315}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable}{IMGUIRenderable}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_renderable}{Renderable}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00316}00316\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00317}00317\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable_a4dc825276ed81478fc0abf012d2fdb29}{NewIMGUIFrame}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00319}00319\ \ \ \ \ \textcolor{keyword}{protected}:}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00320}00320\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00330}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{00330}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{VulkanRenderingBackend}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend}{RenderingBackend}}\ \{}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00331}00331\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Thread-\/safe\ global\ instance\ of\ this\ class}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00333}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aae69e169798cb010feb8c74ce343b1b2}{00333}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::shared\_ptr<VulkanRenderingBackend>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aae69e169798cb010feb8c74ce343b1b2}{sInstance}}\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00334}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a57d56715d1b3411ae02bac0f24758fae}{00334}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::mutex\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a57d56715d1b3411ae02bac0f24758fae}{sInstanceMutex}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00335}00335\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00336}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_acd6c8c58b6d9f3945d994cdb9e4bec28}{00336}}\ \ \ \ \ \ \ \ \ std::vector<ComputeEffect>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_acd6c8c58b6d9f3945d994cdb9e4bec28}{mBackgroundEffects}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00337}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a384c56d651027067901c0f1d6f56c708}{00337}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a384c56d651027067901c0f1d6f56c708}{mCurrentBackgroundEffect}}\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00338}00338\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00339}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5c82bf00fd01a105928974c58ff1c3a3}{00339}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{CurrentDrawData}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5c82bf00fd01a105928974c58ff1c3a3}{mCurrentDrawData}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00340}00340\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00341}00341\ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::bitset<ATLAS\_VK\_DEVICE\_BITS>\ mOptionsBitset;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00342}00342\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00343}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a2b9b1daf0b431e15428f58dddc7cd44c}{00343}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a2b9b1daf0b431e15428f58dddc7cd44c}{mCurrentFrameNumber}}\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00344}00344\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00345}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a891b602550f701664821fb72fa1f3238}{00345}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a891b602550f701664821fb72fa1f3238}{mIsInitialized}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00346}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ad54d6f2a1b3dc9ac26de3730c66b8db5}{00346}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ad54d6f2a1b3dc9ac26de3730c66b8db5}{mbUseDefaultInstanceBuilder}}\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00347}00347\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00348}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae394fc0c378777fcd3968f6eb2ab830a}{00348}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{ImmediateSubmitInfo}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae394fc0c378777fcd3968f6eb2ab830a}{mImmediateSubmitInfo}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00321}00321\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable_aa16db9a3193702eec111c0100825264d}{setupElements}}(\mbox{\hyperlink{class_atlas_1_1_effect_manager}{EffectManager}}\&\ computeEffects);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00322}00322\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00324}00324\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable_ac459815eec499121083961df1493fd69}{beginDrawingStage}}(VkCommandBuffer\ cmd,\ \mbox{\hyperlink{class_atlas_1_1_effect_manager}{EffectManager}}\&\ computeEffects)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00325}00325\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00326}00326\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable_abd169777eae4401c9aeb994f606868f5}{draw}}(VkCommandBuffer\ cmd)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00327}00327\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable_ab460698f90f7798eaf0374e2d0b41cf3}{endDrawingStage}}(VkCommandBuffer\ cmd)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00329}00329\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00330}00330\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00331}\mbox{\hyperlink{class_atlas_1_1_background_color}{00331}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_background_color}{BackgroundColor}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_renderable}{Renderable}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00332}00332\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00334}00334\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00336}\mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{00336}}\ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{EVulkanRenderingOption}}\ :\ \textcolor{keywordtype}{size\_t}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00337}00337\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa6c67501995e6d5d3144128067f1f4282}{Version\_Major}}\ =\ 0,}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00338}00338\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aada7848cca791c2d919d1e9892e25e272}{Version\_Minor}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00339}00339\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa02982e4706ed9e943f19ecc18687442e}{Version\_Patch}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00340}00340\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa1794572ee5d7553087b60f9a30f06fcb}{Enable\_Validation\_Layers}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00341}00341\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa64f5a7769033d591e01f597ded975ae}{Use\_Dynamic\_Rendering}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00342}00342\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa888450d033ce9f4213fd5072d7bde94f}{Use\_Default\_Instance\_Builder}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00343}00343\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa0795e87406b10e332cda7ad99e8d3a3}{Enable\_Syncronization}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00344}00344\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aad2e0fe07d9b303172b67134dec8c0380}{Enable\_Buffer\_Device\_Address}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00345}00345\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa9e397d933c540afd737155e3c80b6eb7}{Enable\_Descriptor\_Indexing}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00346}00346\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaf54db95bd9f26035b7182f0886801cf2}{Swapchain\_Format}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00347}00347\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa28a319434f29a2d9545758cd7547516e}{Fence\_Timeout}},}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00348}00348\ \ \ \ \ \};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00349}00349\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00350}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_afba4b6809e99d0f954d6931344f3309c}{00350}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_vulkan_instance_wrapper}{VulkanInstanceWrapper}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_afba4b6809e99d0f954d6931344f3309c}{mInstance}}\{\};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00351}00351\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00352}00352\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Vulkan\ stuff}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00353}00353\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkInstance\ mVulkanInstance\ =\ VK\_NULL\_HANDLE;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00354}00354\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkDebugUtilsMessengerEXT\ mDebugMessenger\ =\ VK\_NULL\_HANDLE;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00355}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_adeb42fea9d25e1d06273f7dbe1a1eb82}{00355}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_physical_device}{PhysicalDevice}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_adeb42fea9d25e1d06273f7dbe1a1eb82}{mPhysicalDevice}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00356}00356\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkPhysicalDevice\ mGPUDevice\ =\ VK\_NULL\_HANDLE;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00358}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_af7a9fd41d574f85cbd57d398f54b87d7}{00358}}\ \ \ \ \ \ \ \ \ VkDevice\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_af7a9fd41d574f85cbd57d398f54b87d7}{mDevice}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00359}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a76c698e6522b71239a178fd7a09ad2c9}{00359}}\ \ \ \ \ \ \ \ \ VkSurfaceKHR\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a76c698e6522b71239a178fd7a09ad2c9}{mSurface}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00360}00360\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00361}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5dcd19e5f68bb4dcadd926e17ac3503a}{00361}}\ \ \ \ \ \ \ \ \ VkSwapchainKHR\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5dcd19e5f68bb4dcadd926e17ac3503a}{mSwapchain}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00362}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a87110ef434c75d6f8ec6d8ba8e75cbe7}{00362}}\ \ \ \ \ \ \ \ \ VkFormat\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a87110ef434c75d6f8ec6d8ba8e75cbe7}{mSwapchainImageFormat}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00350}\mbox{\hyperlink{class_atlas_1_1_graphics_queue}{00350}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_graphics_queue}{GraphicsQueue}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00351}00351\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00352}\mbox{\hyperlink{class_atlas_1_1_graphics_queue_a302bb69922d844e1dd8119e7c3051e26}{00352}}\ \ \ \ \ \ \ \ \ VkQueue\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a302bb69922d844e1dd8119e7c3051e26}{mQueue}}\{\ VK\_NULL\_HANDLE\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00353}\mbox{\hyperlink{class_atlas_1_1_graphics_queue_a7222400352f02f999b578d6402c5135a}{00353}}\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a7222400352f02f999b578d6402c5135a}{mQueueFamily}}\{\ 1\ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00355}00355\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00356}00356\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_ab32cc80ff2e24e3f38769e9594cd21d2}{GraphicsQueue}}(VkQueue\ queue,\ uint32\_t\ queueFamily);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00357}00357\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00358}\mbox{\hyperlink{class_atlas_1_1_graphics_queue_ab32cc80ff2e24e3f38769e9594cd21d2}{00358}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_ab32cc80ff2e24e3f38769e9594cd21d2}{GraphicsQueue}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a92d1cd7b665e54a1910a609ed3af2f22}{submit}}(std::span<VkSubmitInfo2>\ submitInfos,\ VkFence\ fence\ =\ VK\_NULL\_HANDLE);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00361}00361\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00362}00362\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a92d1cd7b665e54a1910a609ed3af2f22}{submit}}(VkSubmitInfo2\ \textcolor{keyword}{const}\&\ submitInfo,\ VkFence\ fence\ =\ VK\_NULL\_HANDLE);}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00363}00363\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00364}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a93f9b6b90a79666147f3fde3a0e85fc1}{00364}}\ \ \ \ \ \ \ \ \ std::vector<VkImage>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a93f9b6b90a79666147f3fde3a0e85fc1}{mSwapchainImages}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00365}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a7c2ee70bbf4f7f7ab0519fdec874ce95}{00365}}\ \ \ \ \ \ \ \ \ std::vector<VkImageView>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a7c2ee70bbf4f7f7ab0519fdec874ce95}{mSwapchainImageViews}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00366}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a101b2004cb23bb3dbe84e5109c1688b9}{00366}}\ \ \ \ \ \ \ \ \ VkExtent2D\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a101b2004cb23bb3dbe84e5109c1688b9}{mSwapchainExtent}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00364}\mbox{\hyperlink{class_atlas_1_1_graphics_queue_a130fe2cea7da19235f82afd5923e2d72}{00364}}\ \ \ \ \ \ \ \ \ VkQueue\&\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a130fe2cea7da19235f82afd5923e2d72}{getQueue}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_graphics_queue_a302bb69922d844e1dd8119e7c3051e26}{mQueue}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00366}00366\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00367}00367\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00368}00368\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ Move\ to\ a\ frame\ manager\ class\ or\ something\ like\ that}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00369}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a7212630e60fb2c5d5ead5e7ec4750ea0}{00369}}\ \ \ \ \ \ \ \ \ std::array<FrameData,\ FRAME\_OVERLAP>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a7212630e60fb2c5d5ead5e7ec4750ea0}{mFrameDataArray}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00370}00370\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00371}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a8ab7484e1e0f0e2555390bb144e01cc5}{00371}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_allocated_image}{AllocatedImage}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a8ab7484e1e0f0e2555390bb144e01cc5}{mDrawImage}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00372}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a395ea37b53be726b019778bc9d6e5bf4}{00372}}\ \ \ \ \ \ \ \ \ VkExtent2D\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a395ea37b53be726b019778bc9d6e5bf4}{mDrawExtent}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00373}00373\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00374}00374\ \ \ \ \ \ \ \ \ \textcolor{comment}{//GraphicsQueue\ mGraphicsQueue;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00375}00375\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00376}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a742af18207e5c938915dacb0169e98d3}{00376}}\ \ \ \ \ \ \ \ \ VkQueue\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a742af18207e5c938915dacb0169e98d3}{mGraphicsQueue}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00377}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ada825303261d57a176e18ed073c5f318}{00377}}\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ada825303261d57a176e18ed073c5f318}{mGraphicsQueueFamily}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00378}00378\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00379}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aead03a669b7ae250e6b7ef9100d8acfb}{00379}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue}{DeletionQueue}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aead03a669b7ae250e6b7ef9100d8acfb}{mMainDeletionQueue}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00380}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a497af73e5b7b7f547f093d6a97482c66}{00380}}\ \ \ \ \ \ \ \ \ VmaAllocator\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a497af73e5b7b7f547f093d6a97482c66}{mVMAAllocator}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00381}00381\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00382}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ab3c96bbe8f935dda3a43033558dc9247}{00382}}\ \ \ \ \ \ \ \ \ uint64\_t\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ab3c96bbe8f935dda3a43033558dc9247}{mFencesTimeoutNS}}\ =\ \mbox{\hyperlink{_v_k_device_8h_abca11d49e8a831d8d24a127bbae30963}{ATLAS\_1\_SECOND\_IN\_NS}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00383}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4e3f7caff80bb420a31e10c4129704ad}{00383}}\ \ \ \ \ \ \ \ \ uint64\_t\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4e3f7caff80bb420a31e10c4129704ad}{mNextImageTimeoutNS}}\ =\ \mbox{\hyperlink{_v_k_device_8h_abca11d49e8a831d8d24a127bbae30963}{ATLAS\_1\_SECOND\_IN\_NS}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00384}00384\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00385}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a06585e1bf3edee90ea56836a0f94ff5a}{00385}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator}{DescriptorAllocator}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a06585e1bf3edee90ea56836a0f94ff5a}{mGlobalDescriptorAllocator}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00386}00386\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00387}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a0bfa2e0e97c46b05742d2cba50759d41}{00387}}\ \ \ \ \ \ \ \ \ VkDescriptorSet\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a0bfa2e0e97c46b05742d2cba50759d41}{mDrawImageDescriptors}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00388}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae130334c4068759a70657c4f0a20e9a9}{00388}}\ \ \ \ \ \ \ \ \ VkDescriptorSetLayout\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae130334c4068759a70657c4f0a20e9a9}{mDrawImageDescriptorLayout}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00389}00389\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00390}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a50b5b2b727fcf2536458da34a4f93688}{00390}}\ \ \ \ \ \ \ \ \ VkPipeline\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a50b5b2b727fcf2536458da34a4f93688}{mGradientPipeline}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00391}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae1447ba508326b9c73ed5ed0e02d70a7}{00391}}\ \ \ \ \ \ \ \ \ VkPipelineLayout\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae1447ba508326b9c73ed5ed0e02d70a7}{mGradientPipelineLayout}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00368}\mbox{\hyperlink{class_atlas_1_1_graphics_queue_a9613537a6ffe0723b1e56d1b6349fc3d}{00368}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_common_8h_a6e28df6a53faef578e73999acae2cb92}{ATLAS\_IMPLICIT}}\ \textcolor{keyword}{operator}\ VkQueue\&\ ()\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const\_cast<}\mbox{\hyperlink{class_atlas_1_1_graphics_queue}{Atlas::GraphicsQueue}}\&\textcolor{keyword}{>}(*this).\mbox{\hyperlink{class_atlas_1_1_graphics_queue_a130fe2cea7da19235f82afd5923e2d72}{getQueue}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00370}00370\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00371}00371\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00372}00372\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00382}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{00382}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{VulkanRenderingBackend}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend}{RenderingBackend}}\ \{}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00383}00383\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Thread-\/safe\ global\ instance\ of\ this\ class}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00385}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aae69e169798cb010feb8c74ce343b1b2}{00385}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::shared\_ptr<VulkanRenderingBackend>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aae69e169798cb010feb8c74ce343b1b2}{sInstance}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00386}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a57d56715d1b3411ae02bac0f24758fae}{00386}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::mutex\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a57d56715d1b3411ae02bac0f24758fae}{sInstanceMutex}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00387}00387\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00388}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_acd6c8c58b6d9f3945d994cdb9e4bec28}{00388}}\ \ \ \ \ \ \ \ \ std::vector<ComputeEffect>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_acd6c8c58b6d9f3945d994cdb9e4bec28}{mBackgroundEffects}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00389}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a384c56d651027067901c0f1d6f56c708}{00389}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a384c56d651027067901c0f1d6f56c708}{mCurrentBackgroundEffect}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00390}00390\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00391}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5c82bf00fd01a105928974c58ff1c3a3}{00391}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{CurrentDrawData}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5c82bf00fd01a105928974c58ff1c3a3}{mCurrentDrawData}};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00392}00392\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00393}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a58497c1b358b7044859c78da9ecf2f92}{00393}}\ \ \ \ \ \ \ \ \ VkPipelineLayout\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a58497c1b358b7044859c78da9ecf2f92}{\_trianglePipelineLayout}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00394}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ad2586392f933e50e525f4b5683c263a5}{00394}}\ \ \ \ \ \ \ \ \ VkPipeline\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ad2586392f933e50e525f4b5683c263a5}{\_trianglePipeline}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00395}00395\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00396}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a023d171151314be50005f521d3a0b89a}{00396}}\ \ \ \ \ \ \ \ \ VkPipelineLayout\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a023d171151314be50005f521d3a0b89a}{\_meshPipelineLayout}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00397}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a6aa12397d63d95976630333ce02bee56}{00397}}\ \ \ \ \ \ \ \ \ VkPipeline\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a6aa12397d63d95976630333ce02bee56}{\_meshPipeline}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00393}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae1be35d932f05c5035b9a6d0b3e8067b}{00393}}\ \ \ \ \ \ \ \ \ std::vector<std::shared\_ptr<MeshAsset>>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae1be35d932f05c5035b9a6d0b3e8067b}{testMeshes}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00394}00394\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00395}00395\ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::bitset<ATLAS\_VK\_DEVICE\_BITS>\ mOptionsBitset;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00396}00396\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00397}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a2b9b1daf0b431e15428f58dddc7cd44c}{00397}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a2b9b1daf0b431e15428f58dddc7cd44c}{mCurrentFrameNumber}}\ =\ 0;}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00398}00398\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00399}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a72ba8bf06e2b6c2e3f648f6430e1b9ef}{00399}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{GPUMeshBuffers}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a72ba8bf06e2b6c2e3f648f6430e1b9ef}{rectangle}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00400}00400\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00401}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5f40a46c2239b95f013ed783ba638775}{00401}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5f40a46c2239b95f013ed783ba638775}{mApplicationName}};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00402}00402\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00399}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a891b602550f701664821fb72fa1f3238}{00399}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a891b602550f701664821fb72fa1f3238}{mIsInitialized}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00400}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ad54d6f2a1b3dc9ac26de3730c66b8db5}{00400}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ad54d6f2a1b3dc9ac26de3730c66b8db5}{mbUseDefaultInstanceBuilder}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00401}00401\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00402}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae394fc0c378777fcd3968f6eb2ab830a}{00402}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{ImmediateSubmitInfo}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae394fc0c378777fcd3968f6eb2ab830a}{mImmediateSubmitInfo}};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00403}00403\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00404}00404\ \ \ \ \ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa1e976efc27162979998896c39d25a6c}{initInstance}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_version}{APIVersion}}\&\ cAPIVersionRef,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ cbEnableValidationLayers,\ std::string\ \textcolor{keyword}{const}\&\ appName);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00405}00405\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00406}00406\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a706ab6e52f11f4df9e5029f9c1e3ce6a}{initDescriptors}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00407}00407\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00408}00408\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4c2cee7a925d2f6a43cef42270ed29f1}{initPipelines}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00409}00409\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_adec9a0e49b1ba1c47bda7f64e4c1ba67}{initBackgroundPipelines}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00410}00410\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a2e554c8b6161f41942f0d112d56cda4d}{initTrianglePipeline}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00411}00411\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_abd48589fe46ba07ea58c3e619b381c6b}{initMeshPipeline}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00412}00412\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00413}00413\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5b02c546f8d3a08dc8659988f06a6650}{initVMAAllocator}}(vkb::Instance\ \textcolor{keyword}{const}\&\ cVkBootstrapInstanceRef);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00404}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_afba4b6809e99d0f954d6931344f3309c}{00404}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_vulkan_instance_wrapper}{VulkanInstanceWrapper}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_afba4b6809e99d0f954d6931344f3309c}{mInstance}}\{\};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00405}00405\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00406}00406\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Vulkan\ stuff}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00407}00407\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkInstance\ mVulkanInstance\ =\ VK\_NULL\_HANDLE;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00408}00408\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkDebugUtilsMessengerEXT\ mDebugMessenger\ =\ VK\_NULL\_HANDLE;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00409}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_adeb42fea9d25e1d06273f7dbe1a1eb82}{00409}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_physical_device}{PhysicalDevice}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_adeb42fea9d25e1d06273f7dbe1a1eb82}{mPhysicalDevice}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00410}00410\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00411}00411\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkPhysicalDevice\ mGPUDevice\ =\ VK\_NULL\_HANDLE;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00412}00412\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkDevice\ mDevice\ =\ VK\_NULL\_HANDLE;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00413}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a76c698e6522b71239a178fd7a09ad2c9}{00413}}\ \ \ \ \ \ \ \ \ VkSurfaceKHR\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a76c698e6522b71239a178fd7a09ad2c9}{mSurface}}\ =\ VK\_NULL\_HANDLE;}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00414}00414\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00415}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5e5c33a69a62d32845ff5b86112ee10c}{00415}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window}{SDLGameWindow}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00415}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a48a48e1787feed815ffdf4600f44eb9e}{00415}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_device}{Device}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a48a48e1787feed815ffdf4600f44eb9e}{mDevice}};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00416}00416\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00417}00417\ \ \ \ \ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00418}00418\ \ \ \ \ \ \ \ \ \textcolor{comment}{//static\ inline\ void\ SetGlobalInstance(std::shared\_ptr<VulkanRenderingBackend>\ instance)\ \{}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00419}00419\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ std::scoped\_lock\ lock(sInstanceMutex);}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00420}00420\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ sInstance\ =\ instance;\ }}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00421}00421\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00422}00422\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00423}00423\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00424}00424\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00425}00425\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a8fdc27032a31e060812f50d3483df789}{RenderingBackend::RenderingBackend}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00417}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5dcd19e5f68bb4dcadd926e17ac3503a}{00417}}\ \ \ \ \ \ \ \ \ VkSwapchainKHR\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5dcd19e5f68bb4dcadd926e17ac3503a}{mSwapchain}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00418}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a87110ef434c75d6f8ec6d8ba8e75cbe7}{00418}}\ \ \ \ \ \ \ \ \ VkFormat\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a87110ef434c75d6f8ec6d8ba8e75cbe7}{mSwapchainImageFormat}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00419}00419\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00420}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a93f9b6b90a79666147f3fde3a0e85fc1}{00420}}\ \ \ \ \ \ \ \ \ std::vector<VkImage>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a93f9b6b90a79666147f3fde3a0e85fc1}{mSwapchainImages}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00421}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a7c2ee70bbf4f7f7ab0519fdec874ce95}{00421}}\ \ \ \ \ \ \ \ \ std::vector<VkImageView>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a7c2ee70bbf4f7f7ab0519fdec874ce95}{mSwapchainImageViews}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00422}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a101b2004cb23bb3dbe84e5109c1688b9}{00422}}\ \ \ \ \ \ \ \ \ VkExtent2D\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a101b2004cb23bb3dbe84e5109c1688b9}{mSwapchainExtent}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00423}00423\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00424}00424\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ Move\ to\ a\ frame\ manager\ class\ or\ something\ like\ that}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00425}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a7212630e60fb2c5d5ead5e7ec4750ea0}{00425}}\ \ \ \ \ \ \ \ \ std::array<FrameData,\ FRAME\_OVERLAP>\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a7212630e60fb2c5d5ead5e7ec4750ea0}{mFrameDataArray}};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00426}00426\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00440}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a8cd1178b3b6b7474b207964985473ad3}{00440}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a8cd1178b3b6b7474b207964985473ad3}{VulkanRenderingBackend}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00441}00441\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00442}00442\ \ \ \ \ \ \ \ \ \textcolor{comment}{//void\ setOption(EVulkanRenderingOption\ option,\ int\ value)\ \{}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00443}00443\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ mOptionsBitset[static\_cast<size\_t>(option)]\ =\ value;}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00444}00444\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00456}00456\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa855ce8024b024a6028349e0c350011c}{init}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow)\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00457}00457\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00458}00458\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aec84e32b5089ba579f140193eb3a78c2}{initDefaultData}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00459}00459\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00460}00460\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a75e7336e51012ebf114ed9cbdeab50a8}{initPhysicalDevice}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00461}00461\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00462}00462\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a820ddb6ef9a24e50b8939e40e15711ef}{initSwapchain}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00463}00463\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00464}00464\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae8a36fa0c0e480e5250194db2e930a4c}{initCommands}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00465}00465\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00466}00466\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a9224eadded150b6909a25c08ad49cd33}{initIMGUI}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00427}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a8ab7484e1e0f0e2555390bb144e01cc5}{00427}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_allocated_image}{AllocatedImage}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a8ab7484e1e0f0e2555390bb144e01cc5}{mDrawImage}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00428}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a395ea37b53be726b019778bc9d6e5bf4}{00428}}\ \ \ \ \ \ \ \ \ VkExtent2D\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a395ea37b53be726b019778bc9d6e5bf4}{mDrawExtent}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00429}00429\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00430}00430\ \ \ \ \ \ \ \ \ \textcolor{comment}{//GraphicsQueue\ mGraphicsQueue;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00431}00431\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00432}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a742af18207e5c938915dacb0169e98d3}{00432}}\ \ \ \ \ \ \ \ \ VkQueue\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a742af18207e5c938915dacb0169e98d3}{mGraphicsQueue}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00433}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ada825303261d57a176e18ed073c5f318}{00433}}\ \ \ \ \ \ \ \ \ uint32\_t\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ada825303261d57a176e18ed073c5f318}{mGraphicsQueueFamily}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00434}00434\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00435}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aead03a669b7ae250e6b7ef9100d8acfb}{00435}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_deletion_queue}{DeletionQueue}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aead03a669b7ae250e6b7ef9100d8acfb}{mMainDeletionQueue}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00436}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a497af73e5b7b7f547f093d6a97482c66}{00436}}\ \ \ \ \ \ \ \ \ VmaAllocator\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a497af73e5b7b7f547f093d6a97482c66}{mVMAAllocator}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00437}00437\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00438}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ab3c96bbe8f935dda3a43033558dc9247}{00438}}\ \ \ \ \ \ \ \ \ uint64\_t\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ab3c96bbe8f935dda3a43033558dc9247}{mFencesTimeoutNS}}\ =\ \mbox{\hyperlink{_v_k_device_8h_abca11d49e8a831d8d24a127bbae30963}{ATLAS\_1\_SECOND\_IN\_NS}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00439}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4e3f7caff80bb420a31e10c4129704ad}{00439}}\ \ \ \ \ \ \ \ \ uint64\_t\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4e3f7caff80bb420a31e10c4129704ad}{mNextImageTimeoutNS}}\ =\ \mbox{\hyperlink{_v_k_device_8h_abca11d49e8a831d8d24a127bbae30963}{ATLAS\_1\_SECOND\_IN\_NS}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00440}00440\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00441}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a06585e1bf3edee90ea56836a0f94ff5a}{00441}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator}{DescriptorAllocator}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a06585e1bf3edee90ea56836a0f94ff5a}{mGlobalDescriptorAllocator}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00442}00442\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00443}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a0bfa2e0e97c46b05742d2cba50759d41}{00443}}\ \ \ \ \ \ \ \ \ VkDescriptorSet\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a0bfa2e0e97c46b05742d2cba50759d41}{mDrawImageDescriptors}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00444}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae130334c4068759a70657c4f0a20e9a9}{00444}}\ \ \ \ \ \ \ \ \ VkDescriptorSetLayout\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae130334c4068759a70657c4f0a20e9a9}{mDrawImageDescriptorLayout}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00445}00445\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00446}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a50b5b2b727fcf2536458da34a4f93688}{00446}}\ \ \ \ \ \ \ \ \ VkPipeline\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a50b5b2b727fcf2536458da34a4f93688}{mGradientPipeline}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00447}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae1447ba508326b9c73ed5ed0e02d70a7}{00447}}\ \ \ \ \ \ \ \ \ VkPipelineLayout\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae1447ba508326b9c73ed5ed0e02d70a7}{mGradientPipelineLayout}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00448}00448\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00449}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a58497c1b358b7044859c78da9ecf2f92}{00449}}\ \ \ \ \ \ \ \ \ VkPipelineLayout\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a58497c1b358b7044859c78da9ecf2f92}{\_trianglePipelineLayout}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00450}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ad2586392f933e50e525f4b5683c263a5}{00450}}\ \ \ \ \ \ \ \ \ VkPipeline\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ad2586392f933e50e525f4b5683c263a5}{\_trianglePipeline}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00451}00451\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00452}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a023d171151314be50005f521d3a0b89a}{00452}}\ \ \ \ \ \ \ \ \ VkPipelineLayout\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a023d171151314be50005f521d3a0b89a}{\_meshPipelineLayout}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00453}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a6aa12397d63d95976630333ce02bee56}{00453}}\ \ \ \ \ \ \ \ \ VkPipeline\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a6aa12397d63d95976630333ce02bee56}{\_meshPipeline}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00454}00454\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00455}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a72ba8bf06e2b6c2e3f648f6430e1b9ef}{00455}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{GPUMeshBuffers}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a72ba8bf06e2b6c2e3f648f6430e1b9ef}{rectangle}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00456}00456\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00457}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5f40a46c2239b95f013ed783ba638775}{00457}}\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5f40a46c2239b95f013ed783ba638775}{mApplicationName}};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00458}00458\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00459}00459\ \ \ \ \ \ \ \ \ uint16\_t\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa1e976efc27162979998896c39d25a6c}{initInstance}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_version}{APIVersion}}\&\ cAPIVersionRef,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ cbEnableValidationLayers,\ std::string\ \textcolor{keyword}{const}\&\ appName);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00460}00460\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00461}00461\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a706ab6e52f11f4df9e5029f9c1e3ce6a}{initDescriptors}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00462}00462\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00463}00463\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4c2cee7a925d2f6a43cef42270ed29f1}{initPipelines}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00464}00464\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_adec9a0e49b1ba1c47bda7f64e4c1ba67}{initBackgroundPipelines}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00465}00465\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a2e554c8b6161f41942f0d112d56cda4d}{initTrianglePipeline}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00466}00466\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_abd48589fe46ba07ea58c3e619b381c6b}{initMeshPipeline}}();}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00467}00467\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00468}00468\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a391b6a51c7ac0ee943c5edc0aba6945f}{resetFences}}(\textcolor{keyword}{const}\ uint32\_t\ cFenceCount,\ \mbox{\hyperlink{struct_atlas_1_1_frame_data}{FrameData}}\&\ currentFrame);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00468}00468\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5b02c546f8d3a08dc8659988f06a6650}{initVMAAllocator}}(vkb::Instance\ \textcolor{keyword}{const}\&\ cVkBootstrapInstanceRef);}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00469}00469\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00470}00470\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ac7bb7f0e05ba1da1bebde4c7bf8fe981}{beginDrawingMode}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00470}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a5e5c33a69a62d32845ff5b86112ee10c}{00470}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_s_d_l_game_window}{SDLGameWindow}};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00471}00471\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00472}00472\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ab9919dedd3828b7232b54feddd2b6f06}{endDrawingMode}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00473}00473\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00474}00474\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ac304e7d22e7b98cd7d2b67a835d948c7}{draw}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00475}00475\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00476}00476\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ab3fca39874fb6e74c017f6e73437dd0b}{drawIMGUI}}(VkCommandBuffer\ cmd,\ VkImageView\ targetImageView);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00472}00472\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00473}00473\ \ \ \ \ \ \ \ \ \textcolor{comment}{//static\ inline\ void\ SetGlobalInstance(std::shared\_ptr<VulkanRenderingBackend>\ instance)\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00474}00474\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ std::scoped\_lock\ lock(sInstanceMutex);}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00475}00475\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ sInstance\ =\ instance;\ }}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00476}00476\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00477}00477\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00478}00478\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_afd0f02bf0e403d35d4300bdda9682ba5}{drawBackground}}(VkCommandBuffer\ cmd);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00478}00478\ \ \ \ \ \textcolor{keyword}{public}:}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00479}00479\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00480}00480\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a1d5290bfbe10ba1d6a47840225fd3929}{drawGeometry}}(VkCommandBuffer\ cmd);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00480}00480\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a8fdc27032a31e060812f50d3483df789}{RenderingBackend::RenderingBackend}};}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00481}00481\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00482}00482\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4ed9f09a76e96ffd70d8b0f3cdc64e0a}{present}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00483}00483\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00484}00484\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a407d054ec95d389cf07ea5cb5deae474}{shutdown}}()\ \textcolor{keyword}{override};}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00485}00485\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00486}00486\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a597ab69885b16541eb061f6e71dc43d6}{shouldUseDefaultInstanceBuilder}}(\textcolor{keywordtype}{bool}\ bUseDefaultInstanceBuilder);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00487}00487\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00488}00488\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a739fba5d12bfe91225e8af67fbd1dbfc}{setApplicationName}}(std::string\_view\ applicationName);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00489}00489\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00490}00490\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4a4d7df71d1f65b6bfc5960c405fc5ec}{setFenceTimeout}}(uint64\_t\ lengthInNS);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00491}00491\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00492}00492\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a1bc2561775116cd9d0a8ea177998d1ab}{setNextImageTimeout}}(uint64\_t\ lengthInNS);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00493}00493\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00494}00494\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{AllocatedBuffer}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_abceadac1d679cf044daf91822ea001ea}{createBuffer}}(\textcolor{keywordtype}{size\_t}\ allocSize,\ VkBufferUsageFlags\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_afb85c5d9b1bce96aa3b530d581194d1a}{usage}},\ VmaMemoryUsage\ memoryUsage);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00495}00495\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00496}00496\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a74fce19005ef0a5e78df95217303b4c2}{destroyBuffer}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{AllocatedBuffer}}\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}});}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00497}00497\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00498}00498\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ac95335e7cac9b5b353cd487c0be773a3}{createSwapchain}}(uint32\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ uint32\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}});}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00499}00499\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00500}00500\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a214c275935ac01f290114ee5b4fb0056}{destroySwapchain}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00501}00501\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00502}00502\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{GPUMeshBuffers}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a9684d6b4e462de5291f612281d1b74b8}{UploadMesh}}(std::span<uint32\_t>\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a94ae715eebfc1eb65456c0ab9b97f1e9}{indices}},\ std::span<Vertex>\ vertices);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00503}00503\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00504}00504\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_af7a5250af778f7c29efbbf6ca2a2425e}{ImmediateSubmit}}(std::function<\textcolor{keywordtype}{void}(VkCommandBuffer\ cmd)>\&\&\ function);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00505}00505\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00506}00506\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_acc9931cd0eee1fc185c03cd194e37575}{checkValidationLayerSupport}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00507}00507\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00508}00508\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a3888ac8c01aeceaa67ab9ee78db6321f}{canInitialize}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00509}00509\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00510}00510\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa7474902df6303176229db0815932077}{getApplicationName}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00511}00511\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00512}00512\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_frame_data}{FrameData}}\&\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a838ab59d0d565cb75eca87a70481401f}{getCurrentFrame}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00513}00513\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00495}\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a8cd1178b3b6b7474b207964985473ad3}{00495}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a8cd1178b3b6b7474b207964985473ad3}{VulkanRenderingBackend}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00496}00496\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00497}00497\ \ \ \ \ \ \ \ \ \textcolor{comment}{//void\ setOption(EVulkanRenderingOption\ option,\ int\ value)\ \{}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00498}00498\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ mOptionsBitset[static\_cast<size\_t>(option)]\ =\ value;}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00499}00499\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00511}00511\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa855ce8024b024a6028349e0c350011c}{init}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00512}00512\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00513}00513\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aec84e32b5089ba579f140193eb3a78c2}{initDefaultData}}();}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00514}00514\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00515}00515\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00515}00515\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a75e7336e51012ebf114ed9cbdeab50a8}{initPhysicalDevice}}();}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00516}00516\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00517}00517\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00517}00517\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a820ddb6ef9a24e50b8939e40e15711ef}{initSwapchain}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow);}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00518}00518\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00519}00519\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{VulkanRenderingBackend}}\&\ \mbox{\hyperlink{namespace_atlas_a041e9829fb1316716a724487d8d12b72}{getLoadedRenderingBacked}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00519}00519\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ae8a36fa0c0e480e5250194db2e930a4c}{initCommands}}();}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00520}00520\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00521}00521\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_acdcca076db7097e823f49edf61e82522}{setLoadedRenderingBackend}}(\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{VulkanRenderingBackend}}*\ backend);}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00522}00522\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a99f635979073f78d17b53016253bd978}{resetLoadedRenderingBackend}}();}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00523}00523\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00521}00521\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a9224eadded150b6909a25c08ad49cd33}{initIMGUI}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00522}00522\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00523}00523\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a391b6a51c7ac0ee943c5edc0aba6945f}{resetFences}}(\textcolor{keyword}{const}\ uint32\_t\ cFenceCount,\ \mbox{\hyperlink{struct_atlas_1_1_frame_data}{FrameData}}\&\ currentFrame);}
 \DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00524}00524\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00525}00525\ }
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00526}00526\ \}}
-\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00527}00527\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00525}00525\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ac7bb7f0e05ba1da1bebde4c7bf8fe981}{beginDrawingMode}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00526}00526\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00527}00527\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ab9919dedd3828b7232b54feddd2b6f06}{endDrawingMode}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00528}00528\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00529}00529\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ac304e7d22e7b98cd7d2b67a835d948c7}{draw}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00530}00530\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00531}00531\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ab3fca39874fb6e74c017f6e73437dd0b}{drawIMGUI}}(VkCommandBuffer\ cmd,\ VkImageView\ targetImageView);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00532}00532\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00533}00533\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_afd0f02bf0e403d35d4300bdda9682ba5}{drawBackground}}(VkCommandBuffer\ cmd);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00534}00534\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00535}00535\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a1d5290bfbe10ba1d6a47840225fd3929}{drawGeometry}}(VkCommandBuffer\ cmd);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00536}00536\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00537}00537\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4ed9f09a76e96ffd70d8b0f3cdc64e0a}{present}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00538}00538\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00539}00539\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a407d054ec95d389cf07ea5cb5deae474}{shutdown}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00540}00540\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00541}00541\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a597ab69885b16541eb061f6e71dc43d6}{shouldUseDefaultInstanceBuilder}}(\textcolor{keywordtype}{bool}\ bUseDefaultInstanceBuilder);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00542}00542\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00543}00543\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a739fba5d12bfe91225e8af67fbd1dbfc}{setApplicationName}}(std::string\_view\ applicationName);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00544}00544\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00545}00545\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a4a4d7df71d1f65b6bfc5960c405fc5ec}{setFenceTimeout}}(uint64\_t\ lengthInNS);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00546}00546\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00547}00547\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a1bc2561775116cd9d0a8ea177998d1ab}{setNextImageTimeout}}(uint64\_t\ lengthInNS);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00548}00548\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00549}00549\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{AllocatedBuffer}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_abceadac1d679cf044daf91822ea001ea}{createBuffer}}(\textcolor{keywordtype}{size\_t}\ allocSize,\ VkBufferUsageFlags\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_afb85c5d9b1bce96aa3b530d581194d1a}{usage}},\ VmaMemoryUsage\ memoryUsage);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00550}00550\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00551}00551\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a74fce19005ef0a5e78df95217303b4c2}{destroyBuffer}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{AllocatedBuffer}}\&\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00552}00552\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00553}00553\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_ac95335e7cac9b5b353cd487c0be773a3}{createSwapchain}}(uint32\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}},\ uint32\_t\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}});}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00554}00554\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00555}00555\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a214c275935ac01f290114ee5b4fb0056}{destroySwapchain}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00556}00556\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00557}00557\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{GPUMeshBuffers}}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a9684d6b4e462de5291f612281d1b74b8}{UploadMesh}}(std::span<uint32\_t>\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a94ae715eebfc1eb65456c0ab9b97f1e9}{indices}},\ std::span<Vertex>\ vertices);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00558}00558\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00559}00559\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_af7a5250af778f7c29efbbf6ca2a2425e}{ImmediateSubmit}}(std::function<\textcolor{keywordtype}{void}(VkCommandBuffer\ cmd)>\&\&\ function);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00560}00560\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00561}00561\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_acc9931cd0eee1fc185c03cd194e37575}{checkValidationLayerSupport}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00563}00563\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a3888ac8c01aeceaa67ab9ee78db6321f}{canInitialize}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00564}00564\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00565}00565\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_aa7474902df6303176229db0815932077}{getApplicationName}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00566}00566\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00567}00567\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_frame_data}{FrameData}}\&\ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend_a838ab59d0d565cb75eca87a70481401f}{getCurrentFrame}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00568}00568\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00569}00569\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00570}00570\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00571}00571\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00572}00572\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00573}00573\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00574}00574\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{VulkanRenderingBackend}}\&\ \mbox{\hyperlink{namespace_atlas_a041e9829fb1316716a724487d8d12b72}{getLoadedRenderingBacked}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00575}00575\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00576}00576\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_acdcca076db7097e823f49edf61e82522}{setLoadedRenderingBackend}}(\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{VulkanRenderingBackend}}*\ backend);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00577}00577\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespace_atlas_a99f635979073f78d17b53016253bd978}{resetLoadedRenderingBackend}}();}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00578}00578\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00579}00579\ \ \ \ \ std::optional<std::vector<std::shared\_ptr<MeshAsset>>>\ \mbox{\hyperlink{namespace_atlas_a2a4162c4872433d6e3f62d0872c0abac}{loadGltfMeshes}}(\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{VulkanRenderingBackend}}*\ engine,\ std::filesystem::path\ filePath);}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00580}00580\ }
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00581}00581\ \}}
+\DoxyCodeLine{\Hypertarget{_v_k_device_8h_source_l00582}00582\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

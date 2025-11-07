@@ -7,5 +7,6 @@ var searchData=
   ['renderable_4',['Renderable',['../d3/de8/class_atlas_1_1_renderable.html',1,'Atlas']]],
   ['renderersettings_5',['RendererSettings',['../d4/dcc/struct_atlas_1_1_renderer_settings.html',1,'Atlas']]],
   ['renderingbackend_6',['RenderingBackend',['../db/d46/class_atlas_1_1_rendering_backend.html',1,'Atlas']]],
-  ['renderresources_7',['RenderResources',['../d9/d42/struct_render_resources.html',1,'']]]
+  ['renderpass_7',['RenderPass',['../d7/d15/class_atlas_1_1_render_pass.html',1,'Atlas']]],
+  ['renderresources_8',['RenderResources',['../d9/d42/struct_render_resources.html',1,'']]]
 ];

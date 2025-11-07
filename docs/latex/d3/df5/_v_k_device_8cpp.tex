@@ -12,16 +12,12 @@
 {\ttfamily \#include $<$imgui/backends/imgui\+\_\+impl\+\_\+vulkan.\+h$>$}\newline
 {\ttfamily \#include $<$cstdint$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
-{\ttfamily \#include $<$algorithm$>$}\newline
 {\ttfamily \#include $<$memory$>$}\newline
 {\ttfamily \#include $<$ostream$>$}\newline
 {\ttfamily \#include $<$string$>$}\newline
 {\ttfamily \#include $<$vector$>$}\newline
 {\ttfamily \#include $<$span$>$}\newline
-{\ttfamily \#include $<$bitset$>$}\newline
 {\ttfamily \#include $<$SDL2/\+SDL\+\_\+video.\+h$>$}\newline
-{\ttfamily \#include $<$SDL2/\+SDL\+\_\+haptic.\+h$>$}\newline
-{\ttfamily \#include $<$vulkan/vulkan.\+h$>$}\newline
 {\ttfamily \#include $<$vulkan/vulkan\+\_\+core.\+h$>$}\newline
 {\ttfamily \#include $<$Vk\+Bootstrap.\+h$>$}\newline
 {\ttfamily \#include $<$SDL\+\_\+vulkan.\+h$>$}\newline
@@ -29,11 +25,9 @@
 {\ttfamily \#include "{}../../debugging/\+Logging.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Descriptor\+Layout\+Builder.\+h"{}}\newline
 {\ttfamily \#include $<$cmath$>$}\newline
-{\ttfamily \#include $<$cstdlib$>$}\newline
 {\ttfamily \#include $<$filesystem$>$}\newline
 {\ttfamily \#include $<$format$>$}\newline
 {\ttfamily \#include $<$functional$>$}\newline
-{\ttfamily \#include $<$iosfwd$>$}\newline
 {\ttfamily \#include "{}../../core/\+Version.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Graphics\+Utils.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Pipeline\+Builder.\+h"{}}\newline
@@ -41,6 +35,11 @@
 {\ttfamily \#include "{}../\+Physical\+Device.\+h"{}}\newline
 {\ttfamily \#include $<$array$>$}\newline
 {\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$fastgltf/util.\+hpp$>$}\newline
+{\ttfamily \#include "{}../drawing/\+Effect.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Effect\+Manager.\+h"{}}\newline
+{\ttfamily \#include $<$optional$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -50,6 +49,8 @@ struct \mbox{\hyperlink{struct_global_context}{Global\+Context}}
 \begin{DoxyCompactItemize}
 \item 
 \#define \mbox{\hyperlink{_v_k_device_8cpp_abea80547807da765ebe9fce1c6dd6a8d}{VMA\+\_\+\+IMPLEMENTATION}}
+\item 
+\#define \mbox{\hyperlink{_v_k_device_8cpp_a18372412ad2fc3ce1e3240b3cf0efe78}{STB\+\_\+\+IMAGE\+\_\+\+IMPLEMENTATION}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -61,6 +62,16 @@ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{struct_global_context}{Global\+Contex
 
 
 \doxysubsection{Macro Definition Documentation}
+\Hypertarget{_v_k_device_8cpp_a18372412ad2fc3ce1e3240b3cf0efe78}\label{_v_k_device_8cpp_a18372412ad2fc3ce1e3240b3cf0efe78} 
+\index{VKDevice.cpp@{VKDevice.cpp}!STB\_IMAGE\_IMPLEMENTATION@{STB\_IMAGE\_IMPLEMENTATION}}
+\index{STB\_IMAGE\_IMPLEMENTATION@{STB\_IMAGE\_IMPLEMENTATION}!VKDevice.cpp@{VKDevice.cpp}}
+\doxysubsubsection{\texorpdfstring{STB\_IMAGE\_IMPLEMENTATION}{STB\_IMAGE\_IMPLEMENTATION}}
+{\footnotesize\ttfamily \#define STB\+\_\+\+IMAGE\+\_\+\+IMPLEMENTATION}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00020}{20}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
 \Hypertarget{_v_k_device_8cpp_abea80547807da765ebe9fce1c6dd6a8d}\label{_v_k_device_8cpp_abea80547807da765ebe9fce1c6dd6a8d} 
 \index{VKDevice.cpp@{VKDevice.cpp}!VMA\_IMPLEMENTATION@{VMA\_IMPLEMENTATION}}
 \index{VMA\_IMPLEMENTATION@{VMA\_IMPLEMENTATION}!VKDevice.cpp@{VKDevice.cpp}}
@@ -82,7 +93,7 @@ Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00017}{17}} of file
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00087}{87}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00089}{89}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
 
 \Hypertarget{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}\label{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861} 
 \index{VKDevice.cpp@{VKDevice.cpp}!gLoadedVulkanBackend@{gLoadedVulkanBackend}}
@@ -92,9 +103,9 @@ Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00087}{87}} of file
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00089}{89}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00091}{91}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01248}{Atlas\+::get\+Loaded\+Rendering\+Backed()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01253}{Atlas\+::set\+Loaded\+Rendering\+Backend()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01264}{Atlas\+::get\+Loaded\+Rendering\+Backed()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01269}{Atlas\+::set\+Loaded\+Rendering\+Backend()}}.
 

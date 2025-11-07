@@ -282,6 +282,7 @@ bool Atlas::LoadShaderModule(const char* filePath, VkDevice device, VkShaderModu
 
 	// check that the creation goes well.
 	VkShaderModule shaderModule;
+
 	if (vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
 		return false;
 	}

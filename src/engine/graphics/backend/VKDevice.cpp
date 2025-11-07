@@ -16,6 +16,9 @@
 
 #define VMA_IMPLEMENTATION
 #include "vk_mem_alloc.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+
 //#include "vk_mem_alloc.h"
 
 #include <imgui/imgui.h>
@@ -25,13 +28,11 @@
 
 #include <cstdint>
 #include <iostream>
-#include <algorithm>
 #include <memory>
 #include <ostream>
 #include <string>
 #include <vector>
 #include <span>
-#include <bitset>
 
 // This avoids the transitive include of string_view on MSVC compilers
 #ifdef ATLAS_COMPILER_MSVC
@@ -40,12 +41,10 @@
 
 #ifdef ATLAS_USE_SDL2
 	#include <SDL2/SDL_video.h>
-#include <SDL2/SDL_haptic.h>
 #endif // ATLAS_USE_SDL2
 
 #ifdef ATLAS_USE_VULKAN
-	#include <vulkan/vulkan.h>
-	#include <vulkan/vulkan_core.h>
+		#include <vulkan/vulkan_core.h>
 
 
 	#include <VkBootstrap.h>
@@ -58,11 +57,9 @@
 #include "../DescriptorLayoutBuilder.h"
 
 #include <cmath>
-#include <cstdlib>
 #include <filesystem>
 #include <format>
 #include <functional>
-#include <iosfwd>
 
 
 #endif // ATLAS_USE_VULKAN
@@ -73,6 +70,11 @@
 #include "../PhysicalDevice.h"
 #include <array>
 #include <cstring>
+#include <fastgltf/util.hpp>
+#include "../drawing/Effect.h"
+#include "../drawing/EffectManager.h"
+#include <optional>
+#include <type_traits>
 
 
 
@@ -258,7 +260,7 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	computeLayout.pNext = nullptr;
 	computeLayout.pSetLayouts = &mDrawImageDescriptorLayout;
 	computeLayout.setLayoutCount = 1;
-
+	
 	VkPushConstantRange pushConstant{};
 	pushConstant.offset = 0;
 	pushConstant.size = sizeof(ComputePushConstants);
@@ -834,6 +836,8 @@ void Atlas::VulkanRenderingBackend::initDefaultData()
 		destroyBuffer(rectangle.indexBuffer);
 		destroyBuffer(rectangle.vertexBuffer);
 	});
+
+	testMeshes = loadGltfMeshes(this, "C:\\Dev\\Techstorm-v5\\basicmesh.glb").value();
 }
 
 void Atlas::VulkanRenderingBackend::initPhysicalDevice()
@@ -871,6 +875,7 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 	constraints.minimumAPIVersion = mAPIVersion;
 	constraints.physicalDeviceFeatures = { features, features12 };
 	constraints.surface = mSurface;
+
 
 	mPhysicalDevice = PhysicalDevice(mInstance, constraints);
 
@@ -1132,6 +1137,7 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	//begin a render pass  connected to our draw image
 	VkRenderingAttachmentInfo colorAttachment = CreateAttachmentInfo(mDrawImage.imageView, nullptr, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
 
+
 	VkRenderingInfo renderInfo = CreateRenderingInfo(mDrawExtent, &colorAttachment, nullptr);
 	vkCmdBeginRendering(cmd, &renderInfo);
 
@@ -1169,6 +1175,13 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	vkCmdBindIndexBuffer(cmd, rectangle.indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT32);
 
 	vkCmdDrawIndexed(cmd, 6, 1, 0, 0, 0);
+
+	//push_constants.vertexBuffer = testMeshes[2]->meshBuffers.vertexBufferAddress;
+
+	//vkCmdPushConstants(cmd, _meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(GPUDrawPushConstants), &push_constants);
+	//vkCmdBindIndexBuffer(cmd, testMeshes[2]->meshBuffers.indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+
+	//vkCmdDrawIndexed(cmd, testMeshes[2]->surfaces[0].count, 1, testMeshes[2]->surfaces[0].startIndex, 0, 0);
 
 	vkCmdEndRendering(cmd);
 }
@@ -1269,32 +1282,127 @@ void Atlas::resetLoadedRenderingBackend()
 	setLoadedRenderingBackend(nullptr);
 }
 
-#endif
-
-void Atlas::Pipeline::createLayout(VkPipelineLayoutCreateInfo layoutInfo, VkDevice* device)
+std::optional<std::vector<std::shared_ptr<MeshAsset>>> Atlas::loadGltfMeshes(VulkanRenderingBackend* engine, std::filesystem::path filePath)
 {
-	vkCreatePipelineLayout(*device, &layoutInfo, nullptr, &mPipelineLayout);
+	std::cout << "Loading GLTF: " << filePath << std::endl;
+
+	fastgltf::GltfDataBuffer data;
+	data.loadFromFile(filePath);
+
+	constexpr auto gltfOptions = fastgltf::Options::LoadGLBBuffers
+		| fastgltf::Options::LoadExternalBuffers;
+
+	fastgltf::Asset gltf;
+	fastgltf::Parser parser{};
+
+	auto load = parser.loadBinaryGLTF(&data, filePath.parent_path(), gltfOptions);
+	if (load) {
+		gltf = std::move(load.get());
+	}
+	else {
+		fmt::print("Failed to load glTF: {} \n", fastgltf::to_underlying(load.error()));
+		return {};
+	}
+
+	std::vector<std::shared_ptr<MeshAsset>> meshes;
+
+	// use the same vectors for all meshes so that the memory doesnt reallocate as
+	// often
+	std::vector<uint32_t> indices;
+	std::vector<Vertex> vertices;
+	for (fastgltf::Mesh& mesh : gltf.meshes) {
+		MeshAsset newmesh;
+
+		newmesh.name = mesh.name;
+
+		// clear the mesh arrays each mesh, we dont want to merge them by error
+		indices.clear();
+		vertices.clear();
+
+		for (auto&& p : mesh.primitives) {
+			GeoSurface newSurface;
+			newSurface.startIndex = (uint32_t)indices.size();
+			newSurface.count = (uint32_t)gltf.accessors[p.indicesAccessor.value()].count;
+
+			size_t initial_vtx = vertices.size();
+
+			// load indexes
+			{
+				fastgltf::Accessor& indexaccessor = gltf.accessors[p.indicesAccessor.value()];
+				indices.reserve(indices.size() + indexaccessor.count);
+
+				fastgltf::iterateAccessor<std::uint32_t>(gltf, indexaccessor,
+					[&](std::uint32_t idx) {
+						indices.push_back(idx + initial_vtx);
+					});
+			}
+
+			// load vertex positions
+			{
+				fastgltf::Accessor& posAccessor = gltf.accessors[p.findAttribute("POSITION")->second];
+				vertices.resize(vertices.size() + posAccessor.count);
+
+				fastgltf::iterateAccessorWithIndex<glm::vec3>(gltf, posAccessor,
+					[&](glm::vec3 v, size_t index) {
+						Vertex newvtx;
+						newvtx.position = v;
+						newvtx.normal = { 1, 0, 0 };
+						newvtx.color = glm::vec4{ 1.f };
+						newvtx.uv_x = 0;
+						newvtx.uv_y = 0;
+						vertices[initial_vtx + index] = newvtx;
+					});
+			}
+
+			// load vertex normals
+			auto normals = p.findAttribute("NORMAL");
+			if (normals != p.attributes.end()) {
+
+				fastgltf::iterateAccessorWithIndex<glm::vec3>(gltf, gltf.accessors[(*normals).second],
+					[&](glm::vec3 v, size_t index) {
+						vertices[initial_vtx + index].normal = v;
+					});
+			}
+
+			// load UVs
+			auto uv = p.findAttribute("TEXCOORD_0");
+			if (uv != p.attributes.end()) {
+
+				fastgltf::iterateAccessorWithIndex<glm::vec2>(gltf, gltf.accessors[(*uv).second],
+					[&](glm::vec2 v, size_t index) {
+						vertices[initial_vtx + index].uv_x = v.x;
+						vertices[initial_vtx + index].uv_y = v.y;
+					});
+			}
+
+			// load vertex colors
+			auto colors = p.findAttribute("COLOR_0");
+			if (colors != p.attributes.end()) {
+
+				fastgltf::iterateAccessorWithIndex<glm::vec4>(gltf, gltf.accessors[(*colors).second],
+					[&](glm::vec4 v, size_t index) {
+						vertices[initial_vtx + index].color = v;
+					});
+			}
+			newmesh.surfaces.push_back(newSurface);
+		}
+
+		// display the vertex normals
+		constexpr bool OverrideColors = true;
+		if (OverrideColors) {
+			for (Vertex& vtx : vertices) {
+				vtx.color = glm::vec4(vtx.normal, 1.f);
+			}
+		}
+		newmesh.meshBuffers = engine->UploadMesh(indices, vertices);
+
+		meshes.emplace_back(std::make_shared<MeshAsset>(std::move(newmesh)));
+	}
+
+	return meshes;
 }
 
-void Atlas::Pipeline::createLayout(VkDevice* device, VkDescriptorSetLayout* descriptorSetLayout) {
-	VkPipelineLayoutCreateInfo layoutInfo{};
-	layoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-	layoutInfo.pNext = nullptr;
-	layoutInfo.pSetLayouts = descriptorSetLayout;
-	layoutInfo.setLayoutCount = 1;
-
-	createLayout(layoutInfo, device);
-}
-
-Atlas::Shader::Shader(std::filesystem::path compiledShaderPath, std::string name) : mCompiledShaderPath(compiledShaderPath), mName(name) {}
-
-void Atlas::Shader::destroyModule(VkDevice* device) {
-	vkDestroyShaderModule(*device, mShaderModule, nullptr);
-}
-
-bool Atlas::Shader::load(VkDevice* device) {
-	return LoadShaderModule(mCompiledShaderPath.string().c_str(), *device, &mShaderModule);
-}
+#endif
 
 VkShaderModule Atlas::Shader::getModule() const { return mShaderModule; }
 
@@ -1316,3 +1424,44 @@ void Atlas::GraphicsQueue::submit(VkSubmitInfo2 const& submitInfo, VkFence fence
 	submit({ submitInfo }, fence);
 }
 
+void Atlas::IMGUIRenderable::NewIMGUIFrame() {
+	ImGui_ImplVulkan_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+}
+
+void Atlas::IMGUIRenderable::setupElements(EffectManager& computeEffects) {
+	if (ImGui::Begin("background")) {
+
+		ComputeEffect& selected = computeEffects.getCurrentEffect();
+
+		ImGui::Text("Selected effect: ", selected.name);
+
+		int currentEffectIndex = computeEffects.getCurrentEffectIndex();
+
+		ImGui::SliderInt("Effect Index", &currentEffectIndex, 0, computeEffects.getEffectCount() - 1);
+
+		ImGui::InputFloat4("data1", (float*)&selected.data.data1);
+		ImGui::InputFloat4("data2", (float*)&selected.data.data2);
+		ImGui::InputFloat4("data3", (float*)&selected.data.data3);
+		ImGui::InputFloat4("data4", (float*)&selected.data.data4);
+	}
+	ImGui::End();
+}
+
+void Atlas::IMGUIRenderable::beginDrawingStage(VkCommandBuffer cmd, EffectManager& computeEffects) {
+	NewIMGUIFrame();
+
+	setupElements(computeEffects);
+
+	//make imgui calculate internal draw structures
+	ImGui::Render();
+}
+
+void Atlas::IMGUIRenderable::draw(VkCommandBuffer cmd)
+{
+}
+
+void Atlas::IMGUIRenderable::endDrawingStage(VkCommandBuffer cmd) {
+
+}

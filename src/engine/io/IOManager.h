@@ -33,6 +33,7 @@
 #include <thread>
 #include <unordered_map>
 #include <vector>
+#include <functional>
 
 #include "../core/Core.h"
 #include "../core/Common.h"
@@ -65,77 +66,7 @@
 
 namespace Atlas {
 	
-
-	/*
-	// This is like a filter for various options that may happen during the file discovery process
-	class IPathLoaderLogicGate {
-	public:
-
-		IPathLoaderLogicGate() = default;
-
-		virtual ~IPathLoaderLogicGate() = default;
-
-		virtual bool shouldLoadOnDiscovery(PathLocation const& cPath) = 0;
-		
-		virtual bool shouldLoadPath(PathLocation const& cPath) = 0;
-	};
-
-	class PathLoaderLogicGate : public IPathLoaderLogicGate {
-	private:
-
-	public:
-
-		bool shouldLoadOnDiscovery(PathLocation const& cPath) override { return true; }
-
-		bool shouldLoadPath(PathLocation const& cPath) override { return true; }
-	};
-
-	class AExtensionValidator {
-	private:
-
-	public:
-	
-		bool isValid(PathLocation const& cPath) const { return true; }
-	};
-
-	class IOManager {
-	private:
-		
-		struct ExtensionHandlersAggregator {
-			std::unique_ptr<AExtensionValidator> extensionValidator;
-			//std::unique_ptr<AParser> parser;
-		};
-
-		std::unordered_map<std::string, ExtensionHandlersAggregator> mExtensionHandlers;
-
-		PathLocation mExecutablePath;
-		PathLocation mCurrentWorkingDirectory;
-
-		std::unique_ptr<APathSearcher> mPathSearcher;
-
-		std::vector<FoundPathResult> mFoundPaths;
-	public:
-
-		IOManager() = default;
-
-		explicit IOManager(const PathLocation& cExecutablePath, const PathLocation& cCurrentWorkingDirectory);
-
-		void setExecutablePath(const PathLocation& cExecutablePath);
-
-		void setCurrentWorkingDirectory(const PathLocation& cCurrentWorkingDirectory);
-	
-		void setPathSearcher(std::unique_ptr<APathSearcher> cPathSearcher);
-
-		void search(APathSearcher* cPathSearcher);
-
-		void search();
-
-
-
-		PathLocation getExecutablePath() const;
-
-		PathLocation getCurrentWorkingDirectory() const;
-	};*/
+	using FileLoaderFunction = std::function<bool(std::filesystem::path, std::shared_ptr<FileData>&, std::shared_ptr<FileRecord>)>;
 
 	/**
 	 * @brief Some information about Atlas' io module that may be helpful for debugging
@@ -365,6 +296,9 @@ namespace Atlas {
 		 */
 		std::unordered_map<std::filesystem::path, std::shared_ptr<FileRecord>> mRecords; 
 		
+		std::unordered_map<std::string, FileLoaderFunction> mCustomLoaders;
+		mutable std::shared_mutex mCustomLoadersMutex;
+
 		/**
 		 * @brief This class' configuration options.
 		 * 
@@ -407,6 +341,8 @@ namespace Atlas {
 		// Disallow copy
 		ATLAS_DISALLOW_COPY(FileManager);
 
+
+
 		/**
 		 * @brief Initializes a new instance of the @c FileManager class with the specified configuration.
 		 * 
@@ -442,6 +378,10 @@ namespace Atlas {
         void registerFile(const std::filesystem::path& p);
 
         // Add ignore regex (pattern uses ECMAScript by default)
+		void addExtensionLoader(const std::string& extension, FileLoaderFunction loader) {
+			std::lock_guard customLoadersLock(mCustomLoadersMutex);
+			mCustomLoaders[extension] = loader;
+		}
 
 		/**
 		 * @brief Add an ignore pattern to the ignore list using ECMAScript regex. Files matching this pattern will not be loaded.
@@ -471,6 +411,8 @@ namespace Atlas {
 		 * @since v0.0.1
 		 */
 		FileHandle openFile(const std::filesystem::path& p);
+
+		//void recordFileData(std::shared_ptr<FileData> data, std::shared_ptr<FileRecord> record);
 
 		/**
 		 * @brief An explicit unload function that unloads a file (forces if not in use).

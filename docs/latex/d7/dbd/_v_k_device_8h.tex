@@ -13,6 +13,17 @@
 {\ttfamily \#include $<$fstream$>$}\newline
 {\ttfamily \#include $<$bitset$>$}\newline
 {\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$glm/gtx/quaternion.\+hpp$>$}\newline
+{\ttfamily \#include $<$Vk\+Bootstrap.\+h$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$mutex$>$}\newline
+{\ttfamily \#include $<$glm/fwd.\+hpp$>$}\newline
+{\ttfamily \#include $<$vulkan/vulkan\+\_\+core.\+h$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$fastgltf/glm\+\_\+element\+\_\+traits.\+hpp$>$}\newline
+{\ttfamily \#include $<$fastgltf/parser.\+hpp$>$}\newline
+{\ttfamily \#include $<$fastgltf/tools.\+hpp$>$}\newline
+{\ttfamily \#include "{}stb\+\_\+image.\+h"{}}\newline
 {\ttfamily \#include "{}Rendering\+Backend.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Vulkan\+Instance.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Physical\+Device.\+h"{}}\newline
@@ -21,27 +32,19 @@
 {\ttfamily \#include "{}../../core/\+Core.\+h"{}}\newline
 {\ttfamily \#include "{}../../core/\+Common.\+h"{}}\newline
 {\ttfamily \#include "{}../../core/\+Device.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Effect\+Manager.\+h"{}}\newline
 {\ttfamily \#include "{}../window/\+Window.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Deletion\+Queue.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Descriptor\+Layout\+Builder.\+h"{}}\newline
 {\ttfamily \#include "{}../../debugging/\+Logging.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Graphics\+Utils.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Pipeline\+Builder.\+h"{}}\newline
-{\ttfamily \#include $<$Vk\+Bootstrap.\+h$>$}\newline
-{\ttfamily \#include $<$functional$>$}\newline
-{\ttfamily \#include $<$mutex$>$}\newline
-{\ttfamily \#include $<$glm/fwd.\+hpp$>$}\newline
-{\ttfamily \#include $<$vulkan/vulkan\+\_\+core.\+h$>$}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{Atlas\+::\+Immediate\+Submit\+Info}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{Atlas\+::\+Current\+Draw\+Data}}
-\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_compute_push_constants}{Atlas\+::\+Compute\+Push\+Constants}}
-\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_compute_effect}{Atlas\+::\+Compute\+Effect}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{Atlas\+::\+Allocated\+Buffer}}
 \item 
@@ -51,6 +54,10 @@ struct \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{Atlas\+::\+GPUMesh\
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_g_p_u_draw_push_constants}{Atlas\+::\+GPUDraw\+Push\+Constants}}
 \item 
+struct \mbox{\hyperlink{struct_atlas_1_1_geo_surface}{Atlas\+::\+Geo\+Surface}}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_mesh_asset}{Atlas\+::\+Mesh\+Asset}}
+\item 
 class \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator}{Atlas\+::\+Descriptor\+Allocator}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio}{Atlas\+::\+Descriptor\+Allocator\+::\+Pool\+Size\+Ratio}}
@@ -58,6 +65,8 @@ struct \mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_rati
 class \mbox{\hyperlink{class_atlas_1_1_shader}{Atlas\+::\+Shader}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_pipeline}{Atlas\+::\+Pipeline}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_render_pass}{Atlas\+::\+Render\+Pass}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_renderable}{Atlas\+::\+Renderable}}
 \item 
@@ -76,6 +85,8 @@ namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_v_k_device_8h_abd75661fe7969e19439052a5f69ba5d1}{GLM\+\_\+\+ENABLE\+\_\+\+EXPERIMENTAL}}
 \item 
 \#define \mbox{\hyperlink{_v_k_device_8h_abca11d49e8a831d8d24a127bbae30963}{ATLAS\+\_\+1\+\_\+\+SECOND\+\_\+\+IN\+\_\+\+NS}}~1000000000
 \item 
@@ -116,6 +127,8 @@ enum class \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{A
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_acdcca076db7097e823f49edf61e82522}{Atlas\+::set\+Loaded\+Rendering\+Backend}} (\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Vulkan\+Rendering\+Backend}} \texorpdfstring{$\ast$}{*}backend)
 \item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{namespace_atlas_a99f635979073f78d17b53016253bd978}{Atlas\+::reset\+Loaded\+Rendering\+Backend}} ()
+\item 
+std\+::optional$<$ std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{struct_atlas_1_1_mesh_asset}{Mesh\+Asset}} $>$ $>$ $>$ \mbox{\hyperlink{namespace_atlas_a2a4162c4872433d6e3f62d0872c0abac}{Atlas\+::load\+Gltf\+Meshes}} (\mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Vulkan\+Rendering\+Backend}} \texorpdfstring{$\ast$}{*}engine, std\+::filesystem\+::path file\+Path)
 \end{DoxyCompactItemize}
 
 
@@ -128,7 +141,7 @@ enum class \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{A
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00060}{60}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00075}{75}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 
 \Hypertarget{_v_k_device_8h_a998597b9163ba9082c4a4c40294d4c33}\label{_v_k_device_8h_a998597b9163ba9082c4a4c40294d4c33} 
 \index{VKDevice.h@{VKDevice.h}!ATLAS\_VK\_DEVICE\_BITS@{ATLAS\_VK\_DEVICE\_BITS}}
@@ -138,7 +151,17 @@ Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00060}{60}} of file \
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00062}{62}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00077}{77}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+
+\Hypertarget{_v_k_device_8h_abd75661fe7969e19439052a5f69ba5d1}\label{_v_k_device_8h_abd75661fe7969e19439052a5f69ba5d1} 
+\index{VKDevice.h@{VKDevice.h}!GLM\_ENABLE\_EXPERIMENTAL@{GLM\_ENABLE\_EXPERIMENTAL}}
+\index{GLM\_ENABLE\_EXPERIMENTAL@{GLM\_ENABLE\_EXPERIMENTAL}!VKDevice.h@{VKDevice.h}}
+\doxysubsubsection{\texorpdfstring{GLM\_ENABLE\_EXPERIMENTAL}{GLM\_ENABLE\_EXPERIMENTAL}}
+{\footnotesize\ttfamily \#define GLM\+\_\+\+ENABLE\+\_\+\+EXPERIMENTAL}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00012}{12}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 
 \Hypertarget{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99}\label{_v_k_device_8h_a3d55e176cc77828a9adaa05ac4413b99} 
 \index{VKDevice.h@{VKDevice.h}!VK\_CHECK@{VK\_CHECK}}
@@ -148,5 +171,5 @@ Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00062}{62}} of file \
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00064}{64}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00079}{79}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 

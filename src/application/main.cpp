@@ -99,7 +99,45 @@ int main(int argc, char* argv[]) {
 	options.bStartJanitor = true;
 
 	FileManager fileManager(options);
+	fileManager.addExtensionLoader(".spv", [](std::filesystem::path path, std::shared_ptr<FileData>& data, std::shared_ptr<FileRecord> record) {
+		// open the file. With cursor at the end
+		std::ifstream file(path, std::ios::ate | std::ios::binary);
+
+		if (!file.is_open()) {
+			return false;
+		}
+
+		// find what the size of the file is by looking up the location of the cursor
+		// because the cursor is at the end, it gives the size directly in bytes
+		size_t fileSize = (size_t)file.tellg();
+
+		// spirv expects the buffer to be on uint32, so make sure to reserve a int
+		// vector big enough for the entire file
+		std::vector<uint32_t> buffer(fileSize / sizeof(uint32_t));
+
+		// put file cursor at beginning
+		file.seekg(0);
+
+		// load the entire file into the buffer
+		file.read((char*)buffer.data(), fileSize);
+
+		// now that the file is loaded into the buffer, we can close it
+		file.close();
+
+		std::vector<FileData::Byte> bytes;
+
+		for (size_t i = 0; i < buffer.size(); i++) {
+			bytes.push_back((FileData::Byte)buffer[i]);
+		}
+
+		data = std::make_shared<FileData>(std::move(buffer));
+		//data->print();
+		
+		return true;
+	});
+
 	fileManager.registerDirectory("F:/dev/AtlasIOPrototype/assets");
+
 	InfoLog(std::format("Registered Files: {}", fileManager.getRegisteredCount()));
 
 	//std::cout << "Registered files: " << fileManager.getRegisteredCount() << "\n";
@@ -137,6 +175,7 @@ int main(int argc, char* argv[]) {
 
 	renderingDevice->init(gameWindow.operator->());
 
+	renderingDevice->testLoad(fileManager);
 	//std::shared_ptr<HapticDevice> hapticDevice = std::make_shared<HapticDevice>(0);
 	//hapticDevice->open();
 

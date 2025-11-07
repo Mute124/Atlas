@@ -1,6 +1,7 @@
 var hierarchy =
 [
     [ "Atlas::ADevice", "d2/d87/class_atlas_1_1_a_device.html", null ],
+    [ "Atlas::ADrawingMode", "d9/dd3/class_atlas_1_1_a_drawing_mode.html", null ],
     [ "Atlas::AGameWindow", "da/dde/class_atlas_1_1_a_game_window.html", [
       [ "Atlas::SDLGameWindow", "d7/d0a/class_atlas_1_1_s_d_l_game_window.html", null ]
     ] ],
@@ -68,6 +69,8 @@ var hierarchy =
     [ "CSerializedValue", "d4/dc9/class_c_serialized_value.html", null ],
     [ "CSerializer", "d1/d54/class_c_serializer.html", null ],
     [ "CStdStringFactoryCleaner", "d2/ddb/class_c_std_string_factory_cleaner.html", null ],
+    [ "Atlas::Culler", "db/d6f/class_atlas_1_1_culler.html", null ],
+    [ "Atlas::CullRange", "d7/d2e/struct_atlas_1_1_cull_range.html", null ],
     [ "Atlas::CurrentDrawData", "dd/d72/struct_atlas_1_1_current_draw_data.html", null ],
     [ "CUserType", "da/de0/struct_c_user_type.html", null ],
     [ "CUSTOMVERTEX", "d6/d83/struct_c_u_s_t_o_m_v_e_r_t_e_x.html", null ],
@@ -75,9 +78,9 @@ var hierarchy =
     [ "Atlas::DeletionQueue", "df/de4/class_atlas_1_1_deletion_queue.html", null ],
     [ "Atlas::DescriptorAllocator", "d3/d61/class_atlas_1_1_descriptor_allocator.html", null ],
     [ "Atlas::DescriptorLayoutBuilder", "d6/df2/class_atlas_1_1_descriptor_layout_builder.html", null ],
-    [ "Atlas::Device", "dc/d6f/class_atlas_1_1_device.html", null ],
     [ "Atlas::DeviceCapabilitiesInfo", "d0/d71/struct_atlas_1_1_device_capabilities_info.html", null ],
     [ "Atlas::DiscordIntegrationService", "dd/d8a/class_atlas_1_1_discord_integration_service.html", null ],
+    [ "Atlas::EffectManager", "d0/dbb/class_atlas_1_1_effect_manager.html", null ],
     [ "std::enable_shared_from_this", null, [
       [ "Atlas::HapticDevice", "de/d6d/class_atlas_1_1_haptic_device.html", null ]
     ] ],
@@ -104,6 +107,7 @@ var hierarchy =
     [ "Atlas::GameTimeManager", "dd/df4/class_atlas_1_1_game_time_manager.html", null ],
     [ "Atlas::GameWindowSettings", "d1/d79/struct_atlas_1_1_game_window_settings.html", null ],
     [ "Generator", "d0/df5/class_generator.html", null ],
+    [ "Atlas::GeoSurface", "d8/d85/struct_atlas_1_1_geo_surface.html", null ],
     [ "GlobalContext", "d2/dc3/struct_global_context.html", null ],
     [ "Atlas::GPUDrawPushConstants", "d8/d87/struct_atlas_1_1_g_p_u_draw_push_constants.html", null ],
     [ "Atlas::GPUMeshBuffers", "d9/df8/struct_atlas_1_1_g_p_u_mesh_buffers.html", null ],
@@ -116,6 +120,7 @@ var hierarchy =
     [ "Atlas::IAtlasEngine", "d8/d96/class_atlas_1_1_i_atlas_engine.html", [
       [ "Atlas::AtlasEngine", "d3/d8d/class_atlas_1_1_atlas_engine.html", null ]
     ] ],
+    [ "Atlas::ICamera", "d6/d75/class_atlas_1_1_i_camera.html", null ],
     [ "gw::Id< T >", "d0/d4c/structgw_1_1_id.html", null ],
     [ "Atlas::IFactory< T_BUILDS, T_BUILD_ARGS >", "d6/d65/class_atlas_1_1_i_factory.html", null ],
     [ "Atlas::IGameThread< T_THREAD_TYPE >", "dd/dca/class_atlas_1_1_i_game_thread.html", null ],
@@ -163,6 +168,25 @@ var hierarchy =
     [ "ImGui_ImplWin32_Data", "d5/d71/struct_im_gui___impl_win32___data.html", null ],
     [ "Atlas::ImmediateSubmitInfo", "db/df0/struct_atlas_1_1_immediate_submit_info.html", null ],
     [ "Atlas::VulkanInstanceWrapper::InitConfiguration", "d1/d0e/struct_atlas_1_1_vulkan_instance_wrapper_1_1_init_configuration.html", null ],
+    [ "Atlas::Initializable", "d5/d66/class_atlas_1_1_initializable.html", [
+      [ "Atlas::InitializableAndValidatable", "df/d9f/class_atlas_1_1_initializable_and_validatable.html", [
+        [ "Atlas::AVulkanHandleWrapper< VkDevice >", "d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper.html", [
+          [ "Atlas::Device", "dc/d6f/class_atlas_1_1_device.html", null ]
+        ] ],
+        [ "Atlas::SurfaceBase< VkSurfaceKHR >", "d5/d67/class_atlas_1_1_surface_base.html", [
+          [ "Atlas::Surface", "d3/d45/class_atlas_1_1_surface.html", null ]
+        ] ],
+        [ "Atlas::AVulkanHandleWrapper< T_WRAPS >", "d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper.html", [
+          [ "Atlas::AVulkanCompositeHandleWrapper< VkPhysicalDevice, vkb::PhysicalDevice, vkb::PhysicalDeviceSelector >", "db/d90/class_atlas_1_1_a_vulkan_composite_handle_wrapper.html", [
+            [ "Atlas::PhysicalDevice", "d3/d3c/class_atlas_1_1_physical_device.html", null ]
+          ] ],
+          [ "Atlas::AVulkanCompositeHandleWrapper< T_WRAPS, T_VKB_EQUIVALENT, T_VKB_EQUIVALENT_BUILDER >", "db/d90/class_atlas_1_1_a_vulkan_composite_handle_wrapper.html", null ]
+        ] ],
+        [ "Atlas::HandleWrapperBase< T_WRAPS >", "d0/d45/class_atlas_1_1_handle_wrapper_base.html", null ],
+        [ "Atlas::SurfaceBase< T_SURFACE_HANDLE >", "d5/d67/class_atlas_1_1_surface_base.html", null ],
+        [ "Atlas::Viewport", "d3/d50/class_atlas_1_1_viewport.html", null ]
+      ] ]
+    ] ],
     [ "Atlas::IStringifiedObject", "de/dc7/class_atlas_1_1_i_stringified_object.html", [
       [ "Atlas::StringifiedObject< T_CHILD >", "d2/d7b/class_atlas_1_1_stringified_object.html", null ]
     ] ],
@@ -178,6 +202,7 @@ var hierarchy =
     [ "Atlas::MemoryBlock", "d3/dbd/struct_atlas_1_1_memory_block.html", null ],
     [ "Atlas::MemoryCounter", "df/d51/class_atlas_1_1_memory_counter.html", null ],
     [ "Atlas::MemoryFunctionsAggregator", "de/ddc/struct_atlas_1_1_memory_functions_aggregator.html", null ],
+    [ "Atlas::MeshAsset", "de/dae/struct_atlas_1_1_mesh_asset.html", null ],
     [ "Atlas::MonoRumbleHapticEffectInfo", "d1/d4f/struct_atlas_1_1_mono_rumble_haptic_effect_info.html", null ],
     [ "<NSCopying>", null, [
       [ "FramebufferDescriptor", "d6/d1f/interface_framebuffer_descriptor.html", null ]
@@ -195,6 +220,7 @@ var hierarchy =
     [ "NSView", null, [
       [ "KeyEventResponder", "d9/d62/interface_key_event_responder.html", null ]
     ] ],
+    [ "Atlas::ObjectCullInfo", "d9/dc5/struct_atlas_1_1_object_cull_info.html", null ],
     [ "JPH::ObjectLayerPairFilter", null, [
       [ "ObjectLayerPairFilterImpl", "de/d9a/class_object_layer_pair_filter_impl.html", null ]
     ] ],
@@ -250,6 +276,7 @@ var hierarchy =
       [ "Atlas::AGlobalRenderingBackend< T_CHILD >", "d1/db5/class_atlas_1_1_a_global_rendering_backend.html", null ],
       [ "Atlas::VulkanRenderingBackend", "d8/d78/class_atlas_1_1_vulkan_rendering_backend.html", null ]
     ] ],
+    [ "Atlas::RenderPass", "d7/d15/class_atlas_1_1_render_pass.html", null ],
     [ "RenderResources", "d9/d42/struct_render_resources.html", null ],
     [ "Sample", "d4/d72/class_sample.html", null ],
     [ "SampleGroup", "d4/da6/class_sample_group.html", [
@@ -293,8 +320,8 @@ var hierarchy =
     [ "Atlas::TypeAudit< T_VARIABLE_TYPE >", "dd/d9e/struct_atlas_1_1_type_audit.html", null ],
     [ "Uniforms", "da/d5c/struct_uniforms.html", null ],
     [ "Atlas::Validatable", "d2/d5f/class_atlas_1_1_validatable.html", [
-      [ "Atlas::AVulkanHandleWrapper< T_WRAPS >", "d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper.html", null ],
-      [ "Atlas::PhysicalDevice", "d3/d3c/class_atlas_1_1_physical_device.html", null ]
+      [ "Atlas::IRenderer", "d3/d02/class_atlas_1_1_i_renderer.html", null ],
+      [ "Atlas::InitializableAndValidatable", "df/d9f/class_atlas_1_1_initializable_and_validatable.html", null ]
     ] ],
     [ "CScriptAny::valueStruct", "d9/de7/struct_c_script_any_1_1value_struct.html", null ],
     [ "Vec3", "df/d8a/struct_vec3.html", null ],

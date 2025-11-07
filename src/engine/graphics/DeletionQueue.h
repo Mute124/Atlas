@@ -9,16 +9,17 @@
  ***************************************************************************************************/
 #pragma once
 
-
 #include <deque>
 #include <functional>
 
 namespace Atlas {
+	using DeletionQueueDeletor = std::function<void()>;
+
 	class DeletionQueue
 	{
 	private:
 
-		std::deque<std::function<void()>> mDeletorsDeque;
+		std::deque<DeletionQueueDeletor> mDeletorsDeque;
 
 	public:
 
@@ -28,26 +29,28 @@ namespace Atlas {
 			flush();
 		}
 
-		void push(std::function<void()>&& function) {
+		void push(DeletionQueueDeletor&& function) {
 			mDeletorsDeque.push_back(function);
 		}
 
 		void flush() {
-			// reverse iterate the deletion queue to execute all the functions
-			for (auto it = mDeletorsDeque.rbegin(); it != mDeletorsDeque.rend(); it++) {
-				(*it)(); //call functors
+
+			if (!mDeletorsDeque.empty()) {
+				// reverse iterate the deletion queue to execute all the functions
+				for (auto it = mDeletorsDeque.rbegin(); it != mDeletorsDeque.rend(); it++) {
+					(*it)(); //call functors
+				}
 			}
-			
+
 			mDeletorsDeque.clear();
 		}
 		
-		size_t size() const {
+		size_t getSize() const {
 			return mDeletorsDeque.size();
 		}
 
-		std::deque<std::function<void()>>& getDeletorsDeque() {
+		std::deque<DeletionQueueDeletor>& getDeletorsDeque() {
 			return mDeletorsDeque;
 		}
-
 	};
 }

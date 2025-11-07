@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['wait_0',['wait',['../d3/d83/class_atlas_1_1_async_timer.html#a8c75f27e3502225a060d867a741abef0',1,'Atlas::AsyncTimer::Wait()'],['../df/d28/class_atlas_1_1_fence.html#a1b59b0a7cfc6461410b52917850ddc1b',1,'Atlas::Fence::wait()']]],
+  ['wait_0',['wait',['../df/d28/class_atlas_1_1_fence.html#a1b59b0a7cfc6461410b52917850ddc1b',1,'Atlas::Fence::wait()'],['../d3/d83/class_atlas_1_1_async_timer.html#a8c75f27e3502225a060d867a741abef0',1,'Atlas::AsyncTimer::Wait()']]],
   ['warn_1',['warn',['../da/d62/class_atlas_1_1_spdlog_logger.html#a64670a9cd5e4162d13ff1210b7647d29',1,'Atlas::SpdlogLogger']]],
   ['warnlog_2',['WarnLog',['../d7/d54/namespace_atlas.html#ac196b4691079d284d4c38234dfb90c58',1,'Atlas']]],
   ['willmemoryusageexceed_3',['willMemoryUsageExceed',['../df/d51/class_atlas_1_1_memory_counter.html#acfaf37b1e88dfca899aea6ed6175e96f',1,'Atlas::MemoryCounter']]],
