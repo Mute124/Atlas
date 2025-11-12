@@ -1,20 +1,31 @@
 #pragma once
+#include <shared_mutex>
+#include <memory>
+#include <mutex>
+#include <atomic>
 
+#include <cstdint>
 #include "../core/Core.h"
 #include "../core/Common.h"
+
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
 	#include <vulkan/vulkan_core.h>
+	#include <vk_mem_alloc.h>
 #endif
+
+
+//#include "../GraphicsUtils.h"
 
 
 
 namespace Atlas {
 	namespace Literals {
-		// Empty for now
+		constexpr uint8_t COLOR_BIT_DENORMALIZING_FACTOR = 255;
 
 		constexpr double DEFAULT_NEAR_CULL_DISTANCE = 0.1;
 		constexpr double DEFAULT_FAR_CULL_DISTANCE = 1000.0;
+
 	}
 
 	enum class EDrawingMode {
@@ -48,6 +59,30 @@ namespace Atlas {
 		PostDraw
 	};
 	
+	struct ColorBit {
+		unsigned char value{ 0 };
+
+		ATLAS_IMPLICIT ColorBit(float normalizedValue);
+		ATLAS_IMPLICIT ColorBit(unsigned char initialValue);
+		
+		ColorBit() = default;
+				
+		ATLAS_IMPLICIT operator unsigned char() const;
+		ATLAS_IMPLICIT operator float() const;
+	};
+
+	struct Color {
+		ColorBit red{};
+		ColorBit green{};
+		ColorBit blue{};
+		ColorBit alpha{};
+
+		Color(ColorBit const& red, ColorBit const& green, ColorBit const& blue, ColorBit const& alpha);
+		Color(ColorBit const& red, ColorBit const& green, ColorBit const& blue);
+		ATLAS_EXPLICIT Color(ColorBit const& color);
+		Color() = default;
+	};
+
 	struct CullRange {
 		double near{ Literals::DEFAULT_NEAR_CULL_DISTANCE };
 		double far{ Literals::DEFAULT_FAR_CULL_DISTANCE };
@@ -113,6 +148,11 @@ namespace Atlas {
 		handle = VK_NULL_HANDLE;
 	};
 
+	struct GraphicsAllocationInfo {
+		VmaAllocator allocator;
+		VmaAllocationCreateInfo* createInfo;
+	};
+	
 	/**
 	 * @brief Checks if a provided Vulkan handle is valid.
 	 * 
@@ -151,6 +191,7 @@ namespace Atlas {
 		T_WRAPS mHandle{ VK_NULL_HANDLE };
 
 	protected:
+
 
 		void setHandle(T_WRAPS handle) { mHandle = handle; }
 
@@ -192,7 +233,43 @@ namespace Atlas {
 
 		explicit(false) operator bool() const { return isValid(); }
 	};
+
+	template<typename T_WRAPS, typename T_CHILD>
+	class VulkanGlobalStateObject : public AVulkanHandleWrapper<T_WRAPS>, std::enable_shared_from_this<T_CHILD> {
+	protected:
 	
+		static inline std::shared_ptr<T_CHILD> sMainHandle;
+		static inline std::shared_mutex sMainHandleMutex;
+		//static inline std::atomic<bool> sIsMainHandleSet;
+		
+		static void SetMainHandle(std::shared_ptr<T_CHILD> handle) {
+			std::unique_lock lock(sMainHandleMutex);
+			sMainHandle = handle;
+			//sIsMainHandleSet = true;
+		}
+
+	public:
+
+		using AVulkanHandleWrapper<T_WRAPS>::AVulkanHandleWrapper;
+
+		static inline std::shared_ptr<T_CHILD> GetMainHandle() {
+			std::shared_lock lock(sMainHandleMutex);
+			return sMainHandle;
+		}
+
+		void setAsMainHandle() { 
+			if (this->isValid() == false) {
+				return;
+			}
+			
+			SetMainHandle(std::make_shared<T_CHILD>(*this));
+		}
+	};
+
+	//class Test : public VulkanGlobalStateObject<VkInstance, Test> {
+
+	//};
+
 	template<VulkanHandle T_WRAPS, typename T_VKB_EQUIVALENT, typename T_VKB_EQUIVALENT_BUILDER>
 	class AVulkanCompositeHandleWrapper : public AVulkanHandleWrapper<T_WRAPS> {
 	private:

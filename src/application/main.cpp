@@ -86,6 +86,12 @@ int main(int argc, char* argv[]) {
 	//	ia >> p2;  // Deserialize
 	}*/
 
+	CPUDeviceInfo deviceInfo = CPUDeviceInfo();
+	
+	std::cout << "Logical Core Count: " << deviceInfo.mLogicalCoreCount << std::endl;
+	std::cout << "L1 Cache Size: " << deviceInfo.mL1CacheLineSize << std::endl;
+	std::cout << "Hardware Concurrency: " << deviceInfo.mHardwareConcurrency << std::endl;
+
 	const std::string logFilePath = std::format("logs/{}", SpdlogLogger::GenerateLogFileName());
 
 	SpdlogLogger logger = SpdlogLogger("Atlas", ATLAS_DEFAULT_SPDLOG_LOG_PATTERN, logFilePath);

@@ -4,6 +4,8 @@
 #include <fstream>
 
 #include <vulkan/vulkan.h>
+#include <cstdint>
+#include <vulkan/vulkan_core.h>
 
 namespace Atlas {
 	VkCommandPoolCreateInfo CreateCommandPoolCreateInfo(uint32_t queueFamilyIndex, VkCommandPoolCreateFlags flags = 0);

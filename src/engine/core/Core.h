@@ -67,6 +67,14 @@
 	#define ATLAS_CONDITIONAL_EXPLICIT_SUPPORTED
 #endif
 
+#ifdef ATLAS_CONDITIONAL_EXPLICIT_SUPPORTED
+	#define ATLAS_IMPLICIT explicit(false)
+	#define ATLAS_EXPLICIT explicit(true)
+#else 
+	#define ATLAS_IMPLICIT
+	#define ATLAS_EXPLICIT
+#endif
+
 // ---------------------------------------------------------------
 // Renderer Macros
 // ---------------------------------------------------------------
@@ -114,5 +122,3 @@
 #define ATLAS_MAKE_STRING( M, L ) M(L)
 #define $Line ATLAS_MAKE_STRING( ATLAS_STRINGIZE, __LINE__ )
 #define ATLAS_REMINDER __FILE__ "(" $Line ") : Reminder: "
-
-

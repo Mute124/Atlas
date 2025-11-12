@@ -135,22 +135,24 @@ namespace Atlas {
 
 	};
 
-	class Device : public AVulkanHandleWrapper<VkDevice/*, vkb::Device, vkb::DeviceBuilder*/> {
+	class Device 
+		: public VulkanGlobalStateObject<VkDevice, Device>
+		//: public AVulkanHandleWrapper<VkDevice/*, vkb::Device, vkb::DeviceBuilder*/> 
+	{
 	private:
-		
+
 		friend class VulkanRenderingBackend;
-	
+		
 	public:
 		vkb::Device mVkbDevice;
 
-		using AVulkanHandleWrapper<VkDevice/*, vkb::Device, vkb::DeviceBuilder*/>::AVulkanHandleWrapper;
+		//using AVulkanHandleWrapper<VkDevice/*, vkb::Device, vkb::DeviceBuilder*/>::AVulkanHandleWrapper;
+		using VulkanGlobalStateObject<VkDevice, Device>::VulkanGlobalStateObject;
 
 		Device() = default;
 
 		~Device() override;
-
 	};
-
 
 	vkb::PreferredDeviceType ToVkbPreferredDeviceType(EPhysicalDeviceType preferredDeviceType);
 }

@@ -8,9 +8,12 @@
  * @since v
  ***************************************************************************************************/
 #pragma once
-
 #include <string>
+#include <cstdint>
 #include <any>
+#include <thread>
+
+#include "Core.h"
 
 namespace Atlas {
 	
@@ -19,69 +22,65 @@ namespace Atlas {
 
 	};
 
-
 	struct DeviceCapabilitiesInfo {
 		
 	};
 
-	class ADevice {
-	protected:
+	class IDeviceInfo {
+	private:
+		//const bool mIsPhysicalDevice = false;
 
-		bool mIsEnabled = false;
-		bool mIsReady = false;
+	//	std::string mDeviceName;
+	//	std::string mDeviceVendor;
 
-		const bool mIsPhysicalDevice = false;
-		
-		std::string mDeviceName;
-		std::string mDeviceVendor;
+	//	//int mDeviceGUID;
 
-		int mDeviceGUID;
+	//protected:
+	//	void setDeviceName(const std::string_view name) { 
+	//		mDeviceName = name;
+	//	}
 
-		std::any mDeviceHandle;
+	//	void setDeviceVendor(const std::string_view vendor) { 
+	//		mDeviceVendor = vendor;
+	//	}
+
+	//	explicit ADeviceInfo(const std::string_view name, const std::string_view vendor) {
+	//		setDeviceName(name);
+	//	}
+
 	public:
-		
-		ADevice() = delete;
-		
-		explicit ADevice(const bool isPhysicalDevice)
-		{
-		}
-		
-		ADevice(const bool isPhysicalDevice, const bool isEnabled, const bool isReady)
-		{
-		}
 
-		~ADevice() = default;
+		IDeviceInfo() = default;
+		virtual ~IDeviceInfo() = default;
+
+		virtual void enumerate() = 0;
+
+		//std::string_view getDeviceName() const { 
+		//	return mDeviceName;
+		//}
+	};
+
+	class CPUDeviceInfo {
+	private:
 
 
-		virtual void enable()
-		{
-			this->mIsEnabled = true;
-		}
+		int mL1CacheLineSize;
+		int mLogicalCoreCount;
+		uint32_t mHardwareConcurrency;
+	public:
+
+		//CPUDeviceInfo(const int logicalCoreCount, const uint32_t hardwareConcurrency);
+		//ATLAS_EXPLICIT CPUDeviceInfo(const int logicalCoreCount);
+		CPUDeviceInfo();
+
+		static inline int GetL1CacheLineSize();
+		static inline int GetLogicalCoreCount();
+		static inline uint32_t HardwareConcurrency();
+
+		//void enumerate() override;
 		
-		virtual void disable()
-		{
-			this->mIsEnabled = false;
-		}
-
-		virtual void setReady(bool newState)
-		{
-			this->mIsReady = newState;
-		}
-
-		virtual bool isDeviceEnabled()
-		{
-			return this->mIsEnabled;
-		}
-
-		virtual bool isDeviceReady()
-		{
-			return this->mIsReady;
-		}
-		
-		virtual bool isPhysicalDevice()
-		{
-			return this->mIsPhysicalDevice;
-		}
-		
+		int getL1CacheLineSize() const;
+		int getLogicalCoreCount() const;
+		uint32_t getHardwareConcurrency() const;
 	};
 }

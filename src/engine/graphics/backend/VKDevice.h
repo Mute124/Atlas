@@ -420,30 +420,23 @@ namespace Atlas {
 		//}
 	};
 
-	class RenderPass : public NamedObject {
+	class RenderPass : public NamedObject, public Validatable {
 	private:
-		VkCommandBuffer mCommandBuffer{ VK_NULL_HANDLE };
-
-		//VkFramebuffer mFramebuffer{ VK_NULL_HANDLE };
 
 		std::shared_ptr<Pipeline> mPipeline;
 
-		//std::string mName;
-
-	protected:
-		void setCommandBuffer(VkCommandBuffer commandBuffer) { mCommandBuffer = commandBuffer; }
-
-		//void setName(std::string name) { mName = name; }
-
 	public:
-		RenderPass(VkCommandBuffer commandBuffer) : mCommandBuffer(commandBuffer) {}
+		//RenderPass(VkCommandBuffer commandBuffer) : mCommandBuffer(commandBuffer) {}
 
 		RenderPass() = default;
 		
-		virtual void beginRenderPass(VkCommandBuffer cmd) {
+		virtual void beginRenderPass(const VkCommandBuffer cmd, const FrameData& frameData) {
+			
 		}
 
-		virtual void endRenderPass(VkCommandBuffer cmd) {}
+		virtual void endRenderPass(const VkCommandBuffer cmd, const FrameData& frameData) {
+			
+		}
 	};
 
 	class Renderable {

@@ -14,7 +14,6 @@
 #include <type_traits>
 
 namespace Atlas {
-	
 	template<typename T_INPUT>
 	concept Numerical = std::is_arithmetic_v<T_INPUT>;
 
@@ -34,5 +33,18 @@ namespace Atlas {
 	template<Numerical T_NUMERICAL_TYPE>
 	T_NUMERICAL_TYPE Normalize(T_NUMERICAL_TYPE value, T_NUMERICAL_TYPE min, T_NUMERICAL_TYPE max) {
 		return (value - min) / (max - min);
+	}
+
+	template<typename T_NUMERICAL_TYPE>
+	T_NUMERICAL_TYPE Clamp(T_NUMERICAL_TYPE value, T_NUMERICAL_TYPE min, T_NUMERICAL_TYPE max) {		
+		// If the value is less than the min, return the min, if the value is greater than the max, return the max
+		if (value < min) {
+			return min;
+		}
+		else if (value > max) {
+			return max;
+		} else {
+			return value;
+		}
 	}
 }

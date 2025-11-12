@@ -209,18 +209,18 @@ void Atlas::VulkanRenderingBackend::initDescriptors()
 		{ VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1 }
 	};
 
-	mGlobalDescriptorAllocator.init_pool(mDevice, 10, sizes);
+	mGlobalDescriptorAllocator.init_pool(*Device::GetMainHandle().get(), 10, sizes);
 
 	//make the descriptor set layout for our compute draw
 	{
 		DescriptorLayoutBuilder builder;
 		builder.addBinding(0, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE);
-		mDrawImageDescriptorLayout = builder.build(mDevice, VK_SHADER_STAGE_COMPUTE_BIT);
+		mDrawImageDescriptorLayout = builder.build(*Device::GetMainHandle().get(), VK_SHADER_STAGE_COMPUTE_BIT);
 	}
 
 	// other code
 	//allocate a descriptor set for our draw image
-	mDrawImageDescriptors = mGlobalDescriptorAllocator.allocate(mDevice, mDrawImageDescriptorLayout);
+	mDrawImageDescriptors = mGlobalDescriptorAllocator.allocate(*Device::GetMainHandle().get(), mDrawImageDescriptorLayout);
 
 	VkDescriptorImageInfo imgInfo{};
 	imgInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
@@ -236,13 +236,13 @@ void Atlas::VulkanRenderingBackend::initDescriptors()
 	drawImageWrite.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
 	drawImageWrite.pImageInfo = &imgInfo;
 
-	vkUpdateDescriptorSets(mDevice, 1, &drawImageWrite, 0, nullptr);
+	vkUpdateDescriptorSets(*Device::GetMainHandle().get(), 1, &drawImageWrite, 0, nullptr);
 
 	//make sure both the descriptor allocator and the new layout get cleaned up properly
 	mMainDeletionQueue.push([&]() {
-		mGlobalDescriptorAllocator.destroy_pool(mDevice);
+		mGlobalDescriptorAllocator.destroy_pool(*Device::GetMainHandle().get());
 
-		vkDestroyDescriptorSetLayout(mDevice, mDrawImageDescriptorLayout, nullptr);
+		vkDestroyDescriptorSetLayout(*Device::GetMainHandle().get(), mDrawImageDescriptorLayout, nullptr);
 	});
 }
 
@@ -269,17 +269,17 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	computeLayout.pPushConstantRanges = &pushConstant;
 	computeLayout.pushConstantRangeCount = 1;
 
-	vkCreatePipelineLayout(mDevice, &computeLayout, nullptr, &mGradientPipelineLayout);
+	vkCreatePipelineLayout(*Device::GetMainHandle().get(), &computeLayout, nullptr, &mGradientPipelineLayout);
 	
 	//layout code
 	VkShaderModule computeDrawShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/gradient.comp.spv", mDevice, &computeDrawShader))
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/gradient.comp.spv", *Device::GetMainHandle().get(), &computeDrawShader))
 	{
 		std::cout << "Error when building the compute shader \n";
 	}
 
 	VkShaderModule skyShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/sky.comp.spv", mDevice, &skyShader))
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/sky.comp.spv", *Device::GetMainHandle().get(), &skyShader))
 	{
 		std::cout << "Error when building the compute shader \n";
 	}
@@ -306,7 +306,7 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	gradient.data.data1 = glm::vec4(1, 0, 0, 1);
 	gradient.data.data2 = glm::vec4(0, 0, 1, 1);
 
-	vkCreateComputePipelines(mDevice, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &gradient.pipeline);
+	vkCreateComputePipelines(*Device::GetMainHandle().get(), VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &gradient.pipeline);
 
 	//change the shader module only to create the sky shader
 	computePipelineCreateInfo.stage.module = skyShader;
@@ -318,26 +318,26 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	//default sky parameters
 	sky.data.data1 = glm::vec4(0.1, 0.2, 0.4, 0.97);
 
-	vkCreateComputePipelines(mDevice, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &sky.pipeline);
+	vkCreateComputePipelines(*Device::GetMainHandle().get(), VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &sky.pipeline);
 
 	//add the 2 background effects into the array
 	mBackgroundEffects.push_back(gradient);
 	mBackgroundEffects.push_back(sky);
 
-	vkDestroyShaderModule(mDevice, computeDrawShader, nullptr);
-	vkDestroyShaderModule(mDevice, skyShader, nullptr);
+	vkDestroyShaderModule(*Device::GetMainHandle().get(), computeDrawShader, nullptr);
+	vkDestroyShaderModule(*Device::GetMainHandle().get(), skyShader, nullptr);
 
 	mMainDeletionQueue.push([&]() {
-		vkDestroyPipelineLayout(mDevice, mGradientPipelineLayout, nullptr);
-		vkDestroyPipeline(mDevice, sky.pipeline, nullptr);
-		vkDestroyPipeline(mDevice, gradient.pipeline, nullptr);
+		vkDestroyPipelineLayout(*Device::GetMainHandle().get(), mGradientPipelineLayout, nullptr);
+		vkDestroyPipeline(*Device::GetMainHandle().get(), sky.pipeline, nullptr);
+		vkDestroyPipeline(*Device::GetMainHandle().get(), gradient.pipeline, nullptr);
 	});
 }
 
 void Atlas::VulkanRenderingBackend::initTrianglePipeline()
 {
 	VkShaderModule triangleFragShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", mDevice, &triangleFragShader)) {
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", *Device::GetMainHandle().get(), &triangleFragShader)) {
 		ErrorLog("Error when building the triangle fragment shader module");
 	}
 	else {
@@ -345,7 +345,7 @@ void Atlas::VulkanRenderingBackend::initTrianglePipeline()
 	}
 
 	VkShaderModule triangleVertexShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", mDevice, &triangleVertexShader)) {
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", *Device::GetMainHandle().get(), &triangleVertexShader)) {
 		ErrorLog("Error when building the triangle vertex shader module");
 	}
 	else {
@@ -356,7 +356,7 @@ void Atlas::VulkanRenderingBackend::initTrianglePipeline()
 	//we are not using descriptor sets or other systems yet, so no need to use anything other than empty default
 	VkPipelineLayoutCreateInfo pipeline_layout_info = CreatePipelineLayoutCreateInfo();
 	
-	vkCreatePipelineLayout(mDevice, &pipeline_layout_info, nullptr, &_trianglePipelineLayout);
+	vkCreatePipelineLayout(*Device::GetMainHandle().get(), &pipeline_layout_info, nullptr, &_trianglePipelineLayout);
 
 	PipelineBuilder pipelineBuilder;
 
@@ -382,22 +382,22 @@ void Atlas::VulkanRenderingBackend::initTrianglePipeline()
 	pipelineBuilder.setDepthFormat(VK_FORMAT_UNDEFINED);
 
 	//finally build the pipeline
-	_trianglePipeline = pipelineBuilder.buildPipeline(mDevice);
+	_trianglePipeline = pipelineBuilder.buildPipeline(*Device::GetMainHandle().get());
 
 	//clean structures
-	vkDestroyShaderModule(mDevice, triangleFragShader, nullptr);
-	vkDestroyShaderModule(mDevice, triangleVertexShader, nullptr);
+	vkDestroyShaderModule(*Device::GetMainHandle().get(), triangleFragShader, nullptr);
+	vkDestroyShaderModule(*Device::GetMainHandle().get(), triangleVertexShader, nullptr);
 
 	mMainDeletionQueue.push([&]() {
-		vkDestroyPipelineLayout(mDevice, _trianglePipelineLayout, nullptr);
-		vkDestroyPipeline(mDevice, _trianglePipeline, nullptr);
+		vkDestroyPipelineLayout(*Device::GetMainHandle().get(), _trianglePipelineLayout, nullptr);
+		vkDestroyPipeline(*Device::GetMainHandle().get(), _trianglePipeline, nullptr);
 	});
 }
 
 void Atlas::VulkanRenderingBackend::initMeshPipeline()
 {
 	VkShaderModule triangleFragShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", mDevice, &triangleFragShader)) {
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", *Device::GetMainHandle().get(), &triangleFragShader)) {
 		ErrorLog("Error when building the triangle fragment shader module");
 	}
 	else {
@@ -405,7 +405,7 @@ void Atlas::VulkanRenderingBackend::initMeshPipeline()
 	}
 
 	VkShaderModule triangleVertexShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", mDevice, &triangleVertexShader)) {
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", *Device::GetMainHandle().get(), &triangleVertexShader)) {
 		ErrorLog("Error when building the triangle vertex shader module");
 	}
 	else {
@@ -453,15 +453,15 @@ void Atlas::VulkanRenderingBackend::initMeshPipeline()
 	pipelineBuilder.setDepthFormat(VK_FORMAT_UNDEFINED);
 
 	//finally build the pipeline
-	_meshPipeline = pipelineBuilder.buildPipeline(mDevice);
+	_meshPipeline = pipelineBuilder.buildPipeline(*Device::GetMainHandle().get());
 
 	//clean structures
-	vkDestroyShaderModule(mDevice, triangleFragShader, nullptr);
-	vkDestroyShaderModule(mDevice, triangleVertexShader, nullptr);
+	vkDestroyShaderModule(*Device::GetMainHandle().get(), triangleFragShader, nullptr);
+	vkDestroyShaderModule(*Device::GetMainHandle().get(), triangleVertexShader, nullptr);
 
 	mMainDeletionQueue.push([&]() {
-		vkDestroyPipelineLayout(mDevice, _meshPipelineLayout, nullptr);
-		vkDestroyPipeline(mDevice, _meshPipeline, nullptr);
+		vkDestroyPipelineLayout(*Device::GetMainHandle().get(), _meshPipelineLayout, nullptr);
+		vkDestroyPipeline(*Device::GetMainHandle().get(), _meshPipeline, nullptr);
 	});
 }
 
@@ -470,7 +470,7 @@ void Atlas::VulkanRenderingBackend::initVMAAllocator(vkb::Instance const& cVkBoo
 	// initialize the memory allocator (this can be a function)
 	VmaAllocatorCreateInfo allocatorInfo = {};
 	allocatorInfo.physicalDevice = mPhysicalDevice;
-	allocatorInfo.device = mDevice;
+	allocatorInfo.device = *Device::GetMainHandle().get();
 	allocatorInfo.instance = cVkBootstrapInstanceRef;
 	allocatorInfo.flags = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
 	vmaCreateAllocator(&allocatorInfo, &mVMAAllocator);
@@ -488,22 +488,22 @@ void Atlas::VulkanRenderingBackend::initCommands()
 
 	for (int i = 0; i < FRAME_OVERLAP; i++) {
 
-		vkCreateCommandPool(mDevice, &commandPoolInfo, nullptr, &mFrameDataArray.at(i).commandPool);
+		vkCreateCommandPool(*Device::GetMainHandle().get(), &commandPoolInfo, nullptr, &mFrameDataArray.at(i).commandPool);
 
 		// allocate the default command buffer that we will use for rendering
 		VkCommandBufferAllocateInfo cmdAllocInfo = CreateCommandBufferAllocateInfo(mFrameDataArray.at(i).commandPool, 1);
 
-		vkAllocateCommandBuffers(mDevice, &cmdAllocInfo, &mFrameDataArray.at(i).mainCommandBuffer);
+		vkAllocateCommandBuffers(*Device::GetMainHandle().get(), &cmdAllocInfo, &mFrameDataArray.at(i).mainCommandBuffer);
 	}
-	vkCreateCommandPool(mDevice, &commandPoolInfo, nullptr, &mImmediateSubmitInfo.commandPool);
+	vkCreateCommandPool(*Device::GetMainHandle().get(), &commandPoolInfo, nullptr, &mImmediateSubmitInfo.commandPool);
 
 	// allocate the default command buffer that we will use for rendering
 	VkCommandBufferAllocateInfo cmdAllocInfo = CreateCommandBufferAllocateInfo(mImmediateSubmitInfo.commandPool, 1);
 
-	vkAllocateCommandBuffers(mDevice, &cmdAllocInfo, &mImmediateSubmitInfo.commandBuffer);
+	vkAllocateCommandBuffers(*Device::GetMainHandle().get(), &cmdAllocInfo, &mImmediateSubmitInfo.commandBuffer);
 
 	mMainDeletionQueue.push([=]() {
-		vkDestroyCommandPool(mDevice, mImmediateSubmitInfo.commandPool, nullptr);
+		vkDestroyCommandPool(*Device::GetMainHandle().get(), mImmediateSubmitInfo.commandPool, nullptr);
 	});
 
 	//// allocate the command buffer for immediate submits
@@ -523,14 +523,14 @@ void Atlas::VulkanRenderingBackend::initCommands()
 	VkSemaphoreCreateInfo semaphoreCreateInfo = CreateSemaphoreCreateInfo();
 
 	for (int i = 0; i < FRAME_OVERLAP; i++) {
-		vkCreateFence(mDevice, &fenceCreateInfo, nullptr, &mFrameDataArray.at(i).renderFence);
+		vkCreateFence(*Device::GetMainHandle().get(), &fenceCreateInfo, nullptr, &mFrameDataArray.at(i).renderFence);
 
-		vkCreateSemaphore(mDevice, &semaphoreCreateInfo, nullptr, &mFrameDataArray.at(i).swapchainSemaphore);
-		vkCreateSemaphore(mDevice, &semaphoreCreateInfo, nullptr, &mFrameDataArray.at(i).renderSemaphore);
+		vkCreateSemaphore(*Device::GetMainHandle().get(), &semaphoreCreateInfo, nullptr, &mFrameDataArray.at(i).swapchainSemaphore);
+		vkCreateSemaphore(*Device::GetMainHandle().get(), &semaphoreCreateInfo, nullptr, &mFrameDataArray.at(i).renderSemaphore);
 	}
 
-	vkCreateFence(mDevice, &fenceCreateInfo, nullptr, &mImmediateSubmitInfo.fence);
-	mMainDeletionQueue.push([=]() { vkDestroyFence(mDevice, mImmediateSubmitInfo.fence, nullptr); });
+	vkCreateFence(*Device::GetMainHandle().get(), &fenceCreateInfo, nullptr, &mImmediateSubmitInfo.fence);
+	mMainDeletionQueue.push([=]() { vkDestroyFence(*Device::GetMainHandle().get(), mImmediateSubmitInfo.fence, nullptr); });
 }
 
 void Atlas::VulkanRenderingBackend::initIMGUI(AGameWindow* gameWindow)
@@ -558,7 +558,7 @@ void Atlas::VulkanRenderingBackend::initIMGUI(AGameWindow* gameWindow)
 	pool_info.pPoolSizes = pool_sizes;
 
 	VkDescriptorPool imguiPool;
-	vkCreateDescriptorPool(mDevice, &pool_info, nullptr, &imguiPool);
+	vkCreateDescriptorPool(*Device::GetMainHandle().get(), &pool_info, nullptr, &imguiPool);
 
 	// 2: initialize imgui library
 
@@ -594,13 +594,13 @@ void Atlas::VulkanRenderingBackend::initIMGUI(AGameWindow* gameWindow)
 	// add the destroy the imgui created structures
 	mMainDeletionQueue.push([=]() {
 		ImGui_ImplVulkan_Shutdown();
-		vkDestroyDescriptorPool(mDevice, imguiPool, nullptr);
+		vkDestroyDescriptorPool(*Device::GetMainHandle().get(), imguiPool, nullptr);
 	});
 }
 
 void Atlas::VulkanRenderingBackend::createSwapchain(uint32_t width, uint32_t height)
 {
-	vkb::SwapchainBuilder swapchainBuilder{ mPhysicalDevice, mDevice, mSurface };
+	vkb::SwapchainBuilder swapchainBuilder{ mPhysicalDevice, *Device::GetMainHandle().get(), mSurface };
 	
 	mSwapchainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
 
@@ -631,12 +631,12 @@ void Atlas::VulkanRenderingBackend::createSwapchain(uint32_t width, uint32_t hei
 
 void Atlas::VulkanRenderingBackend::destroySwapchain()
 {
-	vkDestroySwapchainKHR(mDevice, mSwapchain, nullptr);
+	vkDestroySwapchainKHR(*Device::GetMainHandle().get(), mSwapchain, nullptr);
 
 	// destroy swapchain resources
 	for (int i = 0; i < mSwapchainImageViews.size(); i++) {
 
-		vkDestroyImageView(mDevice, mSwapchainImageViews[i], nullptr);
+		vkDestroyImageView(*Device::GetMainHandle().get(), mSwapchainImageViews[i], nullptr);
 	}
 }
 
@@ -653,7 +653,7 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 
 	//find the adress of the vertex buffer
 	VkBufferDeviceAddressInfo deviceAdressInfo{ .sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO,.buffer = newSurface.vertexBuffer.buffer };
-	newSurface.vertexBufferAddress = vkGetBufferDeviceAddress(mDevice, &deviceAdressInfo);
+	newSurface.vertexBufferAddress = vkGetBufferDeviceAddress(*Device::GetMainHandle().get(), &deviceAdressInfo);
 
 	//create index buffer
 	newSurface.indexBuffer = createBuffer(indexBufferSize, VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
@@ -692,7 +692,7 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 
 void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function)
 {
-	vkResetFences(mDevice, 1, &mImmediateSubmitInfo.fence);
+	vkResetFences(*Device::GetMainHandle().get(), 1, &mImmediateSubmitInfo.fence);
 	vkResetCommandBuffer(mImmediateSubmitInfo.commandBuffer, 0);
 
 	VkCommandBuffer cmd = mImmediateSubmitInfo.commandBuffer;
@@ -716,7 +716,7 @@ void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommand
 
 	constexpr uint64_t cTimeout = 9999999999;
 
-	vkWaitForFences(mDevice, 1, &mImmediateSubmitInfo.fence, true, cTimeout);
+	vkWaitForFences(*Device::GetMainHandle().get(), 1, &mImmediateSubmitInfo.fence, true, cTimeout);
 }
 
 void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
@@ -776,6 +776,7 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 	vkb::Device vkbDevice = deviceBuilder.build().value();
 	
 	mDevice = Device(vkbDevice.device);
+	mDevice.setAsMainHandle();
 	
 	// Get the VkDevice handle used in the rest of a vulkan application
 	//mDevice = vkbDevice.device;
@@ -855,7 +856,7 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 
 	constexpr bool cbEnableBufferDeviceAddress = true;
 	constexpr bool cbEnableDescriptorIndexing = true;
-
+	
 	VkPhysicalDeviceVulkan12Features features12{ .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES };
 	features12.bufferDeviceAddress = cbEnableBufferDeviceAddress;
 	features12.descriptorIndexing = cbEnableDescriptorIndexing;
@@ -874,7 +875,6 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 	constraints.minimumAPIVersion = mAPIVersion;
 	constraints.physicalDeviceFeatures = { features, features12 };
 	constraints.surface = mSurface;
-
 
 	mPhysicalDevice = PhysicalDevice(mInstance, constraints);
 
@@ -921,23 +921,23 @@ void Atlas::VulkanRenderingBackend::initSwapchain(AGameWindow* gameWindow)
 
 	//build a image-view for the draw image to use for rendering
 	VkImageViewCreateInfo rview_info = CreateImageViewCreateInfo(mDrawImage.imageFormat, mDrawImage.image, VK_IMAGE_ASPECT_COLOR_BIT);
-
-	vkCreateImageView(mDevice, &rview_info, nullptr, &mDrawImage.imageView);
-
+	
+	vkCreateImageView(*Device::GetMainHandle().get(), &rview_info, nullptr, &mDrawImage.imageView);
+	
 	//add to deletion queues
 	mMainDeletionQueue.push([=]() {
-		vkDestroyImageView(mDevice, mDrawImage.imageView, nullptr);
+		vkDestroyImageView(*Device::GetMainHandle().get(), mDrawImage.imageView, nullptr);
 		vmaDestroyImage(mVMAAllocator, mDrawImage.image, mDrawImage.allocation);
 	});
 }
 
 void Atlas::VulkanRenderingBackend::resetFences(const uint32_t cFenceCount, FrameData& currentFrame)
 {
-	vkWaitForFences(mDevice, cFenceCount, &currentFrame.renderFence, true, mFencesTimeoutNS);
+	vkWaitForFences(*Device::GetMainHandle().get(), cFenceCount, &currentFrame.renderFence, true, mFencesTimeoutNS);
 
 	currentFrame.deletionQueue.flush();
 
-	vkResetFences(mDevice, cFenceCount, &currentFrame.renderFence);
+	vkResetFences(*Device::GetMainHandle().get(), cFenceCount, &currentFrame.renderFence);
 }
 
 void Atlas::VulkanRenderingBackend::beginDrawingMode()
@@ -950,7 +950,7 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 
 	//request image from the swapchain
 	//uint32_t swapchainImageIndex;
-	vkAcquireNextImageKHR(mDevice, mSwapchain, mNextImageTimeoutNS, currentFrame.swapchainSemaphore, nullptr, &mCurrentDrawData.swapchainImageIndex);
+	vkAcquireNextImageKHR(*Device::GetMainHandle().get(), mSwapchain, mNextImageTimeoutNS, currentFrame.swapchainSemaphore, nullptr, &mCurrentDrawData.swapchainImageIndex);
 
 	// reset command buffer
 	mCurrentDrawData.cmdResetFlags = 0;
@@ -1046,7 +1046,7 @@ void Atlas::VulkanRenderingBackend::draw()
 	FrameData& currentFrame = getCurrentFrame();
 
 	vkBeginCommandBuffer(mCurrentDrawData.cmd, &mCurrentDrawData.cmdBeginInfo);
-
+	
 	// transition our main draw image into general layout so we can write into it
 	// we will overwrite it all so we dont care about what was the older layout
 	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_GENERAL);
@@ -1194,15 +1194,15 @@ void Atlas::VulkanRenderingBackend::shutdown()
 	// No need to worry about cleaning up if not initialized, hence the check
 	if (mIsInitialized) {
 
-		vkDeviceWaitIdle(mDevice);
+		vkDeviceWaitIdle(*Device::GetMainHandle().get());
 
 		for (int i = 0; i < FRAME_OVERLAP; i++) {
-			vkDestroyCommandPool(mDevice, mFrameDataArray.at(i).commandPool, nullptr);
+			vkDestroyCommandPool(*Device::GetMainHandle().get(), mFrameDataArray.at(i).commandPool, nullptr);
 
 			//destroy sync objects
-			vkDestroyFence(mDevice, mFrameDataArray.at(i).renderFence, nullptr);
-			vkDestroySemaphore(mDevice, mFrameDataArray.at(i).renderSemaphore, nullptr);
-			vkDestroySemaphore(mDevice, mFrameDataArray.at(i).swapchainSemaphore, nullptr);
+			vkDestroyFence(*Device::GetMainHandle().get(), mFrameDataArray.at(i).renderFence, nullptr);
+			vkDestroySemaphore(*Device::GetMainHandle().get(), mFrameDataArray.at(i).renderSemaphore, nullptr);
+			vkDestroySemaphore(*Device::GetMainHandle().get(), mFrameDataArray.at(i).swapchainSemaphore, nullptr);
 
 			mFrameDataArray.at(i).deletionQueue.flush();
 		}
@@ -1212,7 +1212,7 @@ void Atlas::VulkanRenderingBackend::shutdown()
 		destroySwapchain();
 
 		vkDestroySurfaceKHR(mInstance.getInstance(), mSurface, nullptr);
-		vkDestroyDevice(mDevice, nullptr);
+		vkDestroyDevice(*Device::GetMainHandle().get(), nullptr);
 
 		mInstance.shutdown();
 
@@ -1508,9 +1508,15 @@ bool Atlas::ShaderModule::load(std::filesystem::path const& path, FileManager& i
 }
 
 bool Atlas::ShaderModule::destroy() {
+	bool success = false;
 	if (isLoaded()) {
 		vkDestroyShaderModule(mDevice, mShaderModule, nullptr);
+		
+		mbLoaded = false;
+		success = true;
 	}
+
+	return success;
 }
 
 bool Atlas::ShaderModule::isLoaded() const {

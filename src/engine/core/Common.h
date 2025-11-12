@@ -38,6 +38,8 @@
 // Used for some of the math stuff
 
 #include "Core.h"
+#include "Math.h"
+
 #include <typeinfo>
 
 #if defined(ATLAS_ALLOW_ASSERTS) || defined(ATLAS_DEBUG)
@@ -116,6 +118,8 @@
 
 #endif // ATLAS_ALLOW_ASSERTS || ATLAS_DEBUG
 
+
+
 #define ATLAS_TYPE_NAME(...) __VA_ARGS__
 
 #define ATLAS_STRINGIFY(...) #__VA_ARGS__
@@ -162,13 +166,16 @@
 #define ATLAS_NULL_JPEG static_cast<std::string>(ATLAS_ASSET_DIR) + static_cast<std::string>("/engine/null.jpeg")
 #define ATLAS_NULL_GIF ATLAS_ASSET_DIR + static_cast<std::string>("/engine/null.gif"
 
-#ifdef ATLAS_CONDITIONAL_EXPLICIT_SUPPORTED
-	#define ATLAS_IMPLICIT explicit(false)
-	#define ATLAS_EXPLICIT explicit(true)
-#else 
-	#define ATLAS_IMPLICIT
-	#define ATLAS_EXPLICIT
-#endif
+#define ATLAS_INT64_LIMIT std::numeric_limits<int64_t>::max()
+#define ATLAS_INT32_LIMIT std::numeric_limits<int32_t>::max()
+#define ATLAS_INT16_LIMIT std::numeric_limits<int16_t>::max()
+#define ATLAS_INT8_LIMIT std::numeric_limits<int8_t>::max()
+
+#define ATLAS_UINT64_LIMIT std::numeric_limits<uint64_t>::max()
+#define ATLAS_UINT32_LIMIT std::numeric_limits<uint32_t>::max()
+#define ATLAS_UINT16_LIMIT std::numeric_limits<uint16_t>::max()
+#define ATLAS_UINT8_LIMIT std::numeric_limits<uint8_t>::max()
+
 //
 //#ifdef __cpp_variadic_templates
 //	#define ATLAS_VARIADIC(...) __VA_ARGS__
@@ -189,6 +196,8 @@ namespace Atlas {
 	using std::unordered_map;
 
 	using HighResolutionTimepoint = std::chrono::high_resolution_clock::time_point;
+
+
 
 	enum class EResultCode : int32_t {
 		Failed = -1,
@@ -340,8 +349,6 @@ namespace Atlas {
 		}
 	};
 
-
-
 	template<typename T_WRAPS>
 	class HandleWrapperBase : public InitializableAndValidatable {
 	private:
@@ -432,15 +439,27 @@ namespace Atlas {
 
 	};
 
-	class Counter {
-	private:
-		int64_t mCount = 0;
-		int64_t mMaxCount = -1;
-		bool mbIsCapped = false;
-	public:
-		Counter(int64_t count, int64_t max) : mCount(count), mMaxCount(max), mbIsCapped(max > 0) {}
 
-		ATLAS_EXPLICIT Counter(int64_t count) : Counter(count, -1) {}
+	template<Numerical T_NUMERICAL>
+	class Counter {
+	public:		
+		//using ThisType = Counter<T_NUMERICAL>;
+		
+		using CounterType = T_NUMERICAL;
+
+	private:
+
+		const CounterType mNumericLimit{ std::numeric_limits<CounterType>::max() };
+
+		CounterType mCount{ 0 };
+		CounterType mMaxCount{ std::numeric_limits<CounterType>::max() };
+
+		// This can probably be removed
+		bool mbIsCapped{ false };
+	public:
+		Counter(CounterType count, CounterType max) : mCount(count), mMaxCount(max), mbIsCapped(max > 0 && max < mNumericLimit) {}
+
+		ATLAS_EXPLICIT Counter(CounterType count) : Counter(count, std::numeric_limits<CounterType>::max()) {}
 
 		Counter() = default;
 
@@ -449,19 +468,26 @@ namespace Atlas {
 		}
 
 		bool hasReachedMax() const {
-			return mbIsCapped && mCount >= mMaxCount;
+			return mCount >= mNumericLimit || (mbIsCapped && mCount >= mMaxCount);
 		}
 
-		void increment(int64_t count) {
-			mCount += count;
+		void increment(const CounterType cIncrementBy) {
+			ATLAS_ASSERT(cIncrementBy > 0, "The increment must be greater than 0!");
+			ATLAS_ASSERT(cIncrementBy <= mNumericLimit, "The increment cannot exceed the numeric limit!");
+
+			setCount(mCount + cIncrementBy);
 		}
 
 		void increment() {
 			increment(1);
 		}
 
-		void decrement(int64_t count) {
-			mCount -= count;
+		void decrement(const CounterType cDecrementBy) {
+			//mCount -= count;
+			ATLAS_ASSERT(cDecrementBy > 0, "The decrement must be greater than 0!");
+			ATLAS_ASSERT(cDecrementBy <= mNumericLimit, "The decrement cannot exceed the numeric limit!");
+
+			setCount(mCount - cDecrementBy);
 		}
 
 		void decrement() {
@@ -474,36 +500,71 @@ namespace Atlas {
 			mMaxCount = -1;
 		}
 
-		int64_t getCount() const {
+		CounterType getCount() const {
 			return mCount;
 		}
 
-		int64_t getMaxCount() const {
+		CounterType getMaxCount() const {
 			return mMaxCount;
 		}
 
-		int64_t getRemainingCount() const {
+		CounterType getRemainingCount() const {
 			return mMaxCount - mCount;
 		}
 
-		void setCount(int64_t count) {
-			mCount = count;
+		void setCount(CounterType newCount) {
+			ATLAS_ASSERT(newCount <= mMaxCount, "The new count must be less than or equal to the max count!");
+			ATLAS_ASSERT(newCount <= mNumericLimit, "The new count cannot exceed the numeric limit!");
+
+			mCount = newCount;
 		}
 
-		void setMaxCount(int64_t max) {
-			if (max == -1) {
-				mMaxCount = -1;
+		void setMaxCount(CounterType newMaxCount) {
+			ATLAS_ASSERT(newMaxCount <= mNumericLimit, "The new max count cannot exceed the numeric limit!");
+
+			if (newMaxCount == mNumericLimit) {
+				mMaxCount = mNumericLimit;
 				mbIsCapped = false;
 			} else {
-				mMaxCount = max;
+				mMaxCount = newMaxCount;
 				mbIsCapped = true;
 			}
 		}
 
-		void setCountAndMaxCount(int64_t count, int64_t max) {
+		void setCountAndMaxCount(CounterType count, CounterType max) {
 			setCount(count);
 			setMaxCount(max);
 		}
+
+		//ThisType& operator++() {
+		//	increment();
+		//	return *this;
+		//}
+
+		//ThisType& operator--() {
+		//	decrement();
+		//	return *this;
+		//}
+
+		//ThisType& operator+(const CounterType cIncrementBy) {
+		//	increment(cIncrementBy);
+		//	return *this;
+		//}
+
+		//ThisType& operator-(const CounterType cDecrementBy) {
+		//	decrement(cDecrementBy);
+		//	return *this;
+		//}
+
+		//ThisType& operator=(const CounterType cNewCount) {
+		//	setCount(cNewCount);
+		//	return *this;
+		//}
+
+		//ThisType& operator=(const ThisType& counter) {
+		//	setCountAndMaxCount(counter.getCount(), counter.getMaxCount());
+		//	return *this;
+		//}
 	};
 
 	template<typename T_BASE>
@@ -588,4 +649,9 @@ namespace Atlas {
 	//inline bool HasValue(T valueToCheck, TypeAudit<T> const& typeAudit = TypeAudit<T>{}) {
 	//	
 	//}
+
+	template<typename T_FROM, typename T_TO>
+	T_TO Convert(T_FROM value) {
+		return static_cast<T_TO>(value);
+	}
 }
