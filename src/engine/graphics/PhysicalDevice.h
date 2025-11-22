@@ -89,13 +89,15 @@ namespace Atlas {
 		PhysicalDeviceProperties() = default;
 	};
 
-	class PhysicalDevice 
-		: public AVulkanCompositeHandleWrapper<VkPhysicalDevice,
+	class PhysicalDevice
+		: public VulkanGlobalStateObject<VkPhysicalDevice, PhysicalDevice>
+		/*public AVulkanCompositeHandleWrapper<VkPhysicalDevice,
 		vkb::PhysicalDevice,
-		vkb::PhysicalDeviceSelector> {
+		vkb::PhysicalDeviceSelector>*/ {
 	private:
 		std::unique_ptr<vkb::PhysicalDeviceSelector> mVkbDeviceSelectorPtr{ nullptr };
-		//vkb::PhysicalDevice mVkbDevice;
+
+		vkb::PhysicalDevice mVkbDevice;
 
 		std::string mDeviceName;
 		PhysicalDeviceProperties mDevicePropertiesAggregate{};
@@ -110,6 +112,8 @@ namespace Atlas {
 		void populateDeviceProperties();
 
 		void evaluateValidity();
+
+		void setVkbHandle(vkb::PhysicalDevice const& vkbDevice) { mVkbDevice = vkbDevice; }
 
 		void setDeviceName(std::string_view deviceName);
 	public:
@@ -126,7 +130,7 @@ namespace Atlas {
 
 		PhysicalDeviceProperties getPhysicalDeviceProperties() const;
 
-		//vkb::PhysicalDevice& getVkbHandle();
+		vkb::PhysicalDevice& getVkbHandle() { return mVkbDevice; }
 
 		// Returns a string_view so that the string cannot be modified
 		std::string_view getName() const;
@@ -152,7 +156,11 @@ namespace Atlas {
 		Device() = default;
 
 		~Device() override;
+		
+		void waitIdle();
 	};
 
 	vkb::PreferredDeviceType ToVkbPreferredDeviceType(EPhysicalDeviceType preferredDeviceType);
+	
+	std::shared_ptr<Device> GetMainVulkanDevice();
 }

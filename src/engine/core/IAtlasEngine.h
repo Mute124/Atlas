@@ -33,9 +33,14 @@ namespace Atlas {
 		virtual void update(std::chrono::milliseconds deltaTimeInMS) {}
 
 	};
+	
+
 
 	class IAtlasEngine {
 	public:
+		struct Options {
+			
+		};
 
 		//protected:
 		//	AtlasSettings mEngineSettings;

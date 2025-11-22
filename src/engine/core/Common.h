@@ -24,6 +24,7 @@
 #include <thread>
 #include <unordered_map>
 #include <chrono>
+#include <set>
 #include <type_traits>
 
 #if defined(ATLAS_ALLOW_ASSERTS) || defined(ATLAS_DEBUG)
@@ -41,6 +42,8 @@
 #include "Math.h"
 
 #include <typeinfo>
+#include <any>
+#include <limits>
 
 #if defined(ATLAS_ALLOW_ASSERTS) || defined(ATLAS_DEBUG)
 	/**
@@ -639,6 +642,62 @@ namespace Atlas {
 		}
 
 	};
+
+	class AEngineSystem : public InitializableAndValidatable {
+	private:
+		bool mbExposedScriptingSymbols{ false };
+
+	protected:
+		void setExposedScriptingSymbols(bool bNewValue) {
+			mbExposedScriptingSymbols = bNewValue;
+		}
+
+	public:
+		virtual void exposeScriptingSymbols() = 0;
+
+		virtual void update(std::any updateArgs = nullptr) = 0;
+		
+		bool hasExposedScriptingSymbols() const {
+			return mbExposedScriptingSymbols;
+		}
+	};
+
+	//template<typename T_CONTAINER, typename T_INDEX, typename T_CONTAINED>
+	//class IRegistry : public InitializableAndValidatable {
+	//protected:
+	//	using Container = T_CONTAINER;
+	//	using Contained = T_CONTAINED;
+	//public:
+
+	//	virtual void add(T_CONTAINED contained) = 0;
+	//	virtual bool exists(T_INDEX index) = 0;
+	//};
+
+	//template<typename T_CONTAINER, typename T_INDEX, typename T_CONTAINED>
+	//class ARegistry : public InitializableAndValidatable {
+	//	using Container = T_CONTAINER;
+	//	using Contained = T_CONTAINED;
+	//private:
+
+	//	Container mContainer;
+	//	std::unordered_set<T_INDEX> mValidIndices;
+	//public:
+
+	//	virtual T_INDEX add(T_CONTAINED contained) {
+
+	//	}
+
+	//	bool exists(T_INDEX index) {
+	//		return mValidIndicies.contains(index);
+	//	}
+
+	//};
+
+	//void t() {
+	//	std::unordered_set<int> test;
+
+	//	test.
+	//}
 
 	template<typename T>
 	inline T AlignUp(T value, uint64_t alignment) {

@@ -35,45 +35,15 @@ namespace Atlas {
 #endif
 
 	class Frame {
-	public:
-		class FrameCounter : public Counter<FrameCount> {
-		public:
-		};
-
-	private:
-		FrameCount mFrameCount = 0;
-		
 	protected:
-		void setFrameCount(FrameCount newFrameCount);
-
 		void updateFrameCount();
 
 	public:
+		Counter<FrameCount> frameCounter;
 
-//#ifdef ATLAS_USE_VULKAN
-//		VkCommandPool commandPool = VK_NULL_HANDLE;
-//		VkCommandBuffer mainCommandBuffer = VK_NULL_HANDLE;
-//
-//		VkSemaphore swapchainSemaphore = VK_NULL_HANDLE;
-//		VkSemaphore renderSemaphore = VK_NULL_HANDLE;
-//
-//		VkFence renderFence = VK_NULL_HANDLE;
-//#endif
 
-		void init(std::unique_ptr<VkQueue> graphicsQueue, std::unique_ptr<VkDevice> device, std::unique_ptr<VkCommandPoolCreateInfo> createInfo);
-
-		void shutdown(std::unique_ptr<VkDevice> device);
+		void update();
 
 		FrameCount getFrameCount() const;
-	};
-
-	class RenderFrame : public Frame {
-		friend class VulkanRenderer;
-		friend class VulkanRenderingBackend;
-	private:
-		FrameData mFrameData;
-
-	public:
-
 	};
 }

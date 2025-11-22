@@ -165,9 +165,7 @@
 )
 
 add_library(imgui STATIC)
-
 target_include_directories(imgui PUBLIC "${PROJECT_SOURCE_DIR}/include/imgui")
-
 target_sources(imgui PUBLIC
   "${PROJECT_SOURCE_DIR}/include/imgui/imgui.h"
   "${PROJECT_SOURCE_DIR}/include/imgui/imgui.cpp"

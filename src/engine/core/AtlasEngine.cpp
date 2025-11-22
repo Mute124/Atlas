@@ -228,8 +228,6 @@ void Atlas::AtlasEngine::init()
 	//	ATLAS_ASSERT(this->mGameThreader != nullptr, "The game threading module (mGameThreader) in AtlasEngine cannot be a nullptr if you are using threading!");
 	//	ATLAS_ASSERT(this->mGameRenderingModule != nullptr, "The rendering module is a nullptr!");
 
-	//	
-
 	//	//	initWithThreading();
 	//}
 	//else {

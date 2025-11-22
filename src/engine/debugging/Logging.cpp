@@ -2,15 +2,23 @@
 #include <string>
 #include <initializer_list>
 #include <memory>
-
-#include "../core/MemoryAllocator.h"
-#include "Logging.h"
+#include <chrono>
+#include <ctime>
+#include <format>
+#include <source_location>
+#include <stdexcept>
+#include <filesystem>
 
 #include <spdlog/spdlog.h>
 #include <spdlog/logger.h>
 #include <spdlog/common.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+
+#include "../core/MemoryAllocator.h"
+#include "Logging.h"
+#include "../core/Common.h"
+
 
 
 //void Atlas::ALogger::QueuedMessagesContainer::push(LogMessage const& message) {
@@ -36,72 +44,31 @@
 //	return messages.empty();
 //}
 
+Atlas::LogMessage::LogMessage(std::string const& message, ELogLevel logLevel, std::any extraData, std::source_location eventLocation)
+	: message(message), logLevel(logLevel), eventLocation(eventLocation), extraData(extraData), cbHasExtraData(extraData.has_value())
+{
+}
+
+Atlas::LogMessage::LogMessage(std::string const& message, ELogLevel logLevel, std::source_location eventLocation)
+	: LogMessage(message, logLevel, std::any(), eventLocation)
+{
+}
+
 
 std::string Atlas::ALogger::GenerateLogFileName() {
 	// Generate a log file name from the current date and time.
-	std::string fileName = "";
 
-	auto now = std::chrono::system_clock::now();
-	auto time = std::chrono::system_clock::to_time_t(now);
-	
-	
-
-	std::tm* nowTm = std::localtime(&time);
-	
-	fileName = std::format("{}-{}-{}_{}-{}-{}.log",
-		nowTm->tm_year + 1900,
-		nowTm->tm_mon + 1,
-		nowTm->tm_mday,
-		nowTm->tm_hour,
-		nowTm->tm_min,
-		nowTm->tm_sec
-	);
+	const auto now = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
+	std::string fileName = std::format("{:%Y-%m-%d_%H-%M-%S}.log", now);
 
 	return fileName;
 }
-
-//void Atlas::ALogger::SetDefaultLogger(ALogger* logger) {
-//
-//	ATLAS_ASSERT(logger != nullptr, "A nullptr logger cannot be set as the default logger!");
-//
-//	std::scoped_lock lock(sLogger->mMutex);
-//
-//	sLogger = std::make_shared<ALogger>(logger);
-//}
-//
-//std::shared_ptr<Atlas::ALogger> Atlas::ALogger::GetDefaultLogger()
-//{
-//	std::scoped_lock lock(sLogger->mMutex);
-//	return sLogger;
-//}
 
 void Atlas::ALogger::Log(std::string const& message, ELogLevel logLevel)
 {
 	//std::scoped_lock lock(sLogger->mMutex);
 	//sLogger->queueMessage(message, logLevel);
 }
-
-//void Atlas::ALogger::queueMessage(std::string const& message, ELogLevel logLevel) {
-//	//std::scoped_lock lock(mQueuedLogMessagesMutex);
-//	//mQueuedLogMessages.push({message, logLevel});
-//}
-//
-//void Atlas::ALogger::processQueuedMessages() {
-//	std::scoped_lock lock(mQueuedLogMessagesMutex);
-//
-//	while(!mQueuedLogMessages.empty()) {
-//		LogMessage message = mQueuedLogMessages.pop();
-//		log(message.message, message.logLevel);
-//	}
-//}
-
-//bool Atlas::ALogger::isInitialized() const {
-//	return mbIsInitialized;
-//}
-
-//Atlas::ALogger::operator bool() const {
-//	return isInitialized();
-//}
 
 Atlas::ELogLevel Atlas::SpdlogLogger::ExtractLogLevel(std::initializer_list<ELogLevel> logLevels, int index) {
 	if (index < 0 || index >= logLevels.size()) {
@@ -162,6 +129,7 @@ Atlas::SpdlogLogger::SpdlogLogger(std::string const& loggerName, std::string con
 	: SpdlogLogger(loggerName, messageFormatPattern, logFilePath, SHOULD_TRUNCATE_FILE_LOGS)
 	//mLoggerName(loggerName), mLogFilePath(logFilePath), mMessageFormatPattern(messageFormatPattern)
 {
+
 }
 
 void Atlas::SpdlogLogger::QueueMessage(std::string const& message, ELogLevel logLevel)
@@ -187,7 +155,7 @@ void Atlas::SpdlogLogger::init()
 	if (mInternalSpdlogLoggerPtr != nullptr) {
 		mInternalSpdlogLoggerPtr->warn("Logger already initialized!");
 
-		throw std::runtime_error("Logger already initialized!");
+		//throw std::runtime_error("Logger already initialized!");
 
 		return;
 	}
@@ -198,7 +166,9 @@ void Atlas::SpdlogLogger::init()
 	initFileSink();
 	initInternalSpdlogLogger();
 
-	mInternalSpdlogLoggerPtr->info("Logger initialized!");
+	mInternalSpdlogLoggerPtr->info(
+		std::format("The logger with the name of {} initialized successfully! Log file can be found at: {}", mLoggerName, std::filesystem::path(mLogFilePath).string())
+	);
 
 	mbIsFullyInitialized = true;
 }
@@ -286,3 +256,4 @@ void Atlas::CriticalLog(std::string const& message)
 {
 	LogMessage(message, ELogLevel::critical);
 }
+

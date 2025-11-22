@@ -125,8 +125,6 @@ void Atlas::GLFWGameWindow::setFlag(std::string const& flagName, unsigned int va
 
 #endif
 
-
-
 void Atlas::SDLGameWindow::init(const uint32_t cInitFlags)
 {
 	if (SDL_Init(cInitFlags) != 0) {

@@ -174,7 +174,6 @@ AllocatedBuffer Atlas::VulkanRenderingBackend::createBuffer(size_t allocSize, Vk
 
 void Atlas::VulkanRenderingBackend::destroyBuffer(const AllocatedBuffer& buffer)
 {
-	
 	vmaDestroyBuffer(mVMAAllocator, buffer.buffer, buffer.allocation);
 }
 
@@ -255,6 +254,8 @@ void Atlas::VulkanRenderingBackend::initPipelines()
 
 void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 {
+	const Device cDeviceHandle = *GetMainVulkanDevice().get();
+
 	VkPipelineLayoutCreateInfo computeLayout{};
 	computeLayout.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	computeLayout.pNext = nullptr;
@@ -269,17 +270,17 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	computeLayout.pPushConstantRanges = &pushConstant;
 	computeLayout.pushConstantRangeCount = 1;
 
-	vkCreatePipelineLayout(*Device::GetMainHandle().get(), &computeLayout, nullptr, &mGradientPipelineLayout);
+	vkCreatePipelineLayout(cDeviceHandle, &computeLayout, nullptr, &mGradientPipelineLayout);
 	
 	//layout code
 	VkShaderModule computeDrawShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/gradient.comp.spv", *Device::GetMainHandle().get(), &computeDrawShader))
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/gradient.comp.spv", cDeviceHandle, &computeDrawShader))
 	{
 		std::cout << "Error when building the compute shader \n";
 	}
 
 	VkShaderModule skyShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/sky.comp.spv", *Device::GetMainHandle().get(), &skyShader))
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/sky.comp.spv", cDeviceHandle, &skyShader))
 	{
 		std::cout << "Error when building the compute shader \n";
 	}
@@ -290,7 +291,7 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	stageinfo.stage = VK_SHADER_STAGE_COMPUTE_BIT;
 	stageinfo.module = computeDrawShader;
 	stageinfo.pName = "main";
-
+	
 	VkComputePipelineCreateInfo computePipelineCreateInfo{};
 	computePipelineCreateInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
 	computePipelineCreateInfo.pNext = nullptr;
@@ -306,7 +307,7 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	gradient.data.data1 = glm::vec4(1, 0, 0, 1);
 	gradient.data.data2 = glm::vec4(0, 0, 1, 1);
 
-	vkCreateComputePipelines(*Device::GetMainHandle().get(), VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &gradient.pipeline);
+	vkCreateComputePipelines(cDeviceHandle, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &gradient.pipeline);
 
 	//change the shader module only to create the sky shader
 	computePipelineCreateInfo.stage.module = skyShader;
@@ -318,19 +319,22 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	//default sky parameters
 	sky.data.data1 = glm::vec4(0.1, 0.2, 0.4, 0.97);
 
-	vkCreateComputePipelines(*Device::GetMainHandle().get(), VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &sky.pipeline);
+	vkCreateComputePipelines(cDeviceHandle, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &sky.pipeline);
 
 	//add the 2 background effects into the array
 	mBackgroundEffects.push_back(gradient);
 	mBackgroundEffects.push_back(sky);
 
-	vkDestroyShaderModule(*Device::GetMainHandle().get(), computeDrawShader, nullptr);
-	vkDestroyShaderModule(*Device::GetMainHandle().get(), skyShader, nullptr);
+	mEffectManager->pushEffect(gradient);
+	mEffectManager->pushEffect(sky);
+
+	vkDestroyShaderModule(cDeviceHandle, computeDrawShader, nullptr);
+	vkDestroyShaderModule(cDeviceHandle, skyShader, nullptr);
 
 	mMainDeletionQueue.push([&]() {
-		vkDestroyPipelineLayout(*Device::GetMainHandle().get(), mGradientPipelineLayout, nullptr);
-		vkDestroyPipeline(*Device::GetMainHandle().get(), sky.pipeline, nullptr);
-		vkDestroyPipeline(*Device::GetMainHandle().get(), gradient.pipeline, nullptr);
+		vkDestroyPipelineLayout(cDeviceHandle, mGradientPipelineLayout, nullptr);
+		vkDestroyPipeline(cDeviceHandle, sky.pipeline, nullptr);
+		vkDestroyPipeline(cDeviceHandle, gradient.pipeline, nullptr);
 	});
 }
 
@@ -469,7 +473,7 @@ void Atlas::VulkanRenderingBackend::initVMAAllocator(vkb::Instance const& cVkBoo
 {
 	// initialize the memory allocator (this can be a function)
 	VmaAllocatorCreateInfo allocatorInfo = {};
-	allocatorInfo.physicalDevice = mPhysicalDevice;
+	allocatorInfo.physicalDevice = mPhysicalDevice.getVkbHandle();
 	allocatorInfo.device = *Device::GetMainHandle().get();
 	allocatorInfo.instance = cVkBootstrapInstanceRef;
 	allocatorInfo.flags = VMA_ALLOCATOR_CREATE_BUFFER_DEVICE_ADDRESS_BIT;
@@ -495,6 +499,7 @@ void Atlas::VulkanRenderingBackend::initCommands()
 
 		vkAllocateCommandBuffers(*Device::GetMainHandle().get(), &cmdAllocInfo, &mFrameDataArray.at(i).mainCommandBuffer);
 	}
+
 	vkCreateCommandPool(*Device::GetMainHandle().get(), &commandPoolInfo, nullptr, &mImmediateSubmitInfo.commandPool);
 
 	// allocate the default command buffer that we will use for rendering
@@ -589,6 +594,8 @@ void Atlas::VulkanRenderingBackend::initIMGUI(AGameWindow* gameWindow)
 
 	ImGui_ImplVulkan_Init(&init_info);
 	
+	mRenderPassesManager.addRenderPass(std::make_shared<IMGUIRenderPass>());
+
 	//ImGui_ImplVulkan_CreateFontsTexture();
 
 	// add the destroy the imgui created structures
@@ -607,7 +614,6 @@ void Atlas::VulkanRenderingBackend::createSwapchain(uint32_t width, uint32_t hei
 	swapchainBuilder.set_desired_format(VkSurfaceFormatKHR{ .format = mSwapchainImageFormat, .colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR });
 	swapchainBuilder.set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR);
 	swapchainBuilder.set_desired_extent(width, height);
-
 	swapchainBuilder.add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT);
 
 	auto swapchainBuildResult = swapchainBuilder.build();
@@ -723,6 +729,8 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 {
 	//AGlobalRenderingBackend::init(gameWindow);
 
+	setLoadedRenderingBackend(this);
+
 	InfoLog("Attempting to initialize Vulkan");
 
 	//// Just make sure everything is in order before Vulkan gets initialized
@@ -778,6 +786,8 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 	mDevice = Device(vkbDevice.device);
 	mDevice.setAsMainHandle();
 	
+	mPhysicalDevice.getVkbHandle();
+
 	// Get the VkDevice handle used in the rest of a vulkan application
 	//mDevice = vkbDevice.device;
 	//mGPUDevice = physicalDevice.physical_device;
@@ -787,6 +797,8 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 
 	mGraphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
 	mGraphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
+
+	mEffectManager = std::make_shared<EffectManager>();
 
 	initVMAAllocator(cVkBootstrapInstanceRef);
 
@@ -814,7 +826,7 @@ void Atlas::VulkanRenderingBackend::initDefaultData()
 	rect_vertices[2].position = { -0.5,-0.5, 0 };
 	rect_vertices[3].position = { -0.5,0.5, 0 };
 
-	rect_vertices[0].color = { 0,0, 0,1 };
+	rect_vertices[0].color = { 1,1, 0,1 };
 	rect_vertices[1].color = { 0.5,0.5,0.5 ,1 };
 	rect_vertices[2].color = { 1,0, 0,1 };
 	rect_vertices[3].color = { 0,1, 0,1 };
@@ -964,40 +976,55 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 
 	//begin the command buffer recording. We will use this command buffer exactly once, so we want to let vulkan know that
 	mCurrentDrawData.cmdBeginInfo = CreateCommandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+	mCurrentDrawData.computeEffects = mEffectManager;
 
 	mDrawExtent.width = mDrawImage.imageExtent.width;
 	mDrawExtent.height = mDrawImage.imageExtent.height;
+	
+	mCurrentDrawData.swapchain = mSwapchain;
+	mCurrentDrawData.swapchainImages = mSwapchainImages;
+	mCurrentDrawData.swapchainImageViews = mSwapchainImageViews;
 
-	// imgui new frame
-	ImGui_ImplVulkan_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
+	mCurrentDrawData.currentSwapchainImageView = mSwapchainImageViews[mCurrentDrawData.swapchainImageIndex];
+	mCurrentDrawData.swapchainExtent = mSwapchainExtent;
 
-	//some imgui UI to test
-	//ImGui::ShowDemoWindow();
+	mRenderPassesManager.beginDrawingRenderPasses(mCurrentDrawData.cmd, mCurrentDrawData);
 
-	if (ImGui::Begin("background")) {
+	//// imgui new frame
+	//ImGui_ImplVulkan_NewFrame();
+	//ImGui_ImplSDL2_NewFrame();
+	//ImGui::NewFrame();
 
-		ComputeEffect& selected = mBackgroundEffects[mCurrentBackgroundEffect];
+	////some imgui UI to test
+	////ImGui::ShowDemoWindow();
 
-		ImGui::Text("Selected effect: ", selected.name);
+	//if (ImGui::Begin("background")) {
+	//	ComputeEffect& selected = mEffectManager.getCurrentEffect();
 
-		ImGui::SliderInt("Effect Index", &mCurrentBackgroundEffect, 0, mBackgroundEffects.size() - 1);
+	//	ImGui::Text("Selected effect: ", selected.name);
+	//	
+	//	//std::cout << mEffectManager.mCurrentEffectIndex << std::endl;
+	//	//std::cout << mCurrentBackgroundEffect << std::endl;
+	//	
+	//	ImGui::SliderInt("Effect Index", &mEffectManager.mCurrentEffectIndex, 0, mEffectManager.getEffectCount() - 1);
 
-		ImGui::InputFloat4("data1", (float*)&selected.data.data1);
-		ImGui::InputFloat4("data2", (float*)&selected.data.data2);
-		ImGui::InputFloat4("data3", (float*)&selected.data.data3);
-		ImGui::InputFloat4("data4", (float*)&selected.data.data4);
-	}
-	ImGui::End();
+	//	ImGui::InputFloat4("data1", (float*)&selected.data.data1);
+	//	ImGui::InputFloat4("data2", (float*)&selected.data.data2);
+	//	ImGui::InputFloat4("data3", (float*)&selected.data.data3);
+	//	ImGui::InputFloat4("data4", (float*)&selected.data.data4);
+	//}
+	//ImGui::End();
 
-	//make imgui calculate internal draw structures
-	ImGui::Render();
+	////make imgui calculate internal draw structures
+	//ImGui::Render();
 }
 
 void Atlas::VulkanRenderingBackend::endDrawingMode()
 {
 	FrameData& currentFrame = getCurrentFrame();
+
+	//end render pass
+	mRenderPassesManager.endDrawingRenderPasses(mCurrentDrawData.cmd, mCurrentDrawData);
 
 	//finalize the command buffer (we can no longer add commands, but it can now be executed)
 	vkEndCommandBuffer(mCurrentDrawData.cmd);
@@ -1063,7 +1090,9 @@ void Atlas::VulkanRenderingBackend::draw()
 	// execute a copy from the draw image into the swapchain
 	CopyImageToImage(mCurrentDrawData.cmd, mDrawImage.image, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], mDrawExtent, mSwapchainExtent);
 
-	drawIMGUI(mCurrentDrawData.cmd, mSwapchainImageViews[mCurrentDrawData.swapchainImageIndex]);
+	mRenderPassesManager.drawRenderPasses(mCurrentDrawData.cmd, mCurrentDrawData);
+
+	//drawIMGUI(mCurrentDrawData.cmd, mSwapchainImageViews[mCurrentDrawData.swapchainImageIndex]);
 
 	// set swapchain image layout to Present so we can show it on the screen
 	TransitionImage(mCurrentDrawData.cmd, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
@@ -1075,8 +1104,6 @@ void Atlas::VulkanRenderingBackend::drawIMGUI(VkCommandBuffer cmd, VkImageView t
 	VkRenderingInfo renderInfo = CreateRenderingInfo(mSwapchainExtent, &colorAttachment, nullptr);
 
 	vkCmdBeginRendering(cmd, &renderInfo);
-
-
 
 	ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), cmd);
 
@@ -1117,8 +1144,8 @@ void Atlas::VulkanRenderingBackend::drawBackground(VkCommandBuffer cmd)
 	//vkCmdPushConstants(cmd, mGradientPipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(ComputePushConstants), &pc);
 	//// execute the compute pipeline dispatch. We are using 16x16 workgroup size so we need to divide by it
 	//vkCmdDispatch(cmd, std::ceil(mDrawExtent.width / 16.0), std::ceil(mDrawExtent.height / 16.0), 1);
-
-	ComputeEffect& effect = mBackgroundEffects[mCurrentBackgroundEffect];
+	//mBackgroundEffects[mCurrentBackgroundEffect]
+	ComputeEffect& effect = mEffectManager->getCurrentEffect();
 
 	// bind the background compute pipeline
 	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, effect.pipeline);
@@ -1194,15 +1221,18 @@ void Atlas::VulkanRenderingBackend::shutdown()
 	// No need to worry about cleaning up if not initialized, hence the check
 	if (mIsInitialized) {
 
-		vkDeviceWaitIdle(*Device::GetMainHandle().get());
+		Device* mainDevicePtr = GetMainVulkanDevice().get();
+		
+		//vkDeviceWaitIdle(*mainDevicePtr);
+		mainDevicePtr->waitIdle();
 
 		for (int i = 0; i < FRAME_OVERLAP; i++) {
-			vkDestroyCommandPool(*Device::GetMainHandle().get(), mFrameDataArray.at(i).commandPool, nullptr);
+			vkDestroyCommandPool(*mainDevicePtr, mFrameDataArray.at(i).commandPool, nullptr);
 
 			//destroy sync objects
-			vkDestroyFence(*Device::GetMainHandle().get(), mFrameDataArray.at(i).renderFence, nullptr);
-			vkDestroySemaphore(*Device::GetMainHandle().get(), mFrameDataArray.at(i).renderSemaphore, nullptr);
-			vkDestroySemaphore(*Device::GetMainHandle().get(), mFrameDataArray.at(i).swapchainSemaphore, nullptr);
+			vkDestroyFence(*mainDevicePtr, mFrameDataArray.at(i).renderFence, nullptr);
+			vkDestroySemaphore(*mainDevicePtr, mFrameDataArray.at(i).renderSemaphore, nullptr);
+			vkDestroySemaphore(*mainDevicePtr, mFrameDataArray.at(i).swapchainSemaphore, nullptr);
 
 			mFrameDataArray.at(i).deletionQueue.flush();
 		}
@@ -1212,7 +1242,8 @@ void Atlas::VulkanRenderingBackend::shutdown()
 		destroySwapchain();
 
 		vkDestroySurfaceKHR(mInstance.getInstance(), mSurface, nullptr);
-		vkDestroyDevice(*Device::GetMainHandle().get(), nullptr);
+
+		vkDestroyDevice(*mainDevicePtr, nullptr);
 
 		mInstance.shutdown();
 
@@ -1422,6 +1453,54 @@ void Atlas::GraphicsQueue::submit(VkSubmitInfo2 const& submitInfo, VkFence fence
 	submit({ submitInfo }, fence);
 }
 
+void Atlas::IMGUIRenderPass::beginRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
+	// imgui new frame
+	ImGui_ImplVulkan_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+	//some imgui UI to test
+	//ImGui::ShowDemoWindow();
+
+	if (ImGui::Begin("background")) {
+		ComputeEffect& selected = cDrawData.computeEffects->getCurrentEffect();
+
+		ImGui::Text("Selected effect: %s", selected.name);
+
+		//std::cout << mEffectManager.mCurrentEffectIndex << std::endl;
+		//std::cout << mCurrentBackgroundEffect << std::endl;
+
+		//ImGui::Checkbox("Enabled", &this->getInternalValidityValue());
+
+		ImGui::Text("Current Frame: %i", gLoadedVulkanBackend->mCurrentFrameNumber);
+		ImGui::SliderInt("Effect Index", &cDrawData.computeEffects->mCurrentEffectIndex, 0, cDrawData.computeEffects->getEffectCount() - 1);
+
+		ImGui::InputFloat4("data1", (float*)&selected.data.data1);
+		ImGui::InputFloat4("data2", (float*)&selected.data.data2);
+		ImGui::InputFloat4("data3", (float*)&selected.data.data3);
+		ImGui::InputFloat4("data4", (float*)&selected.data.data4);
+	}
+	ImGui::End();
+
+	//make imgui calculate internal draw structures
+	ImGui::Render();
+}
+
+void Atlas::IMGUIRenderPass::draw(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
+	VkRenderingAttachmentInfo colorAttachment = CreateAttachmentInfo(cDrawData.currentSwapchainImageView, nullptr, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+	VkRenderingInfo renderInfo = CreateRenderingInfo(cDrawData.swapchainExtent, &colorAttachment, nullptr);
+
+	vkCmdBeginRendering(cmd, &renderInfo);
+
+	ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), cmd);
+
+	vkCmdEndRendering(cmd);
+}
+
+void Atlas::IMGUIRenderPass::endRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData)
+{
+	
+}
+
 void Atlas::IMGUIRenderable::NewIMGUIFrame() {
 	ImGui_ImplVulkan_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
@@ -1548,15 +1627,16 @@ void Atlas::Pipeline::setBindPoint(EBindPoint newBindPoint) {
 }
 
 Atlas::Pipeline::Pipeline(EBindPoint bindPoint, VkPipeline pipeline, PipelineLayout pipelineLayout) 
-	: mBindPoint(bindPoint), mPipeline(pipeline), mPipelineLayout(pipelineLayout) {
+	: AVulkanHandleWrapper(pipeline), mBindPoint(bindPoint), mPipelineLayout(pipelineLayout) {
 }
 
 void Atlas::Pipeline::bind(CommandBuffer commandBuffer) {
-	vkCmdBindPipeline(commandBuffer, (VkPipelineBindPoint)mBindPoint, mPipeline);
+	vkCmdBindPipeline(commandBuffer, (VkPipelineBindPoint)mBindPoint, getHandle());
 }
 
 Atlas::Pipeline::EBindPoint Atlas::Pipeline::getBindPoint() const noexcept
 {
 	return mBindPoint;
 }
+
 

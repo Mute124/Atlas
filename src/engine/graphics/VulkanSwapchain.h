@@ -2,9 +2,11 @@
 
 #include <vector>
 #include <memory>
+#include <cstdint>
 
 #include "../core/Core.h"
 #include "window/Window.h"
+
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
 	#include <vulkan/vulkan_core.h>
@@ -14,58 +16,63 @@
 	#include <vk_mem_alloc.h>
 #endif
 
+#include <glm/glm.hpp>
+#include "RenderCommon.h"
+#include "AllocatedImage.h"
 
 namespace Atlas {
 #ifdef ATLAS_USE_VULKAN
-	class VulkanSwapchain {
-	private:
-		VkColorSpaceKHR mSurfaceColorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+	using EPresentMode = VkPresentModeKHR;
+	using EColorSpace = VkColorSpaceKHR;
+	using EImageUsageFlags = VkImageUsageFlags;
 
-		VkSwapchainKHR mSwapchain = VK_NULL_HANDLE;
+	using SwapchainImages = std::vector<VkImage>;
+	using SwapchainImageViews = std::vector<VkImageView>;
 
-		std::vector<VkImage> mImages;
-		std::vector<VkImageView> mImageViews;
-
-		VkExtent2D mExtent;
-		VkFormat mImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
-
+	class Swapchain : public VulkanGlobalStateObject<VkSwapchainKHR, Swapchain> {
 		friend class VulkanRenderingBackend;
+	private:
+		VkFormat mSwapchainImageFormat{ VK_FORMAT_B8G8R8A8_UNORM };
+		EPresentMode mPresentMode{ VK_PRESENT_MODE_FIFO_KHR };
+		EColorSpace mColorSpace{ VK_COLOR_SPACE_SRGB_NONLINEAR_KHR };
+
+		SwapchainImages mSwapchainImages;
+		SwapchainImageViews mSwapchainImageViews;
+
+		VkExtent2D mSwapchainExtent;
+
+		AllocatedImage mDrawImage;
+		VkExtent2D mDrawExtent;
+
+		VkDevice mDevice{ VK_NULL_HANDLE };
+		VkPhysicalDevice mPhysicalDevice{ VK_NULL_HANDLE };
+		VkSurfaceKHR mSurface{ VK_NULL_HANDLE };
+
+		uint32_t mWidth{ 0 };
+		uint32_t mHeight{ 0 };
+
+		void configureSwapchainBuilder(vkb::SwapchainBuilder& swapchainBuilder);
+
+	protected:
+
+		void setWidth(uint32_t width) { mWidth = width; }
+		void setHeight(uint32_t height) { mHeight = height; }
 
 	public:
 
-		//void init(const WindowDescription& cWindowDescription, VmaAllocator* allocator) {}
-		
-		void create(VkPhysicalDevice GPUDevice, VkDevice device, VkSurfaceKHR surface, const WindowDescription& cWindowDescription) {
-			vkb::SwapchainBuilder swapchainBuilder{ GPUDevice, device, surface };
+		Swapchain(VkFormat swapchainImageFormat, EPresentMode presentMode, EColorSpace colorSpace, VkDevice device, VkPhysicalDevice physicalDevice, VkSurfaceKHR surface);
 
-			//mImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
+		explicit Swapchain(VkFormat swapchainImageFormat, EPresentMode presentMode, EColorSpace colorSpace);
 
-			vkb::Swapchain vkbSwapchain = swapchainBuilder
-				//.use_default_format_selection()
-				.set_desired_format(VkSurfaceFormatKHR{ .format = mImageFormat, .colorSpace = mSurfaceColorSpace })
-				//use vsync present mode
-				.set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
-				.set_desired_extent(cWindowDescription.windowRectangle.width, cWindowDescription.windowRectangle.height)
-				.add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
-				.build()
-				.value();
+		Swapchain() = default;
 
-			mExtent = vkbSwapchain.extent;
-			//store swapchain and its related images
-			mSwapchain = vkbSwapchain.swapchain;
-			mImages = vkbSwapchain.get_images().value();
-			mImageViews = vkbSwapchain.get_image_views().value();
-		}
+		void create(vkb::SwapchainBuilder swapchainBuilder);
 
-		void setColorSpace(VkColorSpaceKHR colorSpace) {
-			mSurfaceColorSpace = colorSpace;
-		}
+		void create(uint32_t width, uint32_t height);
 
-		void setImageFormat(VkFormat imageFormat) {
-			mImageFormat = imageFormat;
-		}
-		
+		SwapchainImages getImages() const { return mSwapchainImages; }
 
+		SwapchainImageViews getImageViews() const { return mSwapchainImageViews; }
 	};
 #endif
 }

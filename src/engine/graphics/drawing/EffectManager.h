@@ -9,28 +9,34 @@
  ***************************************************************************************************/
 #pragma once
 #include <vector>
-
+#include <unordered_set>
 #include "Effect.h"
 
 
 namespace Atlas {
 	class EffectManager {
+		friend class VulkanRenderingBackend;
+		friend class RenderPass;
 	private:
 		std::vector<ComputeEffect> mComputeEffects;
+		std::unordered_set<int> mValidEffectIndices;
 
-		int mCurrentEffectIndex{ 0 };
+		
 	public:
+		int mCurrentEffectIndex{ 0 };
+		void pushEffect(ComputeEffect& effect);
 
-		int getCurrentEffectIndex() {
-			return mCurrentEffectIndex;
-		}
+		bool validEffectExistsAt(size_t index);
 
-		int getEffectCount() {
-			return mComputeEffects.size();
-		}
+		int& getCurrentEffectIndex();
 
-		ComputeEffect& getCurrentEffect() {
-			return mComputeEffects[mCurrentEffectIndex];
-		}
+		int* getCurrentEffectIndexPtr() { return &mCurrentEffectIndex; }
+
+		int getEffectCount();
+
+		ComputeEffect& getEffect(int index);
+		ComputeEffect& getCurrentEffect();
+
+
 	};
 }

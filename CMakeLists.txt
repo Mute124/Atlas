@@ -273,24 +273,4 @@ set(USE_TZCNT ON)
 set(USE_F16C ON)
 set(USE_FMADD ON)
 
-add_subdirectory("src/engine")
-
-# Currently, Techstorm only supports the default implementation, however, it is on the list of things to do.
-if(NOT ${ATLAS_LIBRARY_MODE})
-    add_subdirectory("src/project")
-
-	message(STATUS "Building application")
-    add_subdirectory("src/application")
-endif()
-
-if(${ATLAS_BUILD_TOOLS})
-    message(STATUS "Building tools")
-    add_subdirectory("src/tools")
-endif()
-
-if(${ATLAS_ENABLE_TESTING})
-    
-
-	message(STATUS "Building tests")
-	add_subdirectory("src/tests")
-endif()
+add_subdirectory("src")

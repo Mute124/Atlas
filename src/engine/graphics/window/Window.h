@@ -67,10 +67,8 @@ namespace Atlas {
 	 * @since v
 	 */
 	struct WindowDescription {
-
 		std::string title;
 		std::string iconPath;
-
 		WindowRectangle windowRectangle;
 
 		uint16_t targetFPS;
@@ -90,6 +88,8 @@ namespace Atlas {
 			setNotInit();
 			setInvalid();
 		}
+
+		T_SURFACE_HANDLE getHandle() const { return this->mSurfaceHandle; }
 
 		//T_SURFACE_HANDLE getSurfaceHandle() const { return this->mSurfaceHandle; }
 
@@ -131,6 +131,11 @@ namespace Atlas {
 	 * @since v0.0.1
 	 */
 	class AGameWindow {
+	public:
+		struct Options {
+			std::vector<uint32_t> windowConfigFlags;
+			WindowDescription windowDescription;
+		};
 	protected:
 		static inline bool sHasSetGraphicsAPIFlag = false;
 		static inline uint32_t sGraphicsAPIFlag = -1;

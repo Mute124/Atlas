@@ -155,9 +155,29 @@ namespace Atlas {
 	struct CurrentDrawData {
 		const static uint32_t FENCE_COUNT = 1;
 		uint32_t swapchainImageIndex;
+
 		VkCommandBufferResetFlags cmdResetFlags = 0;
 		VkCommandBuffer cmd = VK_NULL_HANDLE;
 		VkCommandBufferBeginInfo cmdBeginInfo = {};
+
+		std::shared_ptr<EffectManager> computeEffects;
+
+		VkSwapchainKHR swapchain = VK_NULL_HANDLE;
+		VkFormat swapchainImageFormat;
+
+		std::vector<VkImage> swapchainImages;
+		std::vector<VkImageView> swapchainImageViews;
+		//VkExtent2D swapchainExtent;
+
+		// TODO: Move to a frame manager class or something like that
+		std::array<FrameData, FRAME_OVERLAP> frameDataArray;
+
+		VkImageView currentSwapchainImageView;
+		VkExtent2D swapchainExtent;
+		
+		AllocatedImage drawImage;
+		VkExtent2D drawExtent;
+		VkDescriptorSet* drawImageDescriptors;
 	};
 
 	//struct ComputePushConstants {
@@ -216,6 +236,7 @@ namespace Atlas {
 		std::vector<GeoSurface> surfaces;
 		GPUMeshBuffers meshBuffers;
 	};
+
 
 
 	class CommandBuffer : public AVulkanHandleWrapper<VkCommandBuffer> {
@@ -311,8 +332,9 @@ namespace Atlas {
 	private:
 
 		VkShaderModule mShaderModule = VK_NULL_HANDLE;
-		std::vector<VkShaderModule> mShaderModules;
-	
+		//std::vector<VkShaderModule> mShaderModules;
+		
+
 	public:
 
 		Shader() = default;
@@ -360,7 +382,7 @@ namespace Atlas {
 
 	};
 
-	class Pipeline {
+	class Pipeline : public AVulkanHandleWrapper<VkPipeline> {
 	public:
 		enum class EBindPoint {
 			Graphics = VK_PIPELINE_BIND_POINT_GRAPHICS,
@@ -376,7 +398,7 @@ namespace Atlas {
 		//VkPipelineLayoutCreateInfo mComputeLayoutInfo;
 		//VkPushConstantRange mPushConstantRange;
 
-		VkPipeline mPipeline{ VK_NULL_HANDLE };
+		//VkPipeline mPipeline{ VK_NULL_HANDLE };
 		PipelineLayout mPipelineLayout;
 		
 		//VkPipelineLayout mPipelineLayout = VK_NULL_HANDLE;
@@ -420,23 +442,139 @@ namespace Atlas {
 		//}
 	};
 
-	class RenderPass : public NamedObject, public Validatable {
-	private:
+	using RenderPassIndex = size_t;
 
+	class RenderPass : public NamedObject, public Validatable {
+		friend class RenderPassesManager;
+	private:
 		std::shared_ptr<Pipeline> mPipeline;
 
+		RenderPassIndex mIndex;
+
+	protected:
+		void setIndex(RenderPassIndex index) { mIndex = index; }
 	public:
 		//RenderPass(VkCommandBuffer commandBuffer) : mCommandBuffer(commandBuffer) {}
 
 		RenderPass() = default;
-		
-		virtual void beginRenderPass(const VkCommandBuffer cmd, const FrameData& frameData) {
+
+		virtual void beginRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
 			
 		}
 
-		virtual void endRenderPass(const VkCommandBuffer cmd, const FrameData& frameData) {
-			
+		virtual void draw(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) = 0;
+
+		virtual void endRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
+
 		}
+
+		RenderPassIndex getID() const { return mIndex; }
+	};
+
+	class RenderPassesManager {
+	private:
+		std::vector<std::shared_ptr<RenderPass>> mRenderPasses;
+		std::shared_mutex mRenderPassesMutex;
+
+	public:
+
+		void addRenderPass(std::shared_ptr<RenderPass> renderPass) {
+			if (renderPass == nullptr || !renderPass->isValid())
+			{
+				ErrorLog(std::format("RenderPass is not valid: {}", renderPass->getName()));
+				
+				return;
+			}
+
+			std::unique_lock lock(mRenderPassesMutex);
+			
+			const RenderPassIndex index = mRenderPasses.size();
+			renderPass->setIndex(index);
+
+			mRenderPasses.push_back(renderPass);
+
+		}
+
+		void beginDrawingRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
+			std::unique_lock lock(mRenderPassesMutex);
+			
+			for (auto& renderPass : mRenderPasses) {
+				if (!renderPass->isValid())
+				{								
+					continue;
+				}
+
+				renderPass->beginRenderPass(cmd, cDrawData);
+			}
+		}
+
+		void drawRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
+			std::unique_lock lock(mRenderPassesMutex);
+
+			for (auto& renderPass : mRenderPasses) {
+				if (!renderPass->isValid())
+				{
+					continue;
+				}
+
+				renderPass->draw(cmd, cDrawData);
+
+			}
+		}
+
+		void endDrawingRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
+			std::unique_lock lock(mRenderPassesMutex);
+
+			for (auto& renderPass : mRenderPasses) {
+				if (!renderPass->isValid())
+				{
+					continue;
+				}
+
+				renderPass->endRenderPass(cmd, cDrawData);
+
+			}
+		}
+	};
+
+	class BackgroundRenderPass : public RenderPass {
+	public:
+		virtual void draw(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override {
+			//ComputeEffect& effect = mPipeline->mShader.mComputeEffects.getCurrentEffect();
+
+			ComputeEffect& effect = cDrawData.computeEffects->getCurrentEffect();
+
+			effect.bind(cDrawData.cmd);
+
+			//vkCmdBindDescriptorSets(cDrawData.cmd, VK_PIPELINE_BIND_POINT_COMPUTE);
+		}
+	};
+
+	class IMGUIRenderPass : public RenderPass {
+	protected:
+		virtual void setupFrameElements(EffectManager& computeEffects) {
+			//ComputeEffect& selected = computeEffects.getCurrentEffect();
+
+			//ImGui::Text("Selected effect: ", selected.name);
+
+			////ImGui::SliderInt("Effect Index", &computeEffects.getCurrentEffectIndex(), 0, mBackgroundEffects.size() - 1);
+
+			//ImGui::InputFloat4("data1", (float*)&selected.data.data1);
+			//ImGui::InputFloat4("data2", (float*)&selected.data.data2);
+			//ImGui::InputFloat4("data3", (float*)&selected.data.data3);
+			//ImGui::InputFloat4("data4", (float*)&selected.data.data4);
+		}
+	public:
+
+		IMGUIRenderPass() : RenderPass() {
+			this->setValid();
+		}
+
+		void beginRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
+
+		virtual void draw(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
+
+		virtual void endRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
 	};
 
 	class Renderable {
@@ -530,13 +668,17 @@ namespace Atlas {
 	 * @since v0.0.1
 	 */
 	class VulkanRenderingBackend : public RenderingBackend {
-	private:
+	public:
+
 		// Thread-safe global instance of this class
 		static inline std::shared_ptr<VulkanRenderingBackend> sInstance = nullptr;
 		static inline std::mutex sInstanceMutex;
 		
 		std::vector<ComputeEffect> mBackgroundEffects;
 		int mCurrentBackgroundEffect = 0;
+
+		std::shared_ptr<EffectManager> mEffectManager;
+		RenderPassesManager mRenderPassesManager;
 
 		CurrentDrawData mCurrentDrawData;
 
@@ -619,12 +761,6 @@ namespace Atlas {
 
 		friend class SDLGameWindow;
 
-	protected:
-		//static inline void SetGlobalInstance(std::shared_ptr<VulkanRenderingBackend> instance) {
-		//	std::scoped_lock lock(sInstanceMutex);
-		//	sInstance = instance; 
-		//}
-
 	public:
 
 		using RenderingBackend::RenderingBackend;
@@ -659,12 +795,6 @@ namespace Atlas {
 		 * @since v0.0.1
 		 */
 		void init(AGameWindow* gameWindow) override;
-		
-		void testLoad(FileManager& fileManager) {
-			//ShaderModule shaderModule;
-
-			//shaderModule.load("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", fileManager);
-		}
 
 		void initDefaultData();
 
@@ -722,7 +852,9 @@ namespace Atlas {
 
 		FrameData& getCurrentFrame();
 
+		VkSurfaceKHR getSurface() { return mSurface; }
 
+		PhysicalDevice& getPhysicalDevice() { return mPhysicalDevice; }
 	};
 
 

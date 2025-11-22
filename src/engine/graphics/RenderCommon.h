@@ -321,7 +321,7 @@ namespace Atlas {
 			return ptr;
 		}
 
-		explicit(false) operator const T_VKB_EQUIVALENT& () const { return getVkbHandle(); }
+		explicit(false) operator const T_VKB_EQUIVALENT& () const { return mVkbHandle; }
 
 		 T_VKB_EQUIVALENT* operator->() { 
 			 return safeGetVkbHandlePtr();

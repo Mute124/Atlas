@@ -92,7 +92,7 @@ void Atlas::PhysicalDevice::setDeviceName(std::string_view deviceName) {
 }
 
 Atlas::PhysicalDevice::PhysicalDevice(VulkanInstanceWrapper& cVulkanInstanceRef, PhysicalDeviceSelectionConstraints const& selectionConstraints)
-	: AVulkanCompositeHandleWrapper(), mSelectionConstraints(selectionConstraints)
+	: VulkanGlobalStateObject(), mSelectionConstraints(selectionConstraints)
 {
 	const bool cbInitResult = init(cVulkanInstanceRef);
 
@@ -113,12 +113,9 @@ vkb::PhysicalDeviceSelector Atlas::PhysicalDevice::selectDevice(VulkanInstanceWr
 {
 	vkb::PhysicalDeviceSelector selector{cVulkanInstanceRef.getVulkanBootstrapInstance()};
 
-	if(mSelectionConstraints.preferredDeviceName.has_value()) {
-
+	if (mSelectionConstraints.preferredDeviceName.has_value()) {
 		selector.set_name(mSelectionConstraints.preferredDeviceName.value());
-		
 	} else {
-		
 		selector.set_minimum_version(mSelectionConstraints.minimumAPIVersion.major, mSelectionConstraints.minimumAPIVersion.minor);
 		selector.set_required_features_13(mSelectionConstraints.physicalDeviceFeatures.vulkan13Features);
 		selector.set_required_features_12(mSelectionConstraints.physicalDeviceFeatures.vulkan12Features);
@@ -184,7 +181,6 @@ std::string_view Atlas::PhysicalDevice::getName() const {
 }
 
 // conversion operator to VkPhysicalDevice
-
 vkb::PreferredDeviceType Atlas::ToVkbPreferredDeviceType(EPhysicalDeviceType preferredDeviceType) {
 	switch(preferredDeviceType) {
 		
@@ -212,6 +208,15 @@ vkb::PreferredDeviceType Atlas::ToVkbPreferredDeviceType(EPhysicalDeviceType pre
 	}
 }
 
+std::shared_ptr<Atlas::Device> Atlas::GetMainVulkanDevice() {
+	return Device::GetMainHandle();
+}
+
 Atlas::Device::~Device()
 {
+}
+
+void Atlas::Device::waitIdle()
+{
+	vkDeviceWaitIdle(getHandle());
 }

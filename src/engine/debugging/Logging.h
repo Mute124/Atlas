@@ -21,6 +21,7 @@
 #include <mutex>
 #include <source_location>
 #include <queue>
+#include <any>
 
 #ifndef ATLAS_NO_SPDLOG
 	#include <spdlog/logger.h>
@@ -81,12 +82,18 @@ namespace Atlas {
 	};
 
 #endif
-	
 
+	//std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath, bool truncateMessages,
+	//	std::initializer_list<ELogLevel> sinksLogLevels
 	struct LogMessage {
 		std::string message;
 		ELogLevel logLevel;
+		std::source_location eventLocation;
+		std::any extraData;
+		const bool cbHasExtraData;
 
+		LogMessage(std::string const& message, ELogLevel logLevel, std::any extraData, std::source_location eventLocation = std::source_location::current());
+		LogMessage(std::string const& message, ELogLevel logLevel, std::source_location eventLocation = std::source_location::current());
 	};
 
 	/**
@@ -126,7 +133,7 @@ namespace Atlas {
 
 	//	bool mbIsInitialized = false;
 	public:
-		
+
 		ALogger() = default;
 
 		virtual ~ALogger() = default;
@@ -255,9 +262,6 @@ namespace Atlas {
 
 			LoggerSinks() = default;
 		};
-
-
-
 	private:
 
 		constexpr static bool SHOULD_TRUNCATE_FILE_LOGS = false;
@@ -430,7 +434,7 @@ namespace Atlas {
 		 */
 		explicit SpdlogLogger(std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath, bool truncateMessages,
 			std::initializer_list<ELogLevel> sinksLogLevels);
-
+			
 		/**
 		 * @brief An explicit constructor for the @a SpdlogLogger class that will also set the value of @c mTruncateMessages.
 		 * 

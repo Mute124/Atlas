@@ -88,16 +88,15 @@ int main(int argc, char* argv[]) {
 
 	CPUDeviceInfo deviceInfo = CPUDeviceInfo();
 	
-	std::cout << "Logical Core Count: " << deviceInfo.mLogicalCoreCount << std::endl;
-	std::cout << "L1 Cache Size: " << deviceInfo.mL1CacheLineSize << std::endl;
-	std::cout << "Hardware Concurrency: " << deviceInfo.mHardwareConcurrency << std::endl;
+	//std::cout << "Logical Core Count: " << deviceInfo.mLogicalCoreCount << std::endl;
+	//std::cout << "L1 Cache Size: " << deviceInfo.mL1CacheLineSize << std::endl;
+	//std::cout << "Hardware Concurrency: " << deviceInfo.mHardwareConcurrency << std::endl;
 
 	const std::string logFilePath = std::format("logs/{}", SpdlogLogger::GenerateLogFileName());
 
 	SpdlogLogger logger = SpdlogLogger("Atlas", ATLAS_DEFAULT_SPDLOG_LOG_PATTERN, logFilePath);
 	logger.init();
 	logger.setThisAsDefaultLogger();
-	logger.info(logFilePath);
 
 	FileManager::Options options;
 	options.fileTTL = std::chrono::seconds(10);
@@ -141,7 +140,6 @@ int main(int argc, char* argv[]) {
 		
 		return true;
 	});
-
 	fileManager.registerDirectory("F:/dev/AtlasIOPrototype/assets");
 
 	InfoLog(std::format("Registered Files: {}", fileManager.getRegisteredCount()));
@@ -160,7 +158,6 @@ int main(int argc, char* argv[]) {
 
 	// Setup the game window (this needs to be done before the rendering device is created)
 	std::unique_ptr<SDLGameWindow> gameWindow = std::make_unique<SDLGameWindow>();
-
 	gameWindow->setWindowTitle("Atlas");
 	gameWindow->setWindowSize(800, 600);
 	gameWindow->setWindowPosition(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
@@ -175,13 +172,11 @@ int main(int argc, char* argv[]) {
 	renderingAPIVersion.patch = 0;
 
 	auto renderingDevice = std::make_unique<VulkanRenderingBackend>();
-
 	renderingDevice->setAPIVersion(renderingAPIVersion);
 	renderingDevice->setApplicationName("Example Application");
-
 	renderingDevice->init(gameWindow.operator->());
 
-	renderingDevice->testLoad(fileManager);
+	//renderingDevice->testLoad(fileManager);
 	//std::shared_ptr<HapticDevice> hapticDevice = std::make_shared<HapticDevice>(0);
 	//hapticDevice->open();
 
