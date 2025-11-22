@@ -11,6 +11,7 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 
+
 // This avoids the transitive include of string_view on MSVC compilers
 #ifdef ATLAS_COMPILER_MSVC
 	#include <__msvc_string_view.hpp>
@@ -29,21 +30,21 @@
 #include <fstream>
 #include <bitset>
 #include <memory>
+#include <functional>
+#include <mutex>
+#include <unordered_map>
 
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
 	#include <vulkan/vulkan_core.h>
+
 	#include <vk_mem_alloc.h>
+
+	#include <VkBootstrap.h>
 #endif
 	
 #include <glm/gtx/quaternion.hpp>
-#include <VkBootstrap.h>
-#include <functional>
-#include <mutex>
 #include <glm/fwd.hpp>
-#include <vulkan/vulkan_core.h>
-#include <unordered_map>
-#include <filesystem>
 
 #include <fastgltf/glm_element_traits.hpp>
 #include <fastgltf/parser.hpp>
@@ -51,25 +52,27 @@
 
 #include "stb_image.h"
 
-#include "RenderingBackend.h"
-
-#include "../VulkanInstance.h"
-#include "../PhysicalDevice.h"
+#include "VulkanInstance.h"
+#include "PhysicalDevice.h"
+#include "DeletionQueue.h"
+#include "DescriptorLayoutBuilder.h"
+#include "../GraphicsUtils.h"
+#include "PipelineBuilder.h"
+#include "AllocatedImage.h"
 
 #include "../Frame.h"
-#include "../AllocatedImage.h"
-#include "../../core/Core.h"
-#include "../../core/Common.h"
-#include "../../core/Device.h"
+
+#include "../backend/RenderingBackend.h"
 
 #include "../drawing/EffectManager.h"
 
 #include "../window/Window.h"
-#include "../DeletionQueue.h"
-#include "../DescriptorLayoutBuilder.h"
+
+#include "../../core/Core.h"
+#include "../../core/Common.h"
+#include "../../core/Device.h"
+
 #include "../../debugging/Logging.h"
-#include "../GraphicsUtils.h"
-#include "../PipelineBuilder.h"
 
 #include "../../io/IOManager.h"
 
@@ -91,47 +94,6 @@
 #ifdef ATLAS_USE_VULKAN
 
 namespace Atlas {
-	//struct DescriptorLayoutBuilder {
-
-	//	std::vector<VkDescriptorSetLayoutBinding> bindings;
-
-	//	void add_binding(uint32_t binding, VkDescriptorType type)
-	//	{
-	//		VkDescriptorSetLayoutBinding newbind{};
-	//		newbind.binding = binding;
-	//		newbind.descriptorCount = 1;
-	//		newbind.descriptorType = type;
-
-	//		bindings.push_back(newbind);
-	//	}
-
-	//	void clear()
-	//	{
-	//		bindings.clear();
-	//	}
-
-	//	VkDescriptorSetLayout build(VkDevice device, VkShaderStageFlags shaderStages, void* pNext = nullptr, VkDescriptorSetLayoutCreateFlags flags = 0)
-	//	{
-	//		for (auto& b : bindings) {
-	//			b.stageFlags |= shaderStages;
-	//		}
-
-	//		VkDescriptorSetLayoutCreateInfo info = { .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO };
-	//		info.pNext = pNext;
-
-	//		info.pBindings = bindings.data();
-	//		info.bindingCount = (uint32_t)bindings.size();
-	//		info.flags = flags;
-
-	//		VkDescriptorSetLayout set;
-	//		vkCreateDescriptorSetLayout(device, &info, nullptr, &set);
-
-	//		return set;
-	//	}
-	//};
-
-	//using ShaderModule = VkShaderModule;
-
 	enum class QueueType {
 		Present = 0,
 		Graphics = 1,

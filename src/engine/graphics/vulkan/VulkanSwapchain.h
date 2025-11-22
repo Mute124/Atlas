@@ -4,8 +4,8 @@
 #include <memory>
 #include <cstdint>
 
-#include "../core/Core.h"
-#include "window/Window.h"
+#include "../../core/Core.h"
+#include "../window/Window.h"
 
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
@@ -17,7 +17,7 @@
 #endif
 
 #include <glm/glm.hpp>
-#include "RenderCommon.h"
+#include "../RenderCommon.h"
 #include "AllocatedImage.h"
 
 namespace Atlas {

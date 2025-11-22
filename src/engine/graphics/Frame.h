@@ -9,9 +9,10 @@
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
 	#include <vulkan/vulkan_core.h>
+	
+	#include "vulkan/DeletionQueue.h"
 #endif
 
-#include "DeletionQueue.h"
 
 namespace Atlas {
 	using FrameCount = uint32_t;

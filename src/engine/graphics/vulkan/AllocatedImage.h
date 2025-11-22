@@ -9,7 +9,7 @@
  ***************************************************************************************************/
 #pragma once
 
-#include "../core/Core.h"
+#include "../../core/Core.h"
 
 #ifdef ATLAS_USE_VULKAN
 	#include <vulkan/vulkan.h>
@@ -18,8 +18,8 @@
 
 #endif
 
-#include "RenderCommon.h"
-#include "GraphicsUtils.h"
+#include "../RenderCommon.h"
+#include "../GraphicsUtils.h"
 
 #include "PhysicalDevice.h"
 #include <memory>

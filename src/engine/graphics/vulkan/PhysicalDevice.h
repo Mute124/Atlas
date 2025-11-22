@@ -19,8 +19,8 @@
 #include <VkBootstrap.h>
 
 #include "VulkanInstance.h"
-#include "../core/Version.h"
-#include "RenderCommon.h"
+#include "../../core/Version.h"
+#include "../RenderCommon.h"
 #include <string>
 
 

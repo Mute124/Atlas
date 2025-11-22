@@ -13,9 +13,9 @@
 #include <string>
 
 #include "VulkanInstance.h"
-#include "../core/Core.h"
-#include "../core/Version.h"
-#include "../debugging/Logging.h"
+#include "../../core/Core.h"
+#include "../../core/Version.h"
+#include "../../debugging/Logging.h"
 
 #include <VkBootstrap.h>
 #include <vulkan/vulkan_core.h>

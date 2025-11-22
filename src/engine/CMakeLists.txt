@@ -1,4 +1,32 @@
-﻿set(ATLAS_ENGINE_SOURCES
+﻿set(ATLAS_VULKAN_API_SOURCES
+    "graphics/vulkan/DeletionQueue.h"
+	"graphics/vulkan/DeletionQueue.cpp"
+
+    "graphics/vulkan/VulkanInstance.h"
+	"graphics/vulkan/VulkanInstance.cpp"
+
+    "graphics/vulkan/PhysicalDevice.h"
+	"graphics/vulkan/PhysicalDevice.cpp"
+
+    "graphics/vulkan/VulkanRenderer.h"
+	"graphics/vulkan/VulkanRenderer.cpp"
+
+    "graphics/vulkan/VulkanSwapchain.h"
+	"graphics/vulkan/VulkanSwapchain.cpp"
+
+    "graphics/vulkan/DescriptorLayoutBuilder.h"
+	"graphics/vulkan/DescriptorLayoutBuilder.cpp"
+
+    "graphics/vulkan/PipelineBuilder.h"
+	"graphics/vulkan/PipelineBuilder.cpp"
+
+    "graphics/vulkan/VKDevice.h"
+    "graphics/vulkan/VKDevice.cpp"
+
+    "graphics/vulkan/AllocatedImage.h"
+)
+
+set(ATLAS_ENGINE_SOURCES
 
 	#-----------------------------------
 	# Engine Core
@@ -16,7 +44,6 @@
 	"core/Device.cpp"
 
     "core/Module.h"
-    #"common.cpp"
 
     "core/Timer.h"
     "core/Timer.cpp"
@@ -64,6 +91,8 @@
 	# Graphics
 	#-----------------------------------
 
+    "graphics/test.cpp"
+
     "graphics/RenderCommon.h"
 	"graphics/RenderCommon.cpp"
 
@@ -73,35 +102,14 @@
     "graphics/Frame.h"
     "graphics/Frame.cpp"
 
-    "graphics/DeletionQueue.h"
-	"graphics/DeletionQueue.cpp"
+    ${ATLAS_VULKAN_API_SOURCES}
 
-    "graphics/VulkanInstance.h"
-	"graphics/VulkanInstance.cpp"
-
-    "graphics/PhysicalDevice.h"
-	"graphics/PhysicalDevice.cpp"
 
     "graphics/Renderer.h"
     "graphics/Renderer.cpp"
 
-    "graphics/VulkanRenderer.h"
-	"graphics/VulkanRenderer.cpp"
-
-    "graphics/VulkanSwapchain.h"
-	"graphics/VulkanSwapchain.cpp"
-
     "graphics/backend/RenderingBackend.h"
     "graphics/backend/RenderingBackend.cpp"
-
-    "graphics/DescriptorLayoutBuilder.h"
-	"graphics/DescriptorLayoutBuilder.cpp"
-
-    "graphics/PipelineBuilder.h"
-	"graphics/PipelineBuilder.cpp"
-
-    "graphics/backend/VKDevice.h"
-    "graphics/backend/VKDevice.cpp"
 
     "graphics/drawing/Effect.h"
 	"graphics/drawing/Effect.cpp"
@@ -114,8 +122,6 @@
 
     "graphics/Renderer.h" 
     "graphics/Renderer.cpp"
-
-    "graphics/AllocatedImage.h"
 
     "graphics/Color.h"
 

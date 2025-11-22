@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../core/Core.h"
+#include "../../core/Core.h"
 
-#include "Renderer.h"
+#include "../Renderer.h"
 
-#include "backend/VKDevice.h"
+#include "VKDevice.h"
 
 namespace Atlas {
 #ifdef ATLAS_USE_VULKAN

@@ -16,7 +16,7 @@
 
 //#include <core/AtlasEngine.h>
 
-#include <graphics/backend/VKDevice.h>
+#include <graphics/vulkan/VKDevice.h>
 #include <debugging/Logging.h>
 #include <io/IOManager.h>
 

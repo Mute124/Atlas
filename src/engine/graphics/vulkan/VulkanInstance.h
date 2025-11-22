@@ -19,10 +19,10 @@
 
 #include <VkBootstrap.h>
 
-#include "../core/Core.h"
-#include "../core/Version.h"
+#include "../../core/Core.h"
+#include "../../core/Version.h"
 
-#include "backend/RenderingBackend.h"
+#include "../backend/RenderingBackend.h"
 
 #ifdef ATLAS_DEBUG
 	#define ATLAS_ENABLE_VALIDATION_LAYERS true

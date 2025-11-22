@@ -13,7 +13,7 @@
 
 #include <vulkan/vulkan.h>
 
-#include "GraphicsUtils.h"
+#include "../GraphicsUtils.h"
 
 namespace Atlas {
 	struct PipelineBuilderSettings {

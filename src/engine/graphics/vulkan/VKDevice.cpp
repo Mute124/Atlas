@@ -8,8 +8,8 @@
  * @since v
  ***************************************************************************************************/
 #include "VKDevice.h"
-#include "../VulkanInstance.h"
-#include "RenderingBackend.h"
+#include "VulkanInstance.h"
+#include "../backend/RenderingBackend.h"
 #include "../Frame.h"
 #include "../../core/Core.h"
 #include "../window/Window.h"
@@ -54,7 +54,7 @@
 	#endif // ATLAS_USE_SDL2
 #include "../../core/Common.h"
 #include "../../debugging/Logging.h"
-#include "../DescriptorLayoutBuilder.h"
+#include "DescriptorLayoutBuilder.h"
 
 #include <cmath>
 #include <filesystem>
@@ -65,9 +65,9 @@
 #endif // ATLAS_USE_VULKAN
 #include "../../core/Version.h"
 #include "../GraphicsUtils.h"
-#include "../PipelineBuilder.h"
+#include "PipelineBuilder.h"
 #include <glm/fwd.hpp>
-#include "../PhysicalDevice.h"
+#include "PhysicalDevice.h"
 #include <array>
 #include <cstring>
 #include <fastgltf/util.hpp>

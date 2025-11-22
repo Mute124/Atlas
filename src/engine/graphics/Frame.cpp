@@ -1,6 +1,9 @@
 
 #include "Frame.h"
-#include "backend/VKDevice.h"
+
+#ifdef ATLAS_USE_VULKAN
+	#include "vulkan/VKDevice.h"
+#endif
 
 void Atlas::Frame::updateFrameCount() {
 	// Using this method rather than simply incrementing the frame count through mFrameCount++

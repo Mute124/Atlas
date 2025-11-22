@@ -14,11 +14,11 @@
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan_core.h>
 
-#include "RenderCommon.h"
+#include "../RenderCommon.h"
 #include "PhysicalDevice.h"
-#include "../debugging/Logging.h"
+#include "../../debugging/Logging.h"
 #include "VulkanInstance.h"
-#include "../core/Common.h"
+#include "../../core/Common.h"
 
 
 

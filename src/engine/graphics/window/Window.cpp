@@ -31,7 +31,9 @@
 #include <imgui/backends/imgui_impl_sdl2.h>
 #include <imgui/backends/imgui_impl_vulkan.h>
 
-#include "../backend/VKDevice.h"
+#ifdef ATLAS_USE_VULKAN
+	#include "../vulkan/VKDevice.h"
+#endif
 //Atlas::NullGameWindow::operator WindowDescription() const {
 //	return getWindowDescription();
 //}
