@@ -141,20 +141,6 @@ message(STATUS "Finished setting up code definitions")
 
 message(STATUS "Handling dependencies...")
 
-
-if(${ATLAS_USE_RAYLIB})
-    # TODO: Make raylib usage optional.
-    # Absolutely DO NOT remove this if using raylib. It will break all rendering functionality
-    set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE) 
-    CPMAddPackage(
-        NAME raylib
-        GIT_REPOSITORY https://github.com/raysan5/raylib.git
-        GIT_TAG 5.5
-        OPTIONS
-            "BUILD_SHARED_LIBS=ON"
-    )
-endif()
-
 #CPMAddPackage(
 #    NAME fastgltf
 #	GIT_REPOSITORY https://github.com/spnda/fastgltf.git
@@ -185,11 +171,7 @@ find_package(joltphysics REQUIRED)
 find_package(boost REQUIRED)
 find_package(libconfig REQUIRED)
 
-if(${ATLAS_ENABLE_MODDING})
-    if(${ATLAS_ENABLE_ANGELSCRIPT})
-        find_package(Angelscript REQUIRED)
-    endif()
-    
+if(${ATLAS_ENABLE_MODDING})    
     if(${ATLAS_ENABLE_LUA})
         find_package(sol2 REQUIRED)
     endif()
@@ -222,10 +204,7 @@ else()
     message(STATUS "Using vulkan lib at: ${Vulkan_LIBRARIES}")
 endif()
 
-
-
 find_program(GLSL_VALIDATOR glslangValidator $ENV{VULKAN_SDK}/Bin/ $ENV{VULKAN_SDK}/Bin32/)
-
 
 file(GLOB_RECURSE GLSL_SOURCE_FILES
     "${PROJECT_SOURCE_DIR}/shaders/*.frag"
