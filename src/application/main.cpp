@@ -14,8 +14,6 @@
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
-//#include <core/AtlasEngine.h>
-
 #include <graphics/vulkan/VKDevice.h>
 #include <debugging/Logging.h>
 #include <io/IOManager.h>
@@ -53,6 +51,14 @@
 //};
 using namespace Atlas;
 
+Result<int> test() {
+	
+	Error err;
+	err.errorCategory = Error::EErrorCategory::NotImplemented;
+	err.message = "Not implemented";
+	return tl::make_unexpected<Error>( {Error::EErrorCategory::InvalidArgument, 0, "Invalid argument"});
+}
+
 int main(int argc, char* argv[]) {
 
 	// Serialize the object to a file
@@ -85,6 +91,12 @@ int main(int argc, char* argv[]) {
 //		boost::archive::text_iarchive ia(ifs);
 	//	ia >> p2;  // Deserialize
 	}*/
+
+	Result<int> result = test();
+	
+	//tl::expected<int, Error> result = test();
+	Error error = result.error();
+	std::cout << error.message << " | " << error.location.function_name() << std::endl;
 
 	CPUDeviceInfo deviceInfo = CPUDeviceInfo();
 	
@@ -166,7 +178,7 @@ int main(int argc, char* argv[]) {
 	gameWindow->init(SDL_INIT_VIDEO | SDL_INIT_HAPTIC);
 	gameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
 
-	RenderingBackend::APIVersion renderingAPIVersion;
+	Version renderingAPIVersion;
 	renderingAPIVersion.major = 1;
 	renderingAPIVersion.minor = 3;
 	renderingAPIVersion.patch = 0;

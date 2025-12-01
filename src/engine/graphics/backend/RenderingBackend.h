@@ -22,6 +22,7 @@
 
 #include "../../core/Core.h"
 #include "../../core/Common.h"
+#include "../RenderCommon.h"
 #include "../../core/Version.h"
 
 #include "../../core/threading/ThreadSafeVariable.h"
@@ -36,10 +37,6 @@
 	#include <vulkan/vulkan_core.h>
 #endif
 #include <shared_mutex>
-
-
-
-
 
 namespace Atlas {
 
@@ -82,7 +79,7 @@ namespace Atlas {
 	//	std::function<void()> onExecute;
 	//};
 
-	//class RenderingBackend;
+	//class ARenderingBackend;
 
 	//// RenderGraph holds passes and executes them (sequentially by default)
 	//class RenderGraph {
@@ -107,55 +104,78 @@ namespace Atlas {
 	//	}
 	//};
 
-
-
 	struct RendererSettings {
 		// Empty for now
 
-		
 		bool bUseDebuggingTools = false;
 		bool bEnableErrorChecking = false;
 	};
 
-	class RenderingBackend {
+	struct DrawCallInfo {
+
+		// Empty for now
+	};
+
+	class IRenderingBackend : public InitializableAndValidatable {
+	public:
+
+
+
+		virtual void draw(DrawCallInfo& drawCallInfo) = 0;
+
+		virtual void clearBackground(const Color& cClearColor) = 0;
+	};
+
+	class ARenderingBackend : public InitializableAndValidatable {
 	public:
 		using APIVersion = Version;
 
+		struct Options {
+			bool bEnableDebuggingTools{ false };
+			bool bEnableErrorChecking{ false };
+
+			// This is the API version of the rendering backend
+			const Version cAPIVersion;
+			
+		};
+
 		struct State {
 			std::shared_ptr<AGameWindow> gameWindow;
-			RendererSettings settings;
+			
 			
 			bool bIsReady{ false };
 		};
 
 	protected:
+		std::shared_ptr<AGameWindow> gameWindow;
 
+		//std::shared_ptr<State> mState;
+		//std::shared_mutex mStateMutex;
 
-		std::shared_ptr<State> mState;
-		std::shared_mutex mStateMutex;
+		RendererSettings settings;
 
 		Version mAPIVersion;
 			
-		bool mbIsInitialized = false;
+		//bool mbIsInitialized = false;
 		bool mbUseDebuggingTools = false;
 		bool mbEnableErrorChecking = false; // dont worry about this if you are not using vulkan
 	public:
 
-		RenderingBackend() = default;
+		ARenderingBackend(Version apiVersion, std::shared_ptr<AGameWindow> gameWindow) 
+			: gameWindow(gameWindow), mAPIVersion(apiVersion) {
 
-		virtual ~RenderingBackend() {
+			ATLAS_ASSERT(gameWindow != nullptr, "Game Window cannot be null when creating a rendering backend");
+			
+		}
+
+		ARenderingBackend() = default;
+
+		virtual ~ARenderingBackend() {
 			shutdown();
 		}
 
-		//virtual void init(AGameWindow* windowHandle)
-		//{
-		//	ATLAS_ASSERT(windowHandle != nullptr, "Window handle cannot be null!");
-
-		//	mbIsInitialized = true;
-		//}
 		virtual void init(AGameWindow* gameWindow) = 0;
 		
-
 		virtual void beginDrawing() {}
 
 		virtual void draw() {}
@@ -163,10 +183,11 @@ namespace Atlas {
 		virtual void endDrawing() {}
 
 		virtual void shutdown() {
-			mbIsInitialized = false;
-		}
+			setInvalid();
+			setNotInit();
 
-		virtual void setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch);
+			//mbIsInitialized = false;
+		}
 
 		virtual void setAPIVersion(Version version);
 
@@ -183,12 +204,13 @@ namespace Atlas {
 			return dynamic_cast<T_CAST_TO*>(this);
 		}
 	};
+
+
 	
-	template<typename T_TARGET>
-	concept ValidRenderer = std::is_base_of_v<RenderingBackend, T_TARGET>;
+	template<typename T_TARGET>	concept ValidRenderer = std::is_base_of_v<ARenderingBackend, T_TARGET>;
 
 	template<typename T_CHILD>
-	class AGlobalRenderingBackend : public RenderingBackend {
+	class AGlobalRenderingBackend : public ARenderingBackend {
 	protected:
 		static inline std::shared_ptr<T_CHILD> sActiveInstanceTSSV{};
 		static inline std::shared_mutex sActiveInstanceMutex{};
@@ -200,7 +222,7 @@ namespace Atlas {
 
 	public:
 
-		using RenderingBackend::RenderingBackend;
+		using ARenderingBackend::ARenderingBackend;
 
 		static inline std::shared_ptr<T_CHILD> GetGlobalInstance() {
 			return sActiveInstanceTSSV;
@@ -220,14 +242,14 @@ namespace Atlas {
 
 		virtual void init(AGameWindow* windowHandle) override {			
 			if (HasGlobalInstance()) {
-				ErrorLog("RenderingBackend has already been initialized");
+				ErrorLog("ARenderingBackend has already been initialized");
 				return;
 			}
 			else {
 				setThisAsGlobalInstance();
 			}
 
-			RenderingBackend::init(windowHandle);
+			ARenderingBackend::init(windowHandle);
 		}
 
 		void setThisAsGlobalInstance() {
@@ -235,7 +257,7 @@ namespace Atlas {
 		}
 
 		virtual void shutdown() override {
-			RenderingBackend::shutdown();
+			ARenderingBackend::shutdown();
 			ClearGlobalInstance();
 		}
 	};

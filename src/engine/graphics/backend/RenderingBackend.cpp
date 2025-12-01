@@ -23,25 +23,20 @@
 
 #endif
 
-void Atlas::RenderingBackend::setAPIVersion(uint32_t major, uint32_t minor, uint32_t patch) {
-	this->mAPIVersion.major = major;
-	this->mAPIVersion.minor = minor;
-	this->mAPIVersion.patch = patch; 
+void Atlas::ARenderingBackend::setAPIVersion(Version version) {
+	this->mAPIVersion = version;
+	//this->setAPIVersion(version.major, version.minor, version.patch);
 }
 
-void Atlas::RenderingBackend::setAPIVersion(Version version) {
-	this->setAPIVersion(version.major, version.minor, version.patch);
-}
-
-Atlas::Version Atlas::RenderingBackend::getAPIVersion() const {
+Atlas::Version Atlas::ARenderingBackend::getAPIVersion() const {
 	return this->mAPIVersion;
 }
 
-bool Atlas::RenderingBackend::areDebuggingToolsEnabled() const { 
+bool Atlas::ARenderingBackend::areDebuggingToolsEnabled() const { 
 	return this->mbEnableErrorChecking; 
 }
 
-bool Atlas::RenderingBackend::isErrorCheckingEnabled() const
+bool Atlas::ARenderingBackend::isErrorCheckingEnabled() const
 {
 	return this->mbEnableErrorChecking;
 }

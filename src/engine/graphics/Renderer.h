@@ -60,7 +60,7 @@ namespace Atlas {
 		 */
 		const bool mCanBeMultiThreaded = false;
 		
-		ARenderer(AGameWindow* gameWindow, RenderingBackend* backend, bool canBeMultiThreaded);
+		ARenderer(AGameWindow* gameWindow, ARenderingBackend* backend, bool canBeMultiThreaded);
 
 	public:
 		/**
@@ -85,7 +85,7 @@ namespace Atlas {
 		 * 
 		 * @since v
 		 */
-		RenderingBackend* renderingBackend = nullptr;
+		ARenderingBackend* renderingBackend = nullptr;
 
 		/**
 		 * @brief Sets the main game window and rendering backend to the specified parameters.
@@ -96,7 +96,7 @@ namespace Atlas {
 		 * 
 		 * @since v
 		 */
-		ARenderer(AGameWindow* gameWindow, RenderingBackend* backend);
+		ARenderer(AGameWindow* gameWindow, ARenderingBackend* backend);
 
 		/**
 		 * @brief This is one of the most important methods in this class. It is responsible for initializing the renderer, ensuring that all setup is done correctly. It should initialize

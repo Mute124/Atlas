@@ -11,6 +11,7 @@ if (POLICY CMP0141)
     )
 endif()
 
+
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

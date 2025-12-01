@@ -21,6 +21,7 @@
 #include <type_traits>
 #include <any>
 #include <variant>
+#include <array>
 
 #include "../../core/Core.h" // this include has to be put here because the GLFW_INCLUDE_VULKAN is defined in this file (of course if vulkan and GLFW3 is being used!)
 #include "../../core/Common.h"
@@ -39,6 +40,8 @@
 #include <glm/detail/qualifier.hpp>
 #include <SDL2/SDL_events.h>
 #include <vulkan/vulkan_core.h>
+
+#include <eventpp/eventqueue.h>
 
 namespace Atlas {
 
@@ -117,6 +120,81 @@ namespace Atlas {
 	class ViewportManager : public InitializableAndValidatable {
 	public:
 			
+	};
+
+#ifdef ATLAS_USE_SDL2
+
+	//class IGameWindow;
+
+	//using WindowEventTriggerCallback = std::function<Result<void>(SDL_Event, std::shared_ptr<IGameWindow>)>;
+
+	//struct WindowEventSubscriptionInfo {
+	//	SDL_Event eventType;
+	//	WindowEventTriggerCallback callback;
+	//};
+
+	//class SDLWindowEventHandler {
+	//private:
+	//	eventpp::EventQueue<SDL_Event, void(SDL_Event, std::shared_ptr<IGameWindow>)> mEventQueue;
+	//public:
+
+	//	Result<SDL_Event> pollEvent() {
+	//		SDL_Event event;
+
+	//		if (SDL_PollEvent(&event) != 0) {
+	//			return event;
+	//		}
+	//		else {
+	//			return tl::make_unexpected<Error>({
+	//				Error::EErrorCategory::OutOfRange,
+	//				0,
+	//				"SDL_PollEvent returned 0. This is probably because there are no more events to be polled."
+	//			});
+	//		}
+	//	}
+	//	
+	//	Result<void> enqueue(SDL_Event event, std::shared_ptr<IGameWindow> window) {
+	//		return mEventQueue.enqueue(event, event, window);
+	//	}
+
+	//	Result<void> enqueue(std::vector<SDL_Event> events, std::shared_ptr<IGameWindow> window) {
+	//		return mEventQueue.enqueue(events, window);
+	//	}
+
+	//	Result<void> processEvents() {
+	//		
+	//	}
+	//};
+#endif
+
+	//class IGameWindow : public InitializableAndValidatable {
+	//protected:
+
+	//	virtual void setHandle(std::any handle) = 0;
+	//	virtual std::any getHandle() const = 0;
+	//public:
+
+	//	
+	//};
+
+	template<typename T_WINDOW_HANDLE>
+	class AGameWindow2 : public InitializableAndValidatable {
+	public:
+
+
+	private:
+		
+		T_WINDOW_HANDLE mWindowHandle;
+		
+		bool mbIsOpen{ false };
+		bool mbShouldClose;
+	protected:
+
+		void setWindowHandle(T_WINDOW_HANDLE windowHandle) { this->mWindowHandle = windowHandle; }
+
+	public:
+
+		T_WINDOW_HANDLE getHandle() const { return this->mWindowHandle; }
 	};
 
 	/**
@@ -332,20 +410,113 @@ namespace Atlas {
 		uint32_t windowInitFlags;
 	};
 
-	class EventPoller {
+	class SDLGameWindow final : public AGameWindow, private std::enable_shared_from_this<SDLGameWindow> {
 	public:
-		
-		int poll(SDLEvent& event) {
-			return SDL_PollEvent(&event);
-		}
+		class EventPoller {
+		private:
+			eventpp::EventQueue<int, void(SDL_Event, std::weak_ptr<SDLGameWindow>)> mEventQueue;
 
+			size_t mTotalEventCount;
+		public:
+			
+			static inline bool Poll(SDL_Event* eventPtr) {
+				return SDL_PollEvent(eventPtr) != 0;
+			}
 
+			void appendEvent(int event, std::function<void(SDL_Event, std::weak_ptr<SDLGameWindow>)> const& callback) {
+				mEventQueue.appendListener(event, callback);
+				
+				mTotalEventCount++;
+			}
 
-	};
+			Result<void> enqueueEvent(int event, std::weak_ptr<SDLGameWindow> weakWindowPtr) {
+				Result<void> result = {};
+				
+				if (weakWindowPtr.expired()) {
+					const std::string errorMessage = std::format("Failed to enqueue an SDL event of type {} because the passed window pointer is expired!", event);
 
-	class SDLGameWindow final : public AGameWindow {
+					result = tl::make_unexpected<Error>({
+						Error::EErrorCategory::InvalidArgument,
+						0,
+						errorMessage
+					});
+				}
+
+				mEventQueue.enqueue(event, weakWindowPtr);
+
+				
+				return result;
+			}
+
+			Result<void> processEvents() {
+				Result<void> result = {};
+
+				if (!mEventQueue.process()) {
+					result = tl::make_unexpected<Error>({
+						Error::EErrorCategory::RuntimeError,
+						0,
+						"Failed to process SDL events!"
+					});
+				}
+
+				return result;
+			}
+
+			Result<void> pollAndProcessAll(std::weak_ptr<SDLGameWindow> weakWindowPtr, std::optional<std::function<void(SDL_Event, std::weak_ptr<SDLGameWindow>)>> const& afterPollCallback = {}) {
+				Result<void> result;
+				bool bErrorOccurred = false;
+
+				if (weakWindowPtr.expired()) {
+					result = tl::make_unexpected<Error>({
+						Error::EErrorCategory::InvalidArgument,
+						0,
+						"Failed to poll and process SDL events because the passed window pointer is expired!"
+					});
+				}
+
+				SDL_Event event;
+
+				while (Poll(&event) == true) {
+					if (afterPollCallback.has_value()) {
+						afterPollCallback.value().operator()(event, weakWindowPtr);
+					}
+
+					Result<void> enqueueResult = enqueueEvent(event.type, weakWindowPtr);
+					if (!enqueueResult) {
+						result = enqueueResult;
+						bErrorOccurred = true;
+					}
+
+					// This should not be done if the enqueue step failed, hence the bErrorOccurred flag check
+					if (!bErrorOccurred) {
+						if (Result<void> processResult = processEvents(); !processResult) {
+							result = processResult;
+							bErrorOccurred = true;
+						}
+					}
+					
+					// Since each occurance of an error automatically will set the bErrorOccurred flag to true and set the result to the error,
+					// we can break out of the loop here and it will automatically return the error.
+					if (bErrorOccurred) {
+						break;
+					}
+				}
+
+				return result;
+			}
+			
+			void clear() {
+				mEventQueue.clearEvents();
+			}
+
+			size_t GetTotalEventCount() const { return mTotalEventCount; }
+		};
 	private:
 		std::unordered_map<uint32_t, std::function<int(SDL_Event const&, SDLGameWindow&)>> mEventHandlers;
+
+		EventPoller mEventPoller;
+
+		std::shared_ptr<SDLGameWindow> mSharedThisPtr = nullptr;
 
 		SDL_Window* mSDLWindowPointer = nullptr;
 
@@ -366,6 +537,9 @@ namespace Atlas {
 
 		static inline uint32_t GetGraphicsAPIFlag();
 
+		static inline void OnWindowEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
+		static inline void OnWindowCloseEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
+		static inline void AfterEachPollCallback(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
 	public:
 
 		// SDLGameWindow(std::string const& title, uint32_t width, uint32_t height, int x, int y, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon);

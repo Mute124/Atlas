@@ -76,6 +76,7 @@
 
 #include "../../io/IOManager.h"
 
+#include "../Mesh.h"
 #define ATLAS_1_SECOND_IN_NS 1000000000
 
 #define ATLAS_VK_DEVICE_BITS 32
@@ -142,35 +143,10 @@ namespace Atlas {
 		VkDescriptorSet* drawImageDescriptors;
 	};
 
-	//struct ComputePushConstants {
-	//	glm::vec4 data1;
-	//	glm::vec4 data2;
-	//	glm::vec4 data3;
-	//	glm::vec4 data4;
-	//};
-
-	//struct ComputeEffect {
-	//	const char* name;
-
-	//	VkPipeline pipeline;
-	//	VkPipelineLayout layout;
-
-	//	ComputePushConstants data;
-	//};
-
 	struct AllocatedBuffer {
 		VkBuffer buffer;
 		VmaAllocation allocation;
 		VmaAllocationInfo info;
-	};
-
-	struct Vertex {
-
-		glm::vec3 position;
-		float uv_x;
-		glm::vec3 normal;
-		float uv_y;
-		glm::vec4 color;
 	};
 
 	// holds the resources needed for a mesh
@@ -199,14 +175,23 @@ namespace Atlas {
 		GPUMeshBuffers meshBuffers;
 	};
 
-
-
 	class CommandBuffer : public AVulkanHandleWrapper<VkCommandBuffer> {
 	public:
+		using AllocateInfo = VkCommandBufferAllocateInfo;
 		using BeginInfo = VkCommandBufferBeginInfo;
 		using EResetFlag = VkCommandBufferResetFlags;
 		
-		CommandBuffer(VkCommandBuffer handle) : AVulkanHandleWrapper<VkCommandBuffer>(handle) {}
+		ATLAS_IMPLICIT CommandBuffer(VkCommandBuffer handle) : AVulkanHandleWrapper<VkCommandBuffer>(handle) {}
+
+		void allocate(Device const& device, AllocateInfo const* allocateInfo) {
+			vkAllocateCommandBuffers(device.getHandle(), allocateInfo, getHandlePtr());
+		}
+
+		void allocate(Device const& device, VkCommandPool pool) {
+			VkCommandBufferAllocateInfo info = CreateCommandBufferAllocateInfo(pool, 1);
+
+			allocate(device, &info);
+		}
 
 		void begin(BeginInfo const& createInfo) {
 			vkBeginCommandBuffer(getHandle(), &createInfo);
@@ -629,7 +614,7 @@ namespace Atlas {
 	 * 
 	 * @since v0.0.1
 	 */
-	class VulkanRenderingBackend : public RenderingBackend {
+	class VulkanRenderingBackend : public ARenderingBackend {
 	public:
 
 		// Thread-safe global instance of this class
@@ -725,7 +710,7 @@ namespace Atlas {
 
 	public:
 
-		using RenderingBackend::RenderingBackend;
+		using ARenderingBackend::ARenderingBackend;
 
 		/**
 		 * @brief Default constructor.

@@ -44,6 +44,9 @@
 #include <typeinfo>
 #include <any>
 #include <limits>
+#include <source_location>
+
+#include <tl/expected.hpp>
 
 #if defined(ATLAS_ALLOW_ASSERTS) || defined(ATLAS_DEBUG)
 	/**
@@ -200,15 +203,28 @@ namespace Atlas {
 
 	using HighResolutionTimepoint = std::chrono::high_resolution_clock::time_point;
 
+	struct Error {
+		enum class EErrorCategory : int32_t {
+			Unknown = -1,
+			Other,
+			RuntimeError,
+			NotImplemented,
+			InvalidArgument,
+			InvalidValue,
+			OutOfRange
+		};
 
-
-	enum class EResultCode : int32_t {
-		Failed = -1,
-		Okay = 0,
-		NotImplemented,
-		InvalidArgument,
+		EErrorCategory errorCategory{ EErrorCategory::Unknown };
+		int subCode{ -1 }; // Set to -1 since this is the default value for unknowns
+		std::string message;
+		std::source_location location{ std::source_location::current() };
 	};
-	
+
+	template<typename T_EXPECTED_TYPE>
+	using Result = tl::expected<T_EXPECTED_TYPE, Error>;
+
+	using VoidResult = Result<void>;
+
 	template<typename T_NUMERIC_TYPE>
 	struct Rectangle {
 		T_NUMERIC_TYPE x;
@@ -441,7 +457,6 @@ namespace Atlas {
 
 
 	};
-
 
 	template<Numerical T_NUMERICAL>
 	class Counter {
