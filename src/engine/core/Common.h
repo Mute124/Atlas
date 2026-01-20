@@ -592,9 +592,9 @@ namespace Atlas {
 	
 	public:
 
-		// Delete copy constructor and assignment operator to prevent copying
-		Singleton(const Singleton&) = delete;
-		Singleton& operator=(const Singleton&) = delete;
+		//// Delete copy constructor and assignment operator to prevent copying
+		//Singleton(const Singleton&) = delete;
+		//Singleton& operator=(const Singleton&) = delete;
 
 		// Static method to get the single instance
 		static T_BASE& getInstance() {

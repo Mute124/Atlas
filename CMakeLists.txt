@@ -24,9 +24,9 @@ set(CPM_INSTALL_VERSION 0.40.2)
 #-----------------------------------------------------------------------------------
 
 # Modules
-option(ATLAS_ENABLE_HAPTICS "Should haptic experiences be enabled" OFF)
-option(ATLAS_ENABLE_EXTENSIONS "Should extension functionality be enabled" OFF)
-option(ATLAS_ENABLE_DISCORD_RPC "Should discord rich presense be enabled" OFF)
+#option(ATLAS_ENABLE_HAPTICS "Should haptic experiences be enabled" OFF)
+#option(ATLAS_ENABLE_EXTENSIONS "Should extension functionality be enabled" OFF)
+#option(ATLAS_ENABLE_DISCORD_RPC "Should discord rich presense be enabled" OFF)
 
 # Modding options
 option(ATLAS_ENABLE_MODDING "Should modding be enabled" ON)
@@ -47,8 +47,8 @@ option(ATLAS_USE_GLFW "Should Atlas use GLFW" OFF)
 option(ATLAS_USE_SDL2 "Should Atlas use SDL2" ON)
 
 # Build target options
-option(ATLAS_BUILD_EXAMPLES "Build Examples For Atlas" ON) # Not implemented yet
-option(ATLAS_BUILD_TOOLS "Build Tools For Atlas" OFF)
+#option(ATLAS_BUILD_EXAMPLES "Build Examples For Atlas" ON) # Not implemented yet
+#option(ATLAS_BUILD_TOOLS "Build Tools For Atlas" OFF)
 option(ATLAS_ENABLE_TESTING "Enable Unit Tests For Atlas" OFF) # Not implimented yet
 
 # Output directories
@@ -96,40 +96,40 @@ include("cmake/techstorm.cmake")
 message(STATUS "Setting up code definitions...")
 
 # Set compilation definitions. This is heavily used by the file system
-if(CMAKE_BUILD_TYPE STREQUAL "Distribution")
-    add_compile_definitions(ATLAS_ROOT_DIR="../") # Sets the TS_ROOT_DIR macro in a way that prevents the path on a development machine from being used in distribution.
-    add_compile_definitions(ATLAS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
+#if(CMAKE_BUILD_TYPE STREQUAL "Distribution")
+#    add_compile_definitions(ATLAS_ROOT_DIR="../") # Sets the TS_ROOT_DIR macro in a way that prevents the path on a development machine from being used in distribution.
+#    add_compile_definitions(ATLAS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
     # Your code for the Distribution configuration
 
-else()
-   add_compile_definitions(ATLAS_ROOT_DIR="${CMAKE_BINARY_DIR}")
-   add_compile_definitions(ATLAS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
-endif()
+#else()
+#   add_compile_definitions(ATLAS_ROOT_DIR="${CMAKE_BINARY_DIR}")
+#   add_compile_definitions(ATLAS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
+#endif()
 
-if(${ATLAS_ENABLE_HAPTICS}) 
-    add_compile_definitions(ATLAS_ENABLE_HAPTICS)
-endif()
+#if(${ATLAS_ENABLE_HAPTICS}) 
+#    add_compile_definitions(ATLAS_ENABLE_HAPTICS)
+#endif()
 
-if(${ATLAS_ENABLE_EXTENSIONS}) 
-    add_compile_definitions(ATLAS_ENABLE_EXTENSIONS)
+#if(${ATLAS_ENABLE_EXTENSIONS}) 
+#    add_compile_definitions(ATLAS_ENABLE_EXTENSIONS)
     
-    if(${ATLAS_ENABLE_DISCORD_RPC})
-        add_compile_definitions(ATLAS_ENABLE_DISCORD_RPC)
-    endif()
+#    if(${ATLAS_ENABLE_DISCORD_RPC})
+#        add_compile_definitions(ATLAS_ENABLE_DISCORD_RPC)
+#    endif()
 
-endif()
+#endif()
 
-if(${ATLAS_ENABLE_MODDING})
-    add_compile_definitions(ATLAS_ENABLE_MODDING)
+#if(${ATLAS_ENABLE_MODDING})
+#    add_compile_definitions(ATLAS_ENABLE_MODDING)
     
-    if(${ATLAS_ENABLE_ANGELSCRIPT})
-        add_compile_definitions(ATLAS_ENABLE_ANGELSCRIPT)
-    endif()
+#    if(${ATLAS_ENABLE_ANGELSCRIPT})
+#        add_compile_definitions(ATLAS_ENABLE_ANGELSCRIPT)
+#    endif()
     
-    if(${ATLAS_ENABLE_LUA})
-        add_compile_definitions(ATLAS_ENABLE_LUA)
-    endif()
-endif()	
+#    if(${ATLAS_ENABLE_LUA})
+#        add_compile_definitions(ATLAS_ENABLE_LUA)
+#    endif()
+#endif()	
 
 add_compile_definitions(ATLAS_ENABLE_TESTING=${ATLAS_ENABLE_TESTING})
 add_compile_definitions(ATLAS_TESTING)
@@ -168,15 +168,15 @@ CPMAddPackage(
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/include/fastgltf")
 
-find_package(joltphysics REQUIRED)
+#find_package(joltphysics REQUIRED)
 find_package(boost REQUIRED)
-find_package(libconfig REQUIRED)
+#find_package(libconfig REQUIRED)
 
-if(${ATLAS_ENABLE_MODDING})    
-    if(${ATLAS_ENABLE_LUA})
+#if(${ATLAS_ENABLE_MODDING})    
+#    if(${ATLAS_ENABLE_LUA})
         find_package(sol2 REQUIRED)
-    endif()
-endif()
+#    endif()
+#endif()
 
 
 

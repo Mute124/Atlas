@@ -54,6 +54,9 @@ set(ATLAS_ENGINE_SOURCES
     "core/MemoryAllocator.h"
     "core/MemoryAllocator.cpp"
     
+    "core/platform/Platform.h"
+	"core/platform/Platform.cpp"
+
     "core/IAtlasEngine.h"
     "core/AtlasEngine.h"
     "core/AtlasEngine.cpp"
@@ -73,6 +76,15 @@ set(ATLAS_ENGINE_SOURCES
 
     "core/threading/ThreadSafeVariable.h"
     "core/threading/ThreadSafeVariable.cpp"
+
+    #-----------------------------------
+    # Input
+	#-----------------------------------
+
+    "input/Input.h"
+
+    "input/InputAction.h"
+    "input/InputAction.cpp"
 
     #-----------------------------------
     # Haptics

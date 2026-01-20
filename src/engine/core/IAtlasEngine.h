@@ -34,33 +34,15 @@ namespace Atlas {
 
 	};
 	
-
-
 	class IAtlasEngine {
 	public:
 		struct Options {
 			
 		};
 
-		//protected:
-		//	AtlasSettings mEngineSettings;
-
-		//public:
-		//	ARenderer* mGameRenderingModule;
-		//	IGameThreader* mGameThreader;
-
-		//	AbstractMemoryAllocator* memoryAllocator;
-
-		//	bool isThreaded = true;
-
-			//explicit IAtlasEngine(EngineModulesInfo const& modulesInfo, AtlasSettings const& settings)
-			//	: mEngineSettings(settings), mGameRenderingModule(modulesInfo.gameRenderingModule), mGameThreader(modulesInfo.gameThreader)
-			//{
-			//}
-
 		virtual void setRenderer(std::shared_ptr<ARenderer> renderer) = 0;
 
-		virtual void setGameThreader(std::shared_ptr <IGameThreader> gameThreader) = 0;
+		virtual void setGameThreader(std::shared_ptr<IGameThreader> gameThreader) = 0;
 
 		//virtual void setMemoryAllocator(std::shared_ptr<AbstractMemoryAllocator> allocator) = 0;
 

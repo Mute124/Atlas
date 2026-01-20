@@ -43,7 +43,20 @@
 
 #include <eventpp/eventqueue.h>
 
+
+//#define ATLAS_DEFAULT_WINDOW_SIZE WindowSize(ATLAS_DEFAULT_WINDOW_WIDTH, ATLAS_DEFAULT_WINDOW_HEIGHT)
+
 namespace Atlas {
+
+	namespace Literals {
+		constexpr auto DEFAULT_WINDOW_WIDTH = 800;
+		constexpr auto DEFAULT_WINDOW_HEIGHT = 600;
+#ifdef ATLAS_USE_GLFW3
+
+#else ATLAS_USE_SDL2
+		constexpr auto CENTERED_WINDOW_POSITION = SDL_WINDOWPOS_CENTERED;
+#endif
+	}
 
 	/**
 	 * @brief A using alias for a GLM low-precision 2D vector that can be used to store the size
@@ -71,10 +84,24 @@ namespace Atlas {
 	 */
 	struct WindowDescription {
 		std::string title;
-		std::string iconPath;
+		std::optional<std::string> iconPath;
+		
 		WindowRectangle windowRectangle;
 
-		uint16_t targetFPS;
+		WindowSize windowSize{ WindowSize(Literals::DEFAULT_WINDOW_WIDTH, Literals::DEFAULT_WINDOW_HEIGHT) };
+		glm::vec2 windowPosition;
+
+		uint16_t targetFPS{ 60 };
+
+		unsigned int windowConfigFlags;
+
+		//WindowDescription(std::string_view title, std::string_view iconPath, WindowSize windowSize, glm::vec2 windowPosition, uint16_t targetFPS, unsigned int windowConfigFlags)
+		//	: title(title), iconPath(std::make_optional<std::string>(iconPath)), windowSize(windowSize), windowPosition(windowPosition), targetFPS(targetFPS), windowConfigFlags(windowConfigFlags) {}
+		//
+		//WindowDescription(std::string_view title, WindowSize const& windowSize, glm::vec2 windowPosition, uint16_t targetFPS, unsigned int windowConfigFlags) 
+		//	: title(title), windowSize(windowSize), windowPosition(windowPosition), targetFPS(targetFPS), windowConfigFlags(windowConfigFlags) {}
+
+		//WindowDescription() = default;
 	};
 
 	template<typename T_SURFACE_HANDLE>
@@ -179,20 +206,68 @@ namespace Atlas {
 
 	template<typename T_WINDOW_HANDLE>
 	class AGameWindow2 : public InitializableAndValidatable {
-	public:
-
-
 	private:
-		
+
 		T_WINDOW_HANDLE mWindowHandle;
-		
+		WindowDescription mWindowDescription;
+
 		bool mbIsOpen{ false };
 		bool mbShouldClose;
 	protected:
 
-		void setWindowHandle(T_WINDOW_HANDLE windowHandle) { this->mWindowHandle = windowHandle; }
+		void setWindowHandle(T_WINDOW_HANDLE windowHandle) {
+			this->mWindowHandle = windowHandle;
+		}
+
+		void setShouldCloseFlag(bool bShouldClose) noexcept {
+			this->mbShouldClose = bShouldClose;
+		}
+		
+		void setOpenFlag(bool bIsOpen) noexcept {
+			this->mbIsOpen = bIsOpen;
+		}
+
+		void markOpen() { this->mbIsOpen = true; }
+
+		void markClosed() { this->mbIsOpen = false; }
 
 	public:
+
+		ATLAS_IMPLICIT AGameWindow2(WindowDescription const& windowDescription) 
+			: mWindowDescription(windowDescription) {}
+
+		bool isWindowHandleValid() const noexcept {
+			return this->mWindowHandle != nullptr;
+		}
+
+		bool isOpen() const noexcept {
+			return this->mbIsOpen;
+		}
+
+		bool shouldClose() const noexcept {
+			return !isWindowHandleValid()
+				|| !isOpen()
+				|| this->mbShouldClose;
+		}
+
+		virtual bool isValid() const override {
+			return isWindowHandleValid();
+		}
+
+		virtual bool open() {
+			// Set to true temporarily
+			bool bWasSuccessful = true;
+
+			markOpen();
+
+			return bWasSuccessful;
+		}
+
+		virtual void close() {
+			markClosed();
+		}
+
+		virtual void update() = 0;
 
 		T_WINDOW_HANDLE getHandle() const { return this->mWindowHandle; }
 	};
@@ -208,12 +283,17 @@ namespace Atlas {
 	 * 
 	 * @since v0.0.1
 	 */
-	class AGameWindow {
+	class AGameWindow : public InitializableAndValidatable {
 	public:
 		struct Options {
 			std::vector<uint32_t> windowConfigFlags;
 			WindowDescription windowDescription;
 		};
+
+	private:
+		WindowDescription mWindowDescription;
+
+
 	protected:
 		static inline bool sHasSetGraphicsAPIFlag = false;
 		static inline uint32_t sGraphicsAPIFlag = -1;
@@ -231,7 +311,13 @@ namespace Atlas {
 
 		bool mShouldClose = false;
 
+
 	public:
+
+		//ATLAS_EXPLICIT AGameWindow(WindowDescription const& windowDescription) 
+		//	: mWindowTitle(windowDescription.title), mIconPath(windowDescription.iconPath),
+		//	mWindowRect(windowDescription.windowRectangle), mTargetFPS(windowDescription.targetFPS) {
+		//}
 
 		explicit AGameWindow(const uint32_t cGraphicsAPIFlag)
 		{

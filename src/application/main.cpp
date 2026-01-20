@@ -156,8 +156,6 @@ int main(int argc, char* argv[]) {
 
 	InfoLog(std::format("Registered Files: {}", fileManager.getRegisteredCount()));
 
-	//std::cout << "Registered files: " << fileManager.getRegisteredCount() << "\n";
-
 	// open a file (lazy load)
 	auto data = fileManager.openFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
 	if (data) {

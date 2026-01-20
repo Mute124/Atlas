@@ -164,6 +164,7 @@ void Atlas::GLFWGameWindow::setFlag(std::string const& flagName, unsigned int va
 	void Atlas::SDLGameWindow::update()
 	{
 		Result<void> result = mEventPoller.pollAndProcessAll(mSharedThisPtr, AfterEachPollCallback);
+
 		if (!result.has_value()) {
 			ErrorLog(result.error().message);
 			mShouldClose = true;
