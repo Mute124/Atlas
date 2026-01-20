@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <string>
 
 namespace Atlas {
 	struct Version {
@@ -14,5 +15,9 @@ namespace Atlas {
 		Version() = default;
 
 		~Version() = default;
+
+		std::string toString() const {
+			return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
+		}
 	};
 }

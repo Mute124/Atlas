@@ -16,6 +16,7 @@ namespace Atlas {
 			return gameWindow->shouldClose();
 		}
 
+		uint64_t mCurrentFrameNumber = 0;
 	public:
 		//using ARenderer::ARenderer;
 

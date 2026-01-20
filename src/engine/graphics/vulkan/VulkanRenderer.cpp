@@ -41,8 +41,8 @@ void Atlas::VulkanRenderer::update()
 		}
 		else {
 #ifdef ATLAS_DEBUG
-
-			std::cout << "Main game window is null!" << std::endl;
+			ErrorLog("Main game window is null!");
+			//std::cout << "Main game window is null!" << std::endl;
 #endif
 		}
 
@@ -52,7 +52,8 @@ void Atlas::VulkanRenderer::update()
 		}
 		else {
 #ifdef ATLAS_DEBUG
-			std::cout << "Rendering backend is null!" << std::endl;
+			ErrorLog("Rendering backend is null!");
+			//std::cout << "Rendering backend is null!" << std::endl;
 #endif
 		}
 	}

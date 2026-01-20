@@ -1453,6 +1453,96 @@ void Atlas::GraphicsQueue::submit(VkSubmitInfo2 const& submitInfo, VkFence fence
 	submit({ submitInfo }, fence);
 }
 
+bool Atlas::ImGuiRenderable::setupElements(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
+	if (ImGui::Begin("background")) {
+		if (ImGui::BeginTabBar("##MyTabBar", ImGuiTabBarFlags_None))
+		{
+			// Begin the first tab
+			if (ImGui::BeginTabItem("Renderer"))
+			{
+				if (ImGui::BeginTabBar("##RendererTabBar", ImGuiTabBarFlags_None)) {
+					if (ImGui::BeginTabItem("General")) {
+						ImGui::Text("Current Frame: %i", gLoadedVulkanBackend->mCurrentFrameNumber);
+
+						if (ImGui::CollapsingHeader("Startup info")) {
+							ImGui::Text("\nApplication Name: %s", gLoadedVulkanBackend->mApplicationName.c_str());
+							ImGui::Text("\nAPI Version: %s", gLoadedVulkanBackend->getAPIVersion().toString().c_str());
+
+						}
+						ImGui::EndTabItem();
+					}
+
+					if (ImGui::BeginTabItem("Effects")) {
+						ComputeEffect& selected = cDrawData.computeEffects->getCurrentEffect();
+
+						ImGui::Text("Effect count: %i", cDrawData.computeEffects->getEffectCount());
+						ImGui::Text("Selected effect: %s", selected.name);
+
+						//std::cout << mEffectManager.mCurrentEffectIndex << std::endl;
+						//std::cout << mCurrentBackgroundEffect << std::endl;
+
+						//ImGui::Checkbox("Enabled", &this->getInternalValidityValue());
+
+						ImGui::SliderInt("Effect Index", &cDrawData.computeEffects->mCurrentEffectIndex, 0, cDrawData.computeEffects->getEffectCount() - 1);
+
+						ImGui::InputFloat4("data1", (float*)&selected.data.data1);
+						ImGui::InputFloat4("data2", (float*)&selected.data.data2);
+						ImGui::InputFloat4("data3", (float*)&selected.data.data3);
+						ImGui::InputFloat4("data4", (float*)&selected.data.data4);
+
+						ImGui::EndTabItem();
+					}
+
+					ImGui::EndTabBar();
+				}
+
+				ImGui::EndTabItem(); // End the tab item
+			}
+
+			// Begin the second tab
+			if (ImGui::BeginTabItem("Tab 2"))
+			{
+				ImGui::Text("Content of the second tab.");
+				ImGui::EndTabItem(); // End the tab item
+			}
+
+			ImGui::EndTabBar(); // End the tab bar
+		}
+
+		if (ImGui::BeginMainMenuBar())
+		{
+			if (ImGui::BeginMenu("File")) // Check if "File" menu is open
+			{
+				if (ImGui::MenuItem("New")) {
+					// Handle "New" item clicked
+				}
+				if (ImGui::MenuItem("Open", "Ctrl+O")) {
+					// Handle "Open" item clicked
+				}
+				ImGui::EndMenu(); // Must be called if BeginMenu returned true
+			}
+			ImGui::EndMainMenuBar(); // End the main menu bar
+
+		}
+	}
+	ImGui::End();
+
+	return 0;
+}
+
+bool Atlas::ImGuiWindowRenderable::setupElements(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) { 
+	return 0;
+}
+
+bool Atlas::ImGuiWindowRenderable::beginDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData, EffectManager& computeEffects) {
+	return ImGui::Begin(this->getName().data());
+}
+
+bool Atlas::ImGuiWindowRenderable::endDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
+	ImGui::End();
+	return 0;
+}
+
 void Atlas::IMGUIRenderPass::beginRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
 	// imgui new frame
 	ImGui_ImplVulkan_NewFrame();
@@ -1460,26 +1550,10 @@ void Atlas::IMGUIRenderPass::beginRenderPass(const VkCommandBuffer cmd, CurrentD
 	ImGui::NewFrame();
 	//some imgui UI to test
 	//ImGui::ShowDemoWindow();
-
-	if (ImGui::Begin("background")) {
-		ComputeEffect& selected = cDrawData.computeEffects->getCurrentEffect();
-
-		ImGui::Text("Selected effect: %s", selected.name);
-
-		//std::cout << mEffectManager.mCurrentEffectIndex << std::endl;
-		//std::cout << mCurrentBackgroundEffect << std::endl;
-
-		//ImGui::Checkbox("Enabled", &this->getInternalValidityValue());
-
-		ImGui::Text("Current Frame: %i", gLoadedVulkanBackend->mCurrentFrameNumber);
-		ImGui::SliderInt("Effect Index", &cDrawData.computeEffects->mCurrentEffectIndex, 0, cDrawData.computeEffects->getEffectCount() - 1);
-
-		ImGui::InputFloat4("data1", (float*)&selected.data.data1);
-		ImGui::InputFloat4("data2", (float*)&selected.data.data2);
-		ImGui::InputFloat4("data3", (float*)&selected.data.data3);
-		ImGui::InputFloat4("data4", (float*)&selected.data.data4);
+	
+	for (auto& renderable : mIMGUIRenderables) {
+		renderable->setupElements(cmd, cDrawData);
 	}
-	ImGui::End();
 
 	//make imgui calculate internal draw structures
 	ImGui::Render();
@@ -1492,7 +1566,6 @@ void Atlas::IMGUIRenderPass::draw(const VkCommandBuffer cmd, CurrentDrawData& cD
 	vkCmdBeginRendering(cmd, &renderInfo);
 
 	ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), cmd);
-
 	vkCmdEndRendering(cmd);
 }
 
@@ -1501,47 +1574,47 @@ void Atlas::IMGUIRenderPass::endRenderPass(const VkCommandBuffer cmd, CurrentDra
 	
 }
 
-void Atlas::IMGUIRenderable::NewIMGUIFrame() {
-	ImGui_ImplVulkan_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
-}
-
-void Atlas::IMGUIRenderable::setupElements(EffectManager& computeEffects) {
-	if (ImGui::Begin("background")) {
-
-		ComputeEffect& selected = computeEffects.getCurrentEffect();
-
-		ImGui::Text("Selected effect: ", selected.name);
-
-		int currentEffectIndex = computeEffects.getCurrentEffectIndex();
-
-		ImGui::SliderInt("Effect Index", &currentEffectIndex, 0, computeEffects.getEffectCount() - 1);
-
-		ImGui::InputFloat4("data1", (float*)&selected.data.data1);
-		ImGui::InputFloat4("data2", (float*)&selected.data.data2);
-		ImGui::InputFloat4("data3", (float*)&selected.data.data3);
-		ImGui::InputFloat4("data4", (float*)&selected.data.data4);
-	}
-	ImGui::End();
-}
-
-void Atlas::IMGUIRenderable::beginDrawingStage(VkCommandBuffer cmd, EffectManager& computeEffects) {
-	NewIMGUIFrame();
-
-	setupElements(computeEffects);
-
-	//make imgui calculate internal draw structures
-	ImGui::Render();
-}
-
-void Atlas::IMGUIRenderable::draw(VkCommandBuffer cmd)
-{
-}
-
-void Atlas::IMGUIRenderable::endDrawingStage(VkCommandBuffer cmd) {
-
-}
+//void Atlas::IMGUIRenderable::NewIMGUIFrame() {
+//	ImGui_ImplVulkan_NewFrame();
+//	ImGui_ImplSDL2_NewFrame();
+//	ImGui::NewFrame();
+//}
+//
+//void Atlas::IMGUIRenderable::setupElements(EffectManager& computeEffects) {
+//	if (ImGui::Begin("background")) {
+//
+//		ComputeEffect& selected = computeEffects.getCurrentEffect();
+//
+//		ImGui::Text("Selected effect: ", selected.name);
+//
+//		int currentEffectIndex = computeEffects.getCurrentEffectIndex();
+//
+//		ImGui::SliderInt("Effect Index", &currentEffectIndex, 0, computeEffects.getEffectCount() - 1);
+//
+//		ImGui::InputFloat4("data1", (float*)&selected.data.data1);
+//		ImGui::InputFloat4("data2", (float*)&selected.data.data2);
+//		ImGui::InputFloat4("data3", (float*)&selected.data.data3);
+//		ImGui::InputFloat4("data4", (float*)&selected.data.data4);
+//	}
+//	ImGui::End();
+//}
+//
+//void Atlas::IMGUIRenderable::beginDrawingStage(VkCommandBuffer cmd, EffectManager& computeEffects) {
+//	NewIMGUIFrame();
+//
+//	setupElements(computeEffects);
+//
+//	//make imgui calculate internal draw structures
+//	ImGui::Render();
+//}
+//
+//void Atlas::IMGUIRenderable::draw(VkCommandBuffer cmd)
+//{
+//}
+//
+//void Atlas::IMGUIRenderable::endDrawingStage(VkCommandBuffer cmd) {
+//
+//}
 
 Atlas::ShaderModule::ShaderModule(Device const& device, std::filesystem::path const& path, FileManager& ioManager, EShaderModuleType moduleType) : mDevice(device), mModuleType(moduleType) {
 	load(path, ioManager);

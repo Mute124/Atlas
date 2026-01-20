@@ -497,9 +497,102 @@ namespace Atlas {
 		}
 	};
 
+	class Renderable {
+	private:
+		std::string mName;
+	protected:
+		friend class VulkanRenderingBackend;
+
+		void setName(std::string const& name) { mName = name; }
+	public:
+
+		ATLAS_EXPLICIT Renderable(std::string const& name) : mName(name) {}
+		Renderable() : Renderable("Unnamed Renderable") {}
+
+		static inline void SetCurrentDrawData(CurrentDrawData const& currentFrame) {
+			//std::scoped_lock lock(sCurrentDrawDataMutex);
+			//sCurrentDrawData = currentFrame;
+		}
+
+		virtual bool beginDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData, EffectManager& computeEffects) {
+			return 0;
+		}
+
+		virtual bool draw(VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
+			return 0;
+		}
+
+		virtual bool endDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
+			return 0;
+		}
+	
+		std::string_view getName() const { return mName; }
+	};
+
+	//class IRenderableHierarchy : public Renderable, public NamedObject, public Validatable {
+	//private:
+	//	std::vector<std::shared_ptr<IRenderableHierarchy>> mChildren;
+	//public:
+	//	
+	//	virtual void addChild(std::shared_ptr<IRenderableHierarchy> child) {
+	//		mChildren.push_back(child);
+	//	}
+
+	//	/*
+	//	virtual std::weak_ptr<IRenderableHierarchy> getChild(std::string const& name) {
+	//		for (auto& child : mChildren) {*/
+
+
+	//};
+
+	//class IMGUIRenderable : public Renderable {
+	//private:
+	//	static inline void NewIMGUIFrame();
+
+	//protected:
+
+	//	virtual void setupElements(EffectManager& computeEffects);
+	//public:
+
+	//	void beginDrawingStage(VkCommandBuffer cmd, EffectManager& computeEffects) override;
+
+	//	void draw(VkCommandBuffer cmd) override;
+
+	//	void endDrawingStage(VkCommandBuffer cmd) override;
+	//};
+
+
+	class ImGuiRenderable : public Renderable {
+	public:
+		
+
+		ImGuiRenderable(std::string const& name) : Renderable(name) {}
+		ImGuiRenderable() : ImGuiRenderable("Unnamed ImGuiRenderable") {}
+
+		virtual bool setupElements(const VkCommandBuffer cmd, CurrentDrawData& cDrawData);
+	};
+
+	class ImGuiWindowRenderable : public ImGuiRenderable {
+	public:
+
+		ImGuiWindowRenderable(std::string const& name) : ImGuiRenderable(name) {}
+		ImGuiWindowRenderable() : ImGuiWindowRenderable("Unnamed ImGuiWindowRenderable") {}
+
+		virtual bool setupElements(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
+
+		virtual bool beginDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData, EffectManager& computeEffects);
+
+		virtual bool endDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData);
+	};
+
+
+
 	class IMGUIRenderPass : public RenderPass {
+	private:
+		std::vector<std::shared_ptr<ImGuiRenderable>> mIMGUIRenderables;
 	protected:
 		virtual void setupFrameElements(EffectManager& computeEffects) {
+			
 			//ComputeEffect& selected = computeEffects.getCurrentEffect();
 
 			//ImGui::Text("Selected effect: ", selected.name);
@@ -515,53 +608,21 @@ namespace Atlas {
 
 		IMGUIRenderPass() : RenderPass() {
 			this->setValid();
+			addImGuiRenderable(std::make_shared<ImGuiRenderable>(ImGuiRenderable()));
 		}
 
-		void beginRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
+		void addImGuiRenderable(std::shared_ptr<ImGuiRenderable> renderable) {
+			mIMGUIRenderables.push_back(renderable);
+		}
+
+		virtual void beginRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
 
 		virtual void draw(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
 
 		virtual void endRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
 	};
 
-	class Renderable {
-	protected:
-		friend class VulkanRenderingBackend;
 
-
-	public:
-
-		static inline void SetCurrentDrawData(CurrentDrawData const& currentFrame) { 
-			//std::scoped_lock lock(sCurrentDrawDataMutex);
-			//sCurrentDrawData = currentFrame;
-		}
-		
-		virtual void beginDrawingStage(VkCommandBuffer cmd, EffectManager& computeEffects) {
-		}
-
-		virtual void draw(VkCommandBuffer cmd) {
-			
-		}
-
-		virtual void endDrawingStage(VkCommandBuffer cmd) {
-		}
-	};
-
-	class IMGUIRenderable : public Renderable {
-	private:
-		static inline void NewIMGUIFrame();
-
-	protected:
-
-		virtual void setupElements(EffectManager& computeEffects);
-	public:
-
-		void beginDrawingStage(VkCommandBuffer cmd, EffectManager& computeEffects) override;
-
-		void draw(VkCommandBuffer cmd) override;
-
-		void endDrawingStage(VkCommandBuffer cmd) override;
-	};
 
 	class BackgroundColor : public Renderable {
 	public:
