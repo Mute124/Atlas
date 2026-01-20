@@ -1,6 +1,16 @@
 ﻿cmake_minimum_required(VERSION 3.29)
 
+message(STATUS "Hello from Root CMakeLists.txt!")
+message(STATUS "[Step] Setting up configurations")
+
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release;Distribution")
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# The version of CPM to install if it is not already installed
+set(CPM_INSTALL_VERSION 0.40.2)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -11,44 +21,10 @@ if (POLICY CMP0141)
     )
 endif()
 
-
-# Set C++ standard
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# The version of CPM to install if it is not already installed
-set(CPM_INSTALL_VERSION 0.40.2)
-
 #-----------------------------------------------------------------------------------
 # Set Options for Atlas
 #-----------------------------------------------------------------------------------
 
-# Modules
-#option(ATLAS_ENABLE_HAPTICS "Should haptic experiences be enabled" OFF)
-#option(ATLAS_ENABLE_EXTENSIONS "Should extension functionality be enabled" OFF)
-#option(ATLAS_ENABLE_DISCORD_RPC "Should discord rich presense be enabled" OFF)
-
-# Modding options
-option(ATLAS_ENABLE_MODDING "Should modding be enabled" ON)
-option(ATLAS_ENABLE_ANGELSCRIPT "Should AngelScript be enabled for modding" ON) # Currently, this is not yet implemented
-option(ATLAS_ENABLE_LUA "Should Lua be enabled for modding" ON)
-
-# Architecture options
-option(ATLAS_LIBRARY_MODE "Should Atlas' run application automatically handle things" OFF)
-option(ATLAS_BARE_BONES "Should Atlas only build the bare minimum" OFF)
-option(ATLAS_SEPERATE_OUTPUT "Should Atlas put libraries in the lib folder and executables in the bin folder" ON)
-
-# Rendering backend options
-option(ATLAS_USE_RAYLIB "Should Atlas use raylib" OFF) # this will satisfy the backend and window API requirements
-option(ATLAS_USE_VULKAN "Should Atlas use Vulkan (You still need to have Vulkan SDK installed)" ON)
-
-# Window API options
-option(ATLAS_USE_GLFW "Should Atlas use GLFW" OFF)
-option(ATLAS_USE_SDL2 "Should Atlas use SDL2" ON)
-
-# Build target options
-#option(ATLAS_BUILD_EXAMPLES "Build Examples For Atlas" ON) # Not implemented yet
-#option(ATLAS_BUILD_TOOLS "Build Tools For Atlas" OFF)
 option(ATLAS_ENABLE_TESTING "Enable Unit Tests For Atlas" OFF) # Not implimented yet
 
 # Output directories
@@ -64,21 +40,16 @@ endif()
 if(WIN32)
     message("Atlas is building on Windows")
 	set(ATLAS_PLATFORM_WINDOWS TRUE)
-
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)  # To export symbols from DLLs
     set(CMAKE_RUNTIME_OUTPUT_NAME_SUFFIX ".exe")
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 elseif(UNIX)
     message("Atlas is building on a Unix system")
     set(ATLAS_PLATFORM_UNIX TRUE)
-
-    # Ensure that shared libraries are named .so since that is what it is on unix.
-    # TODO: Check to see if this is the best way to do this
     set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
 else()
     # since the platform is unknown, throw an error
     # TODO: throw an error
-
 endif()
 
 # This should remain here because it fixed some compiler errors regarding missing symbols
@@ -93,66 +64,16 @@ include("cmake/techstorm.cmake")
 #-----------------------------------------------------------------------------------
 # Code Definitions
 #-----------------------------------------------------------------------------------
-message(STATUS "Setting up code definitions...")
-
-# Set compilation definitions. This is heavily used by the file system
-#if(CMAKE_BUILD_TYPE STREQUAL "Distribution")
-#    add_compile_definitions(ATLAS_ROOT_DIR="../") # Sets the TS_ROOT_DIR macro in a way that prevents the path on a development machine from being used in distribution.
-#    add_compile_definitions(ATLAS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
-    # Your code for the Distribution configuration
-
-#else()
-#   add_compile_definitions(ATLAS_ROOT_DIR="${CMAKE_BINARY_DIR}")
-#   add_compile_definitions(ATLAS_TOP_LAYER="${CMAKE_SOURCE_DIR}")
-#endif()
-
-#if(${ATLAS_ENABLE_HAPTICS}) 
-#    add_compile_definitions(ATLAS_ENABLE_HAPTICS)
-#endif()
-
-#if(${ATLAS_ENABLE_EXTENSIONS}) 
-#    add_compile_definitions(ATLAS_ENABLE_EXTENSIONS)
-    
-#    if(${ATLAS_ENABLE_DISCORD_RPC})
-#        add_compile_definitions(ATLAS_ENABLE_DISCORD_RPC)
-#    endif()
-
-#endif()
-
-#if(${ATLAS_ENABLE_MODDING})
-#    add_compile_definitions(ATLAS_ENABLE_MODDING)
-    
-#    if(${ATLAS_ENABLE_ANGELSCRIPT})
-#        add_compile_definitions(ATLAS_ENABLE_ANGELSCRIPT)
-#    endif()
-    
-#    if(${ATLAS_ENABLE_LUA})
-#        add_compile_definitions(ATLAS_ENABLE_LUA)
-#    endif()
-#endif()	
+message(STATUS "[Step] Setting up code definitions...")
 
 add_compile_definitions(ATLAS_ENABLE_TESTING=${ATLAS_ENABLE_TESTING})
 add_compile_definitions(ATLAS_TESTING)
-
-message(STATUS "Finished setting up code definitions")
 
 #-----------------------------------------------------------------------------------
 # Global Dependencies
 #-----------------------------------------------------------------------------------
 
-message(STATUS "Handling dependencies...")
-
-#CPMAddPackage(
-#    NAME fastgltf
-#	GIT_REPOSITORY https://github.com/spnda/fastgltf.git
-#    GIT_TAG v0.9.0
-#)
-
-#CPMAddPackage(
-#    NAME glfw
-#    GIT_REPOSITORY https://github.com/glfw/glfw.git
-#    GIT_TAG 3.4
-#)
+message(STATUS "[Step] Handling dependencies...")
 
 CPMAddPackage(
     NAME vk-bootstrap
@@ -167,10 +88,7 @@ CPMAddPackage(
 )
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/include/fastgltf")
-
-#find_package(joltphysics REQUIRED)
 find_package(boost REQUIRED)
-#find_package(libconfig REQUIRED)
 
 #if(${ATLAS_ENABLE_MODDING})    
 #    if(${ATLAS_ENABLE_LUA})
@@ -178,43 +96,47 @@ find_package(boost REQUIRED)
 #    endif()
 #endif()
 
-
-
 find_package(eventpp REQUIRED)
-
 find_package(SDL2 REQUIRED CONFIG)
-#find_package(rmlui REQUIRED)
 find_package(fmt REQUIRED)
-
-#find_package(simdjson REQUIRED)
-#find_package(tinyxml2 REQUIRED)
 find_package(vulkan-memory-allocator REQUIRED)
+
+message(STATUS "[Step] Setting up Vulkan")
+message(STATUS "[Sub-Step] Attempting to find Vulkan SDK")
 
 if (DEFINED VULKAN_SDK_PATH)
   set(Vulkan_INCLUDE_DIRS "${VULKAN_SDK_PATH}/Include") # 1.1 Make sure this include path is correct
   set(Vulkan_LIBRARIES "${VULKAN_SDK_PATH}/Lib") # 1.2 Make sure lib path is correct
   set(Vulkan_FOUND "True")
 
+  message(STATUS "Found Vulkan: $ENV{VULKAN_SDK}")
 else()
   find_package(Vulkan REQUIRED) # throws error if could not find Vulkan
-  message(STATUS "Found Vulkan: $ENV{VULKAN_SDK}")
+  
 endif()
+
 if (NOT Vulkan_FOUND)
     message(FATAL_ERROR "Could not find Vulkan library!")
 else()
     message(STATUS "Using vulkan lib at: ${Vulkan_LIBRARIES}")
 endif()
 
+message(STATUS "[Sub-Step] Finding glslangValidator")
 find_program(GLSL_VALIDATOR glslangValidator $ENV{VULKAN_SDK}/Bin/ $ENV{VULKAN_SDK}/Bin32/)
 
+message(STATUS "[Sub-Step] Finding Shaders")
 file(GLOB_RECURSE GLSL_SOURCE_FILES
     "${PROJECT_SOURCE_DIR}/shaders/*.frag"
     "${PROJECT_SOURCE_DIR}/shaders/*.vert"
     "${PROJECT_SOURCE_DIR}/shaders/*.comp"
 )
 
+
+message(STATUS "[Sub-Step] Compiling Shaders")
+# For whatever reason, this does not actually build the shaders. I dont know for sure why, but I think it might be due to CMake not being
+# able to find the glslangValidator. I'm not sure.
 foreach(GLSL ${GLSL_SOURCE_FILES})
-  message(STATUS "BUILDING SHADER")
+  message(STATUS "Building Shader: ${GLSL}")
   get_filename_component(FILE_NAME ${GLSL} NAME)
   set(SPIRV "${PROJECT_SOURCE_DIR}/shaders/${FILE_NAME}.spv")
   message(STATUS ${GLSL})
@@ -226,7 +148,6 @@ foreach(GLSL ${GLSL_SOURCE_FILES})
   list(APPEND SPIRV_BINARY_FILES ${SPIRV})
 endforeach(GLSL)
 
-
 add_custom_target(
     Shaders 
     DEPENDS ${SPIRV_BINARY_FILES}
@@ -237,20 +158,5 @@ add_custom_target(
 if(${ATLAS_ENABLE_TESTING})
     find_package(GTest REQUIRED)
 endif()
-
-set(DOUBLE_PRECISION OFF)
-set(GENERATE_DEBUG_SYMBOLS OFF)
-set(CROSS_PLATFORM_DETERMINISTIC ON)
-set(FLOATING_POINT_EXCEPTIONS_ENABLED OFF)
-set(OBJECT_LAYER_BITS 32)
-set(USE_SSE4_1 ON)
-set(USE_SSE4_2 ON)
-set(USE_AVX ON)
-set(USE_AVX2 ON)
-set(USE_AVX512 OFF)
-set(USE_LZCNT ON)
-set(USE_TZCNT ON)
-set(USE_F16C ON)
-set(USE_FMADD ON)
 
 add_subdirectory("src")

@@ -202,7 +202,6 @@ target_link_libraries(imgui PUBLIC Vulkan::Vulkan SDL2::SDL2)
 set(ATLAS_ENGINE_DEPENDENCIES
     imgui
     eventpp::eventpp
-    #glfw
     spdlog
     
     # TODO: these two need to be toggled based on options
