@@ -209,7 +209,6 @@ set(ATLAS_ENGINE_DEPENDENCIES
     Vulkan::Vulkan
     vulkan-memory-allocator::vulkan-memory-allocator
     
-
     SDL2::SDL2main
     fastgltf::fastgltf
     #simdjson::simdjson

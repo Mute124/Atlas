@@ -1,4 +1,5 @@
 #include "VulkanRenderer.h"
+#include "../../debugging/Logging.h"
 
 #ifdef ATLAS_USE_VULKAN
 

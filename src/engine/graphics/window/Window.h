@@ -561,7 +561,7 @@ namespace Atlas {
 				}
 
 				SDL_Event event;
-
+				//SDL_StartTextInput();
 				while (Poll(&event) == true) {
 					if (afterPollCallback.has_value()) {
 						afterPollCallback.value().operator()(event, weakWindowPtr);
@@ -587,7 +587,16 @@ namespace Atlas {
 						break;
 					}
 				}
+				//SDL_PumpEvents();
 
+				//int numKeys = 0;
+				//const Uint8* keyboardState = SDL_GetKeyboardState(&numKeys);
+
+				//for (int i = 0; i < numKeys; i++) {
+				//	std::cout << keyboardState[i] << "";
+				//}
+
+				//SDL_StopTextInput();
 				return result;
 			}
 			
@@ -625,6 +634,8 @@ namespace Atlas {
 
 		static inline void OnWindowEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
 		static inline void OnWindowCloseEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
+		static inline void OnKeyDownEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
+		static inline void OnKeyUpEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
 		static inline void AfterEachPollCallback(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
 	public:
 

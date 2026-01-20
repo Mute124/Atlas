@@ -173,7 +173,7 @@ int main(int argc, char* argv[]) {
 	gameWindow->setWindowPosition(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	gameWindow->setTargetFPS(60);
 
-	gameWindow->init(SDL_INIT_VIDEO | SDL_INIT_HAPTIC);
+	gameWindow->init(SDL_INIT_EVERYTHING);
 	gameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
 
 	Version renderingAPIVersion;
