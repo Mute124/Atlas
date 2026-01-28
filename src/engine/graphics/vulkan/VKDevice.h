@@ -143,10 +143,16 @@ namespace Atlas {
 		VkDescriptorSet* drawImageDescriptors;
 	};
 
-	struct AllocatedBuffer {
+	class AllocatedBuffer {
+	public:
+
 		VkBuffer buffer;
 		VmaAllocation allocation;
 		VmaAllocationInfo info;
+
+		void destroy(VmaAllocator allocator) {
+			vmaDestroyBuffer(allocator, buffer, allocation);
+		}
 	};
 
 	// holds the resources needed for a mesh

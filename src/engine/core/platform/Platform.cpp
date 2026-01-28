@@ -30,92 +30,101 @@ Atlas::SDL2Platform::SDL2Platform(Options const& options) : APlatform(options) {
 	* Step 3: Initialize SDL
 	*/
 
-	uint32_t sdlInitFlags = 0;
+	//uint32_t sdlInitFlags = 0;
+	//const bool cbInitEverything = options.enabledModules.contains(Atlas::EModuleType::Everything);
 
-	const bool cbInitEverything = options.enabledModules.contains(Atlas::EModuleType::Everything);
+	//bool bInitVideo;
+	//bool bInitAudio;
+	//bool bInitInput;
+	//bool bInitGameControllers;
+	//bool bInitJoysticks;
+	//bool bInitNetworking;
+	//bool bInitHaptics;
+	//bool bInitEvents;
+	//bool bInitPhysics;
+	//bool bInitDebug;
+	//bool bInitScripting;
+	//bool bInitModding;
 
-	bool bInitVideo;
-	bool bInitAudio;
-	bool bInitInput;
-	bool bInitGameControllers;
-	bool bInitJoysticks;
-	bool bInitNetworking;
-	bool bInitHaptics;
-	bool bInitEvents;
-	bool bInitPhysics;
-	bool bInitDebug;
-	bool bInitScripting;
-	bool bInitModding;
+	//if (cbInitEverything) {
+	//	sdlInitFlags |= SDL_INIT_EVERYTHING;
+	//}
 
-	if (cbInitEverything) {
-		sdlInitFlags |= SDL_INIT_EVERYTHING;
-	}
+	//else {
+	//	// This is here to reduce verbosity.
+	//	using enum Atlas::EModuleType;
 
-	else {
-		// This is here to reduce verbosity.
-		using enum Atlas::EModuleType;
+	//	if (options.enabledModules.contains(Video)) {
+	//		bInitVideo = true;
+	//		
+	//		sdlInitFlags |= SDL_INIT_VIDEO;
+	//	}
 
-		if (options.enabledModules.contains(Video)) {
-			bInitVideo = true;
-			
-			sdlInitFlags |= SDL_INIT_VIDEO;
-		}
+	//	if (options.enabledModules.contains(Audio)) {
+	//		bInitAudio = true;
+	//		
+	//		sdlInitFlags |= SDL_INIT_AUDIO;
+	//		
+	//	}
 
-		if (options.enabledModules.contains(Audio)) {
-			bInitAudio = true;
-			
-			sdlInitFlags |= SDL_INIT_AUDIO;
-			
-		}
+	//	if (options.enabledModules.contains(Input)) {
+	//		bInitInput = true;
+	//		bInitGameControllers = true;
+	//		bInitJoysticks = true;
 
-		if (options.enabledModules.contains(Input)) {
-			bInitInput = true;
-			bInitGameControllers = true;
-			bInitJoysticks = true;
+	//		sdlInitFlags |= SDL_INIT_JOYSTICK;
+	//		sdlInitFlags |= SDL_INIT_GAMECONTROLLER;
 
-			sdlInitFlags |= SDL_INIT_JOYSTICK;
-			sdlInitFlags |= SDL_INIT_GAMECONTROLLER;
+	//		if (options.enabledModules.contains(Haptics)) {
+	//			bInitHaptics = true;
+	//			sdlInitFlags |= SDL_INIT_HAPTIC;
+	//		}
+	//	}
 
-			if (options.enabledModules.contains(Haptics)) {
-				bInitHaptics = true;
-				sdlInitFlags |= SDL_INIT_HAPTIC;
-			}
-		}
+	//	if (options.enabledModules.contains(Networking)) {
+	//		bInitNetworking = true;
+	//	}
 
-		if (options.enabledModules.contains(Networking)) {
-			bInitNetworking = true;
-		}
+	//	if (options.enabledModules.contains(Events)) {
+	//		bInitEvents = true;
+	//		
+	//		sdlInitFlags |= SDL_INIT_EVENTS;
+	//	}
 
-		if (options.enabledModules.contains(Events)) {
-			bInitEvents = true;
-			
-			sdlInitFlags |= SDL_INIT_EVENTS;
-		}
+	//	if (options.enabledModules.contains(Physics)) {
+	//		bInitPhysics = true;
+	//	}
 
-		if (options.enabledModules.contains(Physics)) {
-			bInitPhysics = true;
-		}
+	//	if (options.enabledModules.contains(Debug)) {
+	//		bInitDebug = true;
+	//	}
 
-		if (options.enabledModules.contains(Debug)) {
-			bInitDebug = true;
-		}
+	//	if (options.enabledModules.contains(Scripting)) {
+	//		bInitScripting = true;
+	//	}
 
-		if (options.enabledModules.contains(Scripting)) {
-			bInitScripting = true;
-		}
+	//	if (options.enabledModules.contains(Modding)) {
+	//		bInitModding = true;
+	//	}
+	//}
 
-		if (options.enabledModules.contains(Modding)) {
-			bInitModding = true;
-		}
-	}
+	initLogging();
+	initSDL2(SDL_INIT_EVERYTHING);
 
-	if (SDL_Init(sdlInitFlags) != 0) {
+}
 
-	}
+void Atlas::SDL2Platform::initLogging()
+{
+	Options const& options = getOptions();
+
+	
 }
 
 void Atlas::SDL2Platform::initSDL2(uint32_t sdlInitFlags)
 {
+	if (SDL_Init(sdlInitFlags) != 0) {
+
+	}
 }
 
 

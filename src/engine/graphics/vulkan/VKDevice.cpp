@@ -1467,6 +1467,7 @@ bool Atlas::ImGuiRenderable::setupElements(const VkCommandBuffer cmd, CurrentDra
 						if (ImGui::CollapsingHeader("Startup info")) {
 							ImGui::Text("\nApplication Name: %s", gLoadedVulkanBackend->mApplicationName.c_str());
 							ImGui::Text("\nAPI Version: %s", gLoadedVulkanBackend->getAPIVersion().toString().c_str());
+							ImGui::Text("\nGPU Name: %s", gLoadedVulkanBackend->mPhysicalDevice.getName().data());
 
 						}
 						ImGui::EndTabItem();

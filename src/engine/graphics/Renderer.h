@@ -22,6 +22,13 @@
 
 
 namespace Atlas {
+	struct ApplicationInfo {
+		std::string applicationName = "Atlas";
+		Version applicationVersion = Version(1, 0, 0);
+
+		Version graphicsAPIVersion = Version(1, 0, 0);
+	};
+
 	/**
 	 * @brief A base class for all renderers. This class is responsible for @b frontend rendering of your game. The rendering backend is responsible for the
 	 * actual rendering. When using this class, you should inherit from it and implement the `init` and `update` methods. If you want this class to be

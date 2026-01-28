@@ -96,6 +96,7 @@ namespace Atlas {
 		LogMessage(std::string const& message, ELogLevel logLevel, std::source_location eventLocation = std::source_location::current());
 	};
 
+
 	/**
 	 * @brief Interface for logging that is responsible for handling any logging from the engine, game, or mods.
 	 *

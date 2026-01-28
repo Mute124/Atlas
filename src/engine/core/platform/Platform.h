@@ -29,30 +29,39 @@ namespace Atlas {
 		Modding
 	};
 
-	class APlatform : public Initializable, public Singleton<APlatform> {
+	class APlatform : public Singleton<APlatform> {
 	public:
 		struct Options {
-			//struct EnabledModules {
-			//	bool bInitEverything{ false };
-			//	bool bInitVideo{ false };
-			//	bool bInitAudio{ false };
-			//	bool bInitEvents{ false };
-			//	bool bInitPhysics{ false };
-			//	bool bInitScripting{ false };
-			//	bool bInitModding{ false };
+			////struct EnabledModules {
+			////	bool bInitEverything{ false };
+			////	bool bInitVideo{ false };
+			////	bool bInitAudio{ false };
+			////	bool bInitEvents{ false };
+			////	bool bInitPhysics{ false };
+			////	bool bInitScripting{ false };
+			////	bool bInitModding{ false };
+			////};
+			//struct ThreadingOptions {
+			//	
+			//	bool bEnableMultithreading{ false };
+			//	uint8_t threadCountAllowance{ 1 };
 			//};
-			struct ThreadingOptions {
-				
-				bool bEnableMultithreading{ false };
-				uint8_t threadCountAllowance{ 1 };
+			//std::unordered_set<EModuleType> enabledModules{};
+
+			//ThreadingOptions threadingOptions{};
+
+			//uint32_t initFlags = 0;
+
+			struct LoggingOptions {
+				std::string logFilePath;
+				std::string loggerName;
+				std::string messageFormatPattern;
+
+				bool bTruncateMessages{ false };
 			};
-			std::unordered_set<EModuleType> enabledModules{};
 
-			ThreadingOptions threadingOptions{};
-
-			uint32_t initFlags = 0;
+			LoggingOptions loggingOptions{};
 		};
-
 	private:
 		
 		Options mOptions;
@@ -89,7 +98,11 @@ namespace Atlas {
 
 		explicit SDL2Platform(Options const& options);
 
+		void initLogging();
+
 		void initSDL2(uint32_t sdlInitFlags);
+
+		
 	};
 #endif
 }
