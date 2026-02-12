@@ -44,7 +44,7 @@
 
 	// Make sure that ATLAS_USE_SPDLOG is defined.
 	#ifndef ATLAS_USE_SPDLOG
-		#define ATLAS_USE_SPDLOG
+#define ATLAS_USE_SPDLOG
 	#endif
 
 #endif
@@ -85,65 +85,28 @@ namespace Atlas {
 
 	//std::string const& loggerName, std::string const& messageFormatPattern, std::string const& logFilePath, bool truncateMessages,
 	//	std::initializer_list<ELogLevel> sinksLogLevels
-	struct LogMessage {
+	class LogMessage {
+	public:
 		std::string message;
 		ELogLevel logLevel;
 		std::source_location eventLocation;
-		std::any extraData;
-		const bool cbHasExtraData;
-
-		LogMessage(std::string const& message, ELogLevel logLevel, std::any extraData, std::source_location eventLocation = std::source_location::current());
-		LogMessage(std::string const& message, ELogLevel logLevel, std::source_location eventLocation = std::source_location::current());
+		std::optional<std::any> extraData;
 	};
-
 
 	/**
 	 * @brief Interface for logging that is responsible for handling any logging from the engine, game, or mods.
 	 *
 	 * @since v0.0.1
 	 */
-	class ALogger {
+	class ALogger : public Initializable {
 	public:
-		//class QueuedMessagesContainer {
-		//private:
-		//	std::queue<LogMessage> messages;
-		//	std::mutex messagesMutex;
-		//public:
-
-
-		//	QueuedMessagesContainer() = default;
-
-		//	void push(LogMessage const& message);
-
-		//	void clear();
-
-		//	LogMessage pop();
-
-		//	bool empty() const;
-		//};
-	//protected:
-	//	//static inline AbstractMemoryAllocator* sMemoryAllocator = nullptr;
-
-	//	static inline std::shared_ptr<ALogger> sLogger = nullptr;
-
-
-	//	QueuedMessagesContainer mQueuedLogMessages;
-	//	std::mutex mQueuedLogMessagesMutex;
-
-	//	std::mutex mMutex;
-
-	//	bool mbIsInitialized = false;
-	public:
+		
 
 		ALogger() = default;
 
 		virtual ~ALogger() = default;
 
 		static std::string GenerateLogFileName();
-
-		//static void SetDefaultLogger(ALogger* logger);
-
-		//static std::shared_ptr<ALogger> GetDefaultLogger();
 
 		static void Log(std::string const& message, ELogLevel logLevel);
 
@@ -153,17 +116,9 @@ namespace Atlas {
 
 		virtual void display(std::string const& message) {}
 
-		//virtual void queueMessage(std::string const& message, ELogLevel logLevel);
-
 		virtual void log(std::string const& message, ELogLevel logLevel) {}
 	
 		virtual void setLevel(ELogLevel logLevel) {}
-		
-		//void processQueuedMessages();
-
-		//bool isInitialized() const;
-
-		//explicit(false) operator bool() const;
 	};
 
 	/**

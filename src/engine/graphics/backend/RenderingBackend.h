@@ -40,7 +40,7 @@
 
 namespace Atlas {
 
-	//class AGameWindow;
+	//class GameWindow;
 
 	//enum class TextureFormat { RGBA8, Depth32 };
 
@@ -140,14 +140,14 @@ namespace Atlas {
 		};
 
 		struct State {
-			std::shared_ptr<AGameWindow> gameWindow;
+			std::shared_ptr<GameWindow> gameWindow;
 			
 			
 			bool bIsReady{ false };
 		};
 
 	protected:
-		std::shared_ptr<AGameWindow> gameWindow;
+		std::shared_ptr<GameWindow> gameWindow;
 
 		//std::shared_ptr<State> mState;
 		//std::shared_mutex mStateMutex;
@@ -161,10 +161,10 @@ namespace Atlas {
 		bool mbEnableErrorChecking = false; // dont worry about this if you are not using vulkan
 	public:
 
-		ARenderingBackend(Version apiVersion, std::shared_ptr<AGameWindow> gameWindow) 
+		ARenderingBackend(Version apiVersion, std::shared_ptr<GameWindow> gameWindow) 
 			: gameWindow(gameWindow), mAPIVersion(apiVersion) {
 
-			ATLAS_ASSERT(gameWindow != nullptr, "Game Window cannot be null when creating a rendering backend");
+			//ATLAS_ASSERT(gameWindow != nullptr, "Game Window cannot be null when creating a rendering backend");
 			
 		}
 
@@ -174,7 +174,7 @@ namespace Atlas {
 			shutdown();
 		}
 
-		virtual void init(AGameWindow* gameWindow) = 0;
+		virtual void init(GameWindow* gameWindow) = 0;
 		
 		virtual void beginDrawing() {}
 
@@ -193,7 +193,7 @@ namespace Atlas {
 
 		virtual Version getAPIVersion() const;
 
-		//inline std::shared_ptr<AGameWindow> getGameWindow() const { return mGameWindowPtr; }
+		//inline std::shared_ptr<GameWindow> getGameWindow() const { return mGameWindowPtr; }
 
 		bool areDebuggingToolsEnabled() const;
 
@@ -240,7 +240,7 @@ namespace Atlas {
 			sActiveInstanceTSSV = nullptr;
 		}
 
-		virtual void init(AGameWindow* windowHandle) override {			
+		virtual void init(GameWindow* windowHandle) override {			
 			if (HasGlobalInstance()) {
 				ErrorLog("ARenderingBackend has already been initialized");
 				return;

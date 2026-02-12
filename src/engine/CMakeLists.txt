@@ -57,11 +57,17 @@ set(ATLAS_ENGINE_SOURCES
     "core/platform/Platform.h"
 	"core/platform/Platform.cpp"
 
+    "core/CommandLineArguments.h"
+    "core/CommandLineArguments.cpp"
+
     "core/IAtlasEngine.h"
     "core/AtlasEngine.h"
     "core/AtlasEngine.cpp"
 
     "core/IFactory.h"
+
+    "core/threading/ThreadBudget.h"
+    "core/threading/ThreadBudget.cpp"
 
     "core/threading/GameThread.h"
     "core/threading/GameThread.cpp"
@@ -129,6 +135,9 @@ set(ATLAS_ENGINE_SOURCES
     "graphics/drawing/EffectManager.h"
 	"graphics/drawing/EffectManager.cpp"
 
+    "graphics/window/VideoDriver.h"
+	"graphics/window/VideoDriver.cpp"
+
     "graphics/window/Window.h" 
     "graphics/window/Window.cpp" 
 
@@ -175,6 +184,8 @@ set(ATLAS_ENGINE_SOURCES
 	# Debugging
     #-----------------------------------
 
+    "debugging/AException.h"
+
     "debugging/Logging.h"
     "debugging/Logging.cpp"
 
@@ -211,37 +222,10 @@ set(ATLAS_ENGINE_DEPENDENCIES
     
     SDL2::SDL2main
     fastgltf::fastgltf
-    #simdjson::simdjson
-    #tinyxml2::tinyxml2
     boost::boost
 )
 
 include("${CMAKE_SOURCE_DIR}/CMakeOptions.txt")
-
-# Set modding related targets based on options
-if(${ATLAS_ENABLE_MODDING})
-    if(${ATLAS_ENABLE_ANGELSCRIPT})
-        set(ATLAS_ENGINE_DEPENDENCIES
-            ${ATLAS_ENGINE_DEPENDENCIES}
-		   # Angelscript::angelscript
-        )
-        
-    endif()
-
-    if(${ATLAS_ENABLE_LUA})
-        set(ATLAS_ENGINE_DEPENDENCIES
-            ${ATLAS_ENGINE_DEPENDENCIES}
-			sol2::sol2
-        )
-    endif()
-endif()
-
-#if(${ATLAS_ENABLE_TESTING}) 
-    set(ATLAS_ENGINE_DEPENDENCIES 
-		${ATLAS_ENGINE_DEPENDENCIES}
-    #    gtest::gtest
-    )
-#endif()
 
 add_library(Atlas SHARED 
     ${ATLAS_ENGINE_SOURCES}

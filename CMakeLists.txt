@@ -25,8 +25,6 @@ endif()
 # Set Options for Atlas
 #-----------------------------------------------------------------------------------
 
-option(ATLAS_ENABLE_TESTING "Enable Unit Tests For Atlas" OFF) # Not implimented yet
-
 # Output directories
 if(${ATLAS_SEPERATE_OUTPUT})
     message("Atlas will put libraries in the lib folder and executables in the bin folder")
@@ -59,15 +57,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Atlas LANGUAGES CXX C)
 
 include("cmake/cpm.cmake")
-include("cmake/techstorm.cmake")
-
-#-----------------------------------------------------------------------------------
-# Code Definitions
-#-----------------------------------------------------------------------------------
-message(STATUS "[Step] Setting up code definitions...")
-
-add_compile_definitions(ATLAS_ENABLE_TESTING=${ATLAS_ENABLE_TESTING})
-add_compile_definitions(ATLAS_TESTING)
 
 #-----------------------------------------------------------------------------------
 # Global Dependencies
@@ -81,6 +70,7 @@ CPMAddPackage(
     GIT_TAG v1.4.312
 )
 
+
 CPMAddPackage(
     NAME spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog.git
@@ -89,13 +79,6 @@ CPMAddPackage(
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/include/fastgltf")
 find_package(boost REQUIRED)
-
-#if(${ATLAS_ENABLE_MODDING})    
-#    if(${ATLAS_ENABLE_LUA})
-        find_package(sol2 REQUIRED)
-#    endif()
-#endif()
-
 find_package(eventpp REQUIRED)
 find_package(SDL2 REQUIRED CONFIG)
 find_package(fmt REQUIRED)
@@ -131,8 +114,8 @@ file(GLOB_RECURSE GLSL_SOURCE_FILES
     "${PROJECT_SOURCE_DIR}/shaders/*.comp"
 )
 
-
 message(STATUS "[Sub-Step] Compiling Shaders")
+
 # For whatever reason, this does not actually build the shaders. I dont know for sure why, but I think it might be due to CMake not being
 # able to find the glslangValidator. I'm not sure.
 foreach(GLSL ${GLSL_SOURCE_FILES})
@@ -152,8 +135,6 @@ add_custom_target(
     Shaders 
     DEPENDS ${SPIRV_BINARY_FILES}
 )
-
-#find_package(miniaudio REQUIRED)
 
 if(${ATLAS_ENABLE_TESTING})
     find_package(GTest REQUIRED)

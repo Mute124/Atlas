@@ -773,7 +773,7 @@ namespace Atlas {
 
 		void initVMAAllocator(vkb::Instance const& cVkBootstrapInstanceRef);
 
-		friend class SDLGameWindow;
+		friend class GameWindow;
 
 	public:
 
@@ -808,17 +808,17 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		void init(AGameWindow* gameWindow) override;
+		void init(GameWindow* gameWindow) override;
 
 		void initDefaultData();
 
 		void initPhysicalDevice();
 
-		void initSwapchain(AGameWindow* gameWindow);
+		void initSwapchain(GameWindow* gameWindow);
 
 		void initCommands();
 
-		void initIMGUI(AGameWindow* gameWindow);
+		void initIMGUI(GameWindow* gameWindow);
 
 		void resetFences(const uint32_t cFenceCount, FrameData& currentFrame);
 
@@ -860,7 +860,7 @@ namespace Atlas {
 
 		bool checkValidationLayerSupport();
 
-		bool canInitialize(AGameWindow* gameWindow);
+		bool canInitialize(GameWindow* gameWindow);
 
 		std::string getApplicationName();
 

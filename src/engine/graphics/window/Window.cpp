@@ -36,94 +36,7 @@
 #ifdef ATLAS_USE_VULKAN
 	#include "../vulkan/VKDevice.h"
 #endif
-//Atlas::NullGameWindow::operator WindowDescription() const {
-//	return getWindowDescription();
-//}
 
-#ifdef ATLAS_USE_GLFW3
-
-Atlas::GLFWGameWindow::GLFWGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon, GameWindowSettings const& gameWindowSettings)
-	: NullGameWindow(title, width, height, windowConfigFlags, targetFPS, icon), mGameWindowSettings(gameWindowSettings)
-{
-}
-
-Atlas::GLFWGameWindow::~GLFWGameWindow() {
-	close(true); 
-}
-
-void Atlas::GLFWGameWindow::init()
-{
-	if (!glfwInit()) {
-		throw std::runtime_error("Failed to initialize GLFW");
-	}
-	
-	this->mIsInitialized = true;
-
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);	
-}
-
-void Atlas::GLFWGameWindow::open()
-{
-	if (this->mGameWindowSettings.monitor == nullptr && this->mGameWindowSettings.fullscreen) {
-		this->mGameWindowSettings.monitor = glfwGetPrimaryMonitor();
-	}
-
-	this->mGLFWWindowPointer = glfwCreateWindow(this->mWindowWidth, this->mWindowHeight, this->mWindowTitle.c_str(), this->mGameWindowSettings.monitor, nullptr);
-
-	if (this->mGLFWWindowPointer == nullptr || glfwGetError(nullptr) != GLFW_NO_ERROR) {
-		throw std::runtime_error("Failed to create GLFW window");
-	}
-	else {
-		this->mIsOpen = true;
-	}
-}
-
-void Atlas::GLFWGameWindow::update()
-{
-	if (this->mGameWindowSettings.enableEventPolling) {
-		glfwPollEvents();
-	}
-}
-
-bool Atlas::GLFWGameWindow::shouldClose()
-{
-	return glfwWindowShouldClose(this->mGLFWWindowPointer);
-}
-
-void Atlas::GLFWGameWindow::close(bool shouldCleanup)
-{
-	if (this->mGLFWWindowPointer != nullptr) {
-		glfwDestroyWindow(this->mGLFWWindowPointer);
-	}
-
-	// in order to simplify the deinitialization process, this function may also call cleanup.
-	if (shouldCleanup) {
-		this->cleanup();
-	}
-}
-
-void Atlas::GLFWGameWindow::cleanup()
-{
-	glfwTerminate();
-}
-
-void Atlas::GLFWGameWindow::setFlag(std::string const& flagName, unsigned int value)
-{
-	unsigned int flag = GetWindowConfigFlag(flagName);
-
-	glfwWindowHint(flag, value);
-
-	const char* errorString = nullptr;
-	int error = glfwGetError(&errorString);
-	
-	if(error != GLFW_NO_ERROR) {
-		throw std::runtime_error(errorString);
-	}
-}
-
-
-#elif defined(ATLAS_USE_SDL2)
 
 //enum class KeyboardKey : int {
 //	KEY_NULL = 0,        // Key: NULL, used for no key pressed
@@ -380,143 +293,178 @@ void Atlas::GLFWGameWindow::setFlag(std::string const& flagName, unsigned int va
 //	return KEY_NULL; // No equivalent key in Raylib
 //}
 
-	void Atlas::SDLGameWindow::OnWindowEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window)
-	{
-		if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
-			//event= true;
-			std::cout << "Window minimized" << std::endl;
+inline uint32_t Atlas::GameWindow::ComputeWindowFlags(std::vector<EWindowFlag> const& windowFlags) {
+	uint32_t flags = 0;
+
+	for (auto const& flag : windowFlags) {
+		flags |= static_cast<uint32_t>(flag);
+	}
+
+	return flags;
+}
+
+inline SDL_Window* Atlas::GameWindow::CreateSDLWindow(WindowDescription const& windowDescription, uint32_t windowFlags) {
+	return SDL_CreateWindow(
+		windowDescription.windowTitle.c_str(),
+		windowDescription.windowRect.position.x,
+		windowDescription.windowRect.position.y,
+		windowDescription.windowRect.size.x,
+		windowDescription.windowRect.size.y,
+		windowFlags
+	);
+}
+
+inline void Atlas::GameWindow::DestroySDLWindow(SDL_Window* window) {
+	// No need to destroy a null window
+	if (window == nullptr) {
+		return;
+	}
+
+	SDL_DestroyWindow(window);
+}
+
+Atlas::GameWindow::GameWindow(WindowDescription const& windowDescription) : Initializable(false), mWindowDescription(windowDescription) {
+	const int cInitResult = SDL_Init(SDL_INIT_EVERYTHING);
+
+	if (cInitResult < 0) {
+		const std::string cSDLError = std::string(SDL_GetError());
+		const std::string cErrorString = std::format("Failed to initialize SDL video subsystem\n\tError: {}\n\tError Code: {}", cSDLError, cInitResult);
+
+		throw WindowInitFailureException(cErrorString);
+	}
+
+	this->setInit();
+}
+
+Atlas::GameWindow::~GameWindow() {
+	this->setNotInit();
+
+	if (mSDLWindowPointer != nullptr) {
+		DestroySDLWindow(mSDLWindowPointer);
+
+		SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	}
+}
+
+void Atlas::GameWindow::open(uint32_t windowFlags) {
+	mSDLWindowPointer = CreateSDLWindow(getWindowDescription(), windowFlags);
+
+	if (mSDLWindowPointer == nullptr) {
+		throw std::runtime_error("Failed to create SDL window");
+	}
+}
+
+void Atlas::GameWindow::open(std::vector<EWindowFlag> const& windowFlags) {
+	if (!windowFlags.empty()) {
+		uint32_t flags = ComputeWindowFlags(windowFlags);
+
+		open(flags);
+	}
+}
+
+void Atlas::GameWindow::close() {
+	if (mSDLWindowPointer != nullptr) {
+		DestroySDLWindow(mSDLWindowPointer);
+	}
+
+	mbQuitRequested = true;
+}
+
+void Atlas::GameWindow::hide() {
+	if (mSDLWindowPointer == nullptr) {
+		throw std::runtime_error("SDL window pointer is null");
+	}
+
+	SDL_HideWindow(mSDLWindowPointer);
+	mbIsVisible = false;
+}
+
+void Atlas::GameWindow::show() {
+	if (mSDLWindowPointer == nullptr) {
+		throw std::runtime_error("SDL window pointer is null");
+	}
+
+	SDL_ShowWindow(mSDLWindowPointer);
+
+	mbIsVisible = true;
+}
+
+void Atlas::GameWindow::update()
+{
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) {
+			close();
 		}
 
-		if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
-			//stop_rendering = false;});
-			std::cout << "Window restored" << std::endl;
-		}
-	}
-
-	void Atlas::SDLGameWindow::OnWindowCloseEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window)
-	{
-		std::cout << "Window closed" << std::endl;
-		window.lock()->mShouldClose = true;
-	}
-
-	void Atlas::SDLGameWindow::OnKeyDownEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window)
-	{
-
-	}
-
-	void Atlas::SDLGameWindow::OnKeyUpEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window)
-	{
-	}
-
-	void Atlas::SDLGameWindow::AfterEachPollCallback(SDL_Event event, std::weak_ptr<SDLGameWindow> window)
-	{
 		ImGui_ImplSDL2_ProcessEvent(&event);
 	}
+}
 
-	void Atlas::SDLGameWindow::init(const uint32_t cInitFlags)
-	{
-		if (SDL_Init(cInitFlags) != 0) {
-			throw std::runtime_error("Failed to initialize SDL");
+void Atlas::GameWindow::flash(const EWindowFlashCondition flashCondition) {
+	if (mSDLWindowPointer != nullptr) {
+		SDL_FlashOperation translatedFlashCondition;
+
+		switch (flashCondition)
+		{
+			using enum EWindowFlashCondition;
+
+		case Cancel:
+			translatedFlashCondition = SDL_FLASH_CANCEL;
+			break;
+
+		case Briefly:
+			translatedFlashCondition = SDL_FLASH_BRIEFLY;
+			break;
+
+		case Until_Focused:
+			translatedFlashCondition = SDL_FLASH_UNTIL_FOCUSED;
+			break;
+
+		default:
+			translatedFlashCondition = SDL_FLASH_CANCEL;
+			break;
 		}
 
-		mSharedThisPtr = std::make_shared<SDLGameWindow>(*this);
-		mEventPoller.appendEvent(SDL_QUIT, OnWindowCloseEvent);
-		mEventPoller.appendEvent(SDL_WINDOWEVENT, OnWindowEvent);
-		mEventPoller.appendEvent(SDL_KEYDOWN, OnKeyDownEvent);
-		mEventPoller.appendEvent(SDL_KEYUP, OnKeyUpEvent);
+		SDL_FlashWindow(mSDLWindowPointer, translatedFlashCondition);
+	}
+}
 
-		mIsInitialized = true;
+void Atlas::GameWindow::setOpacity(float newOpacity)
+{
+	if (mSDLWindowPointer != nullptr) {
+		SDL_SetWindowOpacity(mSDLWindowPointer, newOpacity);
+	}
+}
+
+float Atlas::GameWindow::getOpacity() const
+{
+	float opacity = 0.0f;
+
+	if (mSDLWindowPointer != nullptr) {
+		SDL_GetWindowOpacity(mSDLWindowPointer, &opacity);
 	}
 
-	void Atlas::SDLGameWindow::update()
-	{
-		Result<void> result = mEventPoller.pollAndProcessAll(mSharedThisPtr, AfterEachPollCallback);
+	return opacity;
+}
 
-		if (!result.has_value()) {
-			ErrorLog(result.error().message);
-			mShouldClose = true;
-		}
-	}
+bool Atlas::GameWindow::shouldClose() const {
+	//return SDL_PollEvent(nullptr) == 0;
+	return mSDLWindowPointer == nullptr && !mbQuitRequested;
+}
 
-	void Atlas::SDLGameWindow::open(const uint32_t cOpenFlags)
-	{
-		mSDLWindowPointer = SDL_CreateWindow(
-			mWindowTitle.c_str(),
-			mWindowRect.x,
-			mWindowRect.y,
-			mWindowRect.width,
-			mWindowRect.height,
-			cOpenFlags
-		);
+bool Atlas::GameWindow::isOpen() const { 
+	return mSDLWindowPointer != nullptr;
+}
 
-		if (this->mSDLWindowPointer == nullptr) {
-			throw std::runtime_error("Failed to create SDL window");
-		}
-		else {
-			mIsOpen = true;
-		}
-	}
+bool Atlas::GameWindow::isVisible() const { 
+	return mbIsVisible;
+}
 
-	bool Atlas::SDLGameWindow::shouldClose()
-	{
-		return mShouldClose;
-	}
+Atlas::WindowDescription Atlas::GameWindow::getWindowDescription() const { 
+	return mWindowDescription;
+}
 
-	void Atlas::SDLGameWindow::close()
-	{
-		if (mSDLWindowPointer != nullptr) {
-			SDL_DestroyWindow(mSDLWindowPointer);
-		}
-	}
-
-	void Atlas::SDLGameWindow::cleanup()
-	{
-		close();
-
-		SDL_Quit();
-	}
-
-	bool Atlas::SDLGameWindow::isOpen() const
-	{
-		return mIsOpen;
-	}
-
-	bool Atlas::SDLGameWindow::isInitialized() const
-	{
-		return mIsInitialized;
-	}
-
-	void Atlas::SDLGameWindow::setHint(WindowHint const& hint)
-	{
-		SDL_SetHint(hint.identifier.c_str(), hint.value.c_str());
-	}
-
-	void Atlas::SDLGameWindow::setIcon(std::string const& newIconPath)
-	{
-		mIconPath = newIconPath;
-	}
-
-	void Atlas::SDLGameWindow::setWindowTitle(std::string const& newWindowTitle)
-	{
-		mWindowTitle = newWindowTitle;
-	}
-
-	void Atlas::SDLGameWindow::setWindowPosition(int newX, int newY)
-	{
-		mWindowRect.x = newX;
-		mWindowRect.y = newY;
-	}
-
-	void Atlas::SDLGameWindow::setWindowSize(int16_t newWidth, int16_t newHeight)
-	{
-		mWindowRect.width = newWidth;
-		mWindowRect.height = newHeight;
-	}
-
-	void Atlas::SDLGameWindow::setTargetFPS(int16_t newTargetFPS)
-	{
-		mTargetFPS = newTargetFPS;
-	}
-#endif
-
-
+SDL_Window* Atlas::GameWindow::getWindowHandle() { 
+	return mSDLWindowPointer;
+}

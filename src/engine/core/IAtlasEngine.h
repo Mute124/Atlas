@@ -8,6 +8,8 @@
 #include "threading/GameThreader.h"
 #include "../graphics/Renderer.h"
 
+
+
 namespace Atlas {
 
 
@@ -39,6 +41,8 @@ namespace Atlas {
 		struct Options {
 			
 		};
+
+
 
 		virtual void setRenderer(std::shared_ptr<ARenderer> renderer) = 0;
 

@@ -2,9 +2,9 @@
  * @file Window.h
  * 
  * @brief Everything required to create a window. If you wish to create a window, you may use
- * the GLFWGameWindow or the SDLGameWindow classes direction (if you dont wish to make your
+ * the GLFWGameWindow or the GameWindow classes direction (if you dont wish to make your
  * own window class). If you want to use a custom window class, you should inherit from
- * AGameWindow or NullGameWindow, depending on your needs.
+ * GameWindow or NullGameWindow, depending on your needs.
  * 
  * @date May 2025
  * 
@@ -25,15 +25,11 @@
 
 #include "../../core/Core.h" // this include has to be put here because the GLFW_INCLUDE_VULKAN is defined in this file (of course if vulkan and GLFW3 is being used!)
 #include "../../core/Common.h"
+	
+#include "../../debugging/AException.h"
 
-#ifdef ATLAS_USE_GLFW3
-	#include <GLFW/glfw3.h>
-
-#elif defined ATLAS_USE_SDL2
-	#include <SDL2/SDL.h>
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
-#endif // ATLAS_USE_GLFW3
-
 
 #include <glm/glm.hpp>
 #include <glm/fwd.hpp>
@@ -43,646 +39,124 @@
 
 #include <eventpp/eventqueue.h>
 
-
-//#define ATLAS_DEFAULT_WINDOW_SIZE WindowSize(ATLAS_DEFAULT_WINDOW_WIDTH, ATLAS_DEFAULT_WINDOW_HEIGHT)
-
 namespace Atlas {
-
-	namespace Literals {
-		constexpr auto DEFAULT_WINDOW_WIDTH = 800;
-		constexpr auto DEFAULT_WINDOW_HEIGHT = 600;
-#ifdef ATLAS_USE_GLFW3
-
-#else ATLAS_USE_SDL2
-		constexpr auto CENTERED_WINDOW_POSITION = SDL_WINDOWPOS_CENTERED;
-#endif
-	}
-
-	/**
-	 * @brief A using alias for a GLM low-precision 2D vector that can be used to store the size
-	 * of a window.
-	 * 
-	 * @note There is no need for any real amount of precision as this is just used for storing
-	 * the size of the window, so having a higher precision is not necessary and could be a
-	 * performance hit.
-	 *
-	 * @since v0.0.1
-	 */
-	using WindowSize = glm::vec<2, uint32_t, glm::lowp>;
-	
-	using WindowRectangle = Rectangle<int>;
-
-	struct WindowHint {
-		std::string identifier;
-		std::string value;
+	enum class EWindowFlag : uint32_t {
+		Fullscreen = 0,
+		Shown,
+		Hidden,
+		Borderless,
+		Resizable,
+		Minimized,
+		Maximized,
+		HighDPI,
+		AlwaysOnTop
 	};
 
-	/**
-	 * @brief A struct that contains all the information that a window needs. 
-	 * 
-	 * @since v
-	 */
+	enum class EWindowFlashCondition : uint8_t {
+		Cancel = 0,
+		Briefly,
+		Until_Focused
+	};
+
+	class InvalidWindowRectException : public AException {
+	public:
+		using AException::AException;
+	};
+
+	class WindowInitFailureException : public AException {
+	public:
+		using AException::AException;
+	};
+
+	struct WindowRect {
+		glm::ivec2 position{ 800, 600 };
+		glm::ivec2 size{ 800, 600 };
+
+		WindowRect(glm::ivec2 const& position, glm::ivec2 const& size) : position(position), size(size) {
+			if (size.x < 0 || size.y < 0) {
+				throw InvalidWindowRectException("Window size cannot be negative");
+			}
+		}
+
+		WindowRect(int32_t x, int32_t y, int32_t width, int32_t height) : WindowRect({ x, y }, { width, height }) {}
+
+		WindowRect() = default;
+		
+		~WindowRect() = default;
+
+		int getWidth() const { return size.x; }
+		int getHeight() const { return size.y; }
+	};
+
 	struct WindowDescription {
-		std::string title;
-		std::optional<std::string> iconPath;
-		
-		WindowRectangle windowRectangle;
+		WindowRect windowRect{};
+		std::string windowTitle{ "Atlas Window" };
 
-		WindowSize windowSize{ WindowSize(Literals::DEFAULT_WINDOW_WIDTH, Literals::DEFAULT_WINDOW_HEIGHT) };
-		glm::vec2 windowPosition;
-
-		uint16_t targetFPS{ 60 };
-
-		unsigned int windowConfigFlags;
-
-		//WindowDescription(std::string_view title, std::string_view iconPath, WindowSize windowSize, glm::vec2 windowPosition, uint16_t targetFPS, unsigned int windowConfigFlags)
-		//	: title(title), iconPath(std::make_optional<std::string>(iconPath)), windowSize(windowSize), windowPosition(windowPosition), targetFPS(targetFPS), windowConfigFlags(windowConfigFlags) {}
-		//
-		//WindowDescription(std::string_view title, WindowSize const& windowSize, glm::vec2 windowPosition, uint16_t targetFPS, unsigned int windowConfigFlags) 
-		//	: title(title), windowSize(windowSize), windowPosition(windowPosition), targetFPS(targetFPS), windowConfigFlags(windowConfigFlags) {}
-
-		//WindowDescription() = default;
-	};
-
-	template<typename T_SURFACE_HANDLE>
-	class SurfaceBase : public InitializableAndValidatable {
-	private:
-		T_SURFACE_HANDLE mSurfaceHandle;
-
-	protected:
-		//void setSurfaceHandle(T_SURFACE_HANDLE surfaceHandle) { this->mSurfaceHandle = surfaceHandle; }
-
-	public:
-		
-		virtual void destroySurface() {
-			setNotInit();
-			setInvalid();
-		}
-
-		T_SURFACE_HANDLE getHandle() const { return this->mSurfaceHandle; }
-
-		//T_SURFACE_HANDLE getSurfaceHandle() const { return this->mSurfaceHandle; }
-
-		//T_SURFACE_HANDLE& getSurfaceHandleRef() { return this->mSurfaceHandle; }
-				
-	};
-
-#ifdef ATLAS_USE_VULKAN
-	class Surface : public SurfaceBase<VkSurfaceKHR> {
-	public:
-	};
-#endif
-
-	class Viewport : public InitializableAndValidatable {
-	private:
-		VkViewport mViewport;
-
-		VkCommandBuffer mCommandBuffer;
-	
-	public:
-
-		
-	};
-
-	class ViewportManager : public InitializableAndValidatable {
-	public:
-			
-	};
-
-#ifdef ATLAS_USE_SDL2
-
-	//class IGameWindow;
-
-	//using WindowEventTriggerCallback = std::function<Result<void>(SDL_Event, std::shared_ptr<IGameWindow>)>;
-
-	//struct WindowEventSubscriptionInfo {
-	//	SDL_Event eventType;
-	//	WindowEventTriggerCallback callback;
-	//};
-
-	//class SDLWindowEventHandler {
-	//private:
-	//	eventpp::EventQueue<SDL_Event, void(SDL_Event, std::shared_ptr<IGameWindow>)> mEventQueue;
-	//public:
-
-	//	Result<SDL_Event> pollEvent() {
-	//		SDL_Event event;
-
-	//		if (SDL_PollEvent(&event) != 0) {
-	//			return event;
-	//		}
-	//		else {
-	//			return tl::make_unexpected<Error>({
-	//				Error::EErrorCategory::OutOfRange,
-	//				0,
-	//				"SDL_PollEvent returned 0. This is probably because there are no more events to be polled."
-	//			});
-	//		}
-	//	}
-	//	
-	//	Result<void> enqueue(SDL_Event event, std::shared_ptr<IGameWindow> window) {
-	//		return mEventQueue.enqueue(event, event, window);
-	//	}
-
-	//	Result<void> enqueue(std::vector<SDL_Event> events, std::shared_ptr<IGameWindow> window) {
-	//		return mEventQueue.enqueue(events, window);
-	//	}
-
-	//	Result<void> processEvents() {
-	//		
-	//	}
-	//};
-#endif
-
-	//class IGameWindow : public InitializableAndValidatable {
-	//protected:
-
-	//	virtual void setHandle(std::any handle) = 0;
-	//	virtual std::any getHandle() const = 0;
-	//public:
-
-	//	
-	//};
-
-	template<typename T_WINDOW_HANDLE>
-	class AGameWindow2 : public InitializableAndValidatable {
-	private:
-
-		T_WINDOW_HANDLE mWindowHandle;
-		WindowDescription mWindowDescription;
-
-		bool mbIsOpen{ false };
-		bool mbShouldClose;
-	protected:
-
-		void setWindowHandle(T_WINDOW_HANDLE windowHandle) {
-			this->mWindowHandle = windowHandle;
-		}
-
-		void setShouldCloseFlag(bool bShouldClose) noexcept {
-			this->mbShouldClose = bShouldClose;
-		}
-		
-		void setOpenFlag(bool bIsOpen) noexcept {
-			this->mbIsOpen = bIsOpen;
-		}
-
-		void markOpen() { this->mbIsOpen = true; }
-
-		void markClosed() { this->mbIsOpen = false; }
-
-	public:
-
-		ATLAS_IMPLICIT AGameWindow2(WindowDescription const& windowDescription) 
-			: mWindowDescription(windowDescription) {}
-
-		bool isWindowHandleValid() const noexcept {
-			return this->mWindowHandle != nullptr;
-		}
-
-		bool isOpen() const noexcept {
-			return this->mbIsOpen;
-		}
-
-		bool shouldClose() const noexcept {
-			return !isWindowHandleValid()
-				|| !isOpen()
-				|| this->mbShouldClose;
-		}
-
-		virtual bool isValid() const override {
-			return isWindowHandleValid();
-		}
-
-		virtual bool open() {
-			// Set to true temporarily
-			bool bWasSuccessful = true;
-
-			markOpen();
-
-			return bWasSuccessful;
-		}
-
-		virtual void close() {
-			markClosed();
-		}
-
-		virtual void update() = 0;
-
-		T_WINDOW_HANDLE getHandle() const { return this->mWindowHandle; }
-	};
-
-	/**
-	 * @brief An interface that allows the creation of custom window classes in
-	 * an API-agnostic way. It contains some general pure virtual functions that
-	 * are required to create a window. **This interface is what Atlas stores
-	 * a pointer as when creating a window.**
-	 * 
-	 * @note If you want to make your own window class and you don't want to use
-	 * the @ref NullGameWindow class, you should inherit from this interface instead.
-	 * 
-	 * @since v0.0.1
-	 */
-	class AGameWindow : public InitializableAndValidatable {
-	public:
-		struct Options {
-			std::vector<uint32_t> windowConfigFlags;
-			WindowDescription windowDescription;
-		};
-
-	private:
-		WindowDescription mWindowDescription;
-
-
-	protected:
-		static inline bool sHasSetGraphicsAPIFlag = false;
-		static inline uint32_t sGraphicsAPIFlag = -1;
-
-		std::string mWindowTitle;
-		std::string mIconPath;
-
-		WindowRectangle mWindowRect;
-
-		int16_t mTargetFPS;
-
-		bool mIsInitialized = false;
-
-		bool mIsOpen = false;
-
-		bool mShouldClose = false;
-
-
-	public:
-
-		//ATLAS_EXPLICIT AGameWindow(WindowDescription const& windowDescription) 
-		//	: mWindowTitle(windowDescription.title), mIconPath(windowDescription.iconPath),
-		//	mWindowRect(windowDescription.windowRectangle), mTargetFPS(windowDescription.targetFPS) {
-		//}
-
-		explicit AGameWindow(const uint32_t cGraphicsAPIFlag)
+		WindowDescription(const WindowRect& windowRect, const std::string& windowTitle)
+			: windowRect(windowRect), windowTitle(windowTitle)
 		{
-			if (sHasSetGraphicsAPIFlag == false) {
-				sGraphicsAPIFlag = cGraphicsAPIFlag;
-				sHasSetGraphicsAPIFlag = true;
-			}
 		}
 
-		AGameWindow() = default;
-
-		virtual ~AGameWindow() = default;
-
-		virtual void init(const uint32_t cInitFlags) = 0;
-
-		virtual void update() = 0;
-
-		virtual void open(const uint32_t cOpenFlags) = 0;
-
-		virtual bool isOpen() const = 0;
-
-		virtual void close() = 0;
-
-		virtual bool shouldClose() = 0;
-
-		virtual void cleanup() = 0;
-
-		virtual bool isInitialized() const = 0;
-
-		virtual void setHint(WindowHint const& hint) = 0;
-
-		virtual void setIcon(std::string const& newIconPath) = 0;
-
-		virtual void setWindowTitle(std::string const& newWindowTitle) = 0;
-
-		virtual void setWindowPosition(int newX, int newY) = 0;
-
-		virtual void setWindowSize(int16_t newWidth, int16_t newHeight) = 0;
-
-		virtual void setTargetFPS(int16_t newTargetFPS) = 0;
-
-		virtual void* getUncastWindowHandle() = 0;
-
-		virtual WindowDescription getWindowDescription() const {
-
-			WindowDescription description{};
-
-			description.title = this->mWindowTitle;
-			description.iconPath = this->mIconPath;
-			description.windowRectangle = this->mWindowRect;
-			description.targetFPS = this->mTargetFPS;
-
-			return description;
-		}
+		WindowDescription() = default;
 	};
 
-	/**
-	 * @brief A null, non-copyable implementation of a game window. It does not do anything as it only provides stubs.
-	 * Furthermore, this class is also used as the base class for the GLFWGameWindow and SDLGameWindow classes.
-	 * 
-	 * @since v0.0.1
-	 */
-	//class NullGameWindow : public AGameWindow {
-	//protected:
-
-	//	static inline bool sHasSetGraphicsAPIFlag = false;
-
-	//	std::string mWindowTitle;
-	//	std::string mIconPath;
-
-	//	WindowRectangle mWindowRect;
-
-	//	int16_t mTargetFPS;
-
-	//	bool mIsInitialized = false;
-
-	//	bool mIsOpen = false;
-	//public:
-
-	//	static inline uint32_t sGraphicsAPIFlag = -1;
-
-	//	using AGameWindow::AGameWindow;
-
-	//	NullGameWindow(NullGameWindow const&) = delete;
-
-	//	NullGameWindow& operator=(NullGameWindow const&) = delete;
-
-	//	explicit NullGameWindow(const uint32_t cGraphicsAPIFlag)
-	//		: AGameWindow()
-	//	{
-	//		if (sHasSetGraphicsAPIFlag == false) {
-	//			sGraphicsAPIFlag = cGraphicsAPIFlag;
-	//			sHasSetGraphicsAPIFlag = true;
-	//		}
-	//	}
-
-	//	~NullGameWindow() override = default;
-
-	//	WindowDescription getWindowDescription() const override;
-
-
-	//	//explicit operator WindowDescription() const override;
-	//};
-
-
-#ifdef ATLAS_USE_GLFW3
-
-	struct GameWindowSettings {
-		bool enableEventPolling = true;
-		bool fullscreen = false;
-
-		GLFWmonitor* monitor = nullptr; 
-	};
-
-	class GLFWGameWindow final : public AGameWindow {
+	class GameWindow final : public Initializable {
 	private:
+		WindowDescription mWindowDescription{};
+		SDL_Window* mSDLWindowPointer{ nullptr };
+		bool mbIsVisible{ false };
+		bool mbQuitRequested{ false };
 
-		friend unsigned int GetWindowConfigFlag(std::string const& flagName);
+		static inline uint32_t ComputeWindowFlags(std::vector<EWindowFlag> const& windowFlags);
+
+		static inline SDL_Window* CreateSDLWindow(WindowDescription const& windowDescription, uint32_t windowFlags);
+
+		static inline void DestroySDLWindow(SDL_Window* window);
+
+	public:
+
+		ATLAS_EXPLICIT GameWindow(WindowDescription const& windowDescription);
+
+		GameWindow() : GameWindow(WindowDescription{}) {};
+
+		~GameWindow() override;
+
+		void open(uint32_t windowFlags);
 
 		/**
-		 * @brief A static and read-only translation map. It takes an input string of the flag name and returns the GLFW flag value
-		 * 
-		 * @since v0.0.1
-		 * 
-		 * @sa @ref setFlag() for one of the functions that this map is used in.
-		 */
-		static inline const std::unordered_map<std::string, uint16_t> sWindowFlagsTranslationMap = {
-			{ "Resizable", GLFW_RESIZABLE },
-			{ "Visible", GLFW_VISIBLE },
-			{ "Decorated", GLFW_DECORATED },
-			{ "Focused", GLFW_FOCUSED },
-			{ "Auto Iconify", GLFW_AUTO_ICONIFY },
-			{ "Floating", GLFW_FLOATING },
-			{ "Maximized", GLFW_MAXIMIZED },
-			{ "Centered", GLFW_CENTER_CURSOR },
-			{ "Transparent", GLFW_TRANSPARENT_FRAMEBUFFER },
-			{ "Focus", GLFW_FOCUS_ON_SHOW },
-			{ "Scale to Monitor", GLFW_SCALE_TO_MONITOR }
-		};
+		* @brief Opens the window with the given window flags by first computing the window flags into a single uint32_t value
+		* and then passing it to the open function that takes a single uint32_t.
+		*
+		* @param[in] windowFlags A vector of window flags (EWindowFlag) to open the window with
+		*
+		* @since v0.0.1
+		*/
+		void open(std::vector<EWindowFlag> const& windowFlags);
 
-		GLFWwindow* mGLFWWindowPointer = nullptr;
+		void close();
 
-		GameWindowSettings mGameWindowSettings;
+		void hide();
 
+		void show();
+		
+		void update();
 
-	public:
+		void flash(const EWindowFlashCondition flashCondition);
 
-		GLFWGameWindow(std::string const& title, uint32_t width, uint32_t height, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon, GameWindowSettings const& gameWindowSettings);
+		void setOpacity(float newOpacity);
 
-		virtual ~GLFWGameWindow();
+		float getOpacity() const;
 
-		// Inherited via IWindow
-		void init() override;
+		bool shouldClose() const;
 
-		void open() override;
+		bool isOpen() const;
 
-		void update() override;
+		bool isVisible() const;
 
-		bool shouldClose() override;
+		WindowDescription getWindowDescription() const;
 
-		void close(bool shouldCleanup) override;
-
-		void cleanup() override;	
-
-		void setFlag(std::string const& flagName, unsigned int value) override;
+		SDL_Window* getWindowHandle();
 	};
-
-#elif defined(ATLAS_USE_SDL2)
-
-	using SDLEvent = SDL_Event;
-
-	struct GameWindowSettings {
-		bool enableEventPolling = true;
-		bool fullscreen = false;
-
-		uint32_t windowInitFlags;
-	};
-
-	class SDLGameWindow final : public AGameWindow, private std::enable_shared_from_this<SDLGameWindow> {
-	public:
-		class EventPoller {
-		private:
-			eventpp::EventQueue<int, void(SDL_Event, std::weak_ptr<SDLGameWindow>)> mEventQueue;
-
-			size_t mTotalEventCount;
-		public:
-			
-			static inline bool Poll(SDL_Event* eventPtr) {
-				return SDL_PollEvent(eventPtr) != 0;
-			}
-
-			void appendEvent(int event, std::function<void(SDL_Event, std::weak_ptr<SDLGameWindow>)> const& callback) {
-				mEventQueue.appendListener(event, callback);
-				
-				mTotalEventCount++;
-			}
-
-			Result<void> enqueueEvent(int event, std::weak_ptr<SDLGameWindow> weakWindowPtr) {
-				Result<void> result = {};
-				
-				if (weakWindowPtr.expired()) {
-					const std::string errorMessage = std::format("Failed to enqueue an SDL event of type {} because the passed window pointer is expired!", event);
-
-					result = tl::make_unexpected<Error>({
-						Error::EErrorCategory::InvalidArgument,
-						0,
-						errorMessage
-					});
-				}
-
-				mEventQueue.enqueue(event, weakWindowPtr);
-
-				
-				return result;
-			}
-
-			Result<void> processEvents() {
-				Result<void> result = {};
-
-				if (!mEventQueue.process()) {
-					result = tl::make_unexpected<Error>({
-						Error::EErrorCategory::RuntimeError,
-						0,
-						"Failed to process SDL events!"
-					});
-				}
-
-				return result;
-			}
-
-			Result<void> pollAndProcessAll(std::weak_ptr<SDLGameWindow> weakWindowPtr, std::optional<std::function<void(SDL_Event, std::weak_ptr<SDLGameWindow>)>> const& afterPollCallback = {}) {
-				Result<void> result;
-				bool bErrorOccurred = false;
-
-				if (weakWindowPtr.expired()) {
-					result = tl::make_unexpected<Error>({
-						Error::EErrorCategory::InvalidArgument,
-						0,
-						"Failed to poll and process SDL events because the passed window pointer is expired!"
-					});
-				}
-
-				SDL_Event event;
-				//SDL_StartTextInput();
-				while (Poll(&event) == true) {
-					if (afterPollCallback.has_value()) {
-						afterPollCallback.value().operator()(event, weakWindowPtr);
-					}
-
-					Result<void> enqueueResult = enqueueEvent(event.type, weakWindowPtr);
-					if (!enqueueResult) {
-						result = enqueueResult;
-						bErrorOccurred = true;
-					}
-
-					// This should not be done if the enqueue step failed, hence the bErrorOccurred flag check
-					if (!bErrorOccurred) {
-						if (Result<void> processResult = processEvents(); !processResult) {
-							result = processResult;
-							bErrorOccurred = true;
-						}
-					}
-					
-					// Since each occurance of an error automatically will set the bErrorOccurred flag to true and set the result to the error,
-					// we can break out of the loop here and it will automatically return the error.
-					if (bErrorOccurred) {
-						break;
-					}
-				}
-				//SDL_PumpEvents();
-
-				//int numKeys = 0;
-				//const Uint8* keyboardState = SDL_GetKeyboardState(&numKeys);
-
-				//for (int i = 0; i < numKeys; i++) {
-				//	std::cout << keyboardState[i] << "";
-				//}
-
-				//SDL_StopTextInput();
-				return result;
-			}
-			
-			void clear() {
-				mEventQueue.clearEvents();
-			}
-
-			size_t GetTotalEventCount() const { return mTotalEventCount; }
-		};
-	private:
-		std::unordered_map<uint32_t, std::function<int(SDL_Event const&, SDLGameWindow&)>> mEventHandlers;
-
-		EventPoller mEventPoller;
-
-		std::shared_ptr<SDLGameWindow> mSharedThisPtr = nullptr;
-
-		SDL_Window* mSDLWindowPointer = nullptr;
-
-		uint64_t mFrameCount = 0;
-
-		uint32_t mSDLWindowFlags = 0;
-
-		bool mShouldClose = false;
-
-		/**
-		 * @brief Checks if an event occurred by simply calling SDL_PollEvents with a nullptr.
-		 * 
-		 * @return @a True if SDL_PollEvents does not return 0, otherwise @a false.
-		 * 
-		 * @since v
-		 */
-		static inline bool EventOccurred();
-
-		static inline uint32_t GetGraphicsAPIFlag();
-
-		static inline void OnWindowEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
-		static inline void OnWindowCloseEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
-		static inline void OnKeyDownEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
-		static inline void OnKeyUpEvent(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
-		static inline void AfterEachPollCallback(SDL_Event event, std::weak_ptr<SDLGameWindow> window);
-	public:
-
-		// SDLGameWindow(std::string const& title, uint32_t width, uint32_t height, int x, int y, unsigned int windowConfigFlags, unsigned int targetFPS, std::string const& icon);
-
-		explicit SDLGameWindow(const uint32_t cGraphicsAPIFlag);
-
-		SDLGameWindow() = default;
-
-		~SDLGameWindow() override = default;
-
-		// Inherited via NullGameWindow
-		void init(const uint32_t cInitFlags) override;
-
-		void update() override;
-
-		void open(const uint32_t cOpenFlags) override;
-
-		bool shouldClose() override;
-
-		void close() override;
-
-		void cleanup() override;
-
-		bool isOpen() const override;
-
-		bool isInitialized() const override;
-
-		void setHint(WindowHint const& hint) override;
-
-		void setIcon(std::string const& newIconPath) override;
-
-		void setWindowTitle(std::string const& newWindowTitle) override;
-
-		void setWindowPosition(int newX, int newY) override;
-
-		void setWindowSize(int16_t newWidth, int16_t newHeight) override;
-
-		void setTargetFPS(int16_t newTargetFPS) override;
-
-		void* getUncastWindowHandle() override {
-			return this->mSDLWindowPointer;
-		}
-
-	};
-
-#endif // ATLAS_USE_GLFW3
 
 	unsigned int GetWindowConfigFlag(std::string const& flagName);
 }

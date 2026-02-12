@@ -44,17 +44,6 @@
 //	return messages.empty();
 //}
 
-Atlas::LogMessage::LogMessage(std::string const& message, ELogLevel logLevel, std::any extraData, std::source_location eventLocation)
-	: message(message), logLevel(logLevel), eventLocation(eventLocation), extraData(extraData), cbHasExtraData(extraData.has_value())
-{
-}
-
-Atlas::LogMessage::LogMessage(std::string const& message, ELogLevel logLevel, std::source_location eventLocation)
-	: LogMessage(message, logLevel, std::any(), eventLocation)
-{
-}
-
-
 std::string Atlas::ALogger::GenerateLogFileName() {
 	// Generate a log file name from the current date and time.
 
@@ -107,7 +96,7 @@ void Atlas::SpdlogLogger::initFileSink()
 void Atlas::SpdlogLogger::initInternalSpdlogLogger()
 {
 	const spdlog::level::level_enum cCastedLoggerLevel = static_cast<spdlog::level::level_enum>(mLoggerLevel);
-
+	
 	mInternalSpdlogLoggerPtr = std::make_unique<spdlog::logger>(spdlog::logger(mLoggerName, { mLoggingSinks->consoleSink, mLoggingSinks->fileSink }));
 	mInternalSpdlogLoggerPtr->set_level(cCastedLoggerLevel);
 }
@@ -179,7 +168,6 @@ void Atlas::SpdlogLogger::setThisAsDefaultLogger() {
 
 void Atlas::SpdlogLogger::log(std::string const& message, ELogLevel logLevel)
 {
-
 	mInternalSpdlogLoggerPtr->log(static_cast<spdlog::level::level_enum>(logLevel), message);
 }
 

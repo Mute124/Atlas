@@ -321,20 +321,51 @@ namespace Atlas {
 		}
 	};
 
+	/**
+	 * @brief Provides a way to track the initialization state of a class.
+	 * 
+	 * @since v0.0.1
+	 */
 	class Initializable {
 	private:
 
+		/**
+		 * @brief The initialization state.
+		 * 
+		 * @note Defaults to false.
+		 * 
+		 * @since v0.0.1
+		 */
 		bool mbIsInit{ false };
 
 	protected:
+		/**
+		 * @brief Gets the initialization state.
+		 * 
+		 * @return A reference to the initialization state.
+		 * 
+		 * @since v0.0.1
+		 */
 		bool& getInternalInitValue() {
 			return mbIsInit;
 		}
 
+		/**
+		 * @brief Sets the initialization state.
+		 * 
+		 * @param bNewInitState The new initialization state to set mbIsInit to.
+		 * 
+		 * @since v
+		 */
 		virtual void setInitState(bool bNewInitState) {
 			mbIsInit = bNewInitState;
 		}
 
+		/**
+		 * @brief Sets the initialization state to true.
+		 * 
+		 * @since v0.0.1
+		 */
 		virtual void setInit() {
 			setInitState(true);
 		}

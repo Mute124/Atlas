@@ -1,109 +1,20 @@
-
-//#include <project.h>
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/string.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/uuid/name_generator_md5.hpp>
 #include <fstream>
 #include <iostream>
 #include <ios>
 #include <iosfwd>
 #include <string>
-#include <boost/uuid/uuid.hpp>            // uuid class
-#include <boost/uuid/uuid_generators.hpp> // generators
-#include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
 #include <graphics/vulkan/VKDevice.h>
 #include <debugging/Logging.h>
 #include <io/IOManager.h>
+#include <core/platform/Platform.h>
+#include <SDL2/SDL.h>
 
-#include <haptics/HapticDevice.h>
-#include <haptics/HapticEffect.h>
-
-//class Person {
-//private:
-//	std::string name;
-//	int age;
-//	double height;
-//
-//	// Make Boost.Serialization a friend to access private members
-//	friend class boost::serialization::access;
-//
-//	// Method to serialize and deserialize the object
-//	template<class Archive>
-//	void serialize(Archive& ar, const unsigned int version) {
-//		ar& name;
-//		ar& age;
-//		ar& height;
-//	}
-//
-//public:
-//	// Constructors
-//	Person(const std::string& n = "", int a = 0, double h = 0.0)
-//		: name(n), age(a), height(h) {}
-//
-//	// Display the Person's data
-//	void display() const {
-//		std::cout << "Name: " << name << ", Age: " << age
-//			<< ", Height: " << height << " meters" << std::endl;
-//	}
-//};
+#include <imgui/backends/imgui_impl_sdl2.h>
+#include <SDL2/SDL_events.h>
 using namespace Atlas;
 
-Result<int> test() {
-	
-	Error err;
-	err.errorCategory = Error::EErrorCategory::NotImplemented;
-	err.message = "Not implemented";
-	return tl::make_unexpected<Error>( {Error::EErrorCategory::InvalidArgument, 0, "Invalid argument"});
-}
-
 int main(int argc, char* argv[]) {
-
-	// Serialize the object to a file
-/*	Person p1("John Doe", 30, 1.75);
-	{
-		boost::uuids::uuid namespace_id = boost::uuids::string_generator()("my_namespace");
-		boost::uuids::uuid uuid = boost::uuids::name_generator_md5(namespace_id)(&p1, sizeof(Person));
-
-		std::ofstream ofs("C:\\Dev\\Techstorm-v5\\game\\data\\" + boost::uuids::to_string(uuid) + ".dat", std::ios_base::binary | std::ios_base::app);
-		boost::archive::text_oarchive oa(ofs);
-		oa.save_binary(&p1, sizeof(Person));  // Save the serialized data in binary format
-	}
-
-	// Serialize the object to a file
-	Person p3("John roe", 260, 1.4435);
-	{
-		boost::uuids::uuid uuid = boost::uuids::random_generator()();
-
-		std::ofstream ofs("C:\\Dev\\Techstorm-v5\\game\\data\\" + boost::uuids::to_string(uuid) + "person.dat", std::ios_base::binary | std::ios_base::app);
-		boost::archive::text_oarchive oa(ofs);
-
-		oa.save_binary(&p3, sizeof(Person));  // Save the serialized data in binary format
-		//oa << p3;  // Serialize
-	}
-
-	// Deserialize the object from the file
-	Person p2;
-	{
-	//	std::ifstream ifs("C:\\Dev\\Techstorm-v5\\game\\data\\person.dat");
-//		boost::archive::text_iarchive ia(ifs);
-	//	ia >> p2;  // Deserialize
-	}*/
-
-	Result<int> result = test();
-	
-	//tl::expected<int, Error> result = test();
-	Error error = result.error();
-	std::cout << error.message << " | " << error.location.function_name() << std::endl;
-
-	CPUDeviceInfo deviceInfo = CPUDeviceInfo();
-	
-	//std::cout << "Logical Core Count: " << deviceInfo.mLogicalCoreCount << std::endl;
-	//std::cout << "L1 Cache Size: " << deviceInfo.mL1CacheLineSize << std::endl;
-	//std::cout << "Hardware Concurrency: " << deviceInfo.mHardwareConcurrency << std::endl;
-
 	const std::string logFilePath = std::format("logs/{}", SpdlogLogger::GenerateLogFileName());
 
 	SpdlogLogger logger = SpdlogLogger("Atlas", ATLAS_DEFAULT_SPDLOG_LOG_PATTERN, logFilePath);
@@ -115,8 +26,14 @@ int main(int argc, char* argv[]) {
 	options.evictionCheckInterval = std::chrono::seconds(5);
 	options.bStartJanitor = true;
 
-	FileManager fileManager(options);
-	fileManager.addExtensionLoader(".spv", [](std::filesystem::path path, std::shared_ptr<FileData>& data, std::shared_ptr<FileRecord> record) {
+	PlatformInitInfo platformInitInfo{};
+	platformInitInfo.applicationInfo.applicationName = "test";
+	platformInitInfo.fileManagerOptions = options;
+
+	Platform platform = Platform(platformInitInfo);
+
+	std::shared_ptr<FileManager> fileManager = platform.getFileManager().lock();
+	fileManager->addExtensionLoader(".spv", [](std::filesystem::path path, std::shared_ptr<FileData>& data, std::shared_ptr<FileRecord> record) {
 		// open the file. With cursor at the end
 		std::ifstream file(path, std::ios::ate | std::ios::binary);
 
@@ -148,33 +65,20 @@ int main(int argc, char* argv[]) {
 		}
 
 		data = std::make_shared<FileData>(std::move(buffer));
-		//data->print();
 		
 		return true;
 	});
-	fileManager.registerDirectory("F:/dev/AtlasIOPrototype/assets");
+	fileManager->registerDirectory("F:/dev/AtlasIOPrototype/assets");
 
-	InfoLog(std::format("Registered Files: {}", fileManager.getRegisteredCount()));
+	InfoLog(std::format("Registered Files: {}", fileManager->getRegisteredCount()));
 
 	// open a file (lazy load)
-	auto data = fileManager.openFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
-	if (data) {
-		//std::cout << "Loaded bytes: " << data.get()->bytes.size() << "\n";
-		// use data->bytes...
-	}
-	else {
-		//std::cout << "Failed to load file\n";
-	}
+	auto data = fileManager->openFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
 
 	// Setup the game window (this needs to be done before the rendering device is created)
-	std::unique_ptr<SDLGameWindow> gameWindow = std::make_unique<SDLGameWindow>();
-	gameWindow->setWindowTitle("Atlas");
-	gameWindow->setWindowSize(800, 600);
-	gameWindow->setWindowPosition(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-	gameWindow->setTargetFPS(60);
+	GameWindow gameWindow = GameWindow(WindowDescription());
 
-	gameWindow->init(SDL_INIT_EVERYTHING);
-	gameWindow->open((SDL_WindowFlags)(SDL_WINDOW_VULKAN));
+	gameWindow.open(SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN);
 
 	Version renderingAPIVersion;
 	renderingAPIVersion.major = 1;
@@ -184,32 +88,22 @@ int main(int argc, char* argv[]) {
 	auto renderingDevice = std::make_unique<VulkanRenderingBackend>();
 	renderingDevice->setAPIVersion(renderingAPIVersion);
 	renderingDevice->setApplicationName("Example Application");
-	renderingDevice->init(gameWindow.operator->());
+	renderingDevice->init(&gameWindow);
 
-	//renderingDevice->testLoad(fileManager);
-	//std::shared_ptr<HapticDevice> hapticDevice = std::make_shared<HapticDevice>(0);
-	//hapticDevice->open();
-
-	//MonoRumbleHapticEffect effect = MonoRumbleHapticEffect();
-	//effect.upload(hapticDevice);
-	//effect.play(hapticDevice);
-
-	while (!gameWindow->shouldClose()) {
-		gameWindow->update();
-
+	while (!gameWindow.shouldClose()) {
+		gameWindow.update();
+		
 		renderingDevice->beginDrawingMode();
 		renderingDevice->draw();
 		renderingDevice->endDrawingMode();
 	}
 
 	// explicit unload attempt
-	bool unloaded = fileManager.unloadFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
+	bool unloaded = fileManager->unloadFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
 	std::cout << "Explicit unload result: " << unloaded << "\n";
 
 	renderingDevice->shutdown();
-	gameWindow->cleanup();
-	//effect.destroy(hapticDevice);
-	//hapticDevice->close();
-
+	//gameWindow->cleanup();
+	SDL_Quit();
 	return 0;
 }

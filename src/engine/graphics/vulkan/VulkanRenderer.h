@@ -11,7 +11,7 @@ namespace Atlas {
 
 	class VulkanRenderer : public ARenderer {
 	private:
-		static bool WindowShouldClose(AGameWindow* gameWindow)
+		static bool WindowShouldClose(GameWindow* gameWindow)
 		{
 			return gameWindow->shouldClose();
 		}
@@ -20,9 +20,9 @@ namespace Atlas {
 	public:
 		//using ARenderer::ARenderer;
 
-		VulkanRenderer(AGameWindow* gameWindow, VulkanRenderingBackend* backend);
+		VulkanRenderer(GameWindow* gameWindow, VulkanRenderingBackend* backend);
 
-		explicit VulkanRenderer(AGameWindow* gameWindow);
+		explicit VulkanRenderer(GameWindow* gameWindow);
 
 		void init() override;
 

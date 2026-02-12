@@ -8,77 +8,68 @@
  * @since v
  ***************************************************************************************************/
 #pragma once
-#include <vector>
-#include <unordered_set>
+#include <string>
+#include <memory>
+#include <stdexcept>
 
-#include "../Common.h"
+#include "../../io/IOManager.h"
+#include "../Core.h"
+#include "../threading/ThreadBudget.h"
 
 namespace Atlas {
+	struct ApplicationInfo {
+		std::string applicationName;
 
-	enum class EModuleType {
-		Everything = 0,
-		Video,
-		Audio,
-		Input,
-		Networking,
-		Haptics,
-		Events,
-		Physics,
-		Debug,
-		Scripting,
-		Modding
+		explicit ApplicationInfo(const std::string &applicationName) : applicationName(applicationName) {}
+		ApplicationInfo() = default;
 	};
 
-	class APlatform : public Singleton<APlatform> {
+	struct PlatformInitInfo {
+		ApplicationInfo applicationInfo;
+		FileManager::Options fileManagerOptions;
+		ThreadBudget threadBudget;
+	};
+
+	class IPlatform {
 	public:
-		struct Options {
-			////struct EnabledModules {
-			////	bool bInitEverything{ false };
-			////	bool bInitVideo{ false };
-			////	bool bInitAudio{ false };
-			////	bool bInitEvents{ false };
-			////	bool bInitPhysics{ false };
-			////	bool bInitScripting{ false };
-			////	bool bInitModding{ false };
-			////};
-			//struct ThreadingOptions {
-			//	
-			//	bool bEnableMultithreading{ false };
-			//	uint8_t threadCountAllowance{ 1 };
-			//};
-			//std::unordered_set<EModuleType> enabledModules{};
+		virtual ~IPlatform() = default;
 
-			//ThreadingOptions threadingOptions{};
+		virtual ThreadBudget getThreadBudget() const = 0;
+		virtual ApplicationInfo getApplicationInfo() const = 0;
+		virtual std::weak_ptr<FileManager> getFileManager() const = 0;
+	};
 
-			//uint32_t initFlags = 0;
-
-			struct LoggingOptions {
-				std::string logFilePath;
-				std::string loggerName;
-				std::string messageFormatPattern;
-
-				bool bTruncateMessages{ false };
-			};
-
-			LoggingOptions loggingOptions{};
-		};
+	class Platform : public IPlatform {
 	private:
-		
-		Options mOptions;
+		const ApplicationInfo mApplicationInfo;
 
-	protected:
-		
-		void setOptions(Options const& options) { mOptions = options; }
-
+		std::shared_ptr<FileManager> mFileManager;
+		ThreadBudget mThreadBudget;
 	public:
 
-		explicit APlatform(Options const& options) : mOptions(options) {}
+		explicit Platform(const PlatformInitInfo &initInfo)
+			: IPlatform(), mApplicationInfo(initInfo.applicationInfo), mFileManager(std::make_shared<FileManager>(initInfo.fileManagerOptions))
+		{
+			if (mFileManager == nullptr) {
+				throw std::runtime_error("Failed to create file manager");
+			}
+		}
 
-		APlatform::Options const& getOptions() const { return mOptions; }
+		ThreadBudget getThreadBudget() const final {
+			return mThreadBudget;
+		}
+
+		ApplicationInfo getApplicationInfo() const final { 
+			return mApplicationInfo;
+		}
+
+		std::weak_ptr<FileManager> getFileManager() const final {
+			return mFileManager;
+		}
 	};
 
 #ifdef ATLAS_USE_SDL2
-	class SDL2Platform : public APlatform {
+	class SDL2Platform {
 	private:
 		//struct SDL2InitInfo {
 		//	bool bInitEverything{ false };
@@ -96,11 +87,6 @@ namespace Atlas {
 
 	public:
 
-		explicit SDL2Platform(Options const& options);
-
-		void initLogging();
-
-		void initSDL2(uint32_t sdlInitFlags);
 
 		
 	};

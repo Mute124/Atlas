@@ -4,12 +4,12 @@
 #include "window/Window.h"
 #include "../core/Core.h"
 
-Atlas::ARenderer::ARenderer(AGameWindow* gameWindow, ARenderingBackend* backend, bool canBeMultiThreaded)
+Atlas::ARenderer::ARenderer(GameWindow* gameWindow, ARenderingBackend* backend, bool canBeMultiThreaded)
 	: mainGameWindow(gameWindow), renderingBackend(backend), mCanBeMultiThreaded(canBeMultiThreaded)
 {
 }
 
-Atlas::ARenderer::ARenderer(AGameWindow* gameWindow, ARenderingBackend* backend)
+Atlas::ARenderer::ARenderer(GameWindow* gameWindow, ARenderingBackend* backend)
 	: mainGameWindow(gameWindow), renderingBackend(backend)
 {
 }

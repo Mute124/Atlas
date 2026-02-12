@@ -538,7 +538,7 @@ void Atlas::VulkanRenderingBackend::initCommands()
 	mMainDeletionQueue.push([=]() { vkDestroyFence(*Device::GetMainHandle().get(), mImmediateSubmitInfo.fence, nullptr); });
 }
 
-void Atlas::VulkanRenderingBackend::initIMGUI(AGameWindow* gameWindow)
+void Atlas::VulkanRenderingBackend::initIMGUI(GameWindow* gameWindow)
 {
 	// 1: create descriptor pool for IMGUI
 	//  the size of the pool is very oversize, but it's copied from imgui demo
@@ -571,7 +571,7 @@ void Atlas::VulkanRenderingBackend::initIMGUI(AGameWindow* gameWindow)
 	ImGui::CreateContext();
 
 	// this initializes imgui for SDL
-	ImGui_ImplSDL2_InitForVulkan((SDL_Window*)gameWindow->getUncastWindowHandle());
+	ImGui_ImplSDL2_InitForVulkan(gameWindow->getWindowHandle());
 
 	// this initializes imgui for Vulkan
 	ImGui_ImplVulkan_InitInfo init_info = {};
@@ -725,7 +725,7 @@ void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommand
 	vkWaitForFences(*Device::GetMainHandle().get(), 1, &mImmediateSubmitInfo.fence, true, cTimeout);
 }
 
-void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
+void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 {
 	//AGlobalRenderingBackend::init(gameWindow);
 
@@ -773,7 +773,7 @@ void Atlas::VulkanRenderingBackend::init(AGameWindow* gameWindow)
 #ifdef ATLAS_USE_SDL2
 	InfoLog("Initializing Vulkan SDL2 surface");
 	// directly passing the window cast to avoid memory issues.
-	SDL_Vulkan_CreateSurface(static_cast<SDL_Window*>(gameWindow->getUncastWindowHandle()), cVkBootstrapInstanceRef, &mSurface);
+	SDL_Vulkan_CreateSurface(gameWindow->getWindowHandle(), cVkBootstrapInstanceRef, &mSurface);
 #endif // ATLAS_USE_SDL2
 
 	initPhysicalDevice();
@@ -896,18 +896,20 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 	InfoLog("Selected GPU: " + cDeviceName);
 }
 
-void Atlas::VulkanRenderingBackend::initSwapchain(AGameWindow* gameWindow)
+void Atlas::VulkanRenderingBackend::initSwapchain(GameWindow* gameWindow)
 {
 	// swapchain init
 
 	const WindowDescription activeWindowDescription = gameWindow->getWindowDescription();
+	const int cWindowWidth = activeWindowDescription.windowRect.getWidth();
+	const int cWindowHeight = activeWindowDescription.windowRect.getHeight();
 
-	createSwapchain(activeWindowDescription.windowRectangle.width, activeWindowDescription.windowRectangle.height);
+	createSwapchain(cWindowWidth, cWindowHeight);
 
 	//draw image size will match the window
 	VkExtent3D drawImageExtent = {
-		activeWindowDescription.windowRectangle.width,
-		activeWindowDescription.windowRectangle.height,
+		cWindowWidth,
+		cWindowHeight,
 		1
 	};
 
@@ -1285,9 +1287,9 @@ bool Atlas::VulkanRenderingBackend::checkValidationLayerSupport() {
 	return true;
 }
 
-bool Atlas::VulkanRenderingBackend::canInitialize(AGameWindow* gameWindow)
+bool Atlas::VulkanRenderingBackend::canInitialize(GameWindow* gameWindow)
 {
-	return gameWindow->isInitialized() && gameWindow->isOpen();
+	return gameWindow->isInit() && gameWindow->isOpen();
 }
 
 Atlas::VulkanRenderingBackend& Atlas::getLoadedRenderingBacked()

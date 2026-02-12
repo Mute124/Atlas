@@ -67,6 +67,22 @@
 	#define ATLAS_CONDITIONAL_EXPLICIT_SUPPORTED
 #endif
 
+#ifndef ATLAS_HAS_NODISCARD
+	#ifndef __has_cpp_attribute
+		#define ATLAS_HAS_NODISCARD 0
+	#elif __has_cpp_attribute(nodiscard) >= 201603L
+		#define ATLAS_HAS_NODISCARD 1
+	#else
+		#define ATLAS_HAS_NODISCARD 0
+	#endif
+#endif 
+
+#if ATLAS_HAS_NODISCARD
+	#define ATLAS_NODISCARD [[nodiscard]]
+#else
+	#define ATLAS_NODISCARD
+#endif
+
 #ifdef ATLAS_CONDITIONAL_EXPLICIT_SUPPORTED
 	#define ATLAS_IMPLICIT explicit(false)
 	#define ATLAS_EXPLICIT explicit(true)
