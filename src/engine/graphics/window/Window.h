@@ -14,30 +14,16 @@
 
 #include <string>
 #include <cstdint>
-#include <unordered_set>
-#include <unordered_map>
 #include <vector>
-#include <functional>
-#include <type_traits>
-#include <any>
-#include <variant>
-#include <array>
 
 #include "../../core/Core.h" // this include has to be put here because the GLFW_INCLUDE_VULKAN is defined in this file (of course if vulkan and GLFW3 is being used!)
 #include "../../core/Common.h"
 	
 #include "../../debugging/AException.h"
 
-#include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
-
-#include <glm/glm.hpp>
 #include <glm/fwd.hpp>
-#include <glm/detail/qualifier.hpp>
-#include <SDL2/SDL_events.h>
-#include <vulkan/vulkan_core.h>
-
-#include <eventpp/eventqueue.h>
+#include <glm/vec2.hpp>
 
 namespace Atlas {
 	enum class EWindowFlag : uint32_t {
@@ -72,11 +58,7 @@ namespace Atlas {
 		glm::ivec2 position{ 800, 600 };
 		glm::ivec2 size{ 800, 600 };
 
-		WindowRect(glm::ivec2 const& position, glm::ivec2 const& size) : position(position), size(size) {
-			if (size.x < 0 || size.y < 0) {
-				throw InvalidWindowRectException("Window size cannot be negative");
-			}
-		}
+		WindowRect(glm::ivec2 const& position, glm::ivec2 const& size);
 
 		WindowRect(int32_t x, int32_t y, int32_t width, int32_t height) : WindowRect({ x, y }, { width, height }) {}
 
@@ -84,18 +66,15 @@ namespace Atlas {
 		
 		~WindowRect() = default;
 
-		int getWidth() const { return size.x; }
-		int getHeight() const { return size.y; }
+		int getWidth() const;
+		int getHeight() const;
 	};
 
 	struct WindowDescription {
 		WindowRect windowRect{};
 		std::string windowTitle{ "Atlas Window" };
 
-		WindowDescription(const WindowRect& windowRect, const std::string& windowTitle)
-			: windowRect(windowRect), windowTitle(windowTitle)
-		{
-		}
+		WindowDescription(const WindowRect& windowRect, const std::string& windowTitle);
 
 		WindowDescription() = default;
 	};

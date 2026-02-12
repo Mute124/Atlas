@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
 	// Setup the game window (this needs to be done before the rendering device is created)
 	GameWindow gameWindow = GameWindow(WindowDescription());
 
-	gameWindow.open(SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN);
+	gameWindow.open(SDL_WINDOW_VULKAN);
 
 	Version renderingAPIVersion;
 	renderingAPIVersion.major = 1;
@@ -90,14 +90,23 @@ int main(int argc, char* argv[]) {
 	renderingDevice->setApplicationName("Example Application");
 	renderingDevice->init(&gameWindow);
 
-	while (!gameWindow.shouldClose()) {
+	bool shouldClose = false;
+	while (!shouldClose) {
+		shouldClose = gameWindow.shouldClose();
 		gameWindow.update();
 		
+		if (gameWindow.shouldClose()) {
+			break;
+		}
+
 		renderingDevice->beginDrawingMode();
 		renderingDevice->draw();
 		renderingDevice->endDrawingMode();
 	}
 
+	InfoLog("Game loop has ended; shutting everything down.");
+
+	
 	// explicit unload attempt
 	bool unloaded = fileManager->unloadFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
 	std::cout << "Explicit unload result: " << unloaded << "\n";
