@@ -83,7 +83,8 @@ namespace Atlas {
 	private:
 
 		const ExceptionInfo mExceptionInfo;
-
+	protected:
+		ExceptionInfo const& getExceptionInfo() const { return mExceptionInfo; }
 	public:
 
 		ATLAS_EXPLICIT ACustomException(ExceptionInfo const& exceptionInfo)
@@ -99,7 +100,11 @@ namespace Atlas {
 
 	class AException : public ACustomException<std::exception> {
 	public:
-		using ACustomException<std::exception>::ACustomException;
+		ATLAS_EXPLICIT AException(ExceptionInfo const& exceptionInfo) : ACustomException<std::exception>(exceptionInfo) {
+			logException();
+		}
+
+		ATLAS_EXPLICIT AException(std::string const& message, std::source_location throwLocation = std::source_location::current()) : AException(ExceptionInfo(message, throwLocation)) {}
 
 		void logException(ALogger* const logger) const {
 			if (logger == nullptr) {
@@ -107,6 +112,11 @@ namespace Atlas {
 			}
 
 			logger->log(getMessage(), ELogLevel::error);
+		}
+
+		void logException() const {
+			const std::source_location cThrowLocation = getExceptionInfo().throwLocation;
+			ErrorLog(std::format("An exception was thrown at: \n->File {} \n->Line {} \n->Function {} \n->Because: {}", cThrowLocation.file_name(), cThrowLocation.line(), cThrowLocation.function_name(), getMessage()));
 		}
 	};
 }

@@ -5,8 +5,24 @@
 
 #include <vk_mem_alloc.h>
 
-#include "../../debugging/Logging.h"
+#include "../../debugging/AException.h"
+
 namespace Atlas {
+
+	class InvalidBufferException : public AException {
+	public:
+		using AException::AException;
+	};
+
+	class InvalidAllocatorException : public AException {
+	public:
+		using AException::AException;
+	};
+
+	class InvalidAllocationException : public AException {
+	public:
+		using AException::AException;
+	};
 
 	class AllocatedBuffer final {
 	private:
@@ -16,55 +32,27 @@ namespace Atlas {
 		VmaAllocation mAllocation{ nullptr };
 		VmaAllocationInfo mInfo{};
 
-		AllocatedBuffer(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo) : mAllocator(vmaAllocator) {
-			vmaCreateBuffer(vmaAllocator, &bufferInfo, &vmaallocInfo, &mBuffer, &mAllocation, &mInfo);
-		}
+		AllocatedBuffer(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
 
-		static inline VkBufferCreateInfo CreateBufferCreateInfo(size_t allocSize, VkBufferUsageFlags usage) {
-			VkBufferCreateInfo bufferInfo = { .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
-			bufferInfo.pNext = nullptr;
-			bufferInfo.size = allocSize;
-			bufferInfo.usage = usage;
-			return bufferInfo;
-		}
+		static VkBufferCreateInfo CreateBufferCreateInfo(size_t allocSize, VkBufferUsageFlags usage);
 
-		static inline VmaAllocationCreateInfo CreateAllocationCreateInfo(VmaMemoryUsage memoryUsage) {
-			VmaAllocationCreateInfo vmaallocInfo = {};
-			vmaallocInfo.usage = memoryUsage;
-			vmaallocInfo.flags = VMA_ALLOCATION_CREATE_MAPPED_BIT;
-			return vmaallocInfo;
-		}
+		static VmaAllocationCreateInfo CreateAllocationCreateInfo(VmaMemoryUsage memoryUsage);
 	public:
 
-		AllocatedBuffer(VmaAllocator vmaAllocator, size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage) 
-			: AllocatedBuffer(vmaAllocator, CreateBufferCreateInfo(allocSize, usage), CreateAllocationCreateInfo(memoryUsage)) {}
+		AllocatedBuffer(VmaAllocator vmaAllocator, size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage);
 
 		AllocatedBuffer() = default;
 
 		// I dont know why the hell having a deconstructor causes Vulkan to freak out when uploading a mesh...
 
-		void destroy(VmaAllocator allocator) const {
-			if (allocator == nullptr) {
-				ErrorLog("Allocator is null");
-			}
+		void destroy(VmaAllocator allocator) const;
 
-			vmaDestroyBuffer(allocator, mBuffer, mAllocation);
-		}
+		void destroy() const;
 
-		void destroy() const {
-			destroy(mAllocator);
-		}
+		VkBuffer getBuffer() const;
 
-		VkBuffer getBuffer() const {
-			return mBuffer;
-		}
+		VmaAllocation getAllocation() const;
 
-		VmaAllocation getAllocation() const {
-			return mAllocation;
-		}
-
-		VmaAllocationInfo getAllocationInfo() const {
-			return mInfo;
-		}
+		VmaAllocationInfo getAllocationInfo() const;
 	};
 }
