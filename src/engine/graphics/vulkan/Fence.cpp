@@ -9,12 +9,3 @@
  * @since v
  ***************************************************************************************************/
 
-VkResult Atlas::Fence::reset()
-{
-	return VkResult();
-}
-
-VkResult Atlas::Fence::wait()
-{
-	return VkResult();
-}

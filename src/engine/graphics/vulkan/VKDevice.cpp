@@ -153,28 +153,30 @@ void Atlas::VulkanRenderingBackend::setNextImageTimeout(uint64_t lengthInNS) {
 
 AllocatedBuffer Atlas::VulkanRenderingBackend::createBuffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage)
 {
-	// allocate buffer
-	VkBufferCreateInfo bufferInfo = { .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
-	bufferInfo.pNext = nullptr;
-	bufferInfo.size = allocSize;
 
-	bufferInfo.usage = usage;
+	//// allocate buffer
+	//VkBufferCreateInfo bufferInfo = { .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
+	//bufferInfo.pNext = nullptr;
+	//bufferInfo.size = allocSize;
 
-	VmaAllocationCreateInfo vmaallocInfo = {};
-	vmaallocInfo.usage = memoryUsage;
-	vmaallocInfo.flags = VMA_ALLOCATION_CREATE_MAPPED_BIT;
-	AllocatedBuffer newBuffer;
+	//bufferInfo.usage = usage;
 
-	// allocate the buffer
-	vmaCreateBuffer(mVMAAllocator, &bufferInfo, &vmaallocInfo, &newBuffer.buffer, &newBuffer.allocation,
-		&newBuffer.info);
+	//VmaAllocationCreateInfo vmaallocInfo = {};
+	//vmaallocInfo.usage = memoryUsage;
+	//vmaallocInfo.flags = VMA_ALLOCATION_CREATE_MAPPED_BIT;
+	//AllocatedBuffer newBuffer;
 
-	return newBuffer;
+	//// allocate the buffer
+	//vmaCreateBuffer(mVMAAllocator, &bufferInfo, &vmaallocInfo, &newBuffer.buffer, &newBuffer.allocation,
+	//	&newBuffer.info);
+
+	return AllocatedBuffer(mVMAAllocator, allocSize, usage, memoryUsage);
 }
 
-void Atlas::VulkanRenderingBackend::destroyBuffer(const AllocatedBuffer& buffer)
+void Atlas::VulkanRenderingBackend::destroyBuffer(AllocatedBuffer const& buffer)
 {
-	vmaDestroyBuffer(mVMAAllocator, buffer.buffer, buffer.allocation);
+	//vmaDestroyBuffer(mVMAAllocator, buffer.getBuffer(), buffer.getAllocation());
+	buffer.destroy();
 }
 
 Atlas::FrameData& Atlas::VulkanRenderingBackend::getCurrentFrame()
@@ -332,6 +334,7 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	vkDestroyShaderModule(cDeviceHandle, skyShader, nullptr);
 
 	mMainDeletionQueue.push([&]() {
+		// Why does this throw an exception when closing lmao. I guess its a "task failed successfully" moment
 		vkDestroyPipelineLayout(cDeviceHandle, mGradientPipelineLayout, nullptr);
 		vkDestroyPipeline(cDeviceHandle, sky.pipeline, nullptr);
 		vkDestroyPipeline(cDeviceHandle, gradient.pipeline, nullptr);
@@ -656,9 +659,9 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 	//create vertex buffer
 	newSurface.vertexBuffer = createBuffer(vertexBufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT,
 		VMA_MEMORY_USAGE_GPU_ONLY);
-
+	
 	//find the adress of the vertex buffer
-	VkBufferDeviceAddressInfo deviceAdressInfo{ .sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO,.buffer = newSurface.vertexBuffer.buffer };
+	VkBufferDeviceAddressInfo deviceAdressInfo{ .sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO,.buffer = newSurface.vertexBuffer.getBuffer()};
 	newSurface.vertexBufferAddress = vkGetBufferDeviceAddress(*Device::GetMainHandle().get(), &deviceAdressInfo);
 
 	//create index buffer
@@ -667,7 +670,7 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 
 	AllocatedBuffer staging = createBuffer(vertexBufferSize + indexBufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VMA_MEMORY_USAGE_CPU_ONLY);
 
-	void* data = staging.allocation->GetMappedData();
+	void* data = staging.getAllocation()->GetMappedData();
 
 	// copy vertex buffer
 	memcpy(data, vertices.data(), vertexBufferSize);
@@ -681,14 +684,14 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 		vertexCopy.srcOffset = 0;
 		vertexCopy.size = vertexBufferSize;
 
-		vkCmdCopyBuffer(cmd, staging.buffer, newSurface.vertexBuffer.buffer, 1, &vertexCopy);
+		vkCmdCopyBuffer(cmd, staging.getBuffer(), newSurface.vertexBuffer.getBuffer(), 1, &vertexCopy);
 
 		VkBufferCopy indexCopy{ 0 };
 		indexCopy.dstOffset = 0;
 		indexCopy.srcOffset = vertexBufferSize;
 		indexCopy.size = indexBufferSize;
 
-		vkCmdCopyBuffer(cmd, staging.buffer, newSurface.indexBuffer.buffer, 1, &indexCopy);
+		vkCmdCopyBuffer(cmd, staging.getBuffer(), newSurface.indexBuffer.getBuffer(), 1, &indexCopy);
 	});
 
 	destroyBuffer(staging);
@@ -991,34 +994,6 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 	mCurrentDrawData.swapchainExtent = mSwapchainExtent;
 
 	mRenderPassesManager.beginDrawingRenderPasses(mCurrentDrawData.cmd, mCurrentDrawData);
-
-	//// imgui new frame
-	//ImGui_ImplVulkan_NewFrame();
-	//ImGui_ImplSDL2_NewFrame();
-	//ImGui::NewFrame();
-
-	////some imgui UI to test
-	////ImGui::ShowDemoWindow();
-
-	//if (ImGui::Begin("background")) {
-	//	ComputeEffect& selected = mEffectManager.getCurrentEffect();
-
-	//	ImGui::Text("Selected effect: ", selected.name);
-	//	
-	//	//std::cout << mEffectManager.mCurrentEffectIndex << std::endl;
-	//	//std::cout << mCurrentBackgroundEffect << std::endl;
-	//	
-	//	ImGui::SliderInt("Effect Index", &mEffectManager.mCurrentEffectIndex, 0, mEffectManager.getEffectCount() - 1);
-
-	//	ImGui::InputFloat4("data1", (float*)&selected.data.data1);
-	//	ImGui::InputFloat4("data2", (float*)&selected.data.data2);
-	//	ImGui::InputFloat4("data3", (float*)&selected.data.data3);
-	//	ImGui::InputFloat4("data4", (float*)&selected.data.data4);
-	//}
-	//ImGui::End();
-
-	////make imgui calculate internal draw structures
-	//ImGui::Render();
 }
 
 void Atlas::VulkanRenderingBackend::endDrawingMode()
@@ -1199,7 +1174,7 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	push_constants.vertexBuffer = rectangle.vertexBufferAddress;
 
 	vkCmdPushConstants(cmd, _meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(GPUDrawPushConstants), &push_constants);
-	vkCmdBindIndexBuffer(cmd, rectangle.indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+	vkCmdBindIndexBuffer(cmd, rectangle.indexBuffer.getBuffer(), 0, VK_INDEX_TYPE_UINT32);
 
 	vkCmdDrawIndexed(cmd, 6, 1, 0, 0, 0);
 

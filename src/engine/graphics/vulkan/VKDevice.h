@@ -59,6 +59,7 @@
 #include "../GraphicsUtils.h"
 #include "PipelineBuilder.h"
 #include "AllocatedImage.h"
+#include "AllocatedBuffer.h"
 #include "GraphicsQueue.h"
 
 #include "../Frame.h"
@@ -118,17 +119,9 @@ namespace Atlas {
 		VkCommandPool commandPool;
 	};
 
-	class AllocatedBuffer {
-	public:
 
-		VkBuffer buffer;
-		VmaAllocation allocation;
-		VmaAllocationInfo info;
 
-		void destroy(VmaAllocator allocator) {
-			vmaDestroyBuffer(allocator, buffer, allocation);
-		}
-	};
+
 
 	// holds the resources needed for a mesh
 	struct GPUMeshBuffers {
@@ -280,13 +273,8 @@ namespace Atlas {
 
 		VulkanInstanceWrapper mInstance{};
 
-		// Vulkan stuff
-		//VkInstance mVulkanInstance = VK_NULL_HANDLE;
-		//VkDebugUtilsMessengerEXT mDebugMessenger = VK_NULL_HANDLE;
 		PhysicalDevice mPhysicalDevice;
-		
-		//VkPhysicalDevice mGPUDevice = VK_NULL_HANDLE;
-		//VkDevice mDevice = VK_NULL_HANDLE;
+
 		VkSurfaceKHR mSurface = VK_NULL_HANDLE;
 
 		Device mDevice;
@@ -419,7 +407,7 @@ namespace Atlas {
 
 		AllocatedBuffer createBuffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage);
 
-		void destroyBuffer(const AllocatedBuffer& buffer);
+		void destroyBuffer(AllocatedBuffer const& buffer);
 
 		void createSwapchain(uint32_t width, uint32_t height);
 		
