@@ -321,8 +321,6 @@ namespace Atlas {
 
 		std::string mApplicationName;
 
-		uint16_t initInstance(const APIVersion& cAPIVersionRef, const bool cbEnableValidationLayers, std::string const& appName);
-		
 		void initDescriptors();
 
 		void initPipelines();
@@ -353,9 +351,6 @@ namespace Atlas {
 		 */
 		VulkanRenderingBackend() = default;
 
-		//void setOption(EVulkanRenderingOption option, int value) {
-		//	mOptionsBitset[static_cast<size_t>(option)] = value;
-		//}
 		/**
 		 * @brief Initializes Vulkan.
 		 * 
@@ -404,10 +399,6 @@ namespace Atlas {
 		void setFenceTimeout(uint64_t lengthInNS);
 
 		void setNextImageTimeout(uint64_t lengthInNS);
-
-		AllocatedBuffer createBuffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage);
-
-		void destroyBuffer(AllocatedBuffer const& buffer);
 
 		void createSwapchain(uint32_t width, uint32_t height);
 		

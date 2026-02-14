@@ -151,55 +151,9 @@ void Atlas::VulkanRenderingBackend::setNextImageTimeout(uint64_t lengthInNS) {
 	mNextImageTimeoutNS = lengthInNS;
 }
 
-AllocatedBuffer Atlas::VulkanRenderingBackend::createBuffer(size_t allocSize, VkBufferUsageFlags usage, VmaMemoryUsage memoryUsage)
-{
-
-	//// allocate buffer
-	//VkBufferCreateInfo bufferInfo = { .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO };
-	//bufferInfo.pNext = nullptr;
-	//bufferInfo.size = allocSize;
-
-	//bufferInfo.usage = usage;
-
-	//VmaAllocationCreateInfo vmaallocInfo = {};
-	//vmaallocInfo.usage = memoryUsage;
-	//vmaallocInfo.flags = VMA_ALLOCATION_CREATE_MAPPED_BIT;
-	//AllocatedBuffer newBuffer;
-
-	//// allocate the buffer
-	//vmaCreateBuffer(mVMAAllocator, &bufferInfo, &vmaallocInfo, &newBuffer.buffer, &newBuffer.allocation,
-	//	&newBuffer.info);
-
-	return AllocatedBuffer(mVMAAllocator, allocSize, usage, memoryUsage);
-}
-
-void Atlas::VulkanRenderingBackend::destroyBuffer(AllocatedBuffer const& buffer)
-{
-	//vmaDestroyBuffer(mVMAAllocator, buffer.getBuffer(), buffer.getAllocation());
-	buffer.destroy();
-}
-
 Atlas::FrameData& Atlas::VulkanRenderingBackend::getCurrentFrame()
 {
 	return mFrameDataArray[mCurrentFrameNumber % FRAME_OVERLAP];
-}
-
-uint16_t Atlas::VulkanRenderingBackend::initInstance(const APIVersion& cAPIVersionRef, bool cbEnableValidationLayers, std::string const& appName)
-{
-	//vkb::InstanceBuilder instanceBuilder;
-
-	//auto instanceReturn = instanceBuilder.set_app_name(appName.c_str())
-	//	.request_validation_layers(cbEnableValidationLayers)
-	//	.use_default_debug_messenger()
-	//	.require_api_version(cAPIVersionRef.major, cAPIVersionRef.minor, cAPIVersionRef.patch)
-	//	.build();
-
-	//vkb::Instance vulkanInstance = instanceReturn.value();
-	//
-	//this->mVulkanInstance = vulkanInstance.instance;
-	//this->mDebugMessenger = vulkanInstance.debug_messenger;
-
-	return 0;
 }
 
 void Atlas::VulkanRenderingBackend::initDescriptors()
@@ -657,7 +611,7 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 	GPUMeshBuffers newSurface;
 
 	//create vertex buffer
-	newSurface.vertexBuffer = createBuffer(vertexBufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT,
+	newSurface.vertexBuffer = AllocatedBuffer(mVMAAllocator, vertexBufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT,
 		VMA_MEMORY_USAGE_GPU_ONLY);
 	
 	//find the adress of the vertex buffer
@@ -665,10 +619,10 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 	newSurface.vertexBufferAddress = vkGetBufferDeviceAddress(*Device::GetMainHandle().get(), &deviceAdressInfo);
 
 	//create index buffer
-	newSurface.indexBuffer = createBuffer(indexBufferSize, VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+	newSurface.indexBuffer = AllocatedBuffer(mVMAAllocator, indexBufferSize, VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 		VMA_MEMORY_USAGE_GPU_ONLY);
 
-	AllocatedBuffer staging = createBuffer(vertexBufferSize + indexBufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VMA_MEMORY_USAGE_CPU_ONLY);
+	AllocatedBuffer staging = AllocatedBuffer(mVMAAllocator, vertexBufferSize + indexBufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VMA_MEMORY_USAGE_CPU_ONLY);
 
 	void* data = staging.getAllocation()->GetMappedData();
 
@@ -694,7 +648,7 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 		vkCmdCopyBuffer(cmd, staging.getBuffer(), newSurface.indexBuffer.getBuffer(), 1, &indexCopy);
 	});
 
-	destroyBuffer(staging);
+	staging.destroy();
 
 	return newSurface;
 }
@@ -848,8 +802,8 @@ void Atlas::VulkanRenderingBackend::initDefaultData()
 
 	//delete the rectangle data on engine shutdown
 	mMainDeletionQueue.push([&]() {
-		destroyBuffer(rectangle.indexBuffer);
-		destroyBuffer(rectangle.vertexBuffer);
+		rectangle.indexBuffer.destroy();
+		rectangle.vertexBuffer.destroy();
 	});
 
 	testMeshes = loadGltfMeshes(this, "C:\\Dev\\Techstorm-v5\\basicmesh.glb").value();
