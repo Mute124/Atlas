@@ -1,3 +1,4 @@
+
 #include <fstream>
 #include <iostream>
 #include <ios>
@@ -27,7 +28,6 @@ int main(int argc, char* argv[]) {
 	options.bStartJanitor = true;
 
 	PlatformInitInfo platformInitInfo{};
-	platformInitInfo.applicationInfo.applicationName = "test";
 	platformInitInfo.fileManagerOptions = options;
 
 	Platform platform = Platform(platformInitInfo);
@@ -82,10 +82,10 @@ int main(int argc, char* argv[]) {
 
 	const Version cRenderingAPIVersion = Version(1, 3, 0);
 
-	auto renderingDevice = std::make_unique<VulkanRenderingBackend>();
-	renderingDevice->setAPIVersion(cRenderingAPIVersion);
-	renderingDevice->setApplicationName("Example Application");
-	renderingDevice->init(&gameWindow);
+	auto renderingDevice = std::make_unique<VulkanRenderingBackend>(ApplicationInfo(), &gameWindow);
+	//renderingDevice->setAPIVersion(cRenderingAPIVersion);
+	//renderingDevice->setApplicationName("Example Application");
+	//renderingDevice->init(&gameWindow);
 
 	bool shouldClose = false;
 	while (!shouldClose) {

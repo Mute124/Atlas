@@ -17,15 +17,7 @@
 #include "../threading/ThreadBudget.h"
 
 namespace Atlas {
-	struct ApplicationInfo {
-		std::string applicationName;
-
-		explicit ApplicationInfo(const std::string &applicationName) : applicationName(applicationName) {}
-		ApplicationInfo() = default;
-	};
-
 	struct PlatformInitInfo {
-		ApplicationInfo applicationInfo;
 		FileManager::Options fileManagerOptions;
 		ThreadBudget threadBudget;
 	};
@@ -35,20 +27,18 @@ namespace Atlas {
 		virtual ~IPlatform() = default;
 
 		virtual ThreadBudget getThreadBudget() const = 0;
-		virtual ApplicationInfo getApplicationInfo() const = 0;
 		virtual std::weak_ptr<FileManager> getFileManager() const = 0;
 	};
 
 	class Platform : public IPlatform {
 	private:
-		const ApplicationInfo mApplicationInfo;
 
 		std::shared_ptr<FileManager> mFileManager;
 		ThreadBudget mThreadBudget;
 	public:
 
 		explicit Platform(const PlatformInitInfo &initInfo)
-			: IPlatform(), mApplicationInfo(initInfo.applicationInfo), mFileManager(std::make_shared<FileManager>(initInfo.fileManagerOptions))
+			: IPlatform(), mFileManager(std::make_shared<FileManager>(initInfo.fileManagerOptions))
 		{
 			if (mFileManager == nullptr) {
 				throw std::runtime_error("Failed to create file manager");
@@ -57,10 +47,6 @@ namespace Atlas {
 
 		ThreadBudget getThreadBudget() const final {
 			return mThreadBudget;
-		}
-
-		ApplicationInfo getApplicationInfo() const final { 
-			return mApplicationInfo;
 		}
 
 		std::weak_ptr<FileManager> getFileManager() const final {

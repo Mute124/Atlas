@@ -682,6 +682,98 @@ void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommand
 	vkWaitForFences(*Device::GetMainHandle().get(), 1, &mImmediateSubmitInfo.fence, true, cTimeout);
 }
 
+
+Atlas::VulkanRenderingBackend::VulkanRenderingBackend(const ApplicationInfo& appInfo, GameWindow* gameWindow) : mApplicationName(appInfo.name), mAppInfo(appInfo) {
+	setLoadedRenderingBackend(this);
+
+	InfoLog("Attempting to initialize Vulkan");
+
+	//// Just make sure everything is in order before Vulkan gets initialized
+	ATLAS_ASSERT(gameWindow != nullptr, "Window must be set up prior to Vulkan init");
+
+	if (canInitialize(gameWindow) == false) {
+		//std::cout << "Window must be set up and open prior to Vulkan init" << std::endl;
+		ErrorLog("Window must be set up and open prior to Vulkan init!");
+
+		return;
+	}
+	
+	const bool cbEnableValidationLayers = isErrorCheckingEnabled();
+	const APIVersion cApiVersion = appInfo.vulkanVersion;
+
+	//// TODO: Figure out how to stop OBS from overriding the API version.
+	//// The issue is that, if OBS is installed, it will override the API 
+	//// version, even if a higher version is set. This is a problem because
+	//// it can cause the API version to be set to a lower version than what
+	//// we want. Currently, it is not a major problem, but it is something
+	//// to keep in mind.
+
+	std::string vulkanInitParametersString
+		= std::format("->Application Name: {}\n->Vulkan API Version: {}.{}.{}\n->Enable Validation Layers: {}\n", mApplicationName, cApiVersion.major, cApiVersion.minor, cApiVersion.patch, cbEnableValidationLayers);
+
+	InfoLog("Initializing Vulkan instance:\n" + vulkanInitParametersString);
+
+	//mInstance.setVersion(cApiVersion);
+	//mInstance.setApplicationName(mApplicationName);
+	//mInstance.setEnableValidationLayers(cbEnableValidationLayers);
+
+	mInstance = VulkanInstanceWrapper(VulkanInstanceWrapper::InitConfiguration());
+	mInstance.init();
+	vkb::Instance const& cVkBootstrapInstanceRef = mInstance.getVulkanBootstrapInstance();
+
+	// Device init
+	InfoLog("Initializing Vulkan device");
+
+	// If vulkan is being used with SDL2, this has to be done here.
+#ifdef ATLAS_USE_SDL2
+	InfoLog("Initializing Vulkan SDL2 surface");
+
+	mSurface = VK_NULL_HANDLE;
+	// directly passing the window cast to avoid memory issues.
+	SDL_Vulkan_CreateSurface(gameWindow->getWindowHandle(), cVkBootstrapInstanceRef.instance, &mSurface);
+#endif // ATLAS_USE_SDL2
+
+	initPhysicalDevice();
+
+	//create the final vulkan device
+	vkb::DeviceBuilder deviceBuilder{ mPhysicalDevice.getVkbHandle() };
+
+	vkb::Device vkbDevice = deviceBuilder.build().value();
+
+	mDevice = Device(vkbDevice.device);
+	mDevice.setAsMainHandle();
+
+	mPhysicalDevice.getVkbHandle();
+
+	// Get the VkDevice handle used in the rest of a vulkan application
+	//mDevice = vkbDevice.device;
+	//mGPUDevice = physicalDevice.physical_device;
+	//vkb::Device& vkbDeviceRef = mDevice.getVkbHandle();
+	//mGraphicsQueue = mDevice.getVkbHandle().get_queue(vkb::QueueType::graphics).value();
+	//mGraphicsQueueFamily = mDevice.getVkbHandle().get_queue_index(vkb::QueueType::graphics).value();
+
+	mGraphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
+	mGraphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
+
+	mEffectManager = std::make_shared<EffectManager>();
+
+	initVMAAllocator(cVkBootstrapInstanceRef);
+
+	initSwapchain(gameWindow);
+
+	initCommands();
+
+	initDescriptors();
+
+	initPipelines();
+
+	initIMGUI(gameWindow);
+
+	initDefaultData();
+
+	mIsInitialized = true;
+}
+
 void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 {
 	//AGlobalRenderingBackend::init(gameWindow);
@@ -699,9 +791,9 @@ void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 		
 		return;
 	}
-	
+	ApplicationInfo appInfo = ApplicationInfo();
 	const bool cbEnableValidationLayers = isErrorCheckingEnabled();
-	const APIVersion cApiVersion = getAPIVersion();
+	const APIVersion cApiVersion = appInfo.vulkanVersion;
 
 	//// TODO: Figure out how to stop OBS from overriding the API version.
 	//// The issue is that, if OBS is installed, it will override the API 
@@ -718,9 +810,9 @@ void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 	//mInstance.setVersion(cApiVersion);
 	//mInstance.setApplicationName(mApplicationName);
 	//mInstance.setEnableValidationLayers(cbEnableValidationLayers);
-
+	
+	mInstance = VulkanInstanceWrapper(VulkanInstanceWrapper::InitConfiguration());
 	mInstance.init();
-
 	vkb::Instance const& cVkBootstrapInstanceRef = mInstance.getVulkanBootstrapInstance();
 
 	// Device init
@@ -729,8 +821,10 @@ void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 	// If vulkan is being used with SDL2, this has to be done here.
 #ifdef ATLAS_USE_SDL2
 	InfoLog("Initializing Vulkan SDL2 surface");
+
+	mSurface = VK_NULL_HANDLE;
 	// directly passing the window cast to avoid memory issues.
-	SDL_Vulkan_CreateSurface(gameWindow->getWindowHandle(), cVkBootstrapInstanceRef, &mSurface);
+	SDL_Vulkan_CreateSurface(gameWindow->getWindowHandle(), cVkBootstrapInstanceRef.instance, &mSurface);
 #endif // ATLAS_USE_SDL2
 
 	initPhysicalDevice();
@@ -841,7 +935,7 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 
 	PhysicalDeviceSelectionConstraints constraints{};
 
-	constraints.minimumAPIVersion = mAPIVersion;
+	constraints.minimumAPIVersion = mAppInfo.vulkanVersion;
 	constraints.physicalDeviceFeatures = { features, features12 };
 	constraints.surface = mSurface;
 

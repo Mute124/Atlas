@@ -21,6 +21,7 @@
 
 #include "../../core/Core.h"
 #include "../../core/Version.h"
+#include "../../core/ApplicationInfo.h"
 
 #include "../backend/RenderingBackend.h"
 
@@ -39,20 +40,26 @@ namespace Atlas {
 	class VulkanInstanceWrapper {
 	public:
 		struct InitConfiguration {
-			std::string applicationName{ "test" };
-			std::string engineName{ "Atlas" };
+			ApplicationInfo applicationInfo;
 
-			Version vulkanVersion{1, 3, 0};
+			std::string engineName{ "Atlas" };
 			Version atlasVersion{ ATLAS_VERSION_MAJOR, ATLAS_VERSION_MINOR, ATLAS_VERSION_PATCH };
 
 			bool bEnableValidationLayers{ ATLAS_ENABLE_VALIDATION_LAYERS };
 
 			std::optional<VulkanDebugCallback> optionalDebugMessengerCallback;
+
+			InitConfiguration(const ApplicationInfo& applicationInfo, const std::string& engineName, const Version& atlasVersion, bool bEnableValidationLayers, const std::optional<VulkanDebugCallback>& optionalDebugMessengerCallback)
+				: applicationInfo(applicationInfo), engineName(engineName), atlasVersion(atlasVersion), bEnableValidationLayers(bEnableValidationLayers), optionalDebugMessengerCallback(optionalDebugMessengerCallback) {}
+
+			InitConfiguration(const ApplicationInfo& applicationInfo, const std::string& engineName, const Version& atlasVersion, bool bEnableValidationLayers)
+				: InitConfiguration(applicationInfo, engineName, atlasVersion, bEnableValidationLayers, std::nullopt) {}
+
+			InitConfiguration()
+				: InitConfiguration(ApplicationInfo{}, "Atlas", { ATLAS_VERSION_MAJOR, ATLAS_VERSION_MINOR, ATLAS_VERSION_PATCH }, ATLAS_ENABLE_VALIDATION_LAYERS, std::nullopt) {}
 		};
 	private:
 		friend class VulkanRenderingBackend;
-
-		//static inline const std::string_view scEngineName{ "Atlas" };
 
 		vkb::Instance mVulkanBootstrapInstance;
 		
@@ -70,33 +77,18 @@ namespace Atlas {
 
 		InitConfiguration mInitConfiguration;
 
-		//std::optional<VulkanDebugCallback> mDebugMessengerCallback;
-		//std::string mApplicationName;
-
 		Version mVulkanVersion;
 
 		bool mbEnableValidationLayers{ ATLAS_ENABLE_VALIDATION_LAYERS };
 
-		static vkb::InstanceBuilder CreateInstanceBuilder(InitConfiguration const& initConfiguration);
 	public:
-		explicit VulkanInstanceWrapper(vkb::InstanceBuilder instanceBuilder);
 
-		explicit VulkanInstanceWrapper(InitConfiguration const& initConfiguration = InitConfiguration{});
+		explicit VulkanInstanceWrapper(InitConfiguration initConfiguration);
 
-		//VulkanInstanceWrapper() = default;
+		VulkanInstanceWrapper() = default;
 
 		~VulkanInstanceWrapper();
-
-		//void setVersion(const Version& cVulkanVersionRef);
-
-		//void setApplicationName(std::string_view appName);
-
-		//void setEnableValidationLayers(const bool cbEnableValidationLayers);
-
-		//void setDebugCallback(VulkanDebugCallback debugMessengerCallback);
-
 		uint16_t init();
-
 		void shutdown();
 
 		VkInstance& getInstance();

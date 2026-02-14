@@ -222,7 +222,7 @@ namespace Atlas {
 
 		constexpr static bool SHOULD_TRUNCATE_FILE_LOGS = false;
 
-		constexpr static ELogLevel DEFAULT_CONSOLE_SINK_LEVEL = ELogLevel::info;
+		constexpr static ELogLevel DEFAULT_CONSOLE_SINK_LEVEL = ELogLevel::debug;
 		constexpr static ELogLevel DEFAULT_FILE_SINK_LEVEL = ELogLevel::trace;
 		constexpr static ELogLevel DEFAULT_LOGGER_LEVEL = ELogLevel::debug;
 

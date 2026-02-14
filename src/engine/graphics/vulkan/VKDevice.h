@@ -11,7 +11,6 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 
-
 // This avoids the transitive include of string_view on MSVC compilers
 #ifdef ATLAS_COMPILER_MSVC
 	#include <__msvc_string_view.hpp>
@@ -73,6 +72,7 @@
 #include "../../core/Core.h"
 #include "../../core/Common.h"
 #include "../../core/Device.h"
+#include "../../core/ApplicationInfo.h"
 
 #include "../../debugging/Logging.h"
 
@@ -271,7 +271,7 @@ namespace Atlas {
 
 		ImmediateSubmitInfo mImmediateSubmitInfo;
 
-		VulkanInstanceWrapper mInstance{};
+		VulkanInstanceWrapper mInstance;
 
 		PhysicalDevice mPhysicalDevice;
 
@@ -321,6 +321,8 @@ namespace Atlas {
 
 		std::string mApplicationName;
 
+		ApplicationInfo mAppInfo{};
+
 		void initDescriptors();
 
 		void initPipelines();
@@ -350,6 +352,8 @@ namespace Atlas {
 		 * @sa @ref mCreateInfo
 		 */
 		VulkanRenderingBackend() = default;
+
+		VulkanRenderingBackend(const ApplicationInfo& appInfo, GameWindow* gameWindow);
 
 		/**
 		 * @brief Initializes Vulkan.
