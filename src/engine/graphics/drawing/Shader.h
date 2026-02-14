@@ -11,15 +11,9 @@ namespace Atlas {
 
 	public:
 
-		void pushShaderModule(ShaderModule shaderModule) {
-			mShaderModules.push_back(shaderModule);
-		}
+		void pushShaderModule(ShaderModule shaderModule);
 
-		void destroy() {
-			for (auto& shaderModule : mShaderModules) {
-				shaderModule.destroy();
-			}
-		}
+		void destroy();
 	};
 
 	// A grouping of shader modules
@@ -44,7 +38,7 @@ namespace Atlas {
 		//	return LoadShaderModule(mCompiledShaderPath.string().c_str(), device, &mShaderModule);
 		//}
 
-		VkShaderModule getModule() const { return mShaderModule; }
+		VkShaderModule getModule() const;
 
 	};
 }

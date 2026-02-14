@@ -12,29 +12,20 @@ namespace Atlas {
 	protected:
 		friend class VulkanRenderingBackend;
 
-		void setName(std::string const& name) { mName = name; }
+		void setName(std::string const& name);
 	public:
 
-		ATLAS_EXPLICIT Renderable(std::string const& name) : mName(name) {}
-		Renderable() : Renderable("Unnamed Renderable") {}
+		ATLAS_EXPLICIT Renderable(std::string const& name);
+		Renderable();
 
-		static inline void SetCurrentDrawData(CurrentDrawData const& currentFrame) {
-			//std::scoped_lock lock(sCurrentDrawDataMutex);
-			//sCurrentDrawData = currentFrame;
-		}
+		static inline void SetCurrentDrawData(CurrentDrawData const& currentFrame);
 
-		virtual bool beginDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData, EffectManager& computeEffects) {
-			return 0;
-		}
+		virtual bool beginDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData, EffectManager& computeEffects);
 
-		virtual bool draw(VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			return 0;
-		}
+		virtual bool draw(VkCommandBuffer cmd, CurrentDrawData& cDrawData);
 
-		virtual bool endDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			return 0;
-		}
+		virtual bool endDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData);
 
-		std::string_view getName() const { return mName; }
+		std::string_view getName() const;
 	};
 }

@@ -11,29 +11,17 @@ namespace Atlas {
 		using BeginInfo = VkCommandBufferBeginInfo;
 		using EResetFlag = VkCommandBufferResetFlags;
 
-		ATLAS_IMPLICIT CommandBuffer(VkCommandBuffer handle) : AVulkanHandleWrapper<VkCommandBuffer>(handle) {}
+		ATLAS_IMPLICIT CommandBuffer(VkCommandBuffer handle);
 
-		void allocate(Device const& device, AllocateInfo const* allocateInfo) {
-			vkAllocateCommandBuffers(device.getHandle(), allocateInfo, getHandlePtr());
-		}
+		void allocate(Device const& device, AllocateInfo const* allocateInfo);
 
-		void allocate(Device const& device, VkCommandPool pool) {
-			VkCommandBufferAllocateInfo info = CreateCommandBufferAllocateInfo(pool, 1);
+		void allocate(Device const& device, VkCommandPool pool);
 
-			allocate(device, &info);
-		}
+		void begin(BeginInfo const& createInfo);
 
-		void begin(BeginInfo const& createInfo) {
-			vkBeginCommandBuffer(getHandle(), &createInfo);
-		}
+		void end();
 
-		void end() {
-			vkEndCommandBuffer(getHandle());
-		}
-
-		void reset(EResetFlag flags = 0) {
-			vkResetCommandBuffer(getHandle(), flags);
-		}
+		void reset(EResetFlag flags = 0);
 
 	};
 }

@@ -12,62 +12,12 @@ namespace Atlas {
 
 	public:
 
-		void addRenderPass(std::shared_ptr<RenderPass> renderPass) {
-			if (renderPass == nullptr || !renderPass->isValid())
-			{
-				ErrorLog(std::format("RenderPass is not valid: {}", renderPass->getName()));
+		void addRenderPass(std::shared_ptr<RenderPass> renderPass);
 
-				return;
-			}
+		void beginDrawingRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData);
 
-			std::unique_lock lock(mRenderPassesMutex);
+		void drawRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData);
 
-			const RenderPassIndex index = mRenderPasses.size();
-			renderPass->setIndex(index);
-
-			mRenderPasses.push_back(renderPass);
-
-		}
-
-		void beginDrawingRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			std::unique_lock lock(mRenderPassesMutex);
-
-			for (auto& renderPass : mRenderPasses) {
-				if (!renderPass->isValid())
-				{
-					continue;
-				}
-
-				renderPass->beginRenderPass(cmd, cDrawData);
-			}
-		}
-
-		void drawRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			std::unique_lock lock(mRenderPassesMutex);
-
-			for (auto& renderPass : mRenderPasses) {
-				if (!renderPass->isValid())
-				{
-					continue;
-				}
-
-				renderPass->draw(cmd, cDrawData);
-
-			}
-		}
-
-		void endDrawingRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			std::unique_lock lock(mRenderPassesMutex);
-
-			for (auto& renderPass : mRenderPasses) {
-				if (!renderPass->isValid())
-				{
-					continue;
-				}
-
-				renderPass->endRenderPass(cmd, cDrawData);
-
-			}
-		}
+		void endDrawingRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData);
 	};
 }

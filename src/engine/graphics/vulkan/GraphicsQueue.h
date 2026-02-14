@@ -11,32 +11,16 @@ namespace Atlas {
 		uint32_t mQueueFamily{ 1 };
 
 	public:
-		GraphicsQueue(VkQueue queue, uint32_t queueFamily)
-			: mQueue(queue), mQueueFamily(queueFamily)
-		{
-		}
+		GraphicsQueue(VkQueue queue, uint32_t queueFamily);
 
 		GraphicsQueue() = default;
 
-		void submit(std::span<VkSubmitInfo2> submitInfos, VkFence fence = VK_NULL_HANDLE)
-		{
-			ATLAS_ASSERT(submitInfos.size() > 0, "No submit infos provided!");
+		void submit(std::span<VkSubmitInfo2> submitInfos, VkFence fence = VK_NULL_HANDLE);
 
-			uint32_t submitInfoCount = (uint32_t)submitInfos.size();
+		void submit(VkSubmitInfo2 const& submitInfo, VkFence fence = VK_NULL_HANDLE);
 
-			vkQueueSubmit2(mQueue, submitInfoCount, submitInfos.data(), fence);
-		}
+		VkQueue& getQueue();
 
-		void submit(VkSubmitInfo2 const& submitInfo, VkFence fence = VK_NULL_HANDLE) {
-			submit({ submitInfo }, fence);
-		}
-
-		VkQueue& getQueue() {
-			return mQueue;
-		}
-
-		ATLAS_IMPLICIT operator VkQueue& () {
-			const_cast<Atlas::GraphicsQueue&>(*this).getQueue();
-		}
+		ATLAS_IMPLICIT operator VkQueue& ();
 	};
 }

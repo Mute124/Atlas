@@ -21,16 +21,12 @@ namespace Atlas {
 
 	protected:
 
-		void createPipelineLayout(VkDevice device, LayoutCreateInfo const& layoutInfo) {
-			vkCreatePipelineLayout(device, &layoutInfo, nullptr, getHandlePtr());
-		}
+		void createPipelineLayout(VkDevice device, LayoutCreateInfo const& layoutInfo);
 
 	public:
-		PipelineLayout(VkPipelineLayout handle) : AVulkanHandleWrapper<VkPipelineLayout>(handle) {}
+		PipelineLayout(VkPipelineLayout handle);
 
-		PipelineLayout(Device device, LayoutCreateInfo layoutInfo) {
-			createPipelineLayout(device, layoutInfo);
-		}
+		PipelineLayout(Device device, LayoutCreateInfo layoutInfo);
 
 		PipelineLayout() = default;
 	};

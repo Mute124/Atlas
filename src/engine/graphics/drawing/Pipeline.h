@@ -28,26 +28,17 @@ namespace Atlas {
 
 		Shader mShader;
 
-		void setBindPoint(EBindPoint newBindPoint) {
-			mBindPoint = newBindPoint;
-		}
+		void setBindPoint(EBindPoint newBindPoint);
 
 	public:
 
-		Pipeline(EBindPoint bindPoint, VkPipeline pipeline, PipelineLayout pipelineLayout)
-			: AVulkanHandleWrapper(pipeline), mBindPoint(bindPoint), mPipelineLayout(pipelineLayout) {
-		}
+		Pipeline(EBindPoint bindPoint, VkPipeline pipeline, PipelineLayout pipelineLayout);
 
 		Pipeline() = default;
 
-		void bind(CommandBuffer commandBuffer) {
-			vkCmdBindPipeline(commandBuffer, (VkPipelineBindPoint)mBindPoint, getHandle());
-		}
+		void bind(CommandBuffer commandBuffer);
 
-		EBindPoint getBindPoint() const noexcept
-		{
-			return mBindPoint;
-		}
+		EBindPoint getBindPoint() const noexcept;
 
 		//void createLayout(VkPipelineLayoutCreateInfo layoutInfo, VkDevice* device)
 		//{
