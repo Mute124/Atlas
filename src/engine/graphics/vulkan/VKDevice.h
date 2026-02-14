@@ -59,6 +59,7 @@
 #include "../GraphicsUtils.h"
 #include "PipelineBuilder.h"
 #include "AllocatedImage.h"
+#include "GraphicsQueue.h"
 
 #include "../Frame.h"
 
@@ -75,6 +76,15 @@
 #include "../../debugging/Logging.h"
 
 #include "../../io/IOManager.h"
+
+#include "../drawing/DrawData.h"
+#include "../drawing/PipelineLayout.h"
+#include "../drawing/Pipeline.h"
+#include "../drawing/RenderPass.h"
+#include "../drawing/Shader.h"
+#include "../drawing/RenderPassesManager.h"
+#include "../drawing/Renderable.h"
+
 
 #include "../Mesh.h"
 #define ATLAS_1_SECOND_IN_NS 1000000000
@@ -102,45 +112,10 @@ namespace Atlas {
 		Transfer = 3
 	};
 
-	enum class EShaderModuleType {
-		Vertex = 0,
-		Fragment = 1,
-		Compute = 2,
-		Geometry = 3
-	};
-
 	struct ImmediateSubmitInfo {
 		VkFence fence;
 		VkCommandBuffer commandBuffer = VK_NULL_HANDLE;
 		VkCommandPool commandPool;
-	};
-
-	struct CurrentDrawData {
-		const static uint32_t FENCE_COUNT = 1;
-		uint32_t swapchainImageIndex;
-
-		VkCommandBufferResetFlags cmdResetFlags = 0;
-		VkCommandBuffer cmd = VK_NULL_HANDLE;
-		VkCommandBufferBeginInfo cmdBeginInfo = {};
-
-		std::shared_ptr<EffectManager> computeEffects;
-
-		VkSwapchainKHR swapchain = VK_NULL_HANDLE;
-		VkFormat swapchainImageFormat;
-
-		std::vector<VkImage> swapchainImages;
-		std::vector<VkImageView> swapchainImageViews;
-		//VkExtent2D swapchainExtent;
-
-		// TODO: Move to a frame manager class or something like that
-		std::array<FrameData, FRAME_OVERLAP> frameDataArray;
-
-		VkImageView currentSwapchainImageView;
-		VkExtent2D swapchainExtent;
-		
-		AllocatedImage drawImage;
-		VkExtent2D drawExtent;
-		VkDescriptorSet* drawImageDescriptors;
 	};
 
 	class AllocatedBuffer {
@@ -181,41 +156,6 @@ namespace Atlas {
 		GPUMeshBuffers meshBuffers;
 	};
 
-	class CommandBuffer : public AVulkanHandleWrapper<VkCommandBuffer> {
-	public:
-		using AllocateInfo = VkCommandBufferAllocateInfo;
-		using BeginInfo = VkCommandBufferBeginInfo;
-		using EResetFlag = VkCommandBufferResetFlags;
-		
-		ATLAS_IMPLICIT CommandBuffer(VkCommandBuffer handle) : AVulkanHandleWrapper<VkCommandBuffer>(handle) {}
-
-		void allocate(Device const& device, AllocateInfo const* allocateInfo) {
-			vkAllocateCommandBuffers(device.getHandle(), allocateInfo, getHandlePtr());
-		}
-
-		void allocate(Device const& device, VkCommandPool pool) {
-			VkCommandBufferAllocateInfo info = CreateCommandBufferAllocateInfo(pool, 1);
-
-			allocate(device, &info);
-		}
-
-		void begin(BeginInfo const& createInfo) {
-			vkBeginCommandBuffer(getHandle(), &createInfo);
-		}
-
-		void end() { 
-			vkEndCommandBuffer(getHandle());
-		}
-
-		void reset(EResetFlag flags = 0) {
-			vkResetCommandBuffer(getHandle(), flags);
-		}
-
-		//void dispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ) {
-		//	vkCmdDispatch(getHandle(), groupCountX, groupCountY, groupCountZ);
-		//}
-	};
-
 	class DescriptorAllocator {
 	public:
 		struct PoolSizeRatio {
@@ -232,264 +172,6 @@ namespace Atlas {
 		VkDescriptorSet allocate(VkDevice device, VkDescriptorSetLayout layout);
 	};
 
-	class ShaderModule {
-	private:
-		friend class ShaderBase;
-
-		Device mDevice;
-
-		VkShaderModule mShaderModule{ VK_NULL_HANDLE };
-		EShaderModuleType mModuleType{ EShaderModuleType::Vertex };
-
-		bool mbLoaded{ false };
-	public:
-
-		ShaderModule(Device const& device, std::filesystem::path const& path, FileManager& ioManager, EShaderModuleType moduleType);
-
-		ShaderModule() = default;
-		
-		bool createShaderModule(Device const& device, VkShaderModuleCreateInfo* createInfo, VkShaderModule* module);
-
-		bool load(std::filesystem::path const& path, FileManager& ioManager);
-
-		bool destroy();
-
-		bool isLoaded() const;
-
-		VkShaderModule getShaderModule() const;
-
-		EShaderModuleType getShaderModuleType() const;
-
-		explicit(false) operator VkShaderModule() const;
-	};
-
-	class ShaderBase : public NamedObject {
-	private:
-		std::vector<ShaderModule> mShaderModules;
-		
-	public:
-
-		void pushShaderModule(ShaderModule shaderModule) { 
-			mShaderModules.push_back(shaderModule);
-		}
-		
-		void destroy() {
-			for (auto& shaderModule : mShaderModules) {
-				shaderModule.destroy();
-			}
-		}
-	};
-
-	// A grouping of shader modules
-	class Shader : public ShaderBase {
-	private:
-
-		VkShaderModule mShaderModule = VK_NULL_HANDLE;
-		//std::vector<VkShaderModule> mShaderModules;
-		
-
-	public:
-
-		Shader() = default;
-
-		//explicit Shader(std::filesystem::path compiledShaderPath, std::string name) : mCompiledShaderPath(compiledShaderPath), mName(name) {}
-
-		//void destroyModule(VkDevice device) {
-		//	vkDestroyShaderModule(device, mShaderModule, nullptr);
-		//}
-
-		//bool load(VkDevice device) {
-		//	return LoadShaderModule(mCompiledShaderPath.string().c_str(), device, &mShaderModule);
-		//}
-
-		VkShaderModule getModule() const;
-
-	};
-
-	class PipelineLayout : public AVulkanHandleWrapper<VkPipelineLayout> {
-		friend class Pipeline;
-	public:
-		using LayoutCreateInfo = VkPipelineLayoutCreateInfo;
-	
-		//struct LayoutCreateInfo final : VkPipelineLayoutCreateInfo {
-		//	using VkPipelineLayoutCreateInfo::VkPipelineLayoutCreateInfo;
-
-		//	LayoutCreateInfo() : VkPipelineLayoutCreateInfo{ VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO, nullptr, } {}
-		//};
-	private:
-
-		//VkPipelineLayout mLayout = VK_NULL_HANDLE;
-		//LayoutCreateInfo mLayoutInfo{};
-
-	protected:
-		
-		void createPipelineLayout(VkDevice device, LayoutCreateInfo const& layoutInfo);
-
-	public:
-		PipelineLayout(VkPipelineLayout handle) : AVulkanHandleWrapper<VkPipelineLayout>(handle) {}
-
-		PipelineLayout(Device device, LayoutCreateInfo layoutInfo);
-
-		PipelineLayout() = default;
-
-
-	};
-
-	class Pipeline : public AVulkanHandleWrapper<VkPipeline> {
-	public:
-		enum class EBindPoint {
-			Graphics = VK_PIPELINE_BIND_POINT_GRAPHICS,
-			Compute = VK_PIPELINE_BIND_POINT_COMPUTE,
-			RayTracingKHR = VK_PIPELINE_BIND_POINT_RAY_TRACING_KHR,
-			RayTracingNV = VK_PIPELINE_BIND_POINT_RAY_TRACING_NV,
-			Max = VK_PIPELINE_BIND_POINT_MAX_ENUM
-		};
-	private:
-		EBindPoint mBindPoint{ EBindPoint::Graphics };
-
-	protected:
-		//VkPipelineLayoutCreateInfo mComputeLayoutInfo;
-		//VkPushConstantRange mPushConstantRange;
-
-		//VkPipeline mPipeline{ VK_NULL_HANDLE };
-		PipelineLayout mPipelineLayout;
-		
-		//VkPipelineLayout mPipelineLayout = VK_NULL_HANDLE;
-
-		Shader mShader;
-
-		void setBindPoint(EBindPoint newBindPoint);
-
-	public:
-		
-		Pipeline(EBindPoint bindPoint, VkPipeline pipeline, PipelineLayout pipelineLayout);
-
-		Pipeline() = default;
-
-		void bind(CommandBuffer commandBuffer);
-
-		EBindPoint getBindPoint() const noexcept;
-
-		//void createLayout(VkPipelineLayoutCreateInfo layoutInfo, VkDevice* device)
-		//{
-		//	vkCreatePipelineLayout(*device, &layoutInfo, nullptr, &mPipelineLayout);
-		//}
-		//void createLayout(VkDevice* device, VkDescriptorSetLayout* descriptorSetLayout) {
-		//	VkPipelineLayoutCreateInfo layoutInfo{};
-		//	layoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-		//	layoutInfo.pNext = nullptr;
-		//	layoutInfo.pSetLayouts = descriptorSetLayout;
-		//	layoutInfo.setLayoutCount = 1;
-		//	createLayout(layoutInfo, device);
-		//}
-		//void init(VkDevice* device, DeletionQueue* deletionQueue, VkPipelineShaderStageCreateInfo stageInfo, VkComputePipelineCreateInfo pipelineInfo) {
-		//	vkCreateComputePipelines(*device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mPipeline);
-		//	vkDestroyShaderModule(*device, mShader.getModule(), nullptr)
-		//	deletionQueue->push([&]() {
-		//		destroyPipeline(device);
-		//	});
-		//}
-		//void destroyPipeline(VkDevice* device) {
-		//	vkDestroyPipelineLayout(*device, mPipelineLayout, nullptr);
-		//	vkDestroyPipeline(*device, mPipeline, nullptr);
-		//}
-	};
-
-	using RenderPassIndex = size_t;
-
-	class RenderPass : public NamedObject, public Validatable {
-		friend class RenderPassesManager;
-	private:
-		std::shared_ptr<Pipeline> mPipeline;
-
-		RenderPassIndex mIndex;
-
-	protected:
-		void setIndex(RenderPassIndex index) { mIndex = index; }
-	public:
-		//RenderPass(VkCommandBuffer commandBuffer) : mCommandBuffer(commandBuffer) {}
-
-		RenderPass() = default;
-
-		virtual void beginRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			
-		}
-
-		virtual void draw(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) = 0;
-
-		virtual void endRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-
-		}
-
-		RenderPassIndex getID() const { return mIndex; }
-	};
-
-	class RenderPassesManager {
-	private:
-		std::vector<std::shared_ptr<RenderPass>> mRenderPasses;
-		std::shared_mutex mRenderPassesMutex;
-
-	public:
-
-		void addRenderPass(std::shared_ptr<RenderPass> renderPass) {
-			if (renderPass == nullptr || !renderPass->isValid())
-			{
-				ErrorLog(std::format("RenderPass is not valid: {}", renderPass->getName()));
-				
-				return;
-			}
-
-			std::unique_lock lock(mRenderPassesMutex);
-			
-			const RenderPassIndex index = mRenderPasses.size();
-			renderPass->setIndex(index);
-
-			mRenderPasses.push_back(renderPass);
-
-		}
-
-		void beginDrawingRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			std::unique_lock lock(mRenderPassesMutex);
-			
-			for (auto& renderPass : mRenderPasses) {
-				if (!renderPass->isValid())
-				{								
-					continue;
-				}
-
-				renderPass->beginRenderPass(cmd, cDrawData);
-			}
-		}
-
-		void drawRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			std::unique_lock lock(mRenderPassesMutex);
-
-			for (auto& renderPass : mRenderPasses) {
-				if (!renderPass->isValid())
-				{
-					continue;
-				}
-
-				renderPass->draw(cmd, cDrawData);
-
-			}
-		}
-
-		void endDrawingRenderPasses(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			std::unique_lock lock(mRenderPassesMutex);
-
-			for (auto& renderPass : mRenderPasses) {
-				if (!renderPass->isValid())
-				{
-					continue;
-				}
-
-				renderPass->endRenderPass(cmd, cDrawData);
-
-			}
-		}
-	};
-
 	class BackgroundRenderPass : public RenderPass {
 	public:
 		virtual void draw(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override {
@@ -502,71 +184,6 @@ namespace Atlas {
 			//vkCmdBindDescriptorSets(cDrawData.cmd, VK_PIPELINE_BIND_POINT_COMPUTE);
 		}
 	};
-
-	class Renderable {
-	private:
-		std::string mName;
-	protected:
-		friend class VulkanRenderingBackend;
-
-		void setName(std::string const& name) { mName = name; }
-	public:
-
-		ATLAS_EXPLICIT Renderable(std::string const& name) : mName(name) {}
-		Renderable() : Renderable("Unnamed Renderable") {}
-
-		static inline void SetCurrentDrawData(CurrentDrawData const& currentFrame) {
-			//std::scoped_lock lock(sCurrentDrawDataMutex);
-			//sCurrentDrawData = currentFrame;
-		}
-
-		virtual bool beginDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData, EffectManager& computeEffects) {
-			return 0;
-		}
-
-		virtual bool draw(VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			return 0;
-		}
-
-		virtual bool endDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData) {
-			return 0;
-		}
-	
-		std::string_view getName() const { return mName; }
-	};
-
-	//class IRenderableHierarchy : public Renderable, public NamedObject, public Validatable {
-	//private:
-	//	std::vector<std::shared_ptr<IRenderableHierarchy>> mChildren;
-	//public:
-	//	
-	//	virtual void addChild(std::shared_ptr<IRenderableHierarchy> child) {
-	//		mChildren.push_back(child);
-	//	}
-
-	//	/*
-	//	virtual std::weak_ptr<IRenderableHierarchy> getChild(std::string const& name) {
-	//		for (auto& child : mChildren) {*/
-
-
-	//};
-
-	//class IMGUIRenderable : public Renderable {
-	//private:
-	//	static inline void NewIMGUIFrame();
-
-	//protected:
-
-	//	virtual void setupElements(EffectManager& computeEffects);
-	//public:
-
-	//	void beginDrawingStage(VkCommandBuffer cmd, EffectManager& computeEffects) override;
-
-	//	void draw(VkCommandBuffer cmd) override;
-
-	//	void endDrawingStage(VkCommandBuffer cmd) override;
-	//};
-
 
 	class ImGuiRenderable : public Renderable {
 	public:
@@ -590,8 +207,6 @@ namespace Atlas {
 
 		virtual bool endDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData);
 	};
-
-
 
 	class IMGUIRenderPass : public RenderPass {
 	private:
@@ -626,50 +241,6 @@ namespace Atlas {
 		virtual void draw(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
 
 		virtual void endRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
-	};
-
-
-
-	class BackgroundColor : public Renderable {
-	public:
-
-	};
-
-	enum class EVulkanRenderingOption : size_t {
-		Version_Major = 0,
-		Version_Minor,
-		Version_Patch,
-		Enable_Validation_Layers,
-		Use_Dynamic_Rendering,
-		Use_Default_Instance_Builder,
-		Enable_Syncronization,
-		Enable_Buffer_Device_Address,
-		Enable_Descriptor_Indexing,
-		Swapchain_Format,
-		Fence_Timeout,
-	};
-
-	class GraphicsQueue {
-	private:
-		VkQueue mQueue{ VK_NULL_HANDLE };
-		uint32_t mQueueFamily{ 1 };
-
-	public:
-		GraphicsQueue(VkQueue queue, uint32_t queueFamily);
-		
-		GraphicsQueue() = default;
-
-		void submit(std::span<VkSubmitInfo2> submitInfos, VkFence fence = VK_NULL_HANDLE);
-
-		void submit(VkSubmitInfo2 const& submitInfo, VkFence fence = VK_NULL_HANDLE);
-
-		VkQueue& getQueue() {
-			return mQueue;
-		}
-
-		ATLAS_IMPLICIT operator VkQueue& () {
-			const_cast<Atlas::GraphicsQueue&>(*this).getQueue();
-		}
 	};
 
 	/**

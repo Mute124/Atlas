@@ -122,7 +122,6 @@ set(ATLAS_ENGINE_SOURCES
 
     ${ATLAS_VULKAN_API_SOURCES}
 
-
     "graphics/Renderer.h"
     "graphics/Renderer.cpp"
 
@@ -134,6 +133,37 @@ set(ATLAS_ENGINE_SOURCES
 
     "graphics/drawing/EffectManager.h"
 	"graphics/drawing/EffectManager.cpp"
+
+    "graphics/drawing/Shader.h"
+    "graphics/drawing/Shader.cpp"
+
+    "graphics/drawing/ShaderModule.h"
+    "graphics/drawing/ShaderModule.cpp"
+
+    "graphics/drawing/DrawData.h"
+
+    "graphics/drawing/Pipeline.h"
+    "graphics/drawing/Pipeline.cpp"
+
+    "graphics/drawing/PipelineLayout.h"
+    "graphics/drawing/PipelineLayout.cpp"
+
+    "graphics/drawing/Renderpass.h"
+    "graphics/drawing/Renderpass.cpp"
+
+    "graphics/drawing/RenderPassesManager.h"
+    "graphics/drawing/RenderPassesManager.cpp"
+
+    "graphics/drawing/Renderable.h"
+    "graphics/drawing/Renderable.cpp"
+
+    "graphics/drawing/EShaderModuleType.h"
+
+    "graphics/vulkan/CommandBuffer.h"
+    "graphics/vulkan/CommandBuffer.cpp"
+
+    "graphics/vulkan/GraphicsQueue.h"
+    "graphics/vulkan/GraphicsQueue.cpp"
 
     "graphics/window/VideoDriver.h"
 	"graphics/window/VideoDriver.cpp"

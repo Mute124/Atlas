@@ -80,13 +80,10 @@ int main(int argc, char* argv[]) {
 
 	gameWindow.open(SDL_WINDOW_VULKAN);
 
-	Version renderingAPIVersion;
-	renderingAPIVersion.major = 1;
-	renderingAPIVersion.minor = 3;
-	renderingAPIVersion.patch = 0;
+	const Version cRenderingAPIVersion = Version(1, 3, 0);
 
 	auto renderingDevice = std::make_unique<VulkanRenderingBackend>();
-	renderingDevice->setAPIVersion(renderingAPIVersion);
+	renderingDevice->setAPIVersion(cRenderingAPIVersion);
 	renderingDevice->setApplicationName("Example Application");
 	renderingDevice->init(&gameWindow);
 
