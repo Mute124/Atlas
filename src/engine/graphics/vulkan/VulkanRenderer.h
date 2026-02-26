@@ -18,14 +18,10 @@ namespace Atlas {
 		};
 	private:
 		Counter<uint64_t> mFrameCounter{};
+
 	public:
 
-		void init(std::unique_ptr<GameWindow> window) {
-			if (window == nullptr || !window->isInit()) {
-				throw std::runtime_error("Window not initialized");
-			}
 
-
-		}
+		void init(std::unique_ptr<GameWindow> window);
 	};
 }

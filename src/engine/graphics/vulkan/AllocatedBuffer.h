@@ -8,9 +8,6 @@
 #include "../../debugging/AException.h"
 
 namespace Atlas {
-
-
-
 	class InvalidBufferException : public AException {
 	public:
 		using AException::AException;
@@ -31,31 +28,32 @@ namespace Atlas {
 		using AException::AException;
 	};
 
-	//class AAllocatedBuffer {
-	//private:
-	//	VkBuffer mBuffer{ VK_NULL_HANDLE };
-	//	VmaAllocation mAllocation{ nullptr };
-	//	VmaAllocationInfo mInfo{};
+	class AAllocatedBuffer {
+	private:
+		VkBuffer mBuffer{ VK_NULL_HANDLE };
+		VmaAllocation mAllocation{ nullptr };
+		VmaAllocationInfo mInfo{};
 
-	//protected:
+	protected:
 
-	//	void create(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
+		void create(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
 
-	//	void setBuffer(VkBuffer buffer);
-	//public:
-	//	
-	//	AAllocatedBuffer(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
+		void setBuffer(VkBuffer buffer);
+	public:
+		
+		AAllocatedBuffer(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
 
-	//	virtual void destroy(VmaAllocator allocator);
 
-	//	bool isMemoryMapped() const noexcept;
+		virtual void destroy(VmaAllocator allocator);
 
-	//	VkBuffer getBuffer() const;
+		bool isMemoryMapped() const noexcept;
 
-	//	void* getMappedMemory() const;
+		VkBuffer getBuffer() const;
 
-	//	uint64_t getAllocationSize() const;
-	//};
+		void* getMappedMemory() const;
+
+		uint64_t getAllocationSize() const;
+	};
 
 	class AllocatedBuffer final {
 	private:
@@ -81,6 +79,7 @@ namespace Atlas {
 		void destroy(VmaAllocator allocator) const;
 
 		void destroy() const;
+
 
 		VkBuffer& getBuffer();
 

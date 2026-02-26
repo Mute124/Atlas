@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 	platformInitInfo.fileManagerOptions = options;
 
 	Platform platform = Platform(platformInitInfo);
-
+	
 	std::shared_ptr<FileManager> fileManager = platform.getFileManager().lock();
 	fileManager->addExtensionLoader(".spv", [](std::filesystem::path path, std::shared_ptr<FileData>& data, std::shared_ptr<FileRecord> record) {
 		// open the file. With cursor at the end
@@ -70,12 +70,15 @@ int main(int argc, char* argv[]) {
 		
 		return true;
 	});
-	fileManager->registerDirectory("F:/dev/AtlasIOPrototype/assets");
+
+	auto dataDirPath = std::filesystem::path("F:/dev/AtlasIOPrototype/assets/");
+
+	fileManager->registerDirectory(dataDirPath);
 
 	InfoLog(std::format("Registered Files: {}", fileManager->getRegisteredCount()));
 
 	// open a file (lazy load)
-	auto data = fileManager->openFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
+	//auto data = fileManager->openFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
 
 	// Setup the game window (this needs to be done before the rendering device is created)
 	GameWindow gameWindow = GameWindow(WindowDescription());
@@ -107,8 +110,8 @@ int main(int argc, char* argv[]) {
 
 	
 	// explicit unload attempt
-	bool unloaded = fileManager->unloadFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
-	std::cout << "Explicit unload result: " << unloaded << "\n";
+	//bool unloaded = fileManager->unloadFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
+	//std::cout << "Explicit unload result: " << unloaded << "\n";
 
 	renderingDevice->shutdown();
 	//gameWindow->cleanup();
