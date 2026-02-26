@@ -31,31 +31,31 @@ namespace Atlas {
 		using AException::AException;
 	};
 
-	class AAllocatedBuffer {
-	private:
-		VkBuffer mBuffer{ VK_NULL_HANDLE };
-		VmaAllocation mAllocation{ nullptr };
-		VmaAllocationInfo mInfo{};
+	//class AAllocatedBuffer {
+	//private:
+	//	VkBuffer mBuffer{ VK_NULL_HANDLE };
+	//	VmaAllocation mAllocation{ nullptr };
+	//	VmaAllocationInfo mInfo{};
 
-	protected:
+	//protected:
 
-		void create(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
+	//	void create(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
 
-		void setBuffer(VkBuffer buffer);
-	public:
-		
-		AAllocatedBuffer(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
+	//	void setBuffer(VkBuffer buffer);
+	//public:
+	//	
+	//	AAllocatedBuffer(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
 
-		virtual void destroy(VmaAllocator allocator);
+	//	virtual void destroy(VmaAllocator allocator);
 
-		bool isMemoryMapped() const noexcept;
+	//	bool isMemoryMapped() const noexcept;
 
-		VkBuffer getBuffer() const;
+	//	VkBuffer getBuffer() const;
 
-		void* getMappedMemory() const;
+	//	void* getMappedMemory() const;
 
-		uint64_t getAllocationSize() const;
-	};
+	//	uint64_t getAllocationSize() const;
+	//};
 
 	class AllocatedBuffer final {
 	private:

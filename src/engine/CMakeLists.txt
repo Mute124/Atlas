@@ -25,8 +25,8 @@
 
     "graphics/vulkan/AllocatedImage.h"
 
-    "graphics/vulkan/Viewport.h"
-    "graphics/vulkan/Viewport.cpp"
+    "graphics/vulkan/AllocatedBuffer.h"
+    "graphics/vulkan/AllocatedBuffer.cpp"
 )
 
 set(ATLAS_ENGINE_SOURCES
@@ -130,6 +130,9 @@ set(ATLAS_ENGINE_SOURCES
 
     "graphics/backend/RenderingBackend.h"
     "graphics/backend/RenderingBackend.cpp"
+
+    "graphics/drawing/Viewport.h"
+    "graphics/drawing/Viewport.cpp"
 
     "graphics/drawing/Effect.h"
 	"graphics/drawing/Effect.cpp"
