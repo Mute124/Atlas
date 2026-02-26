@@ -15,6 +15,8 @@
 #include <SDL2/SDL_events.h>
 using namespace Atlas;
 
+
+
 int main(int argc, char* argv[]) {
 	const std::string logFilePath = std::format("logs/{}", SpdlogLogger::GenerateLogFileName());
 

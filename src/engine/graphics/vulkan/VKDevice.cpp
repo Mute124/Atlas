@@ -75,6 +75,7 @@
 #include "../drawing/EffectManager.h"
 #include <optional>
 #include <type_traits>
+#include <glm/gtx/transform.hpp>
 
 
 
@@ -254,7 +255,6 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	computePipelineCreateInfo.layout = mGradientPipelineLayout;
 	computePipelineCreateInfo.stage = stageinfo;
 
-	ComputeEffect gradient;
 	gradient.layout = mGradientPipelineLayout;
 	gradient.name = "gradient";
 	gradient.data = {};
@@ -268,7 +268,6 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	//change the shader module only to create the sky shader
 	computePipelineCreateInfo.stage.module = skyShader;
 
-	ComputeEffect sky;
 	sky.layout = mGradientPipelineLayout;
 	sky.name = "sky";
 	sky.data = {};
@@ -289,9 +288,10 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 
 	mMainDeletionQueue.push([&]() {
 		// Why does this throw an exception when closing lmao. I guess its a "task failed successfully" moment
-		vkDestroyPipelineLayout(cDeviceHandle, mGradientPipelineLayout, nullptr);
-		vkDestroyPipeline(cDeviceHandle, sky.pipeline, nullptr);
-		vkDestroyPipeline(cDeviceHandle, gradient.pipeline, nullptr);
+		vkDestroyPipelineLayout(*GetMainVulkanDevice().get(), mGradientPipelineLayout, nullptr);
+		vkDestroyPipeline(*GetMainVulkanDevice().get(), sky.pipeline, nullptr);
+		
+		vkDestroyPipeline(*GetMainVulkanDevice().get(), gradient.pipeline, nullptr);
 	});
 }
 
@@ -362,7 +362,7 @@ void Atlas::VulkanRenderingBackend::initMeshPipeline()
 		ErrorLog("Error when building the triangle fragment shader module");
 	}
 	else {
-		TraceLog("Triangle fragment shader succesfully loaded");
+		InfoLog("Triangle fragment shader succesfully loaded");
 	}
 
 	VkShaderModule triangleVertexShader;
@@ -370,7 +370,7 @@ void Atlas::VulkanRenderingBackend::initMeshPipeline()
 		ErrorLog("Error when building the triangle vertex shader module");
 	}
 	else {
-		TraceLog("Triangle vertex shader succesfully loaded");
+		InfoLog("Triangle vertex shader succesfully loaded");
 	}
 
 	VkPushConstantRange bufferRange{};
@@ -418,7 +418,7 @@ void Atlas::VulkanRenderingBackend::initMeshPipeline()
 
 	//clean structures
 	vkDestroyShaderModule(*Device::GetMainHandle().get(), triangleFragShader, nullptr);
-	vkDestroyShaderModule(*Device::GetMainHandle().get(), triangleVertexShader, nullptr);
+	vkDestroyShaderModule(*Device::GetMainHandle().get(), triangleVertexShader, nullptr);	
 
 	mMainDeletionQueue.push([&]() {
 		vkDestroyPipelineLayout(*Device::GetMainHandle().get(), _meshPipelineLayout, nullptr);
@@ -467,7 +467,7 @@ void Atlas::VulkanRenderingBackend::initCommands()
 	mMainDeletionQueue.push([=]() {
 		vkDestroyCommandPool(*Device::GetMainHandle().get(), mImmediateSubmitInfo.commandPool, nullptr);
 	});
-
+	
 	//// allocate the command buffer for immediate submits
 	//VkCommandBufferAllocateInfo cmdAllocInfo = CreateCommandBufferAllocateInfo(mImmediateSubmitInfo.commandPool, 1);
 
@@ -485,10 +485,10 @@ void Atlas::VulkanRenderingBackend::initCommands()
 	VkSemaphoreCreateInfo semaphoreCreateInfo = CreateSemaphoreCreateInfo();
 
 	for (int i = 0; i < FRAME_OVERLAP; i++) {
-		vkCreateFence(*Device::GetMainHandle().get(), &fenceCreateInfo, nullptr, &mFrameDataArray.at(i).renderFence);
+		vkCreateFence(*Device::GetMainHandle().get(), &fenceCreateInfo, nullptr, &mFrameDataArray[i].renderFence);
 
-		vkCreateSemaphore(*Device::GetMainHandle().get(), &semaphoreCreateInfo, nullptr, &mFrameDataArray.at(i).swapchainSemaphore);
-		vkCreateSemaphore(*Device::GetMainHandle().get(), &semaphoreCreateInfo, nullptr, &mFrameDataArray.at(i).renderSemaphore);
+		vkCreateSemaphore(*Device::GetMainHandle().get(), &semaphoreCreateInfo, nullptr, &mFrameDataArray[i].swapchainSemaphore);
+		vkCreateSemaphore(*Device::GetMainHandle().get(), &semaphoreCreateInfo, nullptr, &mFrameDataArray[i].renderSemaphore);
 	}
 
 	vkCreateFence(*Device::GetMainHandle().get(), &fenceCreateInfo, nullptr, &mImmediateSubmitInfo.fence);
@@ -592,6 +592,7 @@ void Atlas::VulkanRenderingBackend::createSwapchain(uint32_t width, uint32_t hei
 	mSwapchainImageViews = vkbSwapchain.get_image_views().value();
 }
 
+
 void Atlas::VulkanRenderingBackend::destroySwapchain()
 {
 	vkDestroySwapchainKHR(*Device::GetMainHandle().get(), mSwapchain, nullptr);
@@ -648,7 +649,7 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 		vkCmdCopyBuffer(cmd, staging.getBuffer(), newSurface.indexBuffer.getBuffer(), 1, &indexCopy);
 	});
 
-	staging.destroy();
+	staging.destroy(mVMAAllocator);
 
 	return newSurface;
 }
@@ -791,6 +792,7 @@ void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 		
 		return;
 	}
+
 	ApplicationInfo appInfo = ApplicationInfo();
 	const bool cbEnableValidationLayers = isErrorCheckingEnabled();
 	const APIVersion cApiVersion = appInfo.vulkanVersion;
@@ -916,7 +918,7 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 
 	// Vulkan 1.2 features
 	//--------------------
-
+	
 	constexpr bool cbEnableBufferDeviceAddress = true;
 	constexpr bool cbEnableDescriptorIndexing = true;
 	
@@ -996,13 +998,17 @@ void Atlas::VulkanRenderingBackend::initSwapchain(GameWindow* gameWindow)
 	});
 }
 
+void Atlas::VulkanRenderingBackend::initSyncStructures()
+{
+}
+
 void Atlas::VulkanRenderingBackend::resetFences(const uint32_t cFenceCount, FrameData& currentFrame)
 {
-	vkWaitForFences(*Device::GetMainHandle().get(), cFenceCount, &currentFrame.renderFence, true, mFencesTimeoutNS);
+	vkWaitForFences(mDevice, cFenceCount, &currentFrame.renderFence, true, mFencesTimeoutNS);
 
 	currentFrame.deletionQueue.flush();
 
-	vkResetFences(*Device::GetMainHandle().get(), cFenceCount, &currentFrame.renderFence);
+	vkResetFences(mDevice, cFenceCount, &currentFrame.renderFence);
 }
 
 void Atlas::VulkanRenderingBackend::beginDrawingMode()
@@ -1011,17 +1017,28 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 
 	FrameData& currentFrame = getCurrentFrame();
 
-	resetFences(mCurrentDrawData.FENCE_COUNT, currentFrame);
+
+	vkWaitForFences(mDevice, 1, &currentFrame.renderFence, true, mFencesTimeoutNS);
+
+	//currentFrame.deletionQueue.flush();
+	
 
 	//request image from the swapchain
-	//uint32_t swapchainImageIndex;
-	vkAcquireNextImageKHR(*Device::GetMainHandle().get(), mSwapchain, mNextImageTimeoutNS, currentFrame.swapchainSemaphore, nullptr, &mCurrentDrawData.swapchainImageIndex);
+	uint32_t swapchainImageIndex;
+	VkResult result = vkAcquireNextImageKHR(mDevice, mSwapchain, mNextImageTimeoutNS, currentFrame.swapchainSemaphore, nullptr, &swapchainImageIndex);
+
+	if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
+	{
+		throw std::runtime_error("failed to acquire swap chain image!");
+	}
 
 	// reset command buffer
 	mCurrentDrawData.cmdResetFlags = 0;
 
 	//naming it cmd for shorter writing
 	mCurrentDrawData.cmd = currentFrame.mainCommandBuffer;
+
+	vkResetFences(mDevice, 1, &currentFrame.renderFence);
 
 	// now that we are sure that the commands finished executing, we can safely
 	// reset the command buffer to begin recording again.
@@ -1033,15 +1050,48 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 
 	mDrawExtent.width = mDrawImage.imageExtent.width;
 	mDrawExtent.height = mDrawImage.imageExtent.height;
-	
+
 	mCurrentDrawData.swapchain = mSwapchain;
 	mCurrentDrawData.swapchainImages = mSwapchainImages;
 	mCurrentDrawData.swapchainImageViews = mSwapchainImageViews;
+	mCurrentDrawData.swapchainImageIndex = swapchainImageIndex;
 
 	mCurrentDrawData.currentSwapchainImageView = mSwapchainImageViews[mCurrentDrawData.swapchainImageIndex];
 	mCurrentDrawData.swapchainExtent = mSwapchainExtent;
 
+	vkBeginCommandBuffer(mCurrentDrawData.cmd, &mCurrentDrawData.cmdBeginInfo);
+
 	mRenderPassesManager.beginDrawingRenderPasses(mCurrentDrawData.cmd, mCurrentDrawData);
+}
+
+void Atlas::VulkanRenderingBackend::draw()
+{
+	FrameData& currentFrame = getCurrentFrame();
+
+	//vkBeginCommandBuffer(mCurrentDrawData.cmd, &mCurrentDrawData.cmdBeginInfo);
+
+	// transition our main draw image into general layout so we can write into it
+	// we will overwrite it all so we dont care about what was the older layout
+	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_GENERAL);
+	
+	drawBackground(mCurrentDrawData.cmd);
+
+	//transition the draw image and the swapchain image into their correct transfer layouts
+	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+	drawGeometry(mCurrentDrawData.cmd);
+
+	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
+	TransitionImage(mCurrentDrawData.cmd, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+	// execute a copy from the draw image into the swapchain
+	CopyImageToImage(mCurrentDrawData.cmd, mDrawImage.image, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], mDrawExtent, mSwapchainExtent);
+
+	//mRenderPassesManager.drawRenderPasses(mCurrentDrawData.cmd, mCurrentDrawData);
+
+	drawIMGUI(mCurrentDrawData.cmd, mSwapchainImageViews[mCurrentDrawData.swapchainImageIndex]);
+	
+	// set swapchain image layout to Present so we can show it on the screen
+	TransitionImage(mCurrentDrawData.cmd, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 }
 
 void Atlas::VulkanRenderingBackend::endDrawingMode()
@@ -1068,7 +1118,7 @@ void Atlas::VulkanRenderingBackend::endDrawingMode()
 	//submit command buffer to the queue and execute it.
 	// _renderFence will now block until the graphic commands finish execution
 	vkQueueSubmit2(mGraphicsQueue, 1, &submit, currentFrame.renderFence);
-	
+
 	// prepare present
 	// this will put the image we just rendered to into the visible window.
 	// we want to wait on the _renderSemaphore for that, 
@@ -1081,7 +1131,7 @@ void Atlas::VulkanRenderingBackend::endDrawingMode()
 
 	presentInfo.pWaitSemaphores = &currentFrame.renderSemaphore;
 	presentInfo.waitSemaphoreCount = 1;
-
+	
 	presentInfo.pImageIndices = &mCurrentDrawData.swapchainImageIndex;
 
 	vkQueuePresentKHR(mGraphicsQueue, &presentInfo);
@@ -1091,36 +1141,6 @@ void Atlas::VulkanRenderingBackend::endDrawingMode()
 
 	// reset the current draw data to default values
 	mCurrentDrawData = {};
-}
-
-void Atlas::VulkanRenderingBackend::draw()
-{
-	FrameData& currentFrame = getCurrentFrame();
-
-	vkBeginCommandBuffer(mCurrentDrawData.cmd, &mCurrentDrawData.cmdBeginInfo);
-	
-	// transition our main draw image into general layout so we can write into it
-	// we will overwrite it all so we dont care about what was the older layout
-	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_GENERAL);
-
-	drawBackground(mCurrentDrawData.cmd);
-
-	//transition the draw image and the swapchain image into their correct transfer layouts
-	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
-	
-	drawGeometry(mCurrentDrawData.cmd);
-	
-	TransitionImage(mCurrentDrawData.cmd, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-
-	// execute a copy from the draw image into the swapchain
-	CopyImageToImage(mCurrentDrawData.cmd, mDrawImage.image, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], mDrawExtent, mSwapchainExtent);
-
-	mRenderPassesManager.drawRenderPasses(mCurrentDrawData.cmd, mCurrentDrawData);
-
-	//drawIMGUI(mCurrentDrawData.cmd, mSwapchainImageViews[mCurrentDrawData.swapchainImageIndex]);
-
-	// set swapchain image layout to Present so we can show it on the screen
-	TransitionImage(mCurrentDrawData.cmd, mSwapchainImages[mCurrentDrawData.swapchainImageIndex], VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 }
 
 void Atlas::VulkanRenderingBackend::drawIMGUI(VkCommandBuffer cmd, VkImageView targetImageView)
@@ -1185,12 +1205,13 @@ void Atlas::VulkanRenderingBackend::drawBackground(VkCommandBuffer cmd)
 
 void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 {
+
 	//begin a render pass  connected to our draw image
 	VkRenderingAttachmentInfo colorAttachment = CreateAttachmentInfo(mDrawImage.imageView, nullptr, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
-
+	
 	VkRenderingInfo renderInfo = CreateRenderingInfo(mDrawExtent, &colorAttachment, nullptr);
 	vkCmdBeginRendering(cmd, &renderInfo);
-	
+
 	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _trianglePipeline);
 
 	//set dynamic viewport and scissor
@@ -1212,13 +1233,10 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 
 	vkCmdSetScissor(cmd, 0, 1, &scissor);
 
-	//launch a draw command to draw 3 vertices
-	vkCmdDraw(cmd, 3, 1, 0, 0);
-
 	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _meshPipeline);
 
 	GPUDrawPushConstants push_constants;
-	push_constants.worldMatrix = glm::mat4{ 1.f };
+
 	push_constants.vertexBuffer = rectangle.vertexBufferAddress;
 
 	vkCmdPushConstants(cmd, _meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(GPUDrawPushConstants), &push_constants);
@@ -1226,18 +1244,14 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 
 	vkCmdDrawIndexed(cmd, 6, 1, 0, 0, 0);
 
-	//push_constants.vertexBuffer = testMeshes[2]->meshBuffers.vertexBufferAddress;
+	push_constants.vertexBuffer = testMeshes[2]->meshBuffers.vertexBufferAddress;
 
-	//vkCmdPushConstants(cmd, _meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(GPUDrawPushConstants), &push_constants);
-	//vkCmdBindIndexBuffer(cmd, testMeshes[2]->meshBuffers.indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT32);
+	vkCmdPushConstants(cmd, _meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(GPUDrawPushConstants), &push_constants);
+	vkCmdBindIndexBuffer(cmd, testMeshes[2]->meshBuffers.indexBuffer.getBuffer(), 0, VK_INDEX_TYPE_UINT32);
 
-	//vkCmdDrawIndexed(cmd, testMeshes[2]->surfaces[0].count, 1, testMeshes[2]->surfaces[0].startIndex, 0, 0);
+	vkCmdDrawIndexed(cmd, testMeshes[2]->surfaces[0].count, 1, testMeshes[2]->surfaces[0].startIndex, 0, 0);
 
 	vkCmdEndRendering(cmd);
-}
-
-void Atlas::VulkanRenderingBackend::present()
-{
 }
 
 void Atlas::VulkanRenderingBackend::shutdown()
@@ -1442,7 +1456,7 @@ std::optional<std::vector<std::shared_ptr<MeshAsset>>> Atlas::loadGltfMeshes(Vul
 		}
 
 		// display the vertex normals
-		constexpr bool OverrideColors = true;
+		constexpr bool OverrideColors = false;
 		if (OverrideColors) {
 			for (Vertex& vtx : vertices) {
 				vtx.color = glm::vec4(vtx.normal, 1.f);

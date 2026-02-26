@@ -288,6 +288,8 @@ namespace Atlas {
 
 		// TODO: Move to a frame manager class or something like that
 		std::array<FrameData, FRAME_OVERLAP> mFrameDataArray;
+		glm::mat4 mViewMatrix = glm::mat4(1.0f);
+		AllocatedImage mDepthImage;
 
 		AllocatedImage mDrawImage;
 		VkExtent2D mDrawExtent;
@@ -322,6 +324,11 @@ namespace Atlas {
 		std::string mApplicationName;
 
 		ApplicationInfo mAppInfo{};
+
+		ComputeEffect sky;
+		ComputeEffect gradient;
+
+
 
 		void initDescriptors();
 
@@ -374,6 +381,8 @@ namespace Atlas {
 
 		void initSwapchain(GameWindow* gameWindow);
 
+		void initSyncStructures();
+
 		void initCommands();
 
 		void initIMGUI(GameWindow* gameWindow);
@@ -382,17 +391,15 @@ namespace Atlas {
 
 		void beginDrawingMode();
 
-		void endDrawingMode();
-
 		void draw();
+
+		void endDrawingMode();
 
 		void drawIMGUI(VkCommandBuffer cmd, VkImageView targetImageView);
 
 		void drawBackground(VkCommandBuffer cmd);
 
 		void drawGeometry(VkCommandBuffer cmd);
-
-		void present();
 
 		void shutdown() override;
 		
@@ -405,7 +412,7 @@ namespace Atlas {
 		void setNextImageTimeout(uint64_t lengthInNS);
 
 		void createSwapchain(uint32_t width, uint32_t height);
-		
+
 		void destroySwapchain();
 
 		GPUMeshBuffers UploadMesh(std::span<uint32_t> indices, std::span<Vertex> vertices);

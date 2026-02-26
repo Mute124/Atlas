@@ -1,13 +1,15 @@
 #pragma once
+#include <cstdint>
 
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan_core.h>
-
 #include <vk_mem_alloc.h>
 
 #include "../../debugging/AException.h"
 
 namespace Atlas {
+
+
 
 	class InvalidBufferException : public AException {
 	public:
@@ -22,6 +24,37 @@ namespace Atlas {
 	class InvalidAllocationException : public AException {
 	public:
 		using AException::AException;
+	};
+
+	class ForbiddenBufferAccessException : public AException {
+	public:
+		using AException::AException;
+	};
+
+	class AAllocatedBuffer {
+	private:
+		VkBuffer mBuffer{ VK_NULL_HANDLE };
+		VmaAllocation mAllocation{ nullptr };
+		VmaAllocationInfo mInfo{};
+
+	protected:
+
+		void create(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
+
+		void setBuffer(VkBuffer buffer);
+	public:
+		
+		AAllocatedBuffer(VmaAllocator vmaAllocator, VkBufferCreateInfo const& bufferInfo, VmaAllocationCreateInfo const& vmaallocInfo);
+
+		virtual void destroy(VmaAllocator allocator);
+
+		bool isMemoryMapped() const noexcept;
+
+		VkBuffer getBuffer() const;
+
+		void* getMappedMemory() const;
+
+		uint64_t getAllocationSize() const;
 	};
 
 	class AllocatedBuffer final {
@@ -49,7 +82,7 @@ namespace Atlas {
 
 		void destroy() const;
 
-		VkBuffer getBuffer() const;
+		VkBuffer& getBuffer();
 
 		VmaAllocation getAllocation() const;
 

@@ -26,7 +26,7 @@
 #include "../backend/RenderingBackend.h"
 
 #ifdef ATLAS_DEBUG
-	#define ATLAS_ENABLE_VALIDATION_LAYERS true
+	#define ATLAS_ENABLE_VALIDATION_LAYERS false
 #endif
 
 namespace Atlas {

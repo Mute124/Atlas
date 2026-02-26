@@ -119,4 +119,9 @@ namespace Atlas {
 			ErrorLog(std::format("An exception was thrown at: \n->File {} \n->Line {} \n->Function {} \n->Because: {}", cThrowLocation.file_name(), cThrowLocation.line(), cThrowLocation.function_name(), getMessage()));
 		}
 	};
+
+	class InvalidOperationException : public AException {
+	public:
+		using AException::AException;
+	};
 }

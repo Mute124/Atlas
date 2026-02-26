@@ -1,37 +1,31 @@
 #pragma once
 
-#include "../../core/Core.h"
+#include <cstdint>
+#include <memory>
 
-#include "../Renderer.h"
+#include "../../core/Core.h"
+#include "../../core/Common.h"
+
+#include "../window/Window.h"
 
 #include "VKDevice.h"
 
 namespace Atlas {
-#ifdef ATLAS_USE_VULKAN
-
-	class VulkanRenderer : public ARenderer {
-	private:
-		static bool WindowShouldClose(GameWindow* gameWindow)
-		{
-			return gameWindow->shouldClose();
-		}
-
-		uint64_t mCurrentFrameNumber = 0;
+	class VulkanRenderer {
 	public:
-		//using ARenderer::ARenderer;
+		struct Configuration {
+			ApplicationInfo appInfo;
+		};
+	private:
+		Counter<uint64_t> mFrameCounter{};
+	public:
 
-		VulkanRenderer(GameWindow* gameWindow, VulkanRenderingBackend* backend);
+		void init(std::unique_ptr<GameWindow> window) {
+			if (window == nullptr || !window->isInit()) {
+				throw std::runtime_error("Window not initialized");
+			}
 
-		explicit VulkanRenderer(GameWindow* gameWindow);
 
-		void init() override;
-
-		void update() override;
-
-		void cleanup() override;
-
-		bool shouldExit() override;
+		}
 	};
-
-#endif
 }
