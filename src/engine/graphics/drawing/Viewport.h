@@ -5,16 +5,13 @@
  * 
  * @date February 2026
  * 
- * @since v
+ * @since v0.0.1
  ***************************************************************************************************/
 #pragma once
-
-#include <vulkan/vulkan.h>
 
 #include "../../core/Core.h"
 #include <vulkan/vulkan_core.h>
 
-#include "../vulkan/CommandBuffer.h"
 
 namespace Atlas {
 
@@ -44,9 +41,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		static inline void SetCommandBufferViewport(VkCommandBuffer commandBuffer, VkViewport const* viewport) {
-			vkCmdSetViewport(commandBuffer, 0, 1, viewport);
-		}
+		static inline void SetCommandBufferViewport(VkCommandBuffer commandBuffer, VkViewport const* viewport);
 
 	public:
 		
@@ -57,10 +52,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		ATLAS_EXPLICIT Viewport(const VkViewport& mViewport)
-			: mViewport(mViewport)
-		{
-		}
+		ATLAS_EXPLICIT Viewport(const VkViewport& mViewport);
 
 		Viewport() = default;
 
@@ -75,14 +67,7 @@ namespace Atlas {
 		 * 
 		 * @since v0.0.1
 		 */
-		void set(VkCommandBuffer commandBuffer) {
-			
-			if (commandBuffer == VK_NULL_HANDLE) {
-				return;
-			}
-
-			SetCommandBufferViewport(commandBuffer, &mViewport);
-		}
+		void set(VkCommandBuffer commandBuffer);
 		
 		/**
 		 * @brief Get the Vulkan viewport.
@@ -91,8 +76,6 @@ namespace Atlas {
 		 *
 		 * @since v0.0.1
 		 */
-		VkViewport get() const {
-			return mViewport;
-		}
+		VkViewport get() const;
 	};
 }

@@ -24,6 +24,9 @@
     "graphics/vulkan/VKDevice.cpp"
 
     "graphics/vulkan/AllocatedImage.h"
+
+    "graphics/vulkan/Viewport.h"
+    "graphics/vulkan/Viewport.cpp"
 )
 
 set(ATLAS_ENGINE_SOURCES
