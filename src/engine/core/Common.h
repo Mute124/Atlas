@@ -283,39 +283,123 @@ namespace Atlas {
 		const size_t alignment{ alignof(T_TYPE) };
 	};
 
+	/**
+	 * @brief A framework class that provides functions to a child class that allows it to have validation functionality. 
+	 * 
+	 * @note Below is some examples on how to use this class:
+	 * 
+	 * @par Introduction
+	 * Lets say you are designing a class called @c MyClass that is executes operations that require certain things to be valid and needs to have checks that determine if it is valid. This is the perfect use case of 
+	 * the class @c Validatable as the inheritor class needs to be @b validatible (shocking, right? The class is named for it after all). Below is the original class definition of @c MyClass without the Validatable
+	 * class:
+	 * @code{.cpp}
+	 * class MyClass {
+	 * private:
+	 * 		MyHook mMyHookHandle;
+	 * public:
+	 * // Constructors go here...
+	 * 
+	 * bool isValid() const { return mMyHookHandle != nullptr; }
+	 * };
+	 * 
+	 * @endcode
+	 * @endparblock
+	 * 
+	 * @todo Add examples on how to use this class
+	 * @since v0.0.1
+	 */
 	class Validatable {
 	private:
 		
+		/**
+		 * @brief A bool that stores the current validity state. 
+		 * 
+		 * @since v0.0.1
+		 */
 		bool mbIsValid{ false };
 		
 	protected:
+
+		/**
+		 * @brief Returns a reference to the value of @c mbIsValid. The returned value may be modified.
+		 * 
+		 * @remarks Use this function if you need to do something to the value that cannot be done with the provided functions.
+		 * 
+		 * @returns A reference to the boolean value of @c mbIsValid. 
+		 * 
+		 * @since v0.0.1
+		 */
 		bool& getInternalValidityValue() {
 			return mbIsValid;
 		}
 		
-		virtual void setValidity(bool bIsValid) {
-			mbIsValid = bIsValid;
+		/**
+		 * @brief Sets the value of @c mbIsValid to the specified value.
+		 * 
+		 * @param bNewValue The value to set @c mbIsValid to.
+		 * 
+		 * @since v0.0.1
+		 */
+		virtual void setValidity(bool bNewValue) {
+			mbIsValid = bNewValue;
 		}
 
+		/**
+		 * @brief Sets @c mbIsValid to true to signify that the Validatible is now valid.
+		 * 
+		 * @since v0.0.1
+		 */
 		virtual void setValid() {
 			setValidity(true);
 		}
 
+		/**
+		 * @brief Sets @c mbIsValid to false to signify that the Validatible is now not valid.
+		 * 
+		 * @since v0.0.1
+		 */
 		virtual void setInvalid() {
 			setValidity(false);
 		}
 
 	public:
+		/**
+		 * @brief Constructs a new Validatable with a specified validity.
+		 * 
+		 * @param bIsValid The validity to set @c mbIsValid to.
+		 * 
+		 * @since v0.0.1
+		 */
 		ATLAS_EXPLICIT Validatable(bool bIsValid) : mbIsValid(bIsValid) {}
 
+		/**
+		 * @brief Constructs a new Validatable with a default validity of false.
+		 * 
+		 * @since v0.0.1
+		 */
 		Validatable() = default;
 
 		virtual ~Validatable() = default;
 
+		/**
+		 * @brief Returns whether or not the Validatable is valid. If you override this function, you may use it to do checks on specific things to see if the Validatable is valid.
+		 * For an example on usage, see the notes for the Validatable class.
+		 * 
+		 * @return @c True if the Validatable is valid and passes all checks, @c false otherwise.
+		 * 
+		 * @since v0.0.1
+		 */
 		virtual bool isValid() const {
 			return mbIsValid;
 		}
 
+		/**
+		 * @brief Returns whether or not the Validatable is valid. In essence this simply calls isValid().
+		 * 
+		 * @return @c True if the Validatable is valid and passes all checks, @c false otherwise.
+		 * 
+		 * @since v0.0.1
+		 */
 		ATLAS_IMPLICIT virtual operator bool() const {
 			return isValid();
 		}
