@@ -211,7 +211,7 @@ void Atlas::VulkanRenderingBackend::initPipelines()
 
 void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 {
-	Device cDeviceHandle = mDevice;
+	//Device cDeviceHandle = mDevice;
 
 	VkPipelineLayoutCreateInfo computeLayout{};
 	computeLayout.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -227,17 +227,17 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	computeLayout.pPushConstantRanges = &pushConstant;
 	computeLayout.pushConstantRangeCount = 1;
 
-	vkCreatePipelineLayout(cDeviceHandle, &computeLayout, nullptr, &mGradientPipelineLayout);
+	vkCreatePipelineLayout(mDevice, &computeLayout, nullptr, &mGradientPipelineLayout);
 	
 	//layout code
 	VkShaderModule computeDrawShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/gradient.comp.spv", cDeviceHandle, &computeDrawShader))
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/gradient.comp.spv", mDevice, &computeDrawShader))
 	{
 		std::cout << "Error when building the compute shader \n";
 	}
 
 	VkShaderModule skyShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/sky.comp.spv", cDeviceHandle, &skyShader))
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/sky.comp.spv", mDevice, &skyShader))
 	{
 		std::cout << "Error when building the compute shader \n";
 	}
@@ -263,7 +263,7 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	gradient.data.data1 = glm::vec4(1, 0, 0, 1);
 	gradient.data.data2 = glm::vec4(0, 0, 1, 1);
 
-	vkCreateComputePipelines(cDeviceHandle, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &gradient.pipeline);
+	vkCreateComputePipelines(mDevice, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &gradient.pipeline);
 
 	//change the shader module only to create the sky shader
 	computePipelineCreateInfo.stage.module = skyShader;
@@ -274,7 +274,7 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	//default sky parameters
 	sky.data.data1 = glm::vec4(0.1, 0.2, 0.4, 0.97);
 
-	vkCreateComputePipelines(cDeviceHandle, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &sky.pipeline);
+	vkCreateComputePipelines(mDevice, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &sky.pipeline);
 
 	//add the 2 background effects into the array
 	mBackgroundEffects.push_back(gradient);
@@ -283,8 +283,8 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	mEffectManager->pushEffect(gradient);
 	mEffectManager->pushEffect(sky);
 
-	vkDestroyShaderModule(cDeviceHandle, computeDrawShader, nullptr);
-	vkDestroyShaderModule(cDeviceHandle, skyShader, nullptr);
+	vkDestroyShaderModule(mDevice, computeDrawShader, nullptr);
+	vkDestroyShaderModule(mDevice, skyShader, nullptr);
 
 	mMainDeletionQueue.push([&]() {
 		// Why does this throw an exception when closing lmao. I guess its a "task failed successfully" moment
@@ -298,7 +298,7 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 void Atlas::VulkanRenderingBackend::initTrianglePipeline()
 {
 	VkShaderModule triangleFragShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", *Device::GetMainHandle().get(), &triangleFragShader)) {
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", mDevice, &triangleFragShader)) {
 		ErrorLog("Error when building the triangle fragment shader module");
 	}
 	else {
@@ -306,7 +306,7 @@ void Atlas::VulkanRenderingBackend::initTrianglePipeline()
 	}
 
 	VkShaderModule triangleVertexShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", *Device::GetMainHandle().get(), &triangleVertexShader)) {
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", mDevice, &triangleVertexShader)) {
 		ErrorLog("Error when building the triangle vertex shader module");
 	}
 	else {
@@ -358,7 +358,7 @@ void Atlas::VulkanRenderingBackend::initTrianglePipeline()
 void Atlas::VulkanRenderingBackend::initMeshPipeline()
 {
 	VkShaderModule triangleFragShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", *Device::GetMainHandle().get(), &triangleFragShader)) {
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.frag.spv", mDevice, &triangleFragShader)) {
 		ErrorLog("Error when building the triangle fragment shader module");
 	}
 	else {
@@ -366,7 +366,7 @@ void Atlas::VulkanRenderingBackend::initMeshPipeline()
 	}
 
 	VkShaderModule triangleVertexShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", *Device::GetMainHandle().get(), &triangleVertexShader)) {
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", mDevice, &triangleVertexShader)) {
 		ErrorLog("Error when building the triangle vertex shader module");
 	}
 	else {
@@ -617,7 +617,7 @@ GPUMeshBuffers Atlas::VulkanRenderingBackend::UploadMesh(std::span<uint32_t> ind
 	
 	//find the adress of the vertex buffer
 	VkBufferDeviceAddressInfo deviceAdressInfo{ .sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO,.buffer = newSurface.vertexBuffer.getBuffer()};
-	newSurface.vertexBufferAddress = vkGetBufferDeviceAddress(*Device::GetMainHandle().get(), &deviceAdressInfo);
+	newSurface.vertexBufferAddress = vkGetBufferDeviceAddress(mDevice, &deviceAdressInfo);
 
 	//create index buffer
 	newSurface.indexBuffer = AllocatedBuffer(mVMAAllocator, indexBufferSize, VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
@@ -685,94 +685,6 @@ void Atlas::VulkanRenderingBackend::ImmediateSubmit(std::function<void(VkCommand
 
 
 Atlas::VulkanRenderingBackend::VulkanRenderingBackend(const ApplicationInfo& appInfo, GameWindow* gameWindow) : mApplicationName(appInfo.name), mAppInfo(appInfo) {
-	setLoadedRenderingBackend(this);
-
-	InfoLog("Attempting to initialize Vulkan");
-
-	//// Just make sure everything is in order before Vulkan gets initialized
-	ATLAS_ASSERT(gameWindow != nullptr, "Window must be set up prior to Vulkan init");
-
-	if (canInitialize(gameWindow) == false) {
-		//std::cout << "Window must be set up and open prior to Vulkan init" << std::endl;
-		ErrorLog("Window must be set up and open prior to Vulkan init!");
-
-		return;
-	}
-	
-	const bool cbEnableValidationLayers = isErrorCheckingEnabled();
-	const APIVersion cApiVersion = appInfo.vulkanVersion;
-
-	//// TODO: Figure out how to stop OBS from overriding the API version.
-	//// The issue is that, if OBS is installed, it will override the API 
-	//// version, even if a higher version is set. This is a problem because
-	//// it can cause the API version to be set to a lower version than what
-	//// we want. Currently, it is not a major problem, but it is something
-	//// to keep in mind.
-
-	std::string vulkanInitParametersString
-		= std::format("->Application Name: {}\n->Vulkan API Version: {}.{}.{}\n->Enable Validation Layers: {}\n", mApplicationName, cApiVersion.major, cApiVersion.minor, cApiVersion.patch, cbEnableValidationLayers);
-
-	InfoLog("Initializing Vulkan instance:\n" + vulkanInitParametersString);
-
-	//mInstance.setVersion(cApiVersion);
-	//mInstance.setApplicationName(mApplicationName);
-	//mInstance.setEnableValidationLayers(cbEnableValidationLayers);
-
-	mInstance = VulkanInstanceWrapper(VulkanInstanceWrapper::InitConfiguration());
-	mInstance.init();
-	vkb::Instance const& cVkBootstrapInstanceRef = mInstance.getVulkanBootstrapInstance();
-
-	// Device init
-	InfoLog("Initializing Vulkan device");
-
-	// If vulkan is being used with SDL2, this has to be done here.
-#ifdef ATLAS_USE_SDL2
-	InfoLog("Initializing Vulkan SDL2 surface");
-
-	mSurface = VK_NULL_HANDLE;
-	// directly passing the window cast to avoid memory issues.
-	SDL_Vulkan_CreateSurface(gameWindow->getWindowHandle(), cVkBootstrapInstanceRef.instance, &mSurface);
-#endif // ATLAS_USE_SDL2
-
-	initPhysicalDevice();
-
-	//create the final vulkan device
-	vkb::DeviceBuilder deviceBuilder{ mPhysicalDevice.getVkbHandle() };
-
-	vkb::Device vkbDevice = deviceBuilder.build().value();
-
-	mDevice = Device(vkbDevice.device);
-	mDevice.setAsMainHandle();
-
-	mPhysicalDevice.getVkbHandle();
-
-	// Get the VkDevice handle used in the rest of a vulkan application
-	//mDevice = vkbDevice.device;
-	//mGPUDevice = physicalDevice.physical_device;
-	//vkb::Device& vkbDeviceRef = mDevice.getVkbHandle();
-	//mGraphicsQueue = mDevice.getVkbHandle().get_queue(vkb::QueueType::graphics).value();
-	//mGraphicsQueueFamily = mDevice.getVkbHandle().get_queue_index(vkb::QueueType::graphics).value();
-
-	mGraphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
-	mGraphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
-
-	mEffectManager = std::make_shared<EffectManager>();
-
-	initVMAAllocator(cVkBootstrapInstanceRef);
-
-	initSwapchain(gameWindow);
-
-	initCommands();
-
-	initDescriptors();
-
-	initPipelines();
-
-	initIMGUI(gameWindow);
-
-	initDefaultData();
-
-	mIsInitialized = true;
 }
 
 void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
@@ -834,10 +746,10 @@ void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 	//create the final vulkan device
 	vkb::DeviceBuilder deviceBuilder{ mPhysicalDevice.getVkbHandle() };
 
-	vkb::Device vkbDevice = deviceBuilder.build().value();
+	mDevice = deviceBuilder.build().value();
 
-	mDevice = Device(vkbDevice.device);
-	mDevice.setAsMainHandle();
+	//mDevice = Device(vkbDevice.device);
+	//mDevice.setAsMainHandle();
 
 	mPhysicalDevice.getVkbHandle();
 
@@ -848,8 +760,8 @@ void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 	//mGraphicsQueue = mDevice.getVkbHandle().get_queue(vkb::QueueType::graphics).value();
 	//mGraphicsQueueFamily = mDevice.getVkbHandle().get_queue_index(vkb::QueueType::graphics).value();
 
-	mGraphicsQueue = vkbDevice.get_queue(vkb::QueueType::graphics).value();
-	mGraphicsQueueFamily = vkbDevice.get_queue_index(vkb::QueueType::graphics).value();
+	mGraphicsQueue = mDevice.get_queue(vkb::QueueType::graphics).value();
+	mGraphicsQueueFamily = mDevice.get_queue_index(vkb::QueueType::graphics).value();
 
 	mEffectManager = std::make_shared<EffectManager>();
 
@@ -942,7 +854,7 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 	constraints.surface = mSurface;
 
 	mPhysicalDevice = PhysicalDevice(mInstance, constraints);
-
+	mPhysicalDevice.init(mInstance);
 	// This static cast is required since the result of mPhysicalDevice.getName() is a std::string_view
 	const std::string cDeviceName = static_cast<std::string>(mPhysicalDevice.getName());
 
@@ -1020,7 +932,7 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 	// BUG: Occasionally, this will hang on the vkWaitForFences call with a VK_ERROR_DEVICE_LOST error. Not sure why.
 	// From what I am reading, it says that it can be due to drivers. Furthermore, this seems to be an issue with RTX
 	// cards.
-	VkResult waitResult = vkWaitForFences(mDevice, 1, &currentFrame.renderFence, true, 100000000000);
+	VkResult waitResult = vkWaitForFences(mDevice, 1, &currentFrame.renderFence, false, mFencesTimeoutNS);
 
 	if (waitResult != VK_SUCCESS) {
 
@@ -1038,7 +950,6 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 
 	currentFrame.deletionQueue.flush();
 	
-
 	//request image from the swapchain
 	uint32_t swapchainImageIndex;
 	VkResult result = vkAcquireNextImageKHR(mDevice, mSwapchain, mNextImageTimeoutNS, currentFrame.swapchainSemaphore, nullptr, &swapchainImageIndex);
@@ -1279,18 +1190,18 @@ void Atlas::VulkanRenderingBackend::shutdown()
 	// No need to worry about cleaning up if not initialized, hence the check
 	if (mIsInitialized) {
 
-		Device mainDevicePtr = mDevice;
+		/*Device mainDevicePtr = mDevice;*/
 		
-		//vkDeviceWaitIdle(*mainDevicePtr);
-		mainDevicePtr.waitIdle();
+		vkDeviceWaitIdle(mDevice);
+		//mainDevicePtr.waitIdle();
 
 		for (int i = 0; i < FRAME_OVERLAP; i++) {
-			vkDestroyCommandPool(mainDevicePtr, mFrameDataArray.at(i).commandPool, nullptr);
+			vkDestroyCommandPool(mDevice, mFrameDataArray.at(i).commandPool, nullptr);
 
 			//destroy sync objects
-			vkDestroyFence(mainDevicePtr, mFrameDataArray.at(i).renderFence, nullptr);
-			vkDestroySemaphore(mainDevicePtr, mFrameDataArray.at(i).renderSemaphore, nullptr);
-			vkDestroySemaphore(mainDevicePtr, mFrameDataArray.at(i).swapchainSemaphore, nullptr);
+			vkDestroyFence(mDevice, mFrameDataArray.at(i).renderFence, nullptr);
+			vkDestroySemaphore(mDevice, mFrameDataArray.at(i).renderSemaphore, nullptr);
+			vkDestroySemaphore(mDevice, mFrameDataArray.at(i).swapchainSemaphore, nullptr);
 
 			mFrameDataArray.at(i).deletionQueue.flush();
 		}
@@ -1301,7 +1212,7 @@ void Atlas::VulkanRenderingBackend::shutdown()
 
 		vkDestroySurfaceKHR(mInstance.getInstance(), mSurface, nullptr);
 
-		vkDestroyDevice(mainDevicePtr, nullptr);
+		vkDestroyDevice(mDevice, nullptr);
 
 		mInstance.shutdown();
 

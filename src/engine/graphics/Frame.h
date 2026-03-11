@@ -42,7 +42,6 @@ namespace Atlas {
 	public:
 		Counter<FrameCount> frameCounter;
 
-
 		void update();
 
 		FrameCount getFrameCount() const;

@@ -21,6 +21,9 @@
 #include "VulkanInstance.h"
 #include "../../core/Version.h"
 #include "../RenderCommon.h"
+
+#include "../../debugging/Logging.h"
+#include "../../debugging/AException.h"
 #include <string>
 
 
@@ -89,53 +92,124 @@ namespace Atlas {
 		PhysicalDeviceProperties() = default;
 	};
 
-	class PhysicalDevice
-		: public VulkanGlobalStateObject<VkPhysicalDevice, PhysicalDevice>
-		/*public AVulkanCompositeHandleWrapper<VkPhysicalDevice,
-		vkb::PhysicalDevice,
-		vkb::PhysicalDeviceSelector>*/ {
+	class PhysicalDevice {
+	public:
+		using PhysicalDeviceSelector = vkb::PhysicalDeviceSelector;
 	private:
-		std::unique_ptr<vkb::PhysicalDeviceSelector> mVkbDeviceSelectorPtr{ nullptr };
-
-		vkb::PhysicalDevice mVkbDevice;
-
-		std::string mDeviceName;
+		
 		PhysicalDeviceProperties mDevicePropertiesAggregate{};
-
-		PhysicalDeviceSelectionConstraints mSelectionConstraints;
-
-		friend class VulkanRenderingBackend;
-
-		bool init(VulkanInstanceWrapper& cVulkanInstanceRef);
-
+		vkb::PhysicalDevice mVkbDevice;
+		
 	protected:
-		void populateDeviceProperties();
 
-		void evaluateValidity();
-
-		void setVkbHandle(vkb::PhysicalDevice const& vkbDevice) { mVkbDevice = vkbDevice; }
-
-		void setDeviceName(std::string_view deviceName);
+		void setVkbHandle(vkb::PhysicalDevice const& physicalDevice) {
+			mVkbDevice = physicalDevice;
+		}
 	public:
 
-		//using AVulkanCompositeHandleWrapper<VkPhysicalDevice, vkb::PhysicalDevice, vkb::PhysicalDeviceSelector>::AVulkanCompositeHandleWrapper;
+		void init(PhysicalDeviceSelector const& physicalDeviceSelector) {
+			InfoLog("Attempting to initialize PhysicalDevice");
 
-		explicit PhysicalDevice(VulkanInstanceWrapper& cVulkanInstanceRef, PhysicalDeviceSelectionConstraints const& selectionConstraints);
+			if (physicalDeviceSelector.select_device_names().value().empty() == true) {
+				throw AException("PhysicalDeviceSelector must have at least one device name that can be selected. This can be caused by failing to initialize the device selector.");
+			}
 
-		PhysicalDevice() = default;
+			const std::string cSelectedDeviceName = physicalDeviceSelector.select_device_names().value().at(0);
 
-		vkb::PhysicalDeviceSelector selectDevice(VulkanInstanceWrapper& cVulkanInstanceRef);
+			InfoLog(std::format("Selected {} as the physical device.", cSelectedDeviceName));
+
+			setVkbHandle(physicalDeviceSelector.select().value());
+
+			if (!isValid()) {
+				throw AException("Failed to initialize PhysicalDevice because the physical device and/or the VkPhysicalDevice handle was null.");
+			}
+
+			populateDeviceProperties();
+
+			InfoLog(std::format("{} has been successfully initialized.", cSelectedDeviceName));
+		}
+
+		void init(VulkanInstanceWrapper& cVulkanInstanceRef) {
+			
+		}
 		
-		bool isValid() const final;
+		void populateDeviceProperties() {
+			if (!hasValidVkbHandle() || !hasValidVkHandle()) {
+				throw AException("Failed to populate PhysicalDeviceProperties because the physical device and/or the VkPhysicalDevice handle was null or invalid.");
+			}
 
-		PhysicalDeviceProperties getPhysicalDeviceProperties() const;
+			mDevicePropertiesAggregate = PhysicalDeviceProperties(getVkHandle());
+		}
 
-		vkb::PhysicalDevice& getVkbHandle() { return mVkbDevice; }
+		PhysicalDeviceSelector selectDevice(VulkanInstanceWrapper& cVulkanInstanceRef, PhysicalDeviceSelectionConstraints const& selectionConstraints) {
+			vkb::PhysicalDeviceSelector selector{ cVulkanInstanceRef.getVulkanBootstrapInstance() };
 
-		// Returns a string_view so that the string cannot be modified
-		std::string_view getName() const;
+			if (selectionConstraints.preferredDeviceName.has_value()) {
+				selector.set_name(selectionConstraints.preferredDeviceName.value());
+			}
+			else {
+				selector.set_minimum_version(selectionConstraints.minimumAPIVersion.major, selectionConstraints.minimumAPIVersion.minor);
+				selector.set_required_features_13(selectionConstraints.physicalDeviceFeatures.vulkan13Features);
+				selector.set_required_features_12(selectionConstraints.physicalDeviceFeatures.vulkan12Features);
+				selector.allow_any_gpu_device_type(selectionConstraints.bAllowAnyDeviceType);
 
-		// = operator
+				if (selectionConstraints.bDeferSurfaceInit) {
+					selector.defer_surface_initialization();
+				}
+
+				if (selectionConstraints.bDisablePortabilitySubset) {
+					selector.disable_portability_subset();
+				}
+
+				if (selectionConstraints.bRequireDedicatedComputeQueue) {
+					selector.require_dedicated_compute_queue();
+				}
+
+				if (selectionConstraints.bRequireDedicatedTransferQueue) {
+					selector.require_dedicated_transfer_queue();
+				}
+
+				if (selectionConstraints.bRequireSeparateComputeQueue) {
+					selector.require_separate_compute_queue();
+				}
+
+				if (selectionConstraints.bRequireSeparateTransferQueue) {
+					selector.require_separate_transfer_queue();
+				}
+
+				selector.prefer_gpu_device_type(ToVkbPreferredDeviceType(selectionConstraints.preferredDeviceType));
+				selector.required_device_memory_size(selectionConstraints.requiredDeviceMemorySize);
+
+				selector.require_present(selectionConstraints.bRequirePresent);
+				selector.select_first_device_unconditionally(selectionConstraints.bAlwaysSelectFirstDevice);
+			}
+
+			selector.add_required_extensions(selectionConstraints.requiredDeviceExtensions);
+			selector.set_surface(selectionConstraints.surface);
+
+			return selector;
+		}
+
+		bool hasValidVkbHandle() const {
+			return getVkbHandle() != nullptr;
+		}
+
+		bool hasValidVkHandle() const {
+			return getVkHandle() != VK_NULL_HANDLE;
+		}
+
+		bool isValid() const {
+			return hasValidVkbHandle() && hasValidVkHandle();
+		}
+
+		vkb::PhysicalDevice const& getVkbHandle() const {
+			return mVkbDevice;
+		}
+
+		VkPhysicalDevice getVkHandle() const {
+			return getVkbHandle().physical_device;
+		}
+
 
 	};
 

@@ -62,10 +62,11 @@ namespace Atlas {
 		VkFormat mImageFormat = VK_FORMAT_UNDEFINED;
 
 	protected:
-		
+
 		void createImage(GraphicsAllocationInfo& allocation, VkImageCreateInfo const* imageInfo) {
-			vmaCreateImage(allocation.allocator, imageInfo, allocation.createInfo, getHandlePtr(), &mAllocation, nullptr);
-		
+			const VkResult cCreateResult = vmaCreateImage(allocation.allocator, imageInfo, allocation.createInfo, getHandlePtr(), &mAllocation, nullptr);
+			
+
 		}
 
 		void createImageView(std::shared_ptr<Device> device) {
@@ -88,6 +89,7 @@ namespace Atlas {
 				createImageView(device);
 			}
 		}
+
 
 		Image() = default;
 
@@ -120,6 +122,7 @@ namespace Atlas {
 			
 			//create(allocation, &imageInfo);
 		}
+
 
 		AllocatedImage() = default;
 	};

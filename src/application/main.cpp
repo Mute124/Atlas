@@ -88,12 +88,14 @@ int main(int argc, char* argv[]) {
 	const Version cRenderingAPIVersion = Version(1, 3, 0);
 
 	auto renderingDevice = std::make_unique<VulkanRenderingBackend>(ApplicationInfo(), &gameWindow);
+	renderingDevice->init(&gameWindow);
 	//renderingDevice->setAPIVersion(cRenderingAPIVersion);
 	//renderingDevice->setApplicationName("Example Application");
 	//renderingDevice->init(&gameWindow);
 
 	bool shouldClose = false;
 	while (!shouldClose) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(16));
 		shouldClose = gameWindow.shouldClose();
 		gameWindow.update();
 		

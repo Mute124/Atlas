@@ -277,7 +277,7 @@ namespace Atlas {
 
 		VkSurfaceKHR mSurface = VK_NULL_HANDLE;
 
-		Device mDevice;
+		vkb::Device mDevice;
 
 		VkSwapchainKHR mSwapchain = VK_NULL_HANDLE;
 		VkFormat mSwapchainImageFormat;
