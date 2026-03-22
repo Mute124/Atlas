@@ -9,7 +9,7 @@
  ***************************************************************************************************/
 #include "Fence.h"
 
-inline void Atlas::Fence::ParseAndThrowCreationError(VkResult error) {
+void Atlas::Fence::ParseAndThrowCreationError(VkResult error) {
 	switch (error)
 	{
 	case VK_ERROR_OUT_OF_DEVICE_MEMORY:
@@ -36,7 +36,7 @@ inline void Atlas::Fence::ParseAndThrowCreationError(VkResult error) {
 	}
 }
 
-inline void Atlas::Fence::ParseAndThrowWaitError(VkResult error) {
+void Atlas::Fence::ParseAndThrowWaitError(VkResult error) {
 	switch (error)
 	{
 	case VK_ERROR_DEVICE_LOST:
@@ -64,7 +64,7 @@ inline void Atlas::Fence::ParseAndThrowWaitError(VkResult error) {
 	}
 }
 
-inline void Atlas::Fence::ParseAndThrowResetError(VkResult error) {
+void Atlas::Fence::ParseAndThrowResetError(VkResult error) {
 	switch (error)
 	{
 	case VK_ERROR_OUT_OF_DEVICE_MEMORY:
@@ -83,7 +83,7 @@ inline void Atlas::Fence::ParseAndThrowResetError(VkResult error) {
 	}
 }
 
-inline Atlas::Fence::Fence(Device const& ownerDevice, const VkFenceCreateInfo* cCreateInfo, uint64_t timeoutInNS, const VkAllocationCallbacks* cAllocator) : mOwner(ownerDevice), mTimeoutInNS(timeoutInNS), cmAllocator(cAllocator) {
+Atlas::Fence::Fence(Device const& ownerDevice, const VkFenceCreateInfo* cCreateInfo, uint64_t timeoutInNS, const VkAllocationCallbacks* cAllocator) : mOwner(ownerDevice), mTimeoutInNS(timeoutInNS), cmAllocationCallbacks(cAllocator) {
 	if (cCreateInfo == nullptr) {
 		throw AException("Cannot create a fence with a null fence create info.");
 	}
@@ -102,7 +102,7 @@ inline Atlas::Fence::Fence(Device const& ownerDevice, const VkFenceCreateInfo* c
 	}
 }
 
-inline void Atlas::Fence::destroy(VkDevice ownerDevice) {
+void Atlas::Fence::destroy(VkDevice ownerDevice) {
 	if (mFence == VK_NULL_HANDLE) {
 		throw AException("Cannot destroy a fence that is already destroyed. Did you destroy it twice by accident?");
 	}
@@ -111,16 +111,17 @@ inline void Atlas::Fence::destroy(VkDevice ownerDevice) {
 		throw AException("The device that created the fence is no longer valid. Cannot destroy the fence. This issue could also be caused by the device's address being lost.");
 	}
 
+	// This is to make sure that there is nothing left to wait on before destroying the fence
 	this->wait(ownerDevice);
 
-	vkDestroyFence(ownerDevice, mFence, cmAllocator);
+	vkDestroyFence(ownerDevice, mFence, cmAllocationCallbacks);
 }
 
-inline void Atlas::Fence::destroy() {
+void Atlas::Fence::destroy() {
 	destroy(mOwner);
 }
 
-inline void Atlas::Fence::wait(VkDevice ownerDevice, bool bWaitAll) {
+void Atlas::Fence::wait(VkDevice ownerDevice, bool bWaitAll) {
 	if (ownerDevice == VK_NULL_HANDLE) {
 		throw AException("The device passed to use for waiting on the fence is invalid. Did you make sure to pass in the correct device?");
 	}
@@ -133,15 +134,16 @@ inline void Atlas::Fence::wait(VkDevice ownerDevice, bool bWaitAll) {
 		ParseAndThrowWaitError(cWaitResult);
 	}
 	else if (cbHasTimedOut) {
+		// TODO: Add the mentioned documentation
 		WarnLog("Waiting for fence has timed out. Atlas does not immediately consider this an error, but it is worth checking and attempting to fix. Furthermore, please see the documentation for Fence::wait() in Atlas' docs for more information.");
 	}
 }
 
-inline void Atlas::Fence::wait() {
+void Atlas::Fence::wait() {
 	wait(mOwner);
 }
 
-inline void Atlas::Fence::reset(VkDevice ownerDevice) {
+void Atlas::Fence::reset(VkDevice ownerDevice) {
 	if (ownerDevice == VK_NULL_HANDLE) {
 		throw AException("Cannot reset a fence with an invalid device. Did you make sure to pass in the correct device?");
 	}
@@ -150,6 +152,7 @@ inline void Atlas::Fence::reset(VkDevice ownerDevice) {
 		throw AException("Cannot reset a fence that is already destroyed. Did you destroy it twice by accident?");
 	}
 
+	// This is to make sure that there is nothing left to wait on before resetting the fence
 	this->wait(ownerDevice, true);
 
 	const VkResult cResetResult = vkResetFences(ownerDevice, 1, &mFence);
@@ -159,17 +162,18 @@ inline void Atlas::Fence::reset(VkDevice ownerDevice) {
 	}
 }
 
-inline void Atlas::Fence::reset() {
+void Atlas::Fence::reset() {
 	reset(mOwner);
 }
 
-inline void Atlas::Fence::setTimeout(const uint64_t cNewTimeoutInNS) noexcept {
+void Atlas::Fence::setTimeout(const uint64_t cNewTimeoutInNS) noexcept {
 	mTimeoutInNS = cNewTimeoutInNS;
 }
 
-inline Atlas::EFenceStatus Atlas::Fence::getStatus(VkDevice ownerDevice) const {
+Atlas::EFenceStatus Atlas::Fence::getStatus(VkDevice ownerDevice) const {
 	const VkResult cStatus = vkGetFenceStatus(ownerDevice, mFence);
 
+	// Translate the VkResult to an EFenceStatus
 	switch (cStatus)
 	{
 	case VK_SUCCESS:
@@ -184,14 +188,14 @@ inline Atlas::EFenceStatus Atlas::Fence::getStatus(VkDevice ownerDevice) const {
 	}
 }
 
-inline bool Atlas::Fence::hasDeviceBeenLost(VkDevice ownerDevice) const {
+bool Atlas::Fence::hasDeviceBeenLost(VkDevice ownerDevice) const {
 	return getStatus(ownerDevice) == EFenceStatus::DeviceLost;
 }
 
-inline uint64_t Atlas::Fence::getTimeout() const noexcept {
+uint64_t Atlas::Fence::getTimeout() const noexcept {
 	return mTimeoutInNS;
 }
 
-inline VkFence Atlas::Fence::getFence() const noexcept {
+VkFence Atlas::Fence::getFence() const noexcept {
 	return mFence;
 }
