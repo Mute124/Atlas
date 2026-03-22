@@ -134,6 +134,8 @@ void Atlas::Fence::wait(VkDevice ownerDevice, bool bWaitAll) {
 		ParseAndThrowWaitError(cWaitResult);
 	}
 	else if (cbHasTimedOut) {
+		// Despite being treated as a warning, it is still a bug, and should be fixed when thrown because it can
+		// signify some issues in performance and what not.
 		// TODO: Add the mentioned documentation
 		WarnLog("Waiting for fence has timed out. Atlas does not immediately consider this an error, but it is worth checking and attempting to fix. Furthermore, please see the documentation for Fence::wait() in Atlas' docs for more information.");
 	}
