@@ -365,8 +365,9 @@ void Atlas::VulkanRenderingBackend::initMeshPipeline()
 		InfoLog("Triangle fragment shader succesfully loaded");
 	}
 
+	// THIS GOD DAMN SHADER FILE HAD SOMEHOW BROKEN THE ENTIRE DRIVER. DO NOT GOD DAMN TOUCH THIS FILE NAME
 	VkShaderModule triangleVertexShader;
-	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle.vert.spv", mDevice, &triangleVertexShader)) {
+	if (!LoadShaderModule("C:/Dev/Techstorm-v5/shaders/colored_triangle_mesh.vert.spv", mDevice, &triangleVertexShader)) {
 		ErrorLog("Error when building the triangle vertex shader module");
 	}
 	else {
@@ -925,7 +926,7 @@ void Atlas::VulkanRenderingBackend::resetFences(const uint32_t cFenceCount, Fram
 
 void Atlas::VulkanRenderingBackend::beginDrawingMode()
 {
-	std::this_thread::sleep_for(std::chrono::milliseconds(16));
+
 	FrameData& currentFrame = getCurrentFrame();
 
 	// BUG: Occasionally, this will hang on the vkWaitForFences call with a VK_ERROR_DEVICE_LOST error. Not sure why.

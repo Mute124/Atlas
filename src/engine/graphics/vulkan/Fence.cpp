@@ -167,7 +167,7 @@ inline void Atlas::Fence::setTimeout(const uint64_t cNewTimeoutInNS) noexcept {
 	mTimeoutInNS = cNewTimeoutInNS;
 }
 
-inline EFenceStatus Atlas::Fence::getStatus(VkDevice ownerDevice) const {
+inline Atlas::EFenceStatus Atlas::Fence::getStatus(VkDevice ownerDevice) const {
 	const VkResult cStatus = vkGetFenceStatus(ownerDevice, mFence);
 
 	switch (cStatus)
