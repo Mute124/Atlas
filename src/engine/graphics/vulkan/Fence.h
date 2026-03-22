@@ -5,61 +5,69 @@
  * 
  * @date October 2025
  * 
- * @since v
+ * @since v0.0.1
  ***************************************************************************************************/
 #pragma once
 #include <cstdint>
 #include <optional>
+#include <format>
+#include <chrono>
 
 #include <vulkan/vulkan_core.h>
 
 #include "PhysicalDevice.h"
 
+#include "../../debugging/AException.h"
+#include "../../debugging/Logging.h"
+
 namespace Atlas {
+	enum class EFenceStatus : uint8_t {
+		Unknown = -1,
+		DeviceLost,
+		Ready,
+		NotReady
+	};
+
 	class Fence final {
 	private:
+		VkDevice mOwner{ VK_NULL_HANDLE };
 		VkFence mFence{ VK_NULL_HANDLE };
-		uint64_t mTimeout{ UINT64_MAX };
+		uint64_t mTimeoutInNS{ UINT64_MAX };
+
+		const VkAllocationCallbacks* cmAllocator{ nullptr };
+
+		static inline void ParseAndThrowCreationError(VkResult error);
+
+		static inline void ParseAndThrowWaitError(VkResult error);
+
+		static inline void ParseAndThrowResetError(VkResult error);
 
 	public:
-
-		Fence(const VkFence& mFence, const uint64_t& mTimeout)
-			: mFence(mFence), mTimeout(mTimeout)
-		{
-		}
+		
+		Fence(Device const& ownerDevice, const VkFenceCreateInfo* cCreateInfo, uint64_t timeoutInNS, const VkAllocationCallbacks* cAllocator = nullptr);
 
 		Fence() = default;
 
-		~Fence() {
-			destroy();
-		}
+		void destroy(VkDevice ownerDevice);
 
-		void reset(Device const& device) {
-			vkResetFences(device.getHandle(), 1, &mFence);
-		}
+		void destroy();
 
-		void reset() {
-		}
+		void wait(VkDevice ownerDevice, bool bWaitAll = true);
 
-		void wait(Device const& device) {
-			vkWaitForFences(device.getHandle(), 1, &mFence, VK_TRUE, mTimeout);
-		}
+		void wait();
 
-		void wait()
-		{
+		void reset(VkDevice ownerDevice);
 
-		}
+		void reset();
 
-		void destroy(Device const& device) {
-			vkDestroyFence(device.getHandle(), mFence, nullptr);
-		}
+		void setTimeout(const uint64_t cNewTimeoutInNS) noexcept;
 
-		void destroy() {
-			destroy(*Device::GetMainHandle().get());
-		}
+		EFenceStatus getStatus(VkDevice ownerDevice) const;
 
-		VkFence getHandle() const { 
-			return mFence;
-		}
+		bool hasDeviceBeenLost(VkDevice ownerDevice) const;
+
+		uint64_t getTimeout() const noexcept;
+
+		VkFence getFence() const noexcept;
 	};
 }

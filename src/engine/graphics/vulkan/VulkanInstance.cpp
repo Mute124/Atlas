@@ -18,6 +18,7 @@
 #include "../../debugging/Logging.h"
 
 #include <VkBootstrap.h>
+#include <vulkan/vulkan.h>
 #include <vulkan/vulkan_core.h>
 #include <spdlog/common.h>
 #include <spdlog/spdlog.h>
@@ -45,6 +46,7 @@ uint16_t Atlas::VulkanInstanceWrapper::init() {
 	instanceBuilder.require_api_version(mInitConfiguration.applicationInfo.vulkanVersion.major, mInitConfiguration.applicationInfo.vulkanVersion.minor, mInitConfiguration.applicationInfo.vulkanVersion.patch);
 
 	instanceBuilder.request_validation_layers(mInitConfiguration.bEnableValidationLayers);
+	instanceBuilder.enable_layer("VK_LAYER_KHRONOS_validation");
 
 	if (mInitConfiguration.optionalDebugMessengerCallback.has_value()) {
 		instanceBuilder.set_debug_callback(mInitConfiguration.optionalDebugMessengerCallback.value());

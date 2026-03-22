@@ -20,6 +20,9 @@
     "graphics/vulkan/PipelineBuilder.h"
 	"graphics/vulkan/PipelineBuilder.cpp"
 
+    "graphics/vulkan/Fence.h"
+	"graphics/vulkan/Fence.cpp"
+
     "graphics/vulkan/VKDevice.h"
     "graphics/vulkan/VKDevice.cpp"
 

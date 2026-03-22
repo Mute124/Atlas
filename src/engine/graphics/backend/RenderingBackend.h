@@ -158,7 +158,7 @@ namespace Atlas {
 			
 		//bool mbIsInitialized = false;
 		bool mbUseDebuggingTools = false;
-		bool mbEnableErrorChecking = false; // dont worry about this if you are not using vulkan
+		bool mbEnableErrorChecking = true; // dont worry about this if you are not using vulkan
 	public:
 
 		ARenderingBackend(Version apiVersion, std::shared_ptr<GameWindow> gameWindow) 

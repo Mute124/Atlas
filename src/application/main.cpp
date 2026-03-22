@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
 
 	bool shouldClose = false;
 	while (!shouldClose) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(16));
+		
 		shouldClose = gameWindow.shouldClose();
 		gameWindow.update();
 		

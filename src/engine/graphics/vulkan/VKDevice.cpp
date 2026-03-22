@@ -483,7 +483,7 @@ void Atlas::VulkanRenderingBackend::initCommands()
 	////we want the fence to start signalled so we can wait on it on the first frame
 	VkFenceCreateInfo fenceCreateInfo = CreateFenceCreateInfo(VK_FENCE_CREATE_SIGNALED_BIT);
 	VkSemaphoreCreateInfo semaphoreCreateInfo = CreateSemaphoreCreateInfo();
-
+	
 	for (int i = 0; i < FRAME_OVERLAP; i++) {
 		vkCreateFence(mDevice, &fenceCreateInfo, nullptr, &mFrameDataArray[i].renderFence);
 
@@ -533,7 +533,7 @@ void Atlas::VulkanRenderingBackend::initIMGUI(GameWindow* gameWindow)
 	// this initializes imgui for Vulkan
 	ImGui_ImplVulkan_InitInfo init_info = {};
 	init_info.Instance = mInstance.getInstance();
-	init_info.PhysicalDevice = mPhysicalDevice;
+	init_info.PhysicalDevice = mPhysicalDevice.getVkHandle();
 	init_info.Device = mDevice;
 	init_info.Queue = mGraphicsQueue;
 	init_info.DescriptorPool = imguiPool;
@@ -564,7 +564,7 @@ void Atlas::VulkanRenderingBackend::initIMGUI(GameWindow* gameWindow)
 
 void Atlas::VulkanRenderingBackend::createSwapchain(uint32_t width, uint32_t height)
 {
-	vkb::SwapchainBuilder swapchainBuilder{ mPhysicalDevice, mDevice, mSurface };
+	vkb::SwapchainBuilder swapchainBuilder{ mPhysicalDevice.getVkbHandle(), mDevice, mSurface};
 	
 	mSwapchainImageFormat = VK_FORMAT_B8G8R8A8_UNORM;
 
@@ -689,7 +689,6 @@ Atlas::VulkanRenderingBackend::VulkanRenderingBackend(const ApplicationInfo& app
 
 void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 {
-	//AGlobalRenderingBackend::init(gameWindow);
 
 	setLoadedRenderingBackend(this);
 
@@ -828,6 +827,7 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 	features.dynamicRendering = cbEnableDynamicRendering;
 	features.synchronization2 = cbEnableSynchronization2;
 
+
 	// Vulkan 1.2 features
 	//--------------------
 	
@@ -853,8 +853,8 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 	constraints.physicalDeviceFeatures = { features, features12 };
 	constraints.surface = mSurface;
 
-	mPhysicalDevice = PhysicalDevice(mInstance, constraints);
-	mPhysicalDevice.init(mInstance);
+	mPhysicalDevice = PhysicalDevice();
+	mPhysicalDevice.init(mPhysicalDevice.selectDevice(mInstance, constraints));
 	// This static cast is required since the result of mPhysicalDevice.getName() is a std::string_view
 	const std::string cDeviceName = static_cast<std::string>(mPhysicalDevice.getName());
 
@@ -919,27 +919,25 @@ void Atlas::VulkanRenderingBackend::resetFences(const uint32_t cFenceCount, Fram
 	vkWaitForFences(mDevice, cFenceCount, &currentFrame.renderFence, true, mFencesTimeoutNS);
 
 	currentFrame.deletionQueue.flush();
-
+	
 	vkResetFences(mDevice, cFenceCount, &currentFrame.renderFence);
 }
 
 void Atlas::VulkanRenderingBackend::beginDrawingMode()
 {
-	//const static uint32_t cFenceCount = 1;
-
+	std::this_thread::sleep_for(std::chrono::milliseconds(16));
 	FrameData& currentFrame = getCurrentFrame();
 
 	// BUG: Occasionally, this will hang on the vkWaitForFences call with a VK_ERROR_DEVICE_LOST error. Not sure why.
-	// From what I am reading, it says that it can be due to drivers. Furthermore, this seems to be an issue with RTX
-	// cards.
-	VkResult waitResult = vkWaitForFences(mDevice, 1, &currentFrame.renderFence, false, mFencesTimeoutNS);
+	// From what I am reading, it says that it can be due to drivers. Furthermore, according to a forum post, this 
+	// seems to be an issue with RTX cards, or something like that.
+	if (const VkResult cWaitResult = vkWaitForFences(mDevice, 1, &currentFrame.renderFence, false, mFencesTimeoutNS); cWaitResult != VK_SUCCESS) {
 
-	if (waitResult != VK_SUCCESS) {
-
-		if (waitResult == VK_TIMEOUT) {
+		if (cWaitResult == VK_TIMEOUT) {
 			ErrorLog("Waiting for fence timed out!");
 		}
-		else if (waitResult == VK_ERROR_DEVICE_LOST) {
+		else if (cWaitResult == VK_ERROR_DEVICE_LOST) {
+			// TODO: Figure out why this happens
 			throw AException("Failed to wait for fence because the device was lost!");
 		}
 		else {
@@ -947,7 +945,6 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 		}
 	}
 	
-
 	currentFrame.deletionQueue.flush();
 	
 	//request image from the swapchain
@@ -988,18 +985,15 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 	mCurrentDrawData.swapchainExtent = mSwapchainExtent;
 
 
+	vkBeginCommandBuffer(mCurrentDrawData.cmd, &mCurrentDrawData.cmdBeginInfo);
 }
 
 void Atlas::VulkanRenderingBackend::draw()
 {
-	vkBeginCommandBuffer(mCurrentDrawData.cmd, &mCurrentDrawData.cmdBeginInfo);
 
 	mRenderPassesManager.beginDrawingRenderPasses(mCurrentDrawData.cmd, mCurrentDrawData);
 
 	FrameData& currentFrame = getCurrentFrame();
-
-	//vkBeginCommandBuffer(mCurrentDrawData.cmd, &mCurrentDrawData.cmdBeginInfo);
-
 	// transition our main draw image into general layout so we can write into it
 	// we will overwrite it all so we dont care about what was the older layout
 	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_GENERAL);
