@@ -15,11 +15,17 @@
 #include <vulkan/vulkan.h>
 
 namespace Atlas {
+	struct ComputePushConstant {
+		glm::vec4 data;
+		std::string name = "null";
+
+	};
+
 	struct ComputePushConstants {
-		glm::vec4 data1;
-		glm::vec4 data2;
-		glm::vec4 data3;
-		glm::vec4 data4;
+		ComputePushConstant data1;
+		ComputePushConstant data2;
+		ComputePushConstant data3;
+		ComputePushConstant data4;
 	};
 
 	class ComputeEffect {

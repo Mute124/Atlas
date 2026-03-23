@@ -289,9 +289,10 @@ namespace Atlas {
 		// TODO: Move to a frame manager class or something like that
 		std::array<FrameData, FRAME_OVERLAP> mFrameDataArray;
 		glm::mat4 mViewMatrix = glm::mat4(1.0f);
-		AllocatedImage mDepthImage;
 
+		AllocatedImage mDepthImage;
 		AllocatedImage mDrawImage;
+		
 		VkExtent2D mDrawExtent;
 
 		//GraphicsQueue mGraphicsQueue;
@@ -415,6 +416,8 @@ namespace Atlas {
 
 		void destroySwapchain();
 
+		
+
 		GPUMeshBuffers UploadMesh(std::span<uint32_t> indices, std::span<Vertex> vertices);
 
 		void ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
@@ -440,6 +443,7 @@ namespace Atlas {
 	void resetLoadedRenderingBackend();
 
 	std::optional<std::vector<std::shared_ptr<MeshAsset>>> loadGltfMeshes(VulkanRenderingBackend* engine, std::filesystem::path filePath);
+	
 
 }
 #endif

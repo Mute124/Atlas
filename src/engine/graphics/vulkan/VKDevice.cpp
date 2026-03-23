@@ -260,8 +260,11 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	gradient.data = {};
 
 	//default colors
-	gradient.data.data1 = glm::vec4(1, 0, 0, 1);
-	gradient.data.data2 = glm::vec4(0, 0, 1, 1);
+	gradient.data.data1.data = glm::vec4(1, 0, 0, 1);
+	gradient.data.data1.name = "Gradient color1 (r, g, b, a)";
+
+	gradient.data.data2.data = glm::vec4(0, 0, 1, 1);
+	gradient.data.data2.name = "Gradient color2 (r, g, b, a)";
 
 	vkCreateComputePipelines(mDevice, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &gradient.pipeline);
 
@@ -271,8 +274,10 @@ void Atlas::VulkanRenderingBackend::initBackgroundPipelines()
 	sky.layout = mGradientPipelineLayout;
 	sky.name = "sky";
 	sky.data = {};
+
 	//default sky parameters
-	sky.data.data1 = glm::vec4(0.1, 0.2, 0.4, 0.97);
+	sky.data.data1.data = glm::vec4(0.1, 0.2, 0.4, 0.97);
+	sky.data.data1.name = "Sky color (r, g, b, a)";
 
 	vkCreateComputePipelines(mDevice, VK_NULL_HANDLE, 1, &computePipelineCreateInfo, nullptr, &sky.pipeline);
 
@@ -340,7 +345,7 @@ void Atlas::VulkanRenderingBackend::initTrianglePipeline()
 	
 	//connect the image format we will draw into, from draw image
 	pipelineBuilder.setColorAttachmentFormat(mDrawImage.imageFormat);
-	pipelineBuilder.setDepthFormat(VK_FORMAT_UNDEFINED);
+	pipelineBuilder.setDepthFormat(mDepthImage.imageFormat);
 
 	//finally build the pipeline
 	_trianglePipeline = pipelineBuilder.buildPipeline(mDevice);
@@ -408,11 +413,13 @@ void Atlas::VulkanRenderingBackend::initMeshPipeline()
 	//no blending
 	pipelineBuilder.disableBlending();
 
-	pipelineBuilder.disableDepthTest();
+	pipelineBuilder.enableDepthTest(true, VK_COMPARE_OP_GREATER_OR_EQUAL);
 
 	//connect the image format we will draw into, from draw image
 	pipelineBuilder.setColorAttachmentFormat(mDrawImage.imageFormat);
-	pipelineBuilder.setDepthFormat(VK_FORMAT_UNDEFINED);
+	pipelineBuilder.setDepthFormat(mDepthImage.imageFormat);
+
+
 
 	//finally build the pipeline
 	_meshPipeline = pipelineBuilder.buildPipeline(mDevice);
@@ -904,10 +911,30 @@ void Atlas::VulkanRenderingBackend::initSwapchain(GameWindow* gameWindow)
 	
 	vkCreateImageView(mDevice, &rview_info, nullptr, &mDrawImage.imageView);
 	
+	// Depth image
+
+	mDepthImage.imageFormat = VK_FORMAT_D32_SFLOAT;
+	mDepthImage.imageExtent = drawImageExtent;
+	VkImageUsageFlags depthImageUsages{};
+	depthImageUsages |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+
+	VkImageCreateInfo dimg_info = CreateImageCreateInfo(mDepthImage.imageFormat, depthImageUsages, drawImageExtent);
+
+	//allocate and create the image
+	vmaCreateImage(mVMAAllocator, &dimg_info, &rimg_allocinfo, &mDepthImage.image, &mDepthImage.allocation, nullptr);
+
+	//build a image-view for the draw image to use for rendering
+	VkImageViewCreateInfo dview_info = CreateImageViewCreateInfo(mDepthImage.imageFormat, mDepthImage.image, VK_IMAGE_ASPECT_DEPTH_BIT);
+
+	VK_CHECK(vkCreateImageView(mDevice, &dview_info, nullptr, &mDepthImage.imageView));
+
 	//add to deletion queues
 	mMainDeletionQueue.push([=]() {
 		vkDestroyImageView(mDevice, mDrawImage.imageView, nullptr);
 		vmaDestroyImage(mVMAAllocator, mDrawImage.image, mDrawImage.allocation);
+
+		vkDestroyImageView(mDevice, mDepthImage.imageView, nullptr);
+		vmaDestroyImage(mVMAAllocator, mDepthImage.image, mDepthImage.allocation);
 	});
 }
 
@@ -1003,6 +1030,7 @@ void Atlas::VulkanRenderingBackend::draw()
 
 	//transition the draw image and the swapchain image into their correct transfer layouts
 	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+	TransitionImage(mCurrentDrawData.cmd, mDepthImage.image, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL);
 	drawGeometry(mCurrentDrawData.cmd);
 
 	TransitionImage(mCurrentDrawData.cmd, mDrawImage.image, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL);
@@ -1133,8 +1161,9 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 
 	//begin a render pass  connected to our draw image
 	VkRenderingAttachmentInfo colorAttachment = CreateAttachmentInfo(mDrawImage.imageView, nullptr, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
-	
-	VkRenderingInfo renderInfo = CreateRenderingInfo(mDrawExtent, &colorAttachment, nullptr);
+	VkRenderingAttachmentInfo depthAttachment = CreateDepthAttachmentInfo(mDepthImage.imageView, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL);
+
+	VkRenderingInfo renderInfo = CreateRenderingInfo(mDrawExtent, &colorAttachment, &depthAttachment);
 	vkCmdBeginRendering(cmd, &renderInfo);
 
 	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _trianglePipeline);
@@ -1162,19 +1191,22 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 
 	GPUDrawPushConstants push_constants;
 
-	push_constants.vertexBuffer = rectangle.vertexBufferAddress;
+	push_constants.worldMatrix = glm::mat4{ 1.f };
+	//push_constants.vertexBuffer = rectangle.vertexBufferAddress;
+
+	//vkCmdPushConstants(cmd, _meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(GPUDrawPushConstants), &push_constants);
+	//vkCmdBindIndexBuffer(cmd, rectangle.indexBuffer.getBuffer(), 0, VK_INDEX_TYPE_UINT32);
+
+	//vkCmdDrawIndexed(cmd, 6, 1, 0, 0, 0);
+
+	int i = 0;
+
+	push_constants.vertexBuffer = testMeshes[i]->meshBuffers.vertexBufferAddress;
 
 	vkCmdPushConstants(cmd, _meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(GPUDrawPushConstants), &push_constants);
-	vkCmdBindIndexBuffer(cmd, rectangle.indexBuffer.getBuffer(), 0, VK_INDEX_TYPE_UINT32);
+	vkCmdBindIndexBuffer(cmd, testMeshes[i]->meshBuffers.indexBuffer.getBuffer(), 0, VK_INDEX_TYPE_UINT32);
 
-	vkCmdDrawIndexed(cmd, 6, 1, 0, 0, 0);
-
-	push_constants.vertexBuffer = testMeshes[2]->meshBuffers.vertexBufferAddress;
-
-	vkCmdPushConstants(cmd, _meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(GPUDrawPushConstants), &push_constants);
-	vkCmdBindIndexBuffer(cmd, testMeshes[2]->meshBuffers.indexBuffer.getBuffer(), 0, VK_INDEX_TYPE_UINT32);
-
-	vkCmdDrawIndexed(cmd, testMeshes[2]->surfaces[0].count, 1, testMeshes[2]->surfaces[0].startIndex, 0, 0);
+	vkCmdDrawIndexed(cmd, testMeshes[i]->surfaces[0].count, 1, testMeshes[i]->surfaces[0].startIndex, 0, 0);
 
 	vkCmdEndRendering(cmd);
 }
@@ -1199,6 +1231,11 @@ void Atlas::VulkanRenderingBackend::shutdown()
 			vkDestroySemaphore(mDevice, mFrameDataArray.at(i).swapchainSemaphore, nullptr);
 
 			mFrameDataArray.at(i).deletionQueue.flush();
+		}
+
+		for (auto& mesh : testMeshes) {
+			mesh->meshBuffers.indexBuffer.destroy();
+			mesh->meshBuffers.vertexBuffer.destroy();
 		}
 
 		mMainDeletionQueue.flush();
@@ -1430,10 +1467,10 @@ bool Atlas::ImGuiRenderable::setupElements(const VkCommandBuffer cmd, CurrentDra
 
 						ImGui::SliderInt("Effect Index", &cDrawData.computeEffects->mCurrentEffectIndex, 0, cDrawData.computeEffects->getEffectCount() - 1);
 
-						ImGui::InputFloat4("data1", (float*)&selected.data.data1);
-						ImGui::InputFloat4("data2", (float*)&selected.data.data2);
-						ImGui::InputFloat4("data3", (float*)&selected.data.data3);
-						ImGui::InputFloat4("data4", (float*)&selected.data.data4);
+						ImGui::InputFloat4(selected.data.data1.name.c_str(), (float*)&selected.data.data1);
+						ImGui::InputFloat4(selected.data.data2.name.c_str(), (float*)&selected.data.data2);
+						ImGui::InputFloat4(selected.data.data3.name.c_str(), (float*)&selected.data.data3);
+						ImGui::InputFloat4(selected.data.data4.name.c_str(), (float*)&selected.data.data4);
 
 						ImGui::EndTabItem();
 					}

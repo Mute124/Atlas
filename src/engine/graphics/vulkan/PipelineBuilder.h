@@ -112,5 +112,17 @@ namespace Atlas {
 			settings.depthStencil.minDepthBounds = 0.f;
 			settings.depthStencil.maxDepthBounds = 1.f;
 		}
+
+		void enableDepthTest(bool depthWriteEnable, VkCompareOp op) {
+			settings.depthStencil.depthTestEnable = VK_TRUE;
+			settings.depthStencil.depthWriteEnable = depthWriteEnable;
+			settings.depthStencil.depthCompareOp = op;
+			settings.depthStencil.depthBoundsTestEnable = VK_FALSE;
+			settings.depthStencil.stencilTestEnable = VK_FALSE;
+			settings.depthStencil.front = {};
+			settings.depthStencil.back = {};
+			settings.depthStencil.minDepthBounds = 0.f;
+			settings.depthStencil.maxDepthBounds = 1.f;
+		}
 	};
 }

@@ -46,4 +46,6 @@ namespace Atlas {
 
 	VkPipelineShaderStageCreateInfo CreatePipelineShaderStageCreateInfo(VkShaderStageFlagBits stage,
 		VkShaderModule shaderModule, const char* entry = "main");
+
+	VkRenderingAttachmentInfo CreateDepthAttachmentInfo(VkImageView view, VkImageLayout layout );
 }
