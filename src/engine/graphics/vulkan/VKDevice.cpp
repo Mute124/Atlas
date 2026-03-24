@@ -826,7 +826,8 @@ void Atlas::VulkanRenderingBackend::initDefaultData()
 		//rectangle.vertexBuffer.destroy();
 	});
 	
-	testMeshes = loadGltfMeshes(this, "C:\\Dev\\Techstorm-v5\\temp\\resources\\models\\old_car_new.glb").value();
+	//testMeshes = loadGltfMeshes(this, "C:\\Dev\\Techstorm-v5\\temp\\resources\\models\\old_car_new.glb").value();
+	testMeshes = loadGltfMeshes(this, "C:\\Dev\\Techstorm-v5\\basicmesh.glb").value();
 }
 
 void Atlas::VulkanRenderingBackend::initPhysicalDevice()
@@ -1166,7 +1167,7 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 
 	glm::mat4 view = glm::translate(sCameraPosition);
 	// camera projection
-	glm::mat4 projection = glm::perspective(glm::radians(sFOVY), (float)mDrawExtent.width / (float)mDrawExtent.height, sClipNear, sClipFar);
+	glm::mat4 projection = glm::perspective(glm::radians(sFOVY), (float)mDrawExtent.width / (float)mDrawExtent.height, sClipFar, sClipNear);
 
 	// invert the Y direction on projection matrix so that we are more similar
 	// to opengl and gltf axis

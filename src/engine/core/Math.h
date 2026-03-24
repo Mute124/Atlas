@@ -8,12 +8,23 @@
  * @since v0.0.1
  ***************************************************************************************************/
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
 
 #include <cstdint>
 #include <cmath>
 #include <type_traits>
 
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/fwd.hpp>
+
 namespace Atlas {
+	using Vector2 = glm::vec2;
+	using Vector3 = glm::vec3;
+	using Vector4 = glm::vec4;
+
+	using Matrix4 = glm::mat4;
+
 	template<typename T_INPUT>
 	concept Numerical = std::is_arithmetic_v<T_INPUT>;
 

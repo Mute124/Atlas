@@ -151,6 +151,9 @@ set(ATLAS_ENGINE_SOURCES
 
     "graphics/drawing/DrawData.h"
 
+    "graphics/drawing/Camera.h"
+	"graphics/drawing/Camera.cpp"
+
     "graphics/drawing/Pipeline.h"
     "graphics/drawing/Pipeline.cpp"
 

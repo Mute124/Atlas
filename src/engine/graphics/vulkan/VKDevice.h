@@ -42,8 +42,7 @@
 	#include <VkBootstrap.h>
 #endif
 	
-#include <glm/gtx/quaternion.hpp>
-#include <glm/fwd.hpp>
+#include "../../core/Math.h"
 
 #include <fastgltf/glm_element_traits.hpp>
 #include <fastgltf/parser.hpp>
