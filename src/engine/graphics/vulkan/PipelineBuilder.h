@@ -87,6 +87,30 @@ namespace Atlas {
 			settings.colorBlendAttachment.blendEnable = VK_FALSE;
 		}
 
+		void enableBlendingAdditive()
+		{
+			settings.colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			settings.colorBlendAttachment.blendEnable = VK_TRUE;
+			settings.colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+			settings.colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE;
+			settings.colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			settings.colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			settings.colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			settings.colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+		}
+
+		void enableBlendingAlpha()
+		{
+			settings.colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+			settings.colorBlendAttachment.blendEnable = VK_TRUE;
+			settings.colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+			settings.colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+			settings.colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+			settings.colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+			settings.colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+			settings.colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+		}
+
 		void setColorAttachmentFormat(VkFormat format)
 		{
 			settings.colorAttachmentformat = format;

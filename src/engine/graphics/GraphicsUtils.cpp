@@ -331,6 +331,6 @@ VkRenderingAttachmentInfo Atlas::CreateDepthAttachmentInfo(VkImageView view, VkI
 	depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 	depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
 	depthAttachment.clearValue.depthStencil.depth = 0.f;
-
+		
 	return depthAttachment;
 }

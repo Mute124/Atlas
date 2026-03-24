@@ -61,6 +61,7 @@
 #include "AllocatedBuffer.h"
 #include "GraphicsQueue.h"
 
+
 #include "../Frame.h"
 
 #include "../backend/RenderingBackend.h"
@@ -85,7 +86,7 @@
 #include "../drawing/Shader.h"
 #include "../drawing/RenderPassesManager.h"
 #include "../drawing/Renderable.h"
-
+#include "../drawing/Viewport.h"
 
 #include "../Mesh.h"
 #define ATLAS_1_SECOND_IN_NS 1000000000
@@ -320,7 +321,7 @@ namespace Atlas {
 		VkPipelineLayout _meshPipelineLayout;
 		VkPipeline _meshPipeline;
 
-		GPUMeshBuffers rectangle;
+		//GPUMeshBuffers rectangle;
 
 		std::string mApplicationName;
 
@@ -328,8 +329,6 @@ namespace Atlas {
 
 		ComputeEffect sky;
 		ComputeEffect gradient;
-
-
 
 		void initDescriptors();
 
@@ -345,6 +344,11 @@ namespace Atlas {
 	public:
 
 		using ARenderingBackend::ARenderingBackend;
+		
+		static inline float sFOVY = 120.0f;
+		static inline float sClipNear = 10000.0f;
+		static inline float sClipFar = 10.1f;
+
 
 		/**
 		 * @brief Default constructor.
@@ -415,8 +419,6 @@ namespace Atlas {
 		void createSwapchain(uint32_t width, uint32_t height);
 
 		void destroySwapchain();
-
-		
 
 		GPUMeshBuffers UploadMesh(std::span<uint32_t> indices, std::span<Vertex> vertices);
 

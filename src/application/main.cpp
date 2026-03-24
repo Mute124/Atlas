@@ -82,7 +82,6 @@ int main(int argc, char* argv[]) {
 
 	// Setup the game window (this needs to be done before the rendering device is created)
 	GameWindow gameWindow = GameWindow(WindowDescription());
-
 	gameWindow.open(SDL_WINDOW_VULKAN);
 
 	const Version cRenderingAPIVersion = Version(1, 3, 0);

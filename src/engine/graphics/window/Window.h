@@ -56,7 +56,7 @@ namespace Atlas {
 
 	struct WindowRect {
 		glm::ivec2 position{ 800, 600 };
-		glm::ivec2 size{ 800, 600 };
+		glm::ivec2 size{ 1280, 720 };
 
 		WindowRect(glm::ivec2 const& position, glm::ivec2 const& size);
 

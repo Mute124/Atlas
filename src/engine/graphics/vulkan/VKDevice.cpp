@@ -91,6 +91,9 @@ std::unique_ptr<GlobalContext> gGlobalContext;
 
 Atlas::VulkanRenderingBackend* gLoadedVulkanBackend = nullptr;
 
+static inline glm::vec3 sCameraPosition = { 0.f, 0.f, -1.f };
+static inline int sModelId = 0;
+
 void Atlas::DescriptorAllocator::init_pool(VkDevice device, uint32_t maxSets, std::span<PoolSizeRatio> poolRatios)
 {	
 
@@ -205,7 +208,7 @@ void Atlas::VulkanRenderingBackend::initDescriptors()
 void Atlas::VulkanRenderingBackend::initPipelines()
 {
 	initBackgroundPipelines();
-	initTrianglePipeline();
+	//initTrianglePipeline();
 	initMeshPipeline();
 }
 
@@ -772,6 +775,8 @@ void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 
 	mEffectManager = std::make_shared<EffectManager>();
 
+	
+
 	initVMAAllocator(cVkBootstrapInstanceRef);
 
 	initSwapchain(gameWindow);
@@ -791,37 +796,37 @@ void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 
 void Atlas::VulkanRenderingBackend::initDefaultData()
 {
-	std::array<Vertex, 4> rect_vertices;
+	//std::array<Vertex, 4> rect_vertices;
 
-	rect_vertices[0].position = { 0.5,-0.5, 0 };
-	rect_vertices[1].position = { 0.5,0.5, 0 };
-	rect_vertices[2].position = { -0.5,-0.5, 0 };
-	rect_vertices[3].position = { -0.5,0.5, 0 };
+	//rect_vertices[0].position = { 0.5,-0.5, 0 };
+	//rect_vertices[1].position = { 0.5,0.5, 0 };
+	//rect_vertices[2].position = { -0.5,-0.5, 0 };
+	//rect_vertices[3].position = { -0.5,0.5, 0 };
 
-	rect_vertices[0].color = { 1,1, 0,1 };
-	rect_vertices[1].color = { 0.5,0.5,0.5 ,1 };
-	rect_vertices[2].color = { 1,0, 0,1 };
-	rect_vertices[3].color = { 0,1, 0,1 };
+	//rect_vertices[0].color = { 1,1, 0,1 };
+	//rect_vertices[1].color = { 0.5,0.5,0.5 ,1 };
+	//rect_vertices[2].color = { 1,0, 0,1 };
+	//rect_vertices[3].color = { 0,1, 0,1 };
 
-	std::array<uint32_t, 6> rect_indices;
+	//std::array<uint32_t, 6> rect_indices;
 
-	rect_indices[0] = 0;
-	rect_indices[1] = 1;
-	rect_indices[2] = 2;
+	//rect_indices[0] = 0;
+	//rect_indices[1] = 1;
+	//rect_indices[2] = 2;
 
-	rect_indices[3] = 2;
-	rect_indices[4] = 1;
-	rect_indices[5] = 3;
+	//rect_indices[3] = 2;
+	//rect_indices[4] = 1;
+	//rect_indices[5] = 3;
 
-	rectangle = UploadMesh(rect_indices, rect_vertices);
+	//rectangle = UploadMesh(rect_indices, rect_vertices);
 
 	//delete the rectangle data on engine shutdown
 	mMainDeletionQueue.push([&]() {
-		rectangle.indexBuffer.destroy();
-		rectangle.vertexBuffer.destroy();
+		//rectangle.indexBuffer.destroy();
+		//rectangle.vertexBuffer.destroy();
 	});
-
-	testMeshes = loadGltfMeshes(this, "C:\\Dev\\Techstorm-v5\\basicmesh.glb").value();
+	
+	testMeshes = loadGltfMeshes(this, "C:\\Dev\\Techstorm-v5\\temp\\resources\\models\\old_car_new.glb").value();
 }
 
 void Atlas::VulkanRenderingBackend::initPhysicalDevice()
@@ -892,7 +897,7 @@ void Atlas::VulkanRenderingBackend::initSwapchain(GameWindow* gameWindow)
 
 	VkImageUsageFlags drawImageUsages{};
 	drawImageUsages |= VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
-	drawImageUsages |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+	//drawImageUsages |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 	drawImageUsages |= VK_IMAGE_USAGE_STORAGE_BIT;
 	drawImageUsages |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
@@ -918,15 +923,15 @@ void Atlas::VulkanRenderingBackend::initSwapchain(GameWindow* gameWindow)
 	VkImageUsageFlags depthImageUsages{};
 	depthImageUsages |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
 
-	VkImageCreateInfo dimg_info = CreateImageCreateInfo(mDepthImage.imageFormat, depthImageUsages, drawImageExtent);
+	VkImageCreateInfo depthImageInfo = CreateImageCreateInfo(mDepthImage.imageFormat, depthImageUsages, drawImageExtent);
 
 	//allocate and create the image
-	vmaCreateImage(mVMAAllocator, &dimg_info, &rimg_allocinfo, &mDepthImage.image, &mDepthImage.allocation, nullptr);
+	VkResult depthImageResult = vmaCreateImage(mVMAAllocator, &depthImageInfo, &rimg_allocinfo, &mDepthImage.image, &mDepthImage.allocation, nullptr);
 
 	//build a image-view for the draw image to use for rendering
 	VkImageViewCreateInfo dview_info = CreateImageViewCreateInfo(mDepthImage.imageFormat, mDepthImage.image, VK_IMAGE_ASPECT_DEPTH_BIT);
 
-	VK_CHECK(vkCreateImageView(mDevice, &dview_info, nullptr, &mDepthImage.imageView));
+	VkResult depthImageViewResult = vkCreateImageView(mDevice, &dview_info, nullptr, &mDepthImage.imageView);
 
 	//add to deletion queues
 	mMainDeletionQueue.push([=]() {
@@ -1110,39 +1115,6 @@ void Atlas::VulkanRenderingBackend::drawIMGUI(VkCommandBuffer cmd, VkImageView t
 
 void Atlas::VulkanRenderingBackend::drawBackground(VkCommandBuffer cmd)
 {
-	////make a clear-color from frame number. This will flash with a 120 frame period.
-	//VkClearColorValue clearValue;
-	//float flash = std::abs(std::sin(mCurrentFrameNumber / 120.f));
-	//clearValue = { { 0.0f, 0.0f, flash, 1.0f } };
-
-	//VkImageSubresourceRange clearRange = CreateImageSubresourceRange(VK_IMAGE_ASPECT_COLOR_BIT);
-
-	////clear image
-	//vkCmdClearColorImage(cmd, mDrawImage.image, VK_IMAGE_LAYOUT_GENERAL, &clearValue, 1, &clearRange);
-
-	//// bind the gradient drawing compute pipeline
-	//vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, mGradientPipeline);
-
-	//// bind the descriptor set containing the draw image for the compute pipeline
-	//vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, mGradientPipelineLayout, 0, 1, &mDrawImageDescriptors, 0, nullptr);
-
-	//// execute the compute pipeline dispatch. We are using 16x16 workgroup size so we need to divide by it
-	//vkCmdDispatch(cmd, std::ceil(mDrawExtent.width / 16.0), std::ceil(mDrawExtent.height / 16.0), 1);
-
-		// bind the gradient drawing compute pipeline
-	//vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, mGradientPipeline);
-
-	//// bind the descriptor set containing the draw image for the compute pipeline
-	//vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, mGradientPipelineLayout, 0, 1, &mDrawImageDescriptors, 0, nullptr);
-
-	//ComputePushConstants pc;
-	//pc.data1 = glm::vec4(1, 0, 0, 1);
-	//pc.data2 = glm::vec4(0, 0, 1, 1);
-
-	//vkCmdPushConstants(cmd, mGradientPipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(ComputePushConstants), &pc);
-	//// execute the compute pipeline dispatch. We are using 16x16 workgroup size so we need to divide by it
-	//vkCmdDispatch(cmd, std::ceil(mDrawExtent.width / 16.0), std::ceil(mDrawExtent.height / 16.0), 1);
-	//mBackgroundEffects[mCurrentBackgroundEffect]
 	ComputeEffect& effect = mEffectManager->getCurrentEffect();
 
 	// bind the background compute pipeline
@@ -1166,9 +1138,11 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	VkRenderingInfo renderInfo = CreateRenderingInfo(mDrawExtent, &colorAttachment, &depthAttachment);
 	vkCmdBeginRendering(cmd, &renderInfo);
 
-	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _trianglePipeline);
+	//vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _trianglePipeline);
 
-	//set dynamic viewport and scissor
+
+	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _meshPipeline);
+	//set dynamic viewport and scissor	
 	VkViewport viewport = {};
 	viewport.x = 0;
 	viewport.y = 0;
@@ -1182,24 +1156,26 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	VkRect2D scissor = {};
 	scissor.offset.x = 0;
 	scissor.offset.y = 0;
-	scissor.extent.width = mDrawExtent.width;
-	scissor.extent.height = mDrawExtent.height;
+	scissor.extent.width = viewport.width;
+	scissor.extent.height = viewport.height;
 
 	vkCmdSetScissor(cmd, 0, 1, &scissor);
 
-	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _meshPipeline);
+	GPUDrawPushConstants push_constants{};
 
-	GPUDrawPushConstants push_constants;
 
-	push_constants.worldMatrix = glm::mat4{ 1.f };
-	//push_constants.vertexBuffer = rectangle.vertexBufferAddress;
+	glm::mat4 view = glm::translate(sCameraPosition);
+	// camera projection
+	glm::mat4 projection = glm::perspective(glm::radians(sFOVY), (float)mDrawExtent.width / (float)mDrawExtent.height, sClipNear, sClipFar);
 
-	//vkCmdPushConstants(cmd, _meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(GPUDrawPushConstants), &push_constants);
-	//vkCmdBindIndexBuffer(cmd, rectangle.indexBuffer.getBuffer(), 0, VK_INDEX_TYPE_UINT32);
-
+	// invert the Y direction on projection matrix so that we are more similar
+	// to opengl and gltf axis
+	projection[1][1] *= -1;
+	push_constants.worldMatrix = projection * view;
+	
 	//vkCmdDrawIndexed(cmd, 6, 1, 0, 0, 0);
 
-	int i = 0;
+	int i = sModelId;
 
 	push_constants.vertexBuffer = testMeshes[i]->meshBuffers.vertexBufferAddress;
 
@@ -1418,7 +1394,7 @@ std::optional<std::vector<std::shared_ptr<MeshAsset>>> Atlas::loadGltfMeshes(Vul
 		}
 
 		// display the vertex normals
-		constexpr bool OverrideColors = false;
+		constexpr bool OverrideColors = true;
 		if (OverrideColors) {
 			for (Vertex& vtx : vertices) {
 				vtx.color = glm::vec4(vtx.normal, 1.f);
@@ -1444,6 +1420,17 @@ bool Atlas::ImGuiRenderable::setupElements(const VkCommandBuffer cmd, CurrentDra
 				if (ImGui::BeginTabBar("##RendererTabBar", ImGuiTabBarFlags_None)) {
 					if (ImGui::BeginTabItem("General")) {
 						ImGui::Text("Current Frame: %i", gLoadedVulkanBackend->mCurrentFrameNumber);
+						
+						ImGui::SliderInt("Draw Model ID", &sModelId, 0, 2);
+
+						ImGui::SliderFloat("FOV", &VulkanRenderingBackend::sFOVY, 0.f, 180.f);
+
+						ImGui::InputFloat("Clip Near", &VulkanRenderingBackend::sClipNear);
+						ImGui::InputFloat("Clip Far", &VulkanRenderingBackend::sClipFar);
+
+						ImGui::SliderFloat("Camera Position X", &sCameraPosition.x, -100.f, 100.f);
+						ImGui::SliderFloat("Camera Position Y", &sCameraPosition.y, -100.f, 100.f);
+						ImGui::SliderFloat("Camera Position Z", &sCameraPosition.z, -100.f, 100.f);
 
 						if (ImGui::CollapsingHeader("Startup info")) {
 							ImGui::Text("\nApplication Name: %s", gLoadedVulkanBackend->mApplicationName.c_str());
