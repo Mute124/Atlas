@@ -6,25 +6,35 @@
 {\ttfamily \#include $<$thread$>$}\newline
 {\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
 {\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
 {\ttfamily \#include $<$type\+\_\+traits$>$}\newline
 {\ttfamily \#include "{}Core.\+h"{}}\newline
+{\ttfamily \#include "{}Math.\+h"{}}\newline
 {\ttfamily \#include $<$typeinfo$>$}\newline
+{\ttfamily \#include $<$any$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$source\+\_\+location$>$}\newline
+{\ttfamily \#include $<$tl/expected.\+hpp$>$}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_atlas_1_1_error}{Atlas\+::\+Error}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_rectangle}{Atlas\+::\+Rectangle$<$ T\+\_\+\+NUMERIC\+\_\+\+TYPE $>$}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_type_audit}{Atlas\+::\+Type\+Audit$<$ T\+\_\+\+TYPE $>$}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_validatable}{Atlas\+::\+Validatable}}
-\item 
+\begin{DoxyCompactList}\small\item\em A framework class that provides functions to a child class that allows it to have validation functionality. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_initializable}{Atlas\+::\+Initializable}}
-\item 
+\begin{DoxyCompactList}\small\item\em Provides a way to track the initialization state of a class. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_initializable_and_validatable}{Atlas\+::\+Initializable\+And\+Validatable}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_handle_wrapper_base}{Atlas\+::\+Handle\+Wrapper\+Base$<$ T\+\_\+\+WRAPS $>$}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_counter}{Atlas\+::\+Counter}}
+class \mbox{\hyperlink{class_atlas_1_1_named_object}{Atlas\+::\+Named\+Object}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_counter}{Atlas\+::\+Counter$<$ T\+\_\+\+NUMERICAL $>$}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_singleton}{Atlas\+::\+Singleton$<$ T\+\_\+\+BASE $>$}}
 \item 
@@ -33,6 +43,8 @@ class \mbox{\hyperlink{class_atlas_1_1_i_stringified_object}{Atlas\+::\+IStringi
 class \mbox{\hyperlink{class_atlas_1_1_stringified_object}{Atlas\+::\+Stringified\+Object$<$ T\+\_\+\+CHILD $>$}}
 \begin{DoxyCompactList}\small\item\em An "{}inherit-\/and-\/forget"{} class that implements the IPretty\+Object interface for you. This class uses a data-\/driven approach to get the string representation of the object. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{class_atlas_1_1_reference_holder}{Atlas\+::\+Reference\+Holder$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{class_atlas_1_1_a_engine_system}{Atlas\+::\+AEngine\+System}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
@@ -78,28 +90,37 @@ namespace \mbox{\hyperlink{namespace_atlas_1_1_literals}{Atlas\+::\+Literals}}
 \item 
 \#define \mbox{\hyperlink{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb}{ATLAS\+\_\+\+NULL\+\_\+\+GIF}}~\mbox{\hyperlink{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}{ATLAS\+\_\+\+ASSET\+\_\+\+DIR}} + static\+\_\+cast$<$std\+::string$>$("{}/engine/null.\+gif"{}
 \item 
-\#define \mbox{\hyperlink{_common_8h_a6e28df6a53faef578e73999acae2cb92}{ATLAS\+\_\+\+IMPLICIT}}
+\#define \mbox{\hyperlink{_common_8h_abf7888a16a586aa344aaebbd868fc90a}{ATLAS\+\_\+\+INT64\+\_\+\+LIMIT}}~std\+::numeric\+\_\+limits$<$int64\+\_\+t$>$\+::max()
 \item 
-\#define \mbox{\hyperlink{_common_8h_ad91252f8fd0802d0f467ab0023ce5f6a}{ATLAS\+\_\+\+EXPLICIT}}
+\#define \mbox{\hyperlink{_common_8h_aa26b27a25a83a42c3c74a35747169b2b}{ATLAS\+\_\+\+INT32\+\_\+\+LIMIT}}~std\+::numeric\+\_\+limits$<$int32\+\_\+t$>$\+::max()
+\item 
+\#define \mbox{\hyperlink{_common_8h_a2db3fef9d69877cd7eae0c1e9876b294}{ATLAS\+\_\+\+INT16\+\_\+\+LIMIT}}~std\+::numeric\+\_\+limits$<$int16\+\_\+t$>$\+::max()
+\item 
+\#define \mbox{\hyperlink{_common_8h_a6ee946c5ebd075b5f2d0b71423b67044}{ATLAS\+\_\+\+INT8\+\_\+\+LIMIT}}~std\+::numeric\+\_\+limits$<$int8\+\_\+t$>$\+::max()
+\item 
+\#define \mbox{\hyperlink{_common_8h_a90e4a8033f49b9619868d5263cc69af6}{ATLAS\+\_\+\+UINT64\+\_\+\+LIMIT}}~std\+::numeric\+\_\+limits$<$uint64\+\_\+t$>$\+::max()
+\item 
+\#define \mbox{\hyperlink{_common_8h_a2be30e2e9512a962ba1ad34d40371522}{ATLAS\+\_\+\+UINT32\+\_\+\+LIMIT}}~std\+::numeric\+\_\+limits$<$uint32\+\_\+t$>$\+::max()
+\item 
+\#define \mbox{\hyperlink{_common_8h_ab4da116474874da9565676396b943ac2}{ATLAS\+\_\+\+UINT16\+\_\+\+LIMIT}}~std\+::numeric\+\_\+limits$<$uint16\+\_\+t$>$\+::max()
+\item 
+\#define \mbox{\hyperlink{_common_8h_a71f57fa04aad3c08cd587a601201f112}{ATLAS\+\_\+\+UINT8\+\_\+\+LIMIT}}~std\+::numeric\+\_\+limits$<$uint8\+\_\+t$>$\+::max()
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
 using \mbox{\hyperlink{namespace_atlas_a90dfcd6fcf4fd7ab785efeaf6934e38e}{Atlas\+::\+High\+Resolution\+Timepoint}} = std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Enumerations}
-\begin{DoxyCompactItemize}
 \item 
-enum class \mbox{\hyperlink{namespace_atlas_a36d18fa5ac5efd38562c69609092783f}{Atlas\+::\+EResult\+Code}} \+: int32\+\_\+t \{ \mbox{\hyperlink{namespace_atlas_a36d18fa5ac5efd38562c69609092783fad7c8c85bf79bbe1b7188497c32c3b0ca}{Atlas\+::\+Failed}} = -\/1
-, \mbox{\hyperlink{namespace_atlas_a36d18fa5ac5efd38562c69609092783fa26b63f278101527e06a5547719568bb5}{Atlas\+::\+Okay}} = 0
-, \mbox{\hyperlink{namespace_atlas_a36d18fa5ac5efd38562c69609092783fa997ca4ce119685f40f03a9a8a6c5346e}{Atlas\+::\+Not\+Implemented}}
-, \mbox{\hyperlink{namespace_atlas_a36d18fa5ac5efd38562c69609092783fa253ca7dd096ee0956cccee4d376cab8b}{Atlas\+::\+Invalid\+Argument}}
- \}
+{\footnotesize template$<$typename T\+\_\+\+EXPECTED\+\_\+\+TYPE $>$ }\\using \mbox{\hyperlink{namespace_atlas_aee7186e053406e3bd83bfa7776c99b83}{Atlas\+::\+Result}} = tl\+::expected$<$ T\+\_\+\+EXPECTED\+\_\+\+TYPE, \mbox{\hyperlink{struct_atlas_1_1_error}{Error}} $>$
+\item 
+using \mbox{\hyperlink{namespace_atlas_af47f13f9afa56666d42752ba9616c6e0}{Atlas\+::\+Void\+Result}} = \mbox{\hyperlink{namespace_atlas_aee7186e053406e3bd83bfa7776c99b83}{Result}}$<$ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} $>$
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 {\footnotesize template$<$typename T $>$ }\\T \mbox{\hyperlink{namespace_atlas_ad505d4d3e017334c04787d7820f06ce7}{Atlas\+::\+Align\+Up}} (T \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}}, uint64\+\_\+t alignment)
+\item 
+{\footnotesize template$<$typename T\+\_\+\+FROM , typename T\+\_\+\+TO $>$ }\\T\+\_\+\+TO \mbox{\hyperlink{namespace_atlas_aa6ae78bb81c267ddad9f7d82f1a40914}{Atlas\+::\+Convert}} (T\+\_\+\+FROM \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a1b2be7bfa84f129a2690a62f3ad82d62}{value}})
 \end{DoxyCompactItemize}
 
 
@@ -118,7 +139,7 @@ enum class \mbox{\hyperlink{namespace_atlas_a36d18fa5ac5efd38562c69609092783f}{A
 \end{DoxyCode}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00143}{143}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00153}{153}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}\label{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83} 
 \index{Common.h@{Common.h}!ATLAS\_ASSERT@{ATLAS\_ASSERT}}
@@ -148,7 +169,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00097}{97}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00105}{105}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd}\label{_common_8h_af115c0ba9301089cf8dda6a7b8de6efd} 
 \index{Common.h@{Common.h}!ATLAS\_ASSET\_DIR@{ATLAS\_ASSET\_DIR}}
@@ -158,7 +179,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00097}{97}} of file \mbox
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00155}{155}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00165}{165}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a3d7c2521ee61f3b347f0c56560ef58c7}\label{_common_8h_a3d7c2521ee61f3b347f0c56560ef58c7} 
 \index{Common.h@{Common.h}!ATLAS\_DATA\_DIR@{ATLAS\_DATA\_DIR}}
@@ -168,7 +189,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00155}{155}} of file \mbo
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00156}{156}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00166}{166}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_abf51327a7cda22a797a5af4ad0eeb24e}\label{_common_8h_abf51327a7cda22a797a5af4ad0eeb24e} 
 \index{Common.h@{Common.h}!ATLAS\_DISALLOW\_COPY@{ATLAS\_DISALLOW\_COPY}}
@@ -191,7 +212,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00131}{131}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00141}{141}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a52738237c4c3c3a0813ef4ce107be26a}\label{_common_8h_a52738237c4c3c3a0813ef4ce107be26a} 
 \index{Common.h@{Common.h}!ATLAS\_DISALLOW\_COPY\_AND\_MOVE@{ATLAS\_DISALLOW\_COPY\_AND\_MOVE}}
@@ -207,7 +228,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00131}{131}} of file \mbo
 \end{DoxyCode}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00139}{139}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00149}{149}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_ac1acb2d3db105634bdc14a2889dd6fd6}\label{_common_8h_ac1acb2d3db105634bdc14a2889dd6fd6} 
 \index{Common.h@{Common.h}!ATLAS\_DISALLOW\_MOVE@{ATLAS\_DISALLOW\_MOVE}}
@@ -223,17 +244,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00139}{139}} of file \mbo
 \end{DoxyCode}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00135}{135}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
-
-\Hypertarget{_common_8h_ad91252f8fd0802d0f467ab0023ce5f6a}\label{_common_8h_ad91252f8fd0802d0f467ab0023ce5f6a} 
-\index{Common.h@{Common.h}!ATLAS\_EXPLICIT@{ATLAS\_EXPLICIT}}
-\index{ATLAS\_EXPLICIT@{ATLAS\_EXPLICIT}!Common.h@{Common.h}}
-\doxysubsubsection{\texorpdfstring{ATLAS\_EXPLICIT}{ATLAS\_EXPLICIT}}
-{\footnotesize\ttfamily \#define ATLAS\+\_\+\+EXPLICIT}
-
-
-
-Definition at line \mbox{\hyperlink{_common_8h_source_l00170}{170}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00145}{145}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a22bf313ce6cdc640a1feaf76dfc2897e}\label{_common_8h_a22bf313ce6cdc640a1feaf76dfc2897e} 
 \index{Common.h@{Common.h}!ATLAS\_GAME\_DIR@{ATLAS\_GAME\_DIR}}
@@ -243,17 +254,47 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00170}{170}} of file \mbo
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00157}{157}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00167}{167}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
-\Hypertarget{_common_8h_a6e28df6a53faef578e73999acae2cb92}\label{_common_8h_a6e28df6a53faef578e73999acae2cb92} 
-\index{Common.h@{Common.h}!ATLAS\_IMPLICIT@{ATLAS\_IMPLICIT}}
-\index{ATLAS\_IMPLICIT@{ATLAS\_IMPLICIT}!Common.h@{Common.h}}
-\doxysubsubsection{\texorpdfstring{ATLAS\_IMPLICIT}{ATLAS\_IMPLICIT}}
-{\footnotesize\ttfamily \#define ATLAS\+\_\+\+IMPLICIT}
+\Hypertarget{_common_8h_a2db3fef9d69877cd7eae0c1e9876b294}\label{_common_8h_a2db3fef9d69877cd7eae0c1e9876b294} 
+\index{Common.h@{Common.h}!ATLAS\_INT16\_LIMIT@{ATLAS\_INT16\_LIMIT}}
+\index{ATLAS\_INT16\_LIMIT@{ATLAS\_INT16\_LIMIT}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_INT16\_LIMIT}{ATLAS\_INT16\_LIMIT}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+INT16\+\_\+\+LIMIT~std\+::numeric\+\_\+limits$<$int16\+\_\+t$>$\+::max()}
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00169}{169}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00177}{177}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_aa26b27a25a83a42c3c74a35747169b2b}\label{_common_8h_aa26b27a25a83a42c3c74a35747169b2b} 
+\index{Common.h@{Common.h}!ATLAS\_INT32\_LIMIT@{ATLAS\_INT32\_LIMIT}}
+\index{ATLAS\_INT32\_LIMIT@{ATLAS\_INT32\_LIMIT}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_INT32\_LIMIT}{ATLAS\_INT32\_LIMIT}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+INT32\+\_\+\+LIMIT~std\+::numeric\+\_\+limits$<$int32\+\_\+t$>$\+::max()}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00176}{176}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_abf7888a16a586aa344aaebbd868fc90a}\label{_common_8h_abf7888a16a586aa344aaebbd868fc90a} 
+\index{Common.h@{Common.h}!ATLAS\_INT64\_LIMIT@{ATLAS\_INT64\_LIMIT}}
+\index{ATLAS\_INT64\_LIMIT@{ATLAS\_INT64\_LIMIT}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_INT64\_LIMIT}{ATLAS\_INT64\_LIMIT}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+INT64\+\_\+\+LIMIT~std\+::numeric\+\_\+limits$<$int64\+\_\+t$>$\+::max()}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00175}{175}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_a6ee946c5ebd075b5f2d0b71423b67044}\label{_common_8h_a6ee946c5ebd075b5f2d0b71423b67044} 
+\index{Common.h@{Common.h}!ATLAS\_INT8\_LIMIT@{ATLAS\_INT8\_LIMIT}}
+\index{ATLAS\_INT8\_LIMIT@{ATLAS\_INT8\_LIMIT}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_INT8\_LIMIT}{ATLAS\_INT8\_LIMIT}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+INT8\+\_\+\+LIMIT~std\+::numeric\+\_\+limits$<$int8\+\_\+t$>$\+::max()}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00178}{178}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb}\label{_common_8h_ac3c90f8768bb5361d2083a2ed878c1bb} 
 \index{Common.h@{Common.h}!ATLAS\_NULL\_GIF@{ATLAS\_NULL\_GIF}}
@@ -263,7 +304,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00169}{169}} of file \mbo
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00163}{163}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00173}{173}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a05798e0231584e6e6cdcabd194d95317}\label{_common_8h_a05798e0231584e6e6cdcabd194d95317} 
 \index{Common.h@{Common.h}!ATLAS\_NULL\_JPEG@{ATLAS\_NULL\_JPEG}}
@@ -273,7 +314,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00163}{163}} of file \mbo
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00162}{162}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00172}{172}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_adf75ba6fb29a4f5b02330c8732e65865}\label{_common_8h_adf75ba6fb29a4f5b02330c8732e65865} 
 \index{Common.h@{Common.h}!ATLAS\_NULL\_JPG@{ATLAS\_NULL\_JPG}}
@@ -283,7 +324,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00162}{162}} of file \mbo
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00161}{161}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00171}{171}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a0dc48dcd23c8eaa1849c023442491089}\label{_common_8h_a0dc48dcd23c8eaa1849c023442491089} 
 \index{Common.h@{Common.h}!ATLAS\_NULL\_PNG@{ATLAS\_NULL\_PNG}}
@@ -293,7 +334,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00161}{161}} of file \mbo
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00160}{160}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00170}{170}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a299f2843b524a1346e4c9e0c09fdc9cc}\label{_common_8h_a299f2843b524a1346e4c9e0c09fdc9cc} 
 \index{Common.h@{Common.h}!ATLAS\_STATIC\_ASSERT@{ATLAS\_STATIC\_ASSERT}}
@@ -323,7 +364,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00115}{115}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00123}{123}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a2fd96e43445fdeb56fec01232f04788f}\label{_common_8h_a2fd96e43445fdeb56fec01232f04788f} 
 \index{Common.h@{Common.h}!ATLAS\_STRINGIFY@{ATLAS\_STRINGIFY}}
@@ -333,7 +374,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00115}{115}} of file \mbo
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00121}{121}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00131}{131}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a260c8698617a9ddbcc20044b59b0307b}\label{_common_8h_a260c8698617a9ddbcc20044b59b0307b} 
 \index{Common.h@{Common.h}!ATLAS\_TEMP\_DIR@{ATLAS\_TEMP\_DIR}}
@@ -343,7 +384,7 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00121}{121}} of file \mbo
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00158}{158}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00168}{168}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a2409aa2a1a2ed9a03d428b3aa8c0c4c3}\label{_common_8h_a2409aa2a1a2ed9a03d428b3aa8c0c4c3} 
 \index{Common.h@{Common.h}!ATLAS\_TOP\_LAYER\_DIR@{ATLAS\_TOP\_LAYER\_DIR}}
@@ -360,7 +401,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00154}{154}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00164}{164}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 
 \Hypertarget{_common_8h_a16f673d9e7a39c1b848adbccc23eb8a2}\label{_common_8h_a16f673d9e7a39c1b848adbccc23eb8a2} 
 \index{Common.h@{Common.h}!ATLAS\_TYPE\_NAME@{ATLAS\_TYPE\_NAME}}
@@ -370,5 +411,45 @@ Definition at line \mbox{\hyperlink{_common_8h_source_l00154}{154}} of file \mbo
 
 
 
-Definition at line \mbox{\hyperlink{_common_8h_source_l00119}{119}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+Definition at line \mbox{\hyperlink{_common_8h_source_l00129}{129}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_ab4da116474874da9565676396b943ac2}\label{_common_8h_ab4da116474874da9565676396b943ac2} 
+\index{Common.h@{Common.h}!ATLAS\_UINT16\_LIMIT@{ATLAS\_UINT16\_LIMIT}}
+\index{ATLAS\_UINT16\_LIMIT@{ATLAS\_UINT16\_LIMIT}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_UINT16\_LIMIT}{ATLAS\_UINT16\_LIMIT}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+UINT16\+\_\+\+LIMIT~std\+::numeric\+\_\+limits$<$uint16\+\_\+t$>$\+::max()}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00182}{182}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_a2be30e2e9512a962ba1ad34d40371522}\label{_common_8h_a2be30e2e9512a962ba1ad34d40371522} 
+\index{Common.h@{Common.h}!ATLAS\_UINT32\_LIMIT@{ATLAS\_UINT32\_LIMIT}}
+\index{ATLAS\_UINT32\_LIMIT@{ATLAS\_UINT32\_LIMIT}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_UINT32\_LIMIT}{ATLAS\_UINT32\_LIMIT}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+UINT32\+\_\+\+LIMIT~std\+::numeric\+\_\+limits$<$uint32\+\_\+t$>$\+::max()}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00181}{181}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_a90e4a8033f49b9619868d5263cc69af6}\label{_common_8h_a90e4a8033f49b9619868d5263cc69af6} 
+\index{Common.h@{Common.h}!ATLAS\_UINT64\_LIMIT@{ATLAS\_UINT64\_LIMIT}}
+\index{ATLAS\_UINT64\_LIMIT@{ATLAS\_UINT64\_LIMIT}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_UINT64\_LIMIT}{ATLAS\_UINT64\_LIMIT}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+UINT64\+\_\+\+LIMIT~std\+::numeric\+\_\+limits$<$uint64\+\_\+t$>$\+::max()}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00180}{180}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
+
+\Hypertarget{_common_8h_a71f57fa04aad3c08cd587a601201f112}\label{_common_8h_a71f57fa04aad3c08cd587a601201f112} 
+\index{Common.h@{Common.h}!ATLAS\_UINT8\_LIMIT@{ATLAS\_UINT8\_LIMIT}}
+\index{ATLAS\_UINT8\_LIMIT@{ATLAS\_UINT8\_LIMIT}!Common.h@{Common.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_UINT8\_LIMIT}{ATLAS\_UINT8\_LIMIT}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+UINT8\+\_\+\+LIMIT~std\+::numeric\+\_\+limits$<$uint8\+\_\+t$>$\+::max()}
+
+
+
+Definition at line \mbox{\hyperlink{_common_8h_source_l00183}{183}} of file \mbox{\hyperlink{_common_8h_source}{Common.\+h}}.
 

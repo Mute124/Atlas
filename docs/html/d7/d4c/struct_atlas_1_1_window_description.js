@@ -1,7 +1,7 @@
 var struct_atlas_1_1_window_description =
 [
-    [ "iconPath", "d7/d4c/struct_atlas_1_1_window_description.html#aa0ede92fe971026b6ecb03d3ef2c551c", null ],
-    [ "targetFPS", "d7/d4c/struct_atlas_1_1_window_description.html#a7e862b46ce2bd4b1367fa8b01045baff", null ],
-    [ "title", "d7/d4c/struct_atlas_1_1_window_description.html#a451d327cdcbd17cd6610b779b1df24b8", null ],
-    [ "windowRectangle", "d7/d4c/struct_atlas_1_1_window_description.html#a1e11f6ff616b6d2a79c28b185d904aa9", null ]
+    [ "WindowDescription", "d7/d4c/struct_atlas_1_1_window_description.html#abe2d468546b1a86f5e253d305106711b", null ],
+    [ "WindowDescription", "d7/d4c/struct_atlas_1_1_window_description.html#a2bbbd74fbb0c61a50fd1a0dd358d7801", null ],
+    [ "windowRect", "d7/d4c/struct_atlas_1_1_window_description.html#a62747a08e40b95cf4c231cce4490b99e", null ],
+    [ "windowTitle", "d7/d4c/struct_atlas_1_1_window_description.html#a01645f5a3cf2ac04d26ebd9d13884d1f", null ]
 ];

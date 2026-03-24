@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Atlas: C:/Dev/Techstorm-v5/src/engine/graphics/Fence.cpp Source File</title>
+<title>Atlas: C:/Dev/Techstorm-v5/src/engine/graphics/vulkan/Fence.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.1</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -99,40 +99,271 @@ $(document).ready(function(){initNavTree('d4/d0f/_fence_8cpp_source.html','../..
   <div class="headertitle"><div class="title">Fence.cpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d4/d0f/_fence_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="../../d6/d78/_fence_8h.html">Fence.h</a>&quot;</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/**************************************************************************************************</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * @file Fence.cpp</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * </span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * @brief .</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * </span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * @date October 2025</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * </span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * @since v</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> ***************************************************************************************************/</span></div>
+<a href="../../d4/d0f/_fence_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/**************************************************************************************************</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * @file Fence.cpp</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> * @brief .</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * @date October 2025</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * @since v0.0.1</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> ***************************************************************************************************/</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="../../d6/d78/_fence_8h.html">Fence.h</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="foldopen" id="foldopen00012" data-start="{" data-end="}">
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#a53f92e31c33e0494026c4abd25a28840">   12</a></span>VkResult <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#a53f92e31c33e0494026c4abd25a28840">Atlas::Fence::reset</a>()</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>{</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keywordflow">return</span> VkResult();</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>}</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#ae8e21fcddbb62d7c5944f515a5a3da76">   12</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#ae8e21fcddbb62d7c5944f515a5a3da76">Atlas::Fence::ParseAndThrowCreationError</a>(VkResult error) {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keywordflow">switch</span> (<a class="code hl_enumvalue" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282">error</a>)</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordflow">case</span> VK_ERROR_OUT_OF_DEVICE_MEMORY:</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to create a fence because there was not enough device memory available.&quot;</span>);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordflow">case</span> VK_ERROR_OUT_OF_HOST_MEMORY:</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to create a fence because there was not enough host memory available.&quot;</span>);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="comment">// The vkCreateFence() documentation&#39;s list of possible error codes states VK_ERROR_VALIDATION_FAILED as a possible error code,</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="comment">// and it is a valid code, but on some situations it is not, therefore, VK_ERROR_VALIDATION_FAILED_EXT is being used instead.</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="comment">// I do not know if this will cause issues down the line.</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">case</span> VK_ERROR_VALIDATION_FAILED_EXT:</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to create a fence because the validation layers detected an error.&quot;</span>);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordflow">case</span> VK_ERROR_UNKNOWN:</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to create a fence for an unknown reason because VK_ERROR_UNKNOWN was returned by vkCreateFence().&quot;</span>);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to create a fence for an unknown reason. Please file a bug report.&quot;</span>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>}</div>
 </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="foldopen" id="foldopen00017" data-start="{" data-end="}">
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#a1b59b0a7cfc6461410b52917850ddc1b">   17</a></span>VkResult <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#a1b59b0a7cfc6461410b52917850ddc1b">Atlas::Fence::wait</a>()</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>{</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordflow">return</span> VkResult();</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="}">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#a0df33371f770be4fd596fa3a18e0068d">   39</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#a0df33371f770be4fd596fa3a18e0068d">Atlas::Fence::ParseAndThrowWaitError</a>(VkResult <a class="code hl_enumvalue" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282">error</a>) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">switch</span> (<a class="code hl_enumvalue" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282">error</a>)</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">case</span> VK_ERROR_DEVICE_LOST:</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to wait for a fence because the device was lost. This can be caused by driver issues. Refer to the documentation of Fence::wait() or Vulkan&#39;s own documentation for more information.&quot;</span>);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">case</span> VK_ERROR_OUT_OF_DEVICE_MEMORY:</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to wait for a fence because there was not enough device memory available.&quot;</span>);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">case</span> VK_ERROR_OUT_OF_HOST_MEMORY:</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to wait for a fence because there was not enough host memory available.&quot;</span>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordflow">case</span> VK_ERROR_VALIDATION_FAILED_EXT:</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to wait for a fence because the validation layers detected an error.&quot;</span>);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">case</span> VK_ERROR_UNKNOWN:</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to wait for a fence for an unknown reason because VK_ERROR_UNKNOWN was returned by vkWaitForFences().&quot;</span>);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to wait for a fence for an unknown reason. Please file a bug report.&quot;</span>);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
+</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#a4e6f4878e0354842ff68b8bf171ec286">   67</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#a4e6f4878e0354842ff68b8bf171ec286">Atlas::Fence::ParseAndThrowResetError</a>(VkResult <a class="code hl_enumvalue" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282">error</a>) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">switch</span> (<a class="code hl_enumvalue" href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282">error</a>)</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">case</span> VK_ERROR_OUT_OF_DEVICE_MEMORY:</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to reset a fence because there was not enough device memory available.&quot;</span>);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordflow">case</span> VK_ERROR_UNKNOWN:</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to reset a fence for an unknown reason because VK_ERROR_UNKNOWN was returned by vkResetFences().&quot;</span>);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">case</span> VK_ERROR_VALIDATION_FAILED_EXT:</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Failed to reset a fence because the validation layers detected an error.&quot;</span>);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>}</div>
+</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="foldopen" id="foldopen00086" data-start="{" data-end="}">
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#a90b84a6864530c30cb92365e3d9f00b6">   86</a></span><a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#af8d8468c64a2c32544e752ef80b07185">Atlas::Fence::Fence</a>(<a class="code hl_class" href="../../dc/d6f/class_atlas_1_1_device.html">Device</a> <span class="keyword">const</span>&amp; ownerDevice, <span class="keyword">const</span> VkFenceCreateInfo* cCreateInfo, uint64_t timeoutInNS, <span class="keyword">const</span> VkAllocationCallbacks* cAllocator) : mOwner(ownerDevice), mTimeoutInNS(timeoutInNS), cmAllocationCallbacks(cAllocator) {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordflow">if</span> (cCreateInfo == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Cannot create a fence with a null fence create info.&quot;</span>);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    }</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">if</span> (!ownerDevice.<a class="code hl_function" href="../../d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper.html#a7c3c053963a177969b9e698b32be0b0d">isValid</a>()) {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Cannot create a fence with an invalid device. Is it initialized?&quot;</span>);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keyword">const</span> VkResult cCreateResult = vkCreateFence(ownerDevice, cCreateInfo, cAllocator, &amp;<a class="code hl_variable" href="../../df/d28/class_atlas_1_1_fence.html#a116b67eb0e21d21d86bb3b916cb9dda2">mFence</a>);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">if</span> (cCreateResult != VK_SUCCESS) {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#ae8e21fcddbb62d7c5944f515a5a3da76">ParseAndThrowCreationError</a>(cCreateResult);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <a class="code hl_function" href="../../d7/d54/namespace_atlas.html#aa0d776b0f6a6d55f1c791ec6d7f27b9f">InfoLog</a>(<span class="stringliteral">&quot;Successfully created fence&quot;</span>);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
+</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="foldopen" id="foldopen00105" data-start="{" data-end="}">
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#a49b4804ab0eec0631e797940cb225810">  105</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#adbfc38cf1bd859e9968cb60fb728ae78">Atlas::Fence::destroy</a>(VkDevice ownerDevice) {</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordflow">if</span> (mFence == VK_NULL_HANDLE) {</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Cannot destroy a fence that is already destroyed. Did you destroy it twice by accident?&quot;</span>);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    }</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">if</span> (ownerDevice == VK_NULL_HANDLE) {</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;The device that created the fence is no longer valid. Cannot destroy the fence. This issue could also be caused by the device&#39;s address being lost.&quot;</span>);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="comment">// This is to make sure that there is nothing left to wait on before destroying the fence</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    this-&gt;wait(ownerDevice);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    vkDestroyFence(ownerDevice, mFence, cmAllocationCallbacks);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>}</div>
+</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="foldopen" id="foldopen00120" data-start="{" data-end="}">
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#adbfc38cf1bd859e9968cb60fb728ae78">  120</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#adbfc38cf1bd859e9968cb60fb728ae78">Atlas::Fence::destroy</a>() {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    destroy(mOwner);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>}</div>
+</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="foldopen" id="foldopen00124" data-start="{" data-end="}">
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#abbf51c2627ba5d2031fa7d49632174d1">  124</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#a0c955b430cad937c9ec413745222eda7">Atlas::Fence::wait</a>(VkDevice ownerDevice, <span class="keywordtype">bool</span> bWaitAll) {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordflow">if</span> (ownerDevice == VK_NULL_HANDLE) {</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;The device passed to use for waiting on the fence is invalid. Did you make sure to pass in the correct device?&quot;</span>);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    }</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keyword">const</span> VkResult cWaitResult = vkWaitForFences(ownerDevice, 1, &amp;mFence, bWaitAll, mTimeoutInNS);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> cbHasTimedOut = cWaitResult == VK_TIMEOUT;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordflow">if</span> (cWaitResult != VK_SUCCESS &amp;&amp; !cbHasTimedOut) {</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        ParseAndThrowWaitError(cWaitResult);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    }</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (cbHasTimedOut) {</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="comment">// Despite being treated as a warning, it is still a bug, and should be fixed when thrown because it can</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        <span class="comment">// signify some issues in performance and what not.</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <span class="comment">// TODO: Add the mentioned documentation</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <a class="code hl_function" href="../../d7/d54/namespace_atlas.html#ac196b4691079d284d4c38234dfb90c58">WarnLog</a>(<span class="stringliteral">&quot;Waiting for fence has timed out. Atlas does not immediately consider this an error, but it is worth checking and attempting to fix. Furthermore, please see the documentation for Fence::wait() in Atlas&#39; docs for more information.&quot;</span>);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    }</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>}</div>
+</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="foldopen" id="foldopen00144" data-start="{" data-end="}">
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#a0c955b430cad937c9ec413745222eda7">  144</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#a0c955b430cad937c9ec413745222eda7">Atlas::Fence::wait</a>() {</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    wait(mOwner);</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>}</div>
+</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="foldopen" id="foldopen00148" data-start="{" data-end="}">
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#adc22d8b55cacf032727a8bc7ba8239c2">  148</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#a9a0c635a7c95ed1f4a0386dfd6ccb1ca">Atlas::Fence::reset</a>(VkDevice ownerDevice) {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordflow">if</span> (ownerDevice == VK_NULL_HANDLE) {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Cannot reset a fence with an invalid device. Did you make sure to pass in the correct device?&quot;</span>);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    }</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordflow">if</span> (mFence == VK_NULL_HANDLE) {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="keywordflow">throw</span> <a class="code hl_class" href="../../d5/d17/class_atlas_1_1_a_exception.html">AException</a>(<span class="stringliteral">&quot;Cannot reset a fence that is already destroyed. Did you destroy it twice by accident?&quot;</span>);</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    }</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="comment">// This is to make sure that there is nothing left to wait on before resetting the fence</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    this-&gt;wait(ownerDevice, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keyword">const</span> VkResult cResetResult = vkResetFences(ownerDevice, 1, &amp;mFence);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keywordflow">if</span> (cResetResult != VK_SUCCESS) {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        ParseAndThrowResetError(cResetResult);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    }</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>}</div>
+</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="foldopen" id="foldopen00167" data-start="{" data-end="}">
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#a9a0c635a7c95ed1f4a0386dfd6ccb1ca">  167</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#a9a0c635a7c95ed1f4a0386dfd6ccb1ca">Atlas::Fence::reset</a>() {</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    reset(mOwner);</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>}</div>
+</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="foldopen" id="foldopen00171" data-start="{" data-end="}">
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#aea345c99ca3ee485c2a22f14c19a5659">  171</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#aea345c99ca3ee485c2a22f14c19a5659">Atlas::Fence::setTimeout</a>(<span class="keyword">const</span> uint64_t cNewTimeoutInNS) <span class="keyword">noexcept</span> {</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    mTimeoutInNS = cNewTimeoutInNS;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>}</div>
+</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="foldopen" id="foldopen00175" data-start="{" data-end="}">
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#ad8fdd5371311682b2aa9a493947968f2">  175</a></span><a class="code hl_enumeration" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4a">Atlas::EFenceStatus</a> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#ad8fdd5371311682b2aa9a493947968f2">Atlas::Fence::getStatus</a>(VkDevice ownerDevice)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="keyword">const</span> VkResult cStatus = vkGetFenceStatus(ownerDevice, mFence);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="comment">// Translate the VkResult to an EFenceStatus</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <span class="keywordflow">switch</span> (cStatus)</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    {</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <span class="keywordflow">case</span> VK_SUCCESS:</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aae7d31fc0602fb2ede144d18cdffd816b">EFenceStatus::Ready</a>;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    <span class="keywordflow">case</span> VK_NOT_READY:</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aadd353567e8118a2b8df4e822e59084ab">EFenceStatus::NotReady</a>;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="keywordflow">case</span> VK_ERROR_DEVICE_LOST:</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aae21f64304b84d5a977e1a00f2137428c">EFenceStatus::DeviceLost</a>;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aa88183b946cc5f0e8c96b2e66e1c74a7e">EFenceStatus::Unknown</a>;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    }</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>}</div>
+</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="foldopen" id="foldopen00193" data-start="{" data-end="}">
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#ae6f35632a32ed4ceee416680742b9cda">  193</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#ae6f35632a32ed4ceee416680742b9cda">Atlas::Fence::hasDeviceBeenLost</a>(VkDevice ownerDevice)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <span class="keywordflow">return</span> getStatus(ownerDevice) == <a class="code hl_enumvalue" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aae21f64304b84d5a977e1a00f2137428c">EFenceStatus::DeviceLost</a>;</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>}</div>
+</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="foldopen" id="foldopen00197" data-start="{" data-end="}">
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#a8fc0a93dc616738131cb6fb9b016d21f">  197</a></span>uint64_t <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#a8fc0a93dc616738131cb6fb9b016d21f">Atlas::Fence::getTimeout</a>() const noexcept {</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="keywordflow">return</span> mTimeoutInNS;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>}</div>
+</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="foldopen" id="foldopen00201" data-start="{" data-end="}">
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="../../df/d28/class_atlas_1_1_fence.html#a2c3af040d9b75801b405f35aecf3487f">  201</a></span>VkFence <a class="code hl_function" href="../../df/d28/class_atlas_1_1_fence.html#a2c3af040d9b75801b405f35aecf3487f">Atlas::Fence::getFence</a>() const noexcept {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="keywordflow">return</span> mFence;</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>}</div>
 </div>
 <div class="ttc" id="a_fence_8h_html"><div class="ttname"><a href="../../d6/d78/_fence_8h.html">Fence.h</a></div></div>
-<div class="ttc" id="aclass_atlas_1_1_fence_html_a1b59b0a7cfc6461410b52917850ddc1b"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#a1b59b0a7cfc6461410b52917850ddc1b">Atlas::Fence::wait</a></div><div class="ttdeci">VkResult wait()</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00017">Fence.cpp:17</a></div></div>
-<div class="ttc" id="aclass_atlas_1_1_fence_html_a53f92e31c33e0494026c4abd25a28840"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#a53f92e31c33e0494026c4abd25a28840">Atlas::Fence::reset</a></div><div class="ttdeci">VkResult reset()</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00012">Fence.cpp:12</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_exception_html"><div class="ttname"><a href="../../d5/d17/class_atlas_1_1_a_exception.html">Atlas::AException</a></div><div class="ttdef"><b>Definition</b> <a href="../../de/d96/_a_exception_8h_source.html#l00101">AException.h:101</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_a_vulkan_handle_wrapper_html_a7c3c053963a177969b9e698b32be0b0d"><div class="ttname"><a href="../../d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper.html#a7c3c053963a177969b9e698b32be0b0d">Atlas::AVulkanHandleWrapper::isValid</a></div><div class="ttdeci">virtual bool isValid() const override</div><div class="ttdoc">Returns whether or not the Validatable is valid. If you override this function, you may use it to do ...</div><div class="ttdef"><b>Definition</b> <a href="../../df/d19/_render_common_8h_source.html#l00217">RenderCommon.h:217</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_device_html"><div class="ttname"><a href="../../dc/d6f/class_atlas_1_1_device.html">Atlas::Device</a></div><div class="ttdef"><b>Definition</b> <a href="../../de/d14/graphics_2vulkan_2_physical_device_8h_source.html#l00171">PhysicalDevice.h:174</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_a0c955b430cad937c9ec413745222eda7"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#a0c955b430cad937c9ec413745222eda7">Atlas::Fence::wait</a></div><div class="ttdeci">void wait()</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00144">Fence.cpp:144</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_a0df33371f770be4fd596fa3a18e0068d"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#a0df33371f770be4fd596fa3a18e0068d">Atlas::Fence::ParseAndThrowWaitError</a></div><div class="ttdeci">static void ParseAndThrowWaitError(VkResult error)</div><div class="ttdoc">Throws an exception based on the error that vkWaitForFences() returned. This function is really only ...</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00039">Fence.cpp:39</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_a116b67eb0e21d21d86bb3b916cb9dda2"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#a116b67eb0e21d21d86bb3b916cb9dda2">Atlas::Fence::mFence</a></div><div class="ttdeci">VkFence mFence</div><div class="ttdoc">The fence itself. This is created in the constructor.</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d78/_fence_8h_source.html#l00086">Fence.h:86</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_a2c3af040d9b75801b405f35aecf3487f"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#a2c3af040d9b75801b405f35aecf3487f">Atlas::Fence::getFence</a></div><div class="ttdeci">VkFence getFence() const noexcept</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00201">Fence.cpp:201</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_a4e6f4878e0354842ff68b8bf171ec286"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#a4e6f4878e0354842ff68b8bf171ec286">Atlas::Fence::ParseAndThrowResetError</a></div><div class="ttdeci">static void ParseAndThrowResetError(VkResult error)</div><div class="ttdoc">Throws an exception based on the error that vkResetFences() returned in the reset() function.</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00067">Fence.cpp:67</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_a8fc0a93dc616738131cb6fb9b016d21f"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#a8fc0a93dc616738131cb6fb9b016d21f">Atlas::Fence::getTimeout</a></div><div class="ttdeci">uint64_t getTimeout() const noexcept</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00197">Fence.cpp:197</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_a9a0c635a7c95ed1f4a0386dfd6ccb1ca"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#a9a0c635a7c95ed1f4a0386dfd6ccb1ca">Atlas::Fence::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00167">Fence.cpp:167</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_ad8fdd5371311682b2aa9a493947968f2"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#ad8fdd5371311682b2aa9a493947968f2">Atlas::Fence::getStatus</a></div><div class="ttdeci">EFenceStatus getStatus(VkDevice ownerDevice) const</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00175">Fence.cpp:175</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_adbfc38cf1bd859e9968cb60fb728ae78"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#adbfc38cf1bd859e9968cb60fb728ae78">Atlas::Fence::destroy</a></div><div class="ttdeci">void destroy()</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00120">Fence.cpp:120</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_ae6f35632a32ed4ceee416680742b9cda"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#ae6f35632a32ed4ceee416680742b9cda">Atlas::Fence::hasDeviceBeenLost</a></div><div class="ttdeci">bool hasDeviceBeenLost(VkDevice ownerDevice) const</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00193">Fence.cpp:193</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_ae8e21fcddbb62d7c5944f515a5a3da76"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#ae8e21fcddbb62d7c5944f515a5a3da76">Atlas::Fence::ParseAndThrowCreationError</a></div><div class="ttdeci">static void ParseAndThrowCreationError(VkResult error)</div><div class="ttdoc">Throws an exception based on the error that vkCreateFence() returned. This function is really only us...</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00012">Fence.cpp:12</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_aea345c99ca3ee485c2a22f14c19a5659"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#aea345c99ca3ee485c2a22f14c19a5659">Atlas::Fence::setTimeout</a></div><div class="ttdeci">void setTimeout(const uint64_t cNewTimeoutInNS) noexcept</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d0f/_fence_8cpp_source.html#l00171">Fence.cpp:171</a></div></div>
+<div class="ttc" id="aclass_atlas_1_1_fence_html_af8d8468c64a2c32544e752ef80b07185"><div class="ttname"><a href="../../df/d28/class_atlas_1_1_fence.html#af8d8468c64a2c32544e752ef80b07185">Atlas::Fence::Fence</a></div><div class="ttdeci">Fence()=default</div></div>
+<div class="ttc" id="anamespace_atlas_html_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282">Atlas::ELogLevel::error</a></div><div class="ttdeci">@ error</div></div>
+<div class="ttc" id="anamespace_atlas_html_aa0d776b0f6a6d55f1c791ec6d7f27b9f"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#aa0d776b0f6a6d55f1c791ec6d7f27b9f">Atlas::InfoLog</a></div><div class="ttdeci">void InfoLog(std::string const &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d5e/_logging_8cpp_source.html#l00218">Logging.cpp:218</a></div></div>
+<div class="ttc" id="anamespace_atlas_html_ac196b4691079d284d4c38234dfb90c58"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#ac196b4691079d284d4c38234dfb90c58">Atlas::WarnLog</a></div><div class="ttdeci">void WarnLog(std::string const &amp;message)</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d5e/_logging_8cpp_source.html#l00228">Logging.cpp:228</a></div></div>
+<div class="ttc" id="anamespace_atlas_html_ae7db6977272a5b8d7cea2b389a3b3f4a"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4a">Atlas::EFenceStatus</a></div><div class="ttdeci">EFenceStatus</div><div class="ttdoc">The status of a fence.</div><div class="ttdef"><b>Definition</b> <a href="../../d6/d78/_fence_8h_source.html#l00031">Fence.h:31</a></div></div>
+<div class="ttc" id="anamespace_atlas_html_ae7db6977272a5b8d7cea2b389a3b3f4aa88183b946cc5f0e8c96b2e66e1c74a7e"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aa88183b946cc5f0e8c96b2e66e1c74a7e">Atlas::EFenceStatus::Unknown</a></div><div class="ttdeci">@ Unknown</div><div class="ttdoc">The status of the fence is unknown. If you encounter this during development, please file a bug repor...</div></div>
+<div class="ttc" id="anamespace_atlas_html_ae7db6977272a5b8d7cea2b389a3b3f4aadd353567e8118a2b8df4e822e59084ab"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aadd353567e8118a2b8df4e822e59084ab">Atlas::EFenceStatus::NotReady</a></div><div class="ttdeci">@ NotReady</div><div class="ttdoc">The fence is not ready to use, in the VK_NOT_READY state, and there is GPU work pending.</div></div>
+<div class="ttc" id="anamespace_atlas_html_ae7db6977272a5b8d7cea2b389a3b3f4aae21f64304b84d5a977e1a00f2137428c"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aae21f64304b84d5a977e1a00f2137428c">Atlas::EFenceStatus::DeviceLost</a></div><div class="ttdeci">@ DeviceLost</div><div class="ttdoc">The result of the vkGetFenceStatus call was VK_ERROR_DEVICE_LOST. This value is something you do not ...</div></div>
+<div class="ttc" id="anamespace_atlas_html_ae7db6977272a5b8d7cea2b389a3b3f4aae7d31fc0602fb2ede144d18cdffd816b"><div class="ttname"><a href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aae7d31fc0602fb2ede144d18cdffd816b">Atlas::EFenceStatus::Ready</a></div><div class="ttdeci">@ Ready</div><div class="ttdoc">The fence is ready to use, in the VK_SUCCESS state, and there is no GPU work pending.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_169bc07725411c2c359378f17aa1abb6.html">graphics</a></li><li class="navelem"><a class="el" href="../../d4/d0f/_fence_8cpp.html">Fence.cpp</a></li>
-    <li class="footer">Generated on Thu Nov 6 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_169bc07725411c2c359378f17aa1abb6.html">graphics</a></li><li class="navelem"><a class="el" href="../../dir_2bf2faf4be199c8ab1f4adbf977f4961.html">vulkan</a></li><li class="navelem"><a class="el" href="../../d4/d0f/_fence_8cpp.html">Fence.cpp</a></li>
+    <li class="footer">Generated on Tue Mar 24 2026 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

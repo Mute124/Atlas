@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['nlevels_0',['nLevels',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079ac159531200648894c59793297f7bcc75',1,'Atlas']]],
-  ['notimplemented_1',['NotImplemented',['../d7/d54/namespace_atlas.html#a36d18fa5ac5efd38562c69609092783fa997ca4ce119685f40f03a9a8a6c5346e',1,'Atlas']]]
+  ['linux_0',['Linux',['../d7/d54/namespace_atlas.html#a466695042d26aaa22633828669d69a2daedc9f0a5a5d57797bf68e37364743831',1,'Atlas']]],
+  ['logger_1',['Logger',['../d7/d54/namespace_atlas.html#a3fa0af6547e790f8c50f6f39e7d6d1aaa959112efd77bcbe18a8c9e70e3274220',1,'Atlas']]]
 ];

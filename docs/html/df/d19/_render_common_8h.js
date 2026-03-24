@@ -1,12 +1,16 @@
 var _render_common_8h =
 [
+    [ "Atlas::ColorBit", "d8/d53/struct_atlas_1_1_color_bit.html", "d8/d53/struct_atlas_1_1_color_bit" ],
+    [ "Atlas::Color", "d0/d66/class_atlas_1_1_color.html", "d0/d66/class_atlas_1_1_color" ],
     [ "Atlas::CullRange", "d7/d2e/struct_atlas_1_1_cull_range.html", "d7/d2e/struct_atlas_1_1_cull_range" ],
     [ "Atlas::ObjectCullInfo", "d9/dc5/struct_atlas_1_1_object_cull_info.html", "d9/dc5/struct_atlas_1_1_object_cull_info" ],
     [ "Atlas::Culler", "db/d6f/class_atlas_1_1_culler.html", "db/d6f/class_atlas_1_1_culler" ],
     [ "Atlas::ICamera", "d6/d75/class_atlas_1_1_i_camera.html", null ],
     [ "Atlas::ADrawingMode", "d9/dd3/class_atlas_1_1_a_drawing_mode.html", "d9/dd3/class_atlas_1_1_a_drawing_mode" ],
     [ "Atlas::IRenderer", "d3/d02/class_atlas_1_1_i_renderer.html", "d3/d02/class_atlas_1_1_i_renderer" ],
+    [ "Atlas::GraphicsAllocationInfo", "d9/d1a/struct_atlas_1_1_graphics_allocation_info.html", "d9/d1a/struct_atlas_1_1_graphics_allocation_info" ],
     [ "Atlas::AVulkanHandleWrapper< T_WRAPS >", "d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper.html", "d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper" ],
+    [ "Atlas::VulkanGlobalStateObject< T_WRAPS, T_CHILD >", "d9/d20/class_atlas_1_1_vulkan_global_state_object.html", "d9/d20/class_atlas_1_1_vulkan_global_state_object" ],
     [ "Atlas::AVulkanCompositeHandleWrapper< T_WRAPS, T_VKB_EQUIVALENT, T_VKB_EQUIVALENT_BUILDER >", "db/d90/class_atlas_1_1_a_vulkan_composite_handle_wrapper.html", "db/d90/class_atlas_1_1_a_vulkan_composite_handle_wrapper" ],
     [ "Atlas::VulkanHandle", "d6/dec/concept_atlas_1_1_vulkan_handle.html", null ],
     [ "ECameraPerspectiveMode", "df/d19/_render_common_8h.html#a2013327a2ebc8b33c7138acfa42beaff", [
@@ -32,6 +36,7 @@ var _render_common_8h =
     ] ],
     [ "IsInvalidVulkanHandle", "df/d19/_render_common_8h.html#a3e908f0d107ed20c86a0197e7b93315b", null ],
     [ "IsValidVulkanHandle", "df/d19/_render_common_8h.html#a8d77151c1065c4d0fc2900351c5041e0", null ],
+    [ "COLOR_BIT_DENORMALIZING_FACTOR", "df/d19/_render_common_8h.html#ac325daa603547f1a39c26b744d949e4a", null ],
     [ "DEFAULT_FAR_CULL_DISTANCE", "df/d19/_render_common_8h.html#aa88b68a3d4cb4dbece3fd7155443eec6", null ],
     [ "DEFAULT_NEAR_CULL_DISTANCE", "df/d19/_render_common_8h.html#a9fd3299339b9092c98eab5f8ce197e5c", null ]
 ];

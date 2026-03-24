@@ -1,6 +1,6 @@
 var _logging_8h =
 [
-    [ "Atlas::LogMessage", "d8/d24/struct_atlas_1_1_log_message.html", "d8/d24/struct_atlas_1_1_log_message" ],
+    [ "Atlas::LogMessage", "d9/dc4/class_atlas_1_1_log_message.html", "d9/dc4/class_atlas_1_1_log_message" ],
     [ "Atlas::ALogger", "d3/dc0/class_atlas_1_1_a_logger.html", "d3/dc0/class_atlas_1_1_a_logger" ],
     [ "Atlas::SpdlogLogger", "da/d62/class_atlas_1_1_spdlog_logger.html", "da/d62/class_atlas_1_1_spdlog_logger" ],
     [ "Atlas::SpdlogLogger::LoggerSinks", "d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks.html", "d6/d1e/struct_atlas_1_1_spdlog_logger_1_1_logger_sinks" ],

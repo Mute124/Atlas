@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.1</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -101,15 +101,25 @@ $(document).ready(function(){initNavTree('df/d19/_render_common_8h.html','../../
   <div class="headertitle"><div class="title">RenderCommon.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="../../d4/d09/_core_8h_source.html">../core/Core.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;shared_mutex&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../d4/d09/_core_8h_source.html">../core/Core.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../db/d1f/_common_8h_source.html">../core/Common.h</a>&quot;</code><br />
 <code>#include &lt;vulkan/vulkan.h&gt;</code><br />
 <code>#include &lt;vulkan/vulkan_core.h&gt;</code><br />
+<code>#include &lt;vk_mem_alloc.h&gt;</code><br />
 </div>
 <p><a href="../../df/d19/_render_common_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d53/struct_atlas_1_1_color_bit.html">Atlas::ColorBit</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d66/class_atlas_1_1_color.html">Atlas::Color</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/struct_atlas_1_1_cull_range.html">Atlas::CullRange</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dc5/struct_atlas_1_1_object_cull_info.html">Atlas::ObjectCullInfo</a></td></tr>
@@ -122,7 +132,11 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d02/class_atlas_1_1_i_renderer.html">Atlas::IRenderer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d1a/struct_atlas_1_1_graphics_allocation_info.html">Atlas::GraphicsAllocationInfo</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d09/class_atlas_1_1_a_vulkan_handle_wrapper.html">Atlas::AVulkanHandleWrapper&lt; T_WRAPS &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d20/class_atlas_1_1_vulkan_global_state_object.html">Atlas::VulkanGlobalStateObject&lt; T_WRAPS, T_CHILD &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d90/class_atlas_1_1_a_vulkan_composite_handle_wrapper.html">Atlas::AVulkanCompositeHandleWrapper&lt; T_WRAPS, T_VKB_EQUIVALENT, T_VKB_EQUIVALENT_BUILDER &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,6 +190,8 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:ac325daa603547f1a39c26b744d949e4a" id="r_ac325daa603547f1a39c26b744d949e4a"><td class="memItemLeft" align="right" valign="top">constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/namespace_atlas_1_1_literals.html#ac325daa603547f1a39c26b744d949e4a">Atlas::Literals::COLOR_BIT_DENORMALIZING_FACTOR</a> = 255</td></tr>
+<tr class="separator:ac325daa603547f1a39c26b744d949e4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9fd3299339b9092c98eab5f8ce197e5c" id="r_a9fd3299339b9092c98eab5f8ce197e5c"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/namespace_atlas_1_1_literals.html#a9fd3299339b9092c98eab5f8ce197e5c">Atlas::Literals::DEFAULT_NEAR_CULL_DISTANCE</a> = 0.1</td></tr>
 <tr class="separator:a9fd3299339b9092c98eab5f8ce197e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa88b68a3d4cb4dbece3fd7155443eec6" id="r_aa88b68a3d4cb4dbece3fd7155443eec6"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dfc/namespace_atlas_1_1_literals.html#aa88b68a3d4cb4dbece3fd7155443eec6">Atlas::Literals::DEFAULT_FAR_CULL_DISTANCE</a> = 1000.0</td></tr>
@@ -187,7 +203,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_169bc07725411c2c359378f17aa1abb6.html">graphics</a></li><li class="navelem"><a class="el" href="../../df/d19/_render_common_8h.html">RenderCommon.h</a></li>
-    <li class="footer">Generated on Thu Nov 6 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Tue Mar 24 2026 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

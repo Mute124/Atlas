@@ -1,0 +1,135 @@
+\doxysection{Allocated\+Buffer.\+cpp}
+\hypertarget{_allocated_buffer_8cpp_source}{}\label{_allocated_buffer_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/vulkan/AllocatedBuffer.cpp@{C:/Dev/Techstorm-\/v5/src/engine/graphics/vulkan/AllocatedBuffer.cpp}}
+\mbox{\hyperlink{_allocated_buffer_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <format>}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <vk\_mem\_alloc.h>}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <vulkan/vulkan\_core.h>}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_allocated_buffer_8h}{AllocatedBuffer.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}../../debugging/Logging.h"{}}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00010}\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_aa5702319b2b7e7e58c53f6fa395edb28}{00010}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_aa5702319b2b7e7e58c53f6fa395edb28}{Atlas::AAllocatedBuffer::create}}(VmaAllocator\ vmaAllocator,\ VkBufferCreateInfo\ \textcolor{keyword}{const}\&\ bufferInfo,\ VmaAllocationCreateInfo\ \textcolor{keyword}{const}\&\ vmaallocInfo)}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00011}00011\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00012}00012\ \ \ \ \ \textcolor{keywordflow}{if}\ (vmaAllocator\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{class_atlas_1_1_invalid_allocator_exception}{InvalidAllocatorException}}(\textcolor{stringliteral}{"{}Cannot\ create\ a\ buffer\ with\ a\ null\ allocator.\ Did\ you\ make\ sure\ that\ the\ VMA\ allocator\ is\ initialized\ and\ that\ you\ pass\ in\ a\ valid\ allocator?"{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00014}00014\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{const}\ VkResult\ cCreateResult\ =\ vmaCreateBuffer(vmaAllocator,\ \&bufferInfo,\ \&vmaallocInfo,\ \&\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_aaebedc615eb913dde7147e93da537816}{mBuffer}},\ \&\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a0dc2b15be79a795166f54632780dec0f}{mAllocation}},\ \&\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a6a54bcbfc57c5c6ac222f157eb1e0e2c}{mInfo}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00018}00018\ \ \ \ \ \textcolor{keywordflow}{if}\ (cCreateResult\ !=\ VK\_SUCCESS)\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00019}00019\ \ \ \ \ \ \ \ \ vmaDestroyBuffer(vmaAllocator,\ \mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_aaebedc615eb913dde7147e93da537816}{mBuffer}},\ \mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a0dc2b15be79a795166f54632780dec0f}{mAllocation}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{class_atlas_1_1_invalid_buffer_exception}{InvalidBufferException}}(\textcolor{stringliteral}{"{}Failed\ to\ create\ buffer"{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00021}00021\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00022}00022\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00024}\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_af35c4fc9f048aaeb443583d6d788f0a6}{00024}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_af35c4fc9f048aaeb443583d6d788f0a6}{Atlas::AAllocatedBuffer::setBuffer}}(VkBuffer\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}})\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00025}00025\ \ \ \ \ mBuffer\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3667f558219c90437106b544a3ca00b8}{buffer}};}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00026}00026\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00028}\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_abbdb59fb11fad0458bdd9238ffe885a7}{00028}}\ \mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_abbdb59fb11fad0458bdd9238ffe885a7}{Atlas::AAllocatedBuffer::AAllocatedBuffer}}(VmaAllocator\ vmaAllocator,\ VkBufferCreateInfo\ \textcolor{keyword}{const}\&\ bufferInfo,\ VmaAllocationCreateInfo\ \textcolor{keyword}{const}\&\ vmaallocInfo)}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00029}00029\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00030}00030\ \ \ \ \ create(vmaAllocator,\ bufferInfo,\ vmaallocInfo);}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00031}00031\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00033}\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a97f3699e34351f24c7986e8e687a279b}{00033}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a97f3699e34351f24c7986e8e687a279b}{Atlas::AAllocatedBuffer::destroy}}(VmaAllocator\ allocator)}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00035}00035\ \ \ \ \ \textcolor{keywordflow}{if}\ (mBuffer\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{class_atlas_1_1_invalid_buffer_exception}{InvalidBufferException}}(\textcolor{stringliteral}{"{}Attempting\ to\ destroy\ buffer,\ but\ the\ buffer\ is\ null.\ Did\ you\ forget\ to\ create\ it\ or\ did\ you\ destroy\ it\ twice?"{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00039}00039\ \ \ \ \ \textcolor{keywordflow}{if}\ (allocator\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{class_atlas_1_1_invalid_allocator_exception}{InvalidAllocatorException}}(\textcolor{stringliteral}{"{}Cannot\ destroy\ a\ buffer\ with\ a\ null\ allocator.\ Make\ sure\ that\ you\ pass\ in\ a\ valid\ allocator\ pointer\ when\ creating\ the\ buffer."{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00041}00041\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00043}00043\ \ \ \ \ vmaDestroyBuffer(allocator,\ mBuffer,\ mAllocation);}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00044}00044\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00046}\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a474343d93170241c21de64b27e0afe08}{00046}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a474343d93170241c21de64b27e0afe08}{Atlas::AAllocatedBuffer::isMemoryMapped}}()\ const\ noexcept}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00047}00047\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//\ According\ to\ VMA's\ documentation,\ if\ pMappedData\ is\ null,\ then\ the\ buffer\ is\ not\ mapped\ (or\ has\ not\ been\ mapped\ yet).}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{keywordflow}{return}\ mInfo.pMappedData\ !=\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00050}00050\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00052}\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_ad44e0a81318e91403c113800fa52b679}{00052}}\ VkBuffer\ \mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_ad44e0a81318e91403c113800fa52b679}{Atlas::AAllocatedBuffer::getBuffer}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00053}00053\ \ \ \ \ \textcolor{keywordflow}{return}\ mBuffer;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00054}00054\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00056}\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a9d99a357b1dc25c97bb6d85d7e2f133b}{00056}}\ \textcolor{keywordtype}{void}*\ \mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a9d99a357b1dc25c97bb6d85d7e2f133b}{Atlas::AAllocatedBuffer::getMappedMemory}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00057}00057\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00058}00058\ \ \ \ \ \textcolor{keywordflow}{if}\ (mInfo.pMappedData\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{class_atlas_1_1_forbidden_buffer_access_exception}{ForbiddenBufferAccessException}}(\textcolor{stringliteral}{"{}Cannot\ get\ the\ mapped\ memory\ of\ a\ buffer\ whose\ memory\ has\ not\ been\ mapped.\ Make\ sure\ that\ you\ map\ the\ buffer\ before\ trying\ to\ get\ its\ mapped\ memory."{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00060}00060\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{keywordflow}{return}\ mInfo.pMappedData;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00063}00063\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00065}\mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a50667925e71572d929529f6c0afec49e}{00065}}\ uint64\_t\ \mbox{\hyperlink{class_atlas_1_1_a_allocated_buffer_a50667925e71572d929529f6c0afec49e}{Atlas::AAllocatedBuffer::getAllocationSize}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00066}00066\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00067}00067\ \ \ \ \ \textcolor{keywordflow}{return}\ mInfo.size;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00068}00068\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00070}\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a16a25071f6f854c2e153ab69e1b2698a}{00070}}\ \textcolor{keyword}{inline}\ VkBufferCreateInfo\ \mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a16a25071f6f854c2e153ab69e1b2698a}{Atlas::AllocatedBuffer::CreateBufferCreateInfo}}(\textcolor{keywordtype}{size\_t}\ allocSize,\ VkBufferUsageFlags\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_afb85c5d9b1bce96aa3b530d581194d1a}{usage}})\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00071}00071\ \ \ \ \ \textcolor{keywordflow}{if}\ (allocSize\ <=\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{class_atlas_1_1_invalid_allocation_exception}{InvalidAllocationException}}(\textcolor{stringliteral}{"{}Cannot\ create\ buffer\ with\ an\ allocation\ size\ less\ than\ or\ equal\ to\ 0!"{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00073}00073\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00074}00074\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00075}00075\ \ \ \ \ VkBufferCreateInfo\ bufferInfo\ =\ \{\ .sType\ =\ VK\_STRUCTURE\_TYPE\_BUFFER\_CREATE\_INFO\ \};}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00076}00076\ \ \ \ \ bufferInfo.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00077}00077\ \ \ \ \ bufferInfo.size\ =\ allocSize;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00078}00078\ \ \ \ \ bufferInfo.usage\ =\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_afb85c5d9b1bce96aa3b530d581194d1a}{usage}};}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00079}00079\ \ \ \ \ \textcolor{keywordflow}{return}\ bufferInfo;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00080}00080\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00082}\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_aeaa0441ae9c8869769d09cae2ef4cf6f}{00082}}\ \textcolor{keyword}{inline}\ VmaAllocationCreateInfo\ \mbox{\hyperlink{class_atlas_1_1_allocated_buffer_aeaa0441ae9c8869769d09cae2ef4cf6f}{Atlas::AllocatedBuffer::CreateAllocationCreateInfo}}(VmaMemoryUsage\ memoryUsage)\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00083}00083\ \ \ \ \ VmaAllocationCreateInfo\ vmaallocInfo\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00084}00084\ \ \ \ \ vmaallocInfo.usage\ =\ memoryUsage;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00085}00085\ \ \ \ \ vmaallocInfo.flags\ =\ VMA\_ALLOCATION\_CREATE\_MAPPED\_BIT;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00086}00086\ \ \ \ \ \textcolor{keywordflow}{return}\ vmaallocInfo;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00087}00087\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00089}\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a8473b70841cd740661903b85054eff4f}{00089}}\ \mbox{\hyperlink{class_atlas_1_1_allocated_buffer_ac440ea8ab21e07c2aa2c5e25e4d55aa0}{Atlas::AllocatedBuffer::AllocatedBuffer}}(VmaAllocator\ vmaAllocator,\ VkBufferCreateInfo\ \textcolor{keyword}{const}\&\ bufferInfo,\ VmaAllocationCreateInfo\ \textcolor{keyword}{const}\&\ vmaallocInfo)\ :\ mAllocator(vmaAllocator)\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (vmaAllocator\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{class_atlas_1_1_invalid_allocator_exception}{InvalidAllocatorException}}(\textcolor{stringliteral}{"{}Cannot\ create\ a\ buffer\ with\ a\ null\ allocator.\ Did\ you\ make\ sure\ that\ the\ VMA\ allocator\ is\ initialized\ and\ that\ you\ pass\ in\ a\ valid\ allocator?"{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00092}00092\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00094}00094\ \ \ \ \ vmaCreateBuffer(vmaAllocator,\ \&bufferInfo,\ \&vmaallocInfo,\ \&\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_adb545efa2489b9a0165f7e4ba4a6ab4c}{mBuffer}},\ \&\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_abb53ba03f210246e32a04e6e5efadfd8}{mAllocation}},\ \&\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a0502c2ebe14cbb0fafad7acdd3327bb6}{mInfo}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00095}00095\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00097}\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_ad4cf12249f521ec6ee05ddecfb865231}{00097}}\ \mbox{\hyperlink{class_atlas_1_1_allocated_buffer_ac440ea8ab21e07c2aa2c5e25e4d55aa0}{Atlas::AllocatedBuffer::AllocatedBuffer}}(VmaAllocator\ vmaAllocator,\ \textcolor{keywordtype}{size\_t}\ allocSize,\ VkBufferUsageFlags\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_afb85c5d9b1bce96aa3b530d581194d1a}{usage}},\ VmaMemoryUsage\ memoryUsage)}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00098}00098\ \ \ \ \ :\ \mbox{\hyperlink{class_atlas_1_1_allocated_buffer}{AllocatedBuffer}}(vmaAllocator,\ CreateBufferCreateInfo(allocSize,\ \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_afb85c5d9b1bce96aa3b530d581194d1a}{usage}}),\ CreateAllocationCreateInfo(memoryUsage))\ \{\}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00100}\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a031d1514c37ee31dca380b315c31fe0d}{00100}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a9da5aae0ca3b7d48185f7eafc74bc95e}{Atlas::AllocatedBuffer::destroy}}(VmaAllocator\ allocator)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00101}00101\ \ \ \ \ \textcolor{keywordflow}{if}\ (mBuffer\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{class_atlas_1_1_invalid_buffer_exception}{InvalidBufferException}}(\textcolor{stringliteral}{"{}Attempting\ to\ destroy\ buffer,\ but\ the\ buffer\ is\ null.\ Did\ you\ forget\ to\ create\ it\ or\ did\ you\ destroy\ it\ twice?"{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00103}00103\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00105}00105\ \ \ \ \ \textcolor{keywordflow}{if}\ (allocator\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{class_atlas_1_1_invalid_allocator_exception}{InvalidAllocatorException}}(\textcolor{stringliteral}{"{}Cannot\ destroy\ a\ buffer\ with\ a\ null\ allocator.\ Make\ sure\ that\ you\ pass\ in\ a\ valid\ allocator\ pointer\ when\ creating\ the\ buffer."{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00107}00107\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00109}00109\ \ \ \ \ vmaDestroyBuffer(allocator,\ mBuffer,\ mAllocation);}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00110}00110\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00112}\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a9da5aae0ca3b7d48185f7eafc74bc95e}{00112}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a9da5aae0ca3b7d48185f7eafc74bc95e}{Atlas::AllocatedBuffer::destroy}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00113}00113\ \ \ \ \ \textcolor{comment}{//\ Any\ errors\ will\ be\ caught\ in\ the\ following\ function.}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00114}00114\ \ \ \ \ destroy(mAllocator);}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00115}00115\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00117}\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a52568f27ef5be017d78af6a3ebb8f7a3}{00117}}\ VkBuffer\&\ \mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a52568f27ef5be017d78af6a3ebb8f7a3}{Atlas::AllocatedBuffer::getBuffer}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{return}\ mBuffer;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00119}00119\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00121}\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_af8d0b04332d31e6d5aba4dcdece1d29e}{00121}}\ VmaAllocation\ \mbox{\hyperlink{class_atlas_1_1_allocated_buffer_af8d0b04332d31e6d5aba4dcdece1d29e}{Atlas::AllocatedBuffer::getAllocation}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00122}00122\ \ \ \ \ \textcolor{keywordflow}{return}\ mAllocation;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00123}00123\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00125}\mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a0e83fd5f99381afb9a4a600940c4bac7}{00125}}\ VmaAllocationInfo\ \mbox{\hyperlink{class_atlas_1_1_allocated_buffer_a0e83fd5f99381afb9a4a600940c4bac7}{Atlas::AllocatedBuffer::getAllocationInfo}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00126}00126\ \ \ \ \ \textcolor{keywordflow}{return}\ mInfo;}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00127}00127\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{_allocated_buffer_8cpp_source_l00129}00129\ }
+
+\end{DoxyCode}

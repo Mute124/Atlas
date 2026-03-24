@@ -1,0 +1,78 @@
+\doxysection{Shader\+Module.\+cpp}
+\hypertarget{_shader_module_8cpp_source}{}\label{_shader_module_8cpp_source}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/drawing/ShaderModule.cpp@{C:/Dev/Techstorm-\/v5/src/engine/graphics/drawing/ShaderModule.cpp}}
+\mbox{\hyperlink{_shader_module_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_shader_module_8h}{ShaderModule.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00003}\mbox{\hyperlink{class_atlas_1_1_shader_module_ae16fc94e606212c5fe39998b8c21e362}{00003}}\ \mbox{\hyperlink{class_atlas_1_1_shader_module_a9a9528a0597f1e74c11e7ea1c525cd18}{Atlas::ShaderModule::ShaderModule}}(\mbox{\hyperlink{class_atlas_1_1_device}{Device}}\ \textcolor{keyword}{const}\&\ device,\ std::filesystem::path\ \textcolor{keyword}{const}\&\ path,\ \mbox{\hyperlink{class_atlas_1_1_file_manager}{FileManager}}\&\ ioManager,\ \mbox{\hyperlink{namespace_atlas_ac2e480d37b213bd6f693f2c7d0f2a99e}{EShaderModuleType}}\ moduleType)\ :\ mDevice(device),\ mModuleType(moduleType)\ \{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00004}00004\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_shader_module_ad642ea1135be9bb94a8d92f06ebc8108}{load}}(path,\ ioManager);}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00005}00005\ \}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00007}\mbox{\hyperlink{class_atlas_1_1_shader_module_a0bc8002ce66d9cdb9341eb9b447a81ad}{00007}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_shader_module_a0bc8002ce66d9cdb9341eb9b447a81ad}{Atlas::ShaderModule::createShaderModule}}(\mbox{\hyperlink{class_atlas_1_1_device}{Device}}\ \textcolor{keyword}{const}\&\ device,\ VkShaderModuleCreateInfo*\ createInfo,\ VkShaderModule*\ module)\ \{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00008}00008\ \ \ \ \ \mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{ATLAS\_ASSERT}}(createInfo\ !=\ \textcolor{keyword}{nullptr},\ \textcolor{stringliteral}{"{}createInfo\ must\ not\ be\ nullptr!"{}});}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00009}00009\ \ \ \ \ \mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{ATLAS\_ASSERT}}(module\ !=\ \textcolor{keyword}{nullptr},\ \textcolor{stringliteral}{"{}The\ VkShaderModule\ passed\ must\ not\ be\ nullptr!"{}});}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00011}00011\ \ \ \ \ \textcolor{keywordflow}{return}\ vkCreateShaderModule(device,\ createInfo,\ \textcolor{keyword}{nullptr},\ module)\ ==\ VK\_SUCCESS;}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00012}00012\ \}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00014}\mbox{\hyperlink{class_atlas_1_1_shader_module_ad642ea1135be9bb94a8d92f06ebc8108}{00014}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_shader_module_ad642ea1135be9bb94a8d92f06ebc8108}{Atlas::ShaderModule::load}}(std::filesystem::path\ \textcolor{keyword}{const}\&\ path,\ \mbox{\hyperlink{class_atlas_1_1_file_manager}{FileManager}}\&\ ioManager)\ \{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00015}00015\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_file_handle}{FileHandle}}\ handle\ =\ ioManager.\mbox{\hyperlink{class_atlas_1_1_file_manager_a3b01fae0c00120df95211d53b300a48a}{openFile}}(path);}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00017}00017\ \ \ \ \ std::shared\_ptr<FileData>\ fileData\ =\ handle.\mbox{\hyperlink{class_atlas_1_1_file_handle_a443bb8a28e6600ac75a10665ab81254e}{get}}();}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00019}00019\ \ \ \ \ \textcolor{comment}{//\ create\ a\ new\ shader\ module,\ using\ the\ buffer\ we\ loaded}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00020}00020\ \ \ \ \ VkShaderModuleCreateInfo\ createInfo\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00021}00021\ \ \ \ \ createInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_SHADER\_MODULE\_CREATE\_INFO;}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00022}00022\ \ \ \ \ createInfo.pNext\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00024}00024\ \ \ \ \ \textcolor{comment}{//\ codeSize\ has\ to\ be\ in\ bytes,\ so\ multply\ the\ ints\ in\ the\ buffer\ by\ size\ of}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00025}00025\ \ \ \ \ \textcolor{comment}{//\ int\ to\ know\ the\ real\ size\ of\ the\ buffer}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00026}00026\ \ \ \ \ createInfo.codeSize\ =\ fileData-\/>size()\ *\ \textcolor{keyword}{sizeof}(uint32\_t);}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{comment}{//\ Since\ SPIRV\ needs\ to\ be\ uint32\_t,\ we\ need\ to\ convert\ the\ bytes\ to\ uint32\_t}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00029}00029\ \ \ \ \ std::vector<uint32\_t>\ code;}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00031}00031\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ fileData-\/>bytes.size();\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ code.push\_back(fileData-\/>bytes[i].to<uint32\_t>());}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00033}00033\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00035}00035\ \ \ \ \ createInfo.pCode\ =\ code.data();}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{keywordflow}{if}\ (!createShaderModule(mDevice,\ \&createInfo,\ \&mShaderModule))\ \{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00039}00039\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00041}00041\ \ \ \ \ mbLoaded\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00043}00043\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00044}00044\ \}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00046}\mbox{\hyperlink{class_atlas_1_1_shader_module_a78390b0a95f23872c1d0d3936ea3830d}{00046}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_shader_module_a78390b0a95f23872c1d0d3936ea3830d}{Atlas::ShaderModule::destroy}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00047}00047\ \ \ \ \ \textcolor{keywordtype}{bool}\ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{keywordflow}{if}\ (isLoaded())\ \{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ vkDestroyShaderModule(mDevice,\ mShaderModule,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ mbLoaded\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{keywordflow}{return}\ success;}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00056}00056\ \}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00058}\mbox{\hyperlink{class_atlas_1_1_shader_module_a11a0f602080115c91b4f826713590da9}{00058}}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_shader_module_a11a0f602080115c91b4f826713590da9}{Atlas::ShaderModule::isLoaded}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00059}00059\ \ \ \ \ \textcolor{keywordflow}{return}\ mbLoaded;}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00060}00060\ \}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00062}\mbox{\hyperlink{class_atlas_1_1_shader_module_aed72630433ea4a3e036e5e926a5a4dc3}{00062}}\ VkShaderModule\ \mbox{\hyperlink{class_atlas_1_1_shader_module_aed72630433ea4a3e036e5e926a5a4dc3}{Atlas::ShaderModule::getShaderModule}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{return}\ mShaderModule;}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00064}00064\ \}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00066}\mbox{\hyperlink{class_atlas_1_1_shader_module_a8cd03b4d263a913f5943994ec511926a}{00066}}\ \mbox{\hyperlink{namespace_atlas_ac2e480d37b213bd6f693f2c7d0f2a99e}{Atlas::EShaderModuleType}}\ \mbox{\hyperlink{class_atlas_1_1_shader_module_a8cd03b4d263a913f5943994ec511926a}{Atlas::ShaderModule::getShaderModuleType}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00067}00067\ \ \ \ \ \textcolor{keywordflow}{return}\ mModuleType;}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00068}00068\ \}}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00070}00070\ Atlas::ShaderModule::operator\ VkShaderModule()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00071}00071\ \ \ \ \ \textcolor{keywordflow}{return}\ mShaderModule;}
+\DoxyCodeLine{\Hypertarget{_shader_module_8cpp_source_l00072}00072\ \}}
+
+\end{DoxyCode}

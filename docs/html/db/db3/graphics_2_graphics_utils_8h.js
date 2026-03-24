@@ -5,6 +5,7 @@ var graphics_2_graphics_utils_8h =
     [ "CreateCommandBufferAllocateInfo", "db/db3/graphics_2_graphics_utils_8h.html#adfa68c6d6cbe8c3db73e75525e66ef4a", null ],
     [ "CreateCommandBufferBeginInfo", "db/db3/graphics_2_graphics_utils_8h.html#a4931baa2d3c987ef3cb127667dc442d8", null ],
     [ "CreateCommandPoolCreateInfo", "db/db3/graphics_2_graphics_utils_8h.html#a0e2419043c2bf72f75e532ed563ff5af", null ],
+    [ "CreateDepthAttachmentInfo", "db/db3/graphics_2_graphics_utils_8h.html#a9ab405439fd8ab0dacaafa38e0f03c39", null ],
     [ "CreateFenceCreateInfo", "db/db3/graphics_2_graphics_utils_8h.html#a2eb75a279d9d94185e007305c39ae665", null ],
     [ "CreateImageCreateInfo", "db/db3/graphics_2_graphics_utils_8h.html#aafca0d417a35bba15f288564c0b3032a", null ],
     [ "CreateImageSubresourceRange", "db/db3/graphics_2_graphics_utils_8h.html#a87409471205b4bd1d6441b8ac33cea03", null ],

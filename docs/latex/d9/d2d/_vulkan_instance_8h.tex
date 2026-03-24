@@ -1,5 +1,5 @@
-\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/\+Vulkan\+Instance.h File Reference}
-\hypertarget{_vulkan_instance_8h}{}\label{_vulkan_instance_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/VulkanInstance.h@{C:/Dev/Techstorm-\/v5/src/engine/graphics/VulkanInstance.h}}
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/vulkan/\+Vulkan\+Instance.h File Reference}
+\hypertarget{_vulkan_instance_8h}{}\label{_vulkan_instance_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/vulkan/VulkanInstance.h@{C:/Dev/Techstorm-\/v5/src/engine/graphics/vulkan/VulkanInstance.h}}
 {\ttfamily \#include $<$cstdint$>$}\newline
 {\ttfamily \#include $<$optional$>$}\newline
 {\ttfamily \#include $<$string$>$}\newline
@@ -7,9 +7,10 @@
 {\ttfamily \#include $<$vulkan/vulkan.\+h$>$}\newline
 {\ttfamily \#include $<$vulkan/vulkan\+\_\+core.\+h$>$}\newline
 {\ttfamily \#include $<$Vk\+Bootstrap.\+h$>$}\newline
-{\ttfamily \#include "{}../core/\+Core.\+h"{}}\newline
-{\ttfamily \#include "{}../core/\+Version.\+h"{}}\newline
-{\ttfamily \#include "{}backend/\+Rendering\+Backend.\+h"{}}\newline
+{\ttfamily \#include "{}../../core/\+Core.\+h"{}}\newline
+{\ttfamily \#include "{}../../core/\+Version.\+h"{}}\newline
+{\ttfamily \#include "{}../../core/\+Application\+Info.\+h"{}}\newline
+{\ttfamily \#include "{}../backend/\+Rendering\+Backend.\+h"{}}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -21,6 +22,11 @@ struct \mbox{\hyperlink{struct_atlas_1_1_vulkan_instance_wrapper_1_1_init_config
 \begin{DoxyCompactItemize}
 \item 
 namespace \mbox{\hyperlink{namespace_atlas}{Atlas}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_vulkan_instance_8h_a1aef8e925d2f27d7723c5ffe068704e7}{ATLAS\+\_\+\+ENABLE\+\_\+\+VALIDATION\+\_\+\+LAYERS}}~true
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
@@ -34,3 +40,16 @@ using \mbox{\hyperlink{namespace_atlas_a70c92d51cf7a5ffa6b87ef2d2db9506d}{Atlas\
 \begin{DoxyCompactList}\small\item\em Translates a vulkan debug log level to one that \doxylink{namespace_atlas}{Atlas} can use. For the most part, the Vulkan debug log levels are the same as the \doxylink{namespace_atlas}{Atlas} ones, with {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+INFO\+\_\+\+BIT\+\_\+\+EXT}, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+WARNING\+\_\+\+BIT\+\_\+\+EXT}, and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+ERROR\+\_\+\+BIT\+\_\+\+EXT} being the same as {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{ELog\+Level\+::info}}, {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a1ea4c3ab05ee0c6d4de30740443769cb}{ELog\+Level\+::warn}}, and {\itshape ELog\+Level\+::err} in that order. However, {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+VERBOSE\+\_\+\+BIT\+\_\+\+EXT} and {\itshape VK\+\_\+\+DEBUG\+\_\+\+UTILS\+\_\+\+MESSAGE\+\_\+\+SEVERITY\+\_\+\+FLAG\+\_\+\+BITS\+\_\+\+MAX\+\_\+\+ENUM\+\_\+\+EXT} are translated to {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a04a75036e9d520bb983c5ed03b8d0182}{ELog\+Level\+::trace}} and {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079a7e85bcb66fb9a809d5ab4f62a8b8bea8}{ELog\+Level\+::critical}}, respectively. The default is {\itshape \doxylink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acaf9b6b99962bf5c2264824231d7a40c}{ELog\+Level\+::info}}. \end{DoxyCompactList}\item 
 Vk\+Bool32 \mbox{\hyperlink{namespace_atlas_afaaad2137b7ca90a17d022d41cb33632}{Atlas\+::\+Default\+Vulkan\+Debug\+Callback}} (Vk\+Debug\+Utils\+Message\+Severity\+Flag\+Bits\+EXT message\+Severity, Vk\+Debug\+Utils\+Message\+Type\+Flags\+EXT message\+Type, const Vk\+Debug\+Utils\+Messenger\+Callback\+Data\+EXT \texorpdfstring{$\ast$}{*}p\+Callback\+Data, \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \texorpdfstring{$\ast$}{*}p\+User\+Data)
 \begin{DoxyCompactList}\small\item\em The default Vulkan debug callback that \doxylink{namespace_atlas}{Atlas} uses if no custom debug callback is provided by the user in \doxylink{class_atlas_1_1_vulkan_instance_wrapper}{Vulkan\+Instance\+Wrapper} before it is initialized. According to the Khronos specification on the {\itshape PFN\+\_\+vk\+Debug\+Utils\+Messenger\+Callback\+EXT} object, this function should always return a value of {\itshape VK\+\_\+\+FALSE}, which is what this function does. See the Khronos specification for more information (this is in the see also section of the documentation). The message is logged via the usage of {\itshape spdlog\+::log()}. However, this means that some logger (more specifically a {\itshape Spdlog} logger) must have been initialized before this function is called or it will crash. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_vulkan_instance_8h_a1aef8e925d2f27d7723c5ffe068704e7}\label{_vulkan_instance_8h_a1aef8e925d2f27d7723c5ffe068704e7} 
+\index{VulkanInstance.h@{VulkanInstance.h}!ATLAS\_ENABLE\_VALIDATION\_LAYERS@{ATLAS\_ENABLE\_VALIDATION\_LAYERS}}
+\index{ATLAS\_ENABLE\_VALIDATION\_LAYERS@{ATLAS\_ENABLE\_VALIDATION\_LAYERS}!VulkanInstance.h@{VulkanInstance.h}}
+\doxysubsubsection{\texorpdfstring{ATLAS\_ENABLE\_VALIDATION\_LAYERS}{ATLAS\_ENABLE\_VALIDATION\_LAYERS}}
+{\footnotesize\ttfamily \#define ATLAS\+\_\+\+ENABLE\+\_\+\+VALIDATION\+\_\+\+LAYERS~true}
+
+
+
+Definition at line \mbox{\hyperlink{_vulkan_instance_8h_source_l00032}{32}} of file \mbox{\hyperlink{_vulkan_instance_8h_source}{Vulkan\+Instance.\+h}}.
+

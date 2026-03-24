@@ -6,5 +6,6 @@ var _i_o_manager_8h =
     [ "Atlas::FileManager::FileJanitor", "db/d6b/class_atlas_1_1_file_manager_1_1_file_janitor.html", "db/d6b/class_atlas_1_1_file_manager_1_1_file_janitor" ],
     [ "ATLAS_DEFAULT_FILE_TTL", "db/d71/_i_o_manager_8h.html#a4a8b2844c5bda45c796e27e5b2182135", null ],
     [ "ATLAS_DEFAULT_JANITOR_CHECK_INTERVAL", "db/d71/_i_o_manager_8h.html#a4bc68c68c6b971427f20b239e9b0c40f", null ],
-    [ "ATLAS_DEFAULT_START_JANITOR", "db/d71/_i_o_manager_8h.html#aee60833370e139b6b71573a0842f104e", null ]
+    [ "ATLAS_DEFAULT_START_JANITOR", "db/d71/_i_o_manager_8h.html#aee60833370e139b6b71573a0842f104e", null ],
+    [ "FileLoaderFunction", "db/d71/_i_o_manager_8h.html#a0004f9bd019b768d1a661355f685a7fd", null ]
 ];

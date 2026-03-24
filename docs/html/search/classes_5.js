@@ -8,9 +8,11 @@ var searchData=
   ['filerecord_5',['FileRecord',['../d2/d46/struct_atlas_1_1_file_record.html',1,'Atlas']]],
   ['filesystemauditinfo_6',['FileSystemAuditInfo',['../d7/d2f/struct_atlas_1_1_file_system_audit_info.html',1,'Atlas']]],
   ['filesystemmap_7',['FileSystemMap',['../db/df2/class_atlas_1_1_file_system_map.html',1,'Atlas']]],
-  ['foundpathresult_8',['FoundPathResult',['../d5/dcd/struct_atlas_1_1_found_path_result.html',1,'Atlas']]],
-  ['frame_9',['Frame',['../d8/d02/class_atlas_1_1_frame.html',1,'Atlas']]],
-  ['framebufferdescriptor_10',['FramebufferDescriptor',['../d6/d1f/interface_framebuffer_descriptor.html',1,'']]],
-  ['framedata_11',['FrameData',['../d7/d32/struct_atlas_1_1_frame_data.html',1,'Atlas']]],
-  ['frameresources_12',['FrameResources',['../da/d55/struct_frame_resources.html',1,'']]]
+  ['forbiddenbufferaccessexception_8',['ForbiddenBufferAccessException',['../d0/d9c/class_atlas_1_1_forbidden_buffer_access_exception.html',1,'Atlas']]],
+  ['foundpathresult_9',['FoundPathResult',['../d5/dcd/struct_atlas_1_1_found_path_result.html',1,'Atlas']]],
+  ['fps_10',['FPS',['../d0/d9d/class_atlas_1_1_f_p_s.html',1,'Atlas']]],
+  ['frame_11',['Frame',['../d8/d02/class_atlas_1_1_frame.html',1,'Atlas']]],
+  ['framebufferdescriptor_12',['FramebufferDescriptor',['../d6/d1f/interface_framebuffer_descriptor.html',1,'']]],
+  ['framedata_13',['FrameData',['../d7/d32/struct_atlas_1_1_frame_data.html',1,'Atlas']]],
+  ['frameresources_14',['FrameResources',['../da/d55/struct_frame_resources.html',1,'']]]
 ];

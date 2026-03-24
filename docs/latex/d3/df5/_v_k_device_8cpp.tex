@@ -1,8 +1,8 @@
-\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/backend/\+VKDevice.cpp File Reference}
-\hypertarget{_v_k_device_8cpp}{}\label{_v_k_device_8cpp}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/backend/VKDevice.cpp@{C:/Dev/Techstorm-\/v5/src/engine/graphics/backend/VKDevice.cpp}}
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/vulkan/\+VKDevice.cpp File Reference}
+\hypertarget{_v_k_device_8cpp}{}\label{_v_k_device_8cpp}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/vulkan/VKDevice.cpp@{C:/Dev/Techstorm-\/v5/src/engine/graphics/vulkan/VKDevice.cpp}}
 {\ttfamily \#include "{}VKDevice.\+h"{}}\newline
-{\ttfamily \#include "{}../\+Vulkan\+Instance.\+h"{}}\newline
-{\ttfamily \#include "{}Rendering\+Backend.\+h"{}}\newline
+{\ttfamily \#include "{}Vulkan\+Instance.\+h"{}}\newline
+{\ttfamily \#include "{}../backend/\+Rendering\+Backend.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Frame.\+h"{}}\newline
 {\ttfamily \#include "{}../../core/\+Core.\+h"{}}\newline
 {\ttfamily \#include "{}../window/\+Window.\+h"{}}\newline
@@ -23,16 +23,16 @@
 {\ttfamily \#include $<$SDL\+\_\+vulkan.\+h$>$}\newline
 {\ttfamily \#include "{}../../core/\+Common.\+h"{}}\newline
 {\ttfamily \#include "{}../../debugging/\+Logging.\+h"{}}\newline
-{\ttfamily \#include "{}../\+Descriptor\+Layout\+Builder.\+h"{}}\newline
+{\ttfamily \#include "{}Descriptor\+Layout\+Builder.\+h"{}}\newline
 {\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include $<$filesystem$>$}\newline
 {\ttfamily \#include $<$format$>$}\newline
 {\ttfamily \#include $<$functional$>$}\newline
 {\ttfamily \#include "{}../../core/\+Version.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Graphics\+Utils.\+h"{}}\newline
-{\ttfamily \#include "{}../\+Pipeline\+Builder.\+h"{}}\newline
+{\ttfamily \#include "{}Pipeline\+Builder.\+h"{}}\newline
 {\ttfamily \#include $<$glm/fwd.\+hpp$>$}\newline
-{\ttfamily \#include "{}../\+Physical\+Device.\+h"{}}\newline
+{\ttfamily \#include "{}Physical\+Device.\+h"{}}\newline
 {\ttfamily \#include $<$array$>$}\newline
 {\ttfamily \#include $<$cstring$>$}\newline
 {\ttfamily \#include $<$fastgltf/util.\+hpp$>$}\newline
@@ -40,6 +40,7 @@
 {\ttfamily \#include "{}../drawing/\+Effect\+Manager.\+h"{}}\newline
 {\ttfamily \#include $<$optional$>$}\newline
 {\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$glm/gtx/transform.\+hpp$>$}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -58,6 +59,10 @@ struct \mbox{\hyperlink{struct_global_context}{Global\+Context}}
 std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{struct_global_context}{Global\+Context}} $>$ \mbox{\hyperlink{_v_k_device_8cpp_a4ed1ac7ebe096fc975b54178b0b937ba}{g\+Global\+Context}}
 \item 
 \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Atlas\+::\+Vulkan\+Rendering\+Backend}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}{g\+Loaded\+Vulkan\+Backend}} = nullptr
+\item 
+static glm\+::vec3 \mbox{\hyperlink{_v_k_device_8cpp_abcc44b1c59ee20e3bb64a8e5a8e6a0b0}{s\+Camera\+Position}} = \{ 0.f, 0.f, -\/1.f \}
+\item 
+static int \mbox{\hyperlink{_v_k_device_8cpp_a5e37afe8f95f975774b36173f796eae3}{s\+Model\+Id}} = 0
 \end{DoxyCompactItemize}
 
 
@@ -93,7 +98,7 @@ Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00017}{17}} of file
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00089}{89}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00090}{90}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
 
 \Hypertarget{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861}\label{_v_k_device_8cpp_a49fac99d0f5e6cb7578a0e1773faa861} 
 \index{VKDevice.cpp@{VKDevice.cpp}!gLoadedVulkanBackend@{gLoadedVulkanBackend}}
@@ -103,9 +108,37 @@ Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00089}{89}} of file
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00091}{91}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00092}{92}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
 
 
 
-Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01264}{Atlas\+::get\+Loaded\+Rendering\+Backed()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01269}{Atlas\+::set\+Loaded\+Rendering\+Backend()}}.
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01299}{Atlas\+::get\+Loaded\+Rendering\+Backed()}}, \mbox{\hyperlink{_v_k_device_8cpp_source_l01304}{Atlas\+::set\+Loaded\+Rendering\+Backend()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01442}{Atlas\+::\+Im\+Gui\+Renderable\+::setup\+Elements()}}.
+
+\Hypertarget{_v_k_device_8cpp_abcc44b1c59ee20e3bb64a8e5a8e6a0b0}\label{_v_k_device_8cpp_abcc44b1c59ee20e3bb64a8e5a8e6a0b0} 
+\index{VKDevice.cpp@{VKDevice.cpp}!sCameraPosition@{sCameraPosition}}
+\index{sCameraPosition@{sCameraPosition}!VKDevice.cpp@{VKDevice.cpp}}
+\doxysubsubsection{\texorpdfstring{sCameraPosition}{sCameraPosition}}
+{\footnotesize\ttfamily glm\+::vec3 s\+Camera\+Position = \{ 0.f, 0.f, -\/1.f \}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00094}{94}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01160}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+Geometry()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01442}{Atlas\+::\+Im\+Gui\+Renderable\+::setup\+Elements()}}.
+
+\Hypertarget{_v_k_device_8cpp_a5e37afe8f95f975774b36173f796eae3}\label{_v_k_device_8cpp_a5e37afe8f95f975774b36173f796eae3} 
+\index{VKDevice.cpp@{VKDevice.cpp}!sModelId@{sModelId}}
+\index{sModelId@{sModelId}!VKDevice.cpp@{VKDevice.cpp}}
+\doxysubsubsection{\texorpdfstring{sModelId}{sModelId}}
+{\footnotesize\ttfamily int s\+Model\+Id = 0\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_v_k_device_8cpp_source_l00095}{95}} of file \mbox{\hyperlink{_v_k_device_8cpp_source}{VKDevice.\+cpp}}.
+
+
+
+Referenced by \mbox{\hyperlink{_v_k_device_8cpp_source_l01160}{Atlas\+::\+Vulkan\+Rendering\+Backend\+::draw\+Geometry()}}, and \mbox{\hyperlink{_v_k_device_8cpp_source_l01442}{Atlas\+::\+Im\+Gui\+Renderable\+::setup\+Elements()}}.
 

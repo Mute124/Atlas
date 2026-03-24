@@ -1,10 +1,9 @@
 var class_atlas_1_1_vulkan_instance_wrapper =
 [
     [ "InitConfiguration", "d1/d0e/struct_atlas_1_1_vulkan_instance_wrapper_1_1_init_configuration.html", "d1/d0e/struct_atlas_1_1_vulkan_instance_wrapper_1_1_init_configuration" ],
-    [ "VulkanInstanceWrapper", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a006245d07dd9066b5d7eeaee581f6f17", null ],
-    [ "VulkanInstanceWrapper", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#abd8f17e5f823a1b714998d3cf35ce095", null ],
+    [ "VulkanInstanceWrapper", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#afaab3fe90ae87b37197aea35552c9ca8", null ],
+    [ "VulkanInstanceWrapper", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a03154a5f9dd58c8469cfcc68e9b8a4b2", null ],
     [ "~VulkanInstanceWrapper", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a7e4018ed59b56fe44fc64ee9af590b65", null ],
-    [ "CreateInstanceBuilder", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#acde7cca18c7955a327eba254cc5f0a5e", null ],
     [ "getDebugMessenger", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a3e1c8d4c75c2e196d58c5fc8e5fa78f0", null ],
     [ "getInstance", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a727c7b7140e7eac61c474194e233f4e1", null ],
     [ "getVulkanBootstrapInstance", "d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html#a242434e995e734d6041de38b90a373ed", null ],

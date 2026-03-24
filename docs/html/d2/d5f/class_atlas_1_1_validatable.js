@@ -8,6 +8,6 @@ var class_atlas_1_1_validatable =
     [ "operator bool", "d2/d5f/class_atlas_1_1_validatable.html#a6ca8ec441adb663f8900457487da2efd", null ],
     [ "setInvalid", "d2/d5f/class_atlas_1_1_validatable.html#ac39f702d6f05112f438cb133e9597a63", null ],
     [ "setValid", "d2/d5f/class_atlas_1_1_validatable.html#a76b4106bfc22ba18d2cc88f0c0b9408b", null ],
-    [ "setValidity", "d2/d5f/class_atlas_1_1_validatable.html#a8bb8ef5bf067b9002e5e243e96bd4e24", null ],
+    [ "setValidity", "d2/d5f/class_atlas_1_1_validatable.html#a86c6686f73ddc7f9fea674694f660dce", null ],
     [ "mbIsValid", "d2/d5f/class_atlas_1_1_validatable.html#acc731f77ce4a14e8a6cd8bd82a126e45", null ]
 ];

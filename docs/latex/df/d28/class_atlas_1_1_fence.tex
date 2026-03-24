@@ -2,109 +2,416 @@
 \hypertarget{class_atlas_1_1_fence}{}\label{class_atlas_1_1_fence}\index{Atlas::Fence@{Atlas::Fence}}
 
 
+Wraps a Vulkan fence, providing useful functions while ensuring safe usage of the fence during its lifetime.  
+
+
+
+
 {\ttfamily \#include $<$Fence.\+h$>$}
 
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\hyperlink{class_atlas_1_1_fence_a90b84a6864530c30cb92365e3d9f00b6}{Fence}} (\mbox{\hyperlink{class_atlas_1_1_device}{Device}} const \&owner\+Device, const Vk\+Fence\+Create\+Info \texorpdfstring{$\ast$}{*}c\+Create\+Info, uint64\+\_\+t timeout\+In\+NS, const Vk\+Allocation\+Callbacks \texorpdfstring{$\ast$}{*}c\+Allocator=nullptr)
+\begin{DoxyCompactList}\small\item\em Constructs a fence, creating it on the specified device. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_atlas_1_1_fence_af8d8468c64a2c32544e752ef80b07185}{Fence}} ()=default
 \item 
-Vk\+Result \mbox{\hyperlink{class_atlas_1_1_fence_a53f92e31c33e0494026c4abd25a28840}{reset}} ()
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_fence_a49b4804ab0eec0631e797940cb225810}{destroy}} (Vk\+Device owner\+Device)
 \item 
-Vk\+Result \mbox{\hyperlink{class_atlas_1_1_fence_a1b59b0a7cfc6461410b52917850ddc1b}{wait}} ()
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_fence_adbfc38cf1bd859e9968cb60fb728ae78}{destroy}} ()
 \item 
-Vk\+Fence \mbox{\hyperlink{class_atlas_1_1_fence_a9a85dbc819ce83f0e092e69837556248}{get\+Handle}} () const
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_fence_abbf51c2627ba5d2031fa7d49632174d1}{wait}} (Vk\+Device owner\+Device, bool b\+Wait\+All=true)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_fence_a0c955b430cad937c9ec413745222eda7}{wait}} ()
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_fence_adc22d8b55cacf032727a8bc7ba8239c2}{reset}} (Vk\+Device owner\+Device)
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_fence_a9a0c635a7c95ed1f4a0386dfd6ccb1ca}{reset}} ()
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_fence_aea345c99ca3ee485c2a22f14c19a5659}{set\+Timeout}} (const uint64\+\_\+t c\+New\+Timeout\+In\+NS) noexcept
+\item 
+\mbox{\hyperlink{namespace_atlas_ae7db6977272a5b8d7cea2b389a3b3f4a}{EFence\+Status}} \mbox{\hyperlink{class_atlas_1_1_fence_ad8fdd5371311682b2aa9a493947968f2}{get\+Status}} (Vk\+Device owner\+Device) const
+\item 
+bool \mbox{\hyperlink{class_atlas_1_1_fence_ae6f35632a32ed4ceee416680742b9cda}{has\+Device\+Been\+Lost}} (Vk\+Device owner\+Device) const
+\item 
+uint64\+\_\+t \mbox{\hyperlink{class_atlas_1_1_fence_a8fc0a93dc616738131cb6fb9b016d21f}{get\+Timeout}} () const noexcept
+\item 
+Vk\+Fence \mbox{\hyperlink{class_atlas_1_1_fence_a2c3af040d9b75801b405f35aecf3487f}{get\+Fence}} () const noexcept
 \end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_fence_ae8e21fcddbb62d7c5944f515a5a3da76}{Parse\+And\+Throw\+Creation\+Error}} (Vk\+Result \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}})
+\begin{DoxyCompactList}\small\item\em Throws an exception based on the error that vk\+Create\+Fence() returned. This function is really only used in the constructor, and was created to make the code more readable. Don\textquotesingle{}t ask me why, Khronos does what Khronos does. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_fence_a0df33371f770be4fd596fa3a18e0068d}{Parse\+And\+Throw\+Wait\+Error}} (Vk\+Result \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}})
+\begin{DoxyCompactList}\small\item\em Throws an exception based on the error that {\ttfamily vk\+Wait\+For\+Fences()} returned. This function is really only used in the {\ttfamily \doxylink{class_atlas_1_1_fence_a0c955b430cad937c9ec413745222eda7}{wait()}} function, and was created to make the code more readable. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_fence_a4e6f4878e0354842ff68b8bf171ec286}{Parse\+And\+Throw\+Reset\+Error}} (Vk\+Result \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{error}})
+\begin{DoxyCompactList}\small\item\em Throws an exception based on the error that {\ttfamily vk\+Reset\+Fences()} returned in the {\ttfamily \doxylink{class_atlas_1_1_fence_a9a0c635a7c95ed1f4a0386dfd6ccb1ca}{reset()}} function. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-Vk\+Fence \mbox{\hyperlink{class_atlas_1_1_fence_a116b67eb0e21d21d86bb3b916cb9dda2}{m\+Fence}} = VK\+\_\+\+NULL\+\_\+\+HANDLE
-\item 
-uint64\+\_\+t \mbox{\hyperlink{class_atlas_1_1_fence_a3870d0df67943cf9124a5eb45420893c}{m\+Timeout}} = UINT64\+\_\+\+MAX
-\end{DoxyCompactItemize}
+Vk\+Device \mbox{\hyperlink{class_atlas_1_1_fence_a9d096ea9e7f3070f0808de86d841f4b9}{m\+Owner}} \{ VK\+\_\+\+NULL\+\_\+\+HANDLE \}
+\begin{DoxyCompactList}\small\item\em The device that owns this fence. This must be a valid device. \end{DoxyCompactList}\item 
+Vk\+Fence \mbox{\hyperlink{class_atlas_1_1_fence_a116b67eb0e21d21d86bb3b916cb9dda2}{m\+Fence}} \{ VK\+\_\+\+NULL\+\_\+\+HANDLE \}
+\begin{DoxyCompactList}\small\item\em The fence itself. This is created in the constructor. \end{DoxyCompactList}\item 
+uint64\+\_\+t \mbox{\hyperlink{class_atlas_1_1_fence_aae9b0cf2f6c01396f5022267400c2080}{m\+Timeout\+In\+NS}} \{ UINT64\+\_\+\+MAX \}
+\begin{DoxyCompactList}\small\item\em How long, {\bfseries{in nanoseconds}}, to wait for the fence before timing out. Set to {\ttfamily UINT64\+\_\+\+MAX} to wait indefinitely (not really, but eh, 584.\+94241735507205249 years is close enough). \end{DoxyCompactList}\item 
+const Vk\+Allocation\+Callbacks \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_atlas_1_1_fence_a8faf5ac2ee2647479c5ea29b8ebf8842}{cm\+Allocation\+Callbacks}} \{ nullptr \}
+\begin{DoxyCompactList}\small\item\em The allocation callbacks to use when creating and destroying the fence. This is optional, and can be left {\ttfamily nullptr} if you don\textquotesingle{}t have anything special to pass in. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
+Wraps a Vulkan fence, providing useful functions while ensuring safe usage of the fence during its lifetime. 
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000014}{Todo}}]Finish documentation, see if more comments are needed, and make the use of exceptions better.\end{DoxyRefDesc}
 
 
-Definition at line \mbox{\hyperlink{_fence_8h_source_l00015}{15}} of file \mbox{\hyperlink{_fence_8h_source}{Fence.\+h}}.
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_fence_8h_source_l00071}{71}} of file \mbox{\hyperlink{_fence_8h_source}{Fence.\+h}}.
 
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_atlas_1_1_fence_a90b84a6864530c30cb92365e3d9f00b6}\label{class_atlas_1_1_fence_a90b84a6864530c30cb92365e3d9f00b6} 
+\index{Atlas::Fence@{Atlas::Fence}!Fence@{Fence}}
+\index{Fence@{Fence}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{Fence()}{Fence()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Atlas\+::\+Fence\+::\+Fence (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_atlas_1_1_device}{Device}} const \&}]{owner\+Device,  }\item[{const Vk\+Fence\+Create\+Info \texorpdfstring{$\ast$}{*}}]{c\+Create\+Info,  }\item[{uint64\+\_\+t}]{timeout\+In\+NS,  }\item[{const Vk\+Allocation\+Callbacks \texorpdfstring{$\ast$}{*}}]{c\+Allocator = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+
+
+Constructs a fence, creating it on the specified device. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em owner\+Device} & The device that will own the fence. {\bfseries{This must be a valid device for the entire lifetime of the fence!}} \\
+\hline
+{\em c\+Create\+Info} & The fence create info. This cannot be {\ttfamily nullptr}. \\
+\hline
+{\em timeout\+In\+NS} & How long, in nanoseconds, to wait for the fence before timing out. \\
+\hline
+{\em c\+Allocator} & The allocation callbacks to use when creating and destroying the fence. This is optional, and can safely be left {\ttfamily nullptr} if you don\textquotesingle{}t have anything special to pass in.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00086}{86}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_logging_8cpp_source_l00218}{Atlas\+::\+Info\+Log()}}, \mbox{\hyperlink{_render_common_8h_source_l00217}{Atlas\+::\+AVulkan\+Handle\+Wrapper$<$ T\+\_\+\+WRAPS $>$\+::is\+Valid()}}, \mbox{\hyperlink{_fence_8h_source_l00086}{m\+Fence}}, and \mbox{\hyperlink{_fence_8cpp_source_l00012}{Parse\+And\+Throw\+Creation\+Error()}}.
+
 \Hypertarget{class_atlas_1_1_fence_af8d8468c64a2c32544e752ef80b07185}\label{class_atlas_1_1_fence_af8d8468c64a2c32544e752ef80b07185} 
 \index{Atlas::Fence@{Atlas::Fence}!Fence@{Fence}}
 \index{Fence@{Fence}!Atlas::Fence@{Atlas::Fence}}
-\doxysubsubsection{\texorpdfstring{Fence()}{Fence()}}
+\doxysubsubsection{\texorpdfstring{Fence()}{Fence()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily Atlas\+::\+Fence\+::\+Fence (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
 
 
 
 \doxysubsection{Member Function Documentation}
-\Hypertarget{class_atlas_1_1_fence_a9a85dbc819ce83f0e092e69837556248}\label{class_atlas_1_1_fence_a9a85dbc819ce83f0e092e69837556248} 
-\index{Atlas::Fence@{Atlas::Fence}!getHandle@{getHandle}}
-\index{getHandle@{getHandle}!Atlas::Fence@{Atlas::Fence}}
-\doxysubsubsection{\texorpdfstring{getHandle()}{getHandle()}}
-{\footnotesize\ttfamily Vk\+Fence Atlas\+::\+Fence\+::get\+Handle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+\Hypertarget{class_atlas_1_1_fence_adbfc38cf1bd859e9968cb60fb728ae78}\label{class_atlas_1_1_fence_adbfc38cf1bd859e9968cb60fb728ae78} 
+\index{Atlas::Fence@{Atlas::Fence}!destroy@{destroy}}
+\index{destroy@{destroy}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Fence\+::destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
-Definition at line \mbox{\hyperlink{_fence_8h_source_l00029}{29}} of file \mbox{\hyperlink{_fence_8h_source}{Fence.\+h}}.
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00120}{120}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_fence_a49b4804ab0eec0631e797940cb225810}\label{class_atlas_1_1_fence_a49b4804ab0eec0631e797940cb225810} 
+\index{Atlas::Fence@{Atlas::Fence}!destroy@{destroy}}
+\index{destroy@{destroy}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Fence\+::destroy (\begin{DoxyParamCaption}\item[{Vk\+Device}]{owner\+Device }\end{DoxyParamCaption})}
 
 
 
-References \mbox{\hyperlink{_fence_8h_source_l00019}{m\+Fence}}.
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00105}{105}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
 
-\Hypertarget{class_atlas_1_1_fence_a53f92e31c33e0494026c4abd25a28840}\label{class_atlas_1_1_fence_a53f92e31c33e0494026c4abd25a28840} 
-\index{Atlas::Fence@{Atlas::Fence}!reset@{reset}}
-\index{reset@{reset}!Atlas::Fence@{Atlas::Fence}}
-\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
-{\footnotesize\ttfamily Vk\+Result Atlas\+::\+Fence\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+\Hypertarget{class_atlas_1_1_fence_a2c3af040d9b75801b405f35aecf3487f}\label{class_atlas_1_1_fence_a2c3af040d9b75801b405f35aecf3487f} 
+\index{Atlas::Fence@{Atlas::Fence}!getFence@{getFence}}
+\index{getFence@{getFence}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{getFence()}{getFence()}}
+{\footnotesize\ttfamily Vk\+Fence Atlas\+::\+Fence\+::get\+Fence (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
 
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00201}{201}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_fence_ad8fdd5371311682b2aa9a493947968f2}\label{class_atlas_1_1_fence_ad8fdd5371311682b2aa9a493947968f2} 
+\index{Atlas::Fence@{Atlas::Fence}!getStatus@{getStatus}}
+\index{getStatus@{getStatus}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{getStatus()}{getStatus()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespace_atlas_ae7db6977272a5b8d7cea2b389a3b3f4a}{Atlas\+::\+EFence\+Status}} Atlas\+::\+Fence\+::get\+Status (\begin{DoxyParamCaption}\item[{Vk\+Device}]{owner\+Device }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00175}{175}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_ae7db6977272a5b8d7cea2b389a3b3f4aae21f64304b84d5a977e1a00f2137428c}{Atlas\+::\+Device\+Lost}}, \mbox{\hyperlink{namespace_atlas_ae7db6977272a5b8d7cea2b389a3b3f4aadd353567e8118a2b8df4e822e59084ab}{Atlas\+::\+Not\+Ready}}, \mbox{\hyperlink{namespace_atlas_ae7db6977272a5b8d7cea2b389a3b3f4aae7d31fc0602fb2ede144d18cdffd816b}{Atlas\+::\+Ready}}, and \mbox{\hyperlink{namespace_atlas_ae7db6977272a5b8d7cea2b389a3b3f4aa88183b946cc5f0e8c96b2e66e1c74a7e}{Atlas\+::\+Unknown}}.
+
+\Hypertarget{class_atlas_1_1_fence_a8fc0a93dc616738131cb6fb9b016d21f}\label{class_atlas_1_1_fence_a8fc0a93dc616738131cb6fb9b016d21f} 
+\index{Atlas::Fence@{Atlas::Fence}!getTimeout@{getTimeout}}
+\index{getTimeout@{getTimeout}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{getTimeout()}{getTimeout()}}
+{\footnotesize\ttfamily uint64\+\_\+t Atlas\+::\+Fence\+::get\+Timeout (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00197}{197}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_fence_ae6f35632a32ed4ceee416680742b9cda}\label{class_atlas_1_1_fence_ae6f35632a32ed4ceee416680742b9cda} 
+\index{Atlas::Fence@{Atlas::Fence}!hasDeviceBeenLost@{hasDeviceBeenLost}}
+\index{hasDeviceBeenLost@{hasDeviceBeenLost}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{hasDeviceBeenLost()}{hasDeviceBeenLost()}}
+{\footnotesize\ttfamily bool Atlas\+::\+Fence\+::has\+Device\+Been\+Lost (\begin{DoxyParamCaption}\item[{Vk\+Device}]{owner\+Device }\end{DoxyParamCaption}) const}
+
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00193}{193}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_ae7db6977272a5b8d7cea2b389a3b3f4aae21f64304b84d5a977e1a00f2137428c}{Atlas\+::\+Device\+Lost}}.
+
+\Hypertarget{class_atlas_1_1_fence_ae8e21fcddbb62d7c5944f515a5a3da76}\label{class_atlas_1_1_fence_ae8e21fcddbb62d7c5944f515a5a3da76} 
+\index{Atlas::Fence@{Atlas::Fence}!ParseAndThrowCreationError@{ParseAndThrowCreationError}}
+\index{ParseAndThrowCreationError@{ParseAndThrowCreationError}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{ParseAndThrowCreationError()}{ParseAndThrowCreationError()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Fence\+::\+Parse\+And\+Throw\+Creation\+Error (\begin{DoxyParamCaption}\item[{Vk\+Result}]{error }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Throws an exception based on the error that vk\+Create\+Fence() returned. This function is really only used in the constructor, and was created to make the code more readable. Don\textquotesingle{}t ask me why, Khronos does what Khronos does. 
+
+\begin{DoxyNote}{Note}
+The {\ttfamily vk\+Create\+Fence()} documentation\textquotesingle{}s list of possible error codes states {\ttfamily VK\+\_\+\+ERROR\+\_\+\+VALIDATION\+\_\+\+FAILED} as a possible error code, and it is a valid code, but on some situations it is not, therefore, {\ttfamily VK\+\_\+\+ERROR\+\_\+\+VALIDATION\+\_\+\+FAILED\+\_\+\+EXT} is being used instead of {\ttfamily VK\+\_\+\+ERROR\+\_\+\+VALIDATION\+\_\+\+FAILED}. I do not know if this will cause issues down the line, and is worth looking into.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em error} & The error code returned by {\ttfamily vk\+Create\+Fence()}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
 
 
 Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00012}{12}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
 
-\Hypertarget{class_atlas_1_1_fence_a1b59b0a7cfc6461410b52917850ddc1b}\label{class_atlas_1_1_fence_a1b59b0a7cfc6461410b52917850ddc1b} 
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{Atlas\+::error}}.
+
+
+
+Referenced by \mbox{\hyperlink{_fence_8cpp_source_l00086}{Fence()}}.
+
+\Hypertarget{class_atlas_1_1_fence_a4e6f4878e0354842ff68b8bf171ec286}\label{class_atlas_1_1_fence_a4e6f4878e0354842ff68b8bf171ec286} 
+\index{Atlas::Fence@{Atlas::Fence}!ParseAndThrowResetError@{ParseAndThrowResetError}}
+\index{ParseAndThrowResetError@{ParseAndThrowResetError}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{ParseAndThrowResetError()}{ParseAndThrowResetError()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Fence\+::\+Parse\+And\+Throw\+Reset\+Error (\begin{DoxyParamCaption}\item[{Vk\+Result}]{error }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Throws an exception based on the error that {\ttfamily vk\+Reset\+Fences()} returned in the {\ttfamily \doxylink{class_atlas_1_1_fence_a9a0c635a7c95ed1f4a0386dfd6ccb1ca}{reset()}} function. 
+
+\begin{DoxyNote}{Note}
+Please see the first note on {\ttfamily \doxylink{class_atlas_1_1_fence_ae8e21fcddbb62d7c5944f515a5a3da76}{Parse\+And\+Throw\+Creation\+Error()}} for the reason why {\ttfamily VK\+\_\+\+ERROR\+\_\+\+VALIDATION\+\_\+\+FAILED\+\_\+\+EXT} is being used instead of {\ttfamily VK\+\_\+\+ERROR\+\_\+\+VALIDATION\+\_\+\+FAILED}, despite Khronos\textquotesingle{} own documentation using the latter. Don\textquotesingle{}t ask me why, Khronos does what Khronos does.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em error} & The error code returned by {\ttfamily vk\+Reset\+Fences()}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00067}{67}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{Atlas\+::error}}.
+
+\Hypertarget{class_atlas_1_1_fence_a0df33371f770be4fd596fa3a18e0068d}\label{class_atlas_1_1_fence_a0df33371f770be4fd596fa3a18e0068d} 
+\index{Atlas::Fence@{Atlas::Fence}!ParseAndThrowWaitError@{ParseAndThrowWaitError}}
+\index{ParseAndThrowWaitError@{ParseAndThrowWaitError}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{ParseAndThrowWaitError()}{ParseAndThrowWaitError()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Fence\+::\+Parse\+And\+Throw\+Wait\+Error (\begin{DoxyParamCaption}\item[{Vk\+Result}]{error }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Throws an exception based on the error that {\ttfamily vk\+Wait\+For\+Fences()} returned. This function is really only used in the {\ttfamily \doxylink{class_atlas_1_1_fence_a0c955b430cad937c9ec413745222eda7}{wait()}} function, and was created to make the code more readable. 
+
+\begin{DoxyNote}{Note}
+Please see the first note on {\ttfamily \doxylink{class_atlas_1_1_fence_ae8e21fcddbb62d7c5944f515a5a3da76}{Parse\+And\+Throw\+Creation\+Error()}} for the reason why {\ttfamily VK\+\_\+\+ERROR\+\_\+\+VALIDATION\+\_\+\+FAILED\+\_\+\+EXT} is being used instead of {\ttfamily VK\+\_\+\+ERROR\+\_\+\+VALIDATION\+\_\+\+FAILED}, despite Khronos\textquotesingle{} own documentation using the latter. Don\textquotesingle{}t ask me why, Khronos does what Khronos does.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em error} & The error code returned by {\ttfamily vk\+Wait\+For\+Fences()}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00039}{39}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{namespace_atlas_a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282}{Atlas\+::error}}.
+
+\Hypertarget{class_atlas_1_1_fence_a9a0c635a7c95ed1f4a0386dfd6ccb1ca}\label{class_atlas_1_1_fence_a9a0c635a7c95ed1f4a0386dfd6ccb1ca} 
+\index{Atlas::Fence@{Atlas::Fence}!reset@{reset}}
+\index{reset@{reset}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Fence\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00167}{167}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_fence_adc22d8b55cacf032727a8bc7ba8239c2}\label{class_atlas_1_1_fence_adc22d8b55cacf032727a8bc7ba8239c2} 
+\index{Atlas::Fence@{Atlas::Fence}!reset@{reset}}
+\index{reset@{reset}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Fence\+::reset (\begin{DoxyParamCaption}\item[{Vk\+Device}]{owner\+Device }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00148}{148}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_fence_aea345c99ca3ee485c2a22f14c19a5659}\label{class_atlas_1_1_fence_aea345c99ca3ee485c2a22f14c19a5659} 
+\index{Atlas::Fence@{Atlas::Fence}!setTimeout@{setTimeout}}
+\index{setTimeout@{setTimeout}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{setTimeout()}{setTimeout()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Fence\+::set\+Timeout (\begin{DoxyParamCaption}\item[{const uint64\+\_\+t}]{c\+New\+Timeout\+In\+NS }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00171}{171}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_fence_a0c955b430cad937c9ec413745222eda7}\label{class_atlas_1_1_fence_a0c955b430cad937c9ec413745222eda7} 
 \index{Atlas::Fence@{Atlas::Fence}!wait@{wait}}
 \index{wait@{wait}!Atlas::Fence@{Atlas::Fence}}
-\doxysubsubsection{\texorpdfstring{wait()}{wait()}}
-{\footnotesize\ttfamily Vk\+Result Atlas\+::\+Fence\+::wait (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{wait()}{wait()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Fence\+::wait (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
-Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00017}{17}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00144}{144}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_fence_abbf51c2627ba5d2031fa7d49632174d1}\label{class_atlas_1_1_fence_abbf51c2627ba5d2031fa7d49632174d1} 
+\index{Atlas::Fence@{Atlas::Fence}!wait@{wait}}
+\index{wait@{wait}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{wait()}{wait()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Fence\+::wait (\begin{DoxyParamCaption}\item[{Vk\+Device}]{owner\+Device,  }\item[{bool}]{b\+Wait\+All = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fence_8cpp_source_l00124}{124}} of file \mbox{\hyperlink{_fence_8cpp_source}{Fence.\+cpp}}.
+
+
+
+References \mbox{\hyperlink{_logging_8cpp_source_l00228}{Atlas\+::\+Warn\+Log()}}.
 
 
 
 \doxysubsection{Member Data Documentation}
+\Hypertarget{class_atlas_1_1_fence_a8faf5ac2ee2647479c5ea29b8ebf8842}\label{class_atlas_1_1_fence_a8faf5ac2ee2647479c5ea29b8ebf8842} 
+\index{Atlas::Fence@{Atlas::Fence}!cmAllocationCallbacks@{cmAllocationCallbacks}}
+\index{cmAllocationCallbacks@{cmAllocationCallbacks}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{cmAllocationCallbacks}{cmAllocationCallbacks}}
+{\footnotesize\ttfamily const Vk\+Allocation\+Callbacks\texorpdfstring{$\ast$}{*} Atlas\+::\+Fence\+::cm\+Allocation\+Callbacks \{ nullptr \}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The allocation callbacks to use when creating and destroying the fence. This is optional, and can be left {\ttfamily nullptr} if you don\textquotesingle{}t have anything special to pass in. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_fence_8h_source_l00106}{106}} of file \mbox{\hyperlink{_fence_8h_source}{Fence.\+h}}.
+
 \Hypertarget{class_atlas_1_1_fence_a116b67eb0e21d21d86bb3b916cb9dda2}\label{class_atlas_1_1_fence_a116b67eb0e21d21d86bb3b916cb9dda2} 
 \index{Atlas::Fence@{Atlas::Fence}!mFence@{mFence}}
 \index{mFence@{mFence}!Atlas::Fence@{Atlas::Fence}}
 \doxysubsubsection{\texorpdfstring{mFence}{mFence}}
-{\footnotesize\ttfamily Vk\+Fence Atlas\+::\+Fence\+::m\+Fence = VK\+\_\+\+NULL\+\_\+\+HANDLE\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily Vk\+Fence Atlas\+::\+Fence\+::m\+Fence \{ VK\+\_\+\+NULL\+\_\+\+HANDLE \}\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Definition at line \mbox{\hyperlink{_fence_8h_source_l00019}{19}} of file \mbox{\hyperlink{_fence_8h_source}{Fence.\+h}}.
+The fence itself. This is created in the constructor. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_fence_8h_source_l00086}{86}} of file \mbox{\hyperlink{_fence_8h_source}{Fence.\+h}}.
 
 
 
-Referenced by \mbox{\hyperlink{_fence_8h_source_l00029}{get\+Handle()}}.
+Referenced by \mbox{\hyperlink{_fence_8cpp_source_l00086}{Fence()}}.
 
-\Hypertarget{class_atlas_1_1_fence_a3870d0df67943cf9124a5eb45420893c}\label{class_atlas_1_1_fence_a3870d0df67943cf9124a5eb45420893c} 
-\index{Atlas::Fence@{Atlas::Fence}!mTimeout@{mTimeout}}
-\index{mTimeout@{mTimeout}!Atlas::Fence@{Atlas::Fence}}
-\doxysubsubsection{\texorpdfstring{mTimeout}{mTimeout}}
-{\footnotesize\ttfamily uint64\+\_\+t Atlas\+::\+Fence\+::m\+Timeout = UINT64\+\_\+\+MAX\hspace{0.3cm}{\ttfamily [private]}}
+\Hypertarget{class_atlas_1_1_fence_a9d096ea9e7f3070f0808de86d841f4b9}\label{class_atlas_1_1_fence_a9d096ea9e7f3070f0808de86d841f4b9} 
+\index{Atlas::Fence@{Atlas::Fence}!mOwner@{mOwner}}
+\index{mOwner@{mOwner}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{mOwner}{mOwner}}
+{\footnotesize\ttfamily Vk\+Device Atlas\+::\+Fence\+::m\+Owner \{ VK\+\_\+\+NULL\+\_\+\+HANDLE \}\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Definition at line \mbox{\hyperlink{_fence_8h_source_l00020}{20}} of file \mbox{\hyperlink{_fence_8h_source}{Fence.\+h}}.
+The device that owns this fence. This must be a valid device. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_fence_8h_source_l00079}{79}} of file \mbox{\hyperlink{_fence_8h_source}{Fence.\+h}}.
+
+\Hypertarget{class_atlas_1_1_fence_aae9b0cf2f6c01396f5022267400c2080}\label{class_atlas_1_1_fence_aae9b0cf2f6c01396f5022267400c2080} 
+\index{Atlas::Fence@{Atlas::Fence}!mTimeoutInNS@{mTimeoutInNS}}
+\index{mTimeoutInNS@{mTimeoutInNS}!Atlas::Fence@{Atlas::Fence}}
+\doxysubsubsection{\texorpdfstring{mTimeoutInNS}{mTimeoutInNS}}
+{\footnotesize\ttfamily uint64\+\_\+t Atlas\+::\+Fence\+::m\+Timeout\+In\+NS \{ UINT64\+\_\+\+MAX \}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+How long, {\bfseries{in nanoseconds}}, to wait for the fence before timing out. Set to {\ttfamily UINT64\+\_\+\+MAX} to wait indefinitely (not really, but eh, 584.\+94241735507205249 years is close enough). 
+
+\begin{DoxyNote}{Note}
+Even though this can be as long as you want, and is set to {\ttfamily UINT64\+\_\+\+MAX} by default, it is recommended that you set your own timeout. You may want to use a timeout of at least a few seconds or so, depending on your application. The file\textquotesingle{}s documentation has more details. about fence timeouts.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_fence_8h_source_l00098}{98}} of file \mbox{\hyperlink{_fence_8h_source}{Fence.\+h}}.
 
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/\mbox{\hyperlink{_fence_8h}{Fence.\+h}}\item 
-C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/\mbox{\hyperlink{_fence_8cpp}{Fence.\+cpp}}\end{DoxyCompactItemize}
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/vulkan/\mbox{\hyperlink{_fence_8h}{Fence.\+h}}\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/vulkan/\mbox{\hyperlink{_fence_8cpp}{Fence.\+cpp}}\end{DoxyCompactItemize}

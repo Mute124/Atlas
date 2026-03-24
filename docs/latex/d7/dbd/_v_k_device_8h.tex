@@ -1,5 +1,5 @@
-\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/backend/\+VKDevice.h File Reference}
-\hypertarget{_v_k_device_8h}{}\label{_v_k_device_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/backend/VKDevice.h@{C:/Dev/Techstorm-\/v5/src/engine/graphics/backend/VKDevice.h}}
+\doxysection{C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/vulkan/\+VKDevice.h File Reference}
+\hypertarget{_v_k_device_8h}{}\label{_v_k_device_8h}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/vulkan/VKDevice.h@{C:/Dev/Techstorm-\/v5/src/engine/graphics/vulkan/VKDevice.h}}
 {\ttfamily \#include $<$filesystem$>$}\newline
 {\ttfamily \#include $<$cstdint$>$}\newline
 {\ttfamily \#include $<$string$>$}\newline
@@ -13,42 +13,47 @@
 {\ttfamily \#include $<$fstream$>$}\newline
 {\ttfamily \#include $<$bitset$>$}\newline
 {\ttfamily \#include $<$memory$>$}\newline
-{\ttfamily \#include $<$glm/gtx/quaternion.\+hpp$>$}\newline
-{\ttfamily \#include $<$Vk\+Bootstrap.\+h$>$}\newline
 {\ttfamily \#include $<$functional$>$}\newline
 {\ttfamily \#include $<$mutex$>$}\newline
-{\ttfamily \#include $<$glm/fwd.\+hpp$>$}\newline
-{\ttfamily \#include $<$vulkan/vulkan\+\_\+core.\+h$>$}\newline
 {\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include "{}../../core/\+Math.\+h"{}}\newline
 {\ttfamily \#include $<$fastgltf/glm\+\_\+element\+\_\+traits.\+hpp$>$}\newline
 {\ttfamily \#include $<$fastgltf/parser.\+hpp$>$}\newline
 {\ttfamily \#include $<$fastgltf/tools.\+hpp$>$}\newline
 {\ttfamily \#include "{}stb\+\_\+image.\+h"{}}\newline
-{\ttfamily \#include "{}Rendering\+Backend.\+h"{}}\newline
-{\ttfamily \#include "{}../\+Vulkan\+Instance.\+h"{}}\newline
-{\ttfamily \#include "{}../\+Physical\+Device.\+h"{}}\newline
+{\ttfamily \#include "{}Vulkan\+Instance.\+h"{}}\newline
+{\ttfamily \#include "{}Physical\+Device.\+h"{}}\newline
+{\ttfamily \#include "{}Deletion\+Queue.\+h"{}}\newline
+{\ttfamily \#include "{}Descriptor\+Layout\+Builder.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Graphics\+Utils.\+h"{}}\newline
+{\ttfamily \#include "{}Pipeline\+Builder.\+h"{}}\newline
+{\ttfamily \#include "{}Allocated\+Image.\+h"{}}\newline
+{\ttfamily \#include "{}Allocated\+Buffer.\+h"{}}\newline
+{\ttfamily \#include "{}Graphics\+Queue.\+h"{}}\newline
 {\ttfamily \#include "{}../\+Frame.\+h"{}}\newline
-{\ttfamily \#include "{}../\+Allocated\+Image.\+h"{}}\newline
+{\ttfamily \#include "{}../backend/\+Rendering\+Backend.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Effect\+Manager.\+h"{}}\newline
+{\ttfamily \#include "{}../window/\+Window.\+h"{}}\newline
 {\ttfamily \#include "{}../../core/\+Core.\+h"{}}\newline
 {\ttfamily \#include "{}../../core/\+Common.\+h"{}}\newline
 {\ttfamily \#include "{}../../core/\+Device.\+h"{}}\newline
-{\ttfamily \#include "{}../drawing/\+Effect\+Manager.\+h"{}}\newline
-{\ttfamily \#include "{}../window/\+Window.\+h"{}}\newline
-{\ttfamily \#include "{}../\+Deletion\+Queue.\+h"{}}\newline
-{\ttfamily \#include "{}../\+Descriptor\+Layout\+Builder.\+h"{}}\newline
+{\ttfamily \#include "{}../../core/\+Application\+Info.\+h"{}}\newline
 {\ttfamily \#include "{}../../debugging/\+Logging.\+h"{}}\newline
-{\ttfamily \#include "{}../\+Graphics\+Utils.\+h"{}}\newline
-{\ttfamily \#include "{}../\+Pipeline\+Builder.\+h"{}}\newline
+{\ttfamily \#include "{}../../io/\+IOManager.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Draw\+Data.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Pipeline\+Layout.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Pipeline.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Render\+Pass.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Shader.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Render\+Passes\+Manager.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Renderable.\+h"{}}\newline
+{\ttfamily \#include "{}../drawing/\+Viewport.\+h"{}}\newline
+{\ttfamily \#include "{}../../time/\+FPS.\+h"{}}\newline
+{\ttfamily \#include "{}../\+Mesh.\+h"{}}\newline
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_immediate_submit_info}{Atlas\+::\+Immediate\+Submit\+Info}}
-\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_current_draw_data}{Atlas\+::\+Current\+Draw\+Data}}
-\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_allocated_buffer}{Atlas\+::\+Allocated\+Buffer}}
-\item 
-struct \mbox{\hyperlink{struct_atlas_1_1_vertex}{Atlas\+::\+Vertex}}
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_g_p_u_mesh_buffers}{Atlas\+::\+GPUMesh\+Buffers}}
 \item 
@@ -62,19 +67,13 @@ class \mbox{\hyperlink{class_atlas_1_1_descriptor_allocator}{Atlas\+::\+Descript
 \item 
 struct \mbox{\hyperlink{struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio}{Atlas\+::\+Descriptor\+Allocator\+::\+Pool\+Size\+Ratio}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_shader}{Atlas\+::\+Shader}}
+class \mbox{\hyperlink{class_atlas_1_1_background_render_pass}{Atlas\+::\+Background\+Render\+Pass}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_pipeline}{Atlas\+::\+Pipeline}}
+class \mbox{\hyperlink{class_atlas_1_1_im_gui_renderable}{Atlas\+::\+Im\+Gui\+Renderable}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_render_pass}{Atlas\+::\+Render\+Pass}}
+class \mbox{\hyperlink{class_atlas_1_1_im_gui_window_renderable}{Atlas\+::\+Im\+Gui\+Window\+Renderable}}
 \item 
-class \mbox{\hyperlink{class_atlas_1_1_renderable}{Atlas\+::\+Renderable}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_renderable}{Atlas\+::\+IMGUIRenderable}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_background_color}{Atlas\+::\+Background\+Color}}
-\item 
-class \mbox{\hyperlink{class_atlas_1_1_graphics_queue}{Atlas\+::\+Graphics\+Queue}}
+class \mbox{\hyperlink{class_atlas_1_1_i_m_g_u_i_render_pass}{Atlas\+::\+IMGUIRender\+Pass}}
 \item 
 class \mbox{\hyperlink{class_atlas_1_1_vulkan_rendering_backend}{Atlas\+::\+Vulkan\+Rendering\+Backend}}
 \begin{DoxyCompactList}\small\item\em A wrapper class for the usage of Vulkan as a rendering backend. This class handles the lifecycle of Vulkan and simplifies the usage of Vulkan to a simple API. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -102,22 +101,6 @@ enum class \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1}{A
 , \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1aa623a8d0366bf079411aa30be45b2d10}{Atlas\+::\+Compute}} = 2
 , \mbox{\hyperlink{namespace_atlas_a01a5f888a8d45705c73fe3f2357d0cd1a6950810f0d2bba97a6f710c7b965b84e}{Atlas\+::\+Transfer}} = 3
  \}
-\item 
-enum class \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2a}{Atlas\+::\+EVulkan\+Rendering\+Option}} \+: size\+\_\+t \{ \newline
-\mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa6c67501995e6d5d3144128067f1f4282}{Atlas\+::\+Version\+\_\+\+Major}} = 0
-, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aada7848cca791c2d919d1e9892e25e272}{Atlas\+::\+Version\+\_\+\+Minor}}
-, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa02982e4706ed9e943f19ecc18687442e}{Atlas\+::\+Version\+\_\+\+Patch}}
-, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa1794572ee5d7553087b60f9a30f06fcb}{Atlas\+::\+Enable\+\_\+\+Validation\+\_\+\+Layers}}
-, \newline
-\mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa64f5a7769033d591e01f597ded975ae}{Atlas\+::\+Use\+\_\+\+Dynamic\+\_\+\+Rendering}}
-, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa888450d033ce9f4213fd5072d7bde94f}{Atlas\+::\+Use\+\_\+\+Default\+\_\+\+Instance\+\_\+\+Builder}}
-, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaa0795e87406b10e332cda7ad99e8d3a3}{Atlas\+::\+Enable\+\_\+\+Syncronization}}
-, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aad2e0fe07d9b303172b67134dec8c0380}{Atlas\+::\+Enable\+\_\+\+Buffer\+\_\+\+Device\+\_\+\+Address}}
-, \newline
-\mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa9e397d933c540afd737155e3c80b6eb7}{Atlas\+::\+Enable\+\_\+\+Descriptor\+\_\+\+Indexing}}
-, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aaf54db95bd9f26035b7182f0886801cf2}{Atlas\+::\+Swapchain\+\_\+\+Format}}
-, \mbox{\hyperlink{namespace_atlas_a9a837411b4f29e15b56791c0ed166e2aa28a319434f29a2d9545758cd7547516e}{Atlas\+::\+Fence\+\_\+\+Timeout}}
- \}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
@@ -141,7 +124,7 @@ std\+::optional$<$ std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{s
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00075}{75}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00093}{93}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 
 \Hypertarget{_v_k_device_8h_a998597b9163ba9082c4a4c40294d4c33}\label{_v_k_device_8h_a998597b9163ba9082c4a4c40294d4c33} 
 \index{VKDevice.h@{VKDevice.h}!ATLAS\_VK\_DEVICE\_BITS@{ATLAS\_VK\_DEVICE\_BITS}}
@@ -151,7 +134,7 @@ Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00075}{75}} of file \
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00077}{77}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00095}{95}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 
 \Hypertarget{_v_k_device_8h_abd75661fe7969e19439052a5f69ba5d1}\label{_v_k_device_8h_abd75661fe7969e19439052a5f69ba5d1} 
 \index{VKDevice.h@{VKDevice.h}!GLM\_ENABLE\_EXPERIMENTAL@{GLM\_ENABLE\_EXPERIMENTAL}}
@@ -171,5 +154,5 @@ Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00012}{12}} of file \
 
 
 
-Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00079}{79}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
+Definition at line \mbox{\hyperlink{_v_k_device_8h_source_l00097}{97}} of file \mbox{\hyperlink{_v_k_device_8h_source}{VKDevice.\+h}}.
 

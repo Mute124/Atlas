@@ -26,221 +26,243 @@
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00022}00022\ }
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ "{}../../core/Core.h"{}}}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ "{}../../core/Common.h"{}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ "{}../../core/Version.h"{}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00026}00026\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00027}00027\ \textcolor{preprocessor}{\#include\ "{}../../core/threading/ThreadSafeVariable.h"{}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00028}00028\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00029}00029\ \textcolor{preprocessor}{\#include\ "{}../../debugging/Debugger.h"{}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00030}00030\ \textcolor{preprocessor}{\#include\ "{}../../debugging/Logging.h"{}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00031}00031\ \textcolor{preprocessor}{\#include\ "{}../window/Window.h"{}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ "{}../RenderCommon.h"{}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00026}00026\ \textcolor{preprocessor}{\#include\ "{}../../core/Version.h"{}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00028}00028\ \textcolor{preprocessor}{\#include\ "{}../../core/threading/ThreadSafeVariable.h"{}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00030}00030\ \textcolor{preprocessor}{\#include\ "{}../../debugging/Debugger.h"{}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00031}00031\ \textcolor{preprocessor}{\#include\ "{}../../debugging/Logging.h"{}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00032}00032\ \textcolor{preprocessor}{\#include\ "{}../window/Window.h"{}}}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00033}00033\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00034}00034\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00035}00035\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan.h>}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00036}00036\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan\_core.h>}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00037}00037\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00038}00038\ \textcolor{preprocessor}{\#include\ <shared\_mutex>}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00035}00035\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00036}00036\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan.h>}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00037}00037\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan\_core.h>}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00038}00038\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00039}00039\ \textcolor{preprocessor}{\#include\ <shared\_mutex>}}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00040}00040\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00041}00041\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00042}00042\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00043}00043\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00044}00044\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00045}00045\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00046}00046\ \ \ \ \ \textcolor{comment}{//class\ AGameWindow;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00047}00047\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//enum\ class\ TextureFormat\ \{\ RGBA8,\ Depth32\ \};}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00049}00049\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00050}00050\ \ \ \ \ \textcolor{comment}{//struct\ RenderTargetDesc\ \{\ }}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ \ int\ width;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ \ int\ height;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00053}00053\ \ \ \ \ \textcolor{comment}{//\ \ TextureFormat\ format;\ }}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00054}00054\ \ \ \ \ \textcolor{comment}{//\};}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00055}00055\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00056}00056\ \ \ \ \ \textcolor{comment}{//class\ RenderTarget\ \{}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00057}00057\ \ \ \ \ \textcolor{comment}{//public:}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00058}00058\ \ \ \ \ \textcolor{comment}{//\ \ RenderTarget(RenderTargetDesc\ d)\ :\ desc(d)\ \{\}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00059}00059\ \ \ \ \ \textcolor{comment}{//\ \ int\ getWidth()\ const\ \{\ return\ desc.width;\ \}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00060}00060\ \ \ \ \ \textcolor{comment}{//\ \ int\ getHeight()\ const\ \{\ return\ desc.height;\ \}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00061}00061\ \ \ \ \ \textcolor{comment}{//\ \ TextureFormat\ getFormat()\ const\ \{\ return\ desc.format;\ \}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00062}00062\ \ \ \ \ \textcolor{comment}{//private:}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00063}00063\ \ \ \ \ \textcolor{comment}{//\ \ RenderTargetDesc\ desc;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00064}00064\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00043}00043\ \ \ \ \ \textcolor{comment}{//class\ GameWindow;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00045}00045\ \ \ \ \ \textcolor{comment}{//enum\ class\ TextureFormat\ \{\ RGBA8,\ Depth32\ \};}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00047}00047\ \ \ \ \ \textcolor{comment}{//struct\ RenderTargetDesc\ \{\ }}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//\ \ int\ width;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00049}00049\ \ \ \ \ \textcolor{comment}{//\ \ int\ height;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00050}00050\ \ \ \ \ \textcolor{comment}{//\ \ TextureFormat\ format;\ }}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00053}00053\ \ \ \ \ \textcolor{comment}{//class\ RenderTarget\ \{}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00054}00054\ \ \ \ \ \textcolor{comment}{//public:}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00055}00055\ \ \ \ \ \textcolor{comment}{//\ \ RenderTarget(RenderTargetDesc\ d)\ :\ desc(d)\ \{\}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00056}00056\ \ \ \ \ \textcolor{comment}{//\ \ int\ getWidth()\ const\ \{\ return\ desc.width;\ \}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00057}00057\ \ \ \ \ \textcolor{comment}{//\ \ int\ getHeight()\ const\ \{\ return\ desc.height;\ \}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00058}00058\ \ \ \ \ \textcolor{comment}{//\ \ TextureFormat\ getFormat()\ const\ \{\ return\ desc.format;\ \}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00059}00059\ \ \ \ \ \textcolor{comment}{//private:}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00060}00060\ \ \ \ \ \textcolor{comment}{//\ \ RenderTargetDesc\ desc;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00061}00061\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00063}00063\ \ \ \ \ \textcolor{comment}{//struct\ PipelineDesc\ \{\ std::string\ vertPath,\ fragPath;\ \};}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00064}00064\ }
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00065}00065\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00066}00066\ \ \ \ \ \textcolor{comment}{//struct\ PipelineDesc\ \{\ std::string\ vertPath,\ fragPath;\ \};}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00067}00067\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00068}00068\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00069}00069\ \ \ \ \ \textcolor{comment}{//class\ Pipeline\ \{}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00070}00070\ \ \ \ \ \textcolor{comment}{//public:}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00071}00071\ \ \ \ \ \textcolor{comment}{//\ \ Pipeline(PipelineDesc\ d)\ :\ desc(d)\ \{\}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00072}00072\ \ \ \ \ \textcolor{comment}{//private:}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00073}00073\ \ \ \ \ \textcolor{comment}{//\ \ PipelineDesc\ desc;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00074}00074\ \ \ \ \ \textcolor{comment}{//\};}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00075}00075\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00077}00077\ \ \ \ \ \textcolor{comment}{//struct\ RenderPass\ \{}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00078}00078\ \ \ \ \ \textcolor{comment}{//\ \ std::string\ name;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00079}00079\ \ \ \ \ \textcolor{comment}{//\ \ std::shared\_ptr<Pipeline>\ pipeline;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00080}00080\ \ \ \ \ \textcolor{comment}{//\ \ std::vector<std::shared\_ptr<RenderTarget>>\ inputs;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00081}00081\ \ \ \ \ \textcolor{comment}{//\ \ std::shared\_ptr<RenderTarget>\ output;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00082}00082\ \ \ \ \ \textcolor{comment}{//\ \ std::function<void()>\ onExecute;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00083}00083\ \ \ \ \ \textcolor{comment}{//\};}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00084}00084\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00085}00085\ \ \ \ \ \textcolor{comment}{//class\ RenderingBackend;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00086}00086\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00088}00088\ \ \ \ \ \textcolor{comment}{//class\ RenderGraph\ \{}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00089}00089\ \ \ \ \ \textcolor{comment}{//private:}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00090}00090\ \ \ \ \ \textcolor{comment}{//\ \ std::vector<RenderPass>\ passes;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00091}00091\ \ \ \ \ \textcolor{comment}{//public:}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00092}00092\ \ \ \ \ \textcolor{comment}{//\ \ auto\ createRenderTarget(RenderTargetDesc\ d)\ \{}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00093}00093\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ std::make\_shared<RenderTarget>(d);}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00066}00066\ \ \ \ \ \textcolor{comment}{//class\ Pipeline\ \{}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00067}00067\ \ \ \ \ \textcolor{comment}{//public:}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00068}00068\ \ \ \ \ \textcolor{comment}{//\ \ Pipeline(PipelineDesc\ d)\ :\ desc(d)\ \{\}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00069}00069\ \ \ \ \ \textcolor{comment}{//private:}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00070}00070\ \ \ \ \ \textcolor{comment}{//\ \ PipelineDesc\ desc;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00071}00071\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00074}00074\ \ \ \ \ \textcolor{comment}{//struct\ RenderPass\ \{}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00075}00075\ \ \ \ \ \textcolor{comment}{//\ \ std::string\ name;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00076}00076\ \ \ \ \ \textcolor{comment}{//\ \ std::shared\_ptr<Pipeline>\ pipeline;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00077}00077\ \ \ \ \ \textcolor{comment}{//\ \ std::vector<std::shared\_ptr<RenderTarget>>\ inputs;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00078}00078\ \ \ \ \ \textcolor{comment}{//\ \ std::shared\_ptr<RenderTarget>\ output;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00079}00079\ \ \ \ \ \textcolor{comment}{//\ \ std::function<void()>\ onExecute;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00080}00080\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00082}00082\ \ \ \ \ \textcolor{comment}{//class\ ARenderingBackend;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00085}00085\ \ \ \ \ \textcolor{comment}{//class\ RenderGraph\ \{}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00086}00086\ \ \ \ \ \textcolor{comment}{//private:}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00087}00087\ \ \ \ \ \textcolor{comment}{//\ \ std::vector<RenderPass>\ passes;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00088}00088\ \ \ \ \ \textcolor{comment}{//public:}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00089}00089\ \ \ \ \ \textcolor{comment}{//\ \ auto\ createRenderTarget(RenderTargetDesc\ d)\ \{}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00090}00090\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ std::make\_shared<RenderTarget>(d);}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00091}00091\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00092}00092\ \ \ \ \ \textcolor{comment}{//\ \ auto\ createPipeline(PipelineDesc\ d)\ \{}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00093}00093\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ std::make\_shared<Pipeline>(d);}}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00094}00094\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00095}00095\ \ \ \ \ \textcolor{comment}{//\ \ auto\ createPipeline(PipelineDesc\ d)\ \{}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00096}00096\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ std::make\_shared<Pipeline>(d);}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00097}00097\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00098}00098\ \ \ \ \ \textcolor{comment}{//\ \ void\ addPass(const\ RenderPass\&\ p)\ \{\ passes.push\_back(p);\ \}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00099}00099\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00100}00100\ \ \ \ \ \textcolor{comment}{//\ \ const\ std::vector<RenderPass>\&\ getPasses()\ const\ \{\ return\ passes;\ \}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00101}00101\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00102}00102\ \ \ \ \ \textcolor{comment}{//\ \ void\ execute()\ \{}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00103}00103\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ for\ (auto\&\ p\ :\ passes)\ \{}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00104}00104\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ std::cout\ <<\ "{}[RenderGraph]\ Executing:\ "{}\ <<\ p.name\ <<\ std::endl;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00105}00105\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ if\ (p.onExecute)\ p.onExecute();}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00106}00106\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00107}00107\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00108}00108\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00095}00095\ \ \ \ \ \textcolor{comment}{//\ \ void\ addPass(const\ RenderPass\&\ p)\ \{\ passes.push\_back(p);\ \}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00097}00097\ \ \ \ \ \textcolor{comment}{//\ \ const\ std::vector<RenderPass>\&\ getPasses()\ const\ \{\ return\ passes;\ \}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00099}00099\ \ \ \ \ \textcolor{comment}{//\ \ void\ execute()\ \{}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00100}00100\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ for\ (auto\&\ p\ :\ passes)\ \{}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00101}00101\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ std::cout\ <<\ "{}[RenderGraph]\ Executing:\ "{}\ <<\ p.name\ <<\ std::endl;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00102}00102\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ if\ (p.onExecute)\ p.onExecute();}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00103}00103\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00104}00104\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00105}00105\ \ \ \ \ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00107}\mbox{\hyperlink{struct_atlas_1_1_renderer_settings}{00107}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_renderer_settings}{RendererSettings}}\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Empty\ for\ now}}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00109}00109\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00110}00110\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00111}00111\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00112}\mbox{\hyperlink{struct_atlas_1_1_renderer_settings}{00112}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_renderer_settings}{RendererSettings}}\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Empty\ for\ now}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00114}00114\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00115}00115\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00116}\mbox{\hyperlink{struct_atlas_1_1_renderer_settings_a43e0ec9f5837dae35b04360c70e270ee}{00116}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_renderer_settings_a43e0ec9f5837dae35b04360c70e270ee}{bUseDebuggingTools}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00117}\mbox{\hyperlink{struct_atlas_1_1_renderer_settings_a136d2cbeccf9f19f0beddc4cbf103733}{00117}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_renderer_settings_a136d2cbeccf9f19f0beddc4cbf103733}{bEnableErrorChecking}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00118}00118\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00119}00119\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00120}\mbox{\hyperlink{class_atlas_1_1_rendering_backend}{00120}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_rendering_backend}{RenderingBackend}}\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00121}00121\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00122}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_aa07834ee37689f99b2648a3f4797088a}{00122}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{struct_atlas_1_1_version}{APIVersion}}\ =\ \mbox{\hyperlink{struct_atlas_1_1_version}{Version}};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00110}\mbox{\hyperlink{struct_atlas_1_1_renderer_settings_a43e0ec9f5837dae35b04360c70e270ee}{00110}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_renderer_settings_a43e0ec9f5837dae35b04360c70e270ee}{bUseDebuggingTools}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00111}\mbox{\hyperlink{struct_atlas_1_1_renderer_settings_a136d2cbeccf9f19f0beddc4cbf103733}{00111}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_renderer_settings_a136d2cbeccf9f19f0beddc4cbf103733}{bEnableErrorChecking}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00112}00112\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00114}\mbox{\hyperlink{struct_atlas_1_1_draw_call_info}{00114}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_draw_call_info}{DrawCallInfo}}\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Empty\ for\ now}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00117}00117\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00119}\mbox{\hyperlink{class_atlas_1_1_i_rendering_backend}{00119}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_i_rendering_backend}{IRenderingBackend}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_initializable_and_validatable}{InitializableAndValidatable}}\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00120}00120\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00122}00122\ }
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00123}00123\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00124}\mbox{\hyperlink{struct_atlas_1_1_rendering_backend_1_1_state}{00124}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_rendering_backend_1_1_state}{State}}\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00125}\mbox{\hyperlink{struct_atlas_1_1_rendering_backend_1_1_state_a0373f211815b85615a84ebb6c1f9064a}{00125}}\ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<AGameWindow>\ \mbox{\hyperlink{struct_atlas_1_1_rendering_backend_1_1_state_a0373f211815b85615a84ebb6c1f9064a}{gameWindow}};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00126}\mbox{\hyperlink{struct_atlas_1_1_rendering_backend_1_1_state_adf3bd27e283191d7363e4f1e462e2c44}{00126}}\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_renderer_settings}{RendererSettings}}\ \mbox{\hyperlink{struct_atlas_1_1_rendering_backend_1_1_state_adf3bd27e283191d7363e4f1e462e2c44}{settings}};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00128}\mbox{\hyperlink{struct_atlas_1_1_rendering_backend_1_1_state_ad694937a6111e3ce0d472b7ef953f15c}{00128}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_rendering_backend_1_1_state_ad694937a6111e3ce0d472b7ef953f15c}{bIsReady}}\{\ \textcolor{keyword}{false}\ \};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00129}00129\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00130}00130\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00131}00131\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00124}\mbox{\hyperlink{class_atlas_1_1_i_rendering_backend_addecfd640cc8a1e7ed1522b77417da5f}{00124}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_rendering_backend_addecfd640cc8a1e7ed1522b77417da5f}{draw}}(\mbox{\hyperlink{struct_atlas_1_1_draw_call_info}{DrawCallInfo}}\&\ drawCallInfo)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00126}\mbox{\hyperlink{class_atlas_1_1_i_rendering_backend_acd18a1090d5c7dcf8badb6a6a46162ad}{00126}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_i_rendering_backend_acd18a1090d5c7dcf8badb6a6a46162ad}{clearBackground}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_atlas_1_1_color}{Color}}\&\ cClearColor)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00127}00127\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00129}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend}{00129}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend}{ARenderingBackend}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_initializable_and_validatable}{InitializableAndValidatable}}\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00130}00130\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00131}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a31f85dc01374525d8911fa33fef306c9}{00131}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{struct_atlas_1_1_version}{APIVersion}}\ =\ \mbox{\hyperlink{struct_atlas_1_1_version}{Version}};}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00132}00132\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00133}00133\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00134}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a09cbe396737f7ec444c9df783a396198}{00134}}\ \ \ \ \ \ \ \ \ std::shared\_ptr<State>\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a09cbe396737f7ec444c9df783a396198}{mState}};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00135}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_ac6f8f04ca82e81ce84cde37f8ff7bdc9}{00135}}\ \ \ \ \ \ \ \ \ std::shared\_mutex\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_ac6f8f04ca82e81ce84cde37f8ff7bdc9}{mStateMutex}};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00133}\mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_options}{00133}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_options}{Options}}\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00134}\mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_options_af325a58fa12754f27089ad02a1167b45}{00134}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_options_af325a58fa12754f27089ad02a1167b45}{bEnableDebuggingTools}}\{\ \textcolor{keyword}{false}\ \};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00135}\mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_options_ac7ac37c6931156fae9c068f7864af046}{00135}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_options_ac7ac37c6931156fae9c068f7864af046}{bEnableErrorChecking}}\{\ \textcolor{keyword}{false}\ \};}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00136}00136\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00137}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a9cfc83c6e2a15b8ec3547096e9b35ceb}{00137}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_version}{Version}}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a9cfc83c6e2a15b8ec3547096e9b35ceb}{mAPIVersion}};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00139}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a700b1b75e768eecfe2588175dca163f3}{00139}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a700b1b75e768eecfe2588175dca163f3}{mbIsInitialized}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00140}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_aa4a46d5ddaec2234560450eb49dadea3}{00140}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_aa4a46d5ddaec2234560450eb49dadea3}{mbUseDebuggingTools}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00141}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_aea9e4c1e43ad3215fc6fe0fd3175f38f}{00141}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_aea9e4c1e43ad3215fc6fe0fd3175f38f}{mbEnableErrorChecking}}\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ dont\ worry\ about\ this\ if\ you\ are\ not\ using\ vulkan}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00142}00142\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00143}00143\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00144}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a8fdc27032a31e060812f50d3483df789}{00144}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a8fdc27032a31e060812f50d3483df789}{RenderingBackend}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00145}00145\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00146}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a198af5857a9e936864dd48f324f663e0}{00146}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a198af5857a9e936864dd48f324f663e0}{\string~RenderingBackend}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_ad577ab0303623d74c3146fae76862d51}{shutdown}}();}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00148}00148\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00149}00149\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{comment}{//virtual\ void\ init(AGameWindow*\ windowHandle)}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ ATLAS\_ASSERT(windowHandle\ !=\ nullptr,\ "{}Window\ handle\ cannot\ be\ null!"{});}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00153}00153\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ mbIsInitialized\ =\ true;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00156}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a74a005f6473d140d9adb3d8b5a4c597a}{00156}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a74a005f6473d140d9adb3d8b5a4c597a}{init}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ gameWindow)\ =\ 0;}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00157}00157\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00158}00158\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00159}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a03511a168dfb6836e35df16e1c381454}{00159}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a03511a168dfb6836e35df16e1c381454}{beginDrawing}}()\ \{\}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00160}00160\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00161}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_ab03eafaebaa4368ca8ab2d007a26c455}{00161}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_ab03eafaebaa4368ca8ab2d007a26c455}{draw}}()\ \{\}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00162}00162\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00163}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_ae182d9841dd1d9f66e2a82b31bf46875}{00163}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_ae182d9841dd1d9f66e2a82b31bf46875}{endDrawing}}()\ \{\}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00164}00164\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00165}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_ad577ab0303623d74c3146fae76862d51}{00165}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_ad577ab0303623d74c3146fae76862d51}{shutdown}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a700b1b75e768eecfe2588175dca163f3}{mbIsInitialized}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00167}00167\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00168}00168\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a4885aa29f0e892faa47e0e99b21b7add}{setAPIVersion}}(uint32\_t\ major,\ uint32\_t\ minor,\ uint32\_t\ patch);}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ the\ API\ version\ of\ the\ rendering\ backend}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00138}\mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_options_a8cccff9ebb1f00aa239fe0a4bb044031}{00138}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_atlas_1_1_version}{Version}}\ \mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_options_a8cccff9ebb1f00aa239fe0a4bb044031}{cAPIVersion}};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00140}00140\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00142}\mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_state}{00142}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_state}{State}}\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00143}\mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_state_acaf93b8ae4384ceedfef03f454fe80aa}{00143}}\ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<GameWindow>\ \mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_state_acaf93b8ae4384ceedfef03f454fe80aa}{gameWindow}};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00146}\mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_state_aacce6852c1de219c3cd971fdbfc8759e}{00146}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{struct_atlas_1_1_a_rendering_backend_1_1_state_aacce6852c1de219c3cd971fdbfc8759e}{bIsReady}}\{\ \textcolor{keyword}{false}\ \};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00147}00147\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00149}00149\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00150}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a7c32a010684a0faa5b183828add29145}{00150}}\ \ \ \ \ \ \ \ \ std::shared\_ptr<GameWindow>\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a7c32a010684a0faa5b183828add29145}{gameWindow}};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::shared\_ptr<State>\ mState;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::shared\_mutex\ mStateMutex;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00155}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a85079253c83fc2a3bcd6574438dab06e}{00155}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_renderer_settings}{RendererSettings}}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a85079253c83fc2a3bcd6574438dab06e}{settings}};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00157}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a81a2b14e59a12608f0d22c520e049203}{00157}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_atlas_1_1_version}{Version}}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a81a2b14e59a12608f0d22c520e049203}{mAPIVersion}};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{comment}{//bool\ mbIsInitialized\ =\ false;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00160}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a3261ba19175fae8fba9ae233563ea4d1}{00160}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a3261ba19175fae8fba9ae233563ea4d1}{mbUseDebuggingTools}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00161}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_ab0c7ecd4518c8d05a10fc2976fa173db}{00161}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_ab0c7ecd4518c8d05a10fc2976fa173db}{mbEnableErrorChecking}}\ =\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ dont\ worry\ about\ this\ if\ you\ are\ not\ using\ vulkan}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00162}00162\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00164}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_aff1cded30cefb773a0110cc891330ff0}{00164}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_aff1cded30cefb773a0110cc891330ff0}{ARenderingBackend}}(\mbox{\hyperlink{struct_atlas_1_1_version}{Version}}\ apiVersion,\ std::shared\_ptr<GameWindow>\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a7c32a010684a0faa5b183828add29145}{gameWindow}})\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a7c32a010684a0faa5b183828add29145}{gameWindow}}(\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a7c32a010684a0faa5b183828add29145}{gameWindow}}),\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a81a2b14e59a12608f0d22c520e049203}{mAPIVersion}}(apiVersion)\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ATLAS\_ASSERT(gameWindow\ !=\ nullptr,\ "{}Game\ Window\ cannot\ be\ null\ when\ creating\ a\ rendering\ backend"{});}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00169}00169\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00170}00170\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a4885aa29f0e892faa47e0e99b21b7add}{setAPIVersion}}(\mbox{\hyperlink{struct_atlas_1_1_version}{Version}}\ version);}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00171}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a8d4703c6477bd6492a3c93237c723bba}{00171}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a8d4703c6477bd6492a3c93237c723bba}{ARenderingBackend}}()\ =\ \textcolor{keywordflow}{default};}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00172}00172\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{struct_atlas_1_1_version}{Version}}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a9dd0437287e27ebfedf7eedc108077fc}{getAPIVersion}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00174}00174\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{comment}{//inline\ std::shared\_ptr<AGameWindow>\ getGameWindow()\ const\ \{\ return\ mGameWindowPtr;\ \}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00173}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a5686df32e15fe5d7e7eba4ebdc0e3a8f}{00173}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a5686df32e15fe5d7e7eba4ebdc0e3a8f}{\string~ARenderingBackend}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a84bb8a358b1c36306e3b9d410db78e1a}{shutdown}}();}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00175}00175\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00176}00176\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a0badb1a8882f95707ef23afb0226985f}{areDebuggingToolsEnabled}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00178}00178\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a68e556db45b8aeb6e7fe4152bb1aab7c}{isErrorCheckingEnabled}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00177}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a1baf644f19d2df8a3392ac7d3c1df683}{00177}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a1baf644f19d2df8a3392ac7d3c1df683}{init}}(\mbox{\hyperlink{class_atlas_1_1_game_window}{GameWindow}}*\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a7c32a010684a0faa5b183828add29145}{gameWindow}})\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00178}00178\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00179}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_ad1b66bcef3269b55b4171499e0253ecd}{00179}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_ad1b66bcef3269b55b4171499e0253ecd}{beginDrawing}}()\ \{\}}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00180}00180\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_CAST\_TO>}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00182}\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a7cb1801aa3d1b9bdf8bc5e1ae13759c1}{00182}}\ \ \ \ \ \ \ \ \ T\_CAST\_TO*\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a7cb1801aa3d1b9bdf8bc5e1ae13759c1}{castAs}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{dynamic\_cast<}T\_CAST\_TO*\textcolor{keyword}{>}(\textcolor{keyword}{this});}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00184}00184\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00185}00185\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00186}00186\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00187}00187\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_TARGET>}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00188}\mbox{\hyperlink{concept_atlas_1_1_valid_renderer}{00188}}\ \ \ \ \ \textcolor{keyword}{concept\ }\mbox{\hyperlink{concept_atlas_1_1_valid_renderer}{ValidRenderer}}\ =\ std::is\_base\_of\_v<RenderingBackend,\ T\_TARGET>;}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00189}00189\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00190}00190\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_CHILD>}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00191}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend}{00191}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend}{AGlobalRenderingBackend}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_rendering_backend}{RenderingBackend}}\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00192}00192\ \ \ \ \ \textcolor{keyword}{protected}:}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00193}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{00193}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::shared\_ptr<T\_CHILD>\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{sActiveInstanceTSSV}}\{\};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00194}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a5bb9c75690e064df365e751ce95be53a}{00194}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::shared\_mutex\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a5bb9c75690e064df365e751ce95be53a}{sActiveInstanceMutex}}\{\};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00181}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a386b5af4418a9cf71c30a1ce1ef9509d}{00181}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a386b5af4418a9cf71c30a1ce1ef9509d}{draw}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00183}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a360edde0d582c860dc7f8e39dfcc73d9}{00183}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a360edde0d582c860dc7f8e39dfcc73d9}{endDrawing}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00185}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a84bb8a358b1c36306e3b9d410db78e1a}{00185}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a84bb8a358b1c36306e3b9d410db78e1a}{shutdown}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_validatable_ac39f702d6f05112f438cb133e9597a63}{setInvalid}}();}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_initializable_a420312f818cb6c387d8c35765340c10a}{setNotInit}}();}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//mbIsInitialized\ =\ false;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00190}00190\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a99b7f6fd3d0cb7cf396794d775e1298e}{setAPIVersion}}(\mbox{\hyperlink{struct_atlas_1_1_version}{Version}}\ version);}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00194}00194\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{struct_atlas_1_1_version}{Version}}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_ab550bdeae0cfc28130beae5206d07f5b}{getAPIVersion}}()\ \textcolor{keyword}{const};}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00195}00195\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00196}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a68d5529cf920b9fdc1904b69cbce3b55}{00196}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a68d5529cf920b9fdc1904b69cbce3b55}{SetGlobalInstance}}(\textcolor{keyword}{const}\ std::shared\_ptr<T\_CHILD>\&\ instance)\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::scoped\_lock\ lock(sActiveInstanceTSSV.lock());}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{sActiveInstanceTSSV}}.get().set(instance);}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00199}00199\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00200}00200\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00201}00201\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00202}00202\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00203}00203\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_atlas_1_1_rendering_backend_a8fdc27032a31e060812f50d3483df789}{RenderingBackend::RenderingBackend}};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00204}00204\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00205}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a9fbf925faf098ad37edd1da9e933fa8e}{00205}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::shared\_ptr<T\_CHILD>\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a9fbf925faf098ad37edd1da9e933fa8e}{GetGlobalInstance}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{sActiveInstanceTSSV}};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00207}00207\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{comment}{//inline\ std::shared\_ptr<GameWindow>\ getGameWindow()\ const\ \{\ return\ mGameWindowPtr;\ \}}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_af7eda4db705c3caa850285b7bbb61225}{areDebuggingToolsEnabled}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00200}00200\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a92abaadc041dd84e44f942da42964f74}{isErrorCheckingEnabled}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_CAST\_TO>}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00203}\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a31ff612bdcf024ca9889f936b2468e13}{00203}}\ \ \ \ \ \ \ \ \ T\_CAST\_TO*\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a31ff612bdcf024ca9889f936b2468e13}{castAs}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{dynamic\_cast<}T\_CAST\_TO*\textcolor{keyword}{>}(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00205}00205\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00206}00206\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00207}00207\ }
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00208}00208\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00209}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a99b0afdff1d50eeba670ef81c28caacf}{00209}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a99b0afdff1d50eeba670ef81c28caacf}{HasGlobalInstance}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{sActiveInstanceTSSV}}.get()\ !=\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00211}00211\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00212}00212\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00213}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a34be1dcd438576686e7804b2158b8077}{00213}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a34be1dcd438576686e7804b2158b8077}{ClearGlobalInstance}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::scoped\_lock\ lock(sActiveInstanceTSSV.lock());}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//sActiveInstanceTSSV\ =\ nullptr;}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//sActiveInstanceTSSV.reset();}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00209}00209\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00210}\mbox{\hyperlink{concept_atlas_1_1_valid_renderer}{00210}}\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_TARGET>\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{concept_atlas_1_1_valid_renderer}{ValidRenderer}}\ =\ std::is\_base\_of\_v<ARenderingBackend,\ T\_TARGET>;}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00212}00212\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\_CHILD>}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00213}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend}{00213}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend}{AGlobalRenderingBackend}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend}{ARenderingBackend}}\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00214}00214\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00215}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{00215}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::shared\_ptr<T\_CHILD>\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{sActiveInstanceTSSV}}\{\};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00216}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a5bb9c75690e064df365e751ce95be53a}{00216}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::shared\_mutex\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a5bb9c75690e064df365e751ce95be53a}{sActiveInstanceMutex}}\{\};}
 \DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00217}00217\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{sActiveInstanceTSSV}}\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00219}00219\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00220}00220\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00221}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_afa0ac8f0bb1ec7518340cc8ee4889fa2}{00221}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_afa0ac8f0bb1ec7518340cc8ee4889fa2}{init}}(\mbox{\hyperlink{class_atlas_1_1_a_game_window}{AGameWindow}}*\ windowHandle)\textcolor{keyword}{\ override\ }\{\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a99b0afdff1d50eeba670ef81c28caacf}{HasGlobalInstance}}())\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a33205c3fa4075eebe5721d4df7379d19}{ErrorLog}}(\textcolor{stringliteral}{"{}RenderingBackend\ has\ already\ been\ initialized"{}});}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a82ab27b5aa3911da3587a3a548aa1ecb}{setThisAsGlobalInstance}}();}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00229}00229\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_a74a005f6473d140d9adb3d8b5a4c597a}{RenderingBackend::init}}(windowHandle);}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00231}00231\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00232}00232\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00233}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a82ab27b5aa3911da3587a3a548aa1ecb}{00233}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a82ab27b5aa3911da3587a3a548aa1ecb}{setThisAsGlobalInstance}}()\ \{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a68d5529cf920b9fdc1904b69cbce3b55}{SetGlobalInstance}}(std::make\_shared<T\_CHILD>(\textcolor{keyword}{this}));}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00235}00235\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00236}00236\ }
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00237}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_aa77a1f1854342987997338c94020539a}{00237}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_aa77a1f1854342987997338c94020539a}{shutdown}}()\textcolor{keyword}{\ override\ }\{}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_rendering_backend_ad577ab0303623d74c3146fae76862d51}{RenderingBackend::shutdown}}();}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a34be1dcd438576686e7804b2158b8077}{ClearGlobalInstance}}();}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00240}00240\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00241}00241\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00242}00242\ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00218}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a68d5529cf920b9fdc1904b69cbce3b55}{00218}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a68d5529cf920b9fdc1904b69cbce3b55}{SetGlobalInstance}}(\textcolor{keyword}{const}\ std::shared\_ptr<T\_CHILD>\&\ instance)\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::scoped\_lock\ lock(sActiveInstanceTSSV.lock());}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{sActiveInstanceTSSV}}.get().set(instance);}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00221}00221\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00223}00223\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a8d4703c6477bd6492a3c93237c723bba}{ARenderingBackend::ARenderingBackend}};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00227}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a9fbf925faf098ad37edd1da9e933fa8e}{00227}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ std::shared\_ptr<T\_CHILD>\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a9fbf925faf098ad37edd1da9e933fa8e}{GetGlobalInstance}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{sActiveInstanceTSSV}};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00229}00229\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00231}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a99b0afdff1d50eeba670ef81c28caacf}{00231}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a99b0afdff1d50eeba670ef81c28caacf}{HasGlobalInstance}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{sActiveInstanceTSSV}}.get()\ !=\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00233}00233\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00235}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a34be1dcd438576686e7804b2158b8077}{00235}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a34be1dcd438576686e7804b2158b8077}{ClearGlobalInstance}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//std::scoped\_lock\ lock(sActiveInstanceTSSV.lock());}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//sActiveInstanceTSSV\ =\ nullptr;}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//sActiveInstanceTSSV.reset();}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a22e5e0276b1bcd4030ac20dc63d09ecd}{sActiveInstanceTSSV}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00241}00241\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00243}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a2097818868ab5277025de26d9214db6b}{00243}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a2097818868ab5277025de26d9214db6b}{init}}(\mbox{\hyperlink{class_atlas_1_1_game_window}{GameWindow}}*\ windowHandle)\textcolor{keyword}{\ override\ }\{\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a99b0afdff1d50eeba670ef81c28caacf}{HasGlobalInstance}}())\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespace_atlas_a33205c3fa4075eebe5721d4df7379d19}{ErrorLog}}(\textcolor{stringliteral}{"{}ARenderingBackend\ has\ already\ been\ initialized"{}});}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a82ab27b5aa3911da3587a3a548aa1ecb}{setThisAsGlobalInstance}}();}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00251}00251\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a1baf644f19d2df8a3392ac7d3c1df683}{ARenderingBackend::init}}(windowHandle);}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00253}00253\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00255}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a82ab27b5aa3911da3587a3a548aa1ecb}{00255}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a82ab27b5aa3911da3587a3a548aa1ecb}{setThisAsGlobalInstance}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a68d5529cf920b9fdc1904b69cbce3b55}{SetGlobalInstance}}(std::make\_shared<T\_CHILD>(\textcolor{keyword}{this}));}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00257}00257\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00259}\mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_aa77a1f1854342987997338c94020539a}{00259}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_aa77a1f1854342987997338c94020539a}{shutdown}}()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_rendering_backend_a84bb8a358b1c36306e3b9d410db78e1a}{ARenderingBackend::shutdown}}();}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_a_global_rendering_backend_a34be1dcd438576686e7804b2158b8077}{ClearGlobalInstance}}();}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00262}00262\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00263}00263\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_rendering_backend_8h_source_l00264}00264\ \}}
 
 \end{DoxyCode}

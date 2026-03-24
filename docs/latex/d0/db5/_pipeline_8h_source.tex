@@ -1,0 +1,73 @@
+\doxysection{Pipeline.\+h}
+\hypertarget{_pipeline_8h_source}{}\label{_pipeline_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/drawing/Pipeline.h@{C:/Dev/Techstorm-\/v5/src/engine/graphics/drawing/Pipeline.h}}
+\mbox{\hyperlink{_pipeline_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}../vulkan/CommandBuffer.h"{}}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}../RenderCommon.h"{}}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_pipeline_layout_8h}{PipelineLayout.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_shader_8h}{Shader.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00007}00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00008}\mbox{\hyperlink{class_atlas_1_1_pipeline}{00008}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_pipeline}{Pipeline}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper}{AVulkanHandleWrapper}}<VkPipeline>\ \{}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00010}\mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177c}{00010}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177c}{EBindPoint}}\ \{}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177cad334dfcea59127bedfcdbe0a3ee7f494}{Graphics}}\ =\ VK\_PIPELINE\_BIND\_POINT\_GRAPHICS,}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177caa623a8d0366bf079411aa30be45b2d10}{Compute}}\ =\ VK\_PIPELINE\_BIND\_POINT\_COMPUTE,}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177ca6e4a67173dc606d47b6bf78cc9003fdd}{RayTracingKHR}}\ =\ VK\_PIPELINE\_BIND\_POINT\_RAY\_TRACING\_KHR,}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177ca8f99887f45c400a1f7a20d7ed1741e77}{RayTracingNV}}\ =\ VK\_PIPELINE\_BIND\_POINT\_RAY\_TRACING\_NV,}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177ca6a061313d22e51e0f25b7cd4dc065233}{Max}}\ =\ VK\_PIPELINE\_BIND\_POINT\_MAX\_ENUM}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00016}00016\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00018}\mbox{\hyperlink{class_atlas_1_1_pipeline_a10c65cf77c1e4b8ed1aad60662731994}{00018}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177c}{EBindPoint}}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a10c65cf77c1e4b8ed1aad60662731994}{mBindPoint}}\{\ \mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177cad334dfcea59127bedfcdbe0a3ee7f494}{EBindPoint::Graphics}}\ \};}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00020}00020\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkPipelineLayoutCreateInfo\ mComputeLayoutInfo;}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkPushConstantRange\ mPushConstantRange;}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkPipeline\ mPipeline\{\ VK\_NULL\_HANDLE\ \};}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00025}\mbox{\hyperlink{class_atlas_1_1_pipeline_ab988b6b6d6e0a9741c38aa8f844949cd}{00025}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_layout}{PipelineLayout}}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_ab988b6b6d6e0a9741c38aa8f844949cd}{mPipelineLayout}};}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{comment}{//VkPipelineLayout\ mPipelineLayout\ =\ VK\_NULL\_HANDLE;}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00029}\mbox{\hyperlink{class_atlas_1_1_pipeline_a47cec9256518c5b102afda7112f9df73}{00029}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_shader}{Shader}}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a47cec9256518c5b102afda7112f9df73}{mShader}};}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_af204086682fd470e6a14673aca362152}{setBindPoint}}(\mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177c}{EBindPoint}}\ newBindPoint);}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00033}00033\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00035}00035\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_a484b83e21c7d8862c09d3e8bb17b5cb9}{Pipeline}}(\mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177c}{EBindPoint}}\ bindPoint,\ VkPipeline\ pipeline,\ \mbox{\hyperlink{class_atlas_1_1_pipeline_layout}{PipelineLayout}}\ pipelineLayout);}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00037}\mbox{\hyperlink{class_atlas_1_1_pipeline_a484b83e21c7d8862c09d3e8bb17b5cb9}{00037}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_a484b83e21c7d8862c09d3e8bb17b5cb9}{Pipeline}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a04220661f6b079e2a6d46da4a1ab39cb}{bind}}(\mbox{\hyperlink{class_atlas_1_1_command_buffer}{CommandBuffer}}\ commandBuffer);}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00041}00041\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_pipeline_adb5c57283a742f7e624e0668731d177c}{EBindPoint}}\ \mbox{\hyperlink{class_atlas_1_1_pipeline_a9cc9ce2f8431f2b01b62fa48b6f1f5b0}{getBindPoint}}()\ const\ noexcept;}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//void\ createLayout(VkPipelineLayoutCreateInfo\ layoutInfo,\ VkDevice*\ device)}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ vkCreatePipelineLayout(*device,\ \&layoutInfo,\ nullptr,\ \&mPipelineLayout);}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{//void\ createLayout(VkDevice*\ device,\ VkDescriptorSetLayout*\ descriptorSetLayout)\ \{}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ VkPipelineLayoutCreateInfo\ layoutInfo\{\};}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ layoutInfo.sType\ =\ VK\_STRUCTURE\_TYPE\_PIPELINE\_LAYOUT\_CREATE\_INFO;}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ layoutInfo.pNext\ =\ nullptr;}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ layoutInfo.pSetLayouts\ =\ descriptorSetLayout;}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ layoutInfo.setLayoutCount\ =\ 1;}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ createLayout(layoutInfo,\ device);}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//void\ init(VkDevice*\ device,\ DeletionQueue*\ deletionQueue,\ VkPipelineShaderStageCreateInfo\ stageInfo,\ VkComputePipelineCreateInfo\ pipelineInfo)\ \{}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ vkCreateComputePipelines(*device,\ VK\_NULL\_HANDLE,\ 1,\ \&pipelineInfo,\ nullptr,\ \&mPipeline);}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ vkDestroyShaderModule(*device,\ mShader.getModule(),\ nullptr)}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ deletionQueue-\/>push([\&]()\ \{}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ destroyPipeline(device);}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \});}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{comment}{//void\ destroyPipeline(VkDevice*\ device)\ \{}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ vkDestroyPipelineLayout(*device,\ mPipelineLayout,\ nullptr);}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ vkDestroyPipeline(*device,\ mPipeline,\ nullptr);}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00066}00066\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_pipeline_8h_source_l00067}00067\ \}}
+
+\end{DoxyCode}

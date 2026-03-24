@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['glfwclientapi_5fopengl_0',['GlfwClientApi_OpenGL',['../de/d02/imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189',1,'imgui_impl_glfw.cpp']]],
-  ['glfwclientapi_5funknown_1',['GlfwClientApi_Unknown',['../de/d02/imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97',1,'imgui_impl_glfw.cpp']]],
-  ['glfwclientapi_5fvulkan_2',['GlfwClientApi_Vulkan',['../de/d02/imgui__impl__glfw_8cpp.html#abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5',1,'imgui_impl_glfw.cpp']]],
-  ['graphics_3',['Graphics',['../d7/d54/namespace_atlas.html#a01a5f888a8d45705c73fe3f2357d0cd1ad334dfcea59127bedfcdbe0a3ee7f494',1,'Atlas']]]
+  ['enum_0',['Enum',['../dd/d9e/struct_atlas_1_1_type_audit.html#ad6a4cc904a6ceaa661df63c0a065addcacf20423ed48998082c20099488a0917c',1,'Atlas::TypeAudit']]],
+  ['error_1',['error',['../d7/d54/namespace_atlas.html#a1fcbd080475f59176eb93a9910024079acb5e100e5a9a3e7f6d1fd97512215282',1,'Atlas::error'],['../d7/d54/namespace_atlas.html#a11cc458913e864681ca35ecc69d956c6a902b0d55fddef6f8d651fe1035b7d4bd',1,'Atlas::Error']]],
+  ['extension_2',['Extension',['../d7/d54/namespace_atlas.html#ae87546dceedbbfc984b86121a7154b5aa63e4e92bb7d207ca577b11c07f827279',1,'Atlas']]]
 ];

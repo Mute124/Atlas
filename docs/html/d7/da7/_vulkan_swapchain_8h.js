@@ -1,4 +1,4 @@
 var _vulkan_swapchain_8h =
 [
-    [ "Atlas::VulkanSwapchain", "d6/d6d/class_atlas_1_1_vulkan_swapchain.html", "d6/d6d/class_atlas_1_1_vulkan_swapchain" ]
+    [ "Atlas::Swapchain", "d3/d39/class_atlas_1_1_swapchain.html", "d3/d39/class_atlas_1_1_swapchain" ]
 ];

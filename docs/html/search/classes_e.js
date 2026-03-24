@@ -12,7 +12,11 @@ var searchData=
   ['pipeline_9',['Pipeline',['../d6/d84/class_atlas_1_1_pipeline.html',1,'Atlas']]],
   ['pipelinebuilder_10',['PipelineBuilder',['../db/dcc/class_atlas_1_1_pipeline_builder.html',1,'Atlas']]],
   ['pipelinebuildersettings_11',['PipelineBuilderSettings',['../d4/d2e/struct_atlas_1_1_pipeline_builder_settings.html',1,'Atlas']]],
-  ['point_12',['Point',['../d8/dc8/struct_point.html',1,'']]],
-  ['poolsizeratio_13',['PoolSizeRatio',['../d6/dec/struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio.html',1,'Atlas::DescriptorAllocator']]],
-  ['proxy_14',['Proxy',['../d6/df0/classgw_1_1_proxy.html',1,'gw']]]
+  ['pipelinelayout_12',['PipelineLayout',['../d8/da4/class_atlas_1_1_pipeline_layout.html',1,'Atlas']]],
+  ['platform_13',['Platform',['../d9/dca/class_atlas_1_1_platform.html',1,'Atlas']]],
+  ['platformhardware_14',['PlatformHardware',['../de/da9/class_atlas_1_1_platform_hardware.html',1,'Atlas']]],
+  ['platforminitinfo_15',['PlatformInitInfo',['../d9/da6/struct_atlas_1_1_platform_init_info.html',1,'Atlas']]],
+  ['point_16',['Point',['../d8/dc8/struct_point.html',1,'']]],
+  ['poolsizeratio_17',['PoolSizeRatio',['../d6/dec/struct_atlas_1_1_descriptor_allocator_1_1_pool_size_ratio.html',1,'Atlas::DescriptorAllocator']]],
+  ['proxy_18',['Proxy',['../d6/df0/classgw_1_1_proxy.html',1,'gw']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Atlas: C:/Dev/Techstorm-v5/src/engine/graphics/VulkanInstance.h File Reference</title>
+<title>Atlas: C:/Dev/Techstorm-v5/src/engine/graphics/vulkan/VulkanInstance.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.1</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -94,6 +94,7 @@ $(document).ready(function(){initNavTree('d9/d2d/_vulkan_instance_8h.html','../.
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">VulkanInstance.h File Reference</div></div>
@@ -106,9 +107,10 @@ $(document).ready(function(){initNavTree('d9/d2d/_vulkan_instance_8h.html','../.
 <code>#include &lt;vulkan/vulkan.h&gt;</code><br />
 <code>#include &lt;vulkan/vulkan_core.h&gt;</code><br />
 <code>#include &lt;VkBootstrap.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="../../d4/d09/_core_8h_source.html">../core/Core.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d0/dd7/_version_8h_source.html">../core/Version.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../df/dc6/_rendering_backend_8h_source.html">backend/RenderingBackend.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d4/d09/_core_8h_source.html">../../core/Core.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d0/dd7/_version_8h_source.html">../../core/Version.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d0/d27/_application_info_8h_source.html">../../core/ApplicationInfo.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../df/dc6/_rendering_backend_8h_source.html">../backend/RenderingBackend.h</a>&quot;</code><br />
 </div>
 <p><a href="../../d9/d2d/_vulkan_instance_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -125,6 +127,11 @@ Namespaces</h2></td></tr>
 <tr class="memitem:d7/d54/namespace_atlas" id="r_d7/d54/namespace_atlas"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a1aef8e925d2f27d7723c5ffe068704e7" id="r_a1aef8e925d2f27d7723c5ffe068704e7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2d/_vulkan_instance_8h.html#a1aef8e925d2f27d7723c5ffe068704e7">ATLAS_ENABLE_VALIDATION_LAYERS</a>&#160;&#160;&#160;true</td></tr>
+<tr class="separator:a1aef8e925d2f27d7723c5ffe068704e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a70c92d51cf7a5ffa6b87ef2d2db9506d" id="r_a70c92d51cf7a5ffa6b87ef2d2db9506d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#a70c92d51cf7a5ffa6b87ef2d2db9506d">Atlas::VulkanDebugCallback</a> = PFN_vkDebugUtilsMessengerCallbackEXT</td></tr>
@@ -139,13 +146,30 @@ Functions</h2></td></tr>
 <tr class="memdesc:afaaad2137b7ca90a17d022d41cb33632"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default Vulkan debug callback that <a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a> uses if no custom debug callback is provided by the user in <a class="el" href="../../d6/d69/class_atlas_1_1_vulkan_instance_wrapper.html" title="Acts as a wrapper for VkInstance and it&#39;s debug messenger. Furthermore, this class handles it&#39;s own i...">VulkanInstanceWrapper</a> before it is initialized. According to the Khronos specification on the <em>PFN_vkDebugUtilsMessengerCallbackEXT</em> object, this function should always return a value of <em>VK_FALSE</em>, which is what this function does. See the Khronos specification for more information (this is in the see also section of the documentation). The message is logged via the usage of <em>spdlog::log()</em>. However, this means that some logger (more specifically a <em>Spdlog</em> logger) must have been initialized before this function is called or it will crash.  <br /></td></tr>
 <tr class="separator:afaaad2137b7ca90a17d022d41cb33632"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a1aef8e925d2f27d7723c5ffe068704e7" name="a1aef8e925d2f27d7723c5ffe068704e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1aef8e925d2f27d7723c5ffe068704e7">&#9670;&#160;</a></span>ATLAS_ENABLE_VALIDATION_LAYERS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ATLAS_ENABLE_VALIDATION_LAYERS&#160;&#160;&#160;true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d9/d2d/_vulkan_instance_8h_source.html#l00032">32</a> of file <a class="el" href="../../d9/d2d/_vulkan_instance_8h_source.html">VulkanInstance.h</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_169bc07725411c2c359378f17aa1abb6.html">graphics</a></li><li class="navelem"><a class="el" href="../../d9/d2d/_vulkan_instance_8h.html">VulkanInstance.h</a></li>
-    <li class="footer">Generated on Thu Nov 6 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_169bc07725411c2c359378f17aa1abb6.html">graphics</a></li><li class="navelem"><a class="el" href="../../dir_2bf2faf4be199c8ab1f4adbf977f4961.html">vulkan</a></li><li class="navelem"><a class="el" href="../../d9/d2d/_vulkan_instance_8h.html">VulkanInstance.h</a></li>
+    <li class="footer">Generated on Tue Mar 24 2026 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

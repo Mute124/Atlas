@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Atlas: C:/Dev/Techstorm-v5/src/engine/graphics/Fence.h File Reference</title>
+<title>Atlas: C:/Dev/Techstorm-v5/src/engine/graphics/vulkan/Fence.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../Techstorm-Logo-small.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.9</span>
+   <div id="projectname">Atlas<span id="projectnumber">&#160;0.0.1</span>
    </div>
    <div id="projectbrief">The Open World Game Engine</div>
   </td>
@@ -93,31 +93,50 @@ $(document).ready(function(){initNavTree('d6/d78/_fence_8h.html','../../'); init
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle"><div class="title">Fence.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;vulkan/vulkan.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
+<code>#include &lt;format&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;vulkan/vulkan_core.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../de/d14/graphics_2vulkan_2_physical_device_8h_source.html">PhysicalDevice.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../de/d96/_a_exception_8h_source.html">../../debugging/AException.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../da/def/_logging_8h_source.html">../../debugging/Logging.h</a>&quot;</code><br />
 </div>
 <p><a href="../../d6/d78/_fence_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d28/class_atlas_1_1_fence.html">Atlas::Fence</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wraps a Vulkan fence, providing useful functions while ensuring safe usage of the fence during its lifetime.  <a href="../../df/d28/class_atlas_1_1_fence.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:d7/d54/namespace_atlas" id="r_d7/d54/namespace_atlas"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html">Atlas</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ae7db6977272a5b8d7cea2b389a3b3f4a" id="r_ae7db6977272a5b8d7cea2b389a3b3f4a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4a">Atlas::EFenceStatus</a> : uint8_t { <a class="el" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aa88183b946cc5f0e8c96b2e66e1c74a7e">Atlas::Unknown</a> = 0
+, <a class="el" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aae21f64304b84d5a977e1a00f2137428c">Atlas::DeviceLost</a>
+, <a class="el" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aae7d31fc0602fb2ede144d18cdffd816b">Atlas::Ready</a>
+, <a class="el" href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4aadd353567e8118a2b8df4e822e59084ab">Atlas::NotReady</a>
+ }</td></tr>
+<tr class="memdesc:ae7db6977272a5b8d7cea2b389a3b3f4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The status of a fence.  <a href="../../d7/d54/namespace_atlas.html#ae7db6977272a5b8d7cea2b389a3b3f4a">More...</a><br /></td></tr>
+<tr class="separator:ae7db6977272a5b8d7cea2b389a3b3f4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_169bc07725411c2c359378f17aa1abb6.html">graphics</a></li><li class="navelem"><a class="el" href="../../d6/d78/_fence_8h.html">Fence.h</a></li>
-    <li class="footer">Generated on Thu Nov 6 2025 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2052808828190f934b76e979ee65af8a.html">engine</a></li><li class="navelem"><a class="el" href="../../dir_169bc07725411c2c359378f17aa1abb6.html">graphics</a></li><li class="navelem"><a class="el" href="../../dir_2bf2faf4be199c8ab1f4adbf977f4961.html">vulkan</a></li><li class="navelem"><a class="el" href="../../d6/d78/_fence_8h.html">Fence.h</a></li>
+    <li class="footer">Generated on Tue Mar 24 2026 for Atlas by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

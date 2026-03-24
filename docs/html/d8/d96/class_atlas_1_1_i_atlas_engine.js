@@ -1,5 +1,6 @@
 var class_atlas_1_1_i_atlas_engine =
 [
+    [ "Options", "d0/d1b/struct_atlas_1_1_i_atlas_engine_1_1_options.html", null ],
     [ "cleanup", "d8/d96/class_atlas_1_1_i_atlas_engine.html#a4e773e1394566e6d5f480efa39886dbd", null ],
     [ "exit", "d8/d96/class_atlas_1_1_i_atlas_engine.html#a559ef351e26c225cb8568342fed8225c", null ],
     [ "init", "d8/d96/class_atlas_1_1_i_atlas_engine.html#a7f58ccfabe76e4e1a4445419cad29f65", null ],

@@ -7,6 +7,10 @@ var class_atlas_1_1_color =
     [ "Color", "d0/d66/class_atlas_1_1_color.html#aae268eca44e9d75fa0702ec3ef3c3341", null ],
     [ "Color", "d0/d66/class_atlas_1_1_color.html#ad6c077f522eb6bc43d6bd81802a9e649", null ],
     [ "~Color", "d0/d66/class_atlas_1_1_color.html#a5d31c54e8d0d87779ea64298457405f2", null ],
+    [ "Color", "d0/d66/class_atlas_1_1_color.html#af496faf5ffc2e98beb5db2f9102f17c4", null ],
+    [ "Color", "d0/d66/class_atlas_1_1_color.html#ada0b5145596f3d99c80dd5fe8fed7699", null ],
+    [ "Color", "d0/d66/class_atlas_1_1_color.html#ac5304bb652851f7e9d4ea63fef9334f0", null ],
+    [ "Color", "d0/d66/class_atlas_1_1_color.html#ad6c077f522eb6bc43d6bd81802a9e649", null ],
     [ "FloatToColorBit", "d0/d66/class_atlas_1_1_color.html#a896e29c52b94924b80bb4c7fefcec0f2", null ],
     [ "getAlpha", "d0/d66/class_atlas_1_1_color.html#a764d058055b182ca17a40da58990b4ce", null ],
     [ "getBlue", "d0/d66/class_atlas_1_1_color.html#a014300bca02b4cefe05018f61e34da29", null ],
@@ -18,8 +22,12 @@ var class_atlas_1_1_color =
     [ "setGreen", "d0/d66/class_atlas_1_1_color.html#ab0e41b840ded1b1d10db84faa29e97a4", null ],
     [ "setRed", "d0/d66/class_atlas_1_1_color.html#a0bc0de3f1e8a23e7f44ac9d7264a2f08", null ],
     [ "toArray", "d0/d66/class_atlas_1_1_color.html#a056287d20250c3ae0550e70fc3f3841f", null ],
+    [ "alpha", "d0/d66/class_atlas_1_1_color.html#a5a6f1cbd4d09ef64852215435b20b8cb", null ],
+    [ "blue", "d0/d66/class_atlas_1_1_color.html#aa4d3d101d7b690a4ffa2154d04de92c8", null ],
+    [ "green", "d0/d66/class_atlas_1_1_color.html#a902a06d4891904cf4a7cf1647699cbc7", null ],
     [ "mAlpha", "d0/d66/class_atlas_1_1_color.html#a5a7401573bb3093be1efd05fd5b0cfd2", null ],
     [ "mBlue", "d0/d66/class_atlas_1_1_color.html#aee5d3ccfac451a31684929d1c00a7df8", null ],
     [ "mGreen", "d0/d66/class_atlas_1_1_color.html#a180e61e790511b95a7921c8ec7fb7b3b", null ],
-    [ "mRed", "d0/d66/class_atlas_1_1_color.html#a0a165fcda4d44bda8c2d2a097b01084c", null ]
+    [ "mRed", "d0/d66/class_atlas_1_1_color.html#a0a165fcda4d44bda8c2d2a097b01084c", null ],
+    [ "red", "d0/d66/class_atlas_1_1_color.html#acce9bcef2948dbc16159c073536f4c27", null ]
 ];

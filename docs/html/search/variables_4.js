@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['data_0',['data',['../d3/d98/struct_s_array_buffer.html#a92caaa90078f3976cd6f61f109ce40f0',1,'SArrayBuffer::data'],['../dc/da6/struct_s_grid_buffer.html#a94fcd21f50c468a8e019e1e967e0f267',1,'SGridBuffer::data'],['../df/d67/struct_renderer_extensions_1_1_image.html#a733904c59e464d884ebbf14ef6cf2910',1,'RendererExtensions::Image::data'],['../d3/d00/struct_atlas_1_1_compute_effect.html#a00b9003d01d051a93b7301a081948958',1,'Atlas::ComputeEffect::data'],['../d4/d63/class_atlas_1_1_file_handle.html#abe55b04810eaffb5fb3acb71502db19d',1,'Atlas::FileHandle::data']]],
-  ['data1_1',['data1',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#af0a4393c37ced4a091320a0293a5f2f7',1,'Atlas::ComputePushConstants']]],
-  ['data2_2',['data2',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#a026de07bae816111634fe82c5e6e2116',1,'Atlas::ComputePushConstants']]],
-  ['data3_3',['data3',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#a8b7a5d21c069cc7f2474b1a12a4ab5a3',1,'Atlas::ComputePushConstants']]],
-  ['data4_4',['data4',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#a0d9cd6a9ee45a25d22ac115f8ac451a8',1,'Atlas::ComputePushConstants']]],
+  ['data_0',['data',['../d3/d98/struct_s_array_buffer.html#a92caaa90078f3976cd6f61f109ce40f0',1,'SArrayBuffer::data'],['../dc/da6/struct_s_grid_buffer.html#a94fcd21f50c468a8e019e1e967e0f267',1,'SGridBuffer::data'],['../df/d67/struct_renderer_extensions_1_1_image.html#a733904c59e464d884ebbf14ef6cf2910',1,'RendererExtensions::Image::data'],['../d7/dfc/struct_atlas_1_1_compute_push_constant.html#a4972e679d3ce2695525105424879c75d',1,'Atlas::ComputePushConstant::data'],['../df/d55/class_atlas_1_1_compute_effect.html#a00b9003d01d051a93b7301a081948958',1,'Atlas::ComputeEffect::data'],['../d4/d63/class_atlas_1_1_file_handle.html#abe55b04810eaffb5fb3acb71502db19d',1,'Atlas::FileHandle::data']]],
+  ['data1_1',['data1',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#a8f445f74a20767ce353dc79afee14994',1,'Atlas::ComputePushConstants']]],
+  ['data2_2',['data2',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#a4cce680584aa5ec9af760419467fd930',1,'Atlas::ComputePushConstants']]],
+  ['data3_3',['data3',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#a4b195fba4b298bac10bfc2612f0db2f4',1,'Atlas::ComputePushConstants']]],
+  ['data4_4',['data4',['../d2/d8d/struct_atlas_1_1_compute_push_constants.html#aa39dc6f73422621fd606f6ba9e8b86f8',1,'Atlas::ComputePushConstants']]],
   ['declaration_5',['declaration',['../d2/da1/struct_c_script_builder_1_1_s_metadata_decl.html#a6705f0458ee30bdb96aae748f3dd184c',1,'CScriptBuilder::SMetadataDecl']]],
   ['default_5fconsole_5fsink_5flevel_6',['DEFAULT_CONSOLE_SINK_LEVEL',['../da/d62/class_atlas_1_1_spdlog_logger.html#a7e28b24364b6596245465594c746eb21',1,'Atlas::SpdlogLogger']]],
   ['default_5ffar_5fcull_5fdistance_7',['DEFAULT_FAR_CULL_DISTANCE',['../d7/dfc/namespace_atlas_1_1_literals.html#aa88b68a3d4cb4dbece3fd7155443eec6',1,'Atlas::Literals']]],
@@ -20,7 +20,7 @@ var searchData=
   ['deletevertexarrays_17',['DeleteVertexArrays',['../d4/d6c/union_im_g_l3_w_procs.html#aa36cc089a00829a19d2743a7352f4abe',1,'ImGL3WProcs']]],
   ['deletionqueue_18',['deletionQueue',['../d7/d32/struct_atlas_1_1_frame_data.html#a26862c2636d9cfc40feb939d8341ccba',1,'Atlas::FrameData']]],
   ['depthstencil_19',['depthStencil',['../d4/d2e/struct_atlas_1_1_pipeline_builder_settings.html#ad5b405c6552d4b4dc05ed2dbf4ca7be1',1,'Atlas::PipelineBuilderSettings']]],
-  ['depthstencilformat_20',['depthstencilformat',['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#a0e63ac323c2f2c0272677d079fe1a6cb',1,'ImGui_ImplWGPU_InitInfo::DepthStencilFormat'],['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a346d81380745d85c9065283da935c1e2',1,'ImGui_ImplWGPU_Data::depthStencilFormat']]],
+  ['depthstencilformat_20',['depthstencilformat',['../df/d96/struct_im_gui___impl_w_g_p_u___data.html#a346d81380745d85c9065283da935c1e2',1,'ImGui_ImplWGPU_Data::depthStencilFormat'],['../dd/d00/struct_im_gui___impl_w_g_p_u___init_info.html#a0e63ac323c2f2c0272677d079fe1a6cb',1,'ImGui_ImplWGPU_InitInfo::DepthStencilFormat']]],
   ['descriptorpool_21',['DescriptorPool',['../de/d2c/struct_im_gui___impl_vulkan___init_info.html#a8062aeaef73fcda522fbb866b312320a',1,'ImGui_ImplVulkan_InitInfo']]],
   ['descriptorsetlayout_22',['DescriptorSetLayout',['../d2/d86/struct_im_gui___impl_vulkan___data.html#adac2b4aabd37341e2546c01744947e85',1,'ImGui_ImplVulkan_Data']]],
   ['detachshader_23',['DetachShader',['../d4/d6c/union_im_g_l3_w_procs.html#a83b8b2656e4b0dd5df33c68d1ad7ada2',1,'ImGL3WProcs']]],
@@ -34,5 +34,8 @@ var searchData=
   ['disablevertexattribarray_31',['DisableVertexAttribArray',['../d4/d6c/union_im_g_l3_w_procs.html#ae3f7cf1a46d65f209adb34e395bab032',1,'ImGL3WProcs']]],
   ['display_32',['Display',['../d4/d33/struct_im_gui___impl_allegro5___data.html#a94e37696ba088a8513ebca7c3b143b1f',1,'ImGui_ImplAllegro5_Data']]],
   ['drawelements_33',['DrawElements',['../d4/d6c/union_im_g_l3_w_procs.html#a520d59c638470205c4b481098e55bc20',1,'ImGL3WProcs']]],
-  ['drawelementsbasevertex_34',['DrawElementsBaseVertex',['../d4/d6c/union_im_g_l3_w_procs.html#a0c495e775cdb6058aeacf56c89d3f193',1,'ImGL3WProcs']]]
+  ['drawelementsbasevertex_34',['DrawElementsBaseVertex',['../d4/d6c/union_im_g_l3_w_procs.html#a0c495e775cdb6058aeacf56c89d3f193',1,'ImGL3WProcs']]],
+  ['drawextent_35',['drawExtent',['../dd/d72/struct_atlas_1_1_current_draw_data.html#ab3d8b35e88b90f379c3ae7fb9ebbf667',1,'Atlas::CurrentDrawData']]],
+  ['drawimage_36',['drawImage',['../dd/d72/struct_atlas_1_1_current_draw_data.html#a0763b2c71c5486a950e94b8c5bbe8490',1,'Atlas::CurrentDrawData']]],
+  ['drawimagedescriptors_37',['drawImageDescriptors',['../dd/d72/struct_atlas_1_1_current_draw_data.html#a4c144ae1c1a288720020188886437404',1,'Atlas::CurrentDrawData']]]
 ];

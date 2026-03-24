@@ -1,13 +1,12 @@
 var searchData=
 [
-  ['task_0',['Task',['../d0/d9d/class_atlas_1_1_game_thread_scheduler.html#ae91e2b0024fc4258fce79b873a623795',1,'Atlas::GameThreadScheduler']]],
-  ['texture_1',['texture',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a0b57774cb59b667df4a205ae0b1a50e2',1,'imgui_impl_opengl3_loader.h']]],
-  ['textures_2',['textures',['../df/d5f/imgui__impl__opengl3__loader_8h.html#acc6ef2e5deceddd0970c990b9eafea99',1,'imgui_impl_opengl3_loader.h']]],
-  ['threadsafesharedvariable_3',['ThreadSafeSharedVariable',['../d7/d54/namespace_atlas.html#a01b73a08c8566e21b5d209af4afc05cd',1,'Atlas']]],
-  ['threadtype_4',['ThreadType',['../dd/dca/class_atlas_1_1_i_game_thread.html#a68e0d3ad017e24c81cf05115a7f9f3de',1,'Atlas::IGameThread']]],
-  ['timefunc_5ft_5',['TIMEFUNC_t',['../dd/d0b/contextmgr_8h.html#acac0b5dbc80e24893bc9d90c9fac1b88',1,'contextmgr.h']]],
-  ['timepoint_6',['TimePoint',['../d7/d54/namespace_atlas.html#a5054a486a703218d0f6e4dcc262e3fd0',1,'Atlas']]],
-  ['tostringcallback_7',['ToStringCallback',['../db/db7/class_c_debugger.html#a5d535af4dcfa1f985c1d3cd80a55858c',1,'CDebugger']]],
-  ['transpose_8',['transpose',['../df/d5f/imgui__impl__opengl3__loader_8h.html#abddae8e27995e1aa57df4d93edd33803',1,'imgui_impl_opengl3_loader.h']]],
-  ['type_9',['type',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a63267399cd2a2ee217572c11d2e54f07',1,'imgui_impl_opengl3_loader.h']]]
+  ['sampler_0',['sampler',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a4f7acaf0f814147f227f72b9065e8ed0',1,'imgui_impl_opengl3_loader.h']]],
+  ['sdl_5fevent_1',['sdl_event',['../da/d87/imgui__impl__sdl2_8h.html#a33fcc6aa445cb781bfca881e39e5333e',1,'SDL_Event:&#160;imgui_impl_sdl2.h'],['../d2/dd4/imgui__impl__sdl3_8h.html#a33fcc6aa445cb781bfca881e39e5333e',1,'SDL_Event:&#160;imgui_impl_sdl3.h']]],
+  ['sfactoralpha_2',['sfactorAlpha',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a147716336d55f4ee3ec628f7bec7a6b1',1,'imgui_impl_opengl3_loader.h']]],
+  ['shader_3',['shader',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a57b2a96adb1d51204909a82d861e395e',1,'imgui_impl_opengl3_loader.h']]],
+  ['size_4',['size',['../df/d5f/imgui__impl__opengl3__loader_8h.html#a3d1e3edfcf61ca2d831883e1afbad89e',1,'imgui_impl_opengl3_loader.h']]],
+  ['spdlogloglevel_5',['SpdlogLogLevel',['../d7/d54/namespace_atlas.html#a9a6ab43916677caa6a0c4df55bf1bce9',1,'Atlas']]],
+  ['steady_5fclock_6',['steady_clock',['../d7/d54/namespace_atlas.html#a3d0d1868877cb6b84d1f75e8b3340086',1,'Atlas']]],
+  ['stride_7',['stride',['../df/d5f/imgui__impl__opengl3__loader_8h.html#adec60f1216ca1b900f8d776c5b6190e0',1,'imgui_impl_opengl3_loader.h']]],
+  ['string_8',['string',['../df/d5f/imgui__impl__opengl3__loader_8h.html#ac83513893df92266f79a515488701770',1,'imgui_impl_opengl3_loader.h']]]
 ];

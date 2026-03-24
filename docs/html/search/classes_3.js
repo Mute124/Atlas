@@ -6,5 +6,6 @@ var searchData=
   ['descriptorlayoutbuilder_3',['DescriptorLayoutBuilder',['../d6/df2/class_atlas_1_1_descriptor_layout_builder.html',1,'Atlas']]],
   ['device_4',['Device',['../dc/d6f/class_atlas_1_1_device.html',1,'Atlas']]],
   ['devicecapabilitiesinfo_5',['DeviceCapabilitiesInfo',['../d0/d71/struct_atlas_1_1_device_capabilities_info.html',1,'Atlas']]],
-  ['discordintegrationservice_6',['DiscordIntegrationService',['../dd/d8a/class_atlas_1_1_discord_integration_service.html',1,'Atlas']]]
+  ['discordintegrationservice_6',['DiscordIntegrationService',['../dd/d8a/class_atlas_1_1_discord_integration_service.html',1,'Atlas']]],
+  ['drawcallinfo_7',['DrawCallInfo',['../dd/da0/struct_atlas_1_1_draw_call_info.html',1,'Atlas']]]
 ];

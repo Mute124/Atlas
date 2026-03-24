@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['second_5fdimension_0',['Second_Dimension',['../d7/d54/namespace_atlas.html#aa18cb9cce0084f85397b771143676736ae4741ffccfe0e6b2093b72a63276141d',1,'Atlas']]],
-  ['shuttingdown_1',['ShuttingDown',['../d7/d54/namespace_atlas.html#a6588f04f9df5f98750a8239e6f0c516da075d9c9ae8c8f1c79c1a1965cd8c5a42',1,'Atlas']]],
-  ['step_5finto_2',['STEP_INTO',['../db/db7/class_c_debugger.html#a51256c45fb17fb0c141206c2d3eaf7b2a3d9f4d0fa913015fd667cf2721450f7e',1,'CDebugger']]],
-  ['step_5fout_3',['STEP_OUT',['../db/db7/class_c_debugger.html#a51256c45fb17fb0c141206c2d3eaf7b2a1c2c8545327c255d392f853a9d526320',1,'CDebugger']]],
-  ['step_5fover_4',['STEP_OVER',['../db/db7/class_c_debugger.html#a51256c45fb17fb0c141206c2d3eaf7b2af93bf8d2f74a1e86cead7688034ab3b9',1,'CDebugger']]],
-  ['stopped_5',['Stopped',['../d7/d54/namespace_atlas.html#a6588f04f9df5f98750a8239e6f0c516dac23e2b09ebe6bf4cb5e2a9abe85c0be2',1,'Atlas']]],
-  ['swapchain_5fformat_6',['Swapchain_Format',['../d7/d54/namespace_atlas.html#a9a837411b4f29e15b56791c0ed166e2aaf54db95bd9f26035b7182f0886801cf2',1,'Atlas']]]
+  ['perspective_0',['perspective',['../d7/d54/namespace_atlas.html#a1f37167d1f529ad763a370f0a58dd346aa80420eef88d11f77532f1b9cb467fa3',1,'Atlas::Perspective'],['../d7/d54/namespace_atlas.html#aa4751c4d8943a57c0d9b22beca97eb8caa80420eef88d11f77532f1b9cb467fa3',1,'Atlas::Perspective']]],
+  ['postdraw_1',['PostDraw',['../d7/d54/namespace_atlas.html#abe3626a6f03f618e342f4c3d1e6b27fba6cc86790e3e99e2f8fdd8722c99151c6',1,'Atlas']]],
+  ['predraw_2',['PreDraw',['../d7/d54/namespace_atlas.html#abe3626a6f03f618e342f4c3d1e6b27fba0182552d5e4261f81f5da8211bdc4fd5',1,'Atlas']]],
+  ['present_3',['Present',['../d7/d54/namespace_atlas.html#a01a5f888a8d45705c73fe3f2357d0cd1add058df87f5c88e3285a28ad7406a3c6',1,'Atlas']]],
+  ['primitive_4',['Primitive',['../dd/d9e/struct_atlas_1_1_type_audit.html#ad6a4cc904a6ceaa661df63c0a065addca07ee3427562e4f1a5c9f2bfb17fd9eee',1,'Atlas::TypeAudit']]],
+  ['process_5fdpi_5funaware_5',['PROCESS_DPI_UNAWARE',['../d1/d3f/imgui__impl__win32_8cpp.html#a0b4072c3e306aab56e4b1f41f66ecfd0ab42f9fa8bef80716253ff5732f98d019',1,'imgui_impl_win32.cpp']]],
+  ['process_5fper_5fmonitor_5fdpi_5faware_6',['PROCESS_PER_MONITOR_DPI_AWARE',['../d1/d3f/imgui__impl__win32_8cpp.html#a0b4072c3e306aab56e4b1f41f66ecfd0aad0077e9938715939b18fc533eeae097',1,'imgui_impl_win32.cpp']]],
+  ['process_5fsystem_5fdpi_5faware_7',['PROCESS_SYSTEM_DPI_AWARE',['../d1/d3f/imgui__impl__win32_8cpp.html#a0b4072c3e306aab56e4b1f41f66ecfd0a2690b1d0f73cd71a24c38dbccc99be8b',1,'imgui_impl_win32.cpp']]]
 ];

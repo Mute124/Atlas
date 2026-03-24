@@ -1,5 +1,5 @@
 \doxysection{Allocated\+Image.\+h}
-\hypertarget{_allocated_image_8h_source}{}\label{_allocated_image_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/AllocatedImage.h@{C:/Dev/Techstorm-\/v5/src/engine/graphics/AllocatedImage.h}}
+\hypertarget{_allocated_image_8h_source}{}\label{_allocated_image_8h_source}\index{C:/Dev/Techstorm-\/v5/src/engine/graphics/vulkan/AllocatedImage.h@{C:/Dev/Techstorm-\/v5/src/engine/graphics/vulkan/AllocatedImage.h}}
 \mbox{\hyperlink{_allocated_image_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00001}00001\ \textcolor{comment}{/**************************************************************************************************}}
@@ -13,22 +13,123 @@
 \DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00009}00009\ \textcolor{comment}{\ ***************************************************************************************************/}}
 \DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00010}00010\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00011}00011\ }
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}../core/Core.h"{}}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}../../core/Core.h"{}}}
 \DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00013}00013\ }
 \DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00014}00014\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
 \DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00015}00015\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan.h>}}
 \DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00016}00016\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vulkan/vulkan\_core.h>}}
 \DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00017}00017\ \textcolor{preprocessor}{\ \ \ \ \#include\ <vk\_mem\_alloc.h>}}
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00018}00018\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00019}00019\ }
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00020}00020\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00021}\mbox{\hyperlink{struct_atlas_1_1_allocated_image}{00021}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_atlas_1_1_allocated_image}{AllocatedImage}}\ \{}
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00022}\mbox{\hyperlink{struct_atlas_1_1_allocated_image_a7ca2e30982326c7256801fec54ce7d8b}{00022}}\ \ \ \ \ \ \ \ \ VkImage\ \mbox{\hyperlink{struct_atlas_1_1_allocated_image_a7ca2e30982326c7256801fec54ce7d8b}{image}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00023}\mbox{\hyperlink{struct_atlas_1_1_allocated_image_aec191ce6f4d0a266c9812c5a3cd55147}{00023}}\ \ \ \ \ \ \ \ \ VkImageView\ \mbox{\hyperlink{struct_atlas_1_1_allocated_image_aec191ce6f4d0a266c9812c5a3cd55147}{imageView}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00024}\mbox{\hyperlink{struct_atlas_1_1_allocated_image_a80eec29087b2b493a0b26112a34c2251}{00024}}\ \ \ \ \ \ \ \ \ VmaAllocation\ \mbox{\hyperlink{struct_atlas_1_1_allocated_image_a80eec29087b2b493a0b26112a34c2251}{allocation}}\ =\ VK\_NULL\_HANDLE;}
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00025}\mbox{\hyperlink{struct_atlas_1_1_allocated_image_af424e95072fc60a2d6de8e5b8d5b5c39}{00025}}\ \ \ \ \ \ \ \ \ VkExtent3D\ \mbox{\hyperlink{struct_atlas_1_1_allocated_image_af424e95072fc60a2d6de8e5b8d5b5c39}{imageExtent}}\ =\ \{\ 0,\ 0,\ 0\ \};}
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00026}\mbox{\hyperlink{struct_atlas_1_1_allocated_image_a829a4f7ec106f4cd7f32ee31ad80c76a}{00026}}\ \ \ \ \ \ \ \ \ VkFormat\ \mbox{\hyperlink{struct_atlas_1_1_allocated_image_a829a4f7ec106f4cd7f32ee31ad80c76a}{imageFormat}}\ =\ VK\_FORMAT\_UNDEFINED;}
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00027}00027\ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00028}00028\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00019}00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00021}00021\ \textcolor{preprocessor}{\#include\ "{}../RenderCommon.h"{}}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00022}00022\ \textcolor{preprocessor}{\#include\ "{}../GraphicsUtils.h"{}}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{system_2_physical_device_8h}{PhysicalDevice.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00027}00027\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_atlas}{Atlas}}\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00028}00028\ \ \ \ \ \textcolor{comment}{//using\ EImageFormat\ =\ VkFormat;}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00030}\mbox{\hyperlink{class_atlas_1_1_image_view}{00030}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_image_view}{ImageView}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper}{AVulkanHandleWrapper}}<VkImageView>\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00031}00031\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00032}\mbox{\hyperlink{class_atlas_1_1_image_view_a2e35193cfa54316b7af3a58dd6746684}{00032}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_atlas_1_1_image_view_a2e35193cfa54316b7af3a58dd6746684}{createImageView}}(std::shared\_ptr<Device>\ device,\ VkImageViewCreateInfo\ \textcolor{keyword}{const}*\ imageViewInfo)\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ VkDevice\ deviceHandle\ =\ device-\/>getHandle();}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ vkCreateImageView(deviceHandle,\ imageViewInfo,\ \textcolor{keyword}{nullptr},\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a512c5f0544c523407f3807c0f21f1335}{getHandlePtr}}())\ ==\ VK\_SUCCESS;}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00036}00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00039}\mbox{\hyperlink{class_atlas_1_1_image_view_a832a7cca5d4b99f81ee2a0eee303dd8c}{00039}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_image_view_a832a7cca5d4b99f81ee2a0eee303dd8c}{ImageView}}(std::shared\_ptr<Device>\ device,\ VkImageViewCreateInfo\ \textcolor{keyword}{const}*\ imageViewInfo)\ :\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper}{AVulkanHandleWrapper}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{ATLAS\_ASSERT}}(imageViewInfo\ !=\ \textcolor{keyword}{nullptr},\ \textcolor{stringliteral}{"{}Image\ view\ info\ must\ not\ be\ nullptr\ when\ creating\ an\ image\ view!"{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ cbCreateResult\ =\ \mbox{\hyperlink{class_atlas_1_1_image_view_a2e35193cfa54316b7af3a58dd6746684}{createImageView}}(device,\ imageViewInfo);}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_common_8h_a18a4c37c962b54b7008c2a9bc69eac83}{ATLAS\_ASSERT}}(cbCreateResult,\ \textcolor{stringliteral}{"{}Failed\ to\ create\ image\ view."{}});}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_validatable_a86c6686f73ddc7f9fea674694f660dce}{ImageView::setValidity}}(cbCreateResult);}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//vkCreateImageView(device-\/>getHandle(),\ imageViewInfo,\ nullptr,\ getHandlePtr());}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00049}00049\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00051}\mbox{\hyperlink{class_atlas_1_1_image_view_afd1aa6200e97344a1c3639311446539e}{00051}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_image_view_afd1aa6200e97344a1c3639311446539e}{ImageView}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00052}00052\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00054}\mbox{\hyperlink{class_atlas_1_1_image}{00054}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_image}{Image}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper}{AVulkanHandleWrapper}}<VkImage>\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00055}\mbox{\hyperlink{class_atlas_1_1_image_a237d212a71839de1c520fe5427d5b267}{00055}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_allocated_image}{AllocatedImage}};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00056}00056\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00057}00057\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00059}\mbox{\hyperlink{class_atlas_1_1_image_a407d34011bb02be6594dd6bc82df68dc}{00059}}\ \ \ \ \ \ \ \ \ VkImageView\ \mbox{\hyperlink{class_atlas_1_1_image_a407d34011bb02be6594dd6bc82df68dc}{mImageView}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00060}\mbox{\hyperlink{class_atlas_1_1_image_a93318c0a2cc1e41e23f91584041387a4}{00060}}\ \ \ \ \ \ \ \ \ VmaAllocation\ \mbox{\hyperlink{class_atlas_1_1_image_a93318c0a2cc1e41e23f91584041387a4}{mAllocation}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00061}\mbox{\hyperlink{class_atlas_1_1_image_af631f353770a9c5ddcfcf404a8a66e71}{00061}}\ \ \ \ \ \ \ \ \ VkExtent3D\ \mbox{\hyperlink{class_atlas_1_1_image_af631f353770a9c5ddcfcf404a8a66e71}{mImageExtent}}\ =\ \{\ 0,\ 0,\ 0\ \};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00062}\mbox{\hyperlink{class_atlas_1_1_image_add2fa4545db0d3b9d93746639f2fd3a0}{00062}}\ \ \ \ \ \ \ \ \ VkFormat\ \mbox{\hyperlink{class_atlas_1_1_image_add2fa4545db0d3b9d93746639f2fd3a0}{mImageFormat}}\ =\ VK\_FORMAT\_UNDEFINED;}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00064}00064\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00066}\mbox{\hyperlink{class_atlas_1_1_image_a6f60b4c3b5fc5136d1ce179f70efef28}{00066}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_image_a6f60b4c3b5fc5136d1ce179f70efef28}{createImage}}(\mbox{\hyperlink{struct_atlas_1_1_graphics_allocation_info}{GraphicsAllocationInfo}}\&\ allocation,\ VkImageCreateInfo\ \textcolor{keyword}{const}*\ imageInfo)\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ VkResult\ cCreateResult\ =\ vmaCreateImage(allocation.\mbox{\hyperlink{struct_atlas_1_1_graphics_allocation_info_a8a9034cd40340f3c22ec2180be90d154}{allocator}},\ imageInfo,\ allocation.\mbox{\hyperlink{struct_atlas_1_1_graphics_allocation_info_aa94d4ec22d6ab4bea8b5ef82be26bad3}{createInfo}},\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_a512c5f0544c523407f3807c0f21f1335}{getHandlePtr}}(),\ \&\mbox{\hyperlink{class_atlas_1_1_image_a93318c0a2cc1e41e23f91584041387a4}{mAllocation}},\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00070}00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00072}\mbox{\hyperlink{class_atlas_1_1_image_a13cf99a6a1d7ffc84823cecce3b793c4}{00072}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_image_a13cf99a6a1d7ffc84823cecce3b793c4}{createImageView}}(std::shared\_ptr<Device>\ device)\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ VkDevice\ deviceHandle\ =\ device-\/>getHandle();}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ VkImageViewCreateInfo\ imageViewInfo\ =\ \mbox{\hyperlink{namespace_atlas_a3a99392fc30f77bfa7f874d50622ae7e}{CreateImageViewCreateInfo}}(\mbox{\hyperlink{class_atlas_1_1_image_a9b277e7a03eb995b37106ca0c60c304b}{getFormat}}(),\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper_aa6f68ffce24d3fa813178c58eb0fc842}{getHandle}}(),\ VK\_IMAGE\_ASPECT\_COLOR\_BIT);}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ vkCreateImageView(deviceHandle,\ \&imageViewInfo,\ \textcolor{keyword}{nullptr},\ \&\mbox{\hyperlink{class_atlas_1_1_image_a407d34011bb02be6594dd6bc82df68dc}{mImageView}});}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00077}00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00079}00079\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00081}\mbox{\hyperlink{class_atlas_1_1_image_a9a33df0754796724e3753a7aae3b5130}{00081}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_image_a9a33df0754796724e3753a7aae3b5130}{Image}}(\mbox{\hyperlink{struct_atlas_1_1_graphics_allocation_info}{GraphicsAllocationInfo}}\ allocation,\ VkExtent3D\ imageExtent,\ VkFormat\ imageFormat,\ VkImageUsageFlags\ usageFlags,\ \textcolor{keywordtype}{bool}\ bCreateImageView\ =\ \textcolor{keyword}{true},\ std::shared\_ptr<Device>\ device\ =\ \mbox{\hyperlink{class_atlas_1_1_vulkan_global_state_object_afebfdb4ea31751d0f0c139f2f7a01387}{Device::GetMainHandle}}())}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_atlas_1_1_a_vulkan_handle_wrapper}{AVulkanHandleWrapper}}(),\ \mbox{\hyperlink{class_atlas_1_1_image_af631f353770a9c5ddcfcf404a8a66e71}{mImageExtent}}(imageExtent),\ \mbox{\hyperlink{class_atlas_1_1_image_add2fa4545db0d3b9d93746639f2fd3a0}{mImageFormat}}(imageFormat)\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ VkImageCreateInfo\ imageInfo\ =\ \mbox{\hyperlink{namespace_atlas_aafca0d417a35bba15f288564c0b3032a}{CreateImageCreateInfo}}(imageFormat,\ usageFlags,\ imageExtent);}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_image_a6f60b4c3b5fc5136d1ce179f70efef28}{createImage}}(allocation,\ \&imageInfo);}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bCreateImageView)\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_image_a13cf99a6a1d7ffc84823cecce3b793c4}{createImageView}}(device);}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00091}00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00094}\mbox{\hyperlink{class_atlas_1_1_image_a14d714fac7227e59d14375855c8316b2}{00094}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_image_a14d714fac7227e59d14375855c8316b2}{Image}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00096}\mbox{\hyperlink{class_atlas_1_1_image_a9e2a74d466564a85598558f816ab8a4d}{00096}}\ \ \ \ \ \ \ \ \ VkImageView\ \mbox{\hyperlink{class_atlas_1_1_image_a9e2a74d466564a85598558f816ab8a4d}{getImageView}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_image_a407d34011bb02be6594dd6bc82df68dc}{mImageView}};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00098}00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00100}\mbox{\hyperlink{class_atlas_1_1_image_aec6b26c1a31ba13aa0010a84083910ea}{00100}}\ \ \ \ \ \ \ \ \ VkExtent3D\ \mbox{\hyperlink{class_atlas_1_1_image_aec6b26c1a31ba13aa0010a84083910ea}{getExtent}}()\textcolor{keyword}{\ const\ }\{\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_image_af631f353770a9c5ddcfcf404a8a66e71}{mImageExtent}};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00102}00102\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00104}\mbox{\hyperlink{class_atlas_1_1_image_a9b277e7a03eb995b37106ca0c60c304b}{00104}}\ \ \ \ \ \ \ \ \ VkFormat\ \mbox{\hyperlink{class_atlas_1_1_image_a9b277e7a03eb995b37106ca0c60c304b}{getFormat}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_atlas_1_1_image_add2fa4545db0d3b9d93746639f2fd3a0}{mImageFormat}};\ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00107}00107\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00109}\mbox{\hyperlink{class_atlas_1_1_allocated_image}{00109}}\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_atlas_1_1_allocated_image}{AllocatedImage}}\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00110}00110\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00112}\mbox{\hyperlink{class_atlas_1_1_allocated_image_a7ca2e30982326c7256801fec54ce7d8b}{00112}}\ \ \ \ \ \ \ \ \ VkImage\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_a7ca2e30982326c7256801fec54ce7d8b}{image}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00113}\mbox{\hyperlink{class_atlas_1_1_allocated_image_aec191ce6f4d0a266c9812c5a3cd55147}{00113}}\ \ \ \ \ \ \ \ \ VkImageView\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_aec191ce6f4d0a266c9812c5a3cd55147}{imageView}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00114}\mbox{\hyperlink{class_atlas_1_1_allocated_image_a80eec29087b2b493a0b26112a34c2251}{00114}}\ \ \ \ \ \ \ \ \ VmaAllocation\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_a80eec29087b2b493a0b26112a34c2251}{allocation}}\ =\ VK\_NULL\_HANDLE;}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00115}\mbox{\hyperlink{class_atlas_1_1_allocated_image_af424e95072fc60a2d6de8e5b8d5b5c39}{00115}}\ \ \ \ \ \ \ \ \ VkExtent3D\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_af424e95072fc60a2d6de8e5b8d5b5c39}{imageExtent}}\ =\ \{\ 0,\ 0,\ 0\ \};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00116}\mbox{\hyperlink{class_atlas_1_1_allocated_image_a829a4f7ec106f4cd7f32ee31ad80c76a}{00116}}\ \ \ \ \ \ \ \ \ VkFormat\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_a829a4f7ec106f4cd7f32ee31ad80c76a}{imageFormat}}\ =\ VK\_FORMAT\_UNDEFINED;}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00118}\mbox{\hyperlink{class_atlas_1_1_allocated_image_aa5c6bf70edd360cba1e7df46ec1608b1}{00118}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_allocated_image_aa5c6bf70edd360cba1e7df46ec1608b1}{AllocatedImage}}(\mbox{\hyperlink{struct_atlas_1_1_graphics_allocation_info}{GraphicsAllocationInfo}}\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_a80eec29087b2b493a0b26112a34c2251}{allocation}},\ VkExtent3D\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_af424e95072fc60a2d6de8e5b8d5b5c39}{imageExtent}},\ VkFormat\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_a829a4f7ec106f4cd7f32ee31ad80c76a}{imageFormat}},\ VkImageUsageFlags\ usageFlags)}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00119}00119\ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_af424e95072fc60a2d6de8e5b8d5b5c39}{imageExtent}}(\mbox{\hyperlink{class_atlas_1_1_allocated_image_af424e95072fc60a2d6de8e5b8d5b5c39}{imageExtent}}),\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_a829a4f7ec106f4cd7f32ee31ad80c76a}{imageFormat}}(\mbox{\hyperlink{class_atlas_1_1_allocated_image_a829a4f7ec106f4cd7f32ee31ad80c76a}{imageFormat}})\ \{}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ VkImageCreateInfo\ imageInfo\ =\ \mbox{\hyperlink{namespace_atlas_aafca0d417a35bba15f288564c0b3032a}{CreateImageCreateInfo}}(\mbox{\hyperlink{class_atlas_1_1_allocated_image_a829a4f7ec106f4cd7f32ee31ad80c76a}{imageFormat}},\ usageFlags,\ \mbox{\hyperlink{class_atlas_1_1_allocated_image_af424e95072fc60a2d6de8e5b8d5b5c39}{imageExtent}});}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//create(allocation,\ \&imageInfo);}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00124}00124\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00127}\mbox{\hyperlink{class_atlas_1_1_allocated_image_ab213cbb5b6eb7b6995cdb113f2a1685a}{00127}}\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_allocated_image_ab213cbb5b6eb7b6995cdb113f2a1685a}{AllocatedImage}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00128}00128\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_allocated_image_8h_source_l00129}00129\ \}}
 
 \end{DoxyCode}

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gamethreadscheduler_0',['GameThreadScheduler',['../dd/dca/class_atlas_1_1_i_game_thread.html#a0acfe5191653337920421306e66fadf7',1,'Atlas::IGameThread']]]
+  ['effectmanager_0',['EffectManager',['../df/d55/class_atlas_1_1_compute_effect.html#aa57a70c5d4b8abc800f69a1681448634',1,'Atlas::ComputeEffect']]]
 ];

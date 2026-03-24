@@ -26,5 +26,5 @@ var searchData=
   ['objlast_3c_20void_28_2a_29_28a0_2c_20a1_2c_20t_29_3e_23',['ObjLast&lt; void(*)(A0, A1, T)&gt;',['../da/d9b/structgw_1_1_obj_last_3_01void_07_5_08_07_a0_00_01_a1_00_01_t_08_4.html',1,'gw']]],
   ['objlast_3c_20void_28_2a_29_28a0_2c_20t_29_3e_24',['ObjLast&lt; void(*)(A0, T)&gt;',['../d8/dd7/structgw_1_1_obj_last_3_01void_07_5_08_07_a0_00_01_t_08_4.html',1,'gw']]],
   ['objlast_3c_20void_28_2a_29_28t_29_3e_25',['ObjLast&lt; void(*)(T)&gt;',['../da/d20/structgw_1_1_obj_last_3_01void_07_5_08_07_t_08_4.html',1,'gw']]],
-  ['options_26',['Options',['../db/d76/struct_atlas_1_1_file_manager_1_1_options.html',1,'Atlas::FileManager']]]
+  ['options_26',['options',['../d9/d21/struct_atlas_1_1_a_rendering_backend_1_1_options.html',1,'Atlas::ARenderingBackend::Options'],['../db/d76/struct_atlas_1_1_file_manager_1_1_options.html',1,'Atlas::FileManager::Options'],['../d0/d1b/struct_atlas_1_1_i_atlas_engine_1_1_options.html',1,'Atlas::IAtlasEngine::Options']]]
 ];

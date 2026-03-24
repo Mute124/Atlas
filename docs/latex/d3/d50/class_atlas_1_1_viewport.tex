@@ -2,107 +2,436 @@
 \hypertarget{class_atlas_1_1_viewport}{}\label{class_atlas_1_1_viewport}\index{Atlas::Viewport@{Atlas::Viewport}}
 
 
-{\ttfamily \#include $<$Window.\+h$>$}
+Wraps a {\ttfamily Vk\+Viewport} instance, providing functions to interact with it, along with some safety checks. Furthermore, it allows you to skip the boilerplate code for dynamically setting the viewport.  
 
-Inheritance diagram for Atlas\+::Viewport\+:\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[height=3.000000cm]{d3/d50/class_atlas_1_1_viewport}
-\end{center}
-\end{figure}
+
+
+
+{\ttfamily \#include $<$Viewport.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_core_8h_ad91252f8fd0802d0f467ab0023ce5f6a}{ATLAS\+\_\+\+EXPLICIT}} \mbox{\hyperlink{class_atlas_1_1_viewport_aaa1ea6d47a6bd5160f433e6f7546ccae}{Viewport}} (const Vk\+Viewport \&\mbox{\hyperlink{class_atlas_1_1_viewport_acfaef15caba7532528bc5ea30ccefc4c}{m\+Viewport}})
+\begin{DoxyCompactList}\small\item\em Constructs a new \doxylink{class_atlas_1_1_viewport}{Viewport}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_viewport_a33f3eb6e99a9ebb42d1a8b4fa521f992}{Viewport}} (glm\+::vec2 const \&position, glm\+::vec2 const \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}}, float min\+Depth=0.\+0f, float max\+Depth=1.\+0f)
+\begin{DoxyCompactList}\small\item\em Constructs a new \doxylink{class_atlas_1_1_viewport}{Viewport} with the given parameters. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_atlas_1_1_viewport_a2f871d6991071b8bac3b2c57a6124162}{Viewport}} ()=default
+\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_viewport_ac137d3a44f5576ed874ae384231c4a2e}{apply\+Viewport\+To\+Command\+Buffer}} (Vk\+Command\+Buffer command\+Buffer)
+\begin{DoxyCompactList}\small\item\em Sets the Vulkan viewport for the given command buffer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_viewport_af43316fcf1009e1c674eef2b99dcdd96}{set\+Position}} (glm\+::vec2 const \&position)
+\begin{DoxyCompactList}\small\item\em Sets the top left corner of the viewport using a 2D vector. This function makes a call to the overload {\ttfamily \doxylink{class_atlas_1_1_viewport_a93cd31e340285e6a7a1e83f6f26654ae}{set\+Position(float, float)}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_viewport_a93cd31e340285e6a7a1e83f6f26654ae}{set\+Position}} (float x, float \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a5e247fc24ceb70d83f6ad59149b8910a}{y}}) noexcept
+\begin{DoxyCompactList}\small\item\em Sets the top left corner of the viewport using the x and y coordinates. This function is where the actual setting of the viewport\textquotesingle{}s position happens. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_viewport_ae527fabe18d47348ae48de9c99f3d7fa}{set\+Size}} (glm\+::vec2 const \&\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a3d1e3edfcf61ca2d831883e1afbad89e}{size}})
+\begin{DoxyCompactList}\small\item\em Sets the {\ttfamily width} and {\ttfamily height} values of {\ttfamily m\+Viewport} using a 2D vector. This function makes a call to the overload {\ttfamily \doxylink{class_atlas_1_1_viewport_aebb4c55e37f50d30b47fbb5b25800da0}{set\+Size(float, float)}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_viewport_aebb4c55e37f50d30b47fbb5b25800da0}{set\+Size}} (float \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a6879d830f164725df67adeeabca3ea47}{width}}, float \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_a60075de22f90a1223dc0bea98d2ee4d5}{height}}) noexcept
+\begin{DoxyCompactList}\small\item\em Sets {\ttfamily m\+Viewport.\+width} and {\ttfamily m\+Viewport.\+height} using the given width and height. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_viewport_a7cd07c851b5f4263552e0ab892e6885b}{set\+Depth\+Range}} (float min\+Depth, float max\+Depth) noexcept
+\begin{DoxyCompactList}\small\item\em Sets the depth range of the viewport within {\ttfamily m\+Viewport}. Whether or not the depth range is valid, and which value is near or far, is up to the user\textquotesingle{}s discretion and how the engine was set up. \end{DoxyCompactList}\item 
+glm\+::vec2 \mbox{\hyperlink{class_atlas_1_1_viewport_a53d41acc9e2d69914bf6ce598dc81376}{get\+Position}} () const
+\begin{DoxyCompactList}\small\item\em Gets the top left corner of the viewport stored within {\ttfamily m\+Viewport}. \end{DoxyCompactList}\item 
+glm\+::vec2 \mbox{\hyperlink{class_atlas_1_1_viewport_a121a69e3e631fa5a6e828348a916b412}{get\+Size}} () const
+\begin{DoxyCompactList}\small\item\em Gets the size of the viewport stored within {\ttfamily m\+Viewport}. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_atlas_1_1_viewport_ab3b97e19afaf32836fe6582647e7085d}{get\+Min\+Depth}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Gets the minimum depth value stored within {\ttfamily m\+Viewport}. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_atlas_1_1_viewport_ad0e6aa22b0cd660da0d39a51ba65e69f}{get\+Max\+Depth}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Gets the maximum depth value stored within {\ttfamily m\+Viewport}. \end{DoxyCompactList}\item 
+Vk\+Viewport \mbox{\hyperlink{class_atlas_1_1_viewport_a22f8b22fbc5b9bbb7117cd499a357745}{get\+Viewport}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Gets the currently stored Vulkan viewport. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_viewport_a7fc6a46359a18372b317d97d6a3187e0}{Set\+Command\+Buffer\+Viewport}} (Vk\+Command\+Buffer command\+Buffer, Vk\+Viewport const \texorpdfstring{$\ast$}{*}viewport)
+\begin{DoxyCompactList}\small\item\em Implementation of dynamically setting the viewport. This is a wrapper for vk\+Cmd\+Set\+Viewport. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-Vk\+Viewport \mbox{\hyperlink{class_atlas_1_1_viewport_acfaef15caba7532528bc5ea30ccefc4c}{m\+Viewport}}
-\item 
-Vk\+Command\+Buffer \mbox{\hyperlink{class_atlas_1_1_viewport_ae10222616121ed50116b17f58a1cd5b1}{m\+Command\+Buffer}}
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Additional Inherited Members}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_atlas_1_1_initializable_and_validatable}{Atlas\+::\+Initializable\+And\+Validatable}}}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\hyperlink{class_atlas_1_1_initializable_and_validatable_aad9e75a29877d8dc9c21bb685b59954d}{Initializable\+And\+Validatable}} (bool b\+Is\+Init, bool b\+Is\+Valid)
-\item 
-\mbox{\hyperlink{class_atlas_1_1_initializable_and_validatable_a51bb7bcad50e062562e1f7bad23110c1}{Initializable\+And\+Validatable}} ()=default
-\item 
-virtual bool \mbox{\hyperlink{class_atlas_1_1_initializable_and_validatable_a7306c2a611fe50142f09036b845b16da}{is\+Valid}} () const override
-\end{DoxyCompactItemize}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_atlas_1_1_initializable}{Atlas\+::\+Initializable}}}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\hyperlink{_common_8h_ad91252f8fd0802d0f467ab0023ce5f6a}{ATLAS\+\_\+\+EXPLICIT}} \mbox{\hyperlink{class_atlas_1_1_initializable_ab754bcd9def191fbd026101066e1fac5}{Initializable}} (bool b\+Is\+Init)
-\item 
-\mbox{\hyperlink{class_atlas_1_1_initializable_a52ac5fa3a44db71bc89ecb4e3e099c27}{Initializable}} ()=default
-\item 
-virtual \mbox{\hyperlink{class_atlas_1_1_initializable_aa58a4b95171066208ca972a295f5c0a5}{\texorpdfstring{$\sim$}{\string~}\+Initializable}} ()=default
-\item 
-virtual bool \mbox{\hyperlink{class_atlas_1_1_initializable_ae596b760a1f3a11a940fc6aa9155d2df}{is\+Init}} () const
-\end{DoxyCompactItemize}
-\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_atlas_1_1_validatable}{Atlas\+::\+Validatable}}}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\hyperlink{_common_8h_ad91252f8fd0802d0f467ab0023ce5f6a}{ATLAS\+\_\+\+EXPLICIT}} \mbox{\hyperlink{class_atlas_1_1_validatable_acabb10ddeba3d624dc79e910fec75f92}{Validatable}} (bool b\+Is\+Valid)
-\item 
-\mbox{\hyperlink{class_atlas_1_1_validatable_a8b001e160c27f0224f7619ebf596a8fe}{Validatable}} ()=default
-\item 
-virtual \mbox{\hyperlink{class_atlas_1_1_validatable_a458a1d61e7a7f53819ae1a5f5476d99e}{\texorpdfstring{$\sim$}{\string~}\+Validatable}} ()=default
-\item 
-virtual \mbox{\hyperlink{_common_8h_a6e28df6a53faef578e73999acae2cb92}{ATLAS\+\_\+\+IMPLICIT}} \mbox{\hyperlink{class_atlas_1_1_validatable_a6ca8ec441adb663f8900457487da2efd}{operator bool}} () const
-\end{DoxyCompactItemize}
-\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_atlas_1_1_initializable}{Atlas\+::\+Initializable}}}
-\begin{DoxyCompactItemize}
-\item 
-bool \& \mbox{\hyperlink{class_atlas_1_1_initializable_aa55211df8bd54ea4b4714c70fbf51c31}{get\+Internal\+Init\+Value}} ()
-\item 
-virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_initializable_a74f5f85e2476c9c3e1f2025e0a84aa1b}{set\+Init\+State}} (bool b\+New\+Init\+State)
-\item 
-virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_initializable_a5b02d6e3b02ab0bd1f4df57d4c051aab}{set\+Init}} ()
-\item 
-virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_initializable_a420312f818cb6c387d8c35765340c10a}{set\+Not\+Init}} ()
-\end{DoxyCompactItemize}
-\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_atlas_1_1_validatable}{Atlas\+::\+Validatable}}}
-\begin{DoxyCompactItemize}
-\item 
-bool \& \mbox{\hyperlink{class_atlas_1_1_validatable_a32b129d3fe838a4af7278181eaff2f43}{get\+Internal\+Validity\+Value}} ()
-\item 
-virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_validatable_a8bb8ef5bf067b9002e5e243e96bd4e24}{set\+Validity}} (bool b\+Is\+Valid)
-\item 
-virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_validatable_a76b4106bfc22ba18d2cc88f0c0b9408b}{set\+Valid}} ()
-\item 
-virtual \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_validatable_ac39f702d6f05112f438cb133e9597a63}{set\+Invalid}} ()
-\end{DoxyCompactItemize}
+Vk\+Viewport \mbox{\hyperlink{class_atlas_1_1_viewport_acfaef15caba7532528bc5ea30ccefc4c}{m\+Viewport}} \{\}
+\begin{DoxyCompactList}\small\item\em The viewport instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
+Wraps a {\ttfamily Vk\+Viewport} instance, providing functions to interact with it, along with some safety checks. Furthermore, it allows you to skip the boilerplate code for dynamically setting the viewport. 
+
+\begin{DoxyNote}{Note}
+Before setting the viewport, please note that The viewport\textquotesingle{}s position should be considered the {\bfseries{top left corner}} of the viewport. Additionally, the viewport\textquotesingle{}s minimum and maximum depth {\bfseries{can}} be set to anything you want since the {\bfseries{minimum}} depth can be less than, equal to, and/or greater than the {\bfseries{maximum}} depth. This was noted in the Vulkan specifications.
+\end{DoxyNote}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_window_8h_source_l00106}{106}} of file \mbox{\hyperlink{_window_8h_source}{Window.\+h}}.
+Definition at line \mbox{\hyperlink{_viewport_8h_source_l00035}{35}} of file \mbox{\hyperlink{_viewport_8h_source}{Viewport.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_atlas_1_1_viewport_aaa1ea6d47a6bd5160f433e6f7546ccae}\label{class_atlas_1_1_viewport_aaa1ea6d47a6bd5160f433e6f7546ccae} 
+\index{Atlas::Viewport@{Atlas::Viewport}!Viewport@{Viewport}}
+\index{Viewport@{Viewport}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{Viewport()}{Viewport()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Atlas\+::\+Viewport\+::\+Viewport (\begin{DoxyParamCaption}\item[{const Vk\+Viewport \&}]{m\+Viewport }\end{DoxyParamCaption})}
+
+
+
+Constructs a new \doxylink{class_atlas_1_1_viewport}{Viewport}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m\+Viewport} & A fully filled Vk\+Viewport struct instance.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00018}{18}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_a33f3eb6e99a9ebb42d1a8b4fa521f992}\label{class_atlas_1_1_viewport_a33f3eb6e99a9ebb42d1a8b4fa521f992} 
+\index{Atlas::Viewport@{Atlas::Viewport}!Viewport@{Viewport}}
+\index{Viewport@{Viewport}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{Viewport()}{Viewport()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Atlas\+::\+Viewport\+::\+Viewport (\begin{DoxyParamCaption}\item[{glm\+::vec2 const \&}]{position,  }\item[{glm\+::vec2 const \&}]{size,  }\item[{float}]{min\+Depth = {\ttfamily 0.0f},  }\item[{float}]{max\+Depth = {\ttfamily 1.0f} }\end{DoxyParamCaption})}
+
+
+
+Constructs a new \doxylink{class_atlas_1_1_viewport}{Viewport} with the given parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & The top left corner of the viewport \\
+\hline
+{\em size} & The size of the viewport \\
+\hline
+{\em min\+Depth} & \\
+\hline
+{\em max\+Depth} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00023}{23}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_a2f871d6991071b8bac3b2c57a6124162}\label{class_atlas_1_1_viewport_a2f871d6991071b8bac3b2c57a6124162} 
+\index{Atlas::Viewport@{Atlas::Viewport}!Viewport@{Viewport}}
+\index{Viewport@{Viewport}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{Viewport()}{Viewport()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Atlas\+::\+Viewport\+::\+Viewport (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_atlas_1_1_viewport_ac137d3a44f5576ed874ae384231c4a2e}\label{class_atlas_1_1_viewport_ac137d3a44f5576ed874ae384231c4a2e} 
+\index{Atlas::Viewport@{Atlas::Viewport}!applyViewportToCommandBuffer@{applyViewportToCommandBuffer}}
+\index{applyViewportToCommandBuffer@{applyViewportToCommandBuffer}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{applyViewportToCommandBuffer()}{applyViewportToCommandBuffer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Viewport\+::apply\+Viewport\+To\+Command\+Buffer (\begin{DoxyParamCaption}\item[{Vk\+Command\+Buffer}]{command\+Buffer }\end{DoxyParamCaption})}
+
+
+
+Sets the Vulkan viewport for the given command buffer. 
+
+\begin{DoxyPrecond}{Precondition}
+The command buffer must be in recording mode prior to this function being called.
+\end{DoxyPrecond}
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000013}{Todo}}]Add more checks to ensure that proper usage is done.\end{DoxyRefDesc}
+
+
+
+\begin{DoxyParams}{Parameters}
+{\em command\+Buffer} & The Vulkan command buffer to set the viewport on. This must not be {\ttfamily VK\+\_\+\+NULL\+\_\+\+HANDLE}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00028}{28}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_ad0e6aa22b0cd660da0d39a51ba65e69f}\label{class_atlas_1_1_viewport_ad0e6aa22b0cd660da0d39a51ba65e69f} 
+\index{Atlas::Viewport@{Atlas::Viewport}!getMaxDepth@{getMaxDepth}}
+\index{getMaxDepth@{getMaxDepth}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{getMaxDepth()}{getMaxDepth()}}
+{\footnotesize\ttfamily float Atlas\+::\+Viewport\+::get\+Max\+Depth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Gets the maximum depth value stored within {\ttfamily m\+Viewport}. 
+
+\begin{DoxyReturn}{Returns}
+The current maximum depth
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00077}{77}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_ab3b97e19afaf32836fe6582647e7085d}\label{class_atlas_1_1_viewport_ab3b97e19afaf32836fe6582647e7085d} 
+\index{Atlas::Viewport@{Atlas::Viewport}!getMinDepth@{getMinDepth}}
+\index{getMinDepth@{getMinDepth}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{getMinDepth()}{getMinDepth()}}
+{\footnotesize\ttfamily float Atlas\+::\+Viewport\+::get\+Min\+Depth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Gets the minimum depth value stored within {\ttfamily m\+Viewport}. 
+
+\begin{DoxyReturn}{Returns}
+The current minimum depth
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00073}{73}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_a53d41acc9e2d69914bf6ce598dc81376}\label{class_atlas_1_1_viewport_a53d41acc9e2d69914bf6ce598dc81376} 
+\index{Atlas::Viewport@{Atlas::Viewport}!getPosition@{getPosition}}
+\index{getPosition@{getPosition}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{getPosition()}{getPosition()}}
+{\footnotesize\ttfamily glm\+::vec2 Atlas\+::\+Viewport\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Gets the top left corner of the viewport stored within {\ttfamily m\+Viewport}. 
+
+\begin{DoxyReturn}{Returns}
+A 2D vector containing the current top left corner of the viewport
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00065}{65}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_a121a69e3e631fa5a6e828348a916b412}\label{class_atlas_1_1_viewport_a121a69e3e631fa5a6e828348a916b412} 
+\index{Atlas::Viewport@{Atlas::Viewport}!getSize@{getSize}}
+\index{getSize@{getSize}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{getSize()}{getSize()}}
+{\footnotesize\ttfamily glm\+::vec2 Atlas\+::\+Viewport\+::get\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Gets the size of the viewport stored within {\ttfamily m\+Viewport}. 
+
+\begin{DoxyReturn}{Returns}
+A 2D vector containing the current width and height of the viewport.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00069}{69}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_a22f8b22fbc5b9bbb7117cd499a357745}\label{class_atlas_1_1_viewport_a22f8b22fbc5b9bbb7117cd499a357745} 
+\index{Atlas::Viewport@{Atlas::Viewport}!getViewport@{getViewport}}
+\index{getViewport@{getViewport}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{getViewport()}{getViewport()}}
+{\footnotesize\ttfamily Vk\+Viewport Atlas\+::\+Viewport\+::get\+Viewport (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Gets the currently stored Vulkan viewport. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily Vk\+Viewport} The Vulkan viewport.
+\end{DoxyReturn}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00081}{81}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_a7fc6a46359a18372b317d97d6a3187e0}\label{class_atlas_1_1_viewport_a7fc6a46359a18372b317d97d6a3187e0} 
+\index{Atlas::Viewport@{Atlas::Viewport}!SetCommandBufferViewport@{SetCommandBufferViewport}}
+\index{SetCommandBufferViewport@{SetCommandBufferViewport}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{SetCommandBufferViewport()}{SetCommandBufferViewport()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Viewport\+::\+Set\+Command\+Buffer\+Viewport (\begin{DoxyParamCaption}\item[{Vk\+Command\+Buffer}]{command\+Buffer,  }\item[{Vk\+Viewport const \texorpdfstring{$\ast$}{*}}]{viewport }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Implementation of dynamically setting the viewport. This is a wrapper for vk\+Cmd\+Set\+Viewport. 
+
+\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{deprecated__deprecated000001}{Deprecated}}]Use {\ttfamily apply\+Viewport\+To\+Command\+Buffer} instead. This was removed because it had no reason to exist.\end{DoxyRefDesc}
+
+
+\begin{DoxyNote}{Note}
+This function does not have any checks in it, only the public function does.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em command\+Buffer} & The command buffer to set the viewport on. This must be in recording mode. \\
+\hline
+{\em viewport} & The viewport to tell Vulkan to use.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00011}{11}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_a7cd07c851b5f4263552e0ab892e6885b}\label{class_atlas_1_1_viewport_a7cd07c851b5f4263552e0ab892e6885b} 
+\index{Atlas::Viewport@{Atlas::Viewport}!setDepthRange@{setDepthRange}}
+\index{setDepthRange@{setDepthRange}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{setDepthRange()}{setDepthRange()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Viewport\+::set\+Depth\+Range (\begin{DoxyParamCaption}\item[{float}]{min\+Depth,  }\item[{float}]{max\+Depth }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Sets the depth range of the viewport within {\ttfamily m\+Viewport}. Whether or not the depth range is valid, and which value is near or far, is up to the user\textquotesingle{}s discretion and how the engine was set up. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em min\+Depth} & The new minimum depth of the viewport. \\
+\hline
+{\em max\+Depth} & The new maximum depth of the viewport.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00059}{59}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_a93cd31e340285e6a7a1e83f6f26654ae}\label{class_atlas_1_1_viewport_a93cd31e340285e6a7a1e83f6f26654ae} 
+\index{Atlas::Viewport@{Atlas::Viewport}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{setPosition()}{setPosition()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Viewport\+::set\+Position (\begin{DoxyParamCaption}\item[{float}]{x,  }\item[{float}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Sets the top left corner of the viewport using the x and y coordinates. This function is where the actual setting of the viewport\textquotesingle{}s position happens. 
+
+\begin{DoxyNote}{Note}
+This function is provided for convenience.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The new {\ttfamily x} coordinate of the top left corner of the viewport. \\
+\hline
+{\em y} & The new {\ttfamily y} coordinate of the top left corner of the viewport.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00041}{41}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_af43316fcf1009e1c674eef2b99dcdd96}\label{class_atlas_1_1_viewport_af43316fcf1009e1c674eef2b99dcdd96} 
+\index{Atlas::Viewport@{Atlas::Viewport}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{setPosition()}{setPosition()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Viewport\+::set\+Position (\begin{DoxyParamCaption}\item[{glm\+::vec2 const \&}]{position }\end{DoxyParamCaption})}
+
+
+
+Sets the top left corner of the viewport using a 2D vector. This function makes a call to the overload {\ttfamily \doxylink{class_atlas_1_1_viewport_a93cd31e340285e6a7a1e83f6f26654ae}{set\+Position(float, float)}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & A 2D vector representing the top left corner of the viewport\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00036}{36}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_aebb4c55e37f50d30b47fbb5b25800da0}\label{class_atlas_1_1_viewport_aebb4c55e37f50d30b47fbb5b25800da0} 
+\index{Atlas::Viewport@{Atlas::Viewport}!setSize@{setSize}}
+\index{setSize@{setSize}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{setSize()}{setSize()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Viewport\+::set\+Size (\begin{DoxyParamCaption}\item[{float}]{width,  }\item[{float}]{height }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Sets {\ttfamily m\+Viewport.\+width} and {\ttfamily m\+Viewport.\+height} using the given width and height. 
+
+\begin{DoxyNote}{Note}
+This function is provided for convenience.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em width} & The new width of the viewport. \\
+\hline
+{\em height} & The new height of the viewport.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00052}{52}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
+
+\Hypertarget{class_atlas_1_1_viewport_ae527fabe18d47348ae48de9c99f3d7fa}\label{class_atlas_1_1_viewport_ae527fabe18d47348ae48de9c99f3d7fa} 
+\index{Atlas::Viewport@{Atlas::Viewport}!setSize@{setSize}}
+\index{setSize@{setSize}!Atlas::Viewport@{Atlas::Viewport}}
+\doxysubsubsection{\texorpdfstring{setSize()}{setSize()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+Viewport\+::set\+Size (\begin{DoxyParamCaption}\item[{glm\+::vec2 const \&}]{size }\end{DoxyParamCaption})}
+
+
+
+Sets the {\ttfamily width} and {\ttfamily height} values of {\ttfamily m\+Viewport} using a 2D vector. This function makes a call to the overload {\ttfamily \doxylink{class_atlas_1_1_viewport_aebb4c55e37f50d30b47fbb5b25800da0}{set\+Size(float, float)}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & A 2D vector with the new width and height of the viewport.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8cpp_source_l00047}{47}} of file \mbox{\hyperlink{_viewport_8cpp_source}{Viewport.\+cpp}}.
 
 
 
 \doxysubsection{Member Data Documentation}
-\Hypertarget{class_atlas_1_1_viewport_ae10222616121ed50116b17f58a1cd5b1}\label{class_atlas_1_1_viewport_ae10222616121ed50116b17f58a1cd5b1} 
-\index{Atlas::Viewport@{Atlas::Viewport}!mCommandBuffer@{mCommandBuffer}}
-\index{mCommandBuffer@{mCommandBuffer}!Atlas::Viewport@{Atlas::Viewport}}
-\doxysubsubsection{\texorpdfstring{mCommandBuffer}{mCommandBuffer}}
-{\footnotesize\ttfamily Vk\+Command\+Buffer Atlas\+::\+Viewport\+::m\+Command\+Buffer\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Definition at line \mbox{\hyperlink{_window_8h_source_l00110}{110}} of file \mbox{\hyperlink{_window_8h_source}{Window.\+h}}.
-
 \Hypertarget{class_atlas_1_1_viewport_acfaef15caba7532528bc5ea30ccefc4c}\label{class_atlas_1_1_viewport_acfaef15caba7532528bc5ea30ccefc4c} 
 \index{Atlas::Viewport@{Atlas::Viewport}!mViewport@{mViewport}}
 \index{mViewport@{mViewport}!Atlas::Viewport@{Atlas::Viewport}}
 \doxysubsubsection{\texorpdfstring{mViewport}{mViewport}}
-{\footnotesize\ttfamily Vk\+Viewport Atlas\+::\+Viewport\+::m\+Viewport\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily Vk\+Viewport Atlas\+::\+Viewport\+::m\+Viewport \{\}\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Definition at line \mbox{\hyperlink{_window_8h_source_l00108}{108}} of file \mbox{\hyperlink{_window_8h_source}{Window.\+h}}.
+The viewport instance. 
+
+\begin{DoxySince}{Since}
+v0.\+0.\+1 
+\end{DoxySince}
+
+
+Definition at line \mbox{\hyperlink{_viewport_8h_source_l00044}{44}} of file \mbox{\hyperlink{_viewport_8h_source}{Viewport.\+h}}.
 
 
 
-The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/window/\mbox{\hyperlink{_window_8h}{Window.\+h}}\end{DoxyCompactItemize}
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/drawing/\mbox{\hyperlink{_viewport_8h}{Viewport.\+h}}\item 
+C\+:/\+Dev/\+Techstorm-\/v5/src/engine/graphics/drawing/\mbox{\hyperlink{_viewport_8cpp}{Viewport.\+cpp}}\end{DoxyCompactItemize}

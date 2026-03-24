@@ -4,22 +4,24 @@
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00001}00001\ }
 \DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_frame_8h}{Frame.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_v_k_device_8h}{backend/VKDevice.h}}"{}}}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00004}00004\ }
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00005}00005\ }
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00006}\mbox{\hyperlink{class_atlas_1_1_frame_a412f514d93cf9094d68e35bce46156ca}{00006}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_frame_a412f514d93cf9094d68e35bce46156ca}{Atlas::Frame::init}}(std::unique\_ptr<VkQueue>\ graphicsQueue,\ std::unique\_ptr<VkDevice>\ device,\ std::unique\_ptr<VkCommandPoolCreateInfo>\ createInfo)}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00007}00007\ \{}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00008}00008\ \ \ \ \ vkCreateCommandPool(*device,\ createInfo.get(),\ \textcolor{keyword}{nullptr},\ \&\mbox{\hyperlink{class_atlas_1_1_frame_a91b8e7713995ed46814f92eb155bd91f}{commandPool}});}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00009}00009\ }
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00010}00010\ \ \ \ \ \textcolor{comment}{//\ allocate\ the\ default\ command\ buffer\ that\ we\ will\ use\ for\ rendering}}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00011}00011\ \ \ \ \ VkCommandBufferAllocateInfo\ cmdAllocInfo\ =\ \mbox{\hyperlink{namespace_atlas_adfa68c6d6cbe8c3db73e75525e66ef4a}{CreateCommandBufferAllocateInfo}}(\mbox{\hyperlink{class_atlas_1_1_frame_a91b8e7713995ed46814f92eb155bd91f}{commandPool}},\ 1);}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00012}00012\ }
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00013}00013\ \ \ \ \ vkAllocateCommandBuffers(*device,\ \&cmdAllocInfo,\ \&\mbox{\hyperlink{class_atlas_1_1_frame_a02e18aab2ae7d41a012077eb03dc717b}{mainCommandBuffer}});}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00014}00014\ \}}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00015}00015\ }
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00016}\mbox{\hyperlink{class_atlas_1_1_frame_a33ca3323fcd24178cd2c0432db8c7056}{00016}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_frame_a33ca3323fcd24178cd2c0432db8c7056}{Atlas::Frame::shutdown}}(std::unique\_ptr<VkDevice>\ device)}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00017}00017\ \{}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00018}00018\ \ \ \ \ vkDestroyCommandPool(*device,\ commandPool,\ \textcolor{keyword}{nullptr});}
-\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00019}00019\ \}}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#ifdef\ ATLAS\_USE\_VULKAN}}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\ \ \ \ \#include\ "{}\mbox{\hyperlink{_v_k_device_8h}{vulkan/VKDevice.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00008}\mbox{\hyperlink{class_atlas_1_1_frame_abb14c6169a9db6d22ae2e57f64f4f605}{00008}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_frame_abb14c6169a9db6d22ae2e57f64f4f605}{Atlas::Frame::updateFrameCount}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00009}00009\ \ \ \ \ \textcolor{comment}{//\ Using\ this\ method\ rather\ than\ simply\ incrementing\ the\ frame\ count\ through\ mFrameCount++}}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00010}00010\ \ \ \ \ \textcolor{comment}{//\ because\ the\ setFrameCount\ function\ has\ checks}}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00011}00011\ \ \ \ \ \mbox{\hyperlink{class_atlas_1_1_frame_a2c69ceb342ac65ecf52ef9fbbab17358}{frameCounter}}.\mbox{\hyperlink{class_atlas_1_1_counter_aa62fe894ad075b4f37fcd264984d3e5c}{increment}}();}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00012}00012\ \}}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00014}\mbox{\hyperlink{class_atlas_1_1_frame_abdb64359eba04a0a74ebbdb0b49f2abf}{00014}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_atlas_1_1_frame_abdb64359eba04a0a74ebbdb0b49f2abf}{Atlas::Frame::update}}()}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00015}00015\ \{}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00016}00016\ \ \ \ \ updateFrameCount();}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00017}00017\ \}}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00019}\mbox{\hyperlink{class_atlas_1_1_frame_a5b09150f3a49e1353a9760588e221e6c}{00019}}\ \mbox{\hyperlink{namespace_atlas_aea079c967390e5e0e78111182ce6cc5b}{Atlas::FrameCount}}\ \mbox{\hyperlink{class_atlas_1_1_frame_a5b09150f3a49e1353a9760588e221e6c}{Atlas::Frame::getFrameCount}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00020}00020\ \ \ \ \ \textcolor{keywordflow}{return}\ frameCounter.getCount();}
+\DoxyCodeLine{\Hypertarget{_frame_8cpp_source_l00021}00021\ \}}
 
 \end{DoxyCode}

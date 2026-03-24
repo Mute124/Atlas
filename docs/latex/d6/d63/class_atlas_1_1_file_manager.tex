@@ -29,6 +29,8 @@ struct \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}}
 \begin{DoxyCompactList}\small\item\em Register a directory (recursively); applies ignore regexes. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_a4783d90c823959a43d6ae0618e0b4d47}{register\+File}} (const std\+::filesystem\+::path \&p)
 \begin{DoxyCompactList}\small\item\em Register a file; applies ignore regexes. The file must exist. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_ad4ed3f5ee598e030297c52a79989a609}{add\+Extension\+Loader}} (const std\+::string \&extension, \mbox{\hyperlink{namespace_atlas_a0004f9bd019b768d1a661355f685a7fd}{File\+Loader\+Function}} loader)
+\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_a724e1c29a688a720ddb96c83b7263dcb}{add\+Ignore\+Pattern}} (const std\+::string \&pattern)
 \begin{DoxyCompactList}\small\item\em Add an ignore pattern to the ignore list using ECMAScript regex. Files matching this pattern will not be loaded. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} \mbox{\hyperlink{class_atlas_1_1_file_manager_a67e82a76b397b044f5e82ace336fe9eb}{remove\+Ignore\+Patterns}} ()
@@ -59,6 +61,10 @@ std\+::shared\+\_\+mutex \mbox{\hyperlink{class_atlas_1_1_file_manager_aad7c485b
 \begin{DoxyCompactList}\small\item\em A shared mutex that is used to guard access to the {\ttfamily m\+Records} map. \end{DoxyCompactList}\item 
 std\+::unordered\+\_\+map$<$ std\+::filesystem\+::path, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{struct_atlas_1_1_file_record}{File\+Record}} $>$ $>$ \mbox{\hyperlink{class_atlas_1_1_file_manager_ae1dbbcca8c99414d1320d6a83a573a29}{m\+Records}}
 \begin{DoxyCompactList}\small\item\em A map of registered files. This is guarded by {\ttfamily m\+Map\+Mutex}. \end{DoxyCompactList}\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{namespace_atlas_a0004f9bd019b768d1a661355f685a7fd}{File\+Loader\+Function}} $>$ \mbox{\hyperlink{class_atlas_1_1_file_manager_a68a173a2ad657889b99ac9d137945282}{m\+Custom\+Loaders}}
+\item 
+std\+::shared\+\_\+mutex \mbox{\hyperlink{class_atlas_1_1_file_manager_acbecdb446f8fa1b7ce3c4f72c7596867}{m\+Custom\+Loaders\+Mutex}}
+\item 
 \mbox{\hyperlink{struct_atlas_1_1_file_manager_1_1_options}{Options}} \mbox{\hyperlink{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73}{m\+Options}}
 \begin{DoxyCompactList}\small\item\em This class\textquotesingle{} configuration options. \end{DoxyCompactList}\item 
 std\+::mutex \mbox{\hyperlink{class_atlas_1_1_file_manager_ac0083b715c9d351fd53d65340a66053e}{m\+Ignore\+Mutex}}
@@ -80,7 +86,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00158}{158}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00089}{89}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
 
 
 
@@ -127,6 +133,20 @@ Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00151}{151}} of fi
 
 
 \doxysubsection{Member Function Documentation}
+\Hypertarget{class_atlas_1_1_file_manager_ad4ed3f5ee598e030297c52a79989a609}\label{class_atlas_1_1_file_manager_ad4ed3f5ee598e030297c52a79989a609} 
+\index{Atlas::FileManager@{Atlas::FileManager}!addExtensionLoader@{addExtensionLoader}}
+\index{addExtensionLoader@{addExtensionLoader}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{addExtensionLoader()}{addExtensionLoader()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imgui__impl__opengl3__loader_8h_ac668e7cffd9e2e9cfee428b9b2f34fa7}{void}} Atlas\+::\+File\+Manager\+::add\+Extension\+Loader (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{extension,  }\item[{\mbox{\hyperlink{namespace_atlas_a0004f9bd019b768d1a661355f685a7fd}{File\+Loader\+Function}}}]{loader }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00381}{381}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+
+
+References \mbox{\hyperlink{_i_o_manager_8h_source_l00299}{m\+Custom\+Loaders}}, and \mbox{\hyperlink{_i_o_manager_8h_source_l00300}{m\+Custom\+Loaders\+Mutex}}.
+
 \Hypertarget{class_atlas_1_1_file_manager_a724e1c29a688a720ddb96c83b7263dcb}\label{class_atlas_1_1_file_manager_a724e1c29a688a720ddb96c83b7263dcb} 
 \index{Atlas::FileManager@{Atlas::FileManager}!addIgnorePattern@{addIgnorePattern}}
 \index{addIgnorePattern@{addIgnorePattern}!Atlas::FileManager@{Atlas::FileManager}}
@@ -147,7 +167,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00208}{208}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00210}{210}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_ae2b2e52722324ef57b9e83d9686f425e}\label{class_atlas_1_1_file_manager_ae2b2e52722324ef57b9e83d9686f425e} 
 \index{Atlas::FileManager@{Atlas::FileManager}!ATLAS\_DISALLOW\_COPY@{ATLAS\_DISALLOW\_COPY}}
@@ -178,7 +198,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00352}{352}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00397}{397}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_a33ef34e7892e33eb3d5be27f84b1a3fd}\label{class_atlas_1_1_file_manager_a33ef34e7892e33eb3d5be27f84b1a3fd} 
 \index{Atlas::FileManager@{Atlas::FileManager}!getRegisteredCount@{getRegisteredCount}}
@@ -198,11 +218,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00316}{316}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
-
-
-
-Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00361}{361}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_a472f9fa23dbddf1d7e052e1fcbf79a46}\label{class_atlas_1_1_file_manager_a472f9fa23dbddf1d7e052e1fcbf79a46} 
 \index{Atlas::FileManager@{Atlas::FileManager}!isIgnored@{isIgnored}}
@@ -227,7 +243,7 @@ v
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00365}{365}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00410}{410}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_a3b01fae0c00120df95211d53b300a48a}\label{class_atlas_1_1_file_manager_a3b01fae0c00120df95211d53b300a48a} 
 \index{Atlas::FileManager@{Atlas::FileManager}!openFile@{openFile}}
@@ -255,15 +271,15 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00218}{218}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00220}{220}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
 
 
 
-References \mbox{\hyperlink{_i_o_common_8cpp_source_l00019}{Atlas\+::\+Get\+Absolute\+Path()}}.
+References \mbox{\hyperlink{_logging_8cpp_source_l00223}{Atlas\+::\+Error\+Log()}}, \mbox{\hyperlink{_i_o_common_8cpp_source_l00019}{Atlas\+::\+Get\+Absolute\+Path()}}, and \mbox{\hyperlink{_logging_8cpp_source_l00218}{Atlas\+::\+Info\+Log()}}.
 
 
 
-Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
+Referenced by \mbox{\hyperlink{_shader_module_8cpp_source_l00014}{Atlas\+::\+Shader\+Module\+::load()}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_a489639695d22a494baa1b36ac36a2415}\label{class_atlas_1_1_file_manager_a489639695d22a494baa1b36ac36a2415} 
 \index{Atlas::FileManager@{Atlas::FileManager}!preloadAll@{preloadAll}}
@@ -283,7 +299,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00321}{321}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00366}{366}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_a82e49a8dd4225afab8319795cdfd5ce2}\label{class_atlas_1_1_file_manager_a82e49a8dd4225afab8319795cdfd5ce2} 
 \index{Atlas::FileManager@{Atlas::FileManager}!registerDirectory@{registerDirectory}}
@@ -309,11 +325,7 @@ Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00158}{158}} of fi
 
 
 
-References \mbox{\hyperlink{_common_8h_source_l00097}{ATLAS\+\_\+\+ASSERT}}, \mbox{\hyperlink{_i_o_common_8cpp_source_l00014}{Atlas\+::\+Does\+Path\+Exist()}}, and \mbox{\hyperlink{_logging_8cpp_source_l00260}{Atlas\+::\+Info\+Log()}}.
-
-
-
-Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
+References \mbox{\hyperlink{_common_8h_source_l00105}{ATLAS\+\_\+\+ASSERT}}, \mbox{\hyperlink{_i_o_common_8cpp_source_l00014}{Atlas\+::\+Does\+Path\+Exist()}}, and \mbox{\hyperlink{_logging_8cpp_source_l00218}{Atlas\+::\+Info\+Log()}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_a4783d90c823959a43d6ae0618e0b4d47}\label{class_atlas_1_1_file_manager_a4783d90c823959a43d6ae0618e0b4d47} 
 \index{Atlas::FileManager@{Atlas::FileManager}!registerFile@{registerFile}}
@@ -339,7 +351,7 @@ Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00193}{193}} of fi
 
 
 
-References \mbox{\hyperlink{_i_o_common_8cpp_source_l00019}{Atlas\+::\+Get\+Absolute\+Path()}}, and \mbox{\hyperlink{_logging_8cpp_source_l00260}{Atlas\+::\+Info\+Log()}}.
+References \mbox{\hyperlink{_i_o_common_8cpp_source_l00019}{Atlas\+::\+Get\+Absolute\+Path()}}, and \mbox{\hyperlink{_logging_8cpp_source_l00218}{Atlas\+::\+Info\+Log()}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_a67e82a76b397b044f5e82ace336fe9eb}\label{class_atlas_1_1_file_manager_a67e82a76b397b044f5e82ace336fe9eb} 
 \index{Atlas::FileManager@{Atlas::FileManager}!removeIgnorePatterns@{removeIgnorePatterns}}
@@ -356,7 +368,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00213}{213}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00215}{215}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_ac29e1fcb729ce92672c387f8a19baa88}\label{class_atlas_1_1_file_manager_ac29e1fcb729ce92672c387f8a19baa88} 
 \index{Atlas::FileManager@{Atlas::FileManager}!unloadAll@{unloadAll}}
@@ -373,7 +385,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00337}{337}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00382}{382}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_a68aa05e0f8ab4abf63de5db8c754f6a2}\label{class_atlas_1_1_file_manager_a68aa05e0f8ab4abf63de5db8c754f6a2} 
 \index{Atlas::FileManager@{Atlas::FileManager}!unloadFile@{unloadFile}}
@@ -398,15 +410,11 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00284}{284}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8cpp_source_l00329}{329}} of file \mbox{\hyperlink{_i_o_manager_8cpp_source}{IOManager.\+cpp}}.
 
 
 
 References \mbox{\hyperlink{_i_o_common_8cpp_source_l00019}{Atlas\+::\+Get\+Absolute\+Path()}}.
-
-
-
-Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
 
 
 
@@ -419,11 +427,39 @@ Referenced by \mbox{\hyperlink{application_2main_8cpp_source_l00056}{main()}}.
 
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00343}{343}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00274}{274}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
 
 
 
 \doxysubsection{Member Data Documentation}
+\Hypertarget{class_atlas_1_1_file_manager_a68a173a2ad657889b99ac9d137945282}\label{class_atlas_1_1_file_manager_a68a173a2ad657889b99ac9d137945282} 
+\index{Atlas::FileManager@{Atlas::FileManager}!mCustomLoaders@{mCustomLoaders}}
+\index{mCustomLoaders@{mCustomLoaders}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{mCustomLoaders}{mCustomLoaders}}
+{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{namespace_atlas_a0004f9bd019b768d1a661355f685a7fd}{File\+Loader\+Function}}$>$ Atlas\+::\+File\+Manager\+::m\+Custom\+Loaders\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00299}{299}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_i_o_manager_8h_source_l00381}{add\+Extension\+Loader()}}.
+
+\Hypertarget{class_atlas_1_1_file_manager_acbecdb446f8fa1b7ce3c4f72c7596867}\label{class_atlas_1_1_file_manager_acbecdb446f8fa1b7ce3c4f72c7596867} 
+\index{Atlas::FileManager@{Atlas::FileManager}!mCustomLoadersMutex@{mCustomLoadersMutex}}
+\index{mCustomLoadersMutex@{mCustomLoadersMutex}!Atlas::FileManager@{Atlas::FileManager}}
+\doxysubsubsection{\texorpdfstring{mCustomLoadersMutex}{mCustomLoadersMutex}}
+{\footnotesize\ttfamily std\+::shared\+\_\+mutex Atlas\+::\+File\+Manager\+::m\+Custom\+Loaders\+Mutex\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00300}{300}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+
+
+
+Referenced by \mbox{\hyperlink{_i_o_manager_8h_source_l00381}{add\+Extension\+Loader()}}.
+
 \Hypertarget{class_atlas_1_1_file_manager_ac0083b715c9d351fd53d65340a66053e}\label{class_atlas_1_1_file_manager_ac0083b715c9d351fd53d65340a66053e} 
 \index{Atlas::FileManager@{Atlas::FileManager}!mIgnoreMutex@{mIgnoreMutex}}
 \index{mIgnoreMutex@{mIgnoreMutex}!Atlas::FileManager@{Atlas::FileManager}}
@@ -442,7 +478,7 @@ v0.\+0.\+1
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00384}{384}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00318}{318}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_a78f53f7ce56ec9d7f67d9fe7e70f7f43}\label{class_atlas_1_1_file_manager_a78f53f7ce56ec9d7f67d9fe7e70f7f43} 
 \index{Atlas::FileManager@{Atlas::FileManager}!mIgnorePatterns@{mIgnorePatterns}}
@@ -462,7 +498,7 @@ v0.\+0.\+1
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00393}{393}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00327}{327}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_a3764913dc6d6f8701c8651ab7d0ac5c2}\label{class_atlas_1_1_file_manager_a3764913dc6d6f8701c8651ab7d0ac5c2} 
 \index{Atlas::FileManager@{Atlas::FileManager}!mJanitor@{mJanitor}}
@@ -479,7 +515,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00350}{350}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00281}{281}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_aad7c485bddcbb743d6da8ed22b8d481b}\label{class_atlas_1_1_file_manager_aad7c485bddcbb743d6da8ed22b8d481b} 
 \index{Atlas::FileManager@{Atlas::FileManager}!mMapMutex@{mMapMutex}}
@@ -499,7 +535,7 @@ v0.\+0.\+1
 \end{DoxySeeAlso}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00359}{359}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00290}{290}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
 
 \Hypertarget{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73}\label{class_atlas_1_1_file_manager_ae30a6ec27da84fefd90efc50c097df73} 
 \index{Atlas::FileManager@{Atlas::FileManager}!mOptions@{mOptions}}
@@ -516,7 +552,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00373}{373}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00307}{307}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
 
 
 
@@ -537,7 +573,7 @@ v0.\+0.\+1
 \end{DoxySince}
 
 
-Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00366}{366}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
+Definition at line \mbox{\hyperlink{_i_o_manager_8h_source_l00297}{297}} of file \mbox{\hyperlink{_i_o_manager_8h_source}{IOManager.\+h}}.
 
 
 

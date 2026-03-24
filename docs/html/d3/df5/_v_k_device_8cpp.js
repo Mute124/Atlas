@@ -4,5 +4,7 @@ var _v_k_device_8cpp =
     [ "STB_IMAGE_IMPLEMENTATION", "d3/df5/_v_k_device_8cpp.html#a18372412ad2fc3ce1e3240b3cf0efe78", null ],
     [ "VMA_IMPLEMENTATION", "d3/df5/_v_k_device_8cpp.html#abea80547807da765ebe9fce1c6dd6a8d", null ],
     [ "gGlobalContext", "d3/df5/_v_k_device_8cpp.html#a4ed1ac7ebe096fc975b54178b0b937ba", null ],
-    [ "gLoadedVulkanBackend", "d3/df5/_v_k_device_8cpp.html#a49fac99d0f5e6cb7578a0e1773faa861", null ]
+    [ "gLoadedVulkanBackend", "d3/df5/_v_k_device_8cpp.html#a49fac99d0f5e6cb7578a0e1773faa861", null ],
+    [ "sCameraPosition", "d3/df5/_v_k_device_8cpp.html#abcc44b1c59ee20e3bb64a8e5a8e6a0b0", null ],
+    [ "sModelId", "d3/df5/_v_k_device_8cpp.html#a5e37afe8f95f975774b36173f796eae3", null ]
 ];
