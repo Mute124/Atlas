@@ -268,6 +268,7 @@ namespace Atlas {
 
 		bool mIsInitialized = false;
 		bool mbUseDefaultInstanceBuilder = true;
+		bool mbResizeRequested = false;
 
 		ImmediateSubmitInfo mImmediateSubmitInfo;
 
@@ -419,6 +420,21 @@ namespace Atlas {
 
 		void destroySwapchain();
 
+		void resize(GameWindow* gameWindow)
+		{
+			vkDeviceWaitIdle(mDevice);
+
+			destroySwapchain();
+			
+			int w, h;
+			SDL_GetWindowSize(gameWindow->getWindowHandle(), &w, &h);
+			mDrawExtent.width = w;
+			mDrawExtent.height = h;
+
+			createSwapchain(mDrawExtent.width, mDrawExtent.height);
+
+			mbResizeRequested = false;
+		}
 		GPUMeshBuffers UploadMesh(std::span<uint32_t> indices, std::span<Vertex> vertices);
 
 		void ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
@@ -434,6 +450,8 @@ namespace Atlas {
 		VkSurfaceKHR getSurface() { return mSurface; }
 
 		PhysicalDevice& getPhysicalDevice() { return mPhysicalDevice; }
+
+		bool isResizeRequested() { return mbResizeRequested; }
 	};
 
 

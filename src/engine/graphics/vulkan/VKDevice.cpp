@@ -414,7 +414,7 @@ void Atlas::VulkanRenderingBackend::initMeshPipeline()
 	pipelineBuilder.setMultisamplingNone();
 
 	//no blending
-	pipelineBuilder.disableBlending();
+	pipelineBuilder.enableBlendingAdditive();
 
 	pipelineBuilder.enableDepthTest(true, VK_COMPARE_OP_GREATER_OR_EQUAL);
 
@@ -987,7 +987,15 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 
 	if (result != VK_SUCCESS)
 	{
-		throw AException("failed to acquire swap chain image!");
+		if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+			mbResizeRequested = true;
+			return;
+		}
+		else {
+			throw AException("failed to acquire swap chain image!");
+
+		}
+
 	}
 
 	// reset command buffer
@@ -1024,6 +1032,11 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 
 void Atlas::VulkanRenderingBackend::draw()
 {
+	// Stop drawing if a resize was requested so we can resize the swapchain
+	if (mbResizeRequested)
+	{
+		return;
+	}
 
 	mRenderPassesManager.beginDrawingRenderPasses(mCurrentDrawData.cmd, mCurrentDrawData);
 
@@ -1055,6 +1068,12 @@ void Atlas::VulkanRenderingBackend::draw()
 
 void Atlas::VulkanRenderingBackend::endDrawingMode()
 {
+	// Stop drawing if a resize was requested so we can resize the swapchain
+	if (mbResizeRequested)
+	{
+		return;
+	}
+
 	FrameData& currentFrame = getCurrentFrame();
 
 	//end render pass
@@ -1093,8 +1112,10 @@ void Atlas::VulkanRenderingBackend::endDrawingMode()
 	
 	presentInfo.pImageIndices = &mCurrentDrawData.swapchainImageIndex;
 
-	vkQueuePresentKHR(mGraphicsQueue, &presentInfo);
-
+	VkResult presentResult = vkQueuePresentKHR(mGraphicsQueue, &presentInfo);
+	if (presentResult == VK_ERROR_OUT_OF_DATE_KHR) {
+		mbResizeRequested = true;
+	}
 	//increase the number of frames drawn
 	mCurrentFrameNumber++;
 

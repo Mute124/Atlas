@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
 
 	// Setup the game window (this needs to be done before the rendering device is created)
 	GameWindow gameWindow = GameWindow(WindowDescription());
-	gameWindow.open(SDL_WINDOW_VULKAN);
+	gameWindow.open(SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE);
 
 	const Version cRenderingAPIVersion = Version(1, 3, 0);
 
@@ -97,7 +97,9 @@ int main(int argc, char* argv[]) {
 		
 		shouldClose = gameWindow.shouldClose();
 		gameWindow.update();
-		
+		if (renderingDevice->isResizeRequested()) {
+			renderingDevice->resize(&gameWindow);
+		}
 		if (gameWindow.shouldClose()) {
 			break;
 		}
