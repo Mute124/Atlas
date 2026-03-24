@@ -89,6 +89,9 @@ set(ATLAS_ENGINE_SOURCES
     "core/threading/ThreadSafeVariable.h"
     "core/threading/ThreadSafeVariable.cpp"
 
+    "time/FPS.h"
+    "time/FPS.cpp"
+
     #-----------------------------------
     # Input
 	#-----------------------------------

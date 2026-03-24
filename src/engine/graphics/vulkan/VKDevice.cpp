@@ -1116,11 +1116,18 @@ void Atlas::VulkanRenderingBackend::endDrawingMode()
 	if (presentResult == VK_ERROR_OUT_OF_DATE_KHR) {
 		mbResizeRequested = true;
 	}
+
+	mFrameTime.update();
+
+	mCurrentTime = Now();
+
 	//increase the number of frames drawn
 	mCurrentFrameNumber++;
 
 	// reset the current draw data to default values
 	mCurrentDrawData = {};
+
+	
 }
 
 void Atlas::VulkanRenderingBackend::drawIMGUI(VkCommandBuffer cmd, VkImageView targetImageView)
@@ -1442,6 +1449,7 @@ bool Atlas::ImGuiRenderable::setupElements(const VkCommandBuffer cmd, CurrentDra
 				if (ImGui::BeginTabBar("##RendererTabBar", ImGuiTabBarFlags_None)) {
 					if (ImGui::BeginTabItem("General")) {
 						ImGui::Text("Current Frame: %i", gLoadedVulkanBackend->mCurrentFrameNumber);
+						ImGui::Text("FPS: %f",gLoadedVulkanBackend->mFrameTime.getFPS());
 						
 						ImGui::SliderInt("Draw Model ID", &sModelId, 0, 2);
 

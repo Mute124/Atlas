@@ -87,6 +87,8 @@
 #include "../drawing/Renderable.h"
 #include "../drawing/Viewport.h"
 
+#include "../../time/FPS.h"
+
 #include "../Mesh.h"
 #define ATLAS_1_SECOND_IN_NS 1000000000
 
@@ -247,6 +249,7 @@ namespace Atlas {
 	 */
 	class VulkanRenderingBackend : public ARenderingBackend {
 	public:
+		static inline double Now() { return std::chrono::duration<double>(std::chrono::high_resolution_clock::now().time_since_epoch()).count(); }
 
 		// Thread-safe global instance of this class
 		static inline std::shared_ptr<VulkanRenderingBackend> sInstance = nullptr;
@@ -264,7 +267,14 @@ namespace Atlas {
 
 		//std::bitset<ATLAS_VK_DEVICE_BITS> mOptionsBitset;
 
+		double mPreviousTime{ Now() };
+		double mCurrentTime{ mPreviousTime };
+
+		static inline float mFPS{ 0.0f };
+		int mFrameCount{ 0 };
 		int mCurrentFrameNumber = 0;
+
+		FPS mFrameTime{};
 
 		bool mIsInitialized = false;
 		bool mbUseDefaultInstanceBuilder = true;
