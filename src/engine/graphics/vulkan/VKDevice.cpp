@@ -885,10 +885,13 @@ void Atlas::VulkanRenderingBackend::initSwapchain(GameWindow* gameWindow)
 
 	createSwapchain(cWindowWidth, cWindowHeight);
 
+	SDL_Rect displayBounds;
+	SDL_GetDisplayBounds(0, &displayBounds);
+	
 	//draw image size will match the window
 	VkExtent3D drawImageExtent = {
-		cWindowWidth,
-		cWindowHeight,
+		displayBounds.w,
+		displayBounds.h,
 		1
 	};
 
@@ -998,6 +1001,9 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 
 	}
 
+	mDrawExtent.height = std::min(mSwapchainExtent.height, mDrawImage.imageExtent.height) * mRenderScale;
+	mDrawExtent.width = std::min(mSwapchainExtent.width, mDrawImage.imageExtent.width) * mRenderScale;
+
 	// reset command buffer
 	mCurrentDrawData.cmdResetFlags = 0;
 
@@ -1014,9 +1020,6 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 	//begin the command buffer recording. We will use this command buffer exactly once, so we want to let vulkan know that
 	mCurrentDrawData.cmdBeginInfo = CreateCommandBufferBeginInfo(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 	mCurrentDrawData.computeEffects = mEffectManager;
-
-	mDrawExtent.width = mDrawImage.imageExtent.width;
-	mDrawExtent.height = mDrawImage.imageExtent.height;
 
 	mCurrentDrawData.swapchain = mSwapchain;
 	mCurrentDrawData.swapchainImages = mSwapchainImages;
@@ -1119,7 +1122,6 @@ void Atlas::VulkanRenderingBackend::endDrawingMode()
 
 	mFrameTime.update();
 
-	mCurrentTime = Now();
 
 	//increase the number of frames drawn
 	mCurrentFrameNumber++;
@@ -1451,16 +1453,20 @@ bool Atlas::ImGuiRenderable::setupElements(const VkCommandBuffer cmd, CurrentDra
 						ImGui::Text("Current Frame: %i", gLoadedVulkanBackend->mCurrentFrameNumber);
 						ImGui::Text("FPS: %f",gLoadedVulkanBackend->mFrameTime.getFPS());
 						
+						ImGui::SliderFloat("Render Scale", &VulkanRenderingBackend::mRenderScale, 0.3f, 1.f);
+
 						ImGui::SliderInt("Draw Model ID", &sModelId, 0, 2);
+						
+						if (ImGui::CollapsingHeader("Camera")) {
+							ImGui::SliderFloat("FOV", &VulkanRenderingBackend::sFOVY, 0.f, 180.f);
 
-						ImGui::SliderFloat("FOV", &VulkanRenderingBackend::sFOVY, 0.f, 180.f);
+							ImGui::InputFloat("Clip Near", &VulkanRenderingBackend::sClipNear);
+							ImGui::InputFloat("Clip Far", &VulkanRenderingBackend::sClipFar);
 
-						ImGui::InputFloat("Clip Near", &VulkanRenderingBackend::sClipNear);
-						ImGui::InputFloat("Clip Far", &VulkanRenderingBackend::sClipFar);
-
-						ImGui::SliderFloat("Camera Position X", &sCameraPosition.x, -100.f, 100.f);
-						ImGui::SliderFloat("Camera Position Y", &sCameraPosition.y, -100.f, 100.f);
-						ImGui::SliderFloat("Camera Position Z", &sCameraPosition.z, -100.f, 100.f);
+							ImGui::SliderFloat("Camera Position X", &sCameraPosition.x, -100.f, 100.f);
+							ImGui::SliderFloat("Camera Position Y", &sCameraPosition.y, -100.f, 100.f);
+							ImGui::SliderFloat("Camera Position Z", &sCameraPosition.z, -100.f, 100.f);
+						}
 
 						if (ImGui::CollapsingHeader("Startup info")) {
 							ImGui::Text("\nApplication Name: %s", gLoadedVulkanBackend->mApplicationName.c_str());
@@ -1470,6 +1476,8 @@ bool Atlas::ImGuiRenderable::setupElements(const VkCommandBuffer cmd, CurrentDra
 						}
 						ImGui::EndTabItem();
 					}
+					
+
 
 					if (ImGui::BeginTabItem("Effects")) {
 						ComputeEffect& selected = cDrawData.computeEffects->getCurrentEffect();

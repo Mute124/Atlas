@@ -279,13 +279,6 @@ namespace Atlas {
 
 		std::vector<std::shared_ptr<MeshAsset>> testMeshes;
 
-		//std::bitset<ATLAS_VK_DEVICE_BITS> mOptionsBitset;
-
-		double mPreviousTime{ Now() };
-		double mCurrentTime{ mPreviousTime };
-
-		static inline float mFPS{ 0.0f };
-		int mFrameCount{ 0 };
 		int mCurrentFrameNumber = 0;
 
 		FPS mFrameTime{};
@@ -319,8 +312,8 @@ namespace Atlas {
 		AllocatedImage mDrawImage;
 		
 		VkExtent2D mDrawExtent;
+		static inline float mRenderScale = 1.0f;
 
-		//GraphicsQueue mGraphicsQueue;
 
 		VkQueue mGraphicsQueue = VK_NULL_HANDLE;
 		uint32_t mGraphicsQueueFamily;
@@ -344,8 +337,6 @@ namespace Atlas {
 
 		VkPipelineLayout _meshPipelineLayout;
 		VkPipeline _meshPipeline;
-
-		//GPUMeshBuffers rectangle;
 
 		std::string mApplicationName;
 

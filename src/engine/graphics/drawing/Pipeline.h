@@ -4,6 +4,7 @@
 #include "../RenderCommon.h"
 #include "PipelineLayout.h"
 #include "Shader.h"
+
 namespace Atlas {
 	class Pipeline : public AVulkanHandleWrapper<VkPipeline> {
 	public:
@@ -40,28 +41,5 @@ namespace Atlas {
 
 		EBindPoint getBindPoint() const noexcept;
 
-		//void createLayout(VkPipelineLayoutCreateInfo layoutInfo, VkDevice* device)
-		//{
-		//	vkCreatePipelineLayout(*device, &layoutInfo, nullptr, &mPipelineLayout);
-		//}
-		//void createLayout(VkDevice* device, VkDescriptorSetLayout* descriptorSetLayout) {
-		//	VkPipelineLayoutCreateInfo layoutInfo{};
-		//	layoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-		//	layoutInfo.pNext = nullptr;
-		//	layoutInfo.pSetLayouts = descriptorSetLayout;
-		//	layoutInfo.setLayoutCount = 1;
-		//	createLayout(layoutInfo, device);
-		//}
-		//void init(VkDevice* device, DeletionQueue* deletionQueue, VkPipelineShaderStageCreateInfo stageInfo, VkComputePipelineCreateInfo pipelineInfo) {
-		//	vkCreateComputePipelines(*device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &mPipeline);
-		//	vkDestroyShaderModule(*device, mShader.getModule(), nullptr)
-		//	deletionQueue->push([&]() {
-		//		destroyPipeline(device);
-		//	});
-		//}
-		//void destroyPipeline(VkDevice* device) {
-		//	vkDestroyPipelineLayout(*device, mPipelineLayout, nullptr);
-		//	vkDestroyPipeline(*device, mPipeline, nullptr);
-		//}
 	};
 }
