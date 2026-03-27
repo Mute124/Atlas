@@ -314,7 +314,6 @@ namespace Atlas {
 		VkExtent2D mDrawExtent;
 		static inline float mRenderScale = 1.0f;
 
-
 		VkQueue mGraphicsQueue = VK_NULL_HANDLE;
 		uint32_t mGraphicsQueueFamily;
 
