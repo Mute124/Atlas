@@ -51,58 +51,28 @@ namespace Atlas {
 		ImageView() = default;
 	};
 
+	struct ImageCreateInfo {
+		VkFormat format{ VK_FORMAT_UNDEFINED };
+		VkExtent3D extent { 0, 0, 0 };
+		VkImageUsageFlags usageFlags;
+		VmaAllocationCreateInfo allocationInfo{};
+
+		ImageCreateInfo(const VkFormat& format, const VkExtent3D& extent, const VkImageUsageFlags& usageFlags, const VmaAllocationCreateInfo& allocationInfo)
+			: format(format), extent(extent), usageFlags(usageFlags), allocationInfo(allocationInfo)
+		{
+		}
+
+		ImageCreateInfo() = default;
+	};
+
 	class Image : public AVulkanHandleWrapper<VkImage> {
 		friend class AllocatedImage;
 	private:
-		
-
-		VkImageView mImageView = VK_NULL_HANDLE;
-		VmaAllocation mAllocation = VK_NULL_HANDLE;
-		VkExtent3D mImageExtent = { 0, 0, 0 };
-		VkFormat mImageFormat = VK_FORMAT_UNDEFINED;
-
-	protected:
-
-		void createImage(GraphicsAllocationInfo& allocation, VkImageCreateInfo const* imageInfo) {
-			const VkResult cCreateResult = vmaCreateImage(allocation.allocator, imageInfo, allocation.createInfo, getHandlePtr(), &mAllocation, nullptr);
-			
-
-		}
-
-		void createImageView(std::shared_ptr<Device> device) {
-			VkDevice deviceHandle = device->getHandle();
-
-			VkImageViewCreateInfo imageViewInfo = CreateImageViewCreateInfo(getFormat(), getHandle(), VK_IMAGE_ASPECT_COLOR_BIT);
-			vkCreateImageView(deviceHandle, &imageViewInfo, nullptr, &mImageView);
-		}
-
+		VkImageView mImageView{ VK_NULL_HANDLE };
+		VmaAllocation mAllocation{ VK_NULL_HANDLE };
+		VkExtent3D mImageExtent { 0, 0, 0 };
+		VkFormat mImageFormat{ VK_FORMAT_UNDEFINED };
 	public:
-
-		Image(GraphicsAllocationInfo allocation, VkExtent3D imageExtent, VkFormat imageFormat, VkImageUsageFlags usageFlags, bool bCreateImageView = true, std::shared_ptr<Device> device = Device::GetMainHandle())
-			: AVulkanHandleWrapper(), mImageExtent(imageExtent), mImageFormat(imageFormat) {
-
-			VkImageCreateInfo imageInfo = CreateImageCreateInfo(imageFormat, usageFlags, imageExtent);
-
-			createImage(allocation, &imageInfo);
-			
-			if (bCreateImageView) {
-				createImageView(device);
-			}
-		}
-
-
-		Image() = default;
-
-		VkImageView getImageView() {
-			return mImageView;
-		}
-
-		VkExtent3D getExtent() const { 
-			return mImageExtent;
-		}
-
-		VkFormat getFormat() const { return mImageFormat; }
-
 
 	};
 

@@ -852,15 +852,6 @@ void Atlas::VulkanRenderingBackend::initPhysicalDevice()
 	features12.bufferDeviceAddress = cbEnableBufferDeviceAddress;
 	features12.descriptorIndexing = cbEnableDescriptorIndexing;
 
-	// use vkbootstrap to select a gpu. 
-	//We want a gpu that can write to the SDL surface and supports vulkan 1.3 with the correct features
-	//vkb::PhysicalDeviceSelector selector{ cVkBootstrapInstanceRef };
-	//selector.set_minimum_version(cApiVersion.major, cApiVersion.minor);
-	//selector.set_required_features_13(features);
-	//selector.set_required_features_12(features12);
-	//selector.set_surface(mSurface);
-	//vkb::PhysicalDevice physicalDevice = selector.select().value();
-
 	PhysicalDeviceSelectionConstraints constraints{};
 
 	constraints.minimumAPIVersion = mAppInfo.vulkanVersion;
@@ -894,6 +885,13 @@ void Atlas::VulkanRenderingBackend::initSwapchain(GameWindow* gameWindow)
 		displayBounds.h,
 		1
 	};
+
+
+	GraphicsAllocationInfo drawImageAllocation = {};
+	drawImageAllocation.allocator = mVMAAllocator;
+	drawImageAllocation.createInfo = { };
+	drawImageAllocation.createInfo->usage = VMA_MEMORY_USAGE_GPU_ONLY;
+	drawImageAllocation.createInfo->requiredFlags = VkMemoryPropertyFlags(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 	//hardcoding the draw format to 32 bit float
 	mDrawImage.imageFormat = VK_FORMAT_R16G16B16A16_SFLOAT;
@@ -994,7 +992,6 @@ void Atlas::VulkanRenderingBackend::beginDrawingMode()
 		}
 		else {
 			throw AException("failed to acquire swap chain image!");
-
 		}
 
 	}
