@@ -1176,7 +1176,7 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	glm::mat4 view = glm::translate(sCameraPosition);
 	// camera projection
 	glm::mat4 projection = glm::perspective(glm::radians(sFOVY), (float)mDrawExtent.width / (float)mDrawExtent.height, sClipFar, sClipNear);
-
+	
 	// invert the Y direction on projection matrix so that we are more similar
 	// to opengl and gltf axis
 	projection[1][1] *= -1;
