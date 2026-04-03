@@ -478,15 +478,6 @@ void Atlas::VulkanRenderingBackend::initCommands()
 	mMainDeletionQueue.push([=]() {
 		vkDestroyCommandPool(mDevice, mImmediateSubmitInfo.commandPool, nullptr);
 	});
-	
-	//// allocate the command buffer for immediate submits
-	//VkCommandBufferAllocateInfo cmdAllocInfo = CreateCommandBufferAllocateInfo(mImmediateSubmitInfo.commandPool, 1);
-
-	//vkAllocateCommandBuffers(mDevice, &cmdAllocInfo, &mImmediateSubmitInfo.commandBuffer);
-
-	//mMainDeletionQueue.push([=]() {
-	//	vkDestroyCommandPool(mDevice, mImmediateSubmitInfo.commandPool, nullptr);
-	//});
 
 	////create syncronization structures
 	////one fence to control when the gpu has finished rendering the frame,
@@ -587,14 +578,6 @@ void Atlas::VulkanRenderingBackend::createSwapchain(uint32_t width, uint32_t hei
 	auto swapchainBuildResult = swapchainBuilder.build();
 
 	vkb::Swapchain vkbSwapchain = swapchainBuildResult.value();
-		////.use_default_format_selection()
-		//.set_desired_format(VkSurfaceFormatKHR{ .format = mSwapchainImageFormat, .colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR })
-		////use vsync present mode
-		//.set_desired_present_mode(VK_PRESENT_MODE_FIFO_KHR)
-		//.set_desired_extent(width, height)
-		//.add_image_usage_flags(VK_IMAGE_USAGE_TRANSFER_DST_BIT)
-		//.build()
-		//.value();
 
 	mSwapchainExtent = vkbSwapchain.extent;
 	//store swapchain and its related images
@@ -887,11 +870,11 @@ void Atlas::VulkanRenderingBackend::initSwapchain(GameWindow* gameWindow)
 	};
 
 
-	GraphicsAllocationInfo drawImageAllocation = {};
-	drawImageAllocation.allocator = mVMAAllocator;
-	drawImageAllocation.createInfo = { };
-	drawImageAllocation.createInfo->usage = VMA_MEMORY_USAGE_GPU_ONLY;
-	drawImageAllocation.createInfo->requiredFlags = VkMemoryPropertyFlags(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+	//GraphicsAllocationInfo drawImageAllocation = {};
+	//drawImageAllocation.allocator = mVMAAllocator;
+	//drawImageAllocation.createInfo = { 0 };
+	//drawImageAllocation.createInfo->usage = VMA_MEMORY_USAGE_GPU_ONLY;
+	//drawImageAllocation.createInfo->requiredFlags = VkMemoryPropertyFlags(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 	//hardcoding the draw format to 32 bit float
 	mDrawImage.imageFormat = VK_FORMAT_R16G16B16A16_SFLOAT;

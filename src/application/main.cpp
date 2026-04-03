@@ -13,9 +13,8 @@
 
 #include <imgui/backends/imgui_impl_sdl2.h>
 #include <SDL2/SDL_events.h>
+
 using namespace Atlas;
-
-
 
 int main(int argc, char* argv[]) {
 	const std::string logFilePath = std::format("logs/{}", SpdlogLogger::GenerateLogFileName());
@@ -35,6 +34,7 @@ int main(int argc, char* argv[]) {
 	Platform platform = Platform(platformInitInfo);
 	
 	std::shared_ptr<FileManager> fileManager = platform.getFileManager().lock();
+
 	fileManager->addExtensionLoader(".spv", [](std::filesystem::path path, std::shared_ptr<FileData>& data, std::shared_ptr<FileRecord> record) {
 		// open the file. With cursor at the end
 		std::ifstream file(path, std::ios::ate | std::ios::binary);
@@ -88,9 +88,6 @@ int main(int argc, char* argv[]) {
 
 	auto renderingDevice = std::make_unique<VulkanRenderingBackend>(ApplicationInfo(), &gameWindow);
 	renderingDevice->init(&gameWindow);
-	//renderingDevice->setAPIVersion(cRenderingAPIVersion);
-	//renderingDevice->setApplicationName("Example Application");
-	//renderingDevice->init(&gameWindow);
 
 	bool shouldClose = false;
 	while (!shouldClose) {

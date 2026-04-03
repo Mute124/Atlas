@@ -36,7 +36,7 @@ namespace Atlas {
 		Free
 	};
 
-	enum class ECameraType : uint8_t {
+	enum class ECameraMode : uint8_t {
 		FirstPerson,
 		ThirdPerson
 	};
@@ -54,29 +54,109 @@ namespace Atlas {
 		ClippingInfo() = default;
 	};
 
-
-
 	class Camera {
 	private:
 		bool mbIsViewDirty{ true };
-		bool mbIsProjectionDirty{ true };
 
 		float mFOV;
 		float mAspectRatio;
+
 		ClippingInfo mClippingInfo{};
 
 		ECameraProjectionType mProjectionType{ ECameraProjectionType::Perspective };
-		ECameraType mCameraType{ ECameraType::FirstPerson };
+		ECameraMode mCameraMode{ ECameraMode::FirstPerson };
 
-		Vector3 mPosition{ 0.0f, 0.0f, 0.0f };
+		Vector3 mWorldPosition{ 0.0f, 0.0f, 0.0f };
 
 		Matrix4 mViewMatrix{ Matrix4(1.0f) };
 		Matrix4 mProjectionMatrix{ Matrix4(1.0f) };
+
+		void invertYAxis() {
+			mProjectionMatrix[1][1] *= -1;
+		}
 	public:
 
-		const Matrix4& getViewMatrix() const { return mViewMatrix; }
-		const Matrix4& getProjectionMatrix() const { return mProjectionMatrix; }
+		Camera(float FOV, float aspectRatio, ClippingInfo const& clippingInfo, ECameraProjectionType projectionType, ECameraMode cameraMode)
+			: mFOV(FOV), mAspectRatio(aspectRatio), mClippingInfo(clippingInfo), mProjectionType(projectionType), mCameraMode(cameraMode) {}
+
+		Camera() = default;
+
+		void markViewDirty() {
+			mbIsViewDirty = true;
+		}
+
+		void setFOV(float newFOV) {
+			mFOV = newFOV;
+		}
+
+		void setAspectRatio(float newAspectRatio) {
+			mAspectRatio = newAspectRatio;
+		}
+
+		void setClippingInfo(ClippingInfo const& newClippingInfo) {
+			mClippingInfo = newClippingInfo;
+		}
+
+		void setProjectionType(ECameraProjectionType newProjectionType) {
+			mProjectionType = newProjectionType;
+		}
+
+		void setCameraMode(ECameraMode newCameraMode) {
+			mCameraMode = newCameraMode;
+		}
+
+		void setWorldPosition(Vector3 const& newWorldPosition) {
+			mWorldPosition = newWorldPosition;
+		}
+
+		void setViewMatrix(Matrix4 const& newViewMatrix) {
+			mViewMatrix = newViewMatrix;
+		}
+
+		void setProjectionMatrix(Matrix4 const& newProjectionMatrix) {
+			mProjectionMatrix = newProjectionMatrix;
+		}
+
+		bool isViewDirty() const { 
+			return mbIsViewDirty;
+		}
+
+		float getFOV() const { 
+			return mFOV;
+		}
+
+		float getFOVY() const {
+			return glm::radians(getFOV());
+		}
+
+		float getAspectRatio() const {
+			return mAspectRatio;
+		}
+
+		const ClippingInfo& getClippingInfo() const {
+			return mClippingInfo;
+		}
+
+		ECameraProjectionType getProjectionType() const {
+			return mProjectionType;
+		}
+
+		ECameraMode getCameraMode() const {
+			return mCameraMode;
+		}
+
+		Vector3 getWorldPosition() const {
+			return mWorldPosition;
+		}
+
+		const Matrix4& getViewMatrix() const {
+			return mViewMatrix;
+		}
+
+		const Matrix4& getProjectionMatrix() const { 
+			return mProjectionMatrix;
+		}
+
+
 	};
-
-
 }
