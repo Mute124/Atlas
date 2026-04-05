@@ -87,28 +87,44 @@ namespace Atlas {
 
 	/**
 	 * @brief Groups the near and far planes together to make sure they stay together. It is important to note that it is recommended to have the far plane be less than the near plane
-	 * to avoid any z-fighting issues. Anything that is not placed between the near and far planes will @c not be rendered.
+	 * to avoid any z-fighting issues. Anything that is not placed between the near and far planes will @b NOT be rendered.
+	 * 
+	 * @todo Consider doing the following: 
+	 * - Adding a check within the constructor to make sure the far plane is less than the near plane, thereby avoiding z-fighting caused by developer error.
 	 * 
 	 * @since v0.0.1
 	 */
 	struct ViewFustrum {
 		/**
-		 * @brief The near clipping plane.
+		 * @brief The 'near' clipping plane. As mentioned in the class description, it is recommended to have the far plane be less than the near plane.
 		 * 
 		 * @since v0.0.1
 		 */
 		float nearPlane{ 10000.0f };
 
 		/**
-		 * @brief The far clipping plane.
+		 * @brief The 'far' clipping plane. As mentioned in the class description, it is recommended to have the far plane be less than the near plane.
 		 * 
 		 * @since v0.0.1
 		 */
 		float farPlane{ 10.1f };
 
-		ViewFustrum(float nearPlane, float farPlane)
+		/**
+		 * @brief Constructs a new @c ViewFustrum with the given near and far planes. This constructor also provides a utility boolean parameter to swap the near and far planes
+		 * if the @b far plane is <b>less than or equal to</b> the @b near plane.
+		 * 
+		 * @param nearPlane The value to set the `nearPlane` variable to.
+		 * @param farPlane The value to set the `farPlane` variable to.
+		 * @param bEnforceInvertedPlanes Whether or not to swap the near and far planes if the far plane is less than or equal to the near plane. By default, this is set to @c true.
+		 * 
+		 * @since v0.0.1
+		 */
+		ViewFustrum(float nearPlane, float farPlane, bool bEnforceInvertedPlanes = true)
 			: nearPlane(nearPlane), farPlane(farPlane)
 		{
+			if (bEnforceInvertedPlanes && farPlane >= nearPlane) {
+				std::swap(nearPlane, farPlane);
+			}
 		}
 
 		ViewFustrum() = default;
@@ -414,5 +430,11 @@ namespace Atlas {
 		const Matrix4& getProjectionMatrix() const { 
 			return mProjectionMatrix;
 		}
+	};
+
+	class ICameraController {
+	public:
+		
+
 	};
 }

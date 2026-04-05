@@ -1147,9 +1147,6 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	VkRenderingInfo renderInfo = CreateRenderingInfo(mDrawExtent, &colorAttachment, &depthAttachment);
 	vkCmdBeginRendering(cmd, &renderInfo);
 
-	//vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _trianglePipeline);
-
-
 	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, _meshPipeline);
 	//set dynamic viewport and scissor	
 	VkViewport viewport = {};
