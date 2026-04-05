@@ -1152,8 +1152,8 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	VkViewport viewport = {};
 	viewport.x = 0;
 	viewport.y = 0;
-	viewport.width = mDrawExtent.width;
-	viewport.height = mDrawExtent.height;
+	viewport.width = static_cast<float>(mDrawExtent.width);
+	viewport.height = static_cast<float>(mDrawExtent.height);
 	viewport.minDepth = 0.f;
 	viewport.maxDepth = 1.f;
 
@@ -1162,8 +1162,8 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	VkRect2D scissor = {};
 	scissor.offset.x = 0;
 	scissor.offset.y = 0;
-	scissor.extent.width = viewport.width;
-	scissor.extent.height = viewport.height;
+	scissor.extent.width = static_cast<uint32_t>(viewport.width);
+	scissor.extent.height = static_cast<uint32_t>(viewport.height);
 
 	vkCmdSetScissor(cmd, 0, 1, &scissor);
 
@@ -1240,32 +1240,6 @@ void Atlas::VulkanRenderingBackend::shutdown()
 void Atlas::VulkanRenderingBackend::shouldUseDefaultInstanceBuilder(bool bUseDefaultInstanceBuilder)
 {
 	mbUseDefaultInstanceBuilder = bUseDefaultInstanceBuilder;
-}
-
-bool Atlas::VulkanRenderingBackend::checkValidationLayerSupport() {
-	//uint32_t layerCount;
-	//vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
-
-	//std::vector<VkLayerProperties> availableLayers(layerCount);
-	//vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
-
-	//for (const char* layerName : this->mValidationLayers) {
-	//	bool layerFound = false;
-
-	//	for (const auto& layerProperties : availableLayers) {
-	//		if (strcmp(layerName, layerProperties.layerName) == 0) {
-	//			layerFound = true;
-	//			break;
-	//		}
-	//	}
-
-	//	if (!layerFound) {
-	//		return false;
-	//	}
-	//}
-
-	return true;
 }
 
 bool Atlas::VulkanRenderingBackend::canInitialize(GameWindow* gameWindow)

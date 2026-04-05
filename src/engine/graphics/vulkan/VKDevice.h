@@ -453,8 +453,6 @@ namespace Atlas {
 
 		void ImmediateSubmit(std::function<void(VkCommandBuffer cmd)>&& function);
 
-		bool checkValidationLayerSupport();
-
 		bool canInitialize(GameWindow* gameWindow);
 
 		std::string getApplicationName();
