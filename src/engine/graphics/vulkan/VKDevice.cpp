@@ -25,7 +25,6 @@
 #include <imgui/backends/imgui_impl_sdl2.h>
 #include <imgui/backends/imgui_impl_vulkan.h>
 
-
 #include <cstdint>
 #include <iostream>
 #include <memory>
@@ -44,14 +43,14 @@
 #endif // ATLAS_USE_SDL2
 
 #ifdef ATLAS_USE_VULKAN
-		#include <vulkan/vulkan_core.h>
-
-
+	#include <vulkan/vulkan_core.h>
 	#include <VkBootstrap.h>
 
 	#ifdef ATLAS_USE_SDL2
 		#include <SDL_vulkan.h>
 	#endif // ATLAS_USE_SDL2
+#endif // ATLAS_USE_VULKAN
+
 #include "../../core/Common.h"
 #include "../../debugging/Logging.h"
 #include "DescriptorLayoutBuilder.h"
@@ -61,8 +60,6 @@
 #include <format>
 #include <functional>
 
-
-#endif // ATLAS_USE_VULKAN
 #include "../../core/Version.h"
 #include "../GraphicsUtils.h"
 #include "PipelineBuilder.h"
@@ -93,6 +90,120 @@ Atlas::VulkanRenderingBackend* gLoadedVulkanBackend = nullptr;
 
 static inline glm::vec3 sCameraPosition = { 0.f, 0.f, -1.f };
 static inline int sModelId = 0;
+
+VkDescriptorPool DescriptorAllocatorGrowable::get_pool(VkDevice device)
+{
+	VkDescriptorPool newPool;
+	if (readyPools.size() != 0) {
+		newPool = readyPools.back();
+		readyPools.pop_back();
+	}
+	else {
+		//need to create a new pool
+		newPool = create_pool(device, setsPerPool, ratios);
+
+		setsPerPool = setsPerPool * 1.5;
+		if (setsPerPool > 4092) {
+			setsPerPool = 4092;
+		}
+	}
+
+	return newPool;
+}
+
+VkDescriptorPool DescriptorAllocatorGrowable::create_pool(VkDevice device, uint32_t setCount, std::span<PoolSizeRatio> poolRatios)
+{
+	std::vector<VkDescriptorPoolSize> poolSizes;
+	for (PoolSizeRatio ratio : poolRatios) {
+		poolSizes.push_back(VkDescriptorPoolSize{
+			.type = ratio.type,
+			.descriptorCount = uint32_t(ratio.ratio * setCount)
+		});
+	}
+
+	VkDescriptorPoolCreateInfo pool_info = {};
+	pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+	pool_info.flags = 0;
+	pool_info.maxSets = setCount;
+	pool_info.poolSizeCount = (uint32_t)poolSizes.size();
+	pool_info.pPoolSizes = poolSizes.data();
+
+	VkDescriptorPool newPool;
+	vkCreateDescriptorPool(device, &pool_info, nullptr, &newPool);
+	return newPool;
+}
+
+void DescriptorAllocatorGrowable::init(VkDevice device, uint32_t maxSets, std::span<PoolSizeRatio> poolRatios)
+{
+	ratios.clear();
+
+	for (auto r : poolRatios) {
+		ratios.push_back(r);
+	}
+
+	VkDescriptorPool newPool = create_pool(device, maxSets, poolRatios);
+
+	setsPerPool = maxSets * 1.5; //grow it next allocation
+
+	readyPools.push_back(newPool);
+}
+
+void DescriptorAllocatorGrowable::clear_pools(VkDevice device)
+{
+	for (auto p : readyPools) {
+		vkResetDescriptorPool(device, p, 0);
+	}
+	for (auto p : fullPools) {
+		vkResetDescriptorPool(device, p, 0);
+		readyPools.push_back(p);
+	}
+	fullPools.clear();
+}
+
+void DescriptorAllocatorGrowable::destroy_pools(VkDevice device)
+{
+	for (auto p : readyPools) {
+		vkDestroyDescriptorPool(device, p, nullptr);
+	}
+	readyPools.clear();
+	for (auto p : fullPools) {
+		vkDestroyDescriptorPool(device, p, nullptr);
+	}
+	fullPools.clear();
+}
+
+VkDescriptorSet DescriptorAllocatorGrowable::allocate(VkDevice device, VkDescriptorSetLayout layout, void* pNext)
+{
+	//get or create a pool to allocate from
+	VkDescriptorPool poolToUse = get_pool(device);
+
+	VkDescriptorSetAllocateInfo allocInfo = {};
+	allocInfo.pNext = pNext;
+	allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+	allocInfo.descriptorPool = poolToUse;
+	allocInfo.descriptorSetCount = 1;
+	allocInfo.pSetLayouts = &layout;
+
+	VkDescriptorSet ds;
+	VkResult result = vkAllocateDescriptorSets(device, &allocInfo, &ds);
+
+	//allocation failed. Try again
+	if (result == VK_ERROR_OUT_OF_POOL_MEMORY || result == VK_ERROR_FRAGMENTED_POOL) {
+
+		fullPools.push_back(poolToUse);
+
+		poolToUse = get_pool(device);
+		allocInfo.descriptorPool = poolToUse;
+
+		VK_CHECK(vkAllocateDescriptorSets(device, &allocInfo, &ds));
+	}
+
+	readyPools.push_back(poolToUse);
+	return ds;
+}
+
+
+
 
 void Atlas::DescriptorAllocator::init_pool(VkDevice device, uint32_t maxSets, std::span<PoolSizeRatio> poolRatios)
 {	
@@ -414,7 +525,7 @@ void Atlas::VulkanRenderingBackend::initMeshPipeline()
 	pipelineBuilder.setMultisamplingNone();
 
 	//no blending
-	pipelineBuilder.enableBlendingAdditive();
+	pipelineBuilder.enableBlendingAlpha();
 
 	pipelineBuilder.enableDepthTest(true, VK_COMPARE_OP_GREATER_OR_EQUAL);
 
@@ -1106,8 +1217,6 @@ void Atlas::VulkanRenderingBackend::endDrawingMode()
 
 	// reset the current draw data to default values
 	mCurrentDrawData = {};
-
-	
 }
 
 void Atlas::VulkanRenderingBackend::drawIMGUI(VkCommandBuffer cmd, VkImageView targetImageView)
@@ -1169,7 +1278,7 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 
 	GPUDrawPushConstants push_constants{};
 
-
+	// Calculate the perspective of the camera
 	glm::mat4 view = glm::translate(sCameraPosition);
 	// camera projection
 	glm::mat4 projection = glm::perspective(glm::radians(sFOVY), (float)mDrawExtent.width / (float)mDrawExtent.height, sClipFar, sClipNear);
@@ -1179,8 +1288,6 @@ void Atlas::VulkanRenderingBackend::drawGeometry(VkCommandBuffer cmd)
 	projection[1][1] *= -1;
 	push_constants.worldMatrix = projection * view;
 	
-	//vkCmdDrawIndexed(cmd, 6, 1, 0, 0, 0);
-
 	int i = sModelId;
 
 	push_constants.vertexBuffer = testMeshes[i]->meshBuffers.vertexBufferAddress;
@@ -1228,7 +1335,7 @@ void Atlas::VulkanRenderingBackend::shutdown()
 
 		vkDestroyDevice(mDevice, nullptr);
 
-		mInstance.shutdown();
+		//mInstance.shutdown();
 
 		//vkb::destroy_debug_utils_messenger(mVulkanInstance, mDebugMessenger);
 		//vkDestroyInstance(mVulkanInstance, nullptr);

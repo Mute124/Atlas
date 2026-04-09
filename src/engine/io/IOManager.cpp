@@ -6,7 +6,21 @@
  * @date October 2025
  * 
  * @since v0.0.1
- ***************************************************************************************************/
+ * 
+ *  Copyright 2024 Mute124
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License. 
+ * ***************************************************************************************************/
 #include <memory>
 #include <filesystem>
 #include <type_traits>
@@ -21,10 +35,12 @@
 #include <vector>
 #include <format>
 #include <stdexcept>
+#include <algorithm>
 
 #include "../core/Common.h"
 #include "../core/Core.h"
 #include "../debugging/Logging.h"
+#include "../debugging/AException.h"
 
 #include "IOManager.h"
 #include "FileData.h"
@@ -33,6 +49,76 @@
 #include "IOCommon.h"
 
 // FileJanitor functions:
+
+bool Atlas::FileManager::FileJanitor::hasExpired(const std::shared_ptr<FileRecord>& fileRecord) const
+{
+	const auto cNow = steady_clock::now();
+	const TimePoint cLastUseTime = fileRecord->getLastUseTime();
+	const auto cFileAge = std::chrono::duration_cast<std::chrono::seconds>(cNow - cLastUseTime);
+
+	return cFileAge >= mOptions.fileTTL;
+}
+
+std::vector<std::shared_ptr<Atlas::FileRecord>> Atlas::FileManager::FileJanitor::generateEvictionChecklist()
+{
+	std::vector<std::shared_ptr<FileRecord>> recordChecklist;
+
+	// Reserving the space now to avoid reallocations during the loop
+	recordChecklist.reserve(mFileManagerRef.mRecords.size());
+
+	std::shared_lock lock(mFileManagerRef.mMapMutex);
+	for (auto const& [path, record] : mFileManagerRef.mRecords) {
+		recordChecklist.push_back(record);
+	}
+
+	return recordChecklist;
+}
+
+std::string Atlas::FileManager::FileJanitor::tryEvict(const std::shared_ptr<FileRecord>& fileRecord)
+{
+	std::unique_lock loadLock(fileRecord->loadMutex);
+
+	if (fileRecord->activeHandles.load(std::memory_order_relaxed) > 0) {
+
+		// The file record's path string
+		const std::string cRecordFilePath = fileRecord->path.string();
+
+		InfoLog(std::format("Attempting to evict: {}", cRecordFilePath));
+
+		// Checks if the weakDataPtr of a FileRecord object is still valid by calling the lock() method on it
+		if (auto recordDataPtr = fileRecord->weakDataPtr.lock()) {
+
+			InfoLog(std::format("Evicting file: {}", cRecordFilePath));
+
+			// safe to unload
+			fileRecord->weakDataPtr.reset();
+
+			// Check to see if the file was evicted successfully by seeing if the weakDataPtr is nullptr (this means it was evicted)
+			if (fileRecord->weakDataPtr.lock() == nullptr) {
+				InfoLog(std::format("Evicted file: {}", cRecordFilePath));
+			}
+			else {
+				ErrorLog(std::format("Failed to evict file: {}", cRecordFilePath));
+				return cRecordFilePath;
+			}
+		}
+	} // else skip, it'pathString in use
+
+	return "";
+}
+
+std::string Atlas::FileManager::FileJanitor::joinStrings(const std::vector<std::string>& strings, const std::string& separator) const
+{
+	if (strings.empty()) return "";
+	std::ostringstream oss;
+	bool first = true;
+	for (const auto& str : strings) {
+		if (!first) oss << separator;
+		oss << str;
+		first = false;
+	}
+	return oss.str();
+}
 
 Atlas::FileManager::FileJanitor::FileJanitor(FileManager& fileManagerRef, const Options& options)
 	: mFileManagerRef(fileManagerRef), mOptions(options), mJanitorStopFlag(false)
@@ -44,30 +130,36 @@ Atlas::FileManager::FileJanitor::FileJanitor(FileManager& fileManagerRef, const 
 
 Atlas::FileManager::FileJanitor::~FileJanitor()
 {
+	stopJanitor();
+}
+
+void Atlas::FileManager::FileJanitor::startJanitor() {
+	if (mJanitorThread.joinable()) {
+		throw AException("The janitor thread is already running! Stop it first.");
+	}
+
+	InfoLog("Starting a janitor thread for the file manager.");
+
+	mJanitorThread = std::jthread([this] { janitorLoop(); });
+}
+
+void Atlas::FileManager::FileJanitor::stopJanitor()
+{
+	InfoLog("Stopping the janitor thread for the file manager.");
+
 	// Stop janitor
 	mJanitorStopFlag.store(true);
 	mJanitorCV.notify_all();
 
-	// TODO: I dont think this is  needed anymore since the janitor thread is a Jthread
 
 	// Wait for janitor to stop
 	if (mJanitorThread.joinable()) {
+		InfoLog("Waiting for janitor thread to stop.");
+		
 		mJanitorThread.join();
+
+		InfoLog("Janitor thread successfully stopped.");
 	}
-}
-
-void Atlas::FileManager::FileJanitor::startJanitor() {
-	//if (mJanitorThread.joinable()) {
-	//	throw std::runtime_error("The janitor thread is already running! Stop it first.");
-
-	//	return;
-	//}
-
-	ATLAS_ASSERT(!mJanitorThread.joinable(), "The janitor thread is already running! Stop it first.");
-
-	InfoLog("Starting janitor thread.");
-
-	mJanitorThread = std::jthread([this] { janitorLoop(); });
 }
 
 void Atlas::FileManager::FileJanitor::janitorLoop()
@@ -87,47 +179,34 @@ void Atlas::FileManager::FileJanitor::janitorLoop()
 
 void Atlas::FileManager::FileJanitor::evictUnused()
 {
-	auto now = steady_clock::now();
-	std::vector<std::shared_ptr<FileRecord>> recordChecklist;
-	{
-		std::shared_lock lock(mFileManagerRef.mMapMutex);
-		for (auto const& [path, record] : mFileManagerRef.mRecords) {
-			recordChecklist.push_back(record);
-		}
-	}
+	// A list of files to check the eviction status of
+	const std::vector<std::shared_ptr<FileRecord>> cRecordChecklist = generateEvictionChecklist();
 
-	if (recordChecklist.empty()) {
+	// If there is nothing to evict, return as there is nothing to do
+	if (cRecordChecklist.empty()) {
 		return;
 	}
+	
+	std::vector<std::string> failedEvictions;
+	
+	std::transform(
+		cRecordChecklist.begin(),
+		cRecordChecklist.end(),
+		std::back_inserter(failedEvictions),
+		[&](const std::shared_ptr<FileRecord>& fileRecord) {
+			if (hasExpired(fileRecord)) {
+				return tryEvict(fileRecord);
+			}
 
-	for (auto const& rec : recordChecklist) {
-		TimePoint last = rec->getLastUseTime();
-		auto age = std::chrono::duration_cast<std::chrono::seconds>(now - last);
-
-		if (age >= mOptions.fileTTL) {
-
-			std::unique_lock load_lock(rec->loadMutex);
-			if (rec->activeHandles.load(std::memory_order_relaxed) > 0) {
-
-				//InfoLog(std::format("Attempting to evict: {}", rec->path.string()));
-
-				//std::cout << "Attempting to evict: " << rec->path << std::endl;
-
-				if (auto sp = rec->weakDataPtr.lock()) {
-
-					InfoLog(std::format("Evicting file: {}", rec->path.string()));
-
-					//std::cout << "Evicting: " << rec->path << std::endl;
-					// safe to unload
-					rec->weakDataPtr.reset();
-					
-					// Check to see if the file was evicted
-					if (rec->weakDataPtr.lock() == nullptr) {
-						InfoLog(std::format("Evicted file: {}", rec->path.string()));
-					}
-				}
-			} // else skip, it'pathString in use
+			return std::string("");
 		}
+	);
+
+	// Due to how the system works, remove any strings that are just "". This will get fixed later
+	std::erase(failedEvictions, "");
+
+	if (!failedEvictions.empty()) {
+		ErrorLog(std::format("Failed to evict {} files. Here are the following files: {}", failedEvictions.size(), joinStrings(failedEvictions, ", ")));
 	}
 }
 
@@ -150,9 +229,7 @@ Atlas::FileManager::FileManager(const Options& options)
 
 Atlas::FileManager::~FileManager()
 {
-	// No need to deconstruct the janitor, since it will do it automatically
-
-	unloadAll();
+	shutdown();
 }
 
 void Atlas::FileManager::registerDirectory(const std::filesystem::path& dir) {
@@ -391,6 +468,15 @@ void Atlas::FileManager::unloadAll()
 	// For each record, unload the file
 	for (auto const& [path, record] : mRecords) {
 		unloadFile(path);
+	}
+}
+
+void Atlas::FileManager::shutdown()
+{
+	unloadAll();
+	
+	if (mJanitor.isRunning()) {
+		mJanitor.stopJanitor();
 	}
 }
 

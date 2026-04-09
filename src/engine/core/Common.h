@@ -26,6 +26,7 @@
 #include <chrono>
 #include <set>
 #include <type_traits>
+#include <initializer_list>
 
 #if defined(ATLAS_ALLOW_ASSERTS) || defined(ATLAS_DEBUG)
 	#include <cassert>
@@ -799,35 +800,27 @@ namespace Atlas {
 	//	using Contained = T_CONTAINED;
 	//public:
 
-	//	virtual void add(T_CONTAINED contained) = 0;
-	//	virtual bool exists(T_INDEX index) = 0;
-	//};
 
-	//template<typename T_CONTAINER, typename T_INDEX, typename T_CONTAINED>
-	//class ARegistry : public InitializableAndValidatable {
-	//	using Container = T_CONTAINER;
-	//	using Contained = T_CONTAINED;
-	//private:
-
-	//	Container mContainer;
-	//	std::unordered_set<T_INDEX> mValidIndices;
+	//template<typename T_ENTRY_TYPE>
+	//class IRegistry : public InitializableAndValidatable {
 	//public:
+	//	using EntryType = T_ENTRY_TYPE;
 
-	//	virtual T_INDEX add(T_CONTAINED contained) {
+	//	virtual void addEntry(EntryType entry) = 0;
 
-	//	}
+	//	virtual void removeEntry(EntryType entry) = 0;
 
-	//	bool exists(T_INDEX index) {
-	//		return mValidIndicies.contains(index);
-	//	}
+	//	virtual void removeAllEntries() = 0;
 
+	//	template<typename T_LAMBDA_RETURN_TYPE, typename... T_LAMBDA_ARGUMENTS>
+	//	virtual T_LAMBDA_RETURN_TYPE forEachEntry(T_LAMBDA_RETURN_TYPE(*lambda)(EntryType entry, T_LAMBDA_ARGUMENTS... arguments), T_LAMBDA_ARGUMENTS... arguments) = 0;
+
+	//	virtual uint64_t getEntryCount() const = 0;
+
+	//	virtual bool hasEntry(EntryType entry) const = 0;
+
+	//	virtual bool isEmpty() const = 0;
 	//};
-
-	//void t() {
-	//	std::unordered_set<int> test;
-
-	//	test.
-	//}
 
 	template<typename T>
 	inline T AlignUp(T value, uint64_t alignment) {

@@ -136,7 +136,31 @@ namespace Atlas {
 	};
 
 
+	struct DescriptorAllocatorGrowable {
+	public:
+		struct PoolSizeRatio {
+			VkDescriptorType type;
+			float ratio;
+		};
+	private:
+		VkDescriptorPool get_pool(VkDevice device);
+		VkDescriptorPool create_pool(VkDevice device, uint32_t setCount, std::span<PoolSizeRatio> poolRatios);
 
+		std::vector<PoolSizeRatio> ratios;
+		std::vector<VkDescriptorPool> fullPools;
+		std::vector<VkDescriptorPool> readyPools;
+		uint32_t setsPerPool;
+
+	public:
+
+
+		void init(VkDevice device, uint32_t initialSets, std::span<PoolSizeRatio> poolRatios);
+		void clear_pools(VkDevice device);
+		void destroy_pools(VkDevice device);
+
+		VkDescriptorSet allocate(VkDevice device, VkDescriptorSetLayout layout, void* pNext = nullptr);
+
+	};
 
 
 	// holds the resources needed for a mesh
@@ -196,7 +220,7 @@ namespace Atlas {
 
 	class ImGuiRenderable : public Renderable {
 	public:
-		
+
 
 		ImGuiRenderable(std::string const& name) : Renderable(name) {}
 		ImGuiRenderable() : ImGuiRenderable("Unnamed ImGuiRenderable") {}
@@ -222,7 +246,7 @@ namespace Atlas {
 		std::vector<std::shared_ptr<ImGuiRenderable>> mIMGUIRenderables;
 	protected:
 		virtual void setupFrameElements(EffectManager& computeEffects) {
-			
+
 			//ComputeEffect& selected = computeEffects.getCurrentEffect();
 
 			//ImGui::Text("Selected effect: ", selected.name);
@@ -251,6 +275,8 @@ namespace Atlas {
 
 		virtual void endRenderPass(const VkCommandBuffer cmd, CurrentDrawData& cDrawData) override;
 	};
+
+
 
 	/**
 	 * @brief A wrapper class for the usage of Vulkan as a rendering backend. This class handles the lifecycle of Vulkan and simplifies the usage of Vulkan to a simple API.

@@ -18,6 +18,8 @@ namespace Atlas {
 		ATLAS_EXPLICIT Renderable(std::string const& name);
 		Renderable();
 
+		virtual ~Renderable() = default;
+
 		static inline void SetCurrentDrawData(CurrentDrawData const& currentFrame);
 
 		virtual bool beginDrawingStage(VkCommandBuffer cmd, CurrentDrawData& cDrawData, EffectManager& computeEffects);

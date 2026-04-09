@@ -1,5 +1,5 @@
 /**************************************************************************************************
- * @file EFormat.h
+ * @file EPixelFormat.h
  * 
  * @brief .
  * 
@@ -30,7 +30,8 @@ namespace Atlas {
 	/**
 	 * @brief An enum class that contains all possible formats. The values are based off of Vulkan's VkFormat
 	 * enum, and should be the same. The reason for this being in existence is to make the code more readable
-	 * and make it so that the Vulkan's API is not exposed to the user.
+	 * and make it so that the Vulkan's API is not exposed to the user. Unfortunately, this means that this
+	 * enum class does not follow the standard naming convention for the rest of the engine.
 	 * 
 	 * Currently, only Vulkan 1.2 and above is supported, meaning any formats that are not in Vulkan 1.2 or
 	 * above will not be included in this enum.
@@ -42,7 +43,9 @@ namespace Atlas {
 	 * 
 	 * @since v
 	 */
-	enum class EFormat : uint32_t {
+	enum class EPixelFormat : uint32_t {
+		// This breaks the code convention, but Vulkan's undefined format has a value of 0 :/
 		Unknown = 0,
+		UNORM_PACK8 = 1,
 	};
 }

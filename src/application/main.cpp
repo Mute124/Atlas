@@ -94,9 +94,11 @@ int main(int argc, char* argv[]) {
 		
 		shouldClose = gameWindow.shouldClose();
 		gameWindow.update();
+
 		if (renderingDevice->isResizeRequested()) {
 			renderingDevice->resize(&gameWindow);
 		}
+		
 		if (gameWindow.shouldClose()) {
 			break;
 		}
@@ -113,8 +115,15 @@ int main(int argc, char* argv[]) {
 	//bool unloaded = fileManager->unloadFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
 	//std::cout << "Explicit unload result: " << unloaded << "\n";
 
+	gameWindow.close();
 	renderingDevice->shutdown();
-	//gameWindow->cleanup();
+	// SDL is nolonger needed, so clean it up
 	SDL_Quit();
+	
+
+	logger.close();
+	fileManager->shutdown();
+
+	InfoLog("Everything has been shutdown. Goodbye!");
 	return 0;
 }

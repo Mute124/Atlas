@@ -84,6 +84,8 @@ namespace Atlas {
 
 		bool mbEnableValidationLayers{ ATLAS_ENABLE_VALIDATION_LAYERS };
 
+		bool mbIsInitialized{ false };
+
 	public:
 
 		explicit VulkanInstanceWrapper(InitConfiguration initConfiguration);

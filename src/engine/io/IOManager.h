@@ -10,6 +10,20 @@
  * @date October 2025
  * 
  * @since v0.0.1
+ * 
+ *  Copyright 2024 Mute124
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License. 
  ***************************************************************************************************/
 #pragma once
 
@@ -216,6 +230,39 @@ namespace Atlas {
 			 */
 			std::jthread mJanitorThread;
 
+			/**
+			 * @brief Determines if the given file record has expired based on its last use time and the configured file time-to-live (TTL).
+			 * 
+			 * @param fileRecord A shared pointer to the file record to check.
+			 * 
+			 * @return @c True if the file record has expired, @c false otherwise.
+			 * 
+			 * @since v0.0.1
+			 */
+			bool hasExpired(const std::shared_ptr<FileRecord>& fileRecord) const;
+
+			/**
+			 * @brief Generates a checklist of file records that are candidates for eviction due to inactivity.
+			 * 
+			 * @return A @c vector of shared pointers to file records (@c FileRecord) that are eligible for eviction.
+			 * 
+			 * @since v0.0.1
+			 */
+			std::vector<std::shared_ptr<FileRecord>> generateEvictionChecklist();
+
+			/**
+			 * @brief Tries to evict a file from the file manager's record by checking if it is still in use.
+			 * 
+			 * @param fileRecord A shared pointer to the FileRecord object representing the file to be evicted.
+			 * 
+			 * @return A string indicating the status of the eviction process. If the file was not successfully evicted, the path of the file is
+			 * returned.  
+			 * 
+			 * @since v0.0.1
+			 */
+			std::string tryEvict(const std::shared_ptr<FileRecord>& fileRecord);
+
+			std::string joinStrings(const std::vector<std::string>& strings, const std::string& separator) const;
 		public:
 
 			ATLAS_DISALLOW_COPY(FileJanitor);
@@ -248,6 +295,8 @@ namespace Atlas {
 			 * @since v0.0.1
 			 */
 			void startJanitor();
+
+			void stopJanitor();
 
 			/**
 			 * @brief Runs the janitor loop, which checks for inactive files and evicts them if they have been inactive for too long.
@@ -449,6 +498,8 @@ namespace Atlas {
 		 * @since v0.0.1
 		 */
 		void unloadAll();
+
+		void shutdown();
 
         /**
          * @brief Finds all registered files that match the specified regex pattern.

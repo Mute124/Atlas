@@ -67,13 +67,30 @@ uint16_t Atlas::VulkanInstanceWrapper::init() {
 	mVulkanInstance = instanceReturn.value().instance;
 	mDebugMessenger = instanceReturn.value().debug_messenger;
 
+	mbIsInitialized = true;
 	return initResult;
 }
 
 void Atlas::VulkanInstanceWrapper::shutdown()
 {
-	vkb::destroy_debug_utils_messenger(mVulkanInstance, mDebugMessenger);
+	if (!mbIsInitialized) {
+		WarnLog("Attempted to shut down a Vulkan instance that was not initialized or already shut down.");
+		return;
+	}
+
+	if (mVulkanInstance == VK_NULL_HANDLE)
+	{
+		WarnLog("Attempted to shut down a Vulkan instance whose instance handle is null.");
+		return;
+	}
+
+	if (mDebugMessenger != VK_NULL_HANDLE) {
+		vkb::destroy_debug_utils_messenger(mVulkanInstance, mDebugMessenger);
+	}
+
 	vkDestroyInstance(mVulkanInstance, nullptr);
+
+	mbIsInitialized = false;
 }
 
 VkInstance& Atlas::VulkanInstanceWrapper::getInstance() {
