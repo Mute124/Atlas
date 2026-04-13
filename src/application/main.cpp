@@ -71,12 +71,13 @@ int main(int argc, char* argv[]) {
 		return true;
 	});
 
+
 	auto dataDirPath = std::filesystem::path("F:/dev/AtlasIOPrototype/assets/");
 
 	fileManager->registerDirectory(dataDirPath);
 
 	InfoLog(std::format("Registered Files: {}", fileManager->getRegisteredCount()));
-
+	
 	// open a file (lazy load)
 	//auto data = fileManager->openFile("F:/dev/AtlasIOPrototype/assets/TestModel.obj");
 

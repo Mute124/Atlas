@@ -19,7 +19,7 @@
 Atlas::FileData::FileData(std::vector<Byte>&& b)
 	: bytes(std::move(b)) {
 	for (auto& byte : bytes) {
-		std::cout << byte.toChar();
+		//std::cout << byte.toChar();
 	}
 }
 

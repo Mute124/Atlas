@@ -28,10 +28,13 @@ namespace Atlas {
 
 		virtual ThreadBudget getThreadBudget() const = 0;
 		virtual std::weak_ptr<FileManager> getFileManager() const = 0;
+	
+		
 	};
 
 	class Platform : public IPlatform {
 	private:
+
 
 		std::shared_ptr<FileManager> mFileManager;
 		ThreadBudget mThreadBudget;
@@ -40,10 +43,13 @@ namespace Atlas {
 		explicit Platform(const PlatformInitInfo &initInfo)
 			: IPlatform(), mFileManager(std::make_shared<FileManager>(initInfo.fileManagerOptions))
 		{
+
+
 			if (mFileManager == nullptr) {
 				throw std::runtime_error("Failed to create file manager");
 			}
 		}
+
 
 		ThreadBudget getThreadBudget() const final {
 			return mThreadBudget;

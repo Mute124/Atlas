@@ -490,7 +490,7 @@ namespace Atlas {
          * 
          * @since v0.0.1
          */
-        void preloadAll();
+		std::vector<Atlas::FileHandle> preloadAll();
 
 		/**
 		 * @brief Unloads all files.

@@ -979,7 +979,7 @@ void Atlas::VulkanRenderingBackend::initSwapchain(GameWindow* gameWindow)
 		displayBounds.h,
 		1
 	};
-
+	
 
 	//GraphicsAllocationInfo drawImageAllocation = {};
 	//drawImageAllocation.allocator = mVMAAllocator;

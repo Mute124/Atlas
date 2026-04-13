@@ -235,8 +235,10 @@ Atlas::FileManager::~FileManager()
 void Atlas::FileManager::registerDirectory(const std::filesystem::path& dir) {
 
 	// Assertion that checks if the directory exists
-	ATLAS_ASSERT(DoesPathExist(dir), std::format("The given path at: {} does not exist! Please make sure that path exists and that you passed the correct path.", dir.string()).c_str());
-
+	//ATLAS_ASSERT(DoesPathExist(dir), std::format("The given path at: {} does not exist! Please make sure that path exists and that you passed the correct path.", dir.string()).c_str());
+	if (!DoesPathExist(dir)) {
+		throw AException(std::format("The given path at: {} does not exist! Please make sure that path exists and that you passed the correct path.", dir.string()));
+	}
 	//if (!std::filesystem::exists(dir)) {
 	//	return;
 	//}
@@ -244,12 +246,9 @@ void Atlas::FileManager::registerDirectory(const std::filesystem::path& dir) {
 	// Recursively iterate through the provided directory, registering each file in the process. 
 	// Any file that is found within dir or any of its subdirectories will be registered as well.
 	for (auto const& entry : std::filesystem::recursive_directory_iterator(dir)) {
-		//InfoLog(std::format("Attempting to register: {}", entry.path().string()));
 
 		if (!entry.is_regular_file()) {
 			InfoLog(std::format("Skipping non-file: {}", entry.path().string()));
-
-			//std::cout << "Skipping non-file: " << entry.path().string() << "\n";
 			continue;
 		}
 
@@ -257,8 +256,6 @@ void Atlas::FileManager::registerDirectory(const std::filesystem::path& dir) {
 
 		if (isIgnored(entryPathRef)) {
 			InfoLog(std::format("Ignoring: {}", entryPathRef.string()));
-
-			//std::cout << "Ignoring " << entryPathRef.string() << "\n";
 			continue;
 		}
 
@@ -296,7 +293,7 @@ void Atlas::FileManager::removeIgnorePatterns() {
 
 Atlas::FileHandle Atlas::FileManager::openFile(const std::filesystem::path & p) {
 	std::filesystem::path absolutePath = GetAbsolutePath(p);
-	
+	InfoLog(std::format("Opening file: {}", absolutePath.string()));
 	std::shared_ptr<FileRecord> record;
 	{
 		std::shared_lock mapLock(mMapMutex);
@@ -440,7 +437,7 @@ size_t Atlas::FileManager::getRegisteredCount() const {
 	return mRecords.size();
 }
 
-void Atlas::FileManager::preloadAll() {
+std::vector<Atlas::FileHandle> Atlas::FileManager::preloadAll() {
 	std::vector<std::shared_ptr<FileRecord>> copies;
 	{
 		std::shared_lock lock(mMapMutex);
@@ -451,9 +448,14 @@ void Atlas::FileManager::preloadAll() {
 		}
 	}
 
+	std::vector<FileHandle> handles;
+
 	for (auto const& r : copies) {
-		openFile(r->path);
+		handles.push_back(openFile(r->path));
+
 	}
+
+	return handles;
 }
 
 void Atlas::FileManager::unloadAll()

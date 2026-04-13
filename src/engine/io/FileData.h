@@ -28,6 +28,8 @@ namespace Atlas {
 			T_CAST_TO to() const { return static_cast<T_CAST_TO>(byte); }
 
 			char toChar() const { return static_cast<char>(byte); }
+
+			
 		};
 
 		static inline std::vector<Byte> /*Atlas::FileData::*/getBytes(std::vector<uint8_t> bytes) {
@@ -43,7 +45,7 @@ namespace Atlas {
 			std::vector<Atlas::FileData::Byte> out;
 			for (int i = 0; i < bytes.size(); i++) {
 				out.push_back(Atlas::FileData::Byte(bytes[i]));
-				std::cout << out[i].toChar();
+				//std::cout << out[i].toChar();
 			}
 
 			return out;
@@ -77,7 +79,7 @@ namespace Atlas {
 
 		void print() {
 			for (auto& byte : bytes) {
-				std::cout << byte.toChar();
+				//std::cout << byte.toChar();
 			}
 		}
 
