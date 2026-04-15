@@ -25,7 +25,7 @@
 
 void Atlas::ARenderingBackend::setAPIVersion(Version version) {
 	this->mAPIVersion = version;
-	//this->setAPIVersion(version.major, version.minor, version.patch);
+	//this->setAPIVersion(version.majorVersion, version.minor, version.patch);
 }
 
 Atlas::Version Atlas::ARenderingBackend::getAPIVersion() const {

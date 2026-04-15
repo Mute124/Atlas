@@ -821,13 +821,14 @@ void Atlas::VulkanRenderingBackend::init(GameWindow* gameWindow)
 	//// to keep in mind.
 
 	std::string vulkanInitParametersString
-		= std::format("->Application Name: {}\n->Vulkan API Version: {}.{}.{}\n->Enable Validation Layers: {}\n", mApplicationName, cApiVersion.major, cApiVersion.minor, cApiVersion.patch, cbEnableValidationLayers);
+		= std::format("->Application Name: {}\n->Vulkan API Version: {}.{}.{}\n->Enable Validation Layers: {}\n", mApplicationName, cApiVersion.majorVersion, cApiVersion.minorVersion, cApiVersion.patchVersion, cbEnableValidationLayers);
 
 	InfoLog("Initializing Vulkan instance:\n" + vulkanInitParametersString);
 
 	//mInstance.setVersion(cApiVersion);
 	//mInstance.setApplicationName(mApplicationName);
 	//mInstance.setEnableValidationLayers(cbEnableValidationLayers);
+
 
 	mInstance = VulkanInstanceWrapper(VulkanInstanceWrapper::InitConfiguration());
 	mInstance.init();

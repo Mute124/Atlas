@@ -81,7 +81,7 @@ Atlas::PhysicalDevice::PhysicalDeviceSelector Atlas::PhysicalDevice::selectDevic
 		selector.set_name(selectionConstraints.preferredDeviceName.value());
 	}
 	else {
-		selector.set_minimum_version(selectionConstraints.minimumAPIVersion.major, selectionConstraints.minimumAPIVersion.minor);
+		selector.set_minimum_version(selectionConstraints.minimumAPIVersion.majorVersion, selectionConstraints.minimumAPIVersion.minorVersion);
 		selector.set_required_features_13(selectionConstraints.physicalDeviceFeatures.vulkan13Features);
 		selector.set_required_features_12(selectionConstraints.physicalDeviceFeatures.vulkan12Features);
 		selector.allow_any_gpu_device_type(selectionConstraints.bAllowAnyDeviceType);

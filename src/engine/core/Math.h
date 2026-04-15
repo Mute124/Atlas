@@ -18,6 +18,16 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/fwd.hpp>
 
+#define ATLAS_INT64_LIMIT std::numeric_limits<int64_t>::max()
+#define ATLAS_INT32_LIMIT std::numeric_limits<int32_t>::max()
+#define ATLAS_INT16_LIMIT std::numeric_limits<int16_t>::max()
+#define ATLAS_INT8_LIMIT std::numeric_limits<int8_t>::max()
+
+#define ATLAS_UINT64_LIMIT std::numeric_limits<uint64_t>::max()
+#define ATLAS_UINT32_LIMIT std::numeric_limits<uint32_t>::max()
+#define ATLAS_UINT16_LIMIT std::numeric_limits<uint16_t>::max()
+#define ATLAS_UINT8_LIMIT std::numeric_limits<uint8_t>::max()
+
 namespace Atlas {
 	using Vector2 = glm::vec2;
 	using Vector3 = glm::vec3;
